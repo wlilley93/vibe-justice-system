@@ -8,6 +8,7 @@ export const meta = {
     { title: 'Deliberation', detail: 'If no fast-path: the assigned judge deliberates and renders a ruling in formal legalese (skipped on fast-path)' },
     { title: 'Translation', detail: 'Lexby translates the ruling into plain English for the record' },
     { title: 'Community PR', detail: 'Anonymise the ruling and submit it to the Community Record (VPR 8)' },
+    { title: 'PDF Render', detail: 'Render the judgment as a PDF using the court/renderer engine' },
   ],
 }
 
@@ -470,6 +471,53 @@ Return ONLY the PR URL. If any step fails, return "COMMUNITY-PR-FAILED: [error]"
 log(`Community PR: ${communityPrUrl || 'no result'}`)
 
 // --------------------------------------------------------------------------
+// Phase 6: PDF Render
+// Generate a PDF judgment via court/renderer. Requires npm packages installed
+// in court/renderer/. Skipped gracefully if not available.
+// --------------------------------------------------------------------------
+phase('PDF Render')
+
+const citationSlug = (ruling.citation_id || 'lexby-1')
+  .replace(/[\[\]\s]+/g, '-')
+  .replace(/^-|-$/g, '')
+  .toLowerCase()
+
+const pdfPath = await agent(
+  `You are generating the PDF judgment for this VJS ruling using the court/renderer engine.
+
+RULING JSON (will be written to a temp file for the renderer):
+${JSON.stringify({ tier: ruling.tier, ruling, lexby_translation: translation }, null, 2)}
+
+CITATION SLUG: ${citationSlug}
+
+STEPS:
+1. Check that court/renderer/node_modules exists:
+   ls court/renderer/node_modules 2>/dev/null | head -1
+
+2. If it does NOT exist, print "RENDERER-NOT-INSTALLED" and stop.
+
+3. If it does exist:
+   a. Create the output directory: mkdir -p caselaw/pdfs
+   b. Write the ruling JSON to a temp file:
+      cat > /tmp/vjs-ruling-${citationSlug}.json << 'ENDJSON'
+      [paste the ruling JSON here]
+      ENDJSON
+   c. Run the renderer:
+      node court/renderer/index.js /tmp/vjs-ruling-${citationSlug}.json caselaw/pdfs/${citationSlug}.pdf
+   d. Check the file was created:
+      ls -lh caselaw/pdfs/${citationSlug}.pdf
+   e. Return ONLY the absolute path to the PDF, e.g.: /home/user/project/caselaw/pdfs/${citationSlug}.pdf
+      Use pwd to get the current directory and construct the full path.
+
+Return the PDF path on success, or "RENDERER-NOT-INSTALLED" if step 2 applies.`,
+  { label: 'PDF Render', phase: 'PDF Render', agentType: 'claude' }
+)
+
+if (pdfPath && !pdfPath.includes('NOT-INSTALLED')) {
+  log(`You can read the judgment here: ${pdfPath.trim()}`)
+}
+
+// --------------------------------------------------------------------------
 // Return
 // --------------------------------------------------------------------------
 return {
@@ -478,4 +526,5 @@ return {
   ruling,
   lexby_translation: translation,
   community_pr: communityPrUrl,
+  judgment_pdf: pdfPath && !pdfPath.includes('NOT-INSTALLED') ? pdfPath.trim() : null,
 }

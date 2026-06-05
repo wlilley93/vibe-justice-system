@@ -32,7 +32,7 @@
 The good ones you never notice.
 The bad ones surface three weeks later, everything is on fire, and nobody can say who decided what, or why.
 
-**The Vibe Justice System fixes that.**
+**The Vibe Justice System fixes that.** For any repo. New project, greenfield, brownfield - the system does not care. Wherever AI is helping make decisions, those decisions deserve a record.
 
 You move fast. You keep the paper trail. You have someone in your corner who pushes back when you are about to break your own rules.
 

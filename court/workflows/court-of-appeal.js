@@ -9,6 +9,7 @@ export const meta = {
     { name: 'Ruling - Presiding Judge Synthesis', detail: 'Aldermere J (presiding) synthesises panel opinions into the Court of Appeal ruling artefact' },
     { name: 'Lexby Translates', detail: 'Lexby translates the judgment into plain language for the principal' },
     { name: 'Community PR', detail: 'Anonymise the ruling and submit it to the Community Record (VPR 8)' },
+    { name: 'PDF Render', detail: 'Render the judgment as a PDF using the court/renderer engine' },
   ],
 };
 
@@ -495,11 +496,41 @@ Return ONLY the PR URL. If any step fails, return "COMMUNITY-PR-FAILED: [error]"
 
   log(`Community PR: ${communityPrUrl || 'no result'}`)
 
+  // -------------------------------------------------------------------------
+  // PDF RENDER
+  // -------------------------------------------------------------------------
+  phase('PDF Render')
+
+  const citSlug = ((rulingArtefact && rulingArtefact.citation_id) || 'lexby-ca-1')
+    .replace(/[\[\]\s]+/g, '-').replace(/^-|-$/g, '').toLowerCase()
+
+  const pdfPath = await agent(
+    `Generate the PDF judgment for this Court of Appeal ruling.
+
+RULING JSON:
+${JSON.stringify({ tier: 'court-of-appeal', ruling: rulingArtefact, lexby: lexbyResult }, null, 2)}
+
+CITATION SLUG: ${citSlug}
+
+STEPS:
+1. Check court/renderer/node_modules exists (ls court/renderer/node_modules 2>/dev/null | head -1). If not, return "RENDERER-NOT-INSTALLED".
+2. mkdir -p caselaw/pdfs
+3. Write the ruling JSON to /tmp/vjs-ruling-${citSlug}.json
+4. node court/renderer/index.js /tmp/vjs-ruling-${citSlug}.json caselaw/pdfs/${citSlug}.pdf
+5. Return the absolute PDF path (use pwd to construct it).`,
+    { label: 'PDF Render', phase: 'PDF Render', agentType: 'claude' }
+  )
+
+  if (pdfPath && !pdfPath.includes('NOT-INSTALLED')) {
+    log(`You can read the judgment here: ${pdfPath.trim()}`)
+  }
+
   return {
     standing: standingResult,
     ruling: rulingArtefact,
     lexby: lexbyResult,
     community_pr: communityPrUrl,
+    judgment_pdf: pdfPath && !pdfPath.includes('NOT-INSTALLED') ? pdfPath.trim() : null,
     raw: {
       standing_phase: standingPhase,
       opinions_phase: opinionsPhase,

@@ -1,0 +1,19 @@
+{
+  "name": "@vjs/judgment-renderer",
+  "version": "1.0.0",
+  "description": "PDF judgment renderer for the Vibe Justice System",
+  "main": "index.js",
+  "bin": {
+    "vjs-render": "./index.js"
+  },
+  "scripts": {
+    "test": "node index.js --test"
+  },
+  "dependencies": {
+    "handlebars": "^4.7.8",
+    "puppeteer": "^22.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

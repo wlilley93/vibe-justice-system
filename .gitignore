@@ -1,0 +1,6 @@
+node_modules/
+caselaw/pdfs/
+*.pdf
+/tmp/
+.env
+.env.*

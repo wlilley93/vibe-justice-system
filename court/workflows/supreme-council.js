@@ -14,7 +14,8 @@ export const meta = {
     "Judgment - Hallam CJ Leading",
     "Lexby Translation",
     "Statute PR",
-    "Community PR"
+    "Community PR",
+    "PDF Render"
   ]
 };
 
@@ -450,5 +451,59 @@ Return ONLY the PR URL. If any step fails, return "COMMUNITY-PR-FAILED: [error]"
     );
   }
 
-  return { text: parts.join("\n"), statutePrUrl, communityPrUrl };
+  // -------------------------------------------------------------------------
+  // PDF RENDER
+  // -------------------------------------------------------------------------
+  const scCitSlug = (args.question || 'lexby-sc-1')
+    .slice(0, 40).replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase()
+  const scCitId = `[2026] LEXBY-SC`
+
+  const pdfPath = await agent(
+    `Generate the PDF judgment for this Supreme Council ruling.
+
+RULING (leading judgment + translation):
+${leadingJudgment}
+
+LEXBY TRANSLATION:
+${lexbyTranslation}
+
+PANEL: ${panel.join(", ")}
+COURT TYPE: ${args.is_constitutional ? "Full court of 9 - Constitutional" : "Panel of 5"}
+CITATION SLUG: ${scCitSlug}
+
+STEPS:
+1. Check court/renderer/node_modules exists. If not, return "RENDERER-NOT-INSTALLED".
+2. Build a ruling JSON object and write to /tmp/vjs-ruling-sc-${scCitSlug}.json:
+   {
+     "tier": "supreme-council",
+     "ruling": {
+       "citation_id": "${scCitId}",
+       "tier": "supreme-council",
+       "panel": [${panel.map(j => '"' + j + '"').join(", ")}],
+       "kind": "request_for_ruling",
+       "question_or_charge": "${(args.question || '').replace(/"/g, '\\"').slice(0, 200)}",
+       "full_judgment_text": "[paste leading judgment here, escaped]",
+       "ratio": "[extract the ratio from the leading judgment]",
+       "status": "good-law"
+     },
+     "lexby_translation": {
+       "plain_english_summary": "[extract from lexby translation]"
+     }
+   }
+3. mkdir -p caselaw/pdfs
+4. node court/renderer/index.js /tmp/vjs-ruling-sc-${scCitSlug}.json caselaw/pdfs/sc-${scCitSlug}.pdf
+5. Return the absolute PDF path.`,
+    { label: 'PDF Render', phase: 'PDF Render', agentType: 'claude' }
+  )
+
+  if (pdfPath && !pdfPath.includes('NOT-INSTALLED')) {
+    log(`You can read the judgment here: ${pdfPath.trim()}`)
+    parts.push(
+      "",
+      "================================================================",
+      `JUDGMENT PDF: ${pdfPath.trim()}`
+    )
+  }
+
+  return { text: parts.join("\n"), statutePrUrl, communityPrUrl, judgment_pdf: pdfPath && !pdfPath.includes('NOT-INSTALLED') ? pdfPath.trim() : null };
 }
