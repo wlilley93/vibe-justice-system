@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/vibe-justice-system-logo.png" alt="Vibe Justice System" width="100%">
+<img src="assets/vjs-header.png" alt="Vibe Justice System" width="100%">
 
 *AI governance for your repo. The court is AI. Not legal advice.*
 
