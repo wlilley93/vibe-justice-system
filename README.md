@@ -1,11 +1,30 @@
+<div align="center">
+
+<pre>
+        ___  ___  ___  ___  ___  ___  ___  ___  ___
+       /   \/   \/   \/   \/   \/   \/   \/   \/   \
+      |  V  |  I  |  B  |  E     J  |  U  |  S  |  T  |
+       \___/\___/\___/\___/\___/\___/\___/\___/\___/
+
+              ⚖    THE COURT IS IN SESSION    ⚖
+
+          .-------.       .-------.       .-------.
+         |  SPEC   |---->|CASELAW |---->| RULING  |
+         |   LAW   |     |  CDD   |     |  CARD   |
+          '-------'       '-------'       '-------'
+                    [ gavel strikes ]
+</pre>
+
 # Vibe Justice System
 
-### Your AI just lawyered up.
+*Your AI just lawyered up.*
 
 ![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 ![status](https://img.shields.io/badge/status-alpha-orange?style=flat-square)
 ![vibes](https://img.shields.io/badge/vibes-litigated-purple?style=flat-square)
 ![community](https://img.shields.io/badge/community-open-green?style=flat-square)
+
+</div>
 
 ---
 
@@ -37,11 +56,11 @@ You don't need a slower process. You need a **justice system**.
 
 Lexby is your lawyer. Three things at once:
 
-**ADVOCATE.** He builds the strongest possible case for your idea and puts it to the court. He argues hard FOR you precisely because he doesn't decide the outcome.
-
-**ADVISOR.** He gives it to you straight. Not a yes-man. Not a hype machine. If your idea has a fatal flaw, he names it before the judges do.
-
-**ENGINEER.** He ships the code. Then he records why.
+| Role | What he does |
+|---|---|
+| **ADVOCATE** | Builds the strongest possible case for your idea and puts it to the court. He argues hard FOR you precisely because he doesn't decide the outcome. |
+| **ADVISOR** | Gives it to you straight. Not a yes-man. Not a hype machine. If your idea has a fatal flaw, he names it before the judges do. |
+| **ENGINEER** | Ships the code. Then records why. |
 
 Because Lexby is bound by the record, he can push hard for you without it being personal. The court decides. He executes. The precedent is permanent.
 
@@ -61,7 +80,7 @@ Never an empty folder.
 
 ---
 
-## Things you can say to Lexby
+## 📜 Things you can say to Lexby
 
 ```
 "I think we should go in this direction. Submit it to the Court."
@@ -101,11 +120,37 @@ Nobody shares an install command. Everybody shares nine invented law-lords votin
 
 ---
 
-## How it works
+## 🏛️ How it works
 
 **Spec is law.** Your spec becomes SPEC-LAW (statute). The court's rulings become case law (precedent). New decisions must be consistent with prior rulings or they get struck down. The methodology is **Caselaw Driven Development (CDD)**.
 
 **Three tiers.**
+
+```
+                    .------------------------------.
+                    |      SUPREME COUNCIL         |
+                    |   5 judges (9 for const.)    |
+                    |  Foundational + irreversible  |
+                    '------------------------------'
+                               ^
+                               | permission to appeal
+                               |
+                    .------------------------------.
+                    |      COURT OF APPEAL         |
+                    |         3 judges             |
+                    |  Disputed / load-bearing     |
+                    '------------------------------'
+                               ^
+                               | permission to appeal
+                               |
+                    .------------------------------.
+                    |       FIRST INSTANCE         |
+                    |          1 judge             |
+                    |       Routine forks          |
+                    '------------------------------'
+```
+
+⚖️ Cases climb by permission to appeal. You don't jump the queue (the Vibe Procedure Rules, `VPR.md`).
 
 | Tier | Composition | Used for |
 |---|---|---|
@@ -113,13 +158,11 @@ Nobody shares an install command. Everybody shares nine invented law-lords votin
 | Court of Appeal | 3 judges | Disputed or load-bearing decisions |
 | Supreme Council | 5 judges (9 for constitutional questions) | Foundational, irreversible, or split appeals |
 
-Cases climb by permission to appeal. You don't jump the queue (the Vibe Procedure Rules, `VPR.md`).
-
 **Mistakes are civil, not criminal.** There is always a duty of care. The only remedy is to make the work good. No blame, no punishment, just a finding and a fix.
 
 ---
 
-## Commands
+## 📜 Commands
 
 ```bash
 cdd
@@ -146,4 +189,12 @@ Ship fast. Cite everything. The court is in session.
 
 ---
 
-*Vibe Justice System is open source. MIT licensed. Contributions, bench rosters, statute packs, and landmark cases all welcome. Names on the bench are inventions adjacent to the giants of the English bench, never real sitting or living jurists.*
+<div align="center">
+
+*Vibe Justice System is open source. MIT licensed.*
+
+*Contributions, bench rosters, statute packs, and landmark cases all welcome.*
+
+*Names on the bench are inventions adjacent to the giants of the English bench, never real sitting or living jurists.*
+
+</div>

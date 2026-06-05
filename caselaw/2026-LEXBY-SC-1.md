@@ -13,7 +13,23 @@ status: good-law
 per_incuriam: false
 ---
 
-# In the Supreme Council of Lexby - [2026] LEXBY-SC 1
+---
+
+```
+  ╔══════════════════════════════════════════════════╗
+  ║        IN THE SUPREME COUNCIL OF LEXBY           ║
+  ║                                                  ║
+  ║              [2026] LEXBY-SC 1                   ║
+  ║                                                  ║
+  ║  Tort recast + UK fidelity (foundational ruling) ║
+  ╚══════════════════════════════════════════════════╝
+```
+
+**Panel:** Hallam CJ, Goffe, Blackmere, Sumberly, Elden, Coade, Steyne, Bowan, Aldermere (full court of 9)
+**Proceeded under:** Principal's leapfrog certificate (VPR 4 / SPEC-LAW-13)
+**Result:** Appeal allowed unanimously on both questions. SPEC-LAW-4 through SPEC-LAW-12 enacted.
+
+---
 
 *HALLAM CJ, delivering the unanimous judgment of the Court. The appeal is allowed on both questions. The matter
 came directly to this Court under the Principal's express leapfrog certificate.*
