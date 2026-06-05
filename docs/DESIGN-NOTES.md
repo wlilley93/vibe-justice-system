@@ -316,17 +316,50 @@ struck. The frame is **parliamentary sovereignty in a unitary state of plural ju
 - The **Supreme Council alone enacts**, by elevating a local ratio into realm-wide statute. There are no competing
   sovereigns, hence no concurrent-authority reconciliation apparatus to build or to litigate.
 
-## Open / later (Will's calls)
-- **Auto-convene default:** ship the trigger ON (true zero-babysitting, but token spend + flow interruption) or
-  OFF with a one-question install prompt? Triage mitigates spend either way; the default shapes the trust story.
+## Update mechanism: GitHub is the database (decided 2026-06-05)
+
+SPEC-LAW is vendored into each repo as `SPEC-LAW.md` (git-tracked, offline-first). The canonical global SPEC-LAW
+lives at `github.com/wlilley93/vibe-justice-system`. The update mechanism:
+
+- `cdd init` and `cdd run` check the canonical repo's `SPEC-LAW.md` version header (or a `SPEC-LAW-VERSION` tag)
+  against the local copy via a lightweight unauthenticated GitHub API call.
+- If behind: print a notice. "Global SPEC-LAW S-14 enacted (2026-07-01). Run `cdd update` to adopt."
+- `cdd update` fetches the canonical `SPEC-LAW.md` and writes it to the local repo, creating a commit. Never
+  forced, always explicit.
+
+Community features (landmark gallery, statute packs, bench rosters) use GitHub as the registry:
+- Statute packs: forks/gists of canonical SPEC-LAW with a `vjs-statute-pack` topic tag.
+- Landmark cases: a curated `community/landmarks.md` in the canonical repo, with links to exemplary public
+  caselaw/ dirs.
+- Bring-your-own-bench: rosters as `.json` files in a `community/benches/` directory, shareable by copy.
+
+No external database, no infrastructure dependency, no auth required for reads. If the canonical repo is down,
+the local tool still works (it just cannot check for updates).
+
+## Compliance check (review gate, decided 2026-06-05)
+
+At review time, submitted work must be checked against the full legal corpus. The court workflows already accept
+`args.spec` (SPEC-LAW) and `args.caselaw` (INDEX.md entries), and the fast-path screen checks for binding
+precedent. The **compliance gate** is the step in `first-instance.js` Phase 1 where the judge:
+1. Checks the submission against every relevant SPEC-LAW article (does the work breach any statute?).
+2. Checks the submission against all `good-law` entries in `caselaw/INDEX.md` (does it conflict with or ignore
+   binding precedent?).
+3. Issues a **declaration of incompatibility** (S-11(f)) if statute and caselaw are in conflict.
+
+This is already baked into the workflow design. The triage governor pre-screens to avoid convening for pure
+implementation details, so the compliance check only runs on genuine forks or charges.
+
+## Open / later (decisions pending)
+- **Auto-convene default:** ship ON (zero-babysitting, risk of token spend + interruption) or OFF with a prompt?
+  Triage mitigates spend either way; the default shapes the trust story for the degen audience.
 - **Launch scope:** code-first with the textbook as the single beyond-code proof, or ship `--template
   research|legal|product` starters in v1?
 - **Overruling retroactivity:** when Supreme overrules, default to reconcile existing code (retroactive) or
   grandfather (prospective), or make it a per-overrule choice?
 - **Panel determinism salt:** should the same question deliberate identically across repos/branches, or is
   per-project drift desirable? (Sets whether `case_seed` includes a project salt.)
-- **Org handle / install string:** GitHub `/lexby` is taken; confirm the canonical org (e.g. `lexby-dev`) + plugin
-  id so the `npx`/install string can be locked before README copy is written.
+- **Org handle locked:** GitHub org is `wlilley93/vibe-justice-system`. Install string is `cdd` (command name).
+  npm / PyPI package name TBD.
 - **Extensibility name** ("Lexby chambers" for practice areas): reserve + sketch now, or footnote until launch?
 - Decide final styling of the names if any read too close to a real justice.
 - Confirm odd panel size drawn from the 10 (3 vs 5).
