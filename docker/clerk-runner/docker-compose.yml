@@ -1,0 +1,23 @@
+services:
+  clerk-runner:
+    image: myoung34/github-runner:latest
+    restart: unless-stopped
+    environment:
+      - REPO_URL=https://github.com/wlilley93/vibe-justice-system
+      - RUNNER_NAME=host-clerk
+      - RUNNER_WORKDIR=/tmp/github-runner
+      - RUNNER_SCOPE=repo
+      - LABELS=self-hosted
+      - DISABLE_AUTO_UPDATE=false
+      # Set one of these in .env (see .env.example):
+      - ACCESS_TOKEN=${GH_RUNNER_PAT}
+      # Claude / Anthropic key - available to the workflow as ANTHROPIC_API_KEY:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - clerk-runner-work:/tmp/github-runner
+    extra_hosts:
+      - host-gateway:host-gateway
+
+volumes:
+  clerk-runner-work:

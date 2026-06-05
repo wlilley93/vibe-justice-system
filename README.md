@@ -24,6 +24,10 @@
 
 ---
 
+**The biggest barrier to success is being able to define correctness. This repo solves it.**
+
+---
+
 Your AI makes decisions every session. Nobody writes them down. Six PRs later, a different session contradicts the first one. Now you have two conventions, zero explanation, and a codebase that has lost the plot.
 
 **VJS gives your AI a justice system.** Decisions become binding precedent. Past rulings are checked before anything new is done. If the AI breaks its own rules, it must self-report and fix it.

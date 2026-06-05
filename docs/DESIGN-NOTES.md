@@ -30,12 +30,6 @@ that is the point:
 This combination empowers him to both advise AND build, so the decision and the code that follows it come from
 one brain, not two.
 
-## Name
-**Lexby** (the lawyer / the product). Chosen after checking: "Lexly" was taken (funded legaltech co "Lexly AI");
-"Speccy" taken (Piriform); "Lexford" taken (Lexford AI). Lexby is free on npm + PyPI, no product clash (the
-similar "Lexbe" is a different spelling, eDiscovery). GitHub `/lexby` handle is taken (use an org / `@lexby`
-scope; non-blocking). Keeps the "Lex" (law) root.
-
 ## The README (how to write it)
 - **Value first.** Lead with the value and the feeling, not what it does or how it does it. Mechanics come later.
 - Do NOT get lawyerly or technical up front. The repo handles all the machinery for the user.
@@ -61,8 +55,7 @@ layers.
 5. **Caselaw Driven Development (CDD) = the methodology.** Every move cites the statute (SPEC-LAW) AND the prior
    case law, decides, then logs the new precedent that binds what comes next. (Sits beside TDD / BDD / DDD.) Real
    common-law systems have exactly two sources of law: statute (SPEC-LAW) and case law (Lexby's logged rulings).
-   `caselaw` is free on npm + PyPI + GitHub; the acronym CDD overlaps loosely with Component/Context-Driven
-   Development, but the full phrase is distinctive.
+   `caselaw` is the init command and package name.
 
 ## The constitution (unwritten but clear)
 The constitution is **uncodified**: there is no single entrenched `CHARTER.md`. It lives across
@@ -404,7 +397,6 @@ convention, not a code change.
 - **Panel determinism salt:** should the same question deliberate identically across repos/branches, or is
   per-project drift desirable? (Sets whether `case_seed` includes a project salt.)
 - **Org handle locked:** GitHub org is `wlilley93/vibe-justice-system`. Install string is `cdd` (command name).
-  npm / PyPI package name TBD.
 - **Extensibility name** ("Lexby chambers" for practice areas): reserve + sketch now, or footnote until launch?
 - Decide final styling of the names if any read too close to a real justice.
 - Confirm odd panel size drawn from the 10 (3 vs 5).

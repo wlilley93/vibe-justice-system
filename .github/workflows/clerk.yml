@@ -3,6 +3,12 @@ name: VJS Clerk - Constitutional Review
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: PR number to review
+        required: true
+        type: string
 
 permissions:
   pull-requests: write
@@ -10,9 +16,17 @@ permissions:
 
 jobs:
   constitutional-review:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
+      - name: Resolve PR number
+        run: |
+          if [ -n "${{ github.event.pull_request.number }}" ]; then
+            echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> "$GITHUB_ENV"
+          else
+            echo "PR_NUMBER=${{ inputs.pr_number }}" >> "$GITHUB_ENV"
+          fi
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -22,7 +36,6 @@ jobs:
         id: spec_law
         run: |
           SPEC_LAW=$(cat SPEC-LAW.md)
-          # Escape for use in heredoc / multiline env
           {
             echo 'SPEC_LAW<<EOF_SPEC'
             echo "$SPEC_LAW"
@@ -34,7 +47,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PR_DIFF=$(gh pr diff ${{ github.event.pull_request.number }})
+          PR_DIFF=$(gh pr diff "$PR_NUMBER")
           {
             echo 'PR_DIFF<<EOF_DIFF'
             echo "$PR_DIFF"
@@ -46,9 +59,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          PR_BODY="${{ github.event.pull_request.body }}"
+          PR_META=$(gh pr view "$PR_NUMBER" --json title,body,headRefOid)
+          PR_TITLE=$(echo "$PR_META" | python3 -c "import json,sys; print(json.load(sys.stdin)['title'])")
+          PR_BODY=$(echo "$PR_META" | python3 -c "import json,sys; print(json.load(sys.stdin)['body'] or '')")
+          PR_SHA=$(echo "$PR_META" | python3 -c "import json,sys; print(json.load(sys.stdin)['headRefOid'])")
           echo "PR_TITLE=$PR_TITLE" >> "$GITHUB_ENV"
+          echo "PR_SHA=$PR_SHA" >> "$GITHUB_ENV"
           echo "PR_BODY<<EOF_BODY" >> "$GITHUB_ENV"
           echo "$PR_BODY" >> "$GITHUB_ENV"
           echo "EOF_BODY" >> "$GITHUB_ENV"
@@ -147,51 +163,81 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if [ "$REVIEW_RESULT" = "constitutional" ]; then
-            BADGE="**CONSTITUTIONAL**"
-            INTRO="The VJS Clerk has reviewed this pull request and found it **constitutional** under SPEC-LAW. Auto-merge will proceed."
-          else
-            BADGE="**UNCONSTITUTIONAL**"
-            INTRO="The VJS Clerk has reviewed this pull request and found it **unconstitutional** under SPEC-LAW. Changes are required before this PR can be merged."
-          fi
+          python3 - <<'PYEOF'
+          import os, subprocess
 
-          COMMENT_BODY=$(cat <<COMMENT_EOF
-## VJS Clerk - Constitutional Review
+          result = os.environ.get("REVIEW_RESULT", "")
+          verdict = os.environ.get("CLERK_VERDICT", "")
+          pr_sha = os.environ.get("PR_SHA", "")
+          pr_num = os.environ.get("PR_NUMBER", "")
 
-$BADGE
+          if result == "constitutional":
+              badge = "**CONSTITUTIONAL**"
+              intro = ("The VJS Clerk has reviewed this pull request and found it "
+                       "**constitutional** under SPEC-LAW. Auto-merge will proceed.")
+          else:
+              badge = "**UNCONSTITUTIONAL**"
+              intro = ("The VJS Clerk has reviewed this pull request and found it "
+                       "**unconstitutional** under SPEC-LAW. "
+                       "Changes are required before this PR can be merged.")
 
-$INTRO
+          body = "\n".join([
+              "## VJS Clerk - Constitutional Review",
+              "",
+              badge,
+              "",
+              intro,
+              "",
+              "### Clerk's Reasoning",
+              "",
+              verdict,
+              "",
+              "---",
+              f"*Automated review by the VJS Clerk using SPEC-LAW.md at commit `{pr_sha}`.*",
+          ])
 
-### Clerk's Reasoning
+          with open("/tmp/clerk_comment.txt", "w") as f:
+              f.write(body)
 
-${CLERK_VERDICT}
-
----
-*Automated review by the VJS Clerk using SPEC-LAW.md at commit \`${{ github.event.pull_request.head.sha }}\`.*
-COMMENT_EOF
+          subprocess.run(
+              ["gh", "pr", "comment", pr_num, "--body-file", "/tmp/clerk_comment.txt"],
+              check=True,
           )
-
-          gh pr comment ${{ github.event.pull_request.number }} --body "$COMMENT_BODY"
+          PYEOF
 
       - name: Auto-merge if constitutional
         if: env.REVIEW_RESULT == 'constitutional'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr merge ${{ github.event.pull_request.number }} --auto --squash \
-            --subject "$(gh pr view ${{ github.event.pull_request.number }} --json title --jq '.title') [constitutional]"
+          gh pr merge "$PR_NUMBER" --auto --squash \
+            --subject "$(gh pr view "$PR_NUMBER" --json title --jq '.title') [constitutional]"
 
       - name: Request changes if unconstitutional
         if: env.REVIEW_RESULT == 'unconstitutional'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          REVIEW_BODY="The VJS Clerk has determined this PR is unconstitutional under SPEC-LAW.
+          python3 - <<'PYEOF'
+          import os, subprocess
 
-${CLERK_VERDICT}
+          verdict = os.environ.get("CLERK_VERDICT", "")
+          pr_num = os.environ.get("PR_NUMBER", "")
 
-Please address the stated violations before requesting a re-review."
+          body = "\n".join([
+              "The VJS Clerk has determined this PR is unconstitutional under SPEC-LAW.",
+              "",
+              verdict,
+              "",
+              "Please address the stated violations before requesting a re-review.",
+          ])
 
-          gh pr review ${{ github.event.pull_request.number }} \
-            --request-changes \
-            --body "$REVIEW_BODY"
+          with open("/tmp/clerk_review.txt", "w") as f:
+              f.write(body)
+
+          subprocess.run(
+              ["gh", "pr", "review", pr_num,
+               "--request-changes", "--body-file", "/tmp/clerk_review.txt"],
+              check=True,
+          )
+          PYEOF
