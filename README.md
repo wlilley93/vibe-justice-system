@@ -34,7 +34,7 @@ Your AI counsel. Three things at once:
 - **ADVISOR** - gives it to you straight; if your idea has a fatal flaw he names it before the judges do
 - **ENGINEER** - ships the code, then records why
 
-The court decides. Lexby executes. The record is permanent.
+The separation matters. Lexby argues the case but does not sit on the bench - he cannot tip the outcome and then quietly do the opposite. The court decides independently. Lexby executes. The record is permanent.
 
 ---
 
@@ -45,9 +45,9 @@ Every time you use AI to build something, it makes silent calls: which approach,
 VJS catches those calls and turns them into binding decisions:
 
 1. The AI hits a choice - "build this ourselves or use the library?", "ship now or wait for the audit?"
-2. Lexby checks if that type of choice was already decided. If yes: follows the ruling instantly.
+2. Lexby checks if that type of choice was already decided. If yes: follows the ruling instantly - no deliberation, same answer every time, for the life of the project.
 3. If not: an AI court deliberates and issues a ruling. It gets committed to the repo.
-4. Every future session inherits it. The AI cannot contradict its own record.
+4. Every future session inherits it. The AI cannot contradict its own record. If it does, it must self-report and go back to court.
 
 **When the AI gets something wrong, it must report itself and fix it.**
 
@@ -62,6 +62,8 @@ SUPREME COUNCIL      5 AI judges (9 for big calls)     Foundational. Rulings go 
 ```
 
 Start at First Instance. Escalate by permission. You can't skip.
+
+Most things never leave First Instance - one judge, a ruling, a permanent citation (`[2026] LEXBY-FI 1`). Higher courts are for contested calls, overturning a ruling, or questions foundational enough that every future VJS project should inherit the answer.
 
 ---
 
@@ -130,6 +132,8 @@ this repo's CLAUDE.md. Then fetch SPEC-LAW.md from the same repo and save it as
 .justice/SPEC-LAW.md. Create the .justice/ directory structure (judgments/high-court,
 judgments/appeals-court, judgments/supreme-court, INDEX.md). VJS is now active.
 ```
+
+Paste that into any Claude conversation in your repo. It creates the `.justice/` folder, loads the statute book into your AI's context, and wires Lexby's behaviour from that point forward. No other setup needed.
 
 For the full technical reference: [court/README.md](court/README.md)
 
