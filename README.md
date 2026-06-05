@@ -95,9 +95,13 @@ Natural language. No syntax. Lexby handles the filing.
 
 VJS is building shared precedent for AI-assisted work.
 
-When your Supreme Council rules on something, that ruling gets submitted anonymised to the community record. Repo names, file paths, variable names: stripped. The question, the ruling, the law applied: preserved.
+When your Supreme Council rules on something, that ruling gets submitted anonymised to the community record. What gets stripped: your repo name, file paths, function names, variable names - anything that identifies your project. What gets kept: the question that was asked, the facts of the decision, the ruling itself, and the law applied. You share the reasoning, not the source.
 
-**The more projects contribute, the faster every project resolves.** More rulings = more fast-path answers = less deliberation for everyone.
+**The more Supreme Council rulings go in, the faster every project resolves.** Here is why: before any court sits, Lexby checks the community precedent index first. If someone else already fought this battle and got a ruling, your project gets that answer instantly - no deliberation, no sitting, no cost. The bigger the shared record gets, the more questions get answered on the fast path before a single judge is even assigned. Every ruling contributed is a gift to every future project that hits the same call.
+
+> Project A ruled: *"always encrypt tokens at rest, even in dev."*
+> Six months later, Project B hits the same question.
+> Lexby finds the ruling. Done in seconds. No court needed.
 
 ---
 
