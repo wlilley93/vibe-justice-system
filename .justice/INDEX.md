@@ -23,7 +23,7 @@ It is also the first place Lexby checks before convening a bench. If a point is 
 
 | Column | Meaning |
 |--------|---------|
-| **Citation** | The neutral citation. Form: `[YEAR] LEXBY-<TIER> <N>`. Tier codes: SC (Supreme Council), CA (Court of Appeal), FI (First Instance). Link goes to the full ruling file. |
+| **Citation** | The neutral citation. Form: `[YEAR] LEXBY-<TIER> <N>`. Tier codes: SC (Supreme Court), CA (Court of Appeal), FI (First Instance). Link goes to the full ruling file. |
 | **Tier** | The court that issued the ruling: `supreme`, `appeal`, or `first-instance`. |
 | **Status** | Whether the ruling is currently good law. See Status Key. |
 | **Ratio (one line)** | The binding holding, stripped to its minimum. Obiter is not included here. |
@@ -35,7 +35,7 @@ It is also the first place Lexby checks before convening a bench. If a point is 
 Neutral citation form (SPEC-LAW s. 11(d)):
 
 ```
-[YEAR] LEXBY-SC n      (Supreme Council)
+[YEAR] LEXBY-SC n      (Supreme Court)
 [YEAR] LEXBY-CA n      (Court of Appeal)
 [YEAR] LEXBY-FI n      (First Instance)
 ```

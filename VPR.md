@@ -31,7 +31,7 @@ INTAKE
   |  (bypasses all lower tiers, express certificate required)              |
   |                                                                        v
   v                                                          .-----------------------------.
-.-------------------------.                                 |      SUPREME COUNCIL         |
+.-------------------------.                                 |      SUPREME COURT         |
 |    FIRST INSTANCE       |                                 |        bench of 5            |
 |       bench of 1        |                                 |  (9 for foundational         |
 '-------------------------'                                 |   questions)                 |
@@ -54,9 +54,9 @@ INTAKE
 |------|---------|
 | VPR 1 | Every matter commences at First Instance via a Request for Ruling or a Breach; standing checked at intake. |
 | VPR 2 | Binding ratio on all fours disposes the matter on citation without a sitting (fast path). |
-| VPR 3 | Progression is mandatory and in order: First Instance, Court of Appeal, Supreme Council; leave required at each step. |
-| VPR 4 | The Sovereign may issue a leapfrog certificate to take a matter straight to the Supreme Council; the sole exception to VPR 3. |
-| VPR 5 | Bench sizes: First Instance 1, Court of Appeal 3, Supreme Council 5 (expanding to 9 for foundational questions). |
+| VPR 3 | Progression is mandatory and in order: First Instance, Court of Appeal, Supreme Court; leave required at each step. |
+| VPR 4 | The Sovereign may issue a leapfrog certificate to take a matter straight to the Supreme Court; the sole exception to VPR 3. |
+| VPR 5 | Bench sizes: First Instance 1, Court of Appeal 3, Supreme Court 5 (expanding to 9 for foundational questions). |
 | VPR 6 | Every matter yields a neutral-citation ruling artefact; ratio binds, obiter persuades, per incuriam voids. |
 | VPR 7 | No costs or sanctions jurisdiction; the only remedy is to make the work good. |
 | VPR 8 | Every ruling, regardless of tier, is submitted to the Community Record (community/caselaw/YYYY/ in the canonical VJS repo) as a pull request. Submissions are anonymised: project-specific identifiers are stripped, legal facts preserved. |
@@ -81,19 +81,19 @@ Before any bench convenes, the citator is searched. If a point is governed by bi
 
 ### **`VPR 3`** - Progression is rule-based; no leap-frogging
 
-A matter climbs the tiers **in order**: First Instance -> **Court of Appeal** (panel of 3) -> **Supreme Council** (panel of 5). Escalation at each step requires **permission to appeal** (leave), granted only on an arguable point of law or a binding-precedent conflict. A matter destined to change SPEC-LAW does **NOT** commence at the Supreme Council: the Supreme Council alone enacts statute, but it must be **reached by progression**. Lexby may not self-initiate at a higher tier; convening the Supreme Council directly is reserved.
+A matter climbs the tiers **in order**: First Instance -> **Court of Appeal** (panel of 3) -> **Supreme Court** (panel of 5). Escalation at each step requires **permission to appeal** (leave), granted only on an arguable point of law or a binding-precedent conflict. A matter destined to change SPEC-LAW does **NOT** commence at the Supreme Court: the Supreme Court alone enacts statute, but it must be **reached by progression**. Lexby may not self-initiate at a higher tier; convening the Supreme Court directly is reserved.
 
 ---
 
 ### **`VPR 4`** - The leapfrog (the only exception)
 
-The **Principal, acting as Sovereign**, may by **express instantiation** issue a **leapfrog certificate** taking a matter straight to the Supreme Council, bypassing the lower tiers. This is the **sole** exception to VPR 3. It must be express, it is recorded on the matter, and absent it the tiers are mandatory. (The tort recast, [2026] LEXBY-SC 1, proceeded under such a certificate.)
+The **Principal, acting as Sovereign**, may by **express instantiation** issue a **leapfrog certificate** taking a matter straight to the Supreme Court, bypassing the lower tiers. This is the **sole** exception to VPR 3. It must be express, it is recorded on the matter, and absent it the tiers are mandatory. (The tort recast, [2026] LEXBY-SC 1, proceeded under such a certificate.)
 
 ---
 
 ### **`VPR 5`** - The bench
 
-First Instance sits **1**; Court of Appeal sits **3**; the Supreme Council sits **5**, expanding to the full **9** only for constitutional or foundational questions. Judges are drawn from the benches (the puisne pool / the Supreme Council) and seeded with **ephemeral stances only for matters of first impression**; a settled ratio is followed, not re-polled.
+First Instance sits **1**; Court of Appeal sits **3**; the Supreme Court sits **5**, expanding to the full **9** only for constitutional or foundational questions. Judges are drawn from the benches (the puisne pool / the Supreme Court) and seeded with **ephemeral stances only for matters of first impression**; a settled ratio is followed, not re-polled.
 
 ---
 
@@ -111,9 +111,9 @@ There is no costs or sanctions jurisdiction (anti-bloat, SPEC-LAW-12). The only 
 
 ### **`VPR 8`** - Community Record
 
-**Supreme Council rulings only** are submitted to the **Community Record** in the canonical VJS repo (`wlilley93/vibe-justice-system`, path `community/caselaw/YYYY/`) by opening a pull request. First Instance and Court of Appeal rulings remain in the project repo under `.justice/judgments/` and are not submitted upstream.
+**Supreme Court rulings only** are submitted to the **Community Record** in the canonical VJS repo (`wlilley93/vibe-justice-system`, path `community/caselaw/YYYY/`) by opening a pull request. First Instance and Court of Appeal rulings remain in the project repo under `.justice/judgments/` and are not submitted upstream.
 
-Before submission, the ruling is **anonymised**: repo names, file paths, variable names, function names, class names, and any project-specific identifiers are replaced by generic placeholders; the legal question, the ratio, the tier, the law applied, and the outcome are preserved unchanged. Community rulings are **persuasive precedent** across all VJS jurisdictions (any other repo running VJS). The clerk reviews each PR for constitutional compliance and subject-matter jurisdiction before merging. Supreme Council rulings that enact statute additionally open a separate statute PR touching `SPEC-LAW.md` (VPR 6).
+Before submission, the ruling is **anonymised**: repo names, file paths, variable names, function names, class names, and any project-specific identifiers are replaced by generic placeholders; the legal question, the ratio, the tier, the law applied, and the outcome are preserved unchanged. Community rulings are **persuasive precedent** across all VJS jurisdictions (any other repo running VJS). The clerk reviews each PR for constitutional compliance and subject-matter jurisdiction before merging. Supreme Court rulings that enact statute additionally open a separate statute PR touching `SPEC-LAW.md` (VPR 6).
 
 ---
 

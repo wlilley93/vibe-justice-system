@@ -11,7 +11,7 @@ invoked via the `Workflow` tool. They are general-purpose: they work for any pro
 |------|------|-------|-------------|
 | `workflows/first-instance.js` | First Instance | 1 judge | All matters start here (VPR 1). Standing check + fast-path on binding precedent. Full deliberation only for genuine first-impression questions. |
 | `workflows/court-of-appeal.js` | Court of Appeal | 3 judges | After First Instance, with permission to appeal. Three independent postures: strict-construction, pragmatist, precedent-hawk. |
-| `workflows/supreme-council.js` | Supreme Council | 5 judges (9 for constitutional) | The apex court. Only reached by progression or the Principal's express leapfrog certificate. The only court that can enact new SPEC-LAW. |
+| `workflows/supreme-court.js` | Supreme Court | 5 judges (9 for constitutional) | The apex court. Only reached by progression or the Principal's express leapfrog certificate. The only court that can enact new SPEC-LAW. |
 
 ---
 
@@ -67,7 +67,7 @@ sessions via the fast-path screen (VPR 2).
 
 ## Progression rules (VPR 3)
 
-You cannot start at the Court of Appeal or Supreme Council directly. Run `first-instance.js` first.
+You cannot start at the Court of Appeal or Supreme Court directly. Run `first-instance.js` first.
 To escalate, pass the prior ruling as `args.lower_ruling` to the next tier's workflow. The leapfrog to
 Supreme is only available with the Principal's express certificate, recorded in `args.leapfrog_certificate`.
 

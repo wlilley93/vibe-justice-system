@@ -16,7 +16,7 @@ caselaw/
 |--------|--------|
 | Community First Instance ruling | Persuasive across all jurisdictions |
 | Community Court of Appeal ruling | Strong persuasive; carries weight of a panel of 3 |
-| Community Supreme Council ruling | Highly persuasive; may be adopted as statute by a local Supreme Council |
+| Community Supreme Court ruling | Highly persuasive; may be adopted as statute by a local Supreme Court |
 
 No community ruling is automatically binding in any repo. It is persuasive - meaning: if a local court faces an identical or near-identical question, it should take the community ruling seriously and either follow it or explain why it is distinguished.
 

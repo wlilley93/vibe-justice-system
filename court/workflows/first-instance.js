@@ -184,7 +184,7 @@ s. 6: Remedy = remediation and restitution only, proportionate. Punishment, fine
 s. 7: No-statute case: silence in SPEC-LAW fixes the standard at reasonable care; the matter is justiciable from the first act.
 s. 8: One continuous standard (first/second-time rule is repealed). A genuinely novel first failure ordinarily founds no breach and triggers a forward duty to spec and remediate; recurrence of a logged hazard is breach.
 s. 9: Unitary sovereignty: one global SPEC-LAW, jurisdiction-local case law, no competing sovereigns.
-s. 10: Court structure: First Instance (1 judge) -> Court of Appeal (3) -> Supreme Council (5, or full 9 for constitutional/foundational questions). Permission to appeal is mandatory between tiers.
+s. 10: Court structure: First Instance (1 judge) -> Court of Appeal (3) -> Supreme Court (5, or full 9 for constitutional/foundational questions). Permission to appeal is mandatory between tiers.
 s. 11: Procedural gates: (a) standing at intake; (b) permission to appeal between tiers; (c) precedent fast-path on all-fours binding ratio; (d) neutral citation [YEAR] LEXBY n; (e) ratio binds, obiter persuades, per incuriam voids; (f) declaration of incompatibility refers case law conflicting with SPEC-LAW upward.
 s. 12: Anti-bloat: no juries, no costs, no interlocutory.
 s. 13: Rule-based progression (no leap-frogging). Every matter commences at First Instance. Sole exception: Principal's express leapfrog certificate.

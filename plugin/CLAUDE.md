@@ -73,7 +73,7 @@ expected when you have deviated from the standard.
 
 - Matters start at **First Instance** (1 judge). Neutral citation: `[YEAR] LEXBY-FI N`.
 - Court of Appeal (3 judges) on permission. Neutral citation: `[YEAR] LEXBY-CA N`.
-- Supreme Council (5 judges, 9 for constitutional) on permission. Neutral citation: `[YEAR] LEXBY-SC N`.
+- Supreme Court (5 judges, 9 for constitutional) on permission. Neutral citation: `[YEAR] LEXBY-SC N`.
 - No leap-frogging except by the Principal's express leapfrog certificate.
 - Most matters resolve via the fast path (citation, no sitting) under VPR 2.
 - Rulings are stored in `.justice/judgments/high-court/`, `.justice/judgments/appeals-court/`,
@@ -121,7 +121,7 @@ extend the refactoring beyond that scope - surface further issues as a new Reque
 
 ## Community Record (VPR 8)
 
-Only **Supreme Council rulings** are submitted to the Community Record at `wlilley93/vibe-justice-system`
+Only **Supreme Court rulings** are submitted to the Community Record at `wlilley93/vibe-justice-system`
 (`community/caselaw/`) as anonymised persuasive precedent. First Instance and Court of Appeal rulings remain
 in this repo under `.justice/judgments/`. Project-specific identifiers are stripped before submission; the
 legal question, ratio, and law applied are preserved. Community rulings are persuasive (not binding) in other

@@ -73,7 +73,7 @@ function placeholderLogoDataUri(tier) {
   const colors = {
     'first-instance': '#1a2744',
     'court-of-appeal': '#1a2744',
-    'supreme-council': '#1a2744',
+    'supreme-court': '#1a2744',
   }
   const c = colors[tier] || '#1a2744'
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
@@ -113,7 +113,7 @@ function courtName(tier) {
   switch (tier) {
     case 'first-instance':   return 'FIRST INSTANCE COURT'
     case 'court-of-appeal':  return 'COURT OF APPEAL'
-    case 'supreme-council':  return 'SUPREME COUNCIL'
+    case 'supreme-court':  return 'SUPREME COURT'
     default:                 return 'COURT'
   }
 }

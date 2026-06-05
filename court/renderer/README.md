@@ -76,7 +76,7 @@ The renderer accepts the raw return value from any court workflow, or a hand-cra
 }
 ```
 
-For Court of Appeal and Supreme Council rulings, set `ruling.full_judgment_text` to the full narrative judgment text (from the workflow output). The renderer will number its paragraphs automatically.
+For Court of Appeal and Supreme Court rulings, set `ruling.full_judgment_text` to the full narrative judgment text (from the workflow output). The renderer will number its paragraphs automatically.
 
 For a panel (multi-judge court), set `ruling.panel` to an array of judge names and leave `ruling.judge` null.
 

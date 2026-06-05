@@ -63,12 +63,12 @@ VJS catches those calls and turns them into binding decisions:
 ```
 FIRST INSTANCE       1 AI judge                        Everyday decisions. Repo only.
 COURT OF APPEAL      3 AI judges                       Disputed calls. Repo only.
-SUPREME COUNCIL      5 AI judges (9 for big calls)     Foundational. Repo + community record.
+SUPREME COURT      5 AI judges (9 for big calls)     Foundational. Repo + community record.
 ```
 
 Start at First Instance. Escalate by permission. You can't skip.
 
-First Instance and Court of Appeal rulings live in your repo under `.justice/judgments/` and go nowhere else - they are yours. Supreme Council rulings are also committed to your repo, and additionally submitted anonymised to the shared community record so every other VJS project can benefit from the reasoning.
+First Instance and Court of Appeal rulings live in your repo under `.justice/judgments/` and go nowhere else - they are yours. Supreme Court rulings are also committed to your repo, and additionally submitted anonymised to the shared community record so every other VJS project can benefit from the reasoning.
 
 Most things never leave First Instance - one judge, a ruling, a permanent citation (`[2026] LEXBY-FI 1`). Higher courts are for contested calls, overturning a ruling, or questions foundational enough that every future VJS project should inherit the answer.
 
@@ -104,15 +104,15 @@ Natural language. No syntax. Lexby handles the filing.
 
 VJS is building shared precedent for AI-assisted work.
 
-When your Supreme Council rules on something, that ruling gets submitted anonymised to the community record. What gets stripped: your repo name, file paths, function names, variable names - anything that identifies your project. What gets kept: the question that was asked, the facts of the decision, the ruling itself, and the law applied. You share the reasoning, not the source.
+When your Supreme Court rules on something, that ruling gets submitted anonymised to the community record. What gets stripped: your repo name, file paths, function names, variable names - anything that identifies your project. What gets kept: the question that was asked, the facts of the decision, the ruling itself, and the law applied. You share the reasoning, not the source.
 
-**The more Supreme Council rulings go in, the faster every project resolves.** Here is why: before any court sits, Lexby checks the community precedent index first. If someone else already fought this battle and got a ruling, your project gets that answer instantly - no deliberation, no sitting, no cost. The bigger the shared record gets, the more questions get answered on the fast path before a single judge is even assigned. Every ruling contributed is a gift to every future project that hits the same call.
+**The more Supreme Court rulings go in, the faster every project resolves.** Here is why: before any court sits, Lexby checks the community precedent index first. If someone else already fought this battle and got a ruling, your project gets that answer instantly - no deliberation, no sitting, no cost. The bigger the shared record gets, the more questions get answered on the fast path before a single judge is even assigned. Every ruling contributed is a gift to every future project that hits the same call.
 
 > **Fast path:** Project A ruled: *"always encrypt tokens at rest, even in dev."*
 > Six months later, Project B hits the same question.
 > Lexby finds the ruling. Done in seconds. No court needed.
 
-> **Supreme Council:** Project C has a hard call - should AI ever modify the database schema directly?
+> **Supreme Court:** Project C has a hard call - should AI ever modify the database schema directly?
 > Five judges deliberate. They rule: no, always generate a migration for human review.
 > That ruling is anonymised and submitted to the community record.
 > Now every VJS project in the world gets that answer on the fast path. Forever.

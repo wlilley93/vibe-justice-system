@@ -16,7 +16,7 @@ bring-your-own-bench rosters, and statute packs.
 - **SPEC-LAW** = the statute (sovereign rules). **Case law** = the logged rulings (precedent).
 - **Caselaw Driven Development (CDD)** = the methodology (sits beside TDD/BDD/DDD). `cdd` is the init command.
 - **Vibe Procedure Rules (VPR)** = how matters move through the courts (the procedural rulebook; see `VPR.md`).
-- **The courts:** First Instance (1 judge) -> Court of Appeal (3) -> Supreme Council (5, or 9 for constitutional).
+- **The courts:** First Instance (1 judge) -> Court of Appeal (3) -> Supreme Court (5, or 9 for constitutional).
 
 ## What Lexby is
 If spec is law, any project of decisions needs a justice system. Lexby is that: a lawyer who records every
@@ -45,7 +45,7 @@ scope; non-blocking). Keeps the "Lex" (law) root.
 - Include a **"Things you can say to Lexby"** section, natural language, e.g.:
   - "I think we should go in this direction. Submit it to the Court."
   - "I don't agree with the outcome. Can we appeal?"
-  - "The Court of Appeal was largely split. I think this needs to go to the Supreme Council."
+  - "The Court of Appeal was largely split. I think this needs to go to the Supreme Court."
   - "What did we decide about X, and why?"  /  "Is this allowed under our spec?"
 - Note the **judges-speak-in-tongues, Lexby-translates** idea (see below) as a feature.
 
@@ -100,8 +100,8 @@ Justice Hallam.
 - **Tiers (three-tier, token-lean) - SPEC-LAW-10:**
   - **First Instance** = a SINGLE judge. The largest token economy; most matters end here.
   - **Court of Appeal** = a panel of 3, reached only by permission to appeal.
-  - **Supreme Council** = a panel of 5, expandable to the full 9 only for constitutional / foundational matters.
-  - Abolished: the "Council" first-instance label, any multi-judge first instance, the fixed default-9 bench, and
+  - **Supreme Court** = a panel of 5, expandable to the full 9 only for constitutional / foundational matters.
+  - Abolished: the "Court" first-instance label, any multi-judge first instance, the fixed default-9 bench, and
     the old 10-roster / odd-5-panel.
 - **Gates (SPEC-LAW-11):** standing at intake; permission to appeal between tiers; the precedent fast-path (a point
   on all fours with binding ratio is disposed of on citation, no sitting).
@@ -119,7 +119,7 @@ Justice Hallam.
   Scarmont (reform / fairness) · Mansby (commercial pragmatism) · Wilbery (purposive intent) · Hollerton (close
   textual reasoning) · Devlan (moral limits) · Radmoor (precedent / restraint)
 
-**Supreme Council** - sits 5; the full 9 for constitutional matters:
+**Supreme Court** - sits 5; the full 9 for constitutional matters:
 - Hallam (presiding; wears a different brooch to every sitting, an homage to Lady Hale's spider brooch) ·
   Sumberly (intellectual breadth) · Elden (caution / precedent) · Goffe (equity / restitution) · Blackmere (first
   principles) · Coade (ancient liberties) · Steyne (rights / purposive) · Bowan (procedure / fairness) ·
@@ -219,10 +219,10 @@ court declares it and refers it up for amendment; it never strikes the sovereign
    living-jurist echoes one more syllable from source; each judge gets a one-line temperament + a signature
    opening tell so dissents read as distinct jurists, not one model in many hats.
 
-**Tiers as runnable workflows.** `council.md` / `appeals.md` / `supreme.md` invoked via Task with a STRICT
+**Tiers as runnable workflows.** `court.md` / `appeals.md` / `supreme.md` invoked via Task with a STRICT
 structured emit (verdict, per-judge vote + one-liner, holding, ratio, citations) that Lexby PARSES, never
-re-summarises. Cost-tier: Council on a fast/cheap model + short budgets; Appeals/Supreme escalate to the strong
-model; record the model id per ruling. Port `scratch-to-signals` council.js/appeals.js as the start.
+re-summarises. Cost-tier: Court on a fast/cheap model + short budgets; Appeals/Supreme escalate to the strong
+model; record the model id per ruling. Port `scratch-to-signals` court.js/appeals.js as the start.
 
 **The shareable RULING CARD.** Every case auto-renders a boxed terminal-art verdict (citation, panel, VOTE 7-2,
 one-line memetic HOLDING, Lexby's TL;DR) to CLI + saved PNG/SVG in `.justice/cards/`. Degens share artefacts, not
@@ -236,7 +236,7 @@ authority -> convene. Self-submission: an agent's confession ("partially", "I de
 a REMEDY field. The CLAUDE.md trigger is an enumerable imperative list, NOT "when uncertain".
 
 **`npx lexby init` = the demo.** Scaffold subagent + CLAUDE.md trigger + .justice/judgments/ + a starter SPEC-LAW inferred
-from existing CLAUDE.md/README/package.json, then run ONE seeded micro-case live (fork -> Council -> legalese
+from existing CLAUDE.md/README/package.json, then run ONE seeded micro-case live (fork -> Court -> legalese
 ruling -> Lexby translates -> committed `.justice/judgments/0001-*.md` + card) in 60 seconds. First run ends on a
 screenshot-grade verdict, never an empty dir. Ship `lexby uninstall` clean revert.
 
@@ -245,15 +245,15 @@ screenshot-grade verdict, never an empty dir. Ship `lexby uninstall` clean rever
    see below) and generate the **constitutional digest** + the non-binding **commentary**. NO written `CHARTER.md`:
    the constitution is uncodified but clear by access (the digest + commentary + Lexby's translation).
 2. Define the canonical ruling artefact schema + generated .justice/INDEX.md citator.
-3. Port the three court workflows into `council.md`/`appeals.md`/`supreme.md` (strict emit, symmetric case file,
+3. Port the three court workflows into `court.md`/`appeals.md`/`supreme.md` (strict emit, symmetric case file,
    cost-tiering; Lexby parses, never re-summarises).
 4. Build the precedent-resolution engine + triage governor + STATUS filtering (the fast path + cost control).
 5. Wire `@agent-lexby` (assemble case file -> court Task -> translate -> write artefact -> reindex; enforce the
    advocacy/adjudication separation here). Includes the breach self-submission door.
 6. Ship the ruling CARD renderer.
 7. Build `npx lexby init` (scaffold + infer starter statute + enumerable CLAUDE.md trigger + live demo case).
-8. Rename + repoint `scratch-to-signals` to canonical vocab (lexly/ -> caselaw vocab, LDD -> CDD, council/ ->
-   .justice/judgments/, keep "Council" as the first-instance TIER) as the flagship beyond-code proof; link its live
+8. Rename + repoint `scratch-to-signals` to canonical vocab (lexly/ -> caselaw vocab, LDD -> CDD, court/ ->
+   .justice/judgments/, keep "Court" as the first-instance TIER) as the flagship beyond-code proof; link its live
    .justice/judgments/ from the README.
 9. Write the README in strict order (hook + install one-liner + ONE card screenshot above the fold; "Things you
    can say to Lexby"; flagship proof link; bench/tiers/CDD lore below the fold) + the `CDD.md` manifesto.
@@ -267,9 +267,9 @@ Court." / "Don't vibe it. Litigate it." / "The seats are permanent. The verdict 
 Procedure is governed by the **Vibe Procedure Rules** (`VPR.md`), The load-bearing rule
 (SPEC-LAW-13): **progression is rule-based and there is no leap-frogging.** Every matter commences at First
 Instance and climbs the tiers in order, escalating only by permission to appeal. A matter destined to change
-SPEC-LAW must be REACHED by progression, not commenced at the Supreme Council, and Lexby may not self-initiate at a
+SPEC-LAW must be REACHED by progression, not commenced at the Supreme Court, and Lexby may not self-initiate at a
 higher tier. The sole exception is the **Principal's express leapfrog certificate** (acting as Sovereign), which
-may take a matter straight to the Supreme Council . The tort recast ([2026] LEXBY-SC 1)
+may take a matter straight to the Supreme Court . The tort recast ([2026] LEXBY-SC 1)
 proceeded under such a certificate; that is why it sat at Supreme directly, and it is the non-notable exception,
 not the rule.
 
@@ -286,7 +286,7 @@ not the rule.
 - Supporting: `lexby cite <id>` (resolve a ruling), reindex on every ruling, `lexby uninstall` (clean revert).
 
 ## Breach doctrine: TORT, not crime (SPEC-LAW-4..8)
-Settled by the Supreme Council ([2026] LEXBY-SC 1, Hallam CJ, unanimous): the court does not punish, it makes the
+Settled by the Supreme Court ([2026] LEXBY-SC 1, Hallam CJ, unanimous): the court does not punish, it makes the
 work good, so the criminal frame (nulla poena, the jurisdiction-first gate, the guilt/remedy decoupling, the "no
 breach, act anyway" posture) was a category error and is struck. Breach is the **tort of negligence**:
 - **Duty (s. 4):** Lexby owes a continuing duty of reasonable skill and care to every principal who relies on his
@@ -312,7 +312,7 @@ struck. The frame is **one sovereign rulebook, multiple project-local jurisdicti
   on git (e.g. `~/.lexby/SPEC-LAW.md` or a central `lexby-statute` repo).
 - **Case law = jurisdiction-local precedent:** each repo is a JURISDICTION (the England-and-Wales / Scotland /
   Northern Ireland analogue) applying the one statute and taking notice of its sisters.
-- The **Supreme Council alone enacts**, by elevating a local ratio into realm-wide statute. There are no competing
+- The **Supreme Court alone enacts**, by elevating a local ratio into realm-wide statute. There are no competing
   sovereigns, hence no concurrent-authority reconciliation apparatus to build or to litigate.
 
 ## Update mechanism: GitHub is the database (decided 2026-06-05)

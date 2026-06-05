@@ -6,7 +6,7 @@ Drop your tier logos here. The renderer looks for files named:
 |----------|----------|
 | `first-instance-logo.png` (or `.svg`, `.jpg`) | First Instance Court header |
 | `court-of-appeal-logo.png` (or `.svg`, `.jpg`) | Court of Appeal header |
-| `supreme-council-logo.png` (or `.svg`, `.jpg`) | Supreme Council header |
+| `supreme-court-logo.png` (or `.svg`, `.jpg`) | Supreme Court header |
 
 ## Size recommendation
 

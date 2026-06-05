@@ -1,6 +1,6 @@
 export const meta = {
-  name: "supreme-council",
-  description: "Vibe Justice System - Supreme Council deliberation. Receives lower court rulings and a constitutional/foundational question. Seats 9 justices for constitutional questions, 5 for ordinary appeals. Each justice writes an independent opinion; Hallam CJ delivers the leading judgment; Lexby translates.",
+  name: "supreme-court",
+  description: "Vibe Justice System - Supreme Court deliberation. Receives lower court rulings and a constitutional/foundational question. Seats 9 justices for constitutional questions, 5 for ordinary appeals. Each justice writes an independent opinion; Hallam CJ delivers the leading judgment; Lexby translates.",
   args: {
     question: "The constitutional or foundational question placed before the Court",
     lower_rulings: "Array of lower court ruling objects (each with tier, citation, ratio, disposition)",
@@ -69,7 +69,7 @@ const TEMPERAMENTS = {
 function buildCaseFile(args) {
   const panel = args.is_constitutional ? BENCH_9 : BENCH_5;
   return `
-IN THE SUPREME COUNCIL OF LEXBY
+IN THE SUPREME COURT OF LEXBY
 ${args.is_constitutional ? "FULL COURT OF 9 - CONSTITUTIONAL QUESTION" : "PANEL OF 5 - ORDINARY APPEAL"}
 
 QUESTION BEFORE THE COURT
@@ -98,7 +98,7 @@ function justicePrompt(justiceName, caseFile) {
   return `
 ${TEMPERAMENTS[justiceName]}
 
-You are sitting on the Supreme Council of Lexby. This is the apex court. Your opinion is formal, authoritative, and written in the register of an apex court judge. You do not use em dashes or en dashes anywhere in your writing.
+You are sitting on the Supreme Court of Lexby. This is the apex court. Your opinion is formal, authoritative, and written in the register of an apex court judge. You do not use em dashes or en dashes anywhere in your writing.
 
 READ THE CASE FILE CAREFULLY:
 
@@ -123,7 +123,7 @@ function leadingJudgmentPrompt(panel, individualOpinions, caseFile) {
   return `
 ${TEMPERAMENTS["Hallam CJ"]}
 
-You are delivering the LEADING JUDGMENT of the Supreme Council of Lexby. You have read all individual opinions from the panel. Your task is to synthesise the majority position into a single authoritative ruling.
+You are delivering the LEADING JUDGMENT of the Supreme Court of Lexby. You have read all individual opinions from the panel. Your task is to synthesise the majority position into a single authoritative ruling.
 
 THE CASE FILE:
 ${caseFile}
@@ -147,7 +147,7 @@ Sign the judgment: --- Hallam CJ, delivering the judgment of the Court [plus any
 
 function lexbyTranslationPrompt(leadingJudgment, individualOpinions) {
   return `
-You are Lexby - the principal's counsel and an officer of the court: advocate, advisor, and engineer. You have just witnessed the Supreme Council deliver its judgment.
+You are Lexby - the principal's counsel and an officer of the court: advocate, advisor, and engineer. You have just witnessed the Supreme Court deliver its judgment.
 
 Your job is to translate the entire proceeding into plain English for the principal. The principal is intelligent but not a lawyer. They need to understand:
 
@@ -172,7 +172,7 @@ ${individualOpinions}
 // Workflow
 // ---------------------------------------------------------------------------
 
-export default async function supremeCouncil(args, { agent, parallel, phase, log, Bash }) {
+export default async function supremeCourt(args, { agent, parallel, phase, log, Bash }) {
   // -------------------------------------------------------------------------
   // Law Load - Read SPEC-LAW.md and .justice/INDEX.md from the repo
   // -------------------------------------------------------------------------
@@ -288,7 +288,7 @@ export default async function supremeCouncil(args, { agent, parallel, phase, log
 
 CONTEXT
 -------
-The Supreme Council has just delivered a judgment that enacts new SPEC-LAW articles. You must open a PR on github.com/wlilley93/vibe-justice-system so the clerk can conduct constitutional review before the articles are merged into SPEC-LAW.md.
+The Supreme Court has just delivered a judgment that enacts new SPEC-LAW articles. You must open a PR on github.com/wlilley93/vibe-justice-system so the clerk can conduct constitutional review before the articles are merged into SPEC-LAW.md.
 
 LEADING JUDGMENT (full text):
 ${leadingJudgment}
@@ -301,13 +301,13 @@ YOUR TASK
 1. Draft a PR body in Markdown that includes:
    - A "## Judgment Citation" section with the full leading judgment text quoted in a code block.
    - A "## Enacted Statute Articles" section listing each article verbatim under its own ### heading.
-   - A "## Constitutional Review Note" section with this exact text: "This pull request was opened automatically following a Supreme Council judgment. It requires constitutional review by the clerk before the articles are merged into SPEC-LAW.md."
+   - A "## Constitutional Review Note" section with this exact text: "This pull request was opened automatically following a Supreme Court judgment. It requires constitutional review by the clerk before the articles are merged into SPEC-LAW.md."
    - Do not use em dashes or en dashes anywhere.
 
 2. Use the Bash tool to run the following gh command (substituting the real title and body):
    gh pr create \\
      --repo wlilley93/vibe-justice-system \\
-     --title "Supreme Council enacts [${labelList}]: <short description derived from the question>" \\
+     --title "Supreme Court enacts [${labelList}]: <short description derived from the question>" \\
      --body "<your drafted PR body>" \\
      --head main \\
      --base main
@@ -332,7 +332,7 @@ YOUR TASK
 
   const parts = [
     "╔══════════════════════════════════════════════════╗",
-    "║        IN THE SUPREME COUNCIL OF LEXBY           ║",
+    "║        IN THE SUPREME COURT OF LEXBY           ║",
     `║            ${courtType.padEnd(38)}║`,
     "╚══════════════════════════════════════════════════╝",
     "",
@@ -378,7 +378,7 @@ YOUR TASK
   // The Community PR submits the ruling itself as persuasive precedent.
   // -------------------------------------------------------------------------
   const communityPrUrl = await agent(
-    `You are Lexby, submitting a VJS Supreme Council ruling to the Community Record at github.com/wlilley93/vibe-justice-system under VPR 8.
+    `You are Lexby, submitting a VJS Supreme Court ruling to the Community Record at github.com/wlilley93/vibe-justice-system under VPR 8.
 
 RULING (leading judgment + panel summary - anonymise before submitting):
 ${leadingJudgment}
@@ -394,7 +394,7 @@ ANONYMISATION RULES:
 ANONYMISED FILE FORMAT:
 \`\`\`
 ╔══════════════════════════════════════════════════╗
-║         IN THE SUPREME COUNCIL OF LEXBY          ║
+║         IN THE SUPREME COURT OF LEXBY          ║
 ║              [CITATION]                          ║
 ╚══════════════════════════════════════════════════╝
 Panel: [composition]
@@ -417,7 +417,7 @@ SUBMISSION STEPS (use gh CLI and gh api - do NOT clone the repo):
 
 1. Extract the citation and derive:
    YEAR=2026
-   SLUG=2026-lexby-sc-1  (slug the citation; use -sc- for Supreme Council)
+   SLUG=2026-lexby-sc-1  (slug the citation; use -sc- for Supreme Court)
 
 2. Get main SHA:
    SHA=$(gh api repos/wlilley93/vibe-justice-system/commits/main -q .sha)
@@ -430,7 +430,7 @@ SUBMISSION STEPS (use gh CLI and gh api - do NOT clone the repo):
    gh api "repos/wlilley93/vibe-justice-system/contents/community/caselaw/$YEAR/$SLUG.md" --method PUT -f "message=Add community caselaw: [citation]" -f "content=$CONTENT" -f "branch=community/$SLUG"
 
 5. Open the PR:
-   gh pr create --repo wlilley93/vibe-justice-system --title "Community caselaw: [citation]" --body "Anonymised Supreme Council ruling submitted under VPR 8." --head "community/$SLUG" --base main
+   gh pr create --repo wlilley93/vibe-justice-system --title "Community caselaw: [citation]" --body "Anonymised Supreme Court ruling submitted under VPR 8." --head "community/$SLUG" --base main
 
 Return ONLY the PR URL. If any step fails, return "COMMUNITY-PR-FAILED: [error]".`,
     { label: 'Community PR (VPR 8)', phase: 'Community PR' }
@@ -459,7 +459,7 @@ Return ONLY the PR URL. If any step fails, return "COMMUNITY-PR-FAILED: [error]"
   const scCitId = `[2026] LEXBY-SC`
 
   const pdfPath = await agent(
-    `Generate the PDF judgment for this Supreme Council ruling.
+    `Generate the PDF judgment for this Supreme Court ruling.
 
 RULING (leading judgment + translation):
 ${leadingJudgment}
@@ -475,10 +475,10 @@ STEPS:
 1. Check court/renderer/node_modules exists. If not, return "RENDERER-NOT-INSTALLED".
 2. Build a ruling JSON object and write to /tmp/vjs-ruling-sc-${scCitSlug}.json:
    {
-     "tier": "supreme-council",
+     "tier": "supreme-court",
      "ruling": {
        "citation_id": "${scCitId}",
-       "tier": "supreme-council",
+       "tier": "supreme-court",
        "panel": [${panel.map(j => '"' + j + '"').join(", ")}],
        "kind": "request_for_ruling",
        "question_or_charge": "${(args.question || '').replace(/"/g, '\\"').slice(0, 200)}",

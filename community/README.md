@@ -15,7 +15,7 @@ The VJS Community Record. Every project running the Vibe Justice System contribu
 
 ## Submitting a ruling (VPR 8)
 
-All three court tiers (First Instance, Court of Appeal, Supreme Council) automatically open a PR here after every ruling. The submission is anonymised: project-specific identifiers (repo names, file paths, variable names, function names) are replaced by generic placeholders. The legal question, ratio, tier, law applied, and outcome are preserved unchanged.
+All three court tiers (First Instance, Court of Appeal, Supreme Court) automatically open a PR here after every ruling. The submission is anonymised: project-specific identifiers (repo names, file paths, variable names, function names) are replaced by generic placeholders. The legal question, ratio, tier, law applied, and outcome are preserved unchanged.
 
 The clerk reviews every PR for:
 1. Constitutional compliance (does it conflict with SPEC-LAW?)

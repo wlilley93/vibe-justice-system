@@ -85,7 +85,7 @@ TDD tests that the code does what you said. CDD records why you said it.
 Every ruling is a markdown file committed to `.justice/judgments/` with:
 
 - **Neutral citation** - `[YEAR] LEXBY n` (sequential per repo)
-- **Tier** - First Instance, Court of Appeal, or Supreme Council
+- **Tier** - First Instance, Court of Appeal, or Supreme Court
 - **Panel** - named judges (ephemeral stances seeded only on first impression)
 - **Ratio** - the binding holding, stated precisely
 - **Obiter** - non-binding observations (persuasive only, VPR 6)

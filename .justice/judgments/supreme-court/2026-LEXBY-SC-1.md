@@ -18,7 +18,7 @@ per_incuriam: false
 
 ```
   ╔══════════════════════════════════════════════════╗
-  ║        IN THE SUPREME COUNCIL OF LEXBY           ║
+  ║        IN THE SUPREME COURT OF LEXBY           ║
   ║                                                  ║
   ║              [2026] LEXBY-SC 1                   ║
   ║                                                  ║
@@ -62,7 +62,7 @@ restorative.
 "Federalism" is a constitutional solecism (it presupposes sovereign sub-states, of which a unitary realm has none)
 and is struck. The correct frame is parliamentary sovereignty in a unitary state of plural jurisdictions under one
 apex court: SPEC-LAW is sovereign primary legislation (one global statute book, supreme, vendored to every repo);
-case law is jurisdiction-local precedent (each repo a jurisdiction); the Supreme Council alone enacts, by elevating
+case law is jurisdiction-local precedent (each repo a jurisdiction); the Supreme Court alone enacts, by elevating
 a local ratio into realm-wide statute. On structure, fidelity and token economy coincide: First Instance is ONE
 judge; Court of Appeal is 3; Supreme is 5, the full 9 reserved for constitutional questions. Permission to appeal,
 standing, and the precedent fast-path screen matters before any bench convenes. Neutral citation `[YEAR] LEXBY n`;
