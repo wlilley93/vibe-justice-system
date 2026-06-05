@@ -69,7 +69,7 @@ const TEMPERAMENTS = {
 function buildCaseFile(args) {
   const panel = args.is_constitutional ? BENCH_9 : BENCH_5;
   return `
-IN THE SUPREME COURT OF LEXBY
+IN THE SUPREME COURT OF THE VIBE JUSTICE SYSTEM (VJS)
 ${args.is_constitutional ? "FULL COURT OF 9 - CONSTITUTIONAL QUESTION" : "PANEL OF 5 - ORDINARY APPEAL"}
 
 QUESTION BEFORE THE COURT
@@ -98,7 +98,7 @@ function justicePrompt(justiceName, caseFile) {
   return `
 ${TEMPERAMENTS[justiceName]}
 
-You are sitting on the Supreme Court of Lexby. This is the apex court. Your opinion is formal, authoritative, and written in the register of an apex court judge. You do not use em dashes or en dashes anywhere in your writing.
+You are sitting on the Supreme Court of the Vibe Justice System (VJS). This is the apex court. Your opinion is formal, authoritative, and written in the register of an apex court judge. You do not use em dashes or en dashes anywhere in your writing.
 
 READ THE CASE FILE CAREFULLY:
 
@@ -123,7 +123,7 @@ function leadingJudgmentPrompt(panel, individualOpinions, caseFile) {
   return `
 ${TEMPERAMENTS["Hallam CJ"]}
 
-You are delivering the LEADING JUDGMENT of the Supreme Court of Lexby. You have read all individual opinions from the panel. Your task is to synthesise the majority position into a single authoritative ruling.
+You are delivering the LEADING JUDGMENT of the Supreme Court of the Vibe Justice System (VJS). You have read all individual opinions from the panel. Your task is to synthesise the majority position into a single authoritative ruling.
 
 THE CASE FILE:
 ${caseFile}
@@ -332,7 +332,7 @@ YOUR TASK
 
   const parts = [
     "╔══════════════════════════════════════════════════╗",
-    "║        IN THE SUPREME COURT OF LEXBY           ║",
+    "║        IN THE SUPREME COURT OF THE VIBE JUSTICE SYSTEM (VJS)           ║",
     `║            ${courtType.padEnd(38)}║`,
     "╚══════════════════════════════════════════════════╝",
     "",
@@ -394,7 +394,7 @@ ANONYMISATION RULES:
 ANONYMISED FILE FORMAT:
 \`\`\`
 ╔══════════════════════════════════════════════════╗
-║         IN THE SUPREME COURT OF LEXBY          ║
+║         IN THE SUPREME COURT OF THE VIBE JUSTICE SYSTEM (VJS)          ║
 ║              [CITATION]                          ║
 ╚══════════════════════════════════════════════════╝
 Panel: [composition]

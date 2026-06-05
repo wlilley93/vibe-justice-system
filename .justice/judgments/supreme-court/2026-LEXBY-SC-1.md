@@ -18,7 +18,7 @@ per_incuriam: false
 
 ```
   ╔══════════════════════════════════════════════════╗
-  ║        IN THE SUPREME COURT OF LEXBY           ║
+  ║        IN THE SUPREME COURT OF THE VIBE JUSTICE SYSTEM (VJS)           ║
   ║                                                  ║
   ║              [2026] LEXBY-SC 1                   ║
   ║                                                  ║
