@@ -56,12 +56,14 @@ VJS catches those calls and turns them into binding decisions:
 ## The courts
 
 ```
-FIRST INSTANCE       1 AI judge                        Everyday decisions. Stays local.
-COURT OF APPEAL      3 AI judges                       Disputed calls. Stays local.
-SUPREME COUNCIL      5 AI judges (9 for big calls)     Foundational. Rulings go to community record.
+FIRST INSTANCE       1 AI judge                        Everyday decisions. Repo only.
+COURT OF APPEAL      3 AI judges                       Disputed calls. Repo only.
+SUPREME COUNCIL      5 AI judges (9 for big calls)     Foundational. Repo + community record.
 ```
 
 Start at First Instance. Escalate by permission. You can't skip.
+
+First Instance and Court of Appeal rulings live in your repo under `.justice/judgments/` and go nowhere else - they are yours. Supreme Council rulings are also committed to your repo, and additionally submitted anonymised to the shared community record so every other VJS project can benefit from the reasoning.
 
 Most things never leave First Instance - one judge, a ruling, a permanent citation (`[2026] LEXBY-FI 1`). Higher courts are for contested calls, overturning a ruling, or questions foundational enough that every future VJS project should inherit the answer.
 
