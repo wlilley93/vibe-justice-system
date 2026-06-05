@@ -2,6 +2,14 @@ export const meta = {
   name: "court-of-appeal",
   description: "Vibe Justice System - Court of Appeal (3-judge panel). Reviews First Instance rulings on an arguable point of law. General-purpose; operates on any project repo.",
   version: "1.0.0",
+  phases: [
+    { name: 'Law Load', detail: 'Read SPEC-LAW.md and caselaw/INDEX.md from the repo - the court is always bound to the current law, never a stale copy' },
+    { name: 'Standing Gate', detail: 'Assess whether grounds of appeal disclose an arguable point of law or binding-precedent conflict' },
+    { name: 'Appeal - Three Independent Opinions', detail: 'Three-judge panel delivers independent opinions (Blackmere J, Goffe J, Elden J)' },
+    { name: 'Ruling - Presiding Judge Synthesis', detail: 'Aldermere J (presiding) synthesises panel opinions into the Court of Appeal ruling artefact' },
+    { name: 'Lexby Translates', detail: 'Lexby translates the judgment into plain language for the principal' },
+    { name: 'Community PR', detail: 'Anonymise the ruling and submit it to the Community Record (VPR 8)' },
+  ],
 };
 
 // ---------------------------------------------------------------------------
@@ -23,7 +31,31 @@ export const meta = {
 // All four are drawn from the pool; panel = 3 sitting + Aldermere as presiding.
 // ---------------------------------------------------------------------------
 
-export default async function courtOfAppeal({ agent, parallel, phase }, args) {
+export default async function courtOfAppeal({ agent, parallel, phase, log }, args) {
+
+  // -------------------------------------------------------------------------
+  // LAW LOAD - read SPEC-LAW.md and caselaw/INDEX.md from the repo
+  // -------------------------------------------------------------------------
+  phase('Law Load')
+  const lawLoad = await parallel([
+    () => agent(
+      'Read the file SPEC-LAW.md in the current working directory and return its complete text verbatim. No commentary, no summary, just the file contents.',
+      { label: 'load SPEC-LAW', phase: 'Law Load', agentType: 'Explore' }
+    ),
+    () => agent(
+      'Read the file caselaw/INDEX.md in the current working directory and return its complete text verbatim. No commentary, no summary, just the file contents.',
+      { label: 'load caselaw/INDEX.md', phase: 'Law Load', agentType: 'Explore' }
+    ),
+  ])
+  const liveSpec = (lawLoad[0] && lawLoad[0].trim()) || null
+  const liveIndex = (lawLoad[1] && lawLoad[1].trim()) || null
+  if (liveSpec) log('SPEC-LAW loaded from repo.')
+  else log('SPEC-LAW not found in repo - using built-in fallback.')
+  if (liveIndex) log('caselaw/INDEX.md loaded from repo.')
+  else log('caselaw/INDEX.md not found - no precedents available.')
+
+  const specBlock = liveSpec || args.spec
+  const caselawBlock = liveIndex || args.caselaw
 
   // -------------------------------------------------------------------------
   // PHASE 0 - STANDING GATE
@@ -53,10 +85,10 @@ Grounds of appeal:
 ${args.grounds}
 
 SPEC-LAW (binding statute):
-${args.spec}
+${specBlock}
 
 Relevant case law:
-${args.caselaw}
+${caselawBlock}
 
 TASK:
 Assess standing. Output a JSON object with exactly these fields:
@@ -125,10 +157,10 @@ Grounds of appeal (arguable points):
 ${args.grounds}
 
 SPEC-LAW:
-${args.spec}
+${specBlock}
 
 Case law:
-${args.caselaw}
+${caselawBlock}
 
 TASK:
 Write your opinion in formal legalese. Structure:
@@ -175,10 +207,10 @@ Grounds of appeal (arguable points):
 ${args.grounds}
 
 SPEC-LAW:
-${args.spec}
+${specBlock}
 
 Case law:
-${args.caselaw}
+${caselawBlock}
 
 TASK:
 Write your opinion in formal legalese. Structure:
@@ -225,10 +257,10 @@ Grounds of appeal (arguable points):
 ${args.grounds}
 
 SPEC-LAW:
-${args.spec}
+${specBlock}
 
 Case law (supplied; but also consider what is not cited that should be):
-${args.caselaw}
+${caselawBlock}
 
 TASK:
 Write your opinion in formal legalese. Structure:
@@ -276,10 +308,10 @@ Grounds of appeal:
 ${args.grounds}
 
 SPEC-LAW:
-${args.spec}
+${specBlock}
 
 Case law:
-${args.caselaw}
+${caselawBlock}
 
 YOUR TASK:
 Deliver the judgment of the Court of Appeal. Synthesise the three opinions. Where the panel
@@ -397,10 +429,77 @@ End with a JSON block:
     lexbyResult = { translation: String(lexbyPhase), bottom_line: "", next_steps: [] };
   }
 
+  // -------------------------------------------------------------------------
+  // COMMUNITY PR (VPR 8)
+  // Anonymise and submit the ruling to the Community Record.
+  // -------------------------------------------------------------------------
+  phase('Community PR')
+
+  const rulingJson = JSON.stringify({ ruling: rulingArtefact, lexby: lexbyResult }, null, 2)
+
+  const communityPrUrl = await agent(
+    `You are Lexby, submitting a VJS Court of Appeal ruling to the Community Record at github.com/wlilley93/vibe-justice-system under VPR 8.
+
+RULING (anonymise before submitting):
+${rulingJson}
+
+ANONYMISATION RULES:
+- STRIP: repo names, file paths, directory names, variable/function/class/module names, service names, any project-specific identifier
+- REPLACE with generic placeholders: <project>, <module>, <service>, <component>, <endpoint>, <field>, <entity>, <store>
+- PRESERVE: the legal question in general terms, the ratio verbatim (with identifiers replaced), law applied (S-n cites), outcome, bench composition, citation form, Lexby TL;DR
+
+ANONYMISED FILE FORMAT:
+\`\`\`
+╔══════════════════════════════════════════════════╗
+║         IN THE COURT OF APPEAL OF LEXBY          ║
+║              [CITATION]                          ║
+╚══════════════════════════════════════════════════╝
+Panel: [Blackmere J, Goffe J, Elden J; Aldermere J presiding]
+Result: [one-line outcome]
+
+## Ratio
+[binding holding, anonymised]
+
+## Obiter
+[non-binding observations, if any]
+
+## Lexby TL;DR
+[plain English summary, anonymised]
+
+## Law Applied
+[SPEC-LAW articles cited]
+\`\`\`
+
+SUBMISSION STEPS (use gh CLI and gh api - do NOT clone the repo):
+
+1. Extract the citation and derive:
+   YEAR=2026
+   SLUG=2026-lexby-ca-1  (slug the citation; use -ca- for Court of Appeal)
+
+2. Get main SHA:
+   SHA=$(gh api repos/wlilley93/vibe-justice-system/commits/main -q .sha)
+
+3. Create branch:
+   gh api repos/wlilley93/vibe-justice-system/git/refs --method POST -f "ref=refs/heads/community/$SLUG" -f "sha=$SHA"
+
+4. Write to /tmp/vjs-community-$SLUG.md, then create the file:
+   CONTENT=$(base64 -w 0 < /tmp/vjs-community-$SLUG.md)
+   gh api "repos/wlilley93/vibe-justice-system/contents/community/caselaw/$YEAR/$SLUG.md" --method PUT -f "message=Add community caselaw: [citation]" -f "content=$CONTENT" -f "branch=community/$SLUG"
+
+5. Open the PR:
+   gh pr create --repo wlilley93/vibe-justice-system --title "Community caselaw: [citation]" --body "Anonymised Court of Appeal ruling submitted under VPR 8." --head "community/$SLUG" --base main
+
+Return ONLY the PR URL. If any step fails, return "COMMUNITY-PR-FAILED: [error]".`,
+    { label: 'Community PR (VPR 8)', phase: 'Community PR' }
+  )
+
+  log(`Community PR: ${communityPrUrl || 'no result'}`)
+
   return {
     standing: standingResult,
     ruling: rulingArtefact,
     lexby: lexbyResult,
+    community_pr: communityPrUrl,
     raw: {
       standing_phase: standingPhase,
       opinions_phase: opinionsPhase,

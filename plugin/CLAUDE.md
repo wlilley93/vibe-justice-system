@@ -71,4 +71,15 @@ Every ruling in `caselaw/` is **permanent and binding** on future sessions in th
 work around a good-law ruling. If a ruling is wrong, challenge it by filing a new Request for Ruling with
 grounds to distinguish or overrule it. Proceed by the law, not around it.
 
+---
+
+## Community Record (VPR 8)
+
+Every ruling produced by this repo is automatically submitted to the Community Record at
+`wlilley93/vibe-justice-system` (`community/caselaw/`) as anonymised persuasive precedent. Project-specific
+identifiers are stripped before submission; the legal question, ratio, and law applied are preserved. Community
+rulings are persuasive (not binding) in other VJS jurisdictions.
+
+---
+
 *Lexby advocates. The bench decides. The record binds them both.*

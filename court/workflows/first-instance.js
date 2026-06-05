@@ -2,10 +2,12 @@ export const meta = {
   name: 'vjs-first-instance',
   description: 'Vibe Justice System - First Instance court. Adjudicates any Request for Ruling (design fork) or Breach (negligence charge) for any project. Single judge, standing check, fast-path on binding precedent, full deliberation for genuine first-impression matters. Lexby translates.',
   phases: [
+    { title: 'Law Load', detail: 'Read SPEC-LAW.md and caselaw/INDEX.md from the repo - the court is always bound to the current law, never a stale copy' },
     { title: 'Intake', detail: 'Assign a judge from the permanent bench and check standing (VPR 1 / S-11)' },
     { title: 'Fast-path screen', detail: 'Check whether a binding ratio on all fours disposes the matter without a sitting (VPR 2 / S-11)' },
     { title: 'Deliberation', detail: 'If no fast-path: the assigned judge deliberates and renders a ruling in formal legalese (skipped on fast-path)' },
     { title: 'Translation', detail: 'Lexby translates the ruling into plain English for the record' },
+    { title: 'Community PR', detail: 'Anonymise the ruling and submit it to the Community Record (VPR 8)' },
   ],
 }
 
@@ -192,13 +194,36 @@ S-13: Rule-based progression (no leap-frogging). Every matter commences at First
 // --------------------------------------------------------------------------
 // Workflow
 // --------------------------------------------------------------------------
+
+// Law Load - always read the current law from the repo first.
+// args.spec and args.caselaw are optional fallbacks for headless/test runs.
+phase('Law Load')
+const lawLoad = await parallel([
+  () => agent(
+    'Read the file SPEC-LAW.md in the current working directory and return its complete text verbatim. No commentary, no summary, just the file contents.',
+    { label: 'load SPEC-LAW', phase: 'Law Load', agentType: 'Explore' }
+  ),
+  () => agent(
+    'Read the file caselaw/INDEX.md in the current working directory and return its complete text verbatim. No commentary, no summary, just the file contents.',
+    { label: 'load caselaw/INDEX.md', phase: 'Law Load', agentType: 'Explore' }
+  ),
+])
+const liveSpec = (lawLoad[0] && lawLoad[0].trim()) || null
+const liveIndex = (lawLoad[1] && lawLoad[1].trim()) || null
+if (liveSpec) log('SPEC-LAW loaded from repo.')
+else log('SPEC-LAW not found in repo - using built-in fallback.')
+if (liveIndex) log('caselaw/INDEX.md loaded from repo.')
+else log('caselaw/INDEX.md not found - no precedents available.')
+
 const matter = args.question ?? args.charge
 const kind = args.question ? 'request_for_ruling' : 'breach'
 const judge = selectJudge(matter)
-const specBlock = buildSpecBlock(args.spec)
-const caselawBlock = args.caselaw
-  ? `CASELAW PROVIDED (search for binding ratio on all fours):\n${args.caselaw}`
-  : 'CASELAW PROVIDED: none supplied.'
+const specBlock = buildSpecBlock(liveSpec || args.spec)
+const caselawBlock = liveIndex
+  ? `CASELAW INDEX (current, read directly from repo):\n${liveIndex}`
+  : args.caselaw
+    ? `CASELAW PROVIDED (fallback from caller):\n${args.caselaw}`
+    : 'CASELAW: none available. This is either a new repo or INDEX.md has not been created yet.'
 
 // --------------------------------------------------------------------------
 // Phase 1: Intake - standing check + judge assignment (fast; no schema needed)
@@ -378,6 +403,73 @@ TRANSLATION RULES:
 )
 
 // --------------------------------------------------------------------------
+// Phase 5: Community PR (VPR 8)
+// Anonymise and submit the ruling to the Community Record in the canonical
+// VJS repo. Project-specific identifiers are stripped; legal facts preserved.
+// --------------------------------------------------------------------------
+phase('Community PR')
+
+const rulingJson = JSON.stringify({ ruling, lexby_translation: translation }, null, 2)
+
+const communityPrUrl = await agent(
+  `You are Lexby, submitting a VJS First Instance ruling to the Community Record at github.com/wlilley93/vibe-justice-system under VPR 8.
+
+RULING (anonymise before submitting):
+${rulingJson}
+
+ANONYMISATION RULES:
+- STRIP: repo names, file paths, directory names, variable/function/class/module names, service names, any project-specific identifier
+- REPLACE with generic placeholders: <project>, <module>, <service>, <component>, <endpoint>, <field>, <entity>, <store>
+- PRESERVE: the legal question in general terms, the ratio verbatim (with identifiers replaced), law applied (S-n cites), outcome, bench composition, citation form, Lexby TL;DR
+
+ANONYMISED FILE FORMAT:
+\`\`\`
+╔══════════════════════════════════════════════════╗
+║       IN THE FIRST INSTANCE COURT OF LEXBY       ║
+║              [CITATION]                          ║
+╚══════════════════════════════════════════════════╝
+Judge: [name]
+Result: [one-line outcome]
+
+## Ratio
+[binding holding, anonymised]
+
+## Obiter
+[non-binding observations, if any]
+
+## Lexby TL;DR
+[plain English summary, anonymised]
+
+## Law Applied
+[SPEC-LAW articles cited]
+\`\`\`
+
+SUBMISSION STEPS (use gh CLI and gh api - do NOT clone the repo):
+
+1. Extract the citation (e.g. "[2026] LEXBY 1") and derive:
+   YEAR=2026
+   SLUG=2026-lexby-1  (citation as a filename-safe slug)
+
+2. Get main SHA:
+   SHA=$(gh api repos/wlilley93/vibe-justice-system/commits/main -q .sha)
+
+3. Create branch:
+   gh api repos/wlilley93/vibe-justice-system/git/refs --method POST -f "ref=refs/heads/community/$SLUG" -f "sha=$SHA"
+
+4. Write the anonymised ruling to /tmp/vjs-community-$SLUG.md, then create the file:
+   CONTENT=$(base64 -w 0 < /tmp/vjs-community-$SLUG.md)
+   gh api "repos/wlilley93/vibe-justice-system/contents/community/caselaw/$YEAR/$SLUG.md" --method PUT -f "message=Add community caselaw: [citation]" -f "content=$CONTENT" -f "branch=community/$SLUG"
+
+5. Open the PR:
+   gh pr create --repo wlilley93/vibe-justice-system --title "Community caselaw: [citation]" --body "Anonymised First Instance ruling submitted under VPR 8." --head "community/$SLUG" --base main
+
+Return ONLY the PR URL. If any step fails, return "COMMUNITY-PR-FAILED: [error]".`,
+  { label: 'Community PR (VPR 8)', phase: 'Community PR' }
+)
+
+log(`Community PR: ${communityPrUrl || 'no result'}`)
+
+// --------------------------------------------------------------------------
 // Return
 // --------------------------------------------------------------------------
 return {
@@ -385,4 +477,5 @@ return {
   screen,
   ruling,
   lexby_translation: translation,
+  community_pr: communityPrUrl,
 }

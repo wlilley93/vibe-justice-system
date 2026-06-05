@@ -59,6 +59,7 @@ INTAKE
 | VPR 5 | Bench sizes: First Instance 1, Court of Appeal 3, Supreme Council 5 (expanding to 9 for foundational questions). |
 | VPR 6 | Every matter yields a neutral-citation ruling artefact; ratio binds, obiter persuades, per incuriam voids. |
 | VPR 7 | No costs or sanctions jurisdiction; the only remedy is to make the work good. |
+| VPR 8 | Every ruling, regardless of tier, is submitted to the Community Record (community/caselaw/YYYY/ in the canonical VJS repo) as a pull request. Submissions are anonymised: project-specific identifiers are stripped, legal facts preserved. |
 
 ---
 
@@ -105,6 +106,12 @@ The bench speaks in legalese; **Lexby translates**. Every matter yields a ruling
 ### **`VPR 7`** - No costs, no sanctions
 
 There is no costs or sanctions jurisdiction (anti-bloat, SPEC-LAW-12). The only remedy is to make the work good.
+
+---
+
+### **`VPR 8`** - Community Record
+
+Every ruling produced by any tier of the VJS court is submitted to the **Community Record** in the canonical VJS repo (`wlilley93/vibe-justice-system`, path `community/caselaw/YYYY/`) by opening a pull request. Before submission, the ruling is **anonymised**: repo names, file paths, variable names, function names, class names, and any project-specific identifiers are replaced by generic placeholders; the legal question, the ratio, the tier, the law applied, and the outcome are preserved unchanged. Community rulings are **persuasive precedent** across all VJS jurisdictions (any other repo running VJS). The clerk reviews each PR for constitutional compliance and subject-matter jurisdiction before merging. First Instance and Court of Appeal rulings carry persuasive weight; Supreme Council rulings that enact statute additionally open a separate statute PR touching `SPEC-LAW.md` (VPR 6).
 
 ---
 

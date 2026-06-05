@@ -349,6 +349,52 @@ precedent. The **compliance gate** is the step in `first-instance.js` Phase 1 wh
 This is already baked into the workflow design. The triage governor pre-screens to avoid convening for pure
 implementation details, so the compliance check only runs on genuine forks or charges.
 
+## Community commons + Phase 2 vision (decided 2026-06-05)
+
+### The core insight
+VJS is building the common law of AI-assisted development. The more projects contribute rulings, the richer the
+precedent library, the more matters resolve on the fast path (citation, no sitting, no cost). This is the network
+effect of a legal commons.
+
+### Anonymisation (launched with VPR 8)
+Community submissions strip project-specific identifiers before submission: repo names, file paths, variable names,
+function names, class names. The legal question (in general terms), the ratio, the tier, the law applied, and the
+outcome are preserved unchanged. The PR is reviewed by the clerk before merging. This is baked into all three court
+workflow "Community PR" phases (VPR 8).
+
+### Subject matter jurisdiction (S-14 constitutional)
+VJS courts have no jurisdiction over personal life questions, recreational preferences, or matters with no genuine
+connection to project work. The Standing Officer disposes of out-of-jurisdiction matters without deliberation. This
+is the spam gate: the court will not rule on "should I shave my head?" and the clerk will reject any community PR
+where the matter is outside S-14 jurisdiction.
+
+### Phase 2: community website
+A public read interface for community rulings. Hosted separately (lexby.ai or similar). Cases are:
+- Fully anonymised before being indexed
+- Browsable by tier, law applied, outcome
+- Searchable (text + eventually semantic)
+The GitHub community/caselaw/ directory is the source of truth; the website is a read layer over it. No auth
+required to read. Submitting is via the existing PR flow.
+
+### Phase 2: vector search layer
+Semantic similarity search over community rulings: "did anyone decide this before?" answered across the full corpus
+without exact-keyword match. Architecture: GitHub is the canonical store; a CI job embeds each merged ruling and
+writes to a vector index (Postgres pgvector or similar). The client checks the vector index before the fast-path
+text grep. Implementation deferred: the GitHub-native text approach works for early adoption; vector indexing is a
+Layer 2 feature that does not change the data model.
+
+### Tidy repo structure (decided 2026-06-05)
+The canonical VJS repo keeps the community record tidy via year-bucketing:
+- `community/caselaw/YYYY/` - all community rulings for that year (one file per ruling)
+- `community/benches/` - community bench rosters (JSON files)
+- `caselaw/` in individual repos - local jurisdiction precedent (small, project-specific)
+- `caselaw/INDEX.md` - the citator (one row per ruling; this file stays compact because rulings are separate files)
+
+The INDEX.md file cannot bloat because it is a table of citations only. The individual ruling files live in their
+own files. If the local caselaw/ directory grows large over years, older rulings can be archived to
+`caselaw/archive/YYYY/` without breaking the INDEX (the INDEX row stays; the file moves). This is a maintenance
+convention, not a code change.
+
 ## Open / later (decisions pending)
 - **Auto-convene default:** ship ON (zero-babysitting, risk of token spend + interruption) or OFF with a prompt?
   Triage mitigates spend either way; the default shapes the trust story for the degen audience.

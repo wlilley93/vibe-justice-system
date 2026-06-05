@@ -7,7 +7,15 @@ export const meta = {
     spec: "Current SPEC-LAW text (the sovereign statute book)",
     caselaw: "Relevant caselaw from the jurisdiction",
     is_constitutional: "Boolean - true seats the full court of 9; false seats a panel of 5"
-  }
+  },
+  phases: [
+    "Law Load",
+    "Justices - Independent Deliberation",
+    "Judgment - Hallam CJ Leading",
+    "Lexby Translation",
+    "Statute PR",
+    "Community PR"
+  ]
 };
 
 // ---------------------------------------------------------------------------
@@ -163,7 +171,31 @@ ${individualOpinions}
 // Workflow
 // ---------------------------------------------------------------------------
 
-export default async function supremeCouncil(args, { agent, parallel, phase }) {
+export default async function supremeCouncil(args, { agent, parallel, phase, log, Bash }) {
+  // -------------------------------------------------------------------------
+  // Law Load - Read SPEC-LAW.md and caselaw/INDEX.md from the repo
+  // -------------------------------------------------------------------------
+
+  phase('Law Load')
+  const lawLoad = await parallel([
+    () => agent(
+      'Read the file SPEC-LAW.md in the current working directory and return its complete text verbatim. No commentary, no summary, just the file contents.',
+      { label: 'load SPEC-LAW', phase: 'Law Load', agentType: 'Explore' }
+    ),
+    () => agent(
+      'Read the file caselaw/INDEX.md in the current working directory and return its complete text verbatim. No commentary, no summary, just the file contents.',
+      { label: 'load caselaw/INDEX.md', phase: 'Law Load', agentType: 'Explore' }
+    ),
+  ])
+  const liveSpec = (lawLoad[0] && lawLoad[0].trim()) || null
+  const liveIndex = (lawLoad[1] && lawLoad[1].trim()) || null
+  if (liveSpec) log('SPEC-LAW loaded from repo.')
+  if (liveIndex) log('caselaw/INDEX.md loaded from repo.')
+
+  // Merge live repo content with any args-supplied content (repo wins if present)
+  if (liveSpec) args = { ...args, spec: liveSpec }
+  if (liveIndex) args = { ...args, caselaw: args.caselaw ? `${liveIndex}\n\n${args.caselaw}` : liveIndex }
+
   const panel = args.is_constitutional ? BENCH_9 : BENCH_5;
   const caseFile = buildCaseFile(args);
 
@@ -212,13 +244,92 @@ export default async function supremeCouncil(args, { agent, parallel, phase }) {
   });
 
   // -------------------------------------------------------------------------
+  // Phase 4 - Statute PR (only if the leading judgment enacts new articles)
+  // -------------------------------------------------------------------------
+
+  // Extract the enacts array from the leading judgment text. The leading
+  // judgment prompt instructs Hallam CJ to list enacted articles under the
+  // heading "ENACTS". We also accept a structured enacts array if the caller
+  // supplies one on the args object (future structured-input path).
+  let enactedArticles = [];
+  if (Array.isArray(args.enacts) && args.enacts.length > 0) {
+    enactedArticles = args.enacts;
+  } else {
+    // Parse the leading judgment for lines that look like statute article
+    // proposals: "PROPOSED S-n:" or numbered ENACTS block entries.
+    const enactsMatch = leadingJudgment.match(
+      /ENACTS[^:]*:([\s\S]*?)(?:OVERRULES|---\s*Hallam|$)/i
+    );
+    if (enactsMatch) {
+      const block = enactsMatch[1].trim();
+      if (block && !/no new statute/i.test(block)) {
+        // Split on lines that start a new article heading (S-n:)
+        const articles = block.split(/\n(?=S-\d+:)/i).map(s => s.trim()).filter(Boolean);
+        enactedArticles = articles;
+      }
+    }
+  }
+
+  let statutePrUrl = null;
+
+  if (enactedArticles.length > 0) {
+    const statutePrResult = await phase("Statute PR", async () => {
+      // Build the article label list for the PR title
+      const articleLabels = enactedArticles.map(a => {
+        const m = a.match(/^(S-\d+)/i);
+        return m ? m[1] : a.slice(0, 20);
+      });
+      const labelList = articleLabels.join(", ");
+
+      // Ask an agent to write the PR body and open the PR via gh CLI
+      return agent(
+        `You are opening a pull request on GitHub for the Vibe Justice System.
+
+CONTEXT
+-------
+The Supreme Council has just delivered a judgment that enacts new SPEC-LAW articles. You must open a PR on github.com/wlilley93/vibe-justice-system so the clerk can conduct constitutional review before the articles are merged into SPEC-LAW.md.
+
+LEADING JUDGMENT (full text):
+${leadingJudgment}
+
+ENACTED ARTICLES (verbatim, as extracted from the judgment):
+${enactedArticles.map((a, i) => `[${i + 1}] ${a}`).join("\n\n")}
+
+YOUR TASK
+---------
+1. Draft a PR body in Markdown that includes:
+   - A "## Judgment Citation" section with the full leading judgment text quoted in a code block.
+   - A "## Enacted Statute Articles" section listing each article verbatim under its own ### heading.
+   - A "## Constitutional Review Note" section with this exact text: "This pull request was opened automatically following a Supreme Council judgment. It requires constitutional review by the clerk before the articles are merged into SPEC-LAW.md."
+   - Do not use em dashes or en dashes anywhere.
+
+2. Use the Bash tool to run the following gh command (substituting the real title and body):
+   gh pr create \\
+     --repo wlilley93/vibe-justice-system \\
+     --title "Supreme Council enacts [${labelList}]: <short description derived from the question>" \\
+     --body "<your drafted PR body>" \\
+     --head main \\
+     --base main
+
+   IMPORTANT: if gh pr create fails because the head and base are the same branch, instead create a new branch named statute/<article-labels-slugified>, commit the enacted articles as a proposed append to SPEC-LAW.md (do not actually modify SPEC-LAW.md - create a file proposed-statutes/<branch-name>.md with the article text), push the branch, and open the PR from that branch to main.
+
+3. Return ONLY the PR URL that gh outputs. Nothing else.`,
+        { label: "Statute PR - open GitHub PR", agentType: 'Action' }
+      );
+    });
+
+    statutePrUrl = (statutePrResult && statutePrResult.trim()) || null;
+    if (statutePrUrl) log(`Statute PR opened: ${statutePrUrl}`);
+  }
+
+  // -------------------------------------------------------------------------
   // Compose final output
   // -------------------------------------------------------------------------
 
   const panelSize = panel.length;
   const courtType = args.is_constitutional ? "FULL COURT OF 9 - CONSTITUTIONAL" : "PANEL OF 5";
 
-  return [
+  const parts = [
     "╔══════════════════════════════════════════════════╗",
     "║        IN THE SUPREME COUNCIL OF LEXBY           ║",
     `║            ${courtType.padEnd(38)}║`,
@@ -243,5 +354,101 @@ export default async function supremeCouncil(args, { agent, parallel, phase }) {
     "================================================================",
     "",
     lexbyTranslation
-  ].join("\n");
+  ];
+
+  if (statutePrUrl) {
+    parts.push(
+      "",
+      "================================================================",
+      "PART IV - STATUTE PR",
+      "================================================================",
+      "",
+      `The following enacted articles have been submitted for constitutional review:`,
+      ...enactedArticles.map((a, i) => `  [${i + 1}] ${a.split("\n")[0]}`),
+      "",
+      `PR: ${statutePrUrl}`
+    );
+  }
+
+  // -------------------------------------------------------------------------
+  // COMMUNITY PR (VPR 8)
+  // Submit the anonymised ruling to the Community Record. This is separate
+  // from the Statute PR (which submits enacted articles for SPEC-LAW review).
+  // The Community PR submits the ruling itself as persuasive precedent.
+  // -------------------------------------------------------------------------
+  const communityPrUrl = await agent(
+    `You are Lexby, submitting a VJS Supreme Council ruling to the Community Record at github.com/wlilley93/vibe-justice-system under VPR 8.
+
+RULING (leading judgment + panel summary - anonymise before submitting):
+${leadingJudgment}
+
+PANEL: ${panel.join(", ")}
+COURT TYPE: ${args.is_constitutional ? "Full court of 9 - Constitutional" : "Panel of 5"}
+
+ANONYMISATION RULES:
+- STRIP: repo names, file paths, directory names, variable/function/class/module names, service names, any project-specific identifier
+- REPLACE with generic placeholders: <project>, <module>, <service>, <component>, <endpoint>, <field>, <entity>, <store>
+- PRESERVE: the legal question in general terms, the ratio verbatim (with identifiers replaced), law applied (S-n cites), outcome, bench composition, citation form
+
+ANONYMISED FILE FORMAT:
+\`\`\`
+╔══════════════════════════════════════════════════╗
+║         IN THE SUPREME COUNCIL OF LEXBY          ║
+║              [CITATION]                          ║
+╚══════════════════════════════════════════════════╝
+Panel: [composition]
+Result: [one-line outcome]
+
+## Leading Judgment (Hallam CJ)
+[leading judgment, anonymised]
+
+## Lexby TL;DR
+[plain English summary, anonymised]
+
+## Law Applied
+[SPEC-LAW articles cited]
+
+## Statutes Enacted (if any)
+[list enacted articles, or "None"]
+\`\`\`
+
+SUBMISSION STEPS (use gh CLI and gh api - do NOT clone the repo):
+
+1. Extract the citation and derive:
+   YEAR=2026
+   SLUG=2026-lexby-sc-1  (slug the citation; use -sc- for Supreme Council)
+
+2. Get main SHA:
+   SHA=$(gh api repos/wlilley93/vibe-justice-system/commits/main -q .sha)
+
+3. Create branch (use a different name from any statute PR branch):
+   gh api repos/wlilley93/vibe-justice-system/git/refs --method POST -f "ref=refs/heads/community/$SLUG" -f "sha=$SHA"
+
+4. Write to /tmp/vjs-community-$SLUG.md, then create the file:
+   CONTENT=$(base64 -w 0 < /tmp/vjs-community-$SLUG.md)
+   gh api "repos/wlilley93/vibe-justice-system/contents/community/caselaw/$YEAR/$SLUG.md" --method PUT -f "message=Add community caselaw: [citation]" -f "content=$CONTENT" -f "branch=community/$SLUG"
+
+5. Open the PR:
+   gh pr create --repo wlilley93/vibe-justice-system --title "Community caselaw: [citation]" --body "Anonymised Supreme Council ruling submitted under VPR 8." --head "community/$SLUG" --base main
+
+Return ONLY the PR URL. If any step fails, return "COMMUNITY-PR-FAILED: [error]".`,
+    { label: 'Community PR (VPR 8)', phase: 'Community PR' }
+  )
+
+  log(`Community PR: ${communityPrUrl || 'no result'}`)
+
+  if (communityPrUrl && !communityPrUrl.startsWith('COMMUNITY-PR-FAILED')) {
+    parts.push(
+      "",
+      "================================================================",
+      "PART V - COMMUNITY RECORD (VPR 8)",
+      "================================================================",
+      "",
+      `This ruling has been submitted to the Community Record as anonymised persuasive precedent.`,
+      "",
+      `PR: ${communityPrUrl}`
+    );
+  }
+
+  return { text: parts.join("\n"), statutePrUrl, communityPrUrl };
 }

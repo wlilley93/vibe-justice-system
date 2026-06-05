@@ -43,6 +43,7 @@ The sovereign primary legislation of Lexby. One book, supreme throughout, vendor
 | **S-9** [constitutional] | SC ([2026] LEXBY-SC 1) | **Unitary sovereignty, not federalism.** SPEC-LAW is one global statute book, supreme throughout, vendored to every repo. Case law is jurisdiction-local precedent, each repo a jurisdiction applying the one statute. The Supreme Council alone enacts, by elevating a local ratio into realm-wide statute. No competing sovereigns. |
 | **S-10** [constitutional] | SC ([2026] LEXBY-SC 1) | **Court structure.** First Instance (single judge) -> Court of Appeal (panel of 3) -> Supreme Council (panel of 5, expandable to the full 9 only for constitutional or foundational questions). The "Council" first-instance label, the fixed default-9 bench, and any multi-judge first instance are abolished. |
 | **S-13** [constitutional] | P | **Rule-based progression (no leap-frogging).** Every matter commences at First Instance and climbs the tiers in order, escalating only by permission to appeal; a matter destined to change SPEC-LAW must be REACHED by progression, not commenced at the Supreme Council. Lexby may not self-initiate at a higher tier. The sole exception is the Principal's express leapfrog certificate (acting as Sovereign), which may take a matter directly to the Supreme Council. Procedure is governed by the Vibe Procedure Rules (VPR). |
+| **S-14** [constitutional] | P | **Subject matter jurisdiction.** VJS has jurisdiction over decisions, forks, design questions, and allegations of breach arising in the conduct of an AI-assisted software, engineering, or professional project. Questions concerning personal life choices, recreational preferences, and matters with no genuine connection to project work are outside jurisdiction. The Standing Officer disposes of out-of-jurisdiction matters without deliberation on the merits. This limit is constitutional and may not be waived by the Principal acting as Prime Minister; extension of VJS jurisdiction to new domains requires express Sovereign enactment. |
 
 ---
 
@@ -64,7 +65,7 @@ The sovereign primary legislation of Lexby. One book, supreme throughout, vendor
 
 ## Amendment Procedure
 
-**Constitutional statutes (S-1, S-2, S-3, S-9, S-10, S-13):** Amendment requires an express, deliberate act - either by the Principal acting as Sovereign/Parliament, or by a Supreme Council judgment convened specifically to address the constitutional article. Amendment by implication is void under the Thoburn rule. The amending instrument must cite the article being amended by its S-number.
+**Constitutional statutes (S-1, S-2, S-3, S-9, S-10, S-13, S-14):** Amendment requires an express, deliberate act - either by the Principal acting as Sovereign/Parliament, or by a Supreme Council judgment convened specifically to address the constitutional article. Amendment by implication is void under the Thoburn rule. The amending instrument must cite the article being amended by its S-number.
 
 **Ordinary statutes (S-4 through S-8, S-11, S-12):** Amendment may be enacted by the Principal or by the Supreme Council in the ordinary course of a judgment. The new article supersedes the old; the old text is retained in the record with a supersession note. Silent repeal is never permitted.
 

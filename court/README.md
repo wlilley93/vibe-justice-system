@@ -70,3 +70,17 @@ sessions via the fast-path screen (VPR 2).
 You cannot start at the Court of Appeal or Supreme Council directly. Run `first-instance.js` first.
 To escalate, pass the prior ruling as `args.lower_ruling` to the next tier's workflow. The leapfrog to
 Supreme is only available with the Principal's express certificate, recorded in `args.leapfrog_certificate`.
+
+---
+
+## Community Record (VPR 8)
+
+Every workflow automatically opens a pull request to the canonical VJS repo (`wlilley93/vibe-justice-system`,
+path `community/caselaw/YYYY/`) after delivering its ruling. The submission is anonymised: project-specific
+identifiers (repo names, file paths, variable names, function names) are replaced by generic placeholders.
+The legal question, ratio, law applied, and outcome are preserved.
+
+The clerk reviews each PR for constitutional compliance and subject matter jurisdiction before merging.
+Community rulings are persuasive precedent across all VJS jurisdictions.
+
+The `communityPrUrl` field in the return value carries the PR URL when the submission succeeds.

@@ -100,6 +100,16 @@ Natural language. No syntax. Lexby handles the filing.
 
 ## Community
 
+**VJS is building the common law of vibe coding.**
+
+Every project that runs VJS contributes to a shared understanding of what counts as good practice in AI-assisted development. When you get a ruling on "should we use server-side rendering or a SPA", that decision - anonymised - joins a growing library of precedent. The next project asking the same question finds it on the fast path. No sitting. No deliberation cost. Disposed in seconds on citation.
+
+**The more people contribute, the better every repo gets.** That is not a slogan. It is the mechanical consequence of how common law works. More rulings equals richer precedent equals more fast-path disposals. VJS is a legal commons for AI-assisted projects. The first contributors shape the law that everyone inherits.
+
+Project-specific identifiers (repo names, file paths, variable names) are stripped before submission. The facts of the legal question - the fork, the ratio, the law applied - are preserved. You share the reasoning, not the source code.
+
+---
+
 **Rulings are the meme.**
 
 Every case produces a screenshot-grade **ruling card**: the citation, the panel, the vote, the one-line holding, and Lexby's plain-English TL;DR. The judges speak in dense, impenetrable legal language (that is the rigor). Lexby translates it, like a real lawyer walking you out of a courtroom you didn't understand.
@@ -108,7 +118,11 @@ Nobody shares an install command. Everybody shares nine invented law-lords votin
 
 **What the community is building:**
 
+- **Community caselaw library.** Every ruling from every tier is submitted anonymised to `community/caselaw/`. Persuasive precedent across all VJS jurisdictions. A living commons.
+
 - **Landmark cases gallery.** Browse real precedents from real projects. See how the court has ruled on authentication strategy, state management, mono-repo structure, and more.
+
+- **Case law website (Phase 2).** A public read interface for community rulings. Semantic search across the full precedent library. "Did anyone decide this before?" answered in one query.
 
 - **Bring your own bench.** The judges are invented characters with distinct judicial temperaments: formalists, pragmatists, textualists, dissenting gadflies. Share your rosters. Borrow someone else's.
 

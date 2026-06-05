@@ -1,0 +1,197 @@
+name: VJS Clerk - Constitutional Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  constitutional-review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read SPEC-LAW.md
+        id: spec_law
+        run: |
+          SPEC_LAW=$(cat SPEC-LAW.md)
+          # Escape for use in heredoc / multiline env
+          {
+            echo 'SPEC_LAW<<EOF_SPEC'
+            echo "$SPEC_LAW"
+            echo 'EOF_SPEC'
+          } >> "$GITHUB_ENV"
+
+      - name: Fetch PR diff
+        id: pr_diff
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_DIFF=$(gh pr diff ${{ github.event.pull_request.number }})
+          {
+            echo 'PR_DIFF<<EOF_DIFF'
+            echo "$PR_DIFF"
+            echo 'EOF_DIFF'
+          } >> "$GITHUB_ENV"
+
+      - name: Fetch PR metadata
+        id: pr_meta
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_BODY="${{ github.event.pull_request.body }}"
+          echo "PR_TITLE=$PR_TITLE" >> "$GITHUB_ENV"
+          echo "PR_BODY<<EOF_BODY" >> "$GITHUB_ENV"
+          echo "$PR_BODY" >> "$GITHUB_ENV"
+          echo "EOF_BODY" >> "$GITHUB_ENV"
+
+      - name: Call Claude for constitutional review
+        id: claude_review
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          # Build the prompt JSON using a Python helper to handle quoting safely
+          python3 - <<'PYEOF'
+          import json, os
+
+          spec_law = os.environ.get("SPEC_LAW", "")
+          pr_diff  = os.environ.get("PR_DIFF", "")
+          pr_title = os.environ.get("PR_TITLE", "")
+          pr_body  = os.environ.get("PR_BODY", "")
+
+          system_prompt = (
+              "You are the VJS Clerk. Your role is to review pull requests against the "
+              "Vibe Justice System constitution (SPEC-LAW.md). You must check compliance "
+              "with all constitutional statutes (S-1, S-2, S-3, S-9, S-10, S-13) and "
+              "ordinary statutes (S-4 through S-12). Be precise and strict. "
+              "Reply with exactly: CONSTITUTIONAL or UNCONSTITUTIONAL on the first line, "
+              "then one paragraph explaining why, citing specific statute numbers where relevant."
+          )
+
+          user_prompt = (
+              "## SPEC-LAW.md (the VJS constitution)\n\n"
+              + spec_law
+              + "\n\n---\n\n"
+              "## Pull Request\n\n"
+              "**Title:** " + pr_title + "\n\n"
+              "**Description:**\n" + pr_body + "\n\n"
+              "**Diff:**\n```diff\n" + pr_diff + "\n```\n\n"
+              "---\n\n"
+              "Is this PR constitutional under SPEC-LAW? "
+              "Reply with: CONSTITUTIONAL or UNCONSTITUTIONAL, "
+              "then one paragraph explaining why."
+          )
+
+          payload = {
+              "model": "claude-sonnet-4-6",
+              "max_tokens": 1024,
+              "system": system_prompt,
+              "messages": [
+                  {"role": "user", "content": user_prompt}
+              ]
+          }
+
+          with open("/tmp/claude_payload.json", "w") as f:
+              json.dump(payload, f)
+
+          print("Payload written to /tmp/claude_payload.json")
+          PYEOF
+
+          RESPONSE=$(curl -s \
+            --max-time 120 \
+            -X POST "https://api.anthropic.com/v1/messages" \
+            -H "x-api-key: $ANTHROPIC_API_KEY" \
+            -H "anthropic-version: 2023-06-01" \
+            -H "content-type: application/json" \
+            -d @/tmp/claude_payload.json)
+
+          echo "Raw API response: $RESPONSE"
+
+          # Extract the text content from the response
+          VERDICT=$(echo "$RESPONSE" | python3 -c "
+          import sys, json
+          data = json.load(sys.stdin)
+          content = data.get('content', [])
+          for block in content:
+              if block.get('type') == 'text':
+                  print(block['text'])
+                  break
+          ")
+
+          # Write verdict to env and file for subsequent steps
+          {
+            echo 'CLERK_VERDICT<<EOF_VERDICT'
+            echo "$VERDICT"
+            echo 'EOF_VERDICT'
+          } >> "$GITHUB_ENV"
+
+          echo "$VERDICT" > /tmp/clerk_verdict.txt
+
+          # Determine pass/fail
+          FIRST_LINE=$(echo "$VERDICT" | head -1 | tr -d '[:space:]')
+          if echo "$FIRST_LINE" | grep -qi "^CONSTITUTIONAL$"; then
+            echo "REVIEW_RESULT=constitutional" >> "$GITHUB_ENV"
+          else
+            echo "REVIEW_RESULT=unconstitutional" >> "$GITHUB_ENV"
+          fi
+
+      - name: Post verdict comment on PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "$REVIEW_RESULT" = "constitutional" ]; then
+            BADGE="**CONSTITUTIONAL**"
+            INTRO="The VJS Clerk has reviewed this pull request and found it **constitutional** under SPEC-LAW. Auto-merge will proceed."
+          else
+            BADGE="**UNCONSTITUTIONAL**"
+            INTRO="The VJS Clerk has reviewed this pull request and found it **unconstitutional** under SPEC-LAW. Changes are required before this PR can be merged."
+          fi
+
+          COMMENT_BODY=$(cat <<COMMENT_EOF
+## VJS Clerk - Constitutional Review
+
+$BADGE
+
+$INTRO
+
+### Clerk's Reasoning
+
+${CLERK_VERDICT}
+
+---
+*Automated review by the VJS Clerk using SPEC-LAW.md at commit \`${{ github.event.pull_request.head.sha }}\`.*
+COMMENT_EOF
+          )
+
+          gh pr comment ${{ github.event.pull_request.number }} --body "$COMMENT_BODY"
+
+      - name: Auto-merge if constitutional
+        if: env.REVIEW_RESULT == 'constitutional'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge ${{ github.event.pull_request.number }} --auto --squash \
+            --subject "$(gh pr view ${{ github.event.pull_request.number }} --json title --jq '.title') [constitutional]"
+
+      - name: Request changes if unconstitutional
+        if: env.REVIEW_RESULT == 'unconstitutional'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REVIEW_BODY="The VJS Clerk has determined this PR is unconstitutional under SPEC-LAW.
+
+${CLERK_VERDICT}
+
+Please address the stated violations before requesting a re-review."
+
+          gh pr review ${{ github.event.pull_request.number }} \
+            --request-changes \
+            --body "$REVIEW_BODY"
