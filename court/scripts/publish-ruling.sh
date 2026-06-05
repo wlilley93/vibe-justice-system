@@ -31,5 +31,5 @@ git push -u origin "$BRANCH"
 gh pr create \
   --title "VPR 8: ${SLUG} to the Community Record${ENACTS:+ (+ statute)}" \
   --body "Automated VPR 8 publication of Supreme Court ruling ${SLUG}, anonymised per VPR 8.${ENACTS:+ Enacts new SPEC-LAW article(s) per VPR 6; clerk to review constitutional compliance before merge.}" \
-  --base master --head "$BRANCH" 2>&1 | tail -2
+  --base main --head "$BRANCH" 2>&1 | tail -2
 echo "Published: PR opened for ${SLUG}."

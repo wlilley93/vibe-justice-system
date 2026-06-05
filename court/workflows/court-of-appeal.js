@@ -1,493 +1,299 @@
 export const meta = {
-  name: "court-of-appeal",
-  description: "Vibe Justice System - Court of Appeal (3-judge panel). Reviews First Instance rulings on an arguable point of law. General-purpose; operates on any project repo.",
-  version: "1.0.0",
+  name: 'vjs-court-of-appeal',
+  description: 'Vibe Justice System - Court of Appeal (3-judge panel). Reviews a First Instance ruling on an arguable point of law or binding-precedent conflict. Permission to appeal is decided by an independent leave-judge who did not sit below (s. 19(3)); the matter then reaches the panel on a symmetric researched record (s. 19(1)). The judgment is authored by one of the three (s. 18). General-purpose; runs on any repo.',
   phases: [
-    { name: 'Law Load', detail: 'Read SPEC-LAW.md and .justice/INDEX.md from the repo - the court is always bound to the current law, never a stale copy' },
-    { name: 'Standing Gate', detail: 'Assess whether grounds of appeal disclose an arguable point of law or binding-precedent conflict' },
-    { name: 'Appeal - Three Independent Opinions', detail: 'Three-judge panel delivers independent opinions (Blackmere J, Goffe J, Elden J)' },
-    { name: 'Ruling - Presiding Judge Synthesis', detail: 'Elden J (presiding, one of the three) synthesises the panel into the Court of Appeal ruling artefact (s. 18: author is a counted member, not a fourth seat)' },
-    { name: 'Lexby Translates', detail: 'Lexby translates the judgment into plain language for the principal' },
-    { name: 'PDF Render', detail: 'Render the judgment as a PDF using the court/renderer engine' },
+    { title: 'Law Load', detail: 'Read SPEC-LAW.md and .justice/INDEX.md from the repo - always bound to the current law' },
+    { title: 'Permission to appeal', detail: 'An independent leave-judge (randomised, never the trial judge or a panel member) decides leave on a Sonnet-class model (s. 19(3))' },
+    { title: 'Hard research - both sides', detail: 'Researched intake (s. 19(1)): appellant and respondent each file a brief so the panel sits on a symmetric record' },
+    { title: 'Appeal - Three Independent Opinions', detail: 'The three-judge panel (Blackmere J strict-construction, Goffe J pragmatist, Elden J precedent-hawk) delivers independent opinions' },
+    { title: 'Ruling - authored from within the panel', detail: 'Elden J, one of the three, authors the judgment of the Court (s. 18: no fourth synthesising seat)' },
+    { title: 'Lexby Translation', detail: 'Lexby translates the judgment into plain English' },
+    { title: 'PDF Render', detail: 'Deterministically render the judgment as a PDF into .justice/pdfs/ (cwd-independent)' },
   ],
-};
-
-// ---------------------------------------------------------------------------
-// STANDING GATE
-// ---------------------------------------------------------------------------
-// The Court of Appeal does not convene for mere disagreement with the outcome.
-// Grounds must disclose an arguable point of law or a binding-precedent conflict
-// (SPEC-LAW-11(a), VPR 3). If they do not, the court disposes without sitting.
-// ---------------------------------------------------------------------------
-
-// ---------------------------------------------------------------------------
-// BENCH POOL
-// Draws three from the nine permanent bench members per SPEC-LAW-10 / VPR 5.
-// For this Court of Appeal the three posture-seats map to distinct temperaments:
-//   - strict-construction seat  -> Blackmere (textualist, holds hard to the literal words)
-//   - pragmatist seat           -> Goffe (real-world workability)
-//   - precedent-hawk seat       -> Elden (historically-minded, draws on precedent)
-// The judgment of the Court is authored by ONE of the three (the presiding member,
-// Elden J), synthesising the panel from within - per SPEC-LAW s. 18 ([2026] LEXBY-SC 3):
-// every bench is odd, the size is the TOTAL deciding membership, and no synthesiser may
-// be added on top of the sized panel. The bench is THREE; there is no fourth seat.
-// ---------------------------------------------------------------------------
-
-export default async function courtOfAppeal({ agent, parallel, phase, log }, args) {
-
-  // -------------------------------------------------------------------------
-  // LAW LOAD - read SPEC-LAW.md and .justice/INDEX.md from the repo
-  // -------------------------------------------------------------------------
-  phase('Law Load')
-  const lawLoad = await parallel([
-    () => agent(
-      'Read the file .justice/SPEC-LAW.md in the current working directory. If that file does not exist, read SPEC-LAW.md instead. Return the complete text verbatim with no commentary or summary.',
-      { label: 'load SPEC-LAW', phase: 'Law Load', agentType: 'Explore' }
-    ),
-    () => agent(
-      'Read the file .justice/INDEX.md in the current working directory. If that file does not exist, try caselaw/INDEX.md instead (legacy fallback). Return the complete text verbatim with no commentary or summary.',
-      { label: 'load .justice/INDEX.md', phase: 'Law Load', agentType: 'Explore' }
-    ),
-  ])
-  const liveSpec = (lawLoad[0] && lawLoad[0].trim()) || null
-  const liveIndex = (lawLoad[1] && lawLoad[1].trim()) || null
-  if (liveSpec) log('SPEC-LAW loaded from repo.')
-  else log('SPEC-LAW not found in repo - using built-in fallback.')
-  if (liveIndex) log('.justice/INDEX.md loaded from repo.')
-  else log('.justice/INDEX.md not found - no precedents available.')
-
-  const specBlock = liveSpec || args.spec
-  const caselawBlock = liveIndex || args.caselaw
-
-  // Clerk: deterministic citation numbering (mirror of cli/lib/citation.js; the Workflow sandbox has no require).
-  const VJS_YEAR = (args && args.year) || 2026
-  const vjsAssignCitation = (citatorText, code, year) => {
-    const re = new RegExp('\\[' + year + '\\]\\s*LEXBY-' + code + '\\s+(\\d+)', 'gi')
-    let max = 0, m
-    while ((m = re.exec(citatorText || '')) !== null) { const n = parseInt(m[1], 10); if (n > max) max = n }
-    return '[' + year + '] LEXBY-' + code + ' ' + (max + 1)
-  }
-  const assignedCitation = vjsAssignCitation(liveIndex, 'CA', VJS_YEAR)
-  log('Clerk assigned citation: ' + assignedCitation)
-
-  // -------------------------------------------------------------------------
-  // PHASE 0 - STANDING GATE
-  // -------------------------------------------------------------------------
-  const standingPhase = await phase("Standing Gate", async () => {
-    return await agent("Standing Officer (Sumberly J)", {
-      description: "Assess whether the grounds of appeal disclose an arguable point of law or a binding-precedent conflict. Dispose without convening if standing is not made out.",
-      prompt: `
-You are SUMBERLY J, sitting as Standing Officer for the Court of Appeal of the Vibe Justice System.
-Your office is entirely procedural. You assess one question only: whether the stated grounds of appeal
-disclose an arguable point of law or a binding-precedent conflict sufficient to grant permission to appeal
-under SPEC-LAW-11(a) and VPR 3. You do not form any view on the merits.
-
-STANDING TEST (apply strictly):
-- Arguable point of law: a question of legal principle that was arguably decided wrongly below, not merely
-  that the applicant disagrees with the outcome or wishes a different answer on the same facts.
-- Binding-precedent conflict: the lower ruling is arguably irreconcilable with a cited or uncited
-  binding precedent.
-- Mere dissatisfaction with the outcome, preference for a different approach, or re-argument of
-  facts already found below are NOT grounds. They warrant disposal as "appeal not granted."
-
-INPUTS:
-Lower ruling (First Instance):
-${JSON.stringify(args.lower_ruling, null, 2)}
-
-Grounds of appeal:
-${args.grounds}
-
-SPEC-LAW (binding statute):
-${specBlock}
-
-Relevant case law:
-${caselawBlock}
-
-TASK:
-Assess standing. Output a JSON object with exactly these fields:
-{
-  "standing": true | false,
-  "disposal_reason": "<if standing false: the reason, in formal legalese, one paragraph>",
-  "arguable_points": ["<point 1>", ...],
-  "standing_note": "<brief formal note on the standing decision>"
 }
 
-Speak in formal legalese as becomes your office. Do not form any view on the merits.
-`,
-    });
-  });
+// args may arrive as a JSON-encoded string depending on the host runtime; coerce first.
+if (typeof args === 'string') { try { args = JSON.parse(args) } catch (_) {} }
+if (!args || typeof args !== 'object') args = {}
 
-  // Parse standing result
-  let standingResult;
-  try {
-    const raw = typeof standingPhase === "string" ? standingPhase : JSON.stringify(standingPhase);
-    const match = raw.match(/\{[\s\S]*\}/);
-    standingResult = match ? JSON.parse(match[0]) : { standing: false, disposal_reason: "Standing result could not be parsed.", arguable_points: [], standing_note: "" };
-  } catch (_) {
-    standingResult = { standing: false, disposal_reason: "Standing result could not be parsed.", arguable_points: [], standing_note: "" };
-  }
+const YEAR = args.year || 2026
 
-  if (!standingResult.standing) {
-    return {
-      citation: null,
-      disposition: "appeal_not_granted",
-      standing_gate: standingResult,
-      panel: ["Sumberly J (Standing Officer)"],
-      ratio: "Permission to appeal refused. The grounds do not disclose an arguable point of law or a binding-precedent conflict. The lower ruling stands.",
-      lower_ruling: args.lower_ruling,
-      amendments: null,
-      lexby_translation: `The appeal was stopped at the gate. The reason: ${standingResult.disposal_reason} The original ruling stands.`,
-    };
-  }
+// The permanent bench. The leave-judge is drawn from here (excluding anyone who sat below
+// or sits on this panel). The panel itself is the fixed three posture-seats.
+const BENCH = [
+  { name: 'Hallam CJ', brief: 'Principled and precise; anchors to statute first.' },
+  { name: 'Goffe J', brief: 'Pragmatist; tests every ruling for real-world workability.' },
+  { name: 'Blackmere J', brief: 'Textualist; holds hard to the literal words of SPEC-LAW.' },
+  { name: 'Sumberly J', brief: 'Formalist; procedural correctness as a substantive guarantee.' },
+  { name: 'Elden J', brief: 'Historically minded; draws on precedent and tradition.' },
+  { name: 'Coade J', brief: 'Restrained; prefers the narrowest ruling that resolves the case.' },
+  { name: 'Steyne J', brief: 'Bold; willing to extend the law where the purpose requires.' },
+  { name: 'Bowan J', brief: 'The dissenter; tests every proposition to destruction.' },
+  { name: 'Aldermere J', brief: 'Balanced and synthetic; honours every legitimate competing concern.' },
+]
 
-  // -------------------------------------------------------------------------
-  // PHASE 1 - THREE INDEPENDENT OPINIONS
-  // -------------------------------------------------------------------------
-  const opinionsPhase = await phase("Appeal - Three Independent Opinions", async () => {
-    return await parallel("Three-Judge Panel", [
+// The fixed three-judge panel (s. 18: the bench is THREE; Elden J authors from within).
+const PANEL = [
+  { name: 'Blackmere J', posture: 'strict-construction', brief: 'You are Blackmere J, the textualist of the panel. You hold hard to the literal words of SPEC-LAW; where the text is plain no purposive reasoning overrides it; where SPEC-LAW is silent you apply the s. 7 default precisely. Your question: does the ratio below hold under the letter of the statute?' },
+  { name: 'Goffe J', posture: 'pragmatist', brief: 'You are Goffe J, the pragmatist of the panel. You read SPEC-LAW purposively and test the outcome for real-world workability and proportionate remedy (s. 6). Your question: does the ruling below serve the principal and produce a workable result?' },
+  { name: 'Elden J', posture: 'precedent-hawk (presiding, authoring)', brief: 'You are Elden J, the precedent-hawk and presiding member. Consistency of the case law is itself a value; a ruling that departs from precedent without distinguishing or overruling it is an error. Your question: is the ruling below consistent with all binding and persuasive precedent, cited and uncited? As presiding member you will also author the judgment of the Court from within the panel (s. 18).' },
+]
 
-      // (a) Strict-construction opinion - BLACKMERE J
-      agent("Blackmere J (Strict Construction)", {
-        description: "Strict-construction opinion: does the ratio hold under the letter of SPEC-LAW?",
-        prompt: `
-You are BLACKMERE J, sitting in the Court of Appeal of the Vibe Justice System.
-Your judicial temperament: textualist. You hold hard to the literal words of SPEC-LAW. You do not
-supplement, extend, or gloss the statute; you apply it word by word. Where SPEC-LAW is silent, you
-apply the no-statute default at s. 7 precisely. You distrust purposive construction and resist
-implication.
+// --------------------------------------------------------------------------
+// Law Load
+// --------------------------------------------------------------------------
+phase('Law Load')
+const lawLoad = await parallel([
+  () => agent('Read the file .justice/SPEC-LAW.md in the current working directory. If it does not exist, read SPEC-LAW.md instead. Return the complete text verbatim with no commentary.', { label: 'load SPEC-LAW', phase: 'Law Load', agentType: 'Explore' }),
+  () => agent('Read the file .justice/INDEX.md in the current working directory. If it does not exist, try caselaw/INDEX.md (legacy). Return the complete text verbatim with no commentary.', { label: 'load .justice/INDEX.md', phase: 'Law Load', agentType: 'Explore' }),
+])
+const liveSpec = (lawLoad[0] && lawLoad[0].trim()) || null
+const liveIndex = (lawLoad[1] && lawLoad[1].trim()) || null
+const specBlock = liveSpec || args.spec || '(SPEC-LAW not available)'
+const caselawBlock = liveIndex || args.caselaw || '(no caselaw available)'
+if (liveSpec) log('SPEC-LAW loaded from repo.')
+if (liveIndex) log('.justice/INDEX.md loaded from repo.')
 
-Your posture in this appeal: STRICT CONSTRUCTION.
-Your sole question is: does the ratio of the lower ruling hold under the letter of SPEC-LAW as
-enacted? Apply every relevant article word by word. Note any place where the lower court read in
-words that are not there, ignored words that are, or applied an article to facts outside its
-literal scope.
-
-INPUTS:
-Lower ruling:
-${JSON.stringify(args.lower_ruling, null, 2)}
-
-Grounds of appeal (arguable points):
-${args.grounds}
-
-SPEC-LAW:
-${specBlock}
-
-Case law:
-${caselawBlock}
-
-TASK:
-Write your opinion in formal legalese. Structure:
-1. The articles in play (identify each SPEC-LAW provision engaged, quote the operative words).
-2. Whether the lower court applied those words correctly on the facts found.
-3. Whether the ratio is sound, unsound, or sound-with-modification under strict construction.
-4. Your provisional conclusion: affirm / affirm with modifications / reverse, with reasons.
-
-End with a JSON block:
-\`\`\`json
-{
-  "justice": "Blackmere J",
-  "posture": "strict-construction",
-  "provisional_disposition": "affirm | affirm_with_modifications | reverse",
-  "key_findings": ["<finding 1>", ...],
-  "proposed_amendments": ["<amendment if any, else null>"],
-  "opinion_summary": "<one paragraph summary of your opinion>"
+function nextCitation(citatorText, code, year) {
+  const re = new RegExp('\\[' + year + '\\]\\s*LEXBY-' + code + '\\s+(\\d+)', 'gi')
+  let max = 0, m
+  while ((m = re.exec(citatorText || '')) !== null) { const n = parseInt(m[1], 10); if (n > max) max = n }
+  return '[' + year + '] LEXBY-' + code + ' ' + (max + 1)
 }
-\`\`\`
-`,
-      }),
+const assignedCitation = nextCitation(caselawBlock, 'CA', YEAR)
+log('Clerk assigned citation: ' + assignedCitation)
 
-      // (b) Pragmatist opinion - GOFFE J
-      agent("Goffe J (Pragmatist)", {
-        description: "Pragmatist opinion: does the outcome serve the principal?",
-        prompt: `
-You are GOFFE J, sitting in the Court of Appeal of the Vibe Justice System.
-Your judicial temperament: pragmatist. You test every ruling for real-world workability. A ruling
-that is technically correct but produces an absurd, unworkable, or harmful outcome for the principal
-should be re-examined. You respect the text of SPEC-LAW but you read it purposively, asking what
-mischief it was designed to remedy and whether this ruling remedies or creates that mischief.
+const lowerRuling = args.lower_ruling || args.lower_rulings || null
+const grounds = args.grounds || args.question || '(no grounds supplied)'
+const trialJudge = (lowerRuling && lowerRuling.judge) || null
 
-Your posture in this appeal: PRAGMATIST.
-Your question is: does the outcome of the lower ruling serve the principal as Sovereign and PM?
-Does it produce a workable, proportionate result? Does the remedy (remediation + restitution, s. 6)
-actually make good the harm, or does it over- or under-shoot? Would a competent practitioner
-recognise this ruling as sensible?
-
-INPUTS:
-Lower ruling:
-${JSON.stringify(args.lower_ruling, null, 2)}
-
-Grounds of appeal (arguable points):
-${args.grounds}
-
-SPEC-LAW:
-${specBlock}
-
-Case law:
-${caselawBlock}
-
-TASK:
-Write your opinion in formal legalese. Structure:
-1. The practical question raised by the lower ruling.
-2. Whether the ruling produces a workable, proportionate outcome for the principal.
-3. Whether the remedy is calibrated correctly under s. 6.
-4. Your provisional conclusion: affirm / affirm with modifications / reverse, with reasons.
-
-End with a JSON block:
-\`\`\`json
-{
-  "justice": "Goffe J",
-  "posture": "pragmatist",
-  "provisional_disposition": "affirm | affirm_with_modifications | reverse",
-  "key_findings": ["<finding 1>", ...],
-  "proposed_amendments": ["<amendment if any, else null>"],
-  "opinion_summary": "<one paragraph summary of your opinion>"
-}
-\`\`\`
-`,
-      }),
-
-      // (c) Precedent-hawk opinion - ELDEN J
-      agent("Elden J (Precedent Hawk)", {
-        description: "Precedent-hawk opinion: is the ruling consistent with all cited and uncited precedents?",
-        prompt: `
-You are ELDEN J, sitting in the Court of Appeal of the Vibe Justice System.
-Your judicial temperament: historically-minded. You draw on precedent and tradition. Consistency of
-the common law is itself a value; a ruling that departs from established precedent without
-distinguishing it or overruling it is a jurisprudential error, even if the outcome feels just on the
-day. You examine not only the precedents the lower court cited but the ones it should have cited.
-
-Your posture in this appeal: PRECEDENT HAWK.
-Your question is: is the lower ruling consistent with all binding and persuasive precedents, cited
-and uncited? Did the lower court distinguish, follow, or overrule precedents correctly? Is any
-departure adequately reasoned? Does the lower ratio create a tension with the existing body of
-case law that will produce inconsistency downstream?
-
-INPUTS:
-Lower ruling:
-${JSON.stringify(args.lower_ruling, null, 2)}
-
-Grounds of appeal (arguable points):
-${args.grounds}
-
-SPEC-LAW:
-${specBlock}
-
-Case law (supplied; but also consider what is not cited that should be):
-${caselawBlock}
-
-TASK:
-Write your opinion in formal legalese. Structure:
-1. The precedents engaged (both cited by the lower court and any you identify as omitted).
-2. Whether the lower court correctly applied, distinguished, or departed from each.
-3. Whether any departure is adequately reasoned or amounts to per incuriam (s. 11(e)).
-4. Your provisional conclusion: affirm / affirm with modifications / reverse, with reasons.
-
-End with a JSON block:
-\`\`\`json
-{
-  "justice": "Elden J",
-  "posture": "precedent-hawk",
-  "provisional_disposition": "affirm | affirm_with_modifications | reverse",
-  "key_findings": ["<finding 1>", ...],
-  "proposed_amendments": ["<amendment if any, else null>"],
-  "opinion_summary": "<one paragraph summary of your opinion>"
-}
-\`\`\`
-`,
-      }),
-
-    ]);
-  });
-
-  // -------------------------------------------------------------------------
-  // PHASE 2 - RULING BY THE PRESIDING JUDGE (ELDEN J, ONE OF THE THREE)
-  // Per SPEC-LAW s. 18 ([2026] LEXBY-SC 3): the judgment is authored by a counted
-  // member of the sized panel, never a synthesiser added on top. The bench is THREE.
-  // -------------------------------------------------------------------------
-  const rulingPhase = await phase("Ruling - Presiding Judge Synthesis", async () => {
-    return await agent("Elden J (Presiding - Synthesis)", {
-      description: "The presiding member of the three (Elden J) synthesises the panel into the Court of Appeal ruling artefact, writing from within the sized bench.",
-      prompt: `
-You are ELDEN J, the presiding member of this three-judge Court of Appeal of the Vibe Justice System,
-and one of the three who sat and opined. You have read all three opinions on this panel (including your
-own). You now deliver the judgment of the Court from WITHIN the sized bench of three: you hold no vote or
-authority beyond your single seat, and you record the majority of the three as the ratio (SPEC-LAW s. 18).
-Your judicial temperament: historically-minded; here writing for the Court in a balanced, synthetic voice.
-
-THE THREE OPINIONS FROM THE PANEL:
-${JSON.stringify(opinionsPhase, null, 2)}
-
-ORIGINAL INPUTS:
-Lower ruling:
-${JSON.stringify(args.lower_ruling, null, 2)}
-
-Grounds of appeal:
-${args.grounds}
-
-SPEC-LAW:
-${specBlock}
-
-Case law:
-${caselawBlock}
-
-YOUR TASK:
-Deliver the judgment of the Court of Appeal. Synthesise the three opinions. Where the panel
-converges, record that as the Court's ratio. Where the panel diverges, give reasons for the
-majority position and record the dissent as obiter. Apply the standard of: can the lower ruling
-stand, must it be modified, or must it be reversed?
-
-Your judgment must:
-1. State the disposition: affirm, affirm_with_modifications, or reverse.
-2. Where affirm_with_modifications or reverse: state precisely what is changed (the amendments).
-3. Identify the ratio of this Court (the binding holding, stated as a rule of law).
-4. Record any obiter dicta (persuasive but not binding observations).
-5. Record any dissenting position from the panel opinions, attributed.
-6. Produce the full ruling artefact as JSON at the end.
-
-RULING ARTEFACT SCHEMA (produce this exactly at the end, in a JSON block):
-\`\`\`json
-{
-  "citation": "${assignedCitation}",
-  "tier": "court_of_appeal",
-  "panel": ["Blackmere J", "Goffe J", "Elden J (presiding)"],
-  "disposition": "affirm | affirm_with_modifications | reverse",
-  "lower_ruling": <the lower ruling object verbatim>,
-  "ratio": "<the binding ratio of this Court, stated as a rule of law>",
-  "obiter": ["<obiter dictum 1>", ...],
-  "dissent": "<dissenting position if any, or null>",
-  "amendments": [
-    {
-      "field": "<field in lower ruling being changed>",
-      "from": "<original value>",
-      "to": "<new value>",
-      "reason": "<brief reason>"
-    }
-  ],
-  "panel_opinions": {
-    "blackmere": "<one-sentence summary of Blackmere J's position>",
-    "goffe": "<one-sentence summary of Goffe J's position>",
-    "elden": "<one-sentence summary of Elden J's position>"
+// --------------------------------------------------------------------------
+// Permission to appeal (s. 19(3)): an independent leave-judge, randomised, never the
+// trial judge and never a member of this panel. Sonnet-class model.
+// --------------------------------------------------------------------------
+phase('Permission to appeal')
+const LEAVE_SCHEMA = {
+  type: 'object', additionalProperties: false,
+  required: ['granted', 'basis', 'reason'],
+  properties: {
+    granted: { type: 'boolean', description: 'True only if the grounds disclose an arguable point of law or a binding-precedent conflict. Mere dissatisfaction with the outcome, or a wish to re-argue the facts, is not a ground.' },
+    basis: { type: 'string', enum: ['arguable_point_of_law', 'binding_precedent_conflict', 'refused'] },
+    reason: { type: 'string', description: '1-3 sentences, formal, explaining the leave decision.' },
   },
-  "standing_grounds_accepted": true,
-  "judgment_text": "<full judgment text in formal legalese, multi-paragraph>"
 }
-\`\`\`
+const panelNames = PANEL.map(p => p.name)
+const eligible = BENCH.filter(j => j.name !== trialJudge && !panelNames.includes(j.name))
+const leavePool = eligible.length ? eligible : BENCH.filter(j => j.name !== trialJudge)
+let lh = 0
+const leaveSeed = String(grounds) + '|ca-leave'
+for (let i = 0; i < leaveSeed.length; i++) lh = ((lh << 5) - lh + leaveSeed.charCodeAt(i)) >>> 0
+const leaveJudge = leavePool[lh % leavePool.length]
+log('Leave-judge (independent, did not sit below): ' + leaveJudge.name + ' [Sonnet]')
 
-Write the full judgment before the JSON block. Speak in formal legalese as becomes the presiding
-judge of the Court of Appeal.
-`,
-    });
-  });
+const leave = await agent(
+  `${leaveJudge.brief}
 
-  // -------------------------------------------------------------------------
-  // PHASE 3 - LEXBY TRANSLATES
-  // -------------------------------------------------------------------------
-  const lexbyPhase = await phase("Lexby Translates", async () => {
-    return await agent("Lexby (Translation)", {
-      description: "Lexby translates the Court of Appeal judgment into plain language for the principal.",
-      prompt: `
-You are LEXBY - the principal's counsel, officer of the court, and translator (per SPEC-LAW s. 3).
-The Court of Appeal has delivered its judgment. Your job is to translate it for the principal
-in plain, clear language. No jargon. No em dashes. No en dashes. Short sentences.
+You are ${leaveJudge.name}, sitting ALONE as the independent leave-judge of the Court of Appeal in the Vibe Justice System. You did NOT sit at First Instance on this matter and you are not on the appeal panel. Your office is to decide PERMISSION TO APPEAL only; you do not decide the merits.
 
-THE COURT OF APPEAL JUDGMENT:
-${JSON.stringify(rulingPhase, null, 2)}
+THE TEST (s. 11(a), s. 19(3), VPR 3) - grant leave only if the grounds disclose at least one of: an arguable point of law (a question of principle arguably decided wrongly below, not mere disagreement), or a binding-precedent conflict. Mere dissatisfaction with the result, or a wish to re-argue the facts, is refused.
 
-THE LOWER RULING IT REVIEWED:
-${JSON.stringify(args.lower_ruling, null, 2)}
+THE FIRST INSTANCE RULING UNDER CHALLENGE:
+${JSON.stringify(lowerRuling, null, 2)}
 
-TASK:
-Write a plain-language translation. Cover:
-1. What the appeal was about (one sentence).
-2. Whether the appeal was allowed or dismissed, and the bottom line.
-3. What changes (if any) were made to the original ruling.
-4. What it means practically for the principal and the project.
-5. What happens next (e.g. if reversed, what must be remediated; if affirmed, the lower ruling stands).
+THE GROUNDS OF APPEAL:
+${grounds}
 
-Keep it short: 150-250 words. Plain English. No legalese. No em or en dashes.
+SPEC-LAW:
+${specBlock}
 
-End with a JSON block:
-\`\`\`json
-{
-  "translation": "<the full plain-language translation as a single string>",
-  "bottom_line": "<one sentence: what happened and what it means>",
-  "next_steps": ["<step 1>", ...]
-}
-\`\`\`
-`,
-    });
-  });
+CASELAW:
+${caselawBlock}
 
-  // -------------------------------------------------------------------------
-  // ASSEMBLE FINAL OUTPUT
-  // -------------------------------------------------------------------------
+Decide permission, on the papers. Be strict.`,
+  { label: `${leaveJudge.name} - permission to appeal`, phase: 'Permission to appeal', model: 'sonnet', schema: LEAVE_SCHEMA }
+)
+log('Permission to appeal: ' + (leave.granted ? 'GRANTED (' + leave.basis + ')' : 'REFUSED'))
 
-  // Extract the ruling artefact JSON from Aldermere's opinion
-  let rulingArtefact = null;
-  try {
-    const raw = typeof rulingPhase === "string" ? rulingPhase : JSON.stringify(rulingPhase);
-    const match = raw.match(/```json\s*(\{[\s\S]*?\})\s*```/);
-    if (match) {
-      rulingArtefact = JSON.parse(match[1]);
-    }
-  } catch (_) {
-    rulingArtefact = { raw_judgment: rulingPhase };
-  }
-
-  // Extract Lexby's translation JSON
-  let lexbyResult = null;
-  try {
-    const raw = typeof lexbyPhase === "string" ? lexbyPhase : JSON.stringify(lexbyPhase);
-    const match = raw.match(/```json\s*(\{[\s\S]*?\})\s*```/);
-    if (match) {
-      lexbyResult = JSON.parse(match[1]);
-    }
-  } catch (_) {
-    lexbyResult = { translation: String(lexbyPhase), bottom_line: "", next_steps: [] };
-  }
-
-  // -------------------------------------------------------------------------
-  // PDF RENDER
-  // -------------------------------------------------------------------------
-  phase('PDF Render')
-
-  // Clerk binds the deterministic citation onto the artefact (schema emits "citation"; downstream reads "citation_id").
-  if (rulingArtefact) { rulingArtefact.citation_id = assignedCitation; rulingArtefact.citation = assignedCitation }
-
-  const citSlug = ((rulingArtefact && rulingArtefact.citation_id) || assignedCitation)
-    .replace(/[\[\]\s]+/g, '-').replace(/^-|-$/g, '').toLowerCase()
-
-  const pdfPath = await agent(
-    `Generate the PDF judgment for this Court of Appeal ruling.
-
-RULING JSON:
-${JSON.stringify({ tier: 'court-of-appeal', ruling: rulingArtefact, lexby: lexbyResult }, null, 2)}
-
-CITATION SLUG: ${citSlug}
-
-STEPS:
-1. Check court/renderer/node_modules exists (ls court/renderer/node_modules 2>/dev/null | head -1). If not, return "RENDERER-NOT-INSTALLED".
-2. mkdir -p .justice/pdfs
-3. Write the ruling JSON to /tmp/vjs-ruling-${citSlug}.json
-4. node court/renderer/index.js /tmp/vjs-ruling-${citSlug}.json .justice/pdfs/${citSlug}.pdf
-5. Return the absolute PDF path (use pwd to construct it).`,
-    { label: 'PDF Render', phase: 'PDF Render', agentType: 'claude' }
-  )
-
-  if (pdfPath && !pdfPath.includes('NOT-INSTALLED')) {
-    log(`You can read the judgment here: ${pdfPath.trim()}`)
-  }
-
+if (!leave.granted) {
   return {
-    standing: standingResult,
-    ruling: rulingArtefact,
-    lexby: lexbyResult,
-    judgment_pdf: pdfPath && !pdfPath.includes('NOT-INSTALLED') ? pdfPath.trim() : null,
-    raw: {
-      standing_phase: standingPhase,
-      opinions_phase: opinionsPhase,
-      ruling_phase: rulingPhase,
-      lexby_phase: lexbyPhase,
-    },
-  };
+    citation: null,
+    disposition: 'permission_refused',
+    leave,
+    panel: [leaveJudge.name + ' (leave-judge)'],
+    ratio: 'Permission to appeal refused: the grounds disclose no arguable point of law or binding-precedent conflict. The First Instance ruling stands.',
+    lower_ruling: lowerRuling,
+    lexby_translation: `An independent judge who did not sit on your original case refused permission to appeal. ${leave.reason} The First Instance ruling stands. You could only take it further by framing a genuine point of law, not a disagreement with the result.`,
+  }
+}
+
+const caseFileBase = `
+IN THE COURT OF APPEAL OF THE VIBE JUSTICE SYSTEM (VJS)
+PANEL OF THREE: ${panelNames.join(', ')}
+Permission to appeal granted by ${leaveJudge.name} (independent leave-judge): ${leave.basis}. ${leave.reason}
+
+GROUNDS OF APPEAL:
+${grounds}
+
+FIRST INSTANCE RULING UNDER REVIEW:
+${JSON.stringify(lowerRuling, null, 2)}
+
+PROPOSED CITATION (clerk, deterministic): ${assignedCitation}
+
+SPEC-LAW:
+${specBlock}
+
+CASELAW:
+${caselawBlock}
+`.trim()
+
+// --------------------------------------------------------------------------
+// Researched intake (s. 19(1)): appellant + respondent briefs.
+// --------------------------------------------------------------------------
+phase('Hard research - both sides')
+const BRIEF_SCHEMA = {
+  type: 'object', additionalProperties: false,
+  required: ['role', 'thesis', 'best_arguments', 'statutes_relied', 'precedents_relied', 'procedural_motions', 'strongest_opposing_point'],
+  properties: {
+    role: { type: 'string' },
+    thesis: { type: 'string' },
+    best_arguments: { type: 'array', items: { type: 'string' } },
+    statutes_relied: { type: 'array', items: { type: 'string' } },
+    precedents_relied: { type: 'array', items: { type: 'string' } },
+    procedural_motions: { type: 'array', items: { type: 'string' } },
+    strongest_opposing_point: { type: 'string' },
+  },
+}
+const arsenal = 'Deploy whatever genuinely helps (cite the article): per incuriam (s. 11(e)); distinguishing; binding-precedent conflict; the s. 11(c) fast-path; declaration of incompatibility (s. 11(f)); the Bolam responsible-body defence (s. 5); the s. 15 threshold; the s. 16 candour scope.'
+const briefs = await parallel([
+  { role: 'appellant', stance: 'Argue FOR the appeal: the First Instance ruling should be reversed or varied. Identify each error of law in the ruling below.' },
+  { role: 'respondent', stance: 'Argue AGAINST the appeal: the First Instance ruling should be affirmed. Defend its reasoning and answer each ground.' },
+].map(({ role, stance }) => () => agent(
+  `You are COUNSEL FOR THE ${role.toUpperCase()} in the Court of Appeal of the Vibe Justice System. ${stance}
+
+This is the mandatory hard-research first leg (s. 19(1)). Research the law HARD: you may READ the full text of any ruling under .justice/judgments/ and re-read SPEC-LAW.md. Ground every argument in a cited article (s. n) or neutral citation. No em dashes or en dashes.
+
+${arsenal}
+
+${caseFileBase}
+
+Produce your brief: adversarial and thorough for your side, never misstating the law.`,
+  { label: `${role} brief`, phase: 'Hard research - both sides', agentType: 'Explore', schema: BRIEF_SCHEMA }
+)))
+const briefsSection = ['appellant', 'respondent'].map((role, i) => {
+  const b = briefs[i]
+  if (!b) return `=== ${role.toUpperCase()} BRIEF ===\n(no brief returned)`
+  return `=== ${role.toUpperCase()} BRIEF ===
+Thesis: ${b.thesis}
+Best arguments:
+${(b.best_arguments || []).map(a => '  - ' + a).join('\n')}
+Statutes relied: ${(b.statutes_relied || []).join('; ')}
+Precedents relied: ${(b.precedents_relied || []).join('; ')}
+Procedural motions: ${(b.procedural_motions || []).length ? b.procedural_motions.join('; ') : 'none'}
+Strongest point against this side (conceded): ${b.strongest_opposing_point || ''}`
+}).join('\n\n')
+
+const caseFile = `${caseFileBase}
+
+================================================================
+ADVERSARIAL BRIEFS (researched intake, s. 19(1))
+================================================================
+${briefsSection}`
+
+// --------------------------------------------------------------------------
+// Three independent opinions.
+// --------------------------------------------------------------------------
+phase('Appeal - Three Independent Opinions')
+const opinions = await parallel(PANEL.map(j => () => agent(
+  `${j.brief}
+
+You are sitting in the Court of Appeal of the Vibe Justice System on a three-judge panel. Write your independent opinion in formal legalese. Do NOT use em dashes or en dashes. You have a symmetric, two-sided researched record; weigh both briefs but rule on the law.
+
+${caseFile}
+
+Structure your opinion: (1) the provisions/precedents in play; (2) whether the ruling below is sound under your posture; (3) your provisional disposition - AFFIRM, AFFIRM WITH MODIFICATIONS, or REVERSE - with reasons. Sign: --- ${j.name}`,
+  { label: `Opinion of ${j.name}`, phase: 'Appeal - Three Independent Opinions' }
+)))
+const opinionRecord = PANEL.map((j, i) => `=== ${j.name.toUpperCase()} (${j.posture}) ===\n\n${opinions[i]}`).join('\n\n---\n\n')
+
+// --------------------------------------------------------------------------
+// Judgment of the Court - authored by Elden J from WITHIN the three (s. 18).
+// --------------------------------------------------------------------------
+phase('Ruling - authored from within the panel')
+const RULING_SCHEMA = {
+  type: 'object', additionalProperties: false,
+  required: ['citation_id', 'tier', 'panel', 'disposition', 'ratio', 'obiter', 'dissent', 'amendments', 'status', 'full_judgment_text'],
+  properties: {
+    citation_id: { type: 'string', description: 'Exactly: ' + assignedCitation },
+    tier: { type: 'string', enum: ['court-of-appeal'] },
+    panel: { type: 'array', items: { type: 'string' } },
+    disposition: { type: 'string', enum: ['affirm', 'affirm_with_modifications', 'reverse'] },
+    ratio: { type: 'string', description: 'The binding holding of the Court, stated as a rule of law.' },
+    obiter: { type: ['string', 'null'] },
+    dissent: { type: ['string', 'null'], description: 'Any dissenting position from the panel, attributed; null if unanimous.' },
+    amendments: { type: 'array', items: { type: 'string' }, description: 'For affirm_with_modifications/reverse: precisely what changes in the ruling below. Empty if affirmed.' },
+    status: { type: 'string', enum: ['good-law'] },
+    full_judgment_text: { type: 'string', description: 'The full judgment of the Court in formal legalese, multi-paragraph.' },
+  },
+}
+const ruling = await agent(
+  `${PANEL[2].brief}
+
+You are Elden J, the presiding member of the three. Author the JUDGMENT OF THE COURT of Appeal from within the panel: you are one of the three counted members, not a fourth seat, and you may record as the ratio only a position the majority of the three in fact commands (s. 18). Do NOT use em dashes or en dashes.
+
+THE THREE OPINIONS:
+${opinionRecord}
+
+${caseFile}
+
+Deliver the judgment. Where the panel converges, that is the Court's ratio; where it diverges, give the majority's reasons and record the dissent. State the disposition and, if affirm-with-modifications or reverse, exactly what changes. Use the citation ${assignedCitation}; tier court-of-appeal; panel ${JSON.stringify(panelNames)}; status good-law.`,
+  { label: 'Elden J - judgment of the Court', phase: 'Ruling - authored from within the panel', schema: RULING_SCHEMA }
+)
+ruling.citation_id = assignedCitation
+ruling.panel = panelNames
+
+// --------------------------------------------------------------------------
+// Lexby translation.
+// --------------------------------------------------------------------------
+phase('Lexby Translation')
+const lexbyTranslation = await agent(
+  `You are Lexby, the principal's counsel (s. 3). The Court of Appeal has ruled. Translate it into plain English: what the appeal was about, whether it was allowed/dismissed, what changed, what it means in practice, and what happens next. 150-250 words, first person, no jargon, no em dashes or en dashes.
+
+JUDGMENT:
+${ruling.full_judgment_text}
+
+DISPOSITION: ${ruling.disposition}. RATIO: ${ruling.ratio}`,
+  { label: 'Lexby - translation', phase: 'Lexby Translation' }
+)
+
+// --------------------------------------------------------------------------
+// PDF render (deterministic, cwd-independent).
+// --------------------------------------------------------------------------
+phase('PDF Render')
+const caSlug = assignedCitation.replace(/[\[\]\s]+/g, '-').replace(/^-|-$/g, '').toLowerCase()
+const rulingForPdf = {
+  tier: 'court-of-appeal',
+  ruling: { citation_id: assignedCitation, tier: 'court-of-appeal', panel: panelNames, kind: 'request_for_ruling', question_or_charge: String(grounds).slice(0, 400), full_judgment_text: ruling.full_judgment_text, ratio: ruling.ratio, status: 'good-law' },
+  lexby_translation: { plain_english_summary: String(lexbyTranslation || '').slice(0, 4000) },
+}
+const pdfPath = await agent(
+  `You are rendering the Court of Appeal judgment as a PDF. Be deterministic.
+1. Locate the VJS repo root: the nearest directory containing BOTH court/renderer/index.js AND .justice/ (do not assume the working directory is the repo).
+2. If <root>/court/renderer/node_modules does not exist, print exactly RENDERER-NOT-INSTALLED and stop.
+3. Write this JSON verbatim to /tmp/vjs-ruling-${caSlug}.json:
+${JSON.stringify(rulingForPdf)}
+4. Run: cd <root> && mkdir -p .justice/pdfs && node court/renderer/index.js /tmp/vjs-ruling-${caSlug}.json .justice/pdfs/${caSlug}.pdf
+5. Return the absolute path to the PDF, or RENDERER-NOT-INSTALLED.`,
+  { label: 'PDF Render', phase: 'PDF Render', agentType: 'claude' }
+)
+const judgmentPdf = pdfPath && !pdfPath.includes('NOT-INSTALLED') ? pdfPath.trim() : null
+if (judgmentPdf) log('Judgment PDF: ' + judgmentPdf)
+
+return {
+  citation: assignedCitation,
+  leave,
+  panel: panelNames,
+  opinions: PANEL.map((j, i) => ({ justice: j.name, opinion: opinions[i] })),
+  ruling,
+  lexby_translation: lexbyTranslation,
+  judgment_pdf: judgmentPdf,
 }
