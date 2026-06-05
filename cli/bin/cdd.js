@@ -47,8 +47,9 @@ function cmdInit(args) {
   for (const d of ['', 'caselaw', 'pdfs']) fs.mkdirSync(path.join(jdir, d), { recursive: true });
   const indexPath = path.join(jdir, 'INDEX.md');
   if (!fs.existsSync(indexPath)) {
-    fs.copyFileSync(path.join(PKG_ROOT, '.justice', 'INDEX.md'), indexPath);
-    process.stdout.write('created .justice/INDEX.md (citator)\n');
+    // Seed an EMPTY citator template - a fresh jurisdiction starts with no rulings of its own.
+    fs.copyFileSync(path.join(__dirname, '..', 'templates', 'INDEX.md'), indexPath);
+    process.stdout.write('created .justice/INDEX.md (empty citator)\n');
   } else process.stdout.write('.justice/INDEX.md already present, left as-is\n');
   // Append the binding plugin block to CLAUDE.md, idempotently.
   const MARK = '<!-- vjs:plugin -->';

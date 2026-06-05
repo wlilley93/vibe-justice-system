@@ -12,6 +12,7 @@
   "files": [
     "bin/",
     "lib/",
+    "templates/",
     "README.md"
   ],
   "keywords": ["vibe-justice", "vjs", "lexby", "cdd", "ai", "governance", "caselaw"],
