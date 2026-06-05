@@ -53,6 +53,7 @@ Only the ratio binds. Obiter dicta are persuasive only. A ruling made in ignoran
 | Citation | Tier | Status | Ratio (one line) | Scope | Cites |
 |----------|------|--------|------------------|-------|-------|
 | [[2026] LEXBY-SC 1](2026-LEXBY-SC-1.md) | supreme | good-law | Breach is the tort of negligence (duty + graded endeavours + remediation only); the system is a unitary realm of parliamentary sovereignty (one global SPEC-LAW, jurisdiction-local case law, one apex court). | All repos, all matters (constitutional founding ruling) | S-1, S-2, S-3 (founding); enacts S-4 through S-12 |
+| [[2026] LEXBY-FI 1](2026-LEXBY-FI-1.md) | first-instance | good-law | A governance system is fit for alpha release where the core legal model is coherent, statute + procedure + founding caselaw are committed, constitutional enforcement is in place, and known gaps are disclosed; convenience-layer tooling is not a prerequisite for alpha; deterministic citation numbering is a necessary condition for v1. | vibe-justice-system repo (alpha-readiness standard for governance systems) | S-4, S-5, S-7, S-8, S-11(d), S-14 |
 
 ---
 
