@@ -46,7 +46,7 @@ scope; non-blocking). Keeps the "Lex" (law) root.
 - Include a **"Things you can say to Lexby"** section, natural language, e.g.:
   - "I think we should go in this direction. Submit it to the Court."
   - "I don't agree with the outcome. Can we appeal?"
-  - "The appeals court was largely split. I think this needs to go to the Supreme Court."
+  - "The Court of Appeal was largely split. I think this needs to go to the Supreme Council."
   - "What did we decide about X, and why?"  /  "Is this allowed under our spec?"
 - Note the **judges-speak-in-tongues, Lexby-translates** idea (see below) as a feature.
 

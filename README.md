@@ -32,7 +32,7 @@
 The good ones you never notice.
 The bad ones surface three weeks later, everything is on fire, and nobody can say who decided what, or why.
 
-**The Vibe Justice System fixes that.** For any repo. New project, greenfield, brownfield - the system does not care. Wherever AI is helping make decisions, those decisions deserve a record.
+**The Vibe Justice System fixes that.** For any repo. New project, greenfield, brownfield - it does not matter. Wherever AI is helping make decisions, those decisions deserve a record.
 
 You move fast. You keep the paper trail. You have someone in your corner who pushes back when you are about to break your own rules.
 
@@ -58,7 +58,7 @@ Lexby is your lawyer. Three things at once:
 
 | Role | What he does |
 |---|---|
-| **ADVOCATE** | Builds the strongest possible case for your idea and puts it to the court. He argues hard FOR you precisely because he doesn't decide the outcome. |
+| **ADVOCATE** | Builds the strongest possible case for your idea and puts it to the court. He argues hard FOR you precisely because he does not decide the outcome. |
 | **ADVISOR** | Gives it to you straight. Not a yes-man. Not a hype machine. If your idea has a fatal flaw, he names it before the judges do. |
 | **ENGINEER** | Ships the code. Then records why. |
 
@@ -66,17 +66,102 @@ Because Lexby is bound by the record, he can push hard for you without it being 
 
 ---
 
-## The install is the demo
+## How it works
 
-```bash
-cdd
+**Spec is law.** Your project spec becomes SPEC-LAW (statute). The court's rulings become case law (precedent). New decisions must be consistent with prior rulings or the court rejects them. The methodology is **Caselaw Driven Development (CDD)**.
+
+**Most forks never go to court.** Before the bench convenes, Lexby checks the citator. If a binding ratio already covers the question, the matter is disposed of on citation with no sitting required. The court only convenes for genuine first-impression questions, challenges to existing precedent, or breach charges.
+
+**Three tiers. Mandatory progression.**
+
+```
+                    .-------------------------------.
+                    |       SUPREME COUNCIL         |
+                    |  5 judges (9 for const.)      |
+                    |  Foundational + statute-making |
+                    '-------------------------------'
+                               ^
+                               | permission to appeal
+                               |
+                    .-------------------------------.
+                    |       COURT OF APPEAL         |
+                    |           3 judges            |
+                    |   Disputed / load-bearing     |
+                    '-------------------------------'
+                               ^
+                               | permission to appeal
+                               |
+                    .-------------------------------.
+                    |        FIRST INSTANCE         |
+                    |            1 judge            |
+                    |         Routine forks         |
+                    '-------------------------------'
 ```
 
-Drop the Vibe Justice System into any repo.
+Matters start at First Instance and climb by permission. You cannot jump the queue. Every case produces a neutral-citation ruling artefact (`[YEAR] LEXBY n`) committed to `caselaw/`. **Every ruling is also rendered as a PDF judgment** - formatted exactly as a UK court document, with the court logo, numbered paragraphs, ratio/obiter sections, and a plain-English translation from Lexby.
 
-The first time you run it, it doesn't just install. It runs a real micro-case end to end, right there, in 60 seconds. You get a committed ruling. You get a shareable card. You get your first piece of case law.
+**Mistakes are civil, not criminal.** There is always a duty of care. The only remedy is to make the work good. No blame, no punishment, just a finding and a fix.
 
-Never an empty folder.
+---
+
+## What's in this repo
+
+There is a lot here. Here is the map:
+
+| File / Directory | What it is |
+|---|---|
+| `SPEC-LAW.md` | The sovereign statute book. S-1 through S-14. The supreme law of every VJS project. |
+| `VPR.md` | Vibe Procedure Rules. How matters move through the courts. The Civil Procedure Rules analogue. |
+| `CDD.md` | Caselaw Driven Development - the methodology manifesto. What CDD is, how it fits beside TDD. |
+| `caselaw/` | Rulings committed to this repo (the VJS founding case lives here). |
+| `caselaw/INDEX.md` | The citator. One row per ruling. The fast-path lookup for agents. |
+| `court/workflows/` | Three runnable Claude Code Workflow scripts - one per court tier. These ARE the courts. |
+| `court/renderer/` | PDF judgment renderer. Node.js + Puppeteer. Produces UK-court-style PDFs. |
+| `plugin/CLAUDE.md` | The binding injection block. `cdd init` appends this to your repo's `CLAUDE.md`. |
+| `community/` | Community caselaw library. Anonymised rulings submitted from all VJS projects. |
+| `docs/DESIGN-NOTES.md` | Full design record. Architecture, decisions, open questions, phase-2 vision. |
+| `.github/workflows/clerk.yml` | The clerk bot. Auto-reviews PRs for constitutional compliance and merges if clear. |
+
+---
+
+## The courts (runnable now)
+
+The three court workflows live in `court/workflows/`. They are Claude Code Workflow scripts. Run them via the `Workflow` tool:
+
+```js
+Workflow({
+  scriptPath: 'court/workflows/first-instance.js',
+  args: {
+    kind: 'request_for_ruling',
+    question: 'Should we use server-side rendering or a SPA?',
+  }
+})
+```
+
+Each workflow:
+1. **Loads the live law** (reads `SPEC-LAW.md` and `caselaw/INDEX.md` from the repo - never stale args)
+2. **Checks standing and the fast path** (most matters resolve here, no bench required)
+3. **Deliberates** (the assigned judge(s) render a full opinion in formal legalese)
+4. **Translates** (Lexby gives the plain-English ruling and what it means in practice)
+5. **Generates a PDF judgment** (UK-court-style, with court logo and numbered paragraphs)
+6. **Submits to the community record** (anonymised PR to `community/caselaw/` under VPR 8)
+
+See `court/README.md` for the full invocation reference.
+
+---
+
+## PDF judgments
+
+Every ruling produces a PDF formatted as a real UK court judgment: court logo at the top, numbered paragraphs, a ruled ratio section, obiter section, and a Lexby translation panel. Drop your logos into `court/renderer/assets/` (see the README there). A placeholder scales-of-justice SVG is used until you do.
+
+```bash
+# Install the renderer once
+cd court/renderer && npm install
+
+# Test it (renders the founding case)
+node index.js --test
+# -> You can read the judgment here: /tmp/vjs-test-judgment.pdf
+```
 
 ---
 
@@ -87,7 +172,7 @@ Never an empty folder.
 
 "I don't agree with the outcome. Can we appeal?"
 
-"The appeals court was split. I think this needs to go to the Supreme Court."
+"The Court of Appeal was split. I think this needs to go to the Supreme Council."
 
 "What did we decide about X, and why?"
 
@@ -102,85 +187,28 @@ Natural language. No syntax. Lexby handles the filing.
 
 **VJS is building the common law of vibe coding.**
 
-Every project that runs VJS contributes to a shared understanding of what counts as good practice in AI-assisted development. When you get a ruling on "should we use server-side rendering or a SPA", that decision - anonymised - joins a growing library of precedent. The next project asking the same question finds it on the fast path. No sitting. No deliberation cost. Disposed in seconds on citation.
+Every project that runs VJS contributes to a shared understanding of what counts as good practice in AI-assisted development. When you get a ruling on "should we use server-side rendering or a SPA", that decision - anonymised - joins a growing library of precedent. The next project asking the same question finds it on the fast path. No sitting. No cost. Disposed in seconds on citation.
 
-**The more people contribute, the better every repo gets.** That is not a slogan. It is the mechanical consequence of how common law works. More rulings equals richer precedent equals more fast-path disposals. VJS is a legal commons for AI-assisted projects. The first contributors shape the law that everyone inherits.
+**The more people contribute, the better every repo gets.** That is the mechanical consequence of how common law works. More rulings = richer precedent = more fast-path disposals. VJS is a legal commons for AI-assisted projects. The first contributors shape the law that everyone inherits.
 
-Project-specific identifiers (repo names, file paths, variable names) are stripped before submission. The facts of the legal question - the fork, the ratio, the law applied - are preserved. You share the reasoning, not the source code.
-
----
-
-**Rulings are the meme.**
-
-Every case produces a screenshot-grade **ruling card**: the citation, the panel, the vote, the one-line holding, and Lexby's plain-English TL;DR. The judges speak in dense, impenetrable legal language (that is the rigor). Lexby translates it, like a real lawyer walking you out of a courtroom you didn't understand.
-
-Nobody shares an install command. Everybody shares nine invented law-lords voting 7-2 to strike down "just use localStorage bro" and then having Lexby explain what that means in plain English.
+Project-specific identifiers (repo names, file paths, variable names) are stripped before submission. The legal question, the ratio, and the law applied are preserved. You share the reasoning, not the source code.
 
 **What the community is building:**
 
-- **Community caselaw library.** Every ruling from every tier is submitted anonymised to `community/caselaw/`. Persuasive precedent across all VJS jurisdictions. A living commons.
-
-- **Landmark cases gallery.** Browse real precedents from real projects. See how the court has ruled on authentication strategy, state management, mono-repo structure, and more.
-
-- **Case law website (Phase 2).** A public read interface for community rulings. Semantic search across the full precedent library. "Did anyone decide this before?" answered in one query.
-
-- **Bring your own bench.** The judges are invented characters with distinct judicial temperaments: formalists, pragmatists, textualists, dissenting gadflies. Share your rosters. Borrow someone else's.
-
-- **Statute packs.** Shareable starter SPEC-LAW for common stacks. One import and your project has a working constitution.
-
-- **Any domain, not just code.** Product calls. Research decisions. Architecture debates. Even a literal legal case. The methodology is domain-agnostic. Coding is just the first application.
-
-**The ruling card is the unit of culture here.** Build your bench. Win your cases. Share the receipts.
+- **Community caselaw library.** Every ruling from every tier is submitted anonymised to `community/caselaw/`. Persuasive precedent across all VJS jurisdictions.
+- **Landmark cases gallery.** Browse real precedents from real projects.
+- **Case law website (Phase 2).** Public read interface for community rulings, with semantic search.
+- **Bring your own bench.** Share judge rosters. Borrow someone else's.
+- **Statute packs.** Shareable starter SPEC-LAW for common stacks.
 
 ---
 
-## 🏛️ How it works
-
-**Spec is law.** Your spec becomes SPEC-LAW (statute). The court's rulings become case law (precedent). New decisions must be consistent with prior rulings or they get struck down. The methodology is **Caselaw Driven Development (CDD)**.
-
-**Three tiers.**
-
-```
-                    .------------------------------.
-                    |      SUPREME COUNCIL         |
-                    |   5 judges (9 for const.)    |
-                    |  Foundational + irreversible  |
-                    '------------------------------'
-                               ^
-                               | permission to appeal
-                               |
-                    .------------------------------.
-                    |      COURT OF APPEAL         |
-                    |         3 judges             |
-                    |  Disputed / load-bearing     |
-                    '------------------------------'
-                               ^
-                               | permission to appeal
-                               |
-                    .------------------------------.
-                    |       FIRST INSTANCE         |
-                    |          1 judge             |
-                    |       Routine forks          |
-                    '------------------------------'
-```
-
-⚖️ Cases climb by permission to appeal. You don't jump the queue (the Vibe Procedure Rules, `VPR.md`).
-
-| Tier | Composition | Used for |
-|---|---|---|
-| First Instance | 1 judge | Routine forks |
-| Court of Appeal | 3 judges | Disputed or load-bearing decisions |
-| Supreme Council | 5 judges (9 for constitutional questions) | Foundational, irreversible, or split appeals |
-
-**Mistakes are civil, not criminal.** There is always a duty of care. The only remedy is to make the work good. No blame, no punishment, just a finding and a fix.
-
----
-
-## 📜 Commands
+## Commands
 
 ```bash
 cdd
 # Install VJS into the current repo and run the live demo case.
+# (CLI in development - the court workflows are the current interface)
 
 submit-request-to-court "<question>"
 # Ask the court to rule on a fork, a design decision, or a scope question.
