@@ -51,7 +51,7 @@ The workflows are the engine under those commands.
 ## What comes back
 
 Every workflow returns a **ruling artefact** with:
-- `citation_id` - the neutral citation to commit to `caselaw/`
+- `citation_id` - the neutral citation to commit to .justice/judgments/
 - `tier` - which court sat
 - `judge` / `panel` - who deliberated
 - `ratio` - the binding holding (one precise statement)
@@ -60,7 +60,7 @@ Every workflow returns a **ruling artefact** with:
 - `remedy` - for breach matters (make good, restore the position)
 - `lexby_translation` - plain English
 
-Commit the artefact to `caselaw/` and add a row to `caselaw/INDEX.md`. The ruling then governs all future
+Commit the artefact to .justice/judgments/ and add a row to .justice/INDEX.md. The ruling then governs all future
 sessions via the fast-path screen (VPR 2).
 
 ---

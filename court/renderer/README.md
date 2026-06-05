@@ -93,13 +93,13 @@ Drop your logo files into `assets/` (see `assets/README.md`). The renderer autom
 The court workflows automatically invoke the renderer after every ruling. The path to the generated PDF is included in the workflow return value and Lexby prints:
 
 ```
-You can read the judgment here: /path/to/caselaw/pdfs/2026-lexby-fi-1.pdf
+You can read the judgment here: .justice/pdfs/2026-lexby-fi-1.pdf
 ```
 
 To invoke manually from a workflow agent:
 
 ```bash
-node court/renderer/index.js caselaw/2026-LEXBY-FI-1.json caselaw/pdfs/2026-lexby-fi-1.pdf
+node court/renderer/index.js .justice/pdfs/2026-lexby-FI-1.json .justice/pdfs/2026-lexby-fi-1.pdf
 ```
 
 ---

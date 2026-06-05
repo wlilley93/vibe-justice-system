@@ -6,7 +6,7 @@
 
 ## What it is
 
-Caselaw Driven Development is a practice for recording AI-assisted decisions as binding precedent. Every meaningful fork in your project - architecture, conventions, scope, naming - produces a ruling. That ruling is committed to `caselaw/`, carries a neutral citation, and governs every future session that touches the same ground. The AI does not re-litigate settled points; it cites them and moves on.
+Caselaw Driven Development is a practice for recording AI-assisted decisions as binding precedent. Every meaningful fork in your project - architecture, conventions, scope, naming - produces a ruling. That ruling is committed to `.justice/judgments/`, carries a neutral citation, and governs every future session that touches the same ground. The AI does not re-litigate settled points; it cites them and moves on.
 
 ---
 
@@ -16,7 +16,7 @@ Caselaw Driven Development is a practice for recording AI-assisted decisions as 
 fork arises
   -> file a Request for Ruling (submit-request-to-court)
   -> court convenes and rules
-  -> ruling committed to caselaw/
+  -> ruling committed to .justice/judgments/
   -> future forks on the same point cite the ratio and close without a sitting
 ```
 
@@ -62,7 +62,7 @@ Natural language. No filing syntax. Lexby handles intake, standing, and routing.
 
 ## How CDD fits into a normal workflow
 
-CDD is additive, not a gate. You do not stop to ask permission before writing code. You write; when a non-trivial fork emerges, you file it. The ruling artefact is a committed markdown file in `caselaw/`. It adds one file per decision, sits alongside your normal commits, and costs nothing on the hot path. Sessions that follow inherit the full precedent record automatically.
+CDD is additive, not a gate. You do not stop to ask permission before writing code. You write; when a non-trivial fork emerges, you file it. The ruling artefact is a committed markdown file in .justice/judgments/. It adds one file per decision, sits alongside your normal commits, and costs nothing on the hot path. Sessions that follow inherit the full precedent record automatically.
 
 ---
 
@@ -82,14 +82,14 @@ TDD tests that the code does what you said. CDD records why you said it.
 
 ## The ruling artefact
 
-Every ruling is a markdown file committed to `caselaw/` with:
+Every ruling is a markdown file committed to `.justice/judgments/` with:
 
 - **Neutral citation** - `[YEAR] LEXBY n` (sequential per repo)
 - **Tier** - First Instance, Court of Appeal, or Supreme Council
 - **Panel** - named judges (ephemeral stances seeded only on first impression)
 - **Ratio** - the binding holding, stated precisely
 - **Obiter** - non-binding observations (persuasive only, VPR 6)
-- **Remedy** - for breach matters: make good, restore the position; no punishment (SPEC-LAW S-6)
+- **Remedy** - for breach matters: make good, restore the position; no punishment (SPEC-LAW s. 6)
 - **Lexby TL;DR** - plain-English translation of the holding
 
 Only the ratio binds. Obiter is persuasive. A ruling made in ignorance of binding law or precedent is per incuriam and void.
@@ -103,8 +103,8 @@ law real: Claude Code loads `CLAUDE.md` into every agent session, so every agent
 enumerable trigger list, the commands, and the pointer to the citator before it writes a single line.
 
 The binding block lives at `plugin/CLAUDE.md` in the VJS repo. It covers:
-- The duty of care and the graded endeavours standard (SPEC-LAW S-4 through S-8)
-- The citator check (grep `caselaw/INDEX.md` first; cite if covered, convene if not)
+- The duty of care and the graded endeavours standard (SPEC-LAW s. 4 through s. 8)
+- The citator check (grep .justice/INDEX.md first; cite if covered, convene if not)
 - The enumerable trigger list (exactly five conditions that warrant a sitting; nothing else)
 - The commands (`submit-request-to-court`, `submit-breach-to-court`)
 - The progression rules summary (VPR)

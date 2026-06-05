@@ -1,5 +1,6 @@
 node_modules/
-caselaw/pdfs/
+.justice/pdfs/
+!.justice/pdfs/.gitkeep
 *.pdf
 /tmp/
 .env

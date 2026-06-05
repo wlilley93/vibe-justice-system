@@ -99,7 +99,7 @@ First Instance sits **1**; Court of Appeal sits **3**; the Supreme Council sits 
 
 ### **`VPR 6`** - Judgment, record, remedy
 
-The bench speaks in legalese; **Lexby translates**. Every matter yields a ruling artefact (neutral citation `[YEAR] LEXBY n`; the **ratio** binds, **obiter** is persuasive, **per incuriam** voids a ruling made in ignorance of binding law). A breach made out is met by **remediation and restitution only**, never punishment. A ruling that cannot be reconciled with SPEC-LAW yields a **declaration of incompatibility**, referred up for amendment; the sovereign spec is never struck by a court.
+The bench speaks in legalese; **Lexby translates**. Every matter yields a ruling artefact with two identifiers: a tier-coded neutral citation `[YEAR] LEXBY-FI N` / `[YEAR] LEXBY-CA N` / `[YEAR] LEXBY-SC N` (human-readable, local), and a **UUID** (globally unique, assigned at judgment and fixed). The UUID is the canonical reference for the Community Record and for cross-project citation; the neutral citation is for human use within the project. The **ratio** binds, **obiter** is persuasive, **per incuriam** voids a ruling made in ignorance of binding law. A breach made out is met by **remediation and restitution only**, never punishment. The court's remediation power extends to **any project artefact**: source code, configuration, documentation, data schemas, ledgers, and audit logs - wherever the proceedings reveal a record below standard, the court may issue an ancillary order. A ruling that cannot be reconciled with SPEC-LAW yields a **declaration of incompatibility**, referred up for amendment; the sovereign spec is never struck by a court.
 
 ---
 
@@ -111,7 +111,9 @@ There is no costs or sanctions jurisdiction (anti-bloat, SPEC-LAW-12). The only 
 
 ### **`VPR 8`** - Community Record
 
-Every ruling produced by any tier of the VJS court is submitted to the **Community Record** in the canonical VJS repo (`wlilley93/vibe-justice-system`, path `community/caselaw/YYYY/`) by opening a pull request. Before submission, the ruling is **anonymised**: repo names, file paths, variable names, function names, class names, and any project-specific identifiers are replaced by generic placeholders; the legal question, the ratio, the tier, the law applied, and the outcome are preserved unchanged. Community rulings are **persuasive precedent** across all VJS jurisdictions (any other repo running VJS). The clerk reviews each PR for constitutional compliance and subject-matter jurisdiction before merging. First Instance and Court of Appeal rulings carry persuasive weight; Supreme Council rulings that enact statute additionally open a separate statute PR touching `SPEC-LAW.md` (VPR 6).
+**Supreme Council rulings only** are submitted to the **Community Record** in the canonical VJS repo (`wlilley93/vibe-justice-system`, path `community/caselaw/YYYY/`) by opening a pull request. First Instance and Court of Appeal rulings remain in the project repo under `.justice/judgments/` and are not submitted upstream.
+
+Before submission, the ruling is **anonymised**: repo names, file paths, variable names, function names, class names, and any project-specific identifiers are replaced by generic placeholders; the legal question, the ratio, the tier, the law applied, and the outcome are preserved unchanged. Community rulings are **persuasive precedent** across all VJS jurisdictions (any other repo running VJS). The clerk reviews each PR for constitutional compliance and subject-matter jurisdiction before merging. Supreme Council rulings that enact statute additionally open a separate statute PR touching `SPEC-LAW.md` (VPR 6).
 
 ---
 

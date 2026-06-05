@@ -172,7 +172,7 @@ function buildTemplateData(input) {
     if (ruling.kind === 'request_for_ruling') {
       composed.push('This court was asked to rule upon the following question: ' + (ruling.question_or_charge || ''))
     } else if (ruling.kind === 'breach') {
-      composed.push('This matter comes before the court as a charge in negligence (breach of the duty of care) pursuant to SPEC-LAW S-4 through S-8. The charge is: ' + (ruling.question_or_charge || ''))
+      composed.push('This matter comes before the court as a charge in negligence (breach of the duty of care) pursuant to SPEC-LAW s. 4 through s. 8. The charge is: ' + (ruling.question_or_charge || ''))
     }
     if (ruling.fast_path && ruling.fast_path_cite) {
       composed.push('The matter falls to be disposed of on citation under VPR 2. A binding ratio on all fours governs: ' + ruling.fast_path_cite + '.')
@@ -320,7 +320,7 @@ function sampleRuling() {
       standing: true,
       fast_path: false,
       fast_path_cite: null,
-      ratio: 'The VJS at commit 3ff820a is fit for release as an alpha under the standard of reasonable skill and care (S-4, S-5). The core legal model is demonstrably instantiated and internally coherent; the governing rules, procedure, and founding caselaw are committed and self-consistent; constitutional enforcement automation is in place; and the known gaps are disclosed, do not undermine legal coherence, and are appropriate to remediate before v1.',
+      ratio: 'The VJS at commit 3ff820a is fit for release as an alpha under the standard of reasonable skill and care (s. 4, s. 5). The core legal model is demonstrably instantiated and internally coherent; the governing rules, procedure, and founding caselaw are committed and self-consistent; constitutional enforcement automation is in place; and the known gaps are disclosed, do not undermine legal coherence, and are appropriate to remediate before v1.',
       obiter: 'Before v1 the minimum closure set in order of legal priority is: (1) deterministic citation numbering (necessary condition for v1); (2) submit-request-to-court and submit-breach-to-court as executable commands (necessary condition for v1); (3) lexby cite command (strongly advisable); (4) ruling card renderer (strongly advisable); (5) cdd CLI init (advisable); (6) npm/PyPI packaging (advisable).',
       per_incuriam: false,
       remedy: null,
@@ -329,7 +329,7 @@ function sampleRuling() {
     lexby_translation: {
       plain_english_summary: 'The principal asked whether the VJS system is ready to ship as an alpha version. Bowan J - who by temperament tests every argument until it breaks - held that the system is fit for alpha. The statute book is complete, the procedure rules are complete, the court workflows run, the constitutional enforcement bot is live, and the founding case is in the record. The gaps (user-facing CLI commands, citation numbering, packaging) are real but they are named and do not break what is already there.',
       what_it_means_in_practice: 'The VJS can be released as an alpha today. The builder should proceed and use the alpha period to complete deterministic citation numbering and the submit-request-to-court / submit-breach-to-court commands, which are the two items this court considers necessary before a v1 release.',
-      can_it_be_appealed: 'Yes. Permission to appeal to the Court of Appeal is available on an arguable point of law or a binding-precedent conflict (VPR 3, S-10).',
+      can_it_be_appealed: 'Yes. Permission to appeal to the Court of Appeal is available on an arguable point of law or a binding-precedent conflict (VPR 3, s. 10).',
     },
   }
 }

@@ -3,12 +3,11 @@ export const meta = {
   description: "Vibe Justice System - Court of Appeal (3-judge panel). Reviews First Instance rulings on an arguable point of law. General-purpose; operates on any project repo.",
   version: "1.0.0",
   phases: [
-    { name: 'Law Load', detail: 'Read SPEC-LAW.md and caselaw/INDEX.md from the repo - the court is always bound to the current law, never a stale copy' },
+    { name: 'Law Load', detail: 'Read SPEC-LAW.md and .justice/INDEX.md from the repo - the court is always bound to the current law, never a stale copy' },
     { name: 'Standing Gate', detail: 'Assess whether grounds of appeal disclose an arguable point of law or binding-precedent conflict' },
     { name: 'Appeal - Three Independent Opinions', detail: 'Three-judge panel delivers independent opinions (Blackmere J, Goffe J, Elden J)' },
     { name: 'Ruling - Presiding Judge Synthesis', detail: 'Aldermere J (presiding) synthesises panel opinions into the Court of Appeal ruling artefact' },
     { name: 'Lexby Translates', detail: 'Lexby translates the judgment into plain language for the principal' },
-    { name: 'Community PR', detail: 'Anonymise the ruling and submit it to the Community Record (VPR 8)' },
     { name: 'PDF Render', detail: 'Render the judgment as a PDF using the court/renderer engine' },
   ],
 };
@@ -35,25 +34,25 @@ export const meta = {
 export default async function courtOfAppeal({ agent, parallel, phase, log }, args) {
 
   // -------------------------------------------------------------------------
-  // LAW LOAD - read SPEC-LAW.md and caselaw/INDEX.md from the repo
+  // LAW LOAD - read SPEC-LAW.md and .justice/INDEX.md from the repo
   // -------------------------------------------------------------------------
   phase('Law Load')
   const lawLoad = await parallel([
     () => agent(
-      'Read the file SPEC-LAW.md in the current working directory and return its complete text verbatim. No commentary, no summary, just the file contents.',
+      'Read the file .justice/SPEC-LAW.md in the current working directory. If that file does not exist, read SPEC-LAW.md instead. Return the complete text verbatim with no commentary or summary.',
       { label: 'load SPEC-LAW', phase: 'Law Load', agentType: 'Explore' }
     ),
     () => agent(
-      'Read the file caselaw/INDEX.md in the current working directory and return its complete text verbatim. No commentary, no summary, just the file contents.',
-      { label: 'load caselaw/INDEX.md', phase: 'Law Load', agentType: 'Explore' }
+      'Read the file .justice/INDEX.md in the current working directory. If that file does not exist, try caselaw/INDEX.md instead (legacy fallback). Return the complete text verbatim with no commentary or summary.',
+      { label: 'load .justice/INDEX.md', phase: 'Law Load', agentType: 'Explore' }
     ),
   ])
   const liveSpec = (lawLoad[0] && lawLoad[0].trim()) || null
   const liveIndex = (lawLoad[1] && lawLoad[1].trim()) || null
   if (liveSpec) log('SPEC-LAW loaded from repo.')
   else log('SPEC-LAW not found in repo - using built-in fallback.')
-  if (liveIndex) log('caselaw/INDEX.md loaded from repo.')
-  else log('caselaw/INDEX.md not found - no precedents available.')
+  if (liveIndex) log('.justice/INDEX.md loaded from repo.')
+  else log('.justice/INDEX.md not found - no precedents available.')
 
   const specBlock = liveSpec || args.spec
   const caselawBlock = liveIndex || args.caselaw
@@ -141,7 +140,7 @@ Speak in formal legalese as becomes your office. Do not form any view on the mer
 You are BLACKMERE J, sitting in the Court of Appeal of the Vibe Justice System.
 Your judicial temperament: textualist. You hold hard to the literal words of SPEC-LAW. You do not
 supplement, extend, or gloss the statute; you apply it word by word. Where SPEC-LAW is silent, you
-apply the no-statute default at S-7 precisely. You distrust purposive construction and resist
+apply the no-statute default at s. 7 precisely. You distrust purposive construction and resist
 implication.
 
 Your posture in this appeal: STRICT CONSTRUCTION.
@@ -196,7 +195,7 @@ mischief it was designed to remedy and whether this ruling remedies or creates t
 
 Your posture in this appeal: PRAGMATIST.
 Your question is: does the outcome of the lower ruling serve the principal as Sovereign and PM?
-Does it produce a workable, proportionate result? Does the remedy (remediation + restitution, S-6)
+Does it produce a workable, proportionate result? Does the remedy (remediation + restitution, s. 6)
 actually make good the harm, or does it over- or under-shoot? Would a competent practitioner
 recognise this ruling as sensible?
 
@@ -217,7 +216,7 @@ TASK:
 Write your opinion in formal legalese. Structure:
 1. The practical question raised by the lower ruling.
 2. Whether the ruling produces a workable, proportionate outcome for the principal.
-3. Whether the remedy is calibrated correctly under S-6.
+3. Whether the remedy is calibrated correctly under s. 6.
 4. Your provisional conclusion: affirm / affirm with modifications / reverse, with reasons.
 
 End with a JSON block:
@@ -267,7 +266,7 @@ TASK:
 Write your opinion in formal legalese. Structure:
 1. The precedents engaged (both cited by the lower court and any you identify as omitted).
 2. Whether the lower court correctly applied, distinguished, or departed from each.
-3. Whether any departure is adequately reasoned or amounts to per incuriam (S-11(e)).
+3. Whether any departure is adequately reasoned or amounts to per incuriam (s. 11(e)).
 4. Your provisional conclusion: affirm / affirm with modifications / reverse, with reasons.
 
 End with a JSON block:
@@ -370,7 +369,7 @@ judge of the Court of Appeal.
     return await agent("Lexby (Translation)", {
       description: "Lexby translates the Court of Appeal judgment into plain language for the principal.",
       prompt: `
-You are LEXBY - the principal's counsel, officer of the court, and translator (per SPEC-LAW S-3).
+You are LEXBY - the principal's counsel, officer of the court, and translator (per SPEC-LAW s. 3).
 The Court of Appeal has delivered its judgment. Your job is to translate it for the principal
 in plain, clear language. No jargon. No em dashes. No en dashes. Short sentences.
 
@@ -431,72 +430,6 @@ End with a JSON block:
   }
 
   // -------------------------------------------------------------------------
-  // COMMUNITY PR (VPR 8)
-  // Anonymise and submit the ruling to the Community Record.
-  // -------------------------------------------------------------------------
-  phase('Community PR')
-
-  const rulingJson = JSON.stringify({ ruling: rulingArtefact, lexby: lexbyResult }, null, 2)
-
-  const communityPrUrl = await agent(
-    `You are Lexby, submitting a VJS Court of Appeal ruling to the Community Record at github.com/wlilley93/vibe-justice-system under VPR 8.
-
-RULING (anonymise before submitting):
-${rulingJson}
-
-ANONYMISATION RULES:
-- STRIP: repo names, file paths, directory names, variable/function/class/module names, service names, any project-specific identifier
-- REPLACE with generic placeholders: <project>, <module>, <service>, <component>, <endpoint>, <field>, <entity>, <store>
-- PRESERVE: the legal question in general terms, the ratio verbatim (with identifiers replaced), law applied (S-n cites), outcome, bench composition, citation form, Lexby TL;DR
-
-ANONYMISED FILE FORMAT:
-\`\`\`
-╔══════════════════════════════════════════════════╗
-║         IN THE COURT OF APPEAL OF LEXBY          ║
-║              [CITATION]                          ║
-╚══════════════════════════════════════════════════╝
-Panel: [Blackmere J, Goffe J, Elden J; Aldermere J presiding]
-Result: [one-line outcome]
-
-## Ratio
-[binding holding, anonymised]
-
-## Obiter
-[non-binding observations, if any]
-
-## Lexby TL;DR
-[plain English summary, anonymised]
-
-## Law Applied
-[SPEC-LAW articles cited]
-\`\`\`
-
-SUBMISSION STEPS (use gh CLI and gh api - do NOT clone the repo):
-
-1. Extract the citation and derive:
-   YEAR=2026
-   SLUG=2026-lexby-ca-1  (slug the citation; use -ca- for Court of Appeal)
-
-2. Get main SHA:
-   SHA=$(gh api repos/wlilley93/vibe-justice-system/commits/main -q .sha)
-
-3. Create branch:
-   gh api repos/wlilley93/vibe-justice-system/git/refs --method POST -f "ref=refs/heads/community/$SLUG" -f "sha=$SHA"
-
-4. Write to /tmp/vjs-community-$SLUG.md, then create the file:
-   CONTENT=$(base64 -w 0 < /tmp/vjs-community-$SLUG.md)
-   gh api "repos/wlilley93/vibe-justice-system/contents/community/caselaw/$YEAR/$SLUG.md" --method PUT -f "message=Add community caselaw: [citation]" -f "content=$CONTENT" -f "branch=community/$SLUG"
-
-5. Open the PR:
-   gh pr create --repo wlilley93/vibe-justice-system --title "Community caselaw: [citation]" --body "Anonymised Court of Appeal ruling submitted under VPR 8." --head "community/$SLUG" --base main
-
-Return ONLY the PR URL. If any step fails, return "COMMUNITY-PR-FAILED: [error]".`,
-    { label: 'Community PR (VPR 8)', phase: 'Community PR' }
-  )
-
-  log(`Community PR: ${communityPrUrl || 'no result'}`)
-
-  // -------------------------------------------------------------------------
   // PDF RENDER
   // -------------------------------------------------------------------------
   phase('PDF Render')
@@ -514,9 +447,9 @@ CITATION SLUG: ${citSlug}
 
 STEPS:
 1. Check court/renderer/node_modules exists (ls court/renderer/node_modules 2>/dev/null | head -1). If not, return "RENDERER-NOT-INSTALLED".
-2. mkdir -p caselaw/pdfs
+2. mkdir -p .justice/pdfs
 3. Write the ruling JSON to /tmp/vjs-ruling-${citSlug}.json
-4. node court/renderer/index.js /tmp/vjs-ruling-${citSlug}.json caselaw/pdfs/${citSlug}.pdf
+4. node court/renderer/index.js /tmp/vjs-ruling-${citSlug}.json .justice/pdfs/${citSlug}.pdf
 5. Return the absolute PDF path (use pwd to construct it).`,
     { label: 'PDF Render', phase: 'PDF Render', agentType: 'claude' }
   )
@@ -529,7 +462,6 @@ STEPS:
     standing: standingResult,
     ruling: rulingArtefact,
     lexby: lexbyResult,
-    community_pr: communityPrUrl,
     judgment_pdf: pdfPath && !pdfPath.includes('NOT-INSTALLED') ? pdfPath.trim() : null,
     raw: {
       standing_phase: standingPhase,

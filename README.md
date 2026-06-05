@@ -1,19 +1,6 @@
 <div align="center">
 
-<pre>
-        ___  ___  ___  ___  ___  ___  ___  ___  ___
-       /   \/   \/   \/   \/   \/   \/   \/   \/   \
-      |  V  |  I  |  B  |  E     J  |  U  |  S  |  T  |
-       \___/\___/\___/\___/\___/\___/\___/\___/\___/
-
-              ⚖    THE COURT IS IN SESSION    ⚖
-
-          .-------.       .-------.       .-------.
-         |  SPEC   |---->|CASELAW |---->| RULING  |
-         |   LAW   |     |  CDD   |     |  CARD   |
-          '-------'       '-------'       '-------'
-                    [ gavel strikes ]
-</pre>
+<img src="assets/vibe-justice-system-logo.png" alt="Vibe Justice System" width="420">
 
 # Vibe Justice System
 
@@ -32,9 +19,11 @@
 The good ones you never notice.
 The bad ones surface three weeks later, everything is on fire, and nobody can say who decided what, or why.
 
-**The Vibe Justice System fixes that.** For any repo. New project, greenfield, brownfield - it does not matter. Wherever AI is helping make decisions, those decisions deserve a record.
+**The Vibe Justice System fixes that.** For any repo. New project, greenfield, brownfield - it does not matter. Wherever AI is helping make decisions - in code, in knowledge work, in professional project management - those decisions deserve a record.
 
 You move fast. You keep the paper trail. You have someone in your corner who pushes back when you are about to break your own rules.
+
+**VJS is the only system where the AI checks its own work against a binding legal record it cannot ignore.** If it finds a breach, it must self-report. The same intelligence building your code is also bound to prosecute itself when it falls below standard. No other system does this.
 
 Spec is law. Rulings are precedent. Lexby is your lawyer.
 
@@ -98,7 +87,7 @@ Because Lexby is bound by the record, he can push hard for you without it being 
                     '-------------------------------'
 ```
 
-Matters start at First Instance and climb by permission. You cannot jump the queue. Every case produces a neutral-citation ruling artefact (`[YEAR] LEXBY n`) committed to `caselaw/`. **Every ruling is also rendered as a PDF judgment** - formatted exactly as a UK court document, with the court logo, numbered paragraphs, ratio/obiter sections, and a plain-English translation from Lexby.
+Matters start at First Instance and climb by permission. You cannot jump the queue. Every case produces a tier-coded neutral citation: `[YEAR] LEXBY-FI N` (First Instance), `[YEAR] LEXBY-CA N` (Court of Appeal), `[YEAR] LEXBY-SC N` (Supreme Council), stored in `.justice/judgments/`. **Every ruling is also rendered as a PDF judgment** - formatted exactly as a UK court document, with the court logo, numbered paragraphs, ratio/obiter sections, and a plain-English translation from Lexby. Supreme Council rulings additionally go to the community record.
 
 **Mistakes are civil, not criminal.** There is always a duty of care. The only remedy is to make the work good. No blame, no punishment, just a finding and a fix.
 
@@ -110,15 +99,16 @@ There is a lot here. Here is the map:
 
 | File / Directory | What it is |
 |---|---|
-| `SPEC-LAW.md` | The sovereign statute book. S-1 through S-14. The supreme law of every VJS project. |
+| `SPEC-LAW.md` | The sovereign statute book. s. 1 through s. 14. The supreme law of every VJS project. |
 | `VPR.md` | Vibe Procedure Rules. How matters move through the courts. The Civil Procedure Rules analogue. |
 | `CDD.md` | Caselaw Driven Development - the methodology manifesto. What CDD is, how it fits beside TDD. |
-| `caselaw/` | Rulings committed to this repo (the VJS founding case lives here). |
-| `caselaw/INDEX.md` | The citator. One row per ruling. The fast-path lookup for agents. |
+| `.justice/judgments/` | Per-tier ruling artefacts for this project (`high-court/`, `appeals-court/`, `supreme-court/`). |
+| `.justice/INDEX.md` | The citator. One row per ruling. The fast-path lookup for agents. |
+| `.justice/suites/` | Security and refactoring checklists. Lexby invokes these when a ruling mandates it. |
 | `court/workflows/` | Three runnable Claude Code Workflow scripts - one per court tier. These ARE the courts. |
 | `court/renderer/` | PDF judgment renderer. Node.js + Puppeteer. Produces UK-court-style PDFs. |
 | `plugin/CLAUDE.md` | The binding injection block. `cdd init` appends this to your repo's `CLAUDE.md`. |
-| `community/` | Community caselaw library. Anonymised rulings submitted from all VJS projects. |
+| `community/` | Community caselaw library. Anonymised Supreme Council rulings from all VJS projects. |
 | `docs/DESIGN-NOTES.md` | Full design record. Architecture, decisions, open questions, phase-2 vision. |
 | `.github/workflows/clerk.yml` | The clerk bot. Auto-reviews PRs for constitutional compliance and merges if clear. |
 
@@ -139,12 +129,12 @@ Workflow({
 ```
 
 Each workflow:
-1. **Loads the live law** (reads `SPEC-LAW.md` and `caselaw/INDEX.md` from the repo - never stale args)
+1. **Loads the live law** (reads `SPEC-LAW.md` and `.justice/INDEX.md` from the repo - never stale args)
 2. **Checks standing and the fast path** (most matters resolve here, no bench required)
 3. **Deliberates** (the assigned judge(s) render a full opinion in formal legalese)
 4. **Translates** (Lexby gives the plain-English ruling and what it means in practice)
 5. **Generates a PDF judgment** (UK-court-style, with court logo and numbered paragraphs)
-6. **Submits to the community record** (anonymised PR to `community/caselaw/` under VPR 8)
+6. **Supreme Council only: submits to the community record** (anonymised PR to `community/caselaw/` under VPR 8 - lower courts stay in `.justice/judgments/` locally)
 
 See `court/README.md` for the full invocation reference.
 
@@ -195,7 +185,7 @@ Project-specific identifiers (repo names, file paths, variable names) are stripp
 
 **What the community is building:**
 
-- **Community caselaw library.** Every ruling from every tier is submitted anonymised to `community/caselaw/`. Persuasive precedent across all VJS jurisdictions.
+- **Community caselaw library.** Supreme Council rulings are submitted anonymised to `community/caselaw/`. Persuasive precedent across all VJS jurisdictions. First Instance and Court of Appeal rulings remain with the project.
 - **Landmark cases gallery.** Browse real precedents from real projects.
 - **Case law website (Phase 2).** Public read interface for community rulings, with semantic search.
 - **Bring your own bench.** Share judge rosters. Borrow someone else's.

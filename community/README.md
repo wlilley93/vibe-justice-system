@@ -19,7 +19,7 @@ All three court tiers (First Instance, Court of Appeal, Supreme Council) automat
 
 The clerk reviews every PR for:
 1. Constitutional compliance (does it conflict with SPEC-LAW?)
-2. Subject matter jurisdiction (S-14: is this a decision arising in project work?)
+2. Subject matter jurisdiction (s. 14: is this a decision arising in project work?)
 3. Correct anonymisation
 
 PRs that pass are auto-merged. PRs that fail receive a request-for-changes comment explaining why.
@@ -34,7 +34,7 @@ Cross-reference with `SPEC-LAW.md` to find the governing statute articles cited.
 
 ---
 
-## Jurisdiction note (S-14)
+## Jurisdiction note (s. 14)
 
 Community rulings cover decisions arising in AI-assisted software, engineering, or professional project work. Personal life questions and matters outside project work are outside VJS jurisdiction and will not be accepted.
 

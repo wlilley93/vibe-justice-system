@@ -2,12 +2,11 @@ export const meta = {
   name: 'vjs-first-instance',
   description: 'Vibe Justice System - First Instance court. Adjudicates any Request for Ruling (design fork) or Breach (negligence charge) for any project. Single judge, standing check, fast-path on binding precedent, full deliberation for genuine first-impression matters. Lexby translates.',
   phases: [
-    { title: 'Law Load', detail: 'Read SPEC-LAW.md and caselaw/INDEX.md from the repo - the court is always bound to the current law, never a stale copy' },
-    { title: 'Intake', detail: 'Assign a judge from the permanent bench and check standing (VPR 1 / S-11)' },
-    { title: 'Fast-path screen', detail: 'Check whether a binding ratio on all fours disposes the matter without a sitting (VPR 2 / S-11)' },
+    { title: 'Law Load', detail: 'Read SPEC-LAW.md and .justice/INDEX.md from the repo - the court is always bound to the current law, never a stale copy' },
+    { title: 'Intake', detail: 'Assign a judge from the permanent bench and check standing (VPR 1 / s. 11)' },
+    { title: 'Fast-path screen', detail: 'Check whether a binding ratio on all fours disposes the matter without a sitting (VPR 2 / s. 11)' },
     { title: 'Deliberation', detail: 'If no fast-path: the assigned judge deliberates and renders a ruling in formal legalese (skipped on fast-path)' },
     { title: 'Translation', detail: 'Lexby translates the ruling into plain English for the record' },
-    { title: 'Community PR', detail: 'Anonymise the ruling and submit it to the Community Record (VPR 8)' },
     { title: 'PDF Render', detail: 'Render the judgment as a PDF using the court/renderer engine' },
   ],
 }
@@ -151,7 +150,7 @@ const TRANSLATION_SCHEMA = {
     },
     can_it_be_appealed: {
       type: 'string',
-      description: 'Brief note on appeal rights: this is a First Instance ruling, so permission to appeal to the Court of Appeal is available on an arguable point of law or a binding-precedent conflict (VPR 3 / S-10).',
+      description: 'Brief note on appeal rights: this is a First Instance ruling, so permission to appeal to the Court of Appeal is available on an arguable point of law or a binding-precedent conflict (VPR 3 / s. 10).',
     },
   },
 }
@@ -176,19 +175,19 @@ function buildSpecBlock(specSummary) {
   return `
 SPEC-LAW (the sovereign statute, supreme throughout):
 ${specSummary || `
-S-1: Two sources of law: SPEC-LAW (statute, supreme) and case law (interprets statute where silent; void to the extent it conflicts with statute).
-S-2: The principal holds two offices: Sovereign/Parliament (may make or unmake any law by due process) and Prime Minister (must act lawfully as executive). Ultra vires demands must be pushed back.
-S-3: Lexby is advocate, advisor, and engineer. The bench decides; Lexby advocates; the record binds both.
-S-4: Breach is tortious (not criminal). Lexby owes a continuing duty of reasonable skill and care to every principal who relies on the work (the neighbour principle). No jurisdiction-first gate.
-S-5: Standard and breach: graded endeavours hierarchy (reasonable skill and care / all reasonable endeavours / best endeavours), pleaded and found per engagement. Bolam: conduct a responsible body of competent practice would endorse is not breach.
-S-6: Remedy = remediation and restitution only, proportionate. Punishment, fine, and sanction are unavailable in every instance.
-S-7: No-statute case: silence in SPEC-LAW fixes the standard at reasonable care; the matter is justiciable from the first act.
-S-8: One continuous standard (first/second-time rule is repealed). A genuinely novel first failure ordinarily founds no breach and triggers a forward duty to spec and remediate; recurrence of a logged hazard is breach.
-S-9: Unitary sovereignty: one global SPEC-LAW, jurisdiction-local case law, no competing sovereigns.
-S-10: Court structure: First Instance (1 judge) -> Court of Appeal (3) -> Supreme Council (5, or full 9 for constitutional/foundational questions). Permission to appeal is mandatory between tiers.
-S-11: Procedural gates: (a) standing at intake; (b) permission to appeal between tiers; (c) precedent fast-path on all-fours binding ratio; (d) neutral citation [YEAR] LEXBY n; (e) ratio binds, obiter persuades, per incuriam voids; (f) declaration of incompatibility refers case law conflicting with SPEC-LAW upward.
-S-12: Anti-bloat: no juries, no costs, no interlocutory.
-S-13: Rule-based progression (no leap-frogging). Every matter commences at First Instance. Sole exception: Principal's express leapfrog certificate.
+s. 1: Two sources of law: SPEC-LAW (statute, supreme) and case law (interprets statute where silent; void to the extent it conflicts with statute).
+s. 2: The principal holds two offices: Sovereign/Parliament (may make or unmake any law by due process) and Prime Minister (must act lawfully as executive). Ultra vires demands must be pushed back.
+s. 3: Lexby is advocate, advisor, and engineer. The bench decides; Lexby advocates; the record binds both.
+s. 4: Breach is tortious (not criminal). Lexby owes a continuing duty of reasonable skill and care to every principal who relies on the work (the neighbour principle). No jurisdiction-first gate.
+s. 5: Standard and breach: graded endeavours hierarchy (reasonable skill and care / all reasonable endeavours / best endeavours), pleaded and found per engagement. Bolam: conduct a responsible body of competent practice would endorse is not breach.
+s. 6: Remedy = remediation and restitution only, proportionate. Punishment, fine, and sanction are unavailable in every instance.
+s. 7: No-statute case: silence in SPEC-LAW fixes the standard at reasonable care; the matter is justiciable from the first act.
+s. 8: One continuous standard (first/second-time rule is repealed). A genuinely novel first failure ordinarily founds no breach and triggers a forward duty to spec and remediate; recurrence of a logged hazard is breach.
+s. 9: Unitary sovereignty: one global SPEC-LAW, jurisdiction-local case law, no competing sovereigns.
+s. 10: Court structure: First Instance (1 judge) -> Court of Appeal (3) -> Supreme Council (5, or full 9 for constitutional/foundational questions). Permission to appeal is mandatory between tiers.
+s. 11: Procedural gates: (a) standing at intake; (b) permission to appeal between tiers; (c) precedent fast-path on all-fours binding ratio; (d) neutral citation [YEAR] LEXBY n; (e) ratio binds, obiter persuades, per incuriam voids; (f) declaration of incompatibility refers case law conflicting with SPEC-LAW upward.
+s. 12: Anti-bloat: no juries, no costs, no interlocutory.
+s. 13: Rule-based progression (no leap-frogging). Every matter commences at First Instance. Sole exception: Principal's express leapfrog certificate.
 `}`.trim()
 }
 
@@ -201,20 +200,20 @@ S-13: Rule-based progression (no leap-frogging). Every matter commences at First
 phase('Law Load')
 const lawLoad = await parallel([
   () => agent(
-    'Read the file SPEC-LAW.md in the current working directory and return its complete text verbatim. No commentary, no summary, just the file contents.',
+    'Read the file .justice/SPEC-LAW.md in the current working directory. If that file does not exist, read SPEC-LAW.md instead. Return the complete text verbatim with no commentary or summary.',
     { label: 'load SPEC-LAW', phase: 'Law Load', agentType: 'Explore' }
   ),
   () => agent(
-    'Read the file caselaw/INDEX.md in the current working directory and return its complete text verbatim. No commentary, no summary, just the file contents.',
-    { label: 'load caselaw/INDEX.md', phase: 'Law Load', agentType: 'Explore' }
+    'Read the file .justice/INDEX.md in the current working directory. If that file does not exist, try caselaw/INDEX.md instead (legacy fallback). Return the complete text verbatim with no commentary or summary.',
+    { label: 'load .justice/INDEX.md', phase: 'Law Load', agentType: 'Explore' }
   ),
 ])
 const liveSpec = (lawLoad[0] && lawLoad[0].trim()) || null
 const liveIndex = (lawLoad[1] && lawLoad[1].trim()) || null
 if (liveSpec) log('SPEC-LAW loaded from repo.')
 else log('SPEC-LAW not found in repo - using built-in fallback.')
-if (liveIndex) log('caselaw/INDEX.md loaded from repo.')
-else log('caselaw/INDEX.md not found - no precedents available.')
+if (liveIndex) log('.justice/INDEX.md loaded from repo.')
+else log('.justice/INDEX.md not found - no precedents available.')
 
 const matter = args.question ?? args.charge
 const kind = args.question ? 'request_for_ruling' : 'breach'
@@ -322,11 +321,11 @@ FOR A REQUEST FOR RULING:
 - The ratio must be a single clear holding that binds future courts facing the same fork.
 
 FOR A BREACH:
-- Identify the duty (S-4, the neighbour principle).
-- Identify the applicable standard of endeavours (S-5): reasonable skill and care is the default; state if a higher standard applies.
+- Identify the duty (s. 4, the neighbour principle).
+- Identify the applicable standard of endeavours (s. 5): reasonable skill and care is the default; state if a higher standard applies.
 - Find the facts of the alleged falling-below.
-- Determine whether the falling-below constitutes breach (S-5: is it conduct a responsible body of competent practice would endorse? If yes: no breach).
-- If breach is made out: order remedy under S-6 (remediation and restitution only; no punishment).
+- Determine whether the falling-below constitutes breach (s. 5: is it conduct a responsible body of competent practice would endorse? If yes: no breach).
+- If breach is made out: order remedy under s. 6 (remediation and restitution only; no punishment).
 - If no breach: dismiss the charge with reasons.
 
 STRUCTURAL REQUIREMENTS:
@@ -399,79 +398,12 @@ TRANSLATION RULES:
 - No em dashes or en dashes.
 - plain_english_summary: what was filed, whether it had standing, whether it was disposed on precedent or fresh deliberation, and what the court held. 3-6 sentences.
 - what_it_means_in_practice: concrete and actionable. What must the party do, or what are they now permitted to do? 1-3 sentences.
-- can_it_be_appealed: brief, factual note on the appeal route available (permission to appeal to the Court of Appeal, VPR 3 / S-10), including the grounds required (arguable point of law or binding-precedent conflict).`,
+- can_it_be_appealed: brief, factual note on the appeal route available (permission to appeal to the Court of Appeal, VPR 3 / s. 10), including the grounds required (arguable point of law or binding-precedent conflict).`,
   { label: 'Lexby - translation', phase: 'Translation', schema: TRANSLATION_SCHEMA }
 )
 
 // --------------------------------------------------------------------------
-// Phase 5: Community PR (VPR 8)
-// Anonymise and submit the ruling to the Community Record in the canonical
-// VJS repo. Project-specific identifiers are stripped; legal facts preserved.
-// --------------------------------------------------------------------------
-phase('Community PR')
-
-const rulingJson = JSON.stringify({ ruling, lexby_translation: translation }, null, 2)
-
-const communityPrUrl = await agent(
-  `You are Lexby, submitting a VJS First Instance ruling to the Community Record at github.com/wlilley93/vibe-justice-system under VPR 8.
-
-RULING (anonymise before submitting):
-${rulingJson}
-
-ANONYMISATION RULES:
-- STRIP: repo names, file paths, directory names, variable/function/class/module names, service names, any project-specific identifier
-- REPLACE with generic placeholders: <project>, <module>, <service>, <component>, <endpoint>, <field>, <entity>, <store>
-- PRESERVE: the legal question in general terms, the ratio verbatim (with identifiers replaced), law applied (S-n cites), outcome, bench composition, citation form, Lexby TL;DR
-
-ANONYMISED FILE FORMAT:
-\`\`\`
-╔══════════════════════════════════════════════════╗
-║       IN THE FIRST INSTANCE COURT OF LEXBY       ║
-║              [CITATION]                          ║
-╚══════════════════════════════════════════════════╝
-Judge: [name]
-Result: [one-line outcome]
-
-## Ratio
-[binding holding, anonymised]
-
-## Obiter
-[non-binding observations, if any]
-
-## Lexby TL;DR
-[plain English summary, anonymised]
-
-## Law Applied
-[SPEC-LAW articles cited]
-\`\`\`
-
-SUBMISSION STEPS (use gh CLI and gh api - do NOT clone the repo):
-
-1. Extract the citation (e.g. "[2026] LEXBY 1") and derive:
-   YEAR=2026
-   SLUG=2026-lexby-1  (citation as a filename-safe slug)
-
-2. Get main SHA:
-   SHA=$(gh api repos/wlilley93/vibe-justice-system/commits/main -q .sha)
-
-3. Create branch:
-   gh api repos/wlilley93/vibe-justice-system/git/refs --method POST -f "ref=refs/heads/community/$SLUG" -f "sha=$SHA"
-
-4. Write the anonymised ruling to /tmp/vjs-community-$SLUG.md, then create the file:
-   CONTENT=$(base64 -w 0 < /tmp/vjs-community-$SLUG.md)
-   gh api "repos/wlilley93/vibe-justice-system/contents/community/caselaw/$YEAR/$SLUG.md" --method PUT -f "message=Add community caselaw: [citation]" -f "content=$CONTENT" -f "branch=community/$SLUG"
-
-5. Open the PR:
-   gh pr create --repo wlilley93/vibe-justice-system --title "Community caselaw: [citation]" --body "Anonymised First Instance ruling submitted under VPR 8." --head "community/$SLUG" --base main
-
-Return ONLY the PR URL. If any step fails, return "COMMUNITY-PR-FAILED: [error]".`,
-  { label: 'Community PR (VPR 8)', phase: 'Community PR' }
-)
-
-log(`Community PR: ${communityPrUrl || 'no result'}`)
-
-// --------------------------------------------------------------------------
-// Phase 6: PDF Render
+// Phase 5: PDF Render
 // Generate a PDF judgment via court/renderer. Requires npm packages installed
 // in court/renderer/. Skipped gracefully if not available.
 // --------------------------------------------------------------------------
@@ -497,16 +429,16 @@ STEPS:
 2. If it does NOT exist, print "RENDERER-NOT-INSTALLED" and stop.
 
 3. If it does exist:
-   a. Create the output directory: mkdir -p caselaw/pdfs
+   a. Create the output directory: mkdir -p .justice/pdfs
    b. Write the ruling JSON to a temp file:
       cat > /tmp/vjs-ruling-${citationSlug}.json << 'ENDJSON'
       [paste the ruling JSON here]
       ENDJSON
    c. Run the renderer:
-      node court/renderer/index.js /tmp/vjs-ruling-${citationSlug}.json caselaw/pdfs/${citationSlug}.pdf
+      node court/renderer/index.js /tmp/vjs-ruling-${citationSlug}.json .justice/pdfs/${citationSlug}.pdf
    d. Check the file was created:
-      ls -lh caselaw/pdfs/${citationSlug}.pdf
-   e. Return ONLY the absolute path to the PDF, e.g.: /home/user/project/caselaw/pdfs/${citationSlug}.pdf
+      ls -lh .justice/pdfs/${citationSlug}.pdf
+   e. Return ONLY the absolute path to the PDF, e.g.: /home/user/project/.justice/pdfs/${citationSlug}.pdf
       Use pwd to get the current directory and construct the full path.
 
 Return the PDF path on success, or "RENDERER-NOT-INSTALLED" if step 2 applies.`,
@@ -525,6 +457,5 @@ return {
   screen,
   ruling,
   lexby_translation: translation,
-  community_pr: communityPrUrl,
   judgment_pdf: pdfPath && !pdfPath.includes('NOT-INSTALLED') ? pdfPath.trim() : null,
 }

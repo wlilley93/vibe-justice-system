@@ -155,7 +155,7 @@ the engineer executes the remedy.
   breaches of the same rule are the signal to legislate.
 - **Storage (two cross-linked stores):**
   - `SPEC-LAW.md` = the statute. Enacted articles, append-only, changed only by amendment.
-  - `caselaw/` = the rulings ledger. One file per case (`caselaw/0001-<slug>.md`) + a `DOCKET.md` index. Each
+  - .justice/judgments/ = the rulings ledger. One file per case (`caselaw/0001-<slug>.md`) + a `DOCKET.md` index. Each
     entry records: facts, request-or-breach, the statute article cited, ratio (binding reason) vs obiter (asides),
     remedy, deciding tier, status (binding / appealed / overruled). A caselaw entry cites the SPEC-LAW article it
     applied; a SPEC-LAW amendment cites the caselaw that prompted it.
@@ -179,11 +179,11 @@ resolve against an on-point precedent with NO sitting at all (the fast path), wh
 than guessing, not slower. The court only convenes for genuine first-impression forks, distinctions, overrulings,
 statute conflicts, or breaches.
 
-**The atomic unit: the ruling artefact.** One file per case in `caselaw/`: a YAML head (id, neutral citation
+**The atomic unit: the ruling artefact.** One file per case in .justice/judgments/: a YAML head (id, neutral citation
 `[YEAR] LEXBY n` first instance / `LEXBY-CA` Court of Appeal / `LEXBY-SC` Supreme, date, panel, `kind:
 request_for_ruling | breach`, question/charge, `endeavours_standard` (reasonable | all-reasonable | best, for
 breaches), one-line RATIO, OBITER, SCOPE globs, CITES statute+precedent, DISTINGUISHED/OVERRULED back-refs,
-PER_INCURIAM flag, REMEDY (breaches only), STATUS) over a human body. `caselaw/INDEX.md` (the citator) is
+PER_INCURIAM flag, REMEDY (breaches only), STATUS) over a human body. .justice/INDEX.md (the citator) is
 regenerated on every ruling; `lexby cite <id>` resolves it. A subagent's only retrieval is grep/glob/read, so the
 compact index is mandatory.
 
@@ -226,7 +226,7 @@ re-summarises. Cost-tier: Council on a fast/cheap model + short budgets; Appeals
 model; record the model id per ruling. Port `scratch-to-signals` council.js/appeals.js as the start.
 
 **The shareable RULING CARD.** Every case auto-renders a boxed terminal-art verdict (citation, panel, VOTE 7-2,
-one-line memetic HOLDING, Lexby's TL;DR) to CLI + saved PNG/SVG in `caselaw/cards/`. Degens share artefacts, not
+one-line memetic HOLDING, Lexby's TL;DR) to CLI + saved PNG/SVG in `.justice/cards/`. Degens share artefacts, not
 tools: the card is the distribution flywheel. "Nine invented law-lords 7-2 striking down 'just use localStorage
 bro' and then translating it" is the retweet.
 
@@ -236,16 +236,16 @@ log); reversible/low-blast -> decisive call + lightweight note; pure impl detail
 authority -> convene. Self-submission: an agent's confession ("partially", "I deviated") AUTO-FILES a breach with
 a REMEDY field. The CLAUDE.md trigger is an enumerable imperative list, NOT "when uncertain".
 
-**`npx lexby init` = the demo.** Scaffold subagent + CLAUDE.md trigger + `caselaw/` + a starter SPEC-LAW inferred
+**`npx lexby init` = the demo.** Scaffold subagent + CLAUDE.md trigger + .justice/judgments/ + a starter SPEC-LAW inferred
 from existing CLAUDE.md/README/package.json, then run ONE seeded micro-case live (fork -> Council -> legalese
-ruling -> Lexby translates -> committed `caselaw/0001-*.md` + card) in 60 seconds. First run ends on a
+ruling -> Lexby translates -> committed `.justice/judgments/0001-*.md` + card) in 60 seconds. First run ends on a
 screenshot-grade verdict, never an empty dir. Ship `lexby uninstall` clean revert.
 
 **Build order:**
-1. Lock vocabulary + seed the **constitutional statutes** in `SPEC-LAW.md` (the canonical global book; S-1..S-12,
+1. Lock vocabulary + seed the **constitutional statutes** in `SPEC-LAW.md` (the canonical global book; s. 1..s. 12,
    see below) and generate the **constitutional digest** + the non-binding **commentary**. NO written `CHARTER.md`:
    the constitution is uncodified but clear by access (the digest + commentary + Lexby's translation).
-2. Define the canonical ruling artefact schema + generated `caselaw/INDEX.md` citator.
+2. Define the canonical ruling artefact schema + generated .justice/INDEX.md citator.
 3. Port the three court workflows into `council.md`/`appeals.md`/`supreme.md` (strict emit, symmetric case file,
    cost-tiering; Lexby parses, never re-summarises).
 4. Build the precedent-resolution engine + triage governor + STATUS filtering (the fast path + cost control).
@@ -254,8 +254,8 @@ screenshot-grade verdict, never an empty dir. Ship `lexby uninstall` clean rever
 6. Ship the ruling CARD renderer.
 7. Build `npx lexby init` (scaffold + infer starter statute + enumerable CLAUDE.md trigger + live demo case).
 8. Rename + repoint `scratch-to-signals` to canonical vocab (lexly/ -> caselaw vocab, LDD -> CDD, council/ ->
-   caselaw/, keep "Council" as the first-instance TIER) as the flagship beyond-code proof; link its live
-   `caselaw/` from the README.
+   .justice/judgments/, keep "Council" as the first-instance TIER) as the flagship beyond-code proof; link its live
+   .justice/judgments/ from the README.
 9. Write the README in strict order (hook + install one-liner + ONE card screenshot above the fold; "Things you
    can say to Lexby"; flagship proof link; bench/tiers/CDD lore below the fold) + the `CDD.md` manifesto.
 10. Later: marketplace listing, statute-pack templates, landmark-cases gallery, badges/stats, `--template` starters.
@@ -276,7 +276,7 @@ not the rule.
 
 ## Commands (the surface)
 - **`cdd`** - initialise Caselaw Driven Development in a repo. The methodology name IS the init command. Scaffolds
-  `@agent-lexby` + the CLAUDE.md trigger + `caselaw/`, vendors the global SPEC-LAW into the repo, and runs ONE
+  `@agent-lexby` + the CLAUDE.md trigger + .justice/judgments/, vendors the global SPEC-LAW into the repo, and runs ONE
   seeded micro-case live so the install is the demo (ends on a committed ruling + a screenshot-grade card).
   (Replaces the earlier `npx lexby init` working name.)
 - **`submit-request-to-court "<question>"`** - file a Request for Ruling (forward-looking: a fork, "should we go
@@ -290,18 +290,18 @@ not the rule.
 Settled by the Supreme Council ([2026] LEXBY-SC 1, Hallam CJ, unanimous): the court does not punish, it makes the
 work good, so the criminal frame (nulla poena, the jurisdiction-first gate, the guilt/remedy decoupling, the "no
 breach, act anyway" posture) was a category error and is struck. Breach is the **tort of negligence**:
-- **Duty (S-4):** Lexby owes a continuing duty of reasonable skill and care to every principal who relies on his
+- **Duty (s. 4):** Lexby owes a continuing duty of reasonable skill and care to every principal who relies on his
   work, arising from the relationship itself (the neighbour principle), independent of any enacted SPEC-LAW.
-- **Standard (S-5):** discharged by meeting the applicable rung of a graded hierarchy of endeavours, pleaded and
+- **Standard (s. 5):** discharged by meeting the applicable rung of a graded hierarchy of endeavours, pleaded and
   found per engagement and stakes: **reasonable skill and care** (default) / **all reasonable endeavours** / **best
   endeavours**. Conduct a responsible body of competent practice would endorse is not breach (the Bolam rule).
-- **Breach (S-5):** a falling-below of the applicable standard, a question of fact on the merits, never a
+- **Breach (s. 5):** a falling-below of the applicable standard, a question of fact on the merits, never a
   punishment trigger.
-- **Remedy (S-6):** remediation and restitution alone, proportionate to the harm: make good, restore the position.
+- **Remedy (s. 6):** remediation and restitution alone, proportionate to the harm: make good, restore the position.
   Punishment, fine, and sanction are unavailable in every instance. Finding and remedy are never decoupled.
-- **No-statute case (S-7):** silence in SPEC-LAW is no defence and does not extinguish the duty; it merely fixes the
+- **No-statute case (s. 7):** silence in SPEC-LAW is no defence and does not extinguish the duty; it merely fixes the
   standard at reasonable skill and care. The matter is justiciable from the first act (no auto-referral).
-- **First-time / second-time repealed (S-8):** one continuous standard. A genuinely novel, unforeseeable first
+- **First-time / second-time repealed (s. 8):** one continuous standard. A genuinely novel, unforeseeable first
   failure with no governing standard is judged against reasonableness, ordinarily founds no breach, and triggers a
   forward duty to spec the rule and remediate. The logged ruling then makes the hazard foreseeable, so a recurrence
   is breach of a now-known duty (easier to prove, wider to remediate). The consequence is always restorative.
@@ -323,14 +323,14 @@ lives at `github.com/wlilley93/vibe-justice-system`. The update mechanism:
 
 - `cdd init` and `cdd run` check the canonical repo's `SPEC-LAW.md` version header (or a `SPEC-LAW-VERSION` tag)
   against the local copy via a lightweight unauthenticated GitHub API call.
-- If behind: print a notice. "Global SPEC-LAW S-14 enacted (2026-07-01). Run `cdd update` to adopt."
+- If behind: print a notice. "Global SPEC-LAW s. 14 enacted (2026-07-01). Run `cdd update` to adopt."
 - `cdd update` fetches the canonical `SPEC-LAW.md` and writes it to the local repo, creating a commit. Never
   forced, always explicit.
 
 Community features (landmark gallery, statute packs, bench rosters) use GitHub as the registry:
 - Statute packs: forks/gists of canonical SPEC-LAW with a `vjs-statute-pack` topic tag.
 - Landmark cases: a curated `community/landmarks.md` in the canonical repo, with links to exemplary public
-  caselaw/ dirs.
+  .justice/judgments/ dirs.
 - Bring-your-own-bench: rosters as `.json` files in a `community/benches/` directory, shareable by copy.
 
 No external database, no infrastructure dependency, no auth required for reads. If the canonical repo is down,
@@ -342,9 +342,9 @@ At review time, submitted work must be checked against the full legal corpus. Th
 `args.spec` (SPEC-LAW) and `args.caselaw` (INDEX.md entries), and the fast-path screen checks for binding
 precedent. The **compliance gate** is the step in `first-instance.js` Phase 1 where the judge:
 1. Checks the submission against every relevant SPEC-LAW article (does the work breach any statute?).
-2. Checks the submission against all `good-law` entries in `caselaw/INDEX.md` (does it conflict with or ignore
+2. Checks the submission against all `good-law` entries in .justice/INDEX.md (does it conflict with or ignore
    binding precedent?).
-3. Issues a **declaration of incompatibility** (S-11(f)) if statute and caselaw are in conflict.
+3. Issues a **declaration of incompatibility** (s. 11(f)) if statute and caselaw are in conflict.
 
 This is already baked into the workflow design. The triage governor pre-screens to avoid convening for pure
 implementation details, so the compliance check only runs on genuine forks or charges.
@@ -362,11 +362,11 @@ function names, class names. The legal question (in general terms), the ratio, t
 outcome are preserved unchanged. The PR is reviewed by the clerk before merging. This is baked into all three court
 workflow "Community PR" phases (VPR 8).
 
-### Subject matter jurisdiction (S-14 constitutional)
+### Subject matter jurisdiction (s. 14 constitutional)
 VJS courts have no jurisdiction over personal life questions, recreational preferences, or matters with no genuine
 connection to project work. The Standing Officer disposes of out-of-jurisdiction matters without deliberation. This
 is the spam gate: the court will not rule on "should I shave my head?" and the clerk will reject any community PR
-where the matter is outside S-14 jurisdiction.
+where the matter is outside s. 14 jurisdiction.
 
 ### Phase 2: community website
 A public read interface for community rulings. Hosted separately (lexby.ai or similar). Cases are:
@@ -387,12 +387,12 @@ Layer 2 feature that does not change the data model.
 The canonical VJS repo keeps the community record tidy via year-bucketing:
 - `community/caselaw/YYYY/` - all community rulings for that year (one file per ruling)
 - `community/benches/` - community bench rosters (JSON files)
-- `caselaw/` in individual repos - local jurisdiction precedent (small, project-specific)
-- `caselaw/INDEX.md` - the citator (one row per ruling; this file stays compact because rulings are separate files)
+- .justice/judgments/ in individual repos - local jurisdiction precedent (small, project-specific)
+- .justice/INDEX.md - the citator (one row per ruling; this file stays compact because rulings are separate files)
 
 The INDEX.md file cannot bloat because it is a table of citations only. The individual ruling files live in their
-own files. If the local caselaw/ directory grows large over years, older rulings can be archived to
-`caselaw/archive/YYYY/` without breaking the INDEX (the INDEX row stays; the file moves). This is a maintenance
+own files. If the local .justice/judgments/ directory grows large over years, older rulings can be archived to
+`.justice/archive/YYYY/` without breaking the INDEX (the INDEX row stays; the file moves). This is a maintenance
 convention, not a code change.
 
 ## Open / later (decisions pending)

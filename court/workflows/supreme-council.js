@@ -174,24 +174,24 @@ ${individualOpinions}
 
 export default async function supremeCouncil(args, { agent, parallel, phase, log, Bash }) {
   // -------------------------------------------------------------------------
-  // Law Load - Read SPEC-LAW.md and caselaw/INDEX.md from the repo
+  // Law Load - Read SPEC-LAW.md and .justice/INDEX.md from the repo
   // -------------------------------------------------------------------------
 
   phase('Law Load')
   const lawLoad = await parallel([
     () => agent(
-      'Read the file SPEC-LAW.md in the current working directory and return its complete text verbatim. No commentary, no summary, just the file contents.',
+      'Read the file .justice/SPEC-LAW.md in the current working directory. If that file does not exist, read SPEC-LAW.md instead. Return the complete text verbatim with no commentary or summary.',
       { label: 'load SPEC-LAW', phase: 'Law Load', agentType: 'Explore' }
     ),
     () => agent(
-      'Read the file caselaw/INDEX.md in the current working directory and return its complete text verbatim. No commentary, no summary, just the file contents.',
-      { label: 'load caselaw/INDEX.md', phase: 'Law Load', agentType: 'Explore' }
+      'Read the file .justice/INDEX.md in the current working directory. If that file does not exist, try caselaw/INDEX.md instead (legacy fallback). Return the complete text verbatim with no commentary or summary.',
+      { label: 'load .justice/INDEX.md', phase: 'Law Load', agentType: 'Explore' }
     ),
   ])
   const liveSpec = (lawLoad[0] && lawLoad[0].trim()) || null
   const liveIndex = (lawLoad[1] && lawLoad[1].trim()) || null
   if (liveSpec) log('SPEC-LAW loaded from repo.')
-  if (liveIndex) log('caselaw/INDEX.md loaded from repo.')
+  if (liveIndex) log('.justice/INDEX.md loaded from repo.')
 
   // Merge live repo content with any args-supplied content (repo wins if present)
   if (liveSpec) args = { ...args, spec: liveSpec }
@@ -490,8 +490,8 @@ STEPS:
        "plain_english_summary": "[extract from lexby translation]"
      }
    }
-3. mkdir -p caselaw/pdfs
-4. node court/renderer/index.js /tmp/vjs-ruling-sc-${scCitSlug}.json caselaw/pdfs/sc-${scCitSlug}.pdf
+3. mkdir -p .justice/pdfs
+4. node court/renderer/index.js /tmp/vjs-ruling-sc-${scCitSlug}.json .justice/pdfs/sc-${scCitSlug}.pdf
 5. Return the absolute PDF path.`,
     { label: 'PDF Render', phase: 'PDF Render', agentType: 'claude' }
   )
