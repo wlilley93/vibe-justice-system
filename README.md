@@ -99,9 +99,14 @@ When your Supreme Council rules on something, that ruling gets submitted anonymi
 
 **The more Supreme Council rulings go in, the faster every project resolves.** Here is why: before any court sits, Lexby checks the community precedent index first. If someone else already fought this battle and got a ruling, your project gets that answer instantly - no deliberation, no sitting, no cost. The bigger the shared record gets, the more questions get answered on the fast path before a single judge is even assigned. Every ruling contributed is a gift to every future project that hits the same call.
 
-> Project A ruled: *"always encrypt tokens at rest, even in dev."*
+> **Fast path:** Project A ruled: *"always encrypt tokens at rest, even in dev."*
 > Six months later, Project B hits the same question.
 > Lexby finds the ruling. Done in seconds. No court needed.
+
+> **Supreme Council:** Project C has a hard call - should AI ever modify the database schema directly?
+> Five judges deliberate. They rule: no, always generate a migration for human review.
+> That ruling is anonymised and submitted to the community record.
+> Now every VJS project in the world gets that answer on the fast path. Forever.
 
 ---
 
