@@ -1,0 +1,16 @@
+{
+  "//": "VJS plugin hooks. Merge this into the target repo's .claude/settings.json (cdd init does this for you). The Stop hook runs the token-light turn watchdog after every agent turn; it is inert unless .justice/ exists and ANTHROPIC_API_KEY is set, and it fails open. Set VJS_WATCHDOG_MODE=warn to make it advisory instead of blocking, or VJS_WATCHDOG=off to disable.",
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/vjs-watchdog.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

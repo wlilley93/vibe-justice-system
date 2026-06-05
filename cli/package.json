@@ -1,0 +1,21 @@
+{
+  "name": "vibe-justice",
+  "version": "0.1.0",
+  "description": "Vibe Justice System CLI - install VJS into a repo and assign deterministic neutral citations. Spec is law. Rulings are precedent. Lexby is your lawyer.",
+  "bin": {
+    "cdd": "bin/cdd.js",
+    "vjs": "bin/cdd.js"
+  },
+  "scripts": {
+    "test": "node lib/citation.test.js"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "templates/",
+    "README.md"
+  ],
+  "keywords": ["vibe-justice", "vjs", "lexby", "cdd", "ai", "governance", "caselaw"],
+  "license": "MIT",
+  "engines": { "node": ">=16" }
+}
