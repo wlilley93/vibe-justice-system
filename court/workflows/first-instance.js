@@ -5,6 +5,7 @@ export const meta = {
     { title: 'Law Load', detail: 'Read SPEC-LAW.md and .justice/INDEX.md from the repo - the court is always bound to the current law, never a stale copy' },
     { title: 'Intake', detail: 'Assign a judge from the permanent bench and check standing (VPR 1 / s. 11)' },
     { title: 'Fast-path screen', detail: 'Check whether a binding ratio on all fours disposes the matter without a sitting (VPR 2 / s. 11)' },
+    { title: 'Hard research - both sides', detail: 'Researched intake (s. 19(1)): claimant and defendant each research the law and file a brief so the judge deliberates on a symmetric two-sided record (skipped on fast-path)' },
     { title: 'Deliberation', detail: 'If no fast-path: the assigned judge deliberates and renders a ruling in formal legalese (skipped on fast-path)' },
     { title: 'Translation', detail: 'Lexby translates the ruling into plain English for the record' },
     { title: 'PDF Render', detail: 'Render the judgment as a PDF using the court/renderer engine' },
@@ -307,6 +308,52 @@ Conduct the intake screen. Assess standing first. If standing fails, the matter 
 let ruling = null
 
 if (screen && screen.standing && !screen.fast_path) {
+  // Researched intake (SPEC-LAW s. 19(1)): both sides research the law and file briefs
+  // so the single judge deliberates on a symmetric, two-sided record (s. 3).
+  phase('Hard research - both sides')
+  const FI_BRIEF_SCHEMA = {
+    type: 'object', additionalProperties: false,
+    required: ['role', 'thesis', 'best_arguments', 'statutes_relied', 'precedents_relied', 'procedural_motions', 'strongest_opposing_point'],
+    properties: {
+      role: { type: 'string' },
+      thesis: { type: 'string', description: 'The one-paragraph position this brief argues for.' },
+      best_arguments: { type: 'array', items: { type: 'string' }, description: 'Strongest arguments, each grounded in a cited article (s. n) or precedent ([YEAR] LEXBY-...).' },
+      statutes_relied: { type: 'array', items: { type: 'string' } },
+      precedents_relied: { type: 'array', items: { type: 'string' } },
+      procedural_motions: { type: 'array', items: { type: 'string' }, description: 'Any motion (strike-out for want of standing/jurisdiction, per incuriam, fast-path disposal), each with grounds. Empty if none.' },
+      strongest_opposing_point: { type: 'string', description: 'The strongest point against this side, stated honestly, and the best answer to it.' },
+    },
+  }
+  const fiArsenal = 'Deploy whatever genuinely helps your side (cite the article): strike-out for want of standing (s. 11(b)) or jurisdiction (s. 14); the precedent fast-path (s. 11(c)); per incuriam (s. 11(e)); distinguishing; declaration of incompatibility (s. 11(f)); the Bolam responsible-body defence (s. 5); the s. 15 threshold; the s. 16 candour scope.'
+  const fiBriefs = await parallel(['claimant', 'defendant'].map(role => () => agent(
+    `You are COUNSEL FOR THE ${role.toUpperCase()} at First Instance in the Vibe Justice System. ${role === 'claimant' ? 'Argue FOR the proposition or relief sought: the court should ALLOW, grant, or answer the question in the affirmative.' : 'Argue AGAINST it: the court should DISMISS or refuse, including any motion to strike out the matter at the threshold.'}
+
+This is the mandatory hard-research first leg (s. 19(1)). Research the law HARD before you argue: you may READ the full text of any ruling under .justice/judgments/ and re-read SPEC-LAW.md. Ground every argument in a cited article (s. n) or a neutral citation. Do NOT use em dashes or en dashes.
+
+${fiArsenal}
+
+THE MATTER (${kind === 'breach' ? 'breach charge' : 'request for ruling'}): ${matter}
+
+${specBlock}
+
+${caselawBlock}
+
+Produce your brief: adversarial and thorough for your side, but never misstate the law.`,
+    { label: `${role} brief`, phase: 'Hard research - both sides', agentType: 'Explore', schema: FI_BRIEF_SCHEMA }
+  )))
+  const fiBriefsSection = ['claimant', 'defendant'].map((role, i) => {
+    const b = fiBriefs[i]
+    if (!b) return `=== ${role.toUpperCase()} BRIEF ===\n(no brief returned)`
+    return `=== ${role.toUpperCase()} BRIEF ===
+Thesis: ${b.thesis}
+Best arguments:
+${(b.best_arguments || []).map(a => '  - ' + a).join('\n')}
+Statutes relied: ${(b.statutes_relied || []).join('; ')}
+Precedents relied: ${(b.precedents_relied || []).join('; ')}
+Procedural motions: ${(b.procedural_motions || []).length ? b.procedural_motions.join('; ') : 'none'}
+Strongest point against this side (conceded): ${b.strongest_opposing_point || ''}`
+  }).join('\n\n')
+
   phase('Deliberation')
 
   ruling = await agent(
@@ -326,8 +373,13 @@ ${specBlock}
 
 ${caselawBlock}
 
+================================================================
+ADVERSARIAL BRIEFS (researched intake, s. 19(1) - both sides argued the law)
+================================================================
+${fiBriefsSection}
+
 CHARGE TO THE BENCH:
-This is a matter of first impression (or genuine distinction from existing precedent). You must deliberate and render a ruling. Speak in formal legalese. The style is dense, precise, and judicial: cite your statutory authority (S-n) for every proposition; reason through the elements before reaching the ratio; record any obiter observations separately.
+This is a matter of first impression (or genuine distinction from existing precedent). You have a symmetric, two-sided researched record above; weigh both briefs, but you are bound by neither - rule on the law. You must deliberate and render a ruling. Speak in formal legalese. The style is dense, precise, and judicial: cite your statutory authority (S-n) for every proposition; reason through the elements before reaching the ratio; record any obiter observations separately.
 
 FOR A REQUEST FOR RULING:
 - State the question precisely as filed.
