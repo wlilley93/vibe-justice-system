@@ -40,24 +40,28 @@ The court decides. Lexby executes. The record is permanent.
 
 ## How it works
 
-1. You have a fork ("SSR or SPA?")
-2. Lexby checks if it's been decided before. If yes: applied instantly, no court needed.
-3. If not: an AI court deliberates and rules. The ruling is committed to the repo.
+Every time you use AI to build something, it makes silent calls: which approach, which trade-off, which direction. Most never get written down. Then a new session picks a different direction, and now nothing is consistent.
+
+VJS catches those calls and turns them into binding decisions:
+
+1. The AI hits a choice - "build this ourselves or use the library?", "ship now or wait for the audit?"
+2. Lexby checks if that type of choice was already decided. If yes: follows the ruling instantly.
+3. If not: an AI court deliberates and issues a ruling. It gets committed to the repo.
 4. Every future session inherits it. The AI cannot contradict its own record.
 
-**Mistakes get fixed, not punished.** When something falls below standard the only outcome is: fix it.
+**When the AI gets something wrong, it must report itself and fix it.**
 
 ---
 
 ## The courts
 
 ```
-SUPREME COUNCIL      5 AI judges (9 for big calls)     Foundational. Rulings go to community record.
+FIRST INSTANCE       1 AI judge                        Everyday decisions. Stays local.
 COURT OF APPEAL      3 AI judges                       Disputed calls. Stays local.
-FIRST INSTANCE       1 AI judge                        Everyday forks. Stays local.
+SUPREME COUNCIL      5 AI judges (9 for big calls)     Foundational. Rulings go to community record.
 ```
 
-Start at First Instance. Climb by permission. You can't skip.
+Start at First Instance. Escalate by permission. You can't skip.
 
 ---
 
