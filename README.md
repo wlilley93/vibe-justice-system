@@ -77,6 +77,16 @@ Start at First Instance. Escalate by permission. You can't skip.
 "Is this allowed under our spec?"
 ```
 
+Lexby also catches himself:
+
+```
+"I'm not sure this is right..."         -> self-files for a ruling before proceeding
+
+"I think I broke the rules earlier..."  -> self-reports the breach and orders a fix
+
+"I didn't follow what we decided..."    -> files it, finds the original ruling, corrects course
+```
+
 Natural language. No syntax. Lexby handles the filing.
 
 ---
