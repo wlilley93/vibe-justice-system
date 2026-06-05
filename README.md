@@ -19,7 +19,6 @@
 > - **It only refines what you give it.** Rulings are only as good as the spec and context you provide. Garbage in, garbage out. A weak spec produces weak law.
 
 > **Known limitations (alpha)**
-> - **No standalone submit commands yet.** `submit-request-to-court` and `submit-breach-to-court` are described in the plugin but are not yet implemented as executable CLI commands. You invoke the court by running the workflow scripts directly or by telling your AI to do so.
 > - **Citation numbering is manual.** There is no auto-incrementing citation counter. You (or your AI) assign the next `[YEAR] LEXBY-FI N` number by checking the citator. Deterministic auto-numbering is on the v1 list.
 > - **No packaging yet.** VJS is not on npm or PyPI. Install is via the AI prompt below. A proper CLI and package are planned for v1.
 
@@ -134,13 +133,20 @@ Ship fast. The court is in session.
 **To install, give your AI this prompt:**
 
 ```
-Read plugin/CLAUDE.md from github.com/wlilley93/vibe-justice-system and append it to
-this repo's CLAUDE.md. Then fetch SPEC-LAW.md from the same repo and save it as
-.justice/SPEC-LAW.md. Create the .justice/ directory structure (judgments/high-court,
-judgments/appeals-court, judgments/supreme-court, INDEX.md). VJS is now active.
+Install VJS into this repo. From github.com/wlilley93/vibe-justice-system, fetch and save:
+- plugin/CLAUDE.md -> append to this repo's CLAUDE.md
+- SPEC-LAW.md -> .justice/SPEC-LAW.md
+- VPR.md -> .justice/VPR.md
+- .justice/suites/security.md -> .justice/suites/security.md
+- .justice/suites/refactoring.md -> .justice/suites/refactoring.md
+- plugin/skills/submit-request-to-court/SKILL.md -> .claude/skills/submit-request-to-court/SKILL.md
+- plugin/skills/submit-breach-to-court/SKILL.md -> .claude/skills/submit-breach-to-court/SKILL.md
+Create .justice/ directories: judgments/high-court, judgments/appeals-court,
+judgments/supreme-court, suites. Create .justice/INDEX.md (empty citator).
+VJS is now active.
 ```
 
-Paste that into any Claude conversation in your repo. It creates the `.justice/` folder, loads the statute book into your AI's context, and wires Lexby's behaviour from that point forward. No other setup needed.
+Paste that into any Claude conversation in your repo. The AI fetches everything, wires its own behaviour, and installs the `/submit-request-to-court` and `/submit-breach-to-court` slash commands. No other setup needed.
 
 For the full technical reference: [court/README.md](court/README.md)
 
