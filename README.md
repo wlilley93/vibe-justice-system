@@ -18,6 +18,11 @@
 > - **Production systems need real engineers.** VJS helps record and structure AI decisions - it does not replace qualified engineering review, security audit, or human sign-off on anything that matters in the real world.
 > - **It only refines what you give it.** Rulings are only as good as the spec and context you provide. Garbage in, garbage out. A weak spec produces weak law.
 
+> **Known limitations (alpha)**
+> - **No standalone submit commands yet.** `submit-request-to-court` and `submit-breach-to-court` are described in the plugin but are not yet implemented as executable CLI commands. You invoke the court by running the workflow scripts directly or by telling your AI to do so.
+> - **Citation numbering is manual.** There is no auto-incrementing citation counter. You (or your AI) assign the next `[YEAR] LEXBY-FI N` number by checking the citator. Deterministic auto-numbering is on the v1 list.
+> - **No packaging yet.** VJS is not on npm or PyPI. Install is via the AI prompt below. A proper CLI and package are planned for v1.
+
 ---
 
 Your AI makes decisions every session. Nobody writes them down. Six PRs later, a different session contradicts the first one. Now you have two conventions, zero explanation, and a codebase that has lost the plot.
