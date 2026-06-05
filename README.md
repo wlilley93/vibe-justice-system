@@ -34,6 +34,34 @@ Your AI makes decisions every session. Nobody writes them down. Six PRs later, a
 
 ---
 
+## The idea
+
+Sometimes people break the rules. So do AI agents. That is not, on its own, a failure: an agent's job is to produce value the way it sees best, not to hold the entire rulebook in its head every single turn. The job of the court is to decide, after the fact, whether the way it worked was lawful, and to make the work good where it was not.
+
+The agent builds. The record judges. Neither has to be perfect for the system to work, because nothing load-bearing is decided silently and nothing wrong is allowed to stand once it is seen.
+
+---
+
+## When the court convenes (and when it does not)
+
+This is the part that keeps VJS cheap. An agent told "convene whenever you are unsure" will convene on every trivial fork and cost a fortune. VJS instead gives the agent **five precise conditions**, and for everything else it cites existing precedent and moves on, no sitting required.
+
+The court convenes only when:
+
+1. **First-impression** - no existing ruling covers the question.
+2. **Distinction** - precedent exists but genuinely does not fit these facts.
+3. **Overruling** - a ruling is wrong or outdated and should be set aside.
+4. **Conflict** - an instruction clashes with enacted law or binding precedent.
+5. **Breach** - work fell below the duty of care (self-reported, then fixed).
+
+Everything else is a **citation, not a sitting**: before any bench sits, the citator is searched, and a binding ruling on all fours disposes of the matter instantly (the fast path).
+
+That loop is **Caselaw Driven Development (CDD)**: a fork produces a ruling; the ruling is committed with a citation; every future session cites it instead of re-deciding. Where TDD records that the code does what you said, CDD records *why* you said it.
+
+> These five conditions are summarised here for onboarding. The canonical, binding text lives in [`plugin/CLAUDE.md`](plugin/CLAUDE.md), with the full methodology in [`CDD.md`](CDD.md); this summary points to that source and never replaces it. *(Required form per [2026] LEXBY-FI 3.)*
+
+---
+
 ## Lexby
 
 Your AI counsel. Three things at once:
@@ -149,12 +177,18 @@ Install VJS into this repo. From github.com/wlilley93/vibe-justice-system, fetch
 - .justice/suites/refactoring.md -> .justice/suites/refactoring.md
 - plugin/skills/submit-request-to-court/SKILL.md -> .claude/skills/submit-request-to-court/SKILL.md
 - plugin/skills/submit-breach-to-court/SKILL.md -> .claude/skills/submit-breach-to-court/SKILL.md
+- plugin/hooks/vjs-watchdog.sh -> .claude/hooks/vjs-watchdog.sh
+- plugin/hooks/vjs-pre-commit.sh -> .claude/hooks/vjs-pre-commit.sh
+- plugin/settings.json -> merge its "hooks" block into .claude/settings.json
 Create .justice/ directories: judgments/high-court, judgments/appeals-court,
 judgments/supreme-court, suites. Create .justice/INDEX.md (empty citator).
+Symlink .git/hooks/pre-commit -> ../../.claude/hooks/vjs-pre-commit.sh (the hard gate).
 VJS is now active.
 ```
 
-Paste that into any Claude conversation in your repo. The AI fetches everything, wires its own behaviour, and installs the `/submit-request-to-court` and `/submit-breach-to-court` slash commands. No other setup needed.
+Paste that into any Claude conversation in your repo. The AI fetches everything, wires its own behaviour, and installs the `/submit-request-to-court` and `/submit-breach-to-court` slash commands.
+
+**Or just run `cdd init`** (from the [CLI](cli/)): it vendors the statutes, scaffolds `.justice/`, appends the plugin block, installs both enforcement [hooks](plugin/hooks/) (the token-light turn **watchdog** and the deterministic pre-commit **hard gate**), and wires `.claude/settings.json`. The watchdog is inert unless `ANTHROPIC_API_KEY` is set; the hard gate needs nothing.
 
 For the full technical reference: [court/README.md](court/README.md)
 

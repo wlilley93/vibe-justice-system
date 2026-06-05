@@ -6,7 +6,7 @@ export const meta = {
     { name: 'Law Load', detail: 'Read SPEC-LAW.md and .justice/INDEX.md from the repo - the court is always bound to the current law, never a stale copy' },
     { name: 'Standing Gate', detail: 'Assess whether grounds of appeal disclose an arguable point of law or binding-precedent conflict' },
     { name: 'Appeal - Three Independent Opinions', detail: 'Three-judge panel delivers independent opinions (Blackmere J, Goffe J, Elden J)' },
-    { name: 'Ruling - Presiding Judge Synthesis', detail: 'Aldermere J (presiding) synthesises panel opinions into the Court of Appeal ruling artefact' },
+    { name: 'Ruling - Presiding Judge Synthesis', detail: 'Elden J (presiding, one of the three) synthesises the panel into the Court of Appeal ruling artefact (s. 18: author is a counted member, not a fourth seat)' },
     { name: 'Lexby Translates', detail: 'Lexby translates the judgment into plain language for the principal' },
     { name: 'PDF Render', detail: 'Render the judgment as a PDF using the court/renderer engine' },
   ],
@@ -27,8 +27,10 @@ export const meta = {
 //   - strict-construction seat  -> Blackmere (textualist, holds hard to the literal words)
 //   - pragmatist seat           -> Goffe (real-world workability)
 //   - precedent-hawk seat       -> Elden (historically-minded, draws on precedent)
-// The presiding judge for the synthesis is Aldermere (balanced, synthetic).
-// All four are drawn from the pool; panel = 3 sitting + Aldermere as presiding.
+// The judgment of the Court is authored by ONE of the three (the presiding member,
+// Elden J), synthesising the panel from within - per SPEC-LAW s. 18 ([2026] LEXBY-SC 3):
+// every bench is odd, the size is the TOTAL deciding membership, and no synthesiser may
+// be added on top of the sized panel. The bench is THREE; there is no fourth seat.
 // ---------------------------------------------------------------------------
 
 export default async function courtOfAppeal({ agent, parallel, phase, log }, args) {
@@ -298,15 +300,19 @@ End with a JSON block:
   });
 
   // -------------------------------------------------------------------------
-  // PHASE 2 - RULING BY PRESIDING JUDGE (ALDERMERE J)
+  // PHASE 2 - RULING BY THE PRESIDING JUDGE (ELDEN J, ONE OF THE THREE)
+  // Per SPEC-LAW s. 18 ([2026] LEXBY-SC 3): the judgment is authored by a counted
+  // member of the sized panel, never a synthesiser added on top. The bench is THREE.
   // -------------------------------------------------------------------------
   const rulingPhase = await phase("Ruling - Presiding Judge Synthesis", async () => {
-    return await agent("Aldermere J (Presiding - Synthesis)", {
-      description: "Presiding appellate judge synthesises all three opinions into the Court of Appeal ruling artefact.",
+    return await agent("Elden J (Presiding - Synthesis)", {
+      description: "The presiding member of the three (Elden J) synthesises the panel into the Court of Appeal ruling artefact, writing from within the sized bench.",
       prompt: `
-You are ALDERMERE J, presiding in the Court of Appeal of the Vibe Justice System.
-Your judicial temperament: balanced and synthetic. You have read all three opinions from your
-colleagues on this panel. You must now deliver the judgment of the Court of Appeal.
+You are ELDEN J, the presiding member of this three-judge Court of Appeal of the Vibe Justice System,
+and one of the three who sat and opined. You have read all three opinions on this panel (including your
+own). You now deliver the judgment of the Court from WITHIN the sized bench of three: you hold no vote or
+authority beyond your single seat, and you record the majority of the three as the ratio (SPEC-LAW s. 18).
+Your judicial temperament: historically-minded; here writing for the Court in a balanced, synthetic voice.
 
 THE THREE OPINIONS FROM THE PANEL:
 ${JSON.stringify(opinionsPhase, null, 2)}
@@ -343,7 +349,7 @@ RULING ARTEFACT SCHEMA (produce this exactly at the end, in a JSON block):
 {
   "citation": "${assignedCitation}",
   "tier": "court_of_appeal",
-  "panel": ["Blackmere J", "Goffe J", "Elden J", "Aldermere J (presiding)"],
+  "panel": ["Blackmere J", "Goffe J", "Elden J (presiding)"],
   "disposition": "affirm | affirm_with_modifications | reverse",
   "lower_ruling": <the lower ruling object verbatim>,
   "ratio": "<the binding ratio of this Court, stated as a rule of law>",

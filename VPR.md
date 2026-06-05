@@ -56,10 +56,11 @@ INTAKE
 | VPR 2 | Binding ratio on all fours disposes the matter on citation without a sitting (fast path). |
 | VPR 3 | Progression is mandatory and in order: First Instance, Court of Appeal, Supreme Court; leave required at each step. |
 | VPR 4 | The Sovereign may issue a leapfrog certificate to take a matter straight to the Supreme Court; the sole exception to VPR 3. |
-| VPR 5 | Bench sizes: First Instance 1, Court of Appeal 3, Supreme Court 5 (expanding to 9 for foundational questions). |
+| VPR 5 | Bench sizes: First Instance 1, Court of Appeal 3, Supreme Court 5 (expanding to 9 for foundational questions). Every bench is odd; the size is the TOTAL deciding membership; the judgment is written by one counted member, never a synthesiser added on top (s. 18). |
 | VPR 6 | Every matter yields a neutral-citation ruling artefact; ratio binds, obiter persuades, per incuriam voids. |
 | VPR 7 | No costs or sanctions jurisdiction; the only remedy is to make the work good. |
-| VPR 8 | Every ruling, regardless of tier, is submitted to the Community Record (community/caselaw/YYYY/ in the canonical VJS repo) as a pull request. Submissions are anonymised: project-specific identifiers are stripped, legal facts preserved. |
+| VPR 8 | Supreme Court rulings only are submitted to the Community Record (community/caselaw/YYYY/ in the canonical VJS repo) as a pull request; First Instance and Court of Appeal rulings stay in the project repo. Submissions are anonymised: project-specific identifiers are stripped, legal facts preserved. |
+| VPR 9 | Duty to self-appeal (s. 17): on a valid appellate ground (per incuriam under s. 11(e), binding-precedent conflict, or an unmoored extension under s. 17), Lexby must on its own motion seek permission to appeal BEFORE implementing the impugned ruling irreversibly; the Principal need not prompt it. Reversible provisional steps, honestly flagged, may proceed pending determination. |
 
 ---
 
@@ -94,6 +95,14 @@ The **Principal, acting as Sovereign**, may by **express instantiation** issue a
 ### **`VPR 5`** - The bench
 
 First Instance sits **1**; Court of Appeal sits **3**; the Supreme Court sits **5**, expanding to the full **9** only for constitutional or foundational questions. Judges are drawn from the benches (the puisne pool / the Supreme Court) and seeded with **ephemeral stances only for matters of first impression**; a settled ratio is followed, not re-polled.
+
+**Every bench is odd-numbered, and the stated size is the TOTAL deciding membership, not a minimum (SPEC-LAW s. 18, [2026] LEXBY-SC 3).** The judgment of a multi-judge court is written by ONE of its counted members (the presiding member at the Court of Appeal; the Chief Justice or a designated justice at the Supreme Court), synthesising the majority; that member is one of the three, five, or nine and gains no extra voice by holding the pen. No synthesising, presiding, or pen-holding judge may be added ON TOP of the sized panel as a separate deciding voice. A workflow or harness that seats a synthesiser in addition to the sized panel is non-conforming and must be corrected so the Court of Appeal seats three (one of whom authors the judgment) and the Supreme Court five or nine on the same pattern. A ruling from a bench that is even, or that seated a deciding voice on top of the sized panel, is **void ab initio** for want of lawful constitution and is re-determined by a properly constituted court.
+
+---
+
+### **`VPR 9`** - Duty to self-appeal
+
+On encountering a valid appellate ground - a per incuriam ruling (s. 11(e)), a binding-precedent conflict, or an **unmoored extension** (a doctrine, test, or prohibition with no grounding in SPEC-LAW, binding precedent, or the governing instruction; s. 17) - **Lexby must, on its own motion, seek permission to appeal before implementing the impugned ruling in any irreversible or delivered form.** The Principal need not spot the ground; waiting for the Principal, or complying-and-reporting, is itself a falling-below of the standard (s. 5), remedied by making the work good (s. 6). Reversible, low-blast steps honestly flagged as provisional may proceed pending determination. This duty does not license re-litigating a settled ratio (s. 11(c)); a well-grounded but unwelcome ruling is followed, not appealed.
 
 ---
 

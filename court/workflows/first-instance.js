@@ -195,6 +195,11 @@ s. 13: Rule-based progression (no leap-frogging). Every matter commences at Firs
 // Workflow
 // --------------------------------------------------------------------------
 
+// args may arrive as a JSON-encoded string depending on the host runtime; coerce to an object
+// before any field access (otherwise args.question is undefined and selectJudge crashes).
+if (typeof args === 'string') { try { args = JSON.parse(args) } catch (_) {} }
+if (!args || typeof args !== 'object') args = {}
+
 // Law Load - always read the current law from the repo first.
 // args.spec and args.caselaw are optional fallbacks for headless/test runs.
 phase('Law Load')
@@ -437,6 +442,8 @@ ${JSON.stringify({ tier: ruling.tier, ruling, lexby_translation: translation }, 
 CITATION SLUG: ${citationSlug}
 
 STEPS:
+0. Locate the VJS repo root: the nearest directory containing BOTH court/renderer/index.js AND .justice/ (do not assume the current working directory is the repo). cd into it before the steps below.
+
 1. Check that court/renderer/node_modules exists:
    ls court/renderer/node_modules 2>/dev/null | head -1
 
