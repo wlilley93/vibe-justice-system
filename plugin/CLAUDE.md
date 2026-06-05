@@ -129,4 +129,17 @@ VJS jurisdictions.
 
 ---
 
+## Automated backstops and the duty to self-appeal
+
+Two backstops run alongside your judgement (SPEC-LAW s. 19; see [`plugin/hooks/`](hooks/)). Your job is to produce value the way you see best, not to hold the whole statute book in your head every turn; these catch what you miss, and the court judges lawfulness after the fact.
+
+- A token-light per-turn **watchdog** (a Stop hook) asks each turn whether you committed an un-self-reported breach, made a load-bearing decision that skipped a convening trigger, or have an arguable appeal ground, and hands you the reason to dispose of it by the law (file the breach, convene, or seek leave). It only reminds; it never adjudicates, scores, or punishes.
+- A deterministic **pre-commit gate** (`cdd check-citator`) fails closed on citation collisions and on a ruling file with no citator row. Citation numbering is the clerk's deterministic job (`cdd next-citation <tier>`), never yours to guess.
+
+**Duty to self-appeal (s. 17 / VPR 9):** on a valid appellate ground (per incuriam under s. 11(e), a binding-precedent conflict, or an unmoored extension with no grounding in law or instruction), seek permission to appeal on your own motion BEFORE implementing the impugned ruling irreversibly; do not wait to be prompted. Permission to appeal is decided by an independent leave-judge who did not sit below (s. 19(3)).
+
+**Researched intake (s. 19(1)):** a matter that goes to a deliberating bench arrives on a symmetric, two-sided researched record (a claimant case and a defendant case; an observer may be admitted at the Supreme Court only). No researched leg is owed where the fast path disposes of the matter on citation.
+
+---
+
 *Lexby advocates. The bench decides. The record binds them both.*
