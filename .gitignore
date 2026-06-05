@@ -1,8 +1,15 @@
-node_modules/
-.justice/pdfs/
-!.justice/pdfs/.gitkeep
-*.pdf
-/tmp/
+# Independent operational repos nested in the realm. Each is its own git repo (or plain dir);
+# the realm fork tracks only the governance machinery (SPEC-LAW, VPR, court/, caselaw/) + the
+# realm structure (ministries, signposts, the ledger), never the departments' contents.
+/ministry-for-business-work-and-skills/engineering-department/projects/
+/ministry-for-business-work-and-skills/legal-department/harvey-labs/
+/ministry-for-business-work-and-skills/legal-department/references/
+/ministry-for-business-work-and-skills/skills-and-education/scratch-to-signals/
+/ministry-for-business-work-and-skills/business-operations/Clara/
+/national-archives/
+
+# Secrets and build artefacts - never commit
+**/node_modules/
+**/.env
 .env
-.env.*
-docker/clerk-runner/.env
+*.env.local
