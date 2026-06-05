@@ -19,8 +19,8 @@
 > - **It only refines what you give it.** Rulings are only as good as the spec and context you provide. Garbage in, garbage out. A weak spec produces weak law.
 
 > **Known limitations (alpha)**
-> - **Citation numbering is manual.** There is no auto-incrementing citation counter. You (or your AI) assign the next `[YEAR] LEXBY-FI N` number by checking the citator. Deterministic auto-numbering is on the v1 list.
-> - **No packaging yet.** VJS is not on npm or PyPI. Install is via the AI prompt below. A proper CLI and package are planned for v1.
+> - **Citation numbering is deterministic.** The next neutral citation is computed from the citator, not guessed: run `cdd next-citation <tier>` (CLI), and the three court Workflows now auto-assign the next `[YEAR] LEXBY-<TIER> N` from `.justice/INDEX.md` at ruling time. (Numbers are still confirmed when the ruling is committed to the citator.)
+> - **CLI shipped; npm/PyPI publish pending.** A zero-dependency Node CLI lives in [`cli/`](cli/) (`cdd` / `vjs`: `init`, `next-citation`, `submit-request`, `submit-breach`). Install locally with `npm link ./cli` (or run `node cli/bin/cdd.js`). Publishing to a registry is the remaining packaging step.
 
 ---
 

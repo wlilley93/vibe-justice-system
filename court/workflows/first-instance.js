@@ -215,6 +215,17 @@ else log('SPEC-LAW not found in repo - using built-in fallback.')
 if (liveIndex) log('.justice/INDEX.md loaded from repo.')
 else log('.justice/INDEX.md not found - no precedents available.')
 
+// Clerk: deterministic citation numbering (mirror of cli/lib/citation.js; the Workflow sandbox has no require).
+const VJS_YEAR = (typeof args !== 'undefined' && args && args.year) || 2026
+function vjsAssignCitation(citatorText, code, year) {
+  const re = new RegExp('\\[' + year + '\\]\\s*LEXBY-' + code + '\\s+(\\d+)', 'gi')
+  let max = 0, m
+  while ((m = re.exec(citatorText || '')) !== null) { const n = parseInt(m[1], 10); if (n > max) max = n }
+  return '[' + year + '] LEXBY-' + code + ' ' + (max + 1)
+}
+const assignedCitation = vjsAssignCitation(liveIndex, 'FI', VJS_YEAR)
+log('Clerk assigned citation: ' + assignedCitation)
+
 const matter = args.question ?? args.charge
 const kind = args.question ? 'request_for_ruling' : 'breach'
 const judge = selectJudge(matter)
@@ -329,8 +340,8 @@ FOR A BREACH:
 - If no breach: dismiss the charge with reasons.
 
 STRUCTURAL REQUIREMENTS:
-- Assign a neutral citation: [2026] LEXBY [n] where n is 1 unless you have reason to use a higher number (treat as case 1 of the year unless told otherwise).
-- The citation_id field must be in the form [2026] LEXBY n.
+- Use the neutral citation the clerk has assigned deterministically from the citator: ${assignedCitation}
+- The citation_id field must equal that exactly (tiered form [YEAR] LEXBY-FI n).
 - tier must be "first-instance".
 - judge must be your name exactly: ${judge.name}
 - kind must be "${kind}"
@@ -379,6 +390,9 @@ STRUCTURAL REQUIREMENTS:
     status: 'good-law',
   }
 }
+
+// Clerk assigns the binding citation deterministically from the citator (overrides any model-supplied value).
+if (ruling) ruling.citation_id = assignedCitation
 
 // --------------------------------------------------------------------------
 // Phase 4: Translation (Lexby plain-English render)

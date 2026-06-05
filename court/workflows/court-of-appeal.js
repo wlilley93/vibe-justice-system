@@ -57,6 +57,17 @@ export default async function courtOfAppeal({ agent, parallel, phase, log }, arg
   const specBlock = liveSpec || args.spec
   const caselawBlock = liveIndex || args.caselaw
 
+  // Clerk: deterministic citation numbering (mirror of cli/lib/citation.js; the Workflow sandbox has no require).
+  const VJS_YEAR = (args && args.year) || 2026
+  const vjsAssignCitation = (citatorText, code, year) => {
+    const re = new RegExp('\\[' + year + '\\]\\s*LEXBY-' + code + '\\s+(\\d+)', 'gi')
+    let max = 0, m
+    while ((m = re.exec(citatorText || '')) !== null) { const n = parseInt(m[1], 10); if (n > max) max = n }
+    return '[' + year + '] LEXBY-' + code + ' ' + (max + 1)
+  }
+  const assignedCitation = vjsAssignCitation(liveIndex, 'CA', VJS_YEAR)
+  log('Clerk assigned citation: ' + assignedCitation)
+
   // -------------------------------------------------------------------------
   // PHASE 0 - STANDING GATE
   // -------------------------------------------------------------------------
@@ -330,7 +341,7 @@ Your judgment must:
 RULING ARTEFACT SCHEMA (produce this exactly at the end, in a JSON block):
 \`\`\`json
 {
-  "citation": "[YEAR] LEXBY-CA <n>",
+  "citation": "${assignedCitation}",
   "tier": "court_of_appeal",
   "panel": ["Blackmere J", "Goffe J", "Elden J", "Aldermere J (presiding)"],
   "disposition": "affirm | affirm_with_modifications | reverse",
@@ -434,7 +445,10 @@ End with a JSON block:
   // -------------------------------------------------------------------------
   phase('PDF Render')
 
-  const citSlug = ((rulingArtefact && rulingArtefact.citation_id) || 'lexby-ca-1')
+  // Clerk binds the deterministic citation onto the artefact (schema emits "citation"; downstream reads "citation_id").
+  if (rulingArtefact) { rulingArtefact.citation_id = assignedCitation; rulingArtefact.citation = assignedCitation }
+
+  const citSlug = ((rulingArtefact && rulingArtefact.citation_id) || assignedCitation)
     .replace(/[\[\]\s]+/g, '-').replace(/^-|-$/g, '').toLowerCase()
 
   const pdfPath = await agent(

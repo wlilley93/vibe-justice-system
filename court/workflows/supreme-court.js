@@ -197,6 +197,17 @@ export default async function supremeCourt(args, { agent, parallel, phase, log, 
   if (liveSpec) args = { ...args, spec: liveSpec }
   if (liveIndex) args = { ...args, caselaw: args.caselaw ? `${liveIndex}\n\n${args.caselaw}` : liveIndex }
 
+  // Clerk: deterministic citation numbering (mirror of cli/lib/citation.js; the Workflow sandbox has no require).
+  const VJS_YEAR = (args && args.year) || 2026
+  const vjsAssignCitation = (citatorText, code, year) => {
+    const re = new RegExp('\\[' + year + '\\]\\s*LEXBY-' + code + '\\s+(\\d+)', 'gi')
+    let max = 0, m
+    while ((m = re.exec(citatorText || '')) !== null) { const n = parseInt(m[1], 10); if (n > max) max = n }
+    return '[' + year + '] LEXBY-' + code + ' ' + (max + 1)
+  }
+  const assignedCitation = vjsAssignCitation(liveIndex, 'SC', VJS_YEAR)
+  log('Clerk assigned citation: ' + assignedCitation)
+
   const panel = args.is_constitutional ? BENCH_9 : BENCH_5;
   const caseFile = buildCaseFile(args);
 
@@ -454,9 +465,8 @@ Return ONLY the PR URL. If any step fails, return "COMMUNITY-PR-FAILED: [error]"
   // -------------------------------------------------------------------------
   // PDF RENDER
   // -------------------------------------------------------------------------
-  const scCitSlug = (args.question || 'lexby-sc-1')
-    .slice(0, 40).replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase()
-  const scCitId = `[2026] LEXBY-SC`
+  const scCitId = assignedCitation  // deterministic, tiered, numbered (was `[2026] LEXBY-SC` with no number)
+  const scCitSlug = scCitId.replace(/[\[\]\s]+/g, '-').replace(/^-|-$/g, '').toLowerCase()
 
   const pdfPath = await agent(
     `Generate the PDF judgment for this Supreme Court ruling.
