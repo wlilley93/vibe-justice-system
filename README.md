@@ -113,7 +113,7 @@ VJS is building shared precedent for AI-assisted work.
 
 When your Supreme Court rules on something, that ruling gets submitted anonymised to the community record. What gets stripped: your repo name, file paths, function names, variable names - anything that identifies your project. What gets kept: the question that was asked, the facts of the decision, the ruling itself, and the law applied. You share the reasoning, not the source.
 
-**The more Supreme Court rulings go in, the faster every project resolves.** Here is why: before any court sits, Lexby checks the community precedent index first. If someone else already fought this battle and got a ruling, your project gets that answer instantly - no deliberation, no sitting, no cost. The bigger the shared record gets, the more questions get answered on the fast path before a single judge is even assigned. Every ruling contributed is a gift to every future project that hits the same call.
+**The more Supreme Court rulings go in, the faster every project resolves.** Here is why: before any court sits, Lexby checks the community precedent index first. If someone else already fought this battle and got a ruling, the fast-path disposes of the matter on citation with no sitting. The bigger the community record gets, the more questions get answered instantly. It's the network effect of a legal commons: every ruling contributed is free advice to every future project that hits the same fork.
 
 > **Fast path:** Project A ruled: *"always encrypt tokens at rest, even in dev."*
 > Six months later, Project B hits the same question.
