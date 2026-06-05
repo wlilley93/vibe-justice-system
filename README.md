@@ -117,7 +117,16 @@ Ship fast. The court is in session.
 
 ---
 
-**[How to install and run the courts →](court/README.md)**
+**To install, give your AI this prompt:**
+
+```
+Read plugin/CLAUDE.md from github.com/wlilley93/vibe-justice-system and append it to
+this repo's CLAUDE.md. Then fetch SPEC-LAW.md from the same repo and save it as
+.justice/SPEC-LAW.md. Create the .justice/ directory structure (judgments/high-court,
+judgments/appeals-court, judgments/supreme-court, INDEX.md). VJS is now active.
+```
+
+For the full technical reference: [court/README.md](court/README.md)
 
 ---
 
