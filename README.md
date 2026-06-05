@@ -55,6 +55,10 @@ VJS catches those calls and turns them into binding decisions:
 
 **When the AI gets something wrong, it must report itself and fix it.**
 
+### Brownfield code
+
+If you are installing VJS on an existing codebase, the best practice is to start a fresh repo. Treat the brownfield site as requirements: read it, extract what it does and why, and use that as the input to your spec. Then build green, with VJS governing every decision from day one. Trying to retrofit a justice system onto undocumented history is harder than building clean from known requirements - and the brownfield code already contains the answers you need.
+
 ---
 
 ## The courts
