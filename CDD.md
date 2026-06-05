@@ -96,7 +96,28 @@ Only the ratio binds. Obiter is persuasive. A ruling made in ignorance of bindin
 
 ---
 
+## Binding your agents (the CLAUDE.md block)
+
+`cdd init` appends the binding block to your repo's `CLAUDE.md` automatically. That block is what makes the
+law real: Claude Code loads `CLAUDE.md` into every agent session, so every agent sees the duty of care, the
+enumerable trigger list, the commands, and the pointer to the citator before it writes a single line.
+
+The binding block lives at `plugin/CLAUDE.md` in the VJS repo. It covers:
+- The duty of care and the graded endeavours standard (SPEC-LAW S-4 through S-8)
+- The citator check (grep `caselaw/INDEX.md` first; cite if covered, convene if not)
+- The enumerable trigger list (exactly five conditions that warrant a sitting; nothing else)
+- The commands (`submit-request-to-court`, `submit-breach-to-court`)
+- The progression rules summary (VPR)
+
+**The trigger list is the critical part.** An agent told "convene when uncertain" will convene on every
+trivial fork and cost a fortune. An agent given five precise conditions will convene only when the law
+actually requires it, and cite existing precedent for everything else.
+
+---
+
 ## Cross-references
 
 - **SPEC-LAW.md** - the sovereign statute book; case law is subordinate to it and void where it conflicts
 - **VPR.md** - the Vibe Procedure Rules; governs standing, progression, the fast path, bench sizes, and the leapfrog certificate
+- **plugin/CLAUDE.md** - the binding injection block; what gets appended to your repo's CLAUDE.md by `cdd init`
+- **court/README.md** - how to invoke the three court workflows directly

@@ -1,6 +1,6 @@
-# Lexby - design notes (captured directions, nothing lost)
+# Vibe Justice System - design notes
 
-Running capture of every decision and direction for Lexby. Append-only. The README and code are built from this.
+Running capture of every decision and direction. Append-only. The README and code are built from this.
 
 ## Positioning (the headline)
 The **Vibe Justice System (VJS)** exists to make **bounded, rule-based decisions on ANYTHING**: any decision that
