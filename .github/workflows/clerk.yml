@@ -71,8 +71,11 @@ jobs:
 
       - name: Call Claude for constitutional review
         id: claude_review
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        # ANTHROPIC_API_KEY, ANTHROPIC_BASE_URL and CLERK_MODEL are read from the runner
+        # environment. The self-hosted clerk-runner injects them via docker-compose/.env, so
+        # the clerk works with any Anthropic-compatible endpoint (e.g. GLM on z.ai's
+        # https://api.z.ai/api/anthropic) without needing a real Anthropic key or a repo secret.
+        # For a GitHub-hosted runner instead, map these here from repo secrets.
         run: |
           # Build the prompt JSON using a Python helper to handle quoting safely
           python3 - <<'PYEOF'
@@ -107,7 +110,7 @@ jobs:
           )
 
           payload = {
-              "model": "claude-sonnet-4-6",
+              "model": os.environ.get("CLERK_MODEL", "claude-sonnet-4-6"),
               "max_tokens": 1024,
               "system": system_prompt,
               "messages": [
@@ -123,7 +126,7 @@ jobs:
 
           RESPONSE=$(curl -s \
             --max-time 120 \
-            -X POST "https://api.anthropic.com/v1/messages" \
+            -X POST "${ANTHROPIC_BASE_URL:-https://api.anthropic.com}/v1/messages" \
             -H "x-api-key: $ANTHROPIC_API_KEY" \
             -H "anthropic-version: 2023-06-01" \
             -H "content-type: application/json" \
