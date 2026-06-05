@@ -1,6 +1,7 @@
 ---
 id: 2026-LEXBY-SC-1
 citation: "[2026] LEXBY-SC 1"
+uuid: 82bd4e6d-5c66-49e3-8c72-1450a5a6275d
 tier: supreme
 panel: [Hallam CJ, Goffe, Blackmere, Sumberly, Elden, Coade, Steyne, Bowan, Aldermere]
 kind: request_for_ruling

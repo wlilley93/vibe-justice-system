@@ -1,6 +1,6 @@
 # VJS Judgment Renderer
 
-Converts a VJS ruling JSON into a PDF that looks like a real UK court judgment. Court logo at the top, numbered paragraphs, styled ratio/obiter sections, Lexby translation panel, proper A4 margins. Each court tier has its own logo slot.
+Converts a VJS ruling JSON into a formally structured court judgment PDF. Court logo at the top, numbered paragraphs, styled ratio/obiter sections, Lexby translation panel, proper A4 margins. Each court tier has its own logo slot.
 
 ---
 

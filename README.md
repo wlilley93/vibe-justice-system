@@ -4,7 +4,7 @@
 
 # Vibe Justice System
 
-*Your AI just lawyered up.*
+*An AI governance framework. The court is made of AI. Lexby is AI. Not a real court. Not legal advice.*
 
 ![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 ![status](https://img.shields.io/badge/status-alpha-orange?style=flat-square)
@@ -43,7 +43,7 @@ You don't need a slower process. You need a **justice system**.
 
 ## Meet Lexby
 
-Lexby is your lawyer. Three things at once:
+Lexby is your AI counsel. Three roles at once:
 
 | Role | What he does |
 |---|---|
@@ -59,7 +59,7 @@ Because Lexby is bound by the record, he can push hard for you without it being 
 
 **Spec is law.** Your project spec becomes SPEC-LAW (statute). The court's rulings become case law (precedent). New decisions must be consistent with prior rulings or the court rejects them. The methodology is **Caselaw Driven Development (CDD)**.
 
-**Most forks never go to court.** Before the bench convenes, Lexby checks the citator. If a binding ratio already covers the question, the matter is disposed of on citation with no sitting required. The court only convenes for genuine first-impression questions, challenges to existing precedent, or breach charges.
+**Most forks never go to court.** Before the AI judges convene, Lexby checks the precedent index. If a prior ruling already covers the question, it is applied immediately with no sitting required. The court only convenes for genuine first-impression questions, challenges to existing precedent, or breach charges.
 
 **Three tiers. Mandatory progression.**
 
@@ -87,9 +87,9 @@ Because Lexby is bound by the record, he can push hard for you without it being 
                     '-------------------------------'
 ```
 
-Matters start at First Instance and climb by permission. You cannot jump the queue. Every case produces a tier-coded neutral citation: `[YEAR] LEXBY-FI N` (First Instance), `[YEAR] LEXBY-CA N` (Court of Appeal), `[YEAR] LEXBY-SC N` (Supreme Council), stored in `.justice/judgments/`. **Every ruling is also rendered as a PDF judgment** - formatted exactly as a UK court document, with the court logo, numbered paragraphs, ratio/obiter sections, and a plain-English translation from Lexby. Supreme Council rulings additionally go to the community record.
+Matters start at First Instance and climb by permission. You cannot jump the queue. Every case produces a tier-coded neutral citation: `[YEAR] LEXBY-FI N` (First Instance), `[YEAR] LEXBY-CA N` (Court of Appeal), `[YEAR] LEXBY-SC N` (Supreme Council), stored in `.justice/judgments/`. **Every ruling is also rendered as a PDF judgment** - formally structured, with the court logo, numbered paragraphs, the binding holding and supporting notes, and a plain-English translation from Lexby. Supreme Council rulings additionally go to the community record.
 
-**Mistakes are civil, not criminal.** There is always a duty of care. The only remedy is to make the work good. No blame, no punishment, just a finding and a fix.
+**Mistakes get fixed, not punished.** Lexby always owes a duty of care to the project. When something falls below standard, the only outcome is: fix it. No blame, no punishment - just a finding and a remedy.
 
 ---
 
@@ -100,13 +100,13 @@ There is a lot here. Here is the map:
 | File / Directory | What it is |
 |---|---|
 | `SPEC-LAW.md` | The sovereign statute book. s. 1 through s. 14. The supreme law of every VJS project. |
-| `VPR.md` | Vibe Procedure Rules. How matters move through the courts. The Civil Procedure Rules analogue. |
+| `VPR.md` | Vibe Procedure Rules. How matters move through the courts. The procedural rulebook. |
 | `CDD.md` | Caselaw Driven Development - the methodology manifesto. What CDD is, how it fits beside TDD. |
 | `.justice/judgments/` | Per-tier ruling artefacts for this project (`high-court/`, `appeals-court/`, `supreme-court/`). |
 | `.justice/INDEX.md` | The citator. One row per ruling. The fast-path lookup for agents. |
 | `.justice/suites/` | Security and refactoring checklists. Lexby invokes these when a ruling mandates it. |
 | `court/workflows/` | Three runnable Claude Code Workflow scripts - one per court tier. These ARE the courts. |
-| `court/renderer/` | PDF judgment renderer. Node.js + Puppeteer. Produces UK-court-style PDFs. |
+| `court/renderer/` | PDF judgment renderer. Node.js + Puppeteer. Produces formal court-style PDFs. |
 | `plugin/CLAUDE.md` | The binding injection block. `cdd init` appends this to your repo's `CLAUDE.md`. |
 | `community/` | Community caselaw library. Anonymised Supreme Council rulings from all VJS projects. |
 | `docs/DESIGN-NOTES.md` | Full design record. Architecture, decisions, open questions, phase-2 vision. |
@@ -114,7 +114,7 @@ There is a lot here. Here is the map:
 
 ---
 
-## The courts (runnable now)
+## The courts
 
 The three court workflows live in `court/workflows/`. They are Claude Code Workflow scripts. Run them via the `Workflow` tool:
 
@@ -133,7 +133,7 @@ Each workflow:
 2. **Checks standing and the fast path** (most matters resolve here, no bench required)
 3. **Deliberates** (the assigned judge(s) render a full opinion in formal legalese)
 4. **Translates** (Lexby gives the plain-English ruling and what it means in practice)
-5. **Generates a PDF judgment** (UK-court-style, with court logo and numbered paragraphs)
+5. **Generates a PDF judgment** (formal court-style, with court logo and numbered paragraphs)
 6. **Supreme Council only: submits to the community record** (anonymised PR to `community/caselaw/` under VPR 8 - lower courts stay in `.justice/judgments/` locally)
 
 See `court/README.md` for the full invocation reference.
@@ -142,7 +142,7 @@ See `court/README.md` for the full invocation reference.
 
 ## PDF judgments
 
-Every ruling produces a PDF formatted as a real UK court judgment: court logo at the top, numbered paragraphs, a ruled ratio section, obiter section, and a Lexby translation panel. Drop your logos into `court/renderer/assets/` (see the README there). A placeholder scales-of-justice SVG is used until you do.
+Every ruling produces a formally structured PDF: court logo at the top, numbered paragraphs, a ruled ratio section, obiter section, and a Lexby translation panel. Drop your logos into `court/renderer/assets/` (see the README there). A placeholder scales-of-justice SVG is used until you do.
 
 ```bash
 # Install the renderer once
@@ -227,6 +227,6 @@ Ship fast. Cite everything. The court is in session.
 
 *Contributions, bench rosters, statute packs, and landmark cases all welcome.*
 
-*Names on the bench are inventions adjacent to the giants of the English bench, never real sitting or living jurists.*
+*The court structure and procedure draw from the tradition of common law courts. Names on the bench are inventions - never real sitting or living jurists.*
 
 </div>

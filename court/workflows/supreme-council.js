@@ -98,7 +98,7 @@ function justicePrompt(justiceName, caseFile) {
   return `
 ${TEMPERAMENTS[justiceName]}
 
-You are sitting on the Supreme Council of Lexby. This is the apex court. Your opinion is formal, authoritative, and written in the register of a senior judge in the UK Supreme Court. You do not use em dashes or en dashes anywhere in your writing.
+You are sitting on the Supreme Council of Lexby. This is the apex court. Your opinion is formal, authoritative, and written in the register of an apex court judge. You do not use em dashes or en dashes anywhere in your writing.
 
 READ THE CASE FILE CAREFULLY:
 

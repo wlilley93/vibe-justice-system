@@ -1,6 +1,6 @@
 # Caselaw Index (Citator)
 
-This file is the master citator for the Vibe Justice System. It is the authoritative index of every ruling handed down in this realm. It is updated whenever a new ruling is committed to `caselaw/`.
+This file is the master citator for the Vibe Justice System. It is the authoritative index of every ruling handed down in this realm. It is updated whenever a new ruling is committed to `.justice/judgments/`.
 
 ## What this index is
 
@@ -16,7 +16,7 @@ It is also the first place Lexby checks before convening a bench. If a point is 
 
 - To check whether a question is already settled: scan the `ratio` column.
 - To check whether a ruling is still binding: read the `status` column (see Status Key below).
-- To find the full text of a ruling: open `caselaw/<file>` - the file name matches the citation, e.g. `2026-LEXBY-SC-1.md`.
+- To find the full text of a ruling: open `.justice/judgments/<tier>/<file>` - e.g. `.justice/judgments/supreme-court/2026-LEXBY-SC-1.md`.
 - To trace how a ruling interacts with statute: read the `cites` column (statute it relies on) and check SPEC-LAW.md for any articles it enacted.
 
 ## Column guide
@@ -28,11 +28,11 @@ It is also the first place Lexby checks before convening a bench. If a point is 
 | **Status** | Whether the ruling is currently good law. See Status Key. |
 | **Ratio (one line)** | The binding holding, stripped to its minimum. Obiter is not included here. |
 | **Scope** | Which repos, matters, or subject areas the ruling governs. `all repos` means realm-wide. |
-| **Cites** | Statute (S-n) or prior case law the ruling expressly relies on or enacts. |
+| **Cites** | Statute (s. n) or prior case law the ruling expressly relies on or enacts. |
 
 ## How to cite a ruling
 
-Neutral citation form (SPEC-LAW S-11(d)):
+Neutral citation form (SPEC-LAW s. 11(d)):
 
 ```
 [YEAR] LEXBY-SC n      (Supreme Council)
@@ -44,7 +44,7 @@ In prose, give the citation and then the point of ratio you are relying on. Exam
 
 > The duty of care arises from the relationship itself, not from any enacted statute ([2026] LEXBY-SC 1, ratio I).
 
-Only the ratio binds. Obiter dicta are persuasive only. A ruling made in ignorance of binding statute or prior precedent is per incuriam and void (S-11(e)).
+Only the ratio binds. Obiter dicta are persuasive only. A ruling made in ignorance of binding statute or prior precedent is per incuriam and void (s. 11(e)).
 
 ---
 
@@ -52,8 +52,8 @@ Only the ratio binds. Obiter dicta are persuasive only. A ruling made in ignoran
 
 | Citation | Tier | Status | Ratio (one line) | Scope | Cites |
 |----------|------|--------|------------------|-------|-------|
-| [[2026] LEXBY-SC 1](2026-LEXBY-SC-1.md) | supreme | good-law | Breach is the tort of negligence (duty + graded endeavours + remediation only); the system is a unitary realm of parliamentary sovereignty (one global SPEC-LAW, jurisdiction-local case law, one apex court). | All repos, all matters (constitutional founding ruling) | S-1, S-2, S-3 (founding); enacts S-4 through S-12 |
-| [[2026] LEXBY-FI 1](2026-LEXBY-FI-1.md) | first-instance | good-law | A governance system is fit for alpha release where the core legal model is coherent, statute + procedure + founding caselaw are committed, constitutional enforcement is in place, and known gaps are disclosed; convenience-layer tooling is not a prerequisite for alpha; deterministic citation numbering is a necessary condition for v1. | vibe-justice-system repo (alpha-readiness standard for governance systems) | S-4, S-5, S-7, S-8, S-11(d), S-14 |
+| [[2026] LEXBY-SC 1](judgments/supreme-court/2026-LEXBY-SC-1.md) | supreme | good-law | Breach is the tort of negligence (duty + graded endeavours + remediation only); the system is a unitary realm of parliamentary sovereignty (one global SPEC-LAW, jurisdiction-local case law, one apex court). | All repos, all matters (constitutional founding ruling) | s. 1, s. 2, s. 3 (founding); enacts s. 4 through s. 12 |
+| [[2026] LEXBY-FI 1](judgments/high-court/2026-LEXBY-FI-1.md) | first-instance | good-law | A governance system is fit for alpha release where the core legal model is coherent, statute + procedure + founding caselaw are committed, constitutional enforcement is in place, and known gaps are disclosed; convenience-layer tooling is not a prerequisite for alpha; deterministic citation numbering is a necessary condition for v1. | vibe-justice-system repo (alpha-readiness standard for governance systems) | s. 4, s. 5, s. 7, s. 8, s. 11(d), s. 14 |
 
 ---
 
@@ -71,7 +71,7 @@ Only the ratio binds. Obiter dicta are persuasive only. A ruling made in ignoran
 
 ## Adding a new ruling
 
-When a new ruling is committed to `caselaw/`:
+When a new ruling is committed to `.justice/judgments/`:
 
 1. Add a row to the Rulings table above, in ascending citation order within each year.
 2. Fill every column. Do not leave `ratio` vague - one tight line is better than a paragraph.

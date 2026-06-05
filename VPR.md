@@ -63,7 +63,7 @@ INTAKE
 
 ---
 
-How a matter is brought, how it moves through the courts, and the gate at each step. The vibe-coding analogue of the Civil Procedure Rules. Binding, and enforced by Lexby. Progression is RULE-BASED: you do not jump the queue.
+How a matter is brought, how it moves through the courts, and the gate at each step. Binding, and enforced by Lexby. Progression is RULE-BASED: you do not jump the queue.
 
 ---
 
@@ -87,7 +87,7 @@ A matter climbs the tiers **in order**: First Instance -> **Court of Appeal** (p
 
 ### **`VPR 4`** - The leapfrog (the only exception)
 
-The **Principal, acting as Sovereign**, may by **express instantiation** issue a **leapfrog certificate** taking a matter straight to the Supreme Council, bypassing the lower tiers (cf. the real UK leapfrog appeal under the Administration of Justice Act 1969). This is the **sole** exception to VPR 3. It must be express, it is recorded on the matter, and absent it the tiers are mandatory. (The tort recast, [2026] LEXBY-SC 1, proceeded under such a certificate.)
+The **Principal, acting as Sovereign**, may by **express instantiation** issue a **leapfrog certificate** taking a matter straight to the Supreme Council, bypassing the lower tiers. This is the **sole** exception to VPR 3. It must be express, it is recorded on the matter, and absent it the tiers are mandatory. (The tort recast, [2026] LEXBY-SC 1, proceeded under such a certificate.)
 
 ---
 

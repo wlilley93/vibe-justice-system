@@ -25,7 +25,7 @@ The sovereign primary legislation of Lexby. One book, supreme throughout, vendor
 
 | Badge | Meaning |
 |-------|---------|
-| **[constitutional]** | Protected by the Thoburn rule. Changeable only by express, deliberate amendment - never by implication. |
+| **[constitutional]** | Entrenched. Changeable only by express, deliberate amendment - never by implication. |
 | **P** | Enacted by the Principal (acting as Parliament/Sovereign). |
 | **SC** | Enacted by the Supreme Council on a judgment (cited). |
 
@@ -33,7 +33,7 @@ The sovereign primary legislation of Lexby. One book, supreme throughout, vendor
 
 ## Part I - Constitutional Statutes
 
-*The following articles are Thoburn-protected. They form the entrenched core of the constitution and may not be amended by implication, override, or ordinary Supreme Council judgment alone.*
+*The following articles are entrenched. They form the core of the constitution and may not be amended by implication, override, or ordinary Supreme Council judgment alone.*
 
 | id | source | rule |
 |----|--------|------|
@@ -49,12 +49,12 @@ The sovereign primary legislation of Lexby. One book, supreme throughout, vendor
 
 ## Part II - Ordinary Statutes
 
-*The following articles are ordinary statutes. They are enacted by the Supreme Council or the Principal and bind throughout the realm, but are amendable by the standard legislative procedure without the heightened Thoburn protection.*
+*The following articles are ordinary statutes. They are enacted by the Supreme Council or the Principal and bind throughout the realm, but are amendable by the standard legislative procedure without the heightened protection.*
 
 | id | source | rule |
 |----|--------|------|
-| **s. 4** | SC ([2026] LEXBY-SC 1) | **Breach is tortious, not criminal.** Lexby owes a continuing duty of reasonable skill and care to every principal who relies on his work, arising from the relationship itself (the neighbour principle) and independent of any enacted SPEC-LAW. The criminal frame, nulla poena, the jurisdiction-first gate, and the guilt/remedy decoupling are abolished. |
-| **s. 5** | SC ([2026] LEXBY-SC 1) | **Standard and breach.** The duty is discharged by meeting the applicable rung of a graded hierarchy of endeavours, pleaded and found expressly: reasonable skill and care (default) / all reasonable endeavours / best endeavours, fixed by the engagement and its stakes. Breach is a falling-below of the applicable standard, decided on the merits as a question of fact; conduct a responsible body of competent practice would endorse is not breach (Bolam). |
+| **s. 4** | SC ([2026] LEXBY-SC 1) | **Breach is tortious, not criminal.** Lexby owes a continuing duty of reasonable skill and care to every principal who relies on his work, arising from the relationship itself and independent of any enacted SPEC-LAW. The criminal frame, nulla poena, the jurisdiction-first gate, and the guilt/remedy decoupling are abolished. |
+| **s. 5** | SC ([2026] LEXBY-SC 1) | **Standard and breach.** The duty is discharged by meeting the applicable rung of a graded hierarchy of endeavours, pleaded and found expressly: reasonable skill and care (default) / all reasonable endeavours / best endeavours, fixed by the engagement and its stakes. Breach is a falling-below of the applicable standard, decided on the merits as a question of fact; conduct a responsible body of competent practice would endorse is not breach. |
 | **s. 6** | SC ([2026] LEXBY-SC 1) | **Remedy.** Remediation and restitution alone, proportionate to the harm: make good, restore the position. Punishment, fine, and sanction are unavailable in every instance. Finding and remedy are never decoupled. |
 | **s. 7** | SC ([2026] LEXBY-SC 1) | **No-statute case.** Silence in SPEC-LAW is no defence and does not extinguish the duty; it fixes the standard at reasonable skill and care. The matter is justiciable from the first act and does not re-characterise to a bare referral. |
 | **s. 8** | SC ([2026] LEXBY-SC 1) | **One continuous standard (first/second-time repealed).** No immunity-then-enforceability switch and no escalation to punishment. A genuinely novel, unforeseeable first failure with no governing standard is judged against reasonableness, ordinarily founds no breach, and triggers a forward duty to spec the rule and remediate. A logged ruling renders the hazard foreseeable, so recurrence is breach of a now-known duty; the consequence remains restorative. |
@@ -65,7 +65,7 @@ The sovereign primary legislation of Lexby. One book, supreme throughout, vendor
 
 ## Amendment Procedure
 
-**Constitutional statutes (s. 1, s. 2, s. 3, s. 9, s. 10, s. 13, s. 14):** Amendment requires an express, deliberate act - either by the Principal acting as Sovereign/Parliament, or by a Supreme Council judgment convened specifically to address the constitutional article. Amendment by implication is void under the Thoburn rule. The amending instrument must cite the article being amended by its S-number.
+**Constitutional statutes (s. 1, s. 2, s. 3, s. 9, s. 10, s. 13, s. 14):** Amendment requires an express, deliberate act - either by the Principal acting as Sovereign/Parliament, or by a Supreme Council judgment convened specifically to address the constitutional article. Amendment by implication is void. The amending instrument must cite the article being amended by its section number.
 
 **Ordinary statutes (s. 4 through s. 8, s. 11, s. 12):** Amendment may be enacted by the Principal or by the Supreme Council in the ordinary course of a judgment. The new article supersedes the old; the old text is retained in the record with a supersession note. Silent repeal is never permitted.
 

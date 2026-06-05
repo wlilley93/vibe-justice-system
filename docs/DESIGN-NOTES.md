@@ -15,8 +15,7 @@ bring-your-own-bench rosters, and statute packs.
 - **Lexby** = your lawyer inside it (advocate + advisor + engineer).
 - **SPEC-LAW** = the statute (sovereign rules). **Case law** = the logged rulings (precedent).
 - **Caselaw Driven Development (CDD)** = the methodology (sits beside TDD/BDD/DDD). `cdd` is the init command.
-- **Vibe Procedure Rules (VPR)** = how matters move through the courts (the Civil-Procedure-Rules analogue; see
-  `VPR.md`).
+- **Vibe Procedure Rules (VPR)** = how matters move through the courts (the procedural rulebook; see `VPR.md`).
 - **The courts:** First Instance (1 judge) -> Court of Appeal (3) -> Supreme Council (5, or 9 for constitutional).
 
 ## What Lexby is
@@ -66,7 +65,7 @@ layers.
    Development, but the full phrase is distinctive.
 
 ## The constitution (unwritten but clear)
-The constitution is **uncodified**: there is no single entrenched `CHARTER.md`. It lives, like the UK's, across
+The constitution is **uncodified**: there is no single entrenched `CHARTER.md`. It lives across
 four sources - **statute** (SPEC-LAW), **case law** (rulings), **conventions** (settled durable defaults), and
 **works of authority** (a non-binding plain-English commentary that describes it). It is **clear by access, not by
 codification**: this is a citation system, so "what does the constitution say about X?" is answered by the
@@ -74,7 +73,7 @@ citator/digest returning the governing statute + leading case, which Lexby trans
 **retrieval + a narrator**, not from one rigid document.
 - Delivered by: a generated, always-current **constitutional digest** (from the binding sources, so it cannot go
   stale) + a **commentary** (the work of authority, descriptive, non-binding).
-- **Constitutional statutes (the Thoburn rule):** foundational articles (the rule of law, statute supremacy, the
+- **Constitutional statutes (entrenched):** foundational articles (the rule of law, statute supremacy, the
   principal's dual capacity, the court structure) cannot be *impliedly* repealed - only by **express, deliberate**
   amendment. Nothing is entrenched (parliamentary sovereignty is intact), but the foundations cannot drift or be
   silently overwritten.
@@ -98,7 +97,7 @@ Justice Hallam.
 
 ## The court and the bench
 - **Spec is law.** SPEC-LAW is sovereign statute the work must obey; the court makes case law applying it.
-- **Tiers (UK-faithful, token-lean) - SPEC-LAW-10:**
+- **Tiers (three-tier, token-lean) - SPEC-LAW-10:**
   - **First Instance** = a SINGLE judge. The largest token economy; most matters end here.
   - **Court of Appeal** = a panel of 3, reached only by permission to appeal.
   - **Supreme Council** = a panel of 5, expandable to the full 9 only for constitutional / foundational matters.
@@ -111,8 +110,8 @@ Justice Hallam.
   re-polled (the freshness vs stare-decisis rule).
 - **They speak as tenured judges**, in dense, precise, near-impenetrable legalese. That is the rigor layer.
   **Lexby translates** to plain English by default; the full opinions are behind `--verbose`.
-- **Names are invented, adjacent to the giants of the English bench, and never land on a living or sitting jurist**
-  (credits line owns the homage: "names are inventions adjacent to the giants of the English bench").
+- **Names are invented, adjacent to the giants of the bench, and never land on a living or sitting jurist**
+  (credits line owns the homage: "names are inventions adjacent to the giants of the bench").
 
 ### The benches (invented names, each a durable lens)
 **Puisne pool** - First Instance draws 1, Court of Appeal draws 3:
@@ -216,7 +215,7 @@ court declares it and refers it up for amendment; it never strikes the sovereign
    higher-tier judge vacates and re-runs against the missed authority, no full sitting). Intra-tier split: two
    same-tier good-law ratios conflicting in overlapping scope must be referred UP, with a lint that fails on an
    unresolved in-scope split.
-8. **Own the homage.** A credits line ("names are inventions adjacent to the giants of the English bench"); nudge
+8. **Own the homage.** A credits line ("names are inventions adjacent to the giants of the bench"); nudge
    living-jurist echoes one more syllable from source; each judge gets a one-line temperament + a signature
    opening tell so dissents read as distinct jurists, not one model in many hats.
 
@@ -265,12 +264,12 @@ citing." / "Every decision, on the record. Forever." / "Take it to the bench." /
 Court." / "Don't vibe it. Litigate it." / "The seats are permanent. The verdict is yours to appeal."
 
 ## Vibe Procedure Rules (VPR) - rule-based progression
-Procedure is governed by the **Vibe Procedure Rules** (`VPR.md`), the CPR analogue. The load-bearing rule
+Procedure is governed by the **Vibe Procedure Rules** (`VPR.md`), The load-bearing rule
 (SPEC-LAW-13): **progression is rule-based and there is no leap-frogging.** Every matter commences at First
 Instance and climbs the tiers in order, escalating only by permission to appeal. A matter destined to change
 SPEC-LAW must be REACHED by progression, not commenced at the Supreme Council, and Lexby may not self-initiate at a
 higher tier. The sole exception is the **Principal's express leapfrog certificate** (acting as Sovereign), which
-may take a matter straight to the Supreme Council (cf. the UK leapfrog appeal). The tort recast ([2026] LEXBY-SC 1)
+may take a matter straight to the Supreme Council . The tort recast ([2026] LEXBY-SC 1)
 proceeded under such a certificate; that is why it sat at Supreme directly, and it is the non-notable exception,
 not the rule.
 
@@ -291,10 +290,10 @@ Settled by the Supreme Council ([2026] LEXBY-SC 1, Hallam CJ, unanimous): the co
 work good, so the criminal frame (nulla poena, the jurisdiction-first gate, the guilt/remedy decoupling, the "no
 breach, act anyway" posture) was a category error and is struck. Breach is the **tort of negligence**:
 - **Duty (s. 4):** Lexby owes a continuing duty of reasonable skill and care to every principal who relies on his
-  work, arising from the relationship itself (the neighbour principle), independent of any enacted SPEC-LAW.
+  work, arising from the relationship itself (of any enacted SPEC-LAW).
 - **Standard (s. 5):** discharged by meeting the applicable rung of a graded hierarchy of endeavours, pleaded and
   found per engagement and stakes: **reasonable skill and care** (default) / **all reasonable endeavours** / **best
-  endeavours**. Conduct a responsible body of competent practice would endorse is not breach (the Bolam rule).
+  endeavours**. Conduct a responsible body of competent practice would endorse is not breach (the standard practice test).
 - **Breach (s. 5):** a falling-below of the applicable standard, a question of fact on the merits, never a
   punishment trigger.
 - **Remedy (s. 6):** remediation and restitution alone, proportionate to the harm: make good, restore the position.
@@ -308,7 +307,7 @@ breach, act anyway" posture) was a category error and is struck. Breach is the *
 
 ## Where law lives: UNITARY sovereignty (SPEC-LAW-9), not federalism
 "Federalism" was a constitutional solecism (it presupposes sovereign sub-states; a unitary realm has none) and is
-struck. The frame is **parliamentary sovereignty in a unitary state of plural jurisdictions under one apex court**:
+struck. The frame is **one sovereign rulebook, multiple project-local jurisdictions, one apex court**:
 - **SPEC-LAW = sovereign primary legislation:** ONE global statute book, supreme throughout, vendored to every repo
   on git (e.g. `~/.lexby/SPEC-LAW.md` or a central `lexby-statute` repo).
 - **Case law = jurisdiction-local precedent:** each repo is a JURISDICTION (the England-and-Wales / Scotland /

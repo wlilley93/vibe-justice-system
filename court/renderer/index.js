@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // VJS Judgment Renderer
-// Converts a VJS ruling JSON into a PDF that looks like a real UK court judgment.
+// Converts a VJS ruling JSON into a formally structured court judgment PDF.
 //
 // Usage:
 //   node index.js <ruling.json> [output.pdf]
