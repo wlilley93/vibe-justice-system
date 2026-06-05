@@ -105,7 +105,7 @@ When your Supreme Council rules on something, that ruling gets submitted anonymi
 
 ---
 
-## WAGMI
+## Ship it
 
 You built the thing. The AI helped. Nobody knows who decided what.
 
@@ -113,7 +113,7 @@ Now you have a record.
 Now you have precedent.
 Now you have Lexby.
 
-Ship fast. Cite everything. The court is in session.
+Ship fast. The court is in session.
 
 ---
 
