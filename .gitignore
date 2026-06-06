@@ -14,3 +14,5 @@
 .env
 *.env.local
 law-reports/node_modules/
+law-reports/review-service/node_modules/
+law-reports/review-service/data/

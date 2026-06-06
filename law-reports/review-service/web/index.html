@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Realm Law - Annotation &amp; Review</title>
+<style>
+  :root { --cream:#fcf7f1; --ink:#1a2744; --rule:#c8d0dc; --muted:#5b6472; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--cream); color:#15202b; font-family:'Iowan Old Style','Palatino Linotype',serif; }
+  header { padding:.7rem 1rem; border-bottom:2px solid var(--ink); display:flex; align-items:baseline; gap:1rem; }
+  header h1 { font-size:1.2rem; color:var(--ink); margin:0; }
+  header .sub { color:var(--muted); font-style:italic; font-size:.82rem; }
+  .grid { display:grid; grid-template-columns:240px 1fr 320px; height:calc(100vh - 52px); }
+  .col { overflow:auto; padding:.6rem; }
+  .col.docs { border-right:1px solid var(--rule); }
+  .col.queue { border-left:1px solid var(--rule); background:#fffdfa; }
+  .doc { padding:.3rem .5rem; cursor:pointer; border-radius:4px; font-size:.82rem; }
+  .doc:hover { background:#fff; } .doc.sel { background:var(--ink); color:var(--cream); }
+  .doc small { display:block; color:var(--muted); } .doc.sel small { color:#d8dee8; }
+  .viewer { background:#e9e2d8; }
+  .pagewrap { position:relative; margin:0 auto 14px; box-shadow:0 1px 6px rgba(0,0,0,.2); background:#fff; }
+  .overlay { position:absolute; inset:0; cursor:crosshair; }
+  .anno { position:absolute; border:2px solid #b3001b; background:rgba(179,0,27,.08); }
+  .anno.pt { width:14px; height:14px; border-radius:50%; background:#b3001b; transform:translate(-7px,-7px); border:2px solid #fff; }
+  .anno .tip { display:none; position:absolute; top:100%; left:0; background:var(--ink); color:#fff; font-size:.72rem; padding:.2rem .4rem; border-radius:4px; max-width:240px; z-index:5; }
+  .anno:hover .tip { display:block; }
+  .qitem { border:1px solid var(--rule); border-left:4px solid #b3001b; border-radius:5px; padding:.5rem; margin:.5rem 0; font-size:.8rem; background:#fff; }
+  .qitem.RESOLVED,.qitem.DISMISSED { border-left-color:#1a3a1a; opacity:.7; }
+  .qitem .st { font-size:.66rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); }
+  button { font:inherit; font-size:.76rem; padding:.2rem .5rem; border:1px solid var(--ink); background:transparent; color:var(--ink); border-radius:4px; cursor:pointer; margin-right:.3rem; }
+  .hint { color:var(--muted); font-size:.76rem; padding:.4rem; }
+  .tools { padding:.3rem .6rem; border-bottom:1px solid var(--rule); font-size:.78rem; }
+  .tools label { margin-right:1rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Realm Law &middot; Annotation &amp; Review</h1>
+  <span class="sub">comment on a judgment or Act; comments raise reviews (lane JUDGMENT_COMMENT / BILL_COMMENT). Resolving records the decision only - it never edits the law (INV-4).</span>
+</header>
+<div class="grid">
+  <div class="col docs" id="docs"></div>
+  <div class="viewer">
+    <div class="tools">
+      <label><input type="radio" name="tool" value="COMMENT" checked> Comment (click a point)</label>
+      <label><input type="radio" name="tool" value="BOUNDING_BOX"> Box (drag a region)</label>
+      <span class="hint" id="vhint">select a document on the left</span>
+    </div>
+    <div class="col" id="pages" style="height:calc(100% - 34px)"></div>
+  </div>
+  <div class="col queue" id="queue"><div class="hint">review queue</div></div>
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
