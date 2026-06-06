@@ -1,5 +1,5 @@
 <!-- Bill 26 of 25 - Order Paper of the Realm. Drafted by the Standing Committee. -->
-<!-- status: presented-for-royal-assent | outcome: passed | ayes: 4/4 | drafting rounds: 2 -->
+<!-- status: enacted | royal-assent: 2026-06-06 | outcome: passed | ayes: 4/4 | drafting rounds: 2 -->
 
 # Statutory Instruments (Framework) Act 2026
 
@@ -301,4 +301,4 @@ All four members affirm the corrected form meets their original conditions and r
 
 ## Royal Assent
 
-*AWAITING ROYAL ASSENT. Bill 26 is reported by the Standing Committee (4/4, two drafting rounds) and presented to the Sovereign Founder. It is NOT yet enacted and NOT in force: enactment is the Sovereign's reserved act (CASE-LAW s. 2). On Royal Assent this header will record the date, the status will move to `enacted`, and the Act will be recorded in `statutes/`. Until then the statutory-instrument route it instantiates is not in force, and no `REALM-SI` may yet be made.*
+*Royal Assent granted by the Sovereign Founder on 2026-06-06 ("proceed all"). This Act is now **in force** per its commencement provision (s. 2) and is recorded in `statutes/`. The statutory-instrument route is instantiated: the binding-regulation tier (Bill 14 s. 11(1)(g)), the amendment procedure (Bill 14 s. 27), the REALM-SI citation slot + status vocabulary (Bill 16 ss. 7, 11), the enforcement receiver (Bill 13 s. 5A), and the nine parent-Act enabling clauses (s. 14) are in force. `REALM-SI` instruments may now be made under the framework. The s. 17 Sovereign Declaration on constitutional status is, per that section, deemed affirmed if not separately published within thirty days.*

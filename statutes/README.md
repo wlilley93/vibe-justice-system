@@ -35,6 +35,17 @@ express amendment of CASE-LAW ss. 1, 2, 9, 10).
 
 (The table fills out as each Act receives Royal Assent and is committed to `statutes/<NN>-<slug>.md`.)
 
+## Beyond the founding 25 - amending Acts
+
+| No. | Act | Status |
+|---|---|---|
+| 26 | Statutory Instruments (Framework) Act 2026 | in force (Royal Assent 2026-06-06) - amends Bills 14/16/13/15 to instantiate the SI route ([2026] REALM-PC 10, [2026] REALM-PC 11) and inserts enabling clauses into 9 parent Acts |
+
+Bill 26 reads into the amended Acts (Bills 14, 16, 13, 15) and the nine enabling clauses; the principal Acts
+are read as amended (UK model), pending any future consolidation under the Court Rules and Practice
+Consolidation Act 2026 (Bill 24). Subordinate legislation made under the framework is registered in
+[`instruments/`](instruments/) and cited `[YEAR] REALM-SI N (under Bill NN)`.
+
 ## Case-law-origin articles (the founding settlement, now codified by Act where noted)
 
 These articles were settled by judgment into the founding case law (formerly SPEC-LAW) before the statute book
