@@ -5,7 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { nextCitation, tierCode } = require('../lib/citation');
+const { nextCitation, seriesCode } = require('../lib/citation');
 const { auditCitator } = require('../lib/citator-audit');
 
 const PKG_ROOT = path.resolve(__dirname, '..', '..'); // the vibe-justice-system repo/package root
@@ -23,13 +23,16 @@ function die(msg, code = 1) { process.stderr.write(msg + '\n'); process.exit(cod
 
 function cmdNextCitation(args) {
   const tier = args._[0];
-  if (!tier) die('usage: cdd next-citation <first-instance|court-of-appeal|supreme-court> [--year YYYY] [--citator PATH] [--json]');
-  tierCode(tier); // validate early
+  if (!tier) die('usage: cdd next-citation <supreme-court|court-of-appeal|privy-council|high-court|county-court> [--division D] [--repo R] [--year YYYY] [--citator PATH] [--json]');
+  const opts = {};
+  if (args.division) opts.division = args.division;
+  if (args.repo) opts.repo = args.repo;
+  if (args.year) opts.year = parseInt(args.year, 10);
+  try { seriesCode(tier, opts); } catch (e) { die('next-citation: ' + e.message); } // validate early
   const citatorPath = args.citator || findCitator(process.cwd());
   const text = citatorPath && fs.existsSync(citatorPath) ? fs.readFileSync(citatorPath, 'utf8') : '';
   if (!citatorPath) process.stderr.write('note: no .justice/INDEX.md found; numbering from an empty citator (this will be N=1)\n');
-  const year = args.year ? parseInt(args.year, 10) : undefined;
-  const r = nextCitation(text, tier, year);
+  const r = nextCitation(text, tier, opts);
   if (args.json) process.stdout.write(JSON.stringify(r) + '\n');
   else process.stdout.write(r.citation + '\n');
 }

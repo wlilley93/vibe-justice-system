@@ -72,7 +72,8 @@ def classify(heading):
     if h.startswith('obiter'): return 'obiter'
     if h.startswith('remedy'): return 'remedy'
     if h.startswith('lexby'): return 'lexby'
-    if any(h.startswith(k) for k in ('matter', 'question', 'the question', 'the questions', 'ground of appeal')):
+    if any(h.startswith(k) for k in ('matter', 'question', 'the question', 'the questions',
+                                     'ground of appeal', 'the reference', 'reference')):
         return 'question'
     if any(h.startswith(k) for k in ('per incuriam', 'status', 'citation')):
         return 'drop'
