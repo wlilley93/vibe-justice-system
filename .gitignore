@@ -8,6 +8,12 @@
 /ministry-for-business-work-and-skills/business-operations/Clara/
 /national-archives/
 
+# Ministry of Security operational estate registry - PRIVATE (holds the facts: the master digital
+# estate registry, the repo->server-config list, and policy papers). The public law (REALM-SI 1)
+# states principles only; the facts never enter the public tree. (Provisional name pending the
+# Ministry rename; consolidates with the security ministry.)
+/ministry-of-security/
+
 # Secrets and build artefacts - never commit
 **/node_modules/
 **/.env
@@ -16,3 +22,11 @@
 law-reports/node_modules/
 law-reports/review-service/node_modules/
 law-reports/review-service/data/
+
+# OS / editor junk - never belongs in the repo (and never in a public VJS)
+.DS_Store
+**/.DS_Store
+._*
+**/._*
+*.swp
+Thumbs.db
