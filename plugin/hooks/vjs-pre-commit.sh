@@ -4,8 +4,17 @@
 # The watchdog (vjs-watchdog.sh) is the soft, model-based backstop for behaviour. THIS is the
 # hard, deterministic gate for the RECORD: it fails closed, with no model in the loop, on the two
 # ways a jurisdiction silently corrupts itself:
-#   - citation collisions (the same [YEAR] LEXBY-<TIER> N issued twice), and
+#   - citation collisions (the same [YEAR] REALM-<CODE> N issued twice), and
 #   - filing breaks (a ruling file with no citator row, or a citator row with no ruling file).
+#
+# It then keeps the DERIVED PROJECTIONS in lockstep: when a commit touches the law sources
+# (.justice/INDEX.md, .justice/judgments/, legislature/bills/), it regenerates the pointer-only
+# law-site corpus + search index and the rulings ledger and stages them, so the index can never
+# silently drift from the law ([2026] REALM-PC 4; Bill 16 s. 12(2)). The citator audit is
+# fail-CLOSED (it guards the legal record); the projection rebuild is fail-OPEN (a convenience
+# layer, so a build hiccup warns rather than blocks). The git-history-based reasons ledger
+# (ministry-of-justice/reasons-ledger/) is rebuilt at milestones, not per-commit (by design it
+# lags the in-progress commit by one).
 #
 # Install it as the repo's git pre-commit hook (cdd init does this for you, or symlink it:
 #   ln -sf ../../.claude/hooks/vjs-pre-commit.sh .git/hooks/pre-commit).
@@ -35,5 +44,33 @@ if ! run_check; then
   echo "record would be left inconsistent. Fix the citator/ruling files, or, for a deliberate" >&2
   echo "exception, re-run with: git commit --no-verify" >&2
   exit 1
+fi
+
+# --- Derived-projection lockstep (REALM-PC 4 / Bill 16 s. 12(2)) --------------------------------
+# When this commit touches the law sources, regenerate the derived, pointer-only projections and
+# stage them so the index can never silently drift from the law, nor be forgotten. Fail-OPEN: the
+# citator hard gate above already protects the legal record; the projections are a convenience
+# layer, so a build hiccup warns and the commit proceeds (rebuild manually if so). Errors are
+# trapped so they can never abort the commit under `set -e`.
+staged="$(git diff --cached --name-only 2>/dev/null || true)"
+if printf '%s\n' "$staged" | grep -qE '^\.justice/INDEX\.md$|^\.justice/judgments/|^legislature/bills/'; then
+  if command -v node >/dev/null 2>&1 && [ -f law-reports/build/ingest.js ]; then
+    if node law-reports/build/ingest.js >/dev/null 2>&1 && node law-reports/build/build-search-index.js >/dev/null 2>&1; then
+      git add law-reports/corpus.json law-reports/site/search-index.json >/dev/null 2>&1 || true
+      echo "VJS pre-commit: law-site corpus + search index rebuilt in lockstep and staged." >&2
+    else
+      echo "VJS pre-commit: WARNING - law-site projection rebuild failed; committing without refresh (rebuild manually)." >&2
+    fi
+  else
+    echo "VJS pre-commit: WARNING - node or law-reports build scripts missing; law-site projection NOT refreshed (REALM-PC 4 lockstep not enforced this commit)." >&2
+  fi
+  if command -v python3 >/dev/null 2>&1 && [ -f ministry-of-justice/ledger/build-ledger.py ]; then
+    if python3 ministry-of-justice/ledger/build-ledger.py >/dev/null 2>&1; then
+      git add ministry-of-justice/ledger/INDEX.md >/dev/null 2>&1 || true
+      echo "VJS pre-commit: universal rulings ledger rebuilt in lockstep and staged." >&2
+    else
+      echo "VJS pre-commit: WARNING - rulings-ledger rebuild failed; committing without refresh." >&2
+    fi
+  fi
 fi
 exit 0
