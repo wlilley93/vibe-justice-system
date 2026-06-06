@@ -54,33 +54,20 @@ fi
 # trapped so they can never abort the commit under `set -e`.
 staged="$(git diff --cached --name-only 2>/dev/null || true)"
 if printf '%s\n' "$staged" | grep -qE '^Judicature/\.justice/INDEX\.md$|^Judicature/\.justice/judgments/|^Legislature/legislature/bills/'; then
-  if command -v node >/dev/null 2>&1 && [ -f Judicature/law-reports/build/ingest.js ]; then
-    if node Judicature/law-reports/build/ingest.js >/dev/null 2>&1 && node Judicature/law-reports/build/build-search-index.js >/dev/null 2>&1; then
-      git add Judicature/law-reports/corpus.json Judicature/law-reports/site/search-index.json >/dev/null 2>&1 || true
-      echo "VJS pre-commit: law-site corpus + search index rebuilt in lockstep and staged." >&2
+  # REALM-SI 2 (the Judgment Rendering and Lodgement Instrument): invoke the first-class deterministic
+  # render-and-lodge verb that the Instrument mandates. It renders judgment PDFs (idempotent), rebuilds
+  # the law-site corpus + search index + rulings-ledger projections in lockstep, and verifies the
+  # citation layer. Fail-OPEN here (the hard fail-closed citation gate already ran above via run_check;
+  # the verb's render + projections are the convenience layer, so a hiccup warns and the commit proceeds).
+  if [ -f Executive/cli/bin/cdd.js ] && command -v node >/dev/null 2>&1; then
+    if node Executive/cli/bin/cdd.js lodge-judgment >/dev/null 2>&1; then
+      echo "VJS pre-commit: render-and-lodge ran (cdd lodge-judgment, REALM-SI 2): PDFs + projections rebuilt in lockstep." >&2
     else
-      echo "VJS pre-commit: WARNING - law-site projection rebuild failed; committing without refresh (rebuild manually)." >&2
+      echo "VJS pre-commit: WARNING - render-and-lodge (cdd lodge-judgment) reported an issue; committing the convenience layer fail-open (rebuild manually)." >&2
     fi
+    git add Judicature/.justice/pdfs Judicature/law-reports/corpus.json Judicature/law-reports/site/search-index.json Judicature/ministry-of-justice/ledger/INDEX.md >/dev/null 2>&1 || true
   else
-    echo "VJS pre-commit: WARNING - node or law-reports build scripts missing; law-site projection NOT refreshed (REALM-PC 4 lockstep not enforced this commit)." >&2
-  fi
-  if command -v python3 >/dev/null 2>&1 && [ -f Judicature/ministry-of-justice/ledger/build-ledger.py ]; then
-    if python3 Judicature/ministry-of-justice/ledger/build-ledger.py >/dev/null 2>&1; then
-      git add Judicature/ministry-of-justice/ledger/INDEX.md >/dev/null 2>&1 || true
-      echo "VJS pre-commit: universal rulings ledger rebuilt in lockstep and staged." >&2
-    else
-      echo "VJS pre-commit: WARNING - rulings-ledger rebuild failed; committing without refresh." >&2
-    fi
-  fi
-  # Every judgment is always rendered to PDF by the court system: render any staged judgment whose
-  # PDF is missing/stale and stage it (idempotent; fail-open).
-  if printf '%s\n' "$staged" | grep -qE '^Judicature/\.justice/judgments/' && [ -x Judicature/court/scripts/render-all-judgments.sh ]; then
-    if bash Judicature/court/scripts/render-all-judgments.sh >/dev/null 2>&1; then
-      git add Judicature/.justice/pdfs >/dev/null 2>&1 || true
-      echo "VJS pre-commit: judgments rendered to PDF and staged." >&2
-    else
-      echo "VJS pre-commit: WARNING - judgment render failed; committing without the PDF (render manually)." >&2
-    fi
+    echo "VJS pre-commit: WARNING - cdd CLI or node missing; render-and-lodge NOT run (REALM-SI 2 / REALM-PC 4 lockstep not enforced this commit)." >&2
   fi
 fi
 exit 0

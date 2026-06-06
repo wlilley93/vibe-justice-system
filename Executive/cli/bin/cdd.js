@@ -123,6 +123,63 @@ function cmdInit(args) {
   process.stdout.write('\nVJS installed. The court is in session.\n');
 }
 
+// Walk up from a starting dir to the repo root (the dir holding Judicature/.justice).
+function findRepoRoot(start) {
+  let dir = start;
+  for (let i = 0; i < 64; i++) {
+    if (fs.existsSync(path.join(dir, 'Judicature', '.justice'))) return dir;
+    const up = path.dirname(dir);
+    if (up === dir) break;
+    dir = up;
+  }
+  return null;
+}
+
+// cdd lodge-judgment - the first-class deterministic render-and-lodge verb mandated by
+// [2026] REALM-SI 2 (the Judgment Rendering and Lodgement Instrument). On delivery of a judgment it
+// (1) renders every judgment to PDF idempotently (fail-OPEN convenience layer), (2) lodges the
+// judgment by rebuilding the derived projections in lockstep - corpus, search index, rulings ledger
+// (fail-OPEN), and (3) verifies the citation layer with the fail-CLOSED citator audit (s.19(5)).
+// Flags: --check-only (verify only, no render/lodge); --no-render (lodge + verify, skip the PDF).
+function cmdLodgeJudgment(args) {
+  const { spawnSync } = require('child_process');
+  const root = findRepoRoot(process.cwd());
+  if (!root) die('lodge-judgment: no Judicature/.justice found above ' + process.cwd());
+  const run = (cmd, argv) => spawnSync(cmd, argv, { cwd: root, stdio: 'pipe', encoding: 'utf8' });
+  const have = (cmd) => spawnSync(cmd, ['--version'], { stdio: 'ignore' }).status === 0;
+  const checkOnly = !!args['check-only'];
+  const noRender = !!args['no-render'];
+
+  if (!checkOnly) {
+    // (1) RENDER (fail-open): idempotent render of every judgment to PDF.
+    const renderer = path.join(root, 'Judicature/court/scripts/render-all-judgments.sh');
+    if (!noRender && fs.existsSync(renderer) && have('node') && have('python3')) {
+      const r = run('bash', [renderer]);
+      if (r.status === 0) process.stdout.write('lodge-judgment: judgments rendered to PDF (idempotent).\n');
+      else process.stderr.write('lodge-judgment: WARNING (fail-open) - judgment render failed; lodging without PDF refresh.\n');
+    } else if (!noRender) {
+      process.stderr.write('lodge-judgment: WARNING (fail-open) - renderer or node/python3 missing; PDF not refreshed.\n');
+    }
+    // (2) LODGE (fail-open): rebuild the derived projections in lockstep.
+    const projections = [
+      ['node', ['Judicature/law-reports/build/ingest.js'], 'law-site corpus'],
+      ['node', ['Judicature/law-reports/build/build-search-index.js'], 'search index'],
+      ['python3', ['Judicature/ministry-of-justice/ledger/build-ledger.py'], 'rulings ledger'],
+    ];
+    for (const [cmd, a, label] of projections) {
+      if (!fs.existsSync(path.join(root, a[0]))) continue;
+      const r = run(cmd, a);
+      if (r.status === 0) process.stdout.write('lodge-judgment: ' + label + ' rebuilt in lockstep.\n');
+      else process.stderr.write('lodge-judgment: WARNING (fail-open) - ' + label + ' rebuild failed.\n');
+    }
+  }
+  // (3) VERIFY (fail-closed): the citation layer. Exit 1 on any citator inconsistency (s.19(5)).
+  const res = auditCitator(root);
+  if (res.ok) { process.stdout.write('lodge-judgment: citation layer OK (fail-closed verify passed).\n'); return; }
+  for (const p of res.problems) process.stderr.write('FAIL [' + p.type + ']: ' + p.message + '\n');
+  die('\nlodge-judgment: the citation layer failed (fail-closed). The judgment is not lodged; fix the citator.');
+}
+
 function workflowInvocation(script, kind, text) {
   const q = String(text || '').replace(/'/g, "\\'");
   return `Run the court in Claude Code via the Workflow tool:\n\n` +
@@ -138,12 +195,17 @@ function main() {
   for (let i = 1; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--json') args.json = true;
-    else if (a.startsWith('--')) { args[a.slice(2)] = argv[i + 1]; i++; }
+    else if (a.startsWith('--')) {
+      const nxt = argv[i + 1];
+      if (nxt === undefined || nxt.startsWith('--')) args[a.slice(2)] = true; // value-less boolean flag
+      else { args[a.slice(2)] = nxt; i++; }
+    }
     else args._.push(a);
   }
   switch (cmd) {
     case 'next-citation': return cmdNextCitation(args);
     case 'check-citator': return cmdCheckCitator();
+    case 'lodge-judgment': return cmdLodgeJudgment(args);
     case 'init': return cmdInit(args);
     case 'submit-request': return process.stdout.write(workflowInvocation('first-instance.js', 'request_for_ruling', args._[0]));
     case 'submit-breach': return process.stdout.write(workflowInvocation('first-instance.js', 'breach', args._[0]));
@@ -157,6 +219,7 @@ Commands:
   init [dir]                       Install VJS into a repo (vendor CASE-LAW/VPR/CDD, scaffold .justice/, inject plugin block into CLAUDE.md)
   next-citation <tier> [--year Y]  Deterministic next neutral citation from the citator (.justice/INDEX.md). tier = first-instance|court-of-appeal|supreme-court. --json for full object.
   check-citator                    Deterministic citator audit (the hard gate): fails closed on citation collisions and on ruling-file/citator-row mismatches. Exit 1 on any problem.
+  lodge-judgment [--check-only]    Render-and-lodge a judgment ([2026] REALM-SI 2): render PDFs (idempotent, fail-open), rebuild the corpus/index/ledger projections in lockstep (fail-open), and verify the citation layer (fail-closed). --no-render to skip the PDF.
   submit-request "<question>"      Print the Workflow invocation to file a Request for Ruling
   submit-breach "<charge>"         Print the Workflow invocation to file a Breach
   --version                        Print version
