@@ -75,6 +75,12 @@ t('parentTag is derived from the enabling recital only, sorted ascending', () =>
   const noise = 'In exercise of the powers conferred by section 13A of Bill 21, the Ministry makes the following Regulations.\n\nEnforced under Bill 13 section 6.';
   assert.strictEqual(parentTag(noise), '(under Bill 21)');
   assert.strictEqual(parentTag('no recital here'), '');
+  // Real recital form: "section X of THE <Name> Act 2026 (Bill N)" - the intervening "of the"
+  // must NOT truncate the scope before the Bill (regression: this returned no tag before the fix).
+  const real = 'In exercise of the powers conferred by section 16 of the Security and Integrity Act 2026 (Bill 21), the Standing Committee of the Legislature makes the following Regulations:';
+  assert.strictEqual(parentTag(real), '(under Bill 21)');
+  const realMulti = 'In exercise of the powers conferred by section 16 of the Security and Integrity Act 2026 (Bill 21) and section 6 of the Enforcement and Compliance Act 2026 (Bill 13), the Standing Committee makes the following Regulations:';
+  assert.strictEqual(parentTag(realMulti), '(under Bill 13 and Bill 21)');
 });
 
 t('siDisplay composes the flat ordinal with the derived tag', () => {

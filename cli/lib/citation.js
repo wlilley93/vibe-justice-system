@@ -73,7 +73,12 @@ function seriesCode(tier, opts = {}) {
 // Pure, deterministic, zero model tokens; the recited power governs, the tag is a derived pointer.
 function parentTag(instrumentText) {
   if (!instrumentText) return '';
-  const m = /In exercise of the powers?\s+conferred by\s+([\s\S]*?)(?:,?\s+the\b[\s\S]*?\bmakes\b|\bmakes the following\b)/i.exec(instrumentText);
+  // Scope = the enabling clause, from "conferred by" to the maker's "makes the following ...".
+  // Primary: stop at "makes the following" (the standard recital formula) so an intervening
+  // "of THE <X> Act (Bill N)" is kept in scope. Fallback: stop at ", the <maker> makes" with the
+  // comma REQUIRED, so a bare "of the" inside the clause is not mistaken for the maker boundary.
+  let m = /In exercise of the powers?\s+conferred by\s+([\s\S]*?)\bmakes the following\b/i.exec(instrumentText);
+  if (!m) m = /In exercise of the powers?\s+conferred by\s+([\s\S]*?),\s+the\b[\s\S]*?\bmakes\b/i.exec(instrumentText);
   const scope = m ? m[1] : '';
   const bills = new Set();
   const re = /\bBill\s+(\d+)\b/gi;
