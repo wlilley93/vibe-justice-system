@@ -41,6 +41,16 @@ bill; the Sovereign Founder enacts. Bills 1-5 create the state; 6-14 make it gov
 | 24 | **Court Rules and Practice Consolidation Act 2026** | Consolidates court rules and practice directions into one accessible code. | Aldous |
 | 25 | **Commencement and Transitional Provisions Act 2026** | Commencement, savings, and the transition from the founding case-law settlement to the statute book. | Aldous |
 
+## Beyond the founding 25 - amending Acts
+
+The founding programme is the 25 Acts above. Further legislation amends that base; per the Committee remit
+([2026] REALM-PC 10 Sch. 2; Bill 26 s. 15) the Committee's default act is to **make and amend statutory
+instruments**, a fresh primary statute being exceptional.
+
+| No. | Bill | Function | Status |
+|---|---|---|---|
+| 26 | **Statutory Instruments (Framework) Act 2026** | Instantiates the uniform SI route the Privy Council found missing: amends Bills 14/16/13/15 (binding-regulation tier, amendment procedure, REALM-SI citation slot + status vocab, enforcement receiver), inserts enabling clauses into 9 parent Acts, and binds the Committee remit. Responds to [2026] REALM-PC 10 + [2026] REALM-PC 11. | **PRESENTED FOR ROYAL ASSENT** (passed committee 4/4, 2 drafting rounds; NOT yet enacted - awaiting the Sovereign) |
+
 ## Status key (and the database it will live in)
 
 Each bill/Act tracks a **status** on the UK model. Statuses are being migrated into the acmeco database as the

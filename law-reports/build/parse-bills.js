@@ -11,8 +11,10 @@ const BILLS_DIR = path.join(ROOT, 'legislature', 'bills');
 
 function pipelineStage(status, outcome, rounds) {
   const s = `${status} ${outcome}`.toLowerCase();
-  if (/enacted|in-force|assent(ed)?/.test(s)) return 'Royal Assent';
-  if (/presented/.test(s)) return rounds >= 2 ? 'Royal Assent (after 2nd round)' : 'Presented for Royal Assent';
+  // Check "presented/awaiting" BEFORE the assent check: the status string
+  // "presented-for-royal-assent" contains the substring "assent" but is NOT yet assented.
+  if (/presented|awaiting/.test(s)) return rounds >= 2 ? 'Presented for Royal Assent (after 2nd round)' : 'Presented for Royal Assent';
+  if (/enacted|in-force|assented|royal assent granted/.test(s)) return 'Royal Assent';
   if (/vote|passed/.test(s)) return 'Vote';
   if (/deadlock/.test(s)) return 'Second drafting round';
   if (/committee|drafting/.test(s)) return 'Drafting';
