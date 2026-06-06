@@ -25,12 +25,14 @@ function parseBills() {
   for (const file of fs.readdirSync(BILLS_DIR).filter(f => /^\d{2}-.*\.md$/.test(f)).sort()) {
     const raw = read(path.join(BILLS_DIR, file));
     const no = parseInt(file.slice(0, 2), 10);
-    // header comment: <!-- status: ... | outcome: ... | ayes: N/4 | drafting rounds: N -->
-    const hc = raw.match(/<!--\s*status:\s*([^|]+?)\s*\|\s*outcome:\s*([^|]+?)\s*\|\s*ayes:\s*([^|]+?)\s*\|\s*drafting rounds:\s*(\d+)/i);
-    const status = hc ? hc[1].trim() : 'presented-for-royal-assent';
-    const outcome = hc ? hc[2].trim() : '';
-    const ayes = hc ? hc[3].trim() : '';
-    const rounds = hc ? parseInt(hc[4], 10) : 1;
+    // header comment fields (parsed independently so extra segments like royal-assent: are tolerated)
+    const hc = (raw.match(/<!--([\s\S]*?)-->/g) || []).join(' ');
+    const field = (k) => { const m = hc.match(new RegExp(k + ':\\s*([^|>]+)', 'i')); return m ? m[1].trim() : ''; };
+    const status = field('status') || 'presented-for-royal-assent';
+    const outcome = field('outcome');
+    const ayes = field('ayes');
+    const royalAssent = field('royal-assent');
+    const rounds = parseInt(field('drafting rounds') || '1', 10);
     const titleM = raw.match(/^#\s+(.*)$/m);
     const shortTitle = titleM ? titleM[1].trim() : file.replace(/\.md$/, '');
     const longM = raw.match(/(?:\*\*An Act\*\*|long title[\s\S]{0,40}?An Act)\s*([\s\S]*?)(?:\n\n|\n##|\n\*\()/i);
@@ -45,7 +47,7 @@ function parseBills() {
       slug: file.replace(/\.md$/, ''),
       shortTitle,
       longTitle: stripMd(longM ? longM[1] : '').slice(0, 600),
-      status, outcome, ayes, rounds,
+      status, outcome, ayes, rounds, royalAssent,
       pipelineStage: pipelineStage(status, outcome, rounds),
       committeeNote: stripMd(committeeNote).slice(0, 4000),
       voteRecord: stripMd(voteRecord).slice(0, 2000),
