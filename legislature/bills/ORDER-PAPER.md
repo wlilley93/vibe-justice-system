@@ -1,5 +1,12 @@
 # Order Paper - the first 25 Bills of the Realm
 
+> **Status: all 25 Bills drafted and presented for Royal Assent (2026-06-06).** Drafted by the live 4-member
+> Standing Committee over two sittings; every Bill routed through the Privy Council; Bills 11 and 17 broke a
+> deadlock in a second drafting round. **22 of 25 carry a Sovereign-consultation flag** - see
+> [`SOVEREIGN-CONSULTATIONS.md`](SOVEREIGN-CONSULTATIONS.md). Affirming **Bill 1 (Acts of Union 2026)** on Royal
+> Assent resolves the shared root question (the express amendment seating Acts above case law).
+
+
 The founding legislative programme. The Standing Committee (Aldous, Verity, Marlowe, Drummond) contributes to every
 bill; the Sovereign Founder enacts. Bills 1-5 create the state; 6-14 make it governable, safe, and self-evolving;
 11-13 are the guardrail layer; 15-25 operationalise the agent-native realm. Each bill, when drafted, lands in
