@@ -40,6 +40,7 @@ express amendment of CASE-LAW ss. 1, 2, 9, 10).
 | No. | Act | Status |
 |---|---|---|
 | 26 | Statutory Instruments (Framework) Act 2026 | in force (Royal Assent 2026-06-06) - amends Bills 14/16/13/15 to instantiate the SI route ([2026] REALM-PC 10, [2026] REALM-PC 11) and inserts enabling clauses into 9 parent Acts |
+| 27 | VJS (Constitution and Machinery) Act 2026 | in force (Royal Assent 2026-06-06) - names the realm VJS; mandates the four-branch layout + system-data-only + public-mechanics rules; renames MBWS -> Ministry of Business, Engineering and Skills and Defence/Security -> Ministry of Data Security (amending Bills 5, 21, 26); assigns the refactoring + security suites; confirms the Committee as SI maker; sets the judgments-publication rule |
 
 Bill 26 reads into the amended Acts (Bills 14, 16, 13, 15) and the nine enabling clauses; the principal Acts
 are read as amended (UK model), pending any future consolidation under the Court Rules and Practice

@@ -1,5 +1,5 @@
 <!-- Bill 27 of the VJS legislative programme, enacted by the Sovereign Founder with Royal Assent. -->
-<!-- status: presented-for-royal-assent | outcome: passed | ayes: 4/4 | drafting rounds: 2 -->
+<!-- status: enacted | royal-assent: 2026-06-06 | outcome: passed | ayes: 4/4 | drafting rounds: 2 -->
 
 # The VJS (Constitution and Machinery) Act 2026
 
@@ -426,4 +426,4 @@ Each Counsel's conditional vote was discharged on the face of the Act:
 
 ## Royal Assent
 
-*AWAITING ROYAL ASSENT. Bill 27 is reported by the Standing Committee (4/4, two drafting rounds) and presented to the Sovereign Founder. It is NOT yet enacted and NOT in force: enactment of a primary Act is the Sovereign's reserved act (CASE-LAW s. 2). On Royal Assent this will record the date, the status will move to `enacted`, and the Act will be recorded in `statutes/`; its amendments to Bills 5, 21, and 26 take effect then by the append-with-supersede rule.*
+*Royal Assent granted by the Sovereign Founder on 2026-06-06 ("proceed all"). This Act is now **in force** per its commencement (s. 2) and is recorded in `statutes/`. The canonical name is **VJS**; the four-branch layout, the system-data-only and public-mechanics rules, the ministry renames (MBWS -> Ministry of Business, Engineering and Skills; Ministry of Security and Integrity / Defence -> Ministry of Data Security), the suite-ownership, the SI-maker confirmation, and the judgments-publication rule are in force; the amendments to Bills 5, 21, and 26 take effect now by the append-with-supersede rule. The repository is conformed to the four-branch layout by the refactor that follows.*
