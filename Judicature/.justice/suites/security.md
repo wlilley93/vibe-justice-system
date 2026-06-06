@@ -1,5 +1,13 @@
 # VJS Security Suite
 
+> **Legal status.** The durable PRINCIPLES of this suite are law: **The Security Suite Instrument 2026**
+> ([2026] REALM-SI 4, under Bill 21 s. 16), made by the Standing Committee, owned by the Ministry of Data
+> Security (MDS) under Bill 27 s. 5B, in alignment with [2026] REALM-SI 1 (the server-estate principles). This
+> file is the **operational expression** of that Instrument: the concrete checks the Ministry maintains and
+> amends as engineering. The Instrument governs; where this file and the Instrument diverge on a principle, the
+> Instrument prevails. A court ruling that mandates a new security practice updates this suite (and, where it
+> states a new durable principle, the Instrument by amendment) carrying the ruling's citation.
+
 ## When to invoke
 
 Invoke this suite whenever changes touch:

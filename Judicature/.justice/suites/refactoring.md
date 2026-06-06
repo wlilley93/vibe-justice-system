@@ -1,5 +1,13 @@
 # VJS Refactoring Suite
 
+> **Legal status.** The durable PRINCIPLES of this suite are law: **The Refactoring Suite Instrument 2026**
+> ([2026] REALM-SI 3, under Bill 5 s. 18), made by the Standing Committee, owned by the Ministry of Business,
+> Engineering and Skills (MBES) under Bill 27 s. 5B. This file is the **operational expression** of that
+> Instrument: the concrete checks the Ministry maintains and amends as engineering. The Instrument governs;
+> where this file and the Instrument diverge on a principle, the Instrument prevails. A court ruling that
+> identifies a refactoring-practice gap updates this suite (and, where it states a new durable principle, the
+> Instrument by amendment) carrying the ruling's citation.
+
 ## When to invoke
 
 Invoke this suite when:
