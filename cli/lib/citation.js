@@ -55,10 +55,47 @@ function seriesCode(tier, opts = {}) {
       return divisionCode(opts.division);
     case 'county-court': case 'county': case 'cc':
       return `CC-${repoCode(opts.repo)}`;
+    case 'statutory-instrument': case 'statutory_instrument': case 'si':
+      // Subordinate legislation. ONE code, ONE authority level ("subordinate law"), per
+      // [2026] REALM-PC 11 (Form C): a flat REALM-SI ordinal, no division/repo and no per-parent
+      // sub-ordinal. The parent linkage is a derived tag (parentTag), never part of the ordinal.
+      return 'REALM-SI';
     default:
       throw new Error(`unknown tier: ${tier}`);
   }
 }
+
+// Derive the SI parent tag from the instrument's own recitals (the Form C hybrid of
+// [2026] REALM-PC 11). The mandatory enabling recital - "In exercise of the powers conferred by
+// section X of Bill NN[ and section Y of Bill MM], the <office> makes the following ..." (Bill 14
+// s. 6(i), s. 18) - is the single source; this reads ONLY the Bills named in that clause (not every
+// Bill mentioned elsewhere), sorts them ascending, and renders " (under Bill 21[ and Bill 13])".
+// Pure, deterministic, zero model tokens; the recited power governs, the tag is a derived pointer.
+function parentTag(instrumentText) {
+  if (!instrumentText) return '';
+  const m = /In exercise of the powers?\s+conferred by\s+([\s\S]*?)(?:,?\s+the\b[\s\S]*?\bmakes\b|\bmakes the following\b)/i.exec(instrumentText);
+  const scope = m ? m[1] : '';
+  const bills = new Set();
+  const re = /\bBill\s+(\d+)\b/gi;
+  let mm;
+  while ((mm = re.exec(scope)) !== null) bills.add(parseInt(mm[1], 10));
+  const sorted = [...bills].sort((a, b) => a - b).map(n => `Bill ${n}`);
+  if (sorted.length === 0) return '';
+  const joined = sorted.length === 1
+    ? sorted[0]
+    : sorted.slice(0, -1).join(', ') + ' and ' + sorted[sorted.length - 1];
+  return `(under ${joined})`;
+}
+
+// Compose the canonical SI short-cite: the flat ordinal always shown with its derived parent tag.
+//   siDisplay('[2026] REALM-SI 1', instrumentText) -> '[2026] REALM-SI 1 (under Bill 21)'
+function siDisplay(citation, instrumentText) {
+  const tag = parentTag(instrumentText);
+  return tag ? `${citation} ${tag}` : citation;
+}
+
+// The closed SI status vocabulary (Bill 16 s. 15, per [2026] REALM-PC 11). Gate-checked.
+const SI_STATUSES = ['made', 'in-force', 'amended', 'revoked', 'spent'];
 
 // Highest N already issued for this exact series code + year in the citator (0 if none).
 function highestN(citatorText, code, year) {
@@ -93,4 +130,4 @@ function nextCitation(citatorText, tier, opts = {}) {
   };
 }
 
-module.exports = { seriesCode, divisionCode, repoCode, highestN, nextCitation, DIVISION_CODES };
+module.exports = { seriesCode, divisionCode, repoCode, highestN, nextCitation, parentTag, siDisplay, SI_STATUSES, DIVISION_CODES };
