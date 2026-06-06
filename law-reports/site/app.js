@@ -51,14 +51,42 @@ function matchFilter(d) {
   return true;
 }
 
+// The legislative pipeline (CHARTER): declared topic -> drafting -> vote -> (deadlock 2nd round) -> Royal Assent.
+const STAGES = ['Declared topic', 'Drafting round', 'Vote', 'Royal Assent'];
+function pipeline(stage, rounds) {
+  const reached = /royal assent/i.test(stage) ? 4 : /vote/i.test(stage) ? 3 : /draft|second/i.test(stage) ? 2 : 1;
+  const dots = STAGES.map((s, i) => `<span class="pstep ${i < reached ? 'on' : ''}">${s}</span>`).join('<span class="parrow">&rarr;</span>');
+  const dl = rounds >= 2 ? ' <span class="pstep dl">+ 2nd round (deadlock broken)</span>' : '';
+  return `<div class="pipe">${dots}${dl}</div>`;
+}
+
+// Find the full bill record (for methodology detail) by its number.
+function billDetail(no) { return (CORPUS.legislation || []).find(b => b.no === no); }
+
 function card(d) {
   const st = (d.status || 'good-law').toLowerCase().replace(/[^a-z-]/g, '');
   const links = [];
   if (d.p_source) links.push(`<a href="${REL}${d.p_source}">source &middot; .md</a>`);
-  if (d.p_pdf) links.push(`<a href="${REL}${d.p_pdf}">judgment &middot; .pdf</a>`);
-  const sub = d.kind === 'bill'
-    ? `<span class="court">Legislature</span> <span class="stage">&middot; ${d.p_stage || ''}</span>`
-    : `<span class="court">${d.court}${d.p_jur && d.p_jur.includes('acmeco') ? ' &middot; at acmeco' : ''}</span>`;
+  if (d.p_pdf) links.push(`<a href="${REL}${d.p_pdf}">${d.kind === 'bill' ? 'Act' : 'judgment'} &middot; .pdf</a>`);
+  if (d.kind === 'bill') {
+    const b = billDetail(d.p_no) || {};
+    const sov = b.sovereignConsultation
+      ? `<div class="sov"><strong>Sovereign consultation:</strong> ${b.sovereignConsultation.slice(0, 320)}</div>` : '';
+    const note = b.committeeNote ? `<div class="cnote"><strong>Committee note.</strong> ${b.committeeNote.slice(0, 700)}</div>` : '';
+    const vote = b.voteRecord ? `<div class="vote">${b.voteRecord.slice(0, 500)}</div>` : '';
+    return `<div class="card">
+      <div><span class="cite">${d.citation}: ${d.title}</span>
+        <span class="badge ${st}">${(d.status || '').replace(/-/g, ' ')}</span></div>
+      <span class="court">Legislature &middot; ${b.ayes || ''} ${b.ayes ? 'ayes' : ''}</span>
+      ${pipeline(d.p_stage || b.pipelineStage || '', b.rounds || 1)}
+      <div class="ratio">${(d.ratio || '').slice(0, 360)}</div>
+      <details><summary>methodology &amp; committee record</summary>
+        ${vote}${sov}${note}
+      </details>
+      <div>${links.join('')}</div>
+    </div>`;
+  }
+  const sub = `<span class="court">${d.court}${d.p_jur && d.p_jur.includes('acmeco') ? ' &middot; at acmeco' : ''}</span>`;
   return `<div class="card">
     <div><span class="cite">${d.citation}</span>
       <span class="badge ${st}">${d.status || 'good-law'}</span></div>
