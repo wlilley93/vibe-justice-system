@@ -1,8 +1,8 @@
 # Signpost: Statutes (legislative archive)
 
-> Realm root: `~/agent-universe/`. The enacting instruments (Acts as passed). The consolidated, authoritative book is `CASE-LAW.md` (one statute book, s. 9).
+> Realm root: `~/vjs/` (VJS - Vibe Justice System). The enacting instruments (Acts as passed). The consolidated, authoritative book is `Constitution/CASE-LAW.md` (one statute book, s. 9).
 
-**UP:** the realm - `../README.md`.
-**Consolidated book (authoritative):** `../CASE-LAW.md`.
+**UP:** the realm - `../../README.md`.
+**Consolidated book (authoritative):** `../../Constitution/CASE-LAW.md`.
 **Legislature:** `../legislature/`.
-**Ledger:** `../ministry-of-justice/ledger/INDEX.md`.
+**Ledger:** `../../Judicature/ministry-of-justice/ledger/INDEX.md`.

@@ -1,7 +1,7 @@
 # Vibe Justice System (binding)
 
 This repo runs under the **Vibe Justice System**. You are bound by CASE-LAW and the Vibe Procedure Rules (VPR).
-Read `CASE-LAW.md`, `VPR.md`, and `.justice/INDEX.md` before making any load-bearing decision.
+Read `Constitution/CASE-LAW.md`, `Constitution/VPR.md`, and `Judicature/.justice/INDEX.md` before making any load-bearing decision.
 
 ---
 
@@ -33,7 +33,7 @@ submit-breach-to-court "<what fell below standard and why>"
 
 ## Before any load-bearing fork: check the citator
 
-Open `.justice/INDEX.md`. If a binding ratio covers the question on all fours, **follow it** (cite the ruling ID
+Open `Judicature/.justice/INDEX.md`. If a binding ratio covers the question on all fours, **follow it** (cite the ruling ID
 in your work log and continue). Do not re-litigate settled points. Do not convene a court for a point already
 decided.
 
@@ -41,7 +41,7 @@ decided.
 
 ## Convene the court when (enumerable - ONLY these triggers)
 
-1. The question is **first-impression**: no ratio in `.justice/INDEX.md` covers it.
+1. The question is **first-impression**: no ratio in `Judicature/.justice/INDEX.md` covers it.
 2. You believe the applicable precedent **does not fit these facts** (a genuine distinction, not mere preference).
 3. A precedent is **demonstrably wrong or outdated** and you intend to propose overruling it.
 4. The principal's instruction **conflicts with enacted CASE-LAW or binding precedent** (push back with the
@@ -59,7 +59,7 @@ anything covered by binding precedent, or because you are uncertain about a pref
 ```
 submit-request-to-court "<question>"
 ```
-File a Request for Ruling (forward-looking: a fork or design question). Lexby handles intake and routing.
+File a Request for Ruling (forward-looking: a fork or design question). The court handles intake and routing.
 
 ```
 submit-breach-to-court "<charge>"
@@ -71,19 +71,19 @@ expected when you have deviated from the standard.
 
 ## Procedure (VPR summary)
 
-- Matters start at **First Instance** (1 judge). Neutral citation: `[YEAR] LEXBY-FI N`.
-- Court of Appeal (3 judges) on permission. Neutral citation: `[YEAR] LEXBY-CA N`.
-- Supreme Court (5 judges, 9 for constitutional) on permission. Neutral citation: `[YEAR] LEXBY-SC N`.
+- Matters start at **First Instance** (1 judge). Neutral citation: `[YEAR] REALM-PC N` (Privy Council).
+- Court of Appeal (3 judges) on permission. Neutral citation: `[YEAR] REALM-CA N`.
+- Supreme Court (5 judges, 9 for constitutional) on permission. Neutral citation: `[YEAR] REALM-SC N`.
 - No leap-frogging except by the Principal's express leapfrog certificate.
 - Most matters resolve via the fast path (citation, no sitting) under VPR 2.
-- Rulings are stored in `.justice/judgments/high-court/`, `.justice/judgments/appeals-court/`,
-  `.justice/judgments/supreme-court/` respectively.
+- Rulings are stored in `Judicature/.justice/judgments/privy-council/`, `Judicature/.justice/judgments/court-of-appeal/`,
+  `Judicature/.justice/judgments/supreme-court/` respectively.
 
 ---
 
 ## The record binds
 
-Every ruling in `.justice/judgments/` is **permanent and binding** on future sessions in this repo. You may not
+Every ruling in `Judicature/.justice/judgments/` is **permanent and binding** on future sessions in this repo. You may not
 ignore or work around a good-law ruling. If a ruling is wrong, challenge it by filing a new Request for Ruling
 with grounds to distinguish or overrule it. Proceed by the law, not around it.
 
@@ -99,7 +99,7 @@ issue an ancillary remediation order.
 input validation, SQL queries, file upload/path handling, shell execution, dependency additions, or new
 network-exposed endpoints. A court ruling may also explicitly mandate invocation.
 
-**How:** read `.justice/suites/security.md` and work through every check in order. Record findings in your
+**How:** read `Judicature/.justice/suites/security.md` and work through every check in order. Record findings in your
 work log. If a check reveals a breach, self-submit to court.
 
 **To update the suite:** any project member with security knowledge may propose changes via PR. A court remedy
@@ -114,7 +114,7 @@ quality as a contributing factor; you are executing a remediation order for work
 
 Do NOT invoke for routine feature work, new additions, or cosmetic changes with no ruling obligation.
 
-**How:** read `.justice/suites/refactoring.md` and apply checks scoped to the remedy's stated extent. Do not
+**How:** read `Judicature/.justice/suites/refactoring.md` and apply checks scoped to the remedy's stated extent. Do not
 extend the refactoring beyond that scope - surface further issues as a new Request for Ruling instead.
 
 ---
@@ -122,8 +122,8 @@ extend the refactoring beyond that scope - surface further issues as a new Reque
 ## Community Record (VPR 8)
 
 Only **Supreme Court rulings** are submitted to the Community Record at `wlilley93/vibe-justice-system`
-(`community/caselaw/`) as anonymised persuasive precedent. First Instance and Court of Appeal rulings remain
-in this repo under `.justice/judgments/`. Project-specific identifiers are stripped before submission; the
+(`caselaw/`) as anonymised persuasive precedent. First Instance (Privy Council) and Court of Appeal rulings remain
+in this repo under `Judicature/.justice/judgments/`. Project-specific identifiers are stripped before submission; the
 legal question, ratio, and law applied are preserved. Community rulings are persuasive (not binding) in other
 VJS jurisdictions.
 
@@ -131,15 +131,15 @@ VJS jurisdictions.
 
 ## Automated backstops and the duty to self-appeal
 
-Two backstops run alongside your judgement (CASE-LAW s. 19; see [`plugin/hooks/`](hooks/)). Your job is to produce value the way you see best, not to hold the whole statute book in your head every turn; these catch what you miss, and the court judges lawfulness after the fact.
+Two backstops run alongside your judgement (CASE-LAW s. 19; see [`Executive/plugin/hooks/`](hooks/)). Your job is to produce value the way you see best, not to hold the whole statute book in your head every turn; these catch what you miss, and the court judges lawfulness after the fact.
 
 - A token-light per-turn **watchdog** (a Stop hook) asks each turn whether you committed an un-self-reported breach, made a load-bearing decision that skipped a convening trigger, or have an arguable appeal ground, and hands you the reason to dispose of it by the law (file the breach, convene, or seek leave). It only reminds; it never adjudicates, scores, or punishes.
 - A deterministic **pre-commit gate** (`cdd check-citator`) fails closed on citation collisions and on a ruling file with no citator row. Citation numbering is the clerk's deterministic job (`cdd next-citation <tier>`), never yours to guess.
 
 **Duty to self-appeal (s. 17 / VPR 9):** on a valid appellate ground (per incuriam under s. 11(e), a binding-precedent conflict, or an unmoored extension with no grounding in law or instruction), seek permission to appeal on your own motion BEFORE implementing the impugned ruling irreversibly; do not wait to be prompted. Permission to appeal is decided by an independent leave-judge who did not sit below (s. 19(3)).
 
-**Researched intake (s. 19(1)):** a matter that goes to a deliberating bench arrives on a symmetric, two-sided researched record (a claimant case and a defendant case; an observer may be admitted at the Supreme Court only). No researched leg is owed where the fast path disposes of the matter on citation.
+**Researched intake (s. 19(1)):** a matter that goes to a deliberating bench at any tier shall reach the bench on a symmetric, two-sided researched record (a claimant case and a defendant case; an observer may be admitted at the Supreme Court only). No researched leg is owed where the fast path disposes of the matter on citation.
 
 ---
 
-*Lexby advocates. The bench decides. The record binds them both.*
+*The bench decides. The record binds them both.*

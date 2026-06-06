@@ -72,5 +72,15 @@ if printf '%s\n' "$staged" | grep -qE '^Judicature/\.justice/INDEX\.md$|^Judicat
       echo "VJS pre-commit: WARNING - rulings-ledger rebuild failed; committing without refresh." >&2
     fi
   fi
+  # Every judgment is always rendered to PDF by the court system: render any staged judgment whose
+  # PDF is missing/stale and stage it (idempotent; fail-open).
+  if printf '%s\n' "$staged" | grep -qE '^Judicature/\.justice/judgments/' && [ -x Judicature/court/scripts/render-all-judgments.sh ]; then
+    if bash Judicature/court/scripts/render-all-judgments.sh >/dev/null 2>&1; then
+      git add Judicature/.justice/pdfs >/dev/null 2>&1 || true
+      echo "VJS pre-commit: judgments rendered to PDF and staged." >&2
+    else
+      echo "VJS pre-commit: WARNING - judgment render failed; committing without the PDF (render manually)." >&2
+    fi
+  fi
 fi
 exit 0

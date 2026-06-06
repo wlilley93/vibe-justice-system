@@ -1,19 +1,50 @@
 # Realm topology
 
-Constitutional structure of Agent Universe, as settled by **In the matter of Agent Universe [2026] LEXBY-HARVEY-SC 2**
-(Supreme Court, full nine, affirming 8-1) and entrenched by **CASE-LAW s. 22**, building on SC-DC 1 / s. 21
+Constitutional structure of VJS, as settled by **In the matter of Agent Universe [2026] REALM-SC 2**
+(Supreme Court, panel of 5, affirmed 4-1) and entrenched by **CASE-LAW s. 22**, building on s. 21
 ("divisions over one spine, never domain courts").
 
-## The state
+## The realm structure
 
-- **Agent Universe** (this repo) - the realm/Sovereign level. Houses the constitutional documentation and (future) a
-  system of parliament: ministers, convened sittings, bills.
-- **Ministry of Justice** - governance only, pure and meta. The one spine lives here: CASE-LAW, the VPR, the single
-  Court of Appeal and Supreme Court (which alone enact and bind the realm), and the **universal ledger** of all cases.
-  (Built on the VJS fork; the VJS files sit at the realm root and sync with the public `upstream`.)
-- **Ministry for Business, Work and Skills** - the executive ministry holding the operational departments.
-- **Home Office** (future: personal matters), **Ministry of Defence** (future: research & policy; commissions
-  think-tanks under Business, Work and Skills), **National Archives** (dead/superseded work).
+The Vibe Justice System (VJS) is organised into four constitutional branches:
+
+### Constitution Branch
+Houses the constitutional documentation, founding case law, and structural principles.
+- **CASE-LAW.md** - The binding statute book (foundational doctrine and enacted statutes).
+- **VPR.md** - Vibe Procedure Rules (procedural framework).
+- **CDD.md** - Caselaw Driven Development (methodology).
+- **AGENTS.md** - Lexby's duties and operational framework.
+- `constitution/` - Constitutional instruments and reference documents.
+- `docs/` - Design notes and conceptual models.
+
+### Judicature Branch
+Houses the judicial spine, case law, and the unified court system.
+- **Ministry of Justice** - Governance only, pure and meta. The one spine lives here:
+  - CASE-LAW, the VPR, the single Court of Appeal and Supreme Court (which alone enact and bind the realm).
+  - The **universal ledger** of all cases (`ministry-of-justice/ledger` and `ministry-of-justice/reasons-ledger`).
+  - The citator (INDEX.md).
+- **.justice/** - Local jurisdiction registry:
+  - `judgments/supreme-court/` - Apex rulings (realm-wide statute).
+  - `judgments/court-of-appeal/` - Appeal judgments.
+  - `judgments/privy-council/` - Constitutional first-instance rulings.
+  - `caselaw/` - Local jurisdiction precedent.
+- **Law Reports** - Published reports of significant rulings.
+- **Court** - Court procedures, rooms, and administrative support.
+- **Community** - Community record of anonymised Supreme Court precedent (persuasive, not binding, in other VJS jurisdictions).
+
+### Legislature Branch
+Houses the parliamentary machinery and bill process.
+- `legislature/` - Bills, committee records, parliamentary procedures.
+- `statutes/` - Enacted Acts and statutory instruments (output of the bill process).
+
+### Executive Branch
+Houses the operational ministries and executive departments.
+- **Ministry of Business, Engineering and Skills (MBES)** - Operational ministry holding the engineering and business departments.
+- **Ministry of Data Security (MDS)** - Data protection, security, and integrity (formerly Ministry of Defence).
+- **Home Office** - Personal matters and future jurisdiction.
+- **National Archives** - Dead and superseded work.
+- **CLI / Plugin** - Claude Code harness and operative tooling.
+- **Docker** - Containerised deployment.
 
 ## The judiciary (one court, sitting in many places)
 
@@ -21,7 +52,9 @@ Constitutional structure of Agent Universe, as settled by **In the matter of Age
 Supreme Court            apex; foundational/constitutional; the ONLY enactor of CASE-LAW   ── Ministry of Justice
 Court of Appeal          apex; single & central; hears from every department (cross-cutting) ┘
       ▲ appeal (leave)
-High Court (X Division)  DEPARTMENT level; sets the department's jurisdiction-local rule-set
+Privy Council (PC)       constitutional first instance (one per division); refers constitutional questions up
+      ▲ refer up (transfer)
+High Court Division      DEPARTMENT level; sets the department's jurisdiction-local rule-set
    ├ Legal Division (≈ Chancery)  → Lists: corporate, companies, property, trusts-probate, insolvency, ip
    └ Engineering Division
       ▲ refer up (transfer)
@@ -33,15 +66,20 @@ County Court at <repo>   REPO level; a project's own matters; refers weightier /
 - Local courts (District Circuits / County Courts at a repo; High Court Divisions at a department) are **hearing-centres**
   of the one judiciary: they apply the one CASE-LAW, record jurisdiction-local precedent only, and **never enact**
   realm-wide statute (reserved to the single Supreme Court, s. 9, s. 22).
-- A department's **product** deliberation feature (e.g. the Legal Department's diligence review panel) is **not a court**
-  (s. 14, s. 21(3)): it uses the deliberation pattern as method, takes a product-local id, and never the LEXBY series.
+- A department's **product** deliberation feature (e.g. the MBES Engineering Division's diligence review panel) is **not a court**
+  (s. 14, s. 21(3)): it uses the deliberation pattern as method, takes a product-local id, and never the REALM series.
 
 ## Naming and citation (s. 22(4), s. 11(d))
 
-- Cause titles are descriptive and non-operative: *In the matter of Acmeco*, *Re \<project\>*, alongside the single
-  neutral-citation series **`[YEAR] LEXBY-<TIER> n`** (e.g. *In the matter of Acmeco [2026] LEXBY-... n*, on the model of
+- Cause titles are descriptive and non-operative: *In the matter of Acmeco*, *Re <project>*, alongside the single
+  neutral-citation series **`[YEAR] REALM-<TIER> n`** (e.g. *In the matter of Acmeco [2026] REALM-FI n*, on the model of
   *Re Spectrum Plus Ltd [2005] UKHL 41*). No per-subject or per-domain citation series is ever minted.
-- The single LEXBY series under one citator (the universal ledger) remains the sole canonical handle; the s. 19(5)
+- The single REALM series under one citator (the universal ledger) remains the sole canonical handle; the s. 19(5)
   integrity gate keys on the neutral citation alone.
+- Tiers:
+  - **[YEAR] REALM-FI n**: First Instance (single judge, jurisdiction-local hearing-centre).
+  - **[YEAR] REALM-CA n**: Court of Appeal (panel of 3, central apex).
+  - **[YEAR] REALM-SC n**: Supreme Court (panel of 5 or 9, central apex, sole enactor of CASE-LAW).
+  - **[YEAR] REALM-PC n**: Privy Council (one per division, constitutional first instance).
 
-Full judgment: `ministry-for-business-work-and-skills/legal-department/harvey-labs/harvey-caselaw/2026/lexby-harvey-sc-2-agent-universe-court-geography.md`.
+Full judgment example: `Judicature/ministry-of-justice/.justice/judgments/supreme-court/2026-realm-sc-2.md`.
