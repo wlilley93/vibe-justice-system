@@ -1,10 +1,10 @@
 <!-- Bill 25 of 25 - Order Paper of the Realm. Drafted by the Standing Committee. -->
-<!-- status: presented-for-royal-assent | outcome: passed-round-1 | ayes: 4/4 | drafting rounds: 1 -->
+<!-- status: enacted | royal-assent: 2026-06-06 | outcome: passed-round-1 | ayes: 4/4 | drafting rounds: 1 -->
 
 # Commencement and Transitional Provisions Act 2026
 
 **Bill 25 of 25** · Lead slant: Aldous (Restraint) · Standing Committee on the Laws of the Realm
-*status: presented-for-royal-assent | carries an applied Privy Council referral, a reserved Supreme Court note (joined to the Bill 15 vehicle/rank reference), and a Sovereign consultation*
+*status: enacted | royal-assent: 2026-06-06 | carries an applied Privy Council referral, a reserved Supreme Court note (joined to the Bill 15 vehicle/rank reference), and a Sovereign consultation*
 
 ---
 
@@ -145,4 +145,4 @@ A live table mapping each Act of the founding programme to its commencement trig
 
 ## Royal Assent
 
-*Presented to the Sovereign Founder for Royal Assent. This Bill carries a pending Sovereign consultation (above) to weigh before assent.*
+*Royal Assent granted by the Sovereign Founder on 2026-06-06. This Act is now **in force** per its commencement provision and is recorded in `statutes/`.*

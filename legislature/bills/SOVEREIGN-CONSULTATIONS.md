@@ -1,5 +1,10 @@
 # Sovereign Consultations - the Royal Assent docket
 
+> **DISPOSED - ROYAL ASSENT GRANTED (2026-06-06).** The Sovereign Founder, on consultation, **affirmed** and
+> granted Royal Assent to **all 25 Acts**. Affirming the **Acts of Union 2026** (Bill 1) resolved the shared root
+> question: its Schedule 1 expressly amended CASE-LAW ss. 1, 2, 9, 10, lawfully seating the enacted Acts above case
+> law. All Acts are now in force (recorded in `../../statutes/`); the commencement marker is in `CASE-LAW.md`.
+
 The first 25 Bills are drafted by the Standing Committee and **presented for Royal Assent**. Most were routed to
 the Privy Council, which flagged a shared constitutional point for **Sovereign consultation** before assent. The
 Founder may, on consultation, **affirm** (grant Assent) or **overturn**. The root question recurs across the docket;

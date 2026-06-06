@@ -17,12 +17,18 @@
 
 ---
 
-> **Status (2026):** This is the realm's **founding case-law settlement** - the duty-of-care doctrine and the
-> constitutional precedent the courts built before the statute book existed. It is **subordinate to the enacted
-> Acts of the Realm** (the Acts of Union 2026 and the bills that follow): where an Act and this settlement conflict,
-> **the Act prevails**. It continues to govern where statute is silent, and the courts develop it in the gaps. The
-> transition is given effect by the Interpretation Act 2026. (It was formerly styled "SPEC-LAW, the Sovereign
-> Statute Book"; the Founder reframed it as case law once enacted statute came to sit above it.)
+<!-- COMMENCEMENT MARKER (Acts of Union 2026 s. 2(2)): the Acts of Union 2026 received Royal Assent
+     on 2026-06-06. From that date the enacted Acts of the Realm sit ABOVE this case-law settlement
+     (the express amendment of ss. 1, 2, 9, 10 by Schedule 1 of the Acts of Union is in force). -->
+
+> **Status: IN FORCE under statute (Royal Assent 2026-06-06).** This is the realm's **founding case-law
+> settlement** - the duty-of-care doctrine and the constitutional precedent the courts built before the statute book
+> existed. Following the Royal Assent of the **Acts of Union 2026** (Bill 1), which expressly amended ss. 1, 2, 9
+> and 10 (Schedule 1), this settlement is now **subordinate to the enacted Acts of the Realm**: where an Act and
+> this settlement conflict, **the Act prevails** (to the extent of the conflict; the duty-of-care spine and the
+> restorative-only remedy are preserved). It continues to govern where statute is silent, and the courts develop it
+> in the gaps; the transition is given effect by the Interpretation Act 2026. (Formerly styled "SPEC-LAW, the
+> Sovereign Statute Book"; reframed as case law once enacted statute came to sit above it.)
 
 The founding doctrine of Lexby, vendored to every repo on git. Append with supersede; never silently repealed. Articles marked **[constitutional]** are subject to the Thoburn rule: changeable only by express, deliberate amendment, never by implication - and now also by an Act of the Realm.
 

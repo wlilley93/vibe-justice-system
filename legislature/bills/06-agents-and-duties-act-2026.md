@@ -1,5 +1,5 @@
 <!-- Bill 6 of 25 - Order Paper of the Realm. Drafted by the Standing Committee. -->
-<!-- status: presented-for-royal-assent | outcome: passed-round-1 | ayes: 3/4 | drafting rounds: 1 -->
+<!-- status: enacted | royal-assent: 2026-06-06 | outcome: passed-round-1 | ayes: 3/4 | drafting rounds: 1 -->
 
 # Agents and Duties Act 2026
 
@@ -259,4 +259,4 @@ The bill was drafted on a reference to the Privy Council for constitutional guid
 
 ## Royal Assent
 
-*Presented to the Sovereign Founder for Royal Assent. Assent recommended; no constitutional flag outstanding.*
+*Royal Assent granted by the Sovereign Founder on 2026-06-06. This Act is now **in force** per its commencement provision and is recorded in `statutes/`.*

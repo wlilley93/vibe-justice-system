@@ -29,12 +29,12 @@ Acts of Union 2026                 the constitutional root (supreme)
 
 Statute beats case law where they conflict; the courts interpret statute and develop case law in the gaps.
 
-> **Constitutional caveat (raised by the Standing Committee on Privy Council guidance, 2026).** This
-> Acts-over-case-law tier is **intended law, not yet law in force**, until it is brought into being by an
-> **express amendment** of the entrenched CASE-LAW ss. 1, 2 and 9 (s. 9 forbids a competing statute book; ss. 1-2
-> vest one legislative power in the Founder). The **Acts of Union 2026** (Bill 1) is the instrument that effects
-> that express amendment; the hierarchy above takes force on its Royal Assent (or on a Supreme Court ruling the
-> Sovereign affirms). Pending that, the entrenched case law governs. This is a matter for **Sovereign consultation**.
+> **Constitutional note (resolved).** The Standing Committee, on Privy Council guidance, found that the
+> Acts-over-case-law tier required an **express amendment** of the entrenched CASE-LAW ss. 1, 2, 9 (s. 9 forbids a
+> competing statute book; ss. 1-2 vest one legislative power in the Founder). The **Acts of Union 2026** (Bill 1)
+> effects that amendment (Schedule 1, ss. 1/2/9/10 by number). The Sovereign Founder **granted Royal Assent to all
+> 25 Acts on 2026-06-06**; the hierarchy above is therefore **now in force**, and the entrenched articles were
+> amended by the lawful express route. The consultation is closed (see `bills/SOVEREIGN-CONSULTATIONS.md`).
 
 ## The drafting ladder (how a bill is made, and how doubt is resolved)
 

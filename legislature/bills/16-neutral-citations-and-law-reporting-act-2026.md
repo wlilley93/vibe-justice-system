@@ -1,5 +1,5 @@
 <!-- Bill 16 of 25 - Order Paper of the Realm. Drafted by the Standing Committee. -->
-<!-- status: presented-for-royal-assent | outcome: passed-round-1 | ayes: 3/4 | drafting rounds: 1 -->
+<!-- status: enacted | royal-assent: 2026-06-06 | outcome: passed-round-1 | ayes: 3/4 | drafting rounds: 1 -->
 
 # Neutral Citations and Law Reporting Act 2026
 
@@ -322,4 +322,4 @@ It does **not** decide where the authoritative status record lives; that questio
 
 ## Royal Assent
 
-*Presented to the Sovereign Founder for Royal Assent. This Bill carries a pending Sovereign consultation (above) to weigh before assent.*
+*Royal Assent granted by the Sovereign Founder on 2026-06-06. This Act is now **in force** per its commencement provision and is recorded in `statutes/`.*

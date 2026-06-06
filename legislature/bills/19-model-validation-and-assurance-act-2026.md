@@ -1,10 +1,10 @@
 <!-- Bill 19 of 25 - Order Paper of the Realm. Drafted by the Standing Committee. -->
-<!-- status: presented-for-royal-assent | outcome: passed-round-1 | ayes: 4/4 | drafting rounds: 1 -->
+<!-- status: enacted | royal-assent: 2026-06-06 | outcome: passed-round-1 | ayes: 4/4 | drafting rounds: 1 -->
 
 # Model Validation and Assurance Act 2026
 
 <!-- Bill 19 of 25 - Order Paper of the Realm. Drafted by the Standing Committee. -->
-<!-- status: presented-for-royal-assent | outcome: passed-round-1 | ayes: 4/4 | drafting rounds: 1 -->
+<!-- status: enacted | royal-assent: 2026-06-06 | outcome: passed-round-1 | ayes: 4/4 | drafting rounds: 1 -->
 
 # Model Validation and Assurance Act 2026
 
@@ -157,7 +157,7 @@ The Bill was drafted on the Privy Council guidance given on its reference, which
 
 ## Royal Assent
 
-*Presented to the Sovereign Founder for Royal Assent. Assent recommended; no constitutional flag outstanding, the express-amendment route in s. 10 being carried as a flag only.*
+*Royal Assent granted by the Sovereign Founder on 2026-06-06. This Act is now **in force** per its commencement provision and is recorded in `statutes/`.*
 
 ## Vote record
 
@@ -172,4 +172,4 @@ The Bill was drafted on the Privy Council guidance given on its reference, which
 
 ## Royal Assent
 
-*Presented to the Sovereign Founder for Royal Assent. Assent recommended; no constitutional flag outstanding.*
+*Royal Assent granted by the Sovereign Founder on 2026-06-06. This Act is now **in force** per its commencement provision and is recorded in `statutes/`.*

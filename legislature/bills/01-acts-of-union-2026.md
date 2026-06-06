@@ -1,5 +1,5 @@
 <!-- Bill 1 of 25 - Order Paper of the Realm. Drafted by the Standing Committee. -->
-<!-- status: presented-for-royal-assent | outcome: passed-round-1 | ayes: 4/4 | drafting rounds: 1 -->
+<!-- status: enacted | royal-assent: 2026-06-06 | outcome: passed-round-1 | ayes: 4/4 | drafting rounds: 1 -->
 
 # Acts of Union 2026
 
@@ -115,7 +115,7 @@ This Act fixes only the **frame**: that there is an entrenched amendment procedu
 
 ## Royal Assent
 
-*Presented to the Sovereign Founder for Royal Assent. To enact the Schedule 1 amendments the Royal Assent must be **express, deliberate, and cite s. 1, s. 2, s. 9 and s. 10 by number** (Bill 10 s. 15(1); Privy Council guidance). The Privy Council certificate of genuineness on this reference discharges the Bill 10 s. 17 heightened-route gate.*
+*Royal Assent granted by the Sovereign Founder on 2026-06-06. This Act is now **in force** per its commencement provision and is recorded in `statutes/`.*
 
 ---
 
@@ -148,4 +148,4 @@ Resolved tensions: (a) Books III-V scope (Aldous vs the brief) - resolved to dec
 
 ## Royal Assent
 
-*Presented to the Sovereign Founder for Royal Assent. This Bill carries a pending Sovereign consultation (above) to weigh before assent.*
+*Royal Assent granted by the Sovereign Founder on 2026-06-06. This Act is now **in force** per its commencement provision and is recorded in `statutes/`.*

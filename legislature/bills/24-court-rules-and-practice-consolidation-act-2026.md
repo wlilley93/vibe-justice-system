@@ -1,10 +1,10 @@
 <!-- Bill 24 of 25 - Order Paper of the Realm. Drafted by the Standing Committee. -->
-<!-- status: presented-for-royal-assent | outcome: passed-round-1 | ayes: 3/4 | drafting rounds: 1 -->
+<!-- status: enacted | royal-assent: 2026-06-06 | outcome: passed-round-1 | ayes: 3/4 | drafting rounds: 1 -->
 
 # Court Rules and Practice Consolidation Act 2026
 
 <!-- Bill 24 of 25 - Order Paper of the Realm. Drafted by the Standing Committee. -->
-<!-- status: presented-for-royal-assent | outcome: passed-round-1 | ayes: 4/4 | drafting rounds: 1 -->
+<!-- status: enacted | royal-assent: 2026-06-06 | outcome: passed-round-1 | ayes: 4/4 | drafting rounds: 1 -->
 
 # Court Rules and Practice Consolidation Act 2026
 
@@ -135,7 +135,7 @@ No costs, fine, sanction, gating, or punishment is created by the Code or by any
 
 ## Royal Assent
 
-*Presented to the Sovereign Founder for Royal Assent. No pending Sovereign consultation of its own: Bill 24's rank clause (s. 7) points to Interpretation Act 2026 s. 6 and is satisfied on either outcome of the pending Bill 15 vehicle/rank question; it need not be held for that determination.*
+*Royal Assent granted by the Sovereign Founder on 2026-06-06. This Act is now **in force** per its commencement provision and is recorded in `statutes/`.*
 
 ## Vote record
 
@@ -151,4 +151,4 @@ No costs, fine, sanction, gating, or punishment is created by the Code or by any
 
 ## Royal Assent
 
-*Presented to the Sovereign Founder for Royal Assent. Assent recommended; no constitutional flag outstanding.*
+*Royal Assent granted by the Sovereign Founder on 2026-06-06. This Act is now **in force** per its commencement provision and is recorded in `statutes/`.*

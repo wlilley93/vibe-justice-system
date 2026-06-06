@@ -1,5 +1,5 @@
 <!-- Bill 11 of 25 - Order Paper of the Realm. Drafted by the Standing Committee. -->
-<!-- status: presented-for-royal-assent | outcome: passed-after-second-round | ayes: 1/4 | drafting rounds: 2 -->
+<!-- status: enacted | royal-assent: 2026-06-06 | outcome: passed-after-second-round | ayes: 1/4 | drafting rounds: 2 -->
 
 # Judicial Independence and Lord Chancellor Act 2026
 
@@ -162,4 +162,4 @@ The first draft deadlocked: a 5-Part, 17-section instrument that, on its own s. 
 
 ## Royal Assent
 
-*Presented to the Sovereign Founder for Royal Assent. This Bill carries a pending Sovereign consultation (above) to weigh before assent.*
+*Royal Assent granted by the Sovereign Founder on 2026-06-06. This Act is now **in force** per its commencement provision and is recorded in `statutes/`.*

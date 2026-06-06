@@ -1,5 +1,5 @@
 <!-- Bill 17 of 25 - Order Paper of the Realm. Drafted by the Standing Committee. -->
-<!-- status: presented-for-royal-assent | outcome: passed-after-second-round | ayes: 2/4 | drafting rounds: 2 -->
+<!-- status: enacted | royal-assent: 2026-06-06 | outcome: passed-after-second-round | ayes: 2/4 | drafting rounds: 2 -->
 
 # Agent Authentication and Identity Act 2026
 
@@ -129,4 +129,4 @@ Net change is wording and citation hygiene, not scope. The bill is lean (Aldous)
 
 ## Royal Assent
 
-*Presented to the Sovereign Founder for Royal Assent. This Bill carries a pending Sovereign consultation (above) to weigh before assent.*
+*Royal Assent granted by the Sovereign Founder on 2026-06-06. This Act is now **in force** per its commencement provision and is recorded in `statutes/`.*

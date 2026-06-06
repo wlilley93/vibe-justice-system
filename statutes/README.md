@@ -13,23 +13,25 @@ Sovereign Founder), **the Acts are now the supreme law of the realm**.
 The Interpretation Act 2026 (Bill 15) gives effect to this transition; the Commencement and Transitional Provisions
 Act 2026 (Bill 25) preserves validly-made prior rulings and saves the founding settlement where no Act displaces it.
 
-## Register of Acts (the first 25 - status fills on Royal Assent)
+## Register of Acts (the first 25 - IN FORCE, Royal Assent 2026-06-06)
 
-The founding programme is on the [Order Paper](../legislature/bills/ORDER-PAPER.md). Each Bill: declared topic ->
-drafting round -> vote -> (deadlock) second round -> **Royal Assent** -> recorded here `in-force`. Drafted by the
-Standing Committee (`wf` standing-committee-25-bills); awaiting the Sovereign's assent.
+The founding programme (Order Paper: [`../legislature/bills/ORDER-PAPER.md`](../legislature/bills/ORDER-PAPER.md))
+ran the full course: declared topic -> drafting round -> vote -> (deadlock) second round -> **Royal Assent**.
+Drafted by the Standing Committee; **Royal Assent granted by the Sovereign Founder on 2026-06-06**, so all 25 Acts
+are now in force. The Acts of Union 2026 (Bill 1) commenced the supremacy of statute over case law (its Schedule 1
+express amendment of CASE-LAW ss. 1, 2, 9, 10).
 
 | No. | Act | Status |
 |---|---|---|
-| 1 | Acts of Union 2026 | awaiting Royal Assent |
-| 2 | Legislature of the Realm Act 2026 | awaiting Royal Assent |
-| 3 | Judicature Act 2026 | awaiting Royal Assent |
-| 4 | Civil Procedure Code 2026 | awaiting Royal Assent |
-| 5 | Ministries and Offices Act 2026 | awaiting Royal Assent |
-| 6-14 | (governance, guardrails, delegated authority) | awaiting Royal Assent |
-| 15 | Interpretation Act 2026 | awaiting Royal Assent |
-| 16 | Neutral Citations and Law Reporting Act 2026 | awaiting Royal Assent |
-| 17-25 | (agent-native operational Acts) | awaiting Royal Assent |
+| 1 | Acts of Union 2026 | in force (Royal Assent 2026-06-06) |
+| 2 | Legislature of the Realm Act 2026 | in force (Royal Assent 2026-06-06) |
+| 3 | Judicature Act 2026 | in force (Royal Assent 2026-06-06) |
+| 4 | Civil Procedure Code 2026 | in force (Royal Assent 2026-06-06) |
+| 5 | Ministries and Offices Act 2026 | in force (Royal Assent 2026-06-06) |
+| 6-14 | (governance, guardrails, delegated authority) | in force (Royal Assent 2026-06-06) |
+| 15 | Interpretation Act 2026 | in force (Royal Assent 2026-06-06) |
+| 16 | Neutral Citations and Law Reporting Act 2026 | in force (Royal Assent 2026-06-06) |
+| 17-25 | (agent-native operational Acts) | in force (Royal Assent 2026-06-06) |
 
 (The table fills out as each Act receives Royal Assent and is committed to `statutes/<NN>-<slug>.md`.)
 

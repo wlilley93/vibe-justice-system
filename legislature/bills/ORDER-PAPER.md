@@ -1,10 +1,11 @@
 # Order Paper - the first 25 Bills of the Realm
 
-> **Status: all 25 Bills drafted and presented for Royal Assent (2026-06-06).** Drafted by the live 4-member
-> Standing Committee over two sittings; every Bill routed through the Privy Council; Bills 11 and 17 broke a
-> deadlock in a second drafting round. **22 of 25 carry a Sovereign-consultation flag** - see
-> [`SOVEREIGN-CONSULTATIONS.md`](SOVEREIGN-CONSULTATIONS.md). Affirming **Bill 1 (Acts of Union 2026)** on Royal
-> Assent resolves the shared root question (the express amendment seating Acts above case law).
+> **Status: ENACTED - Royal Assent granted to all 25 Acts (2026-06-06).** Drafted by the live 4-member Standing
+> Committee over two sittings; every Bill routed through the Privy Council; Bills 11 and 17 broke a deadlock in a
+> second drafting round. The 22 Sovereign-consultation flags were **affirmed** by the Founder
+> ([`SOVEREIGN-CONSULTATIONS.md`](SOVEREIGN-CONSULTATIONS.md)); affirming **Bill 1 (Acts of Union 2026)** resolved
+> the root question (its Schedule 1 express amendment seats the Acts above case law). All 25 Acts are now in force
+> (recorded in [`../../statutes/`](../../statutes/)).
 
 
 The founding legislative programme. The Standing Committee (Aldous, Verity, Marlowe, Drummond) contributes to every
