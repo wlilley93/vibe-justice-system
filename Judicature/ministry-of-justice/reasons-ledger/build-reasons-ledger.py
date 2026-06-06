@@ -52,7 +52,7 @@ LINKED_CITE = re.compile(
 TRAILER_KEYS = ("Decided", "Why", "Rested-on", "Authorised-by")
 
 # A pre-convention commit is SIGNIFICANT if it touched a governed surface ...
-SIGNIFICANT_PATH_PREFIXES = (".justice/", "statutes/", "legislature/")
+SIGNIFICANT_PATH_PREFIXES = ("Judicature/.justice/", "Legislature/statutes/", "Legislature/legislature/")
 # ... or its subject records an irreversible / outward-facing act (Bill 8 s. 5(2)(b)).
 OUTWARD_RE = re.compile(
     r"\b(publish|published|deploy|deployed|royal assent|enact|enacts|enacted|"
@@ -186,7 +186,7 @@ def parse_bill_header(text: str):
 def harvest_legislation():
     """Yield one reasons-record per enacted Act, derived from its bill file + the bill record."""
     records = []
-    bills_dir = REALM / "legislature" / "bills"
+    bills_dir = REALM.parent / "Legislature" / "legislature" / "bills"
     if not bills_dir.exists():
         return records
     for f in sorted(bills_dir.glob("[0-9][0-9]-*.md")):
@@ -231,8 +231,8 @@ def harvest_legislation():
             "why": f"enacted to operationalise the founding programme; outcome: {outcome or status}",
             "rested_on": f"recitals + long title of Bill {n}; CASE-LAW s. 2 (Sovereign), Bill 1 Acts of Union (statute supremacy) - see Pointer",
             "authorised_by": "; ".join(auth_bits),
-            "pointer": norm(str(f.relative_to(REALM)))
-                       + f"; statutes/{f.name}",
+            "pointer": norm(str(f.relative_to(REALM.parent)))
+                       + f"; Legislature/statutes/{f.name}",
             "status": status,
         })
     return records
@@ -431,7 +431,7 @@ def build():
     n_cites = count_distinct_cites()
     if n_cites != len(caselaw):
         sys.stderr.write(f"reasons-ledger: NOTE caselaw rows={len(caselaw)} vs distinct citator cites={n_cites} (check for an unparsed row)\n")
-    bills_dir = REALM / "legislature" / "bills"
+    bills_dir = REALM.parent / "Legislature" / "legislature" / "bills"
     n_bills = len(list(bills_dir.glob("[0-9][0-9]-*.md"))) if bills_dir.exists() else 0
     if n_bills != len(legislation):
         sys.stderr.write(f"reasons-ledger: NOTE legislative rows={len(legislation)} vs bill files={n_bills}\n")

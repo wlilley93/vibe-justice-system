@@ -1,27 +1,26 @@
-# Independent operational repos nested in the realm. Each is its own git repo (or plain dir);
-# the realm fork tracks only the governance machinery (CASE-LAW, VPR, court/, caselaw/) + the
-# realm structure (ministries, signposts, the ledger), never the departments' contents.
-/ministry-for-business-work-and-skills/engineering-department/projects/
-/ministry-for-business-work-and-skills/legal-department/harvey-labs/
-/ministry-for-business-work-and-skills/legal-department/references/
-/ministry-for-business-work-and-skills/skills-and-education/scratch-to-signals/
-/ministry-for-business-work-and-skills/business-operations/Clara/
-/national-archives/
+# Independent operational repos nested in the realm (under Executive/ after the four-branch
+# refactor). Each is its own git repo (or plain dir); the public VJS tracks only the governance
+# machinery + realm structure, never the departments' contents (Bill 27: system data only).
+/Executive/ministry-of-business-engineering-and-skills/engineering-department/projects/
+/Executive/ministry-of-business-engineering-and-skills/legal-department/harvey-labs/
+/Executive/ministry-of-business-engineering-and-skills/legal-department/references/
+/Executive/ministry-of-business-engineering-and-skills/skills-and-education/scratch-to-signals/
+/Executive/ministry-of-business-engineering-and-skills/business-operations/Clara/
+/Executive/national-archives/
 
-# Ministry of Security operational estate registry - PRIVATE (holds the facts: the master digital
-# estate registry, the repo->server-config list, and policy papers). The public law (REALM-SI 1)
-# states principles only; the facts never enter the public tree. (Provisional name pending the
-# Ministry rename; consolidates with the security ministry.)
-/ministry-of-security/
+# Ministry of Data Security private operational estate registry - PRIVATE (the facts: the master
+# digital estate registry, the repo->server-config list, and policy papers). The public law
+# (REALM-SI 1) states principles only; the facts never enter the public tree (Bill 27 s.14; Bill 22).
+/Executive/ministry-of-data-security/_private-estate/
 
 # Secrets and build artefacts - never commit
 **/node_modules/
 **/.env
 .env
 *.env.local
-law-reports/node_modules/
-law-reports/review-service/node_modules/
-law-reports/review-service/data/
+Judicature/law-reports/node_modules/
+Judicature/law-reports/review-service/node_modules/
+Judicature/law-reports/review-service/data/
 
 # OS / editor junk - never belongs in the repo (and never in a public VJS)
 .DS_Store

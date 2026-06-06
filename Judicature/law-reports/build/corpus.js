@@ -11,7 +11,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.resolve(__dirname, '..', '..'); // ~/agent-universe
+const ROOT = path.resolve(__dirname, '..', '..', '..'); // repo root (build/ is now Judicature/law-reports/build/)
 
 // --- helpers -------------------------------------------------------------
 

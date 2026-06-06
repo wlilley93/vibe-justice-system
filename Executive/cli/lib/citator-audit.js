@@ -25,7 +25,7 @@ const CODE_RE = '(REALM-SC|REALM-PC|REALM-CA|ENG|CHAN|CC-[A-Z0-9-]+)';
 function findRepoRoot(start) {
   let dir = path.resolve(start || process.cwd());
   for (let i = 0; i < 12; i++) {
-    if (fs.existsSync(path.join(dir, '.justice'))) return dir;
+    if (fs.existsSync(path.join(dir, 'Judicature', '.justice'))) return dir;
     const parent = path.dirname(dir);
     if (parent === dir) break;
     dir = parent;
@@ -59,14 +59,14 @@ function citationsFromIndex(indexText) {
 function expectedRulingPath(root, c) {
   const dir = DIR_BY_CODE[c.code];
   if (!dir) return null;
-  return path.join(root, '.justice', 'judgments', dir, `${c.year}-${codeSlug(c.code)}-${c.n}.md`);
+  return path.join(root, 'Judicature', '.justice', 'judgments', dir, `${c.year}-${codeSlug(c.code)}-${c.n}.md`);
 }
 
 // Scan the central judgment dirs for ruling files and parse their citation from the filename.
 function rulingFilesOnDisk(root) {
   const files = [];
   for (const code of Object.keys(DIR_BY_CODE)) {
-    const dir = path.join(root, '.justice', 'judgments', DIR_BY_CODE[code]);
+    const dir = path.join(root, 'Judicature', '.justice', 'judgments', DIR_BY_CODE[code]);
     if (!fs.existsSync(dir)) continue;
     const fileRe = new RegExp('^(\\d{4})-' + codeSlug(code) + '-(\\d+)\\.md$', 'i');
     for (const name of fs.readdirSync(dir)) {
@@ -84,9 +84,9 @@ function auditCitator(start) {
   if (!root) return { ok: false, root: null, problems: [{ type: 'no-justice', message: 'no .justice/ directory found from ' + (start || process.cwd()) }] };
 
   const problems = [];
-  const indexPath = fs.existsSync(path.join(root, '.justice', 'INDEX.md'))
-    ? path.join(root, '.justice', 'INDEX.md')
-    : path.join(root, 'caselaw', 'INDEX.md');
+  const indexPath = fs.existsSync(path.join(root, 'Judicature', '.justice', 'INDEX.md'))
+    ? path.join(root, 'Judicature', '.justice', 'INDEX.md')
+    : path.join(root, 'Judicature', 'caselaw', 'INDEX.md');
 
   if (!fs.existsSync(indexPath)) {
     problems.push({ type: 'no-citator', message: 'citator not found (.justice/INDEX.md)' });

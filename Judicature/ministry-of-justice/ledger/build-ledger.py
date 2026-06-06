@@ -39,6 +39,11 @@ for f in REALM.rglob("*.md"):
     parts = set(f.relative_to(REALM).parts)
     if parts & {".git", "node_modules"}:
         continue
+    # Central-only public ledger (Bill 27 s. 14): skip the ministry-of-justice ledger outputs (this
+    # ledger's own INDEX.md + the reasons-ledger) so stale rows are never re-counted; local courts
+    # (sub-repo .justice under Executive/) are already out of scope since REALM is the Judicature branch.
+    if "ministry-of-justice" in parts:
+        continue
     # only scan caselaw / citator / judgment files
     low = str(f).lower()
     if not any(k in low for k in ("caselaw", "citator", "/.justice/", "index.md", "judgment", "lexby")):

@@ -10,7 +10,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const puppeteer = require(path.resolve(__dirname, '..', '..', 'court', 'renderer', 'node_modules', 'puppeteer'));
+// court/ moved to Judicature/court/ in the four-branch refactor; reach it via the repo root.
+const puppeteer = require(path.resolve(__dirname, '..', '..', '..', 'Judicature', 'court', 'renderer', 'node_modules', 'puppeteer'));
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const BILLS = path.join(ROOT, 'legislature', 'bills');

@@ -12,7 +12,7 @@ const PKG_ROOT = path.resolve(__dirname, '..', '..'); // the vibe-justice-system
 const VERSION = require('../package.json').version;
 
 function findCitator(dir) {
-  for (const rel of ['.justice/INDEX.md', 'caselaw/INDEX.md']) {
+  for (const rel of ['Judicature/.justice/INDEX.md', 'Judicature/caselaw/INDEX.md', '.justice/INDEX.md', 'caselaw/INDEX.md']) {
     const p = path.join(dir, rel);
     if (fs.existsSync(p)) return p;
   }

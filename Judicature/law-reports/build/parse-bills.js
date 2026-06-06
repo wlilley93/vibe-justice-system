@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const { ROOT, read, stripMd, sections, sectionByPrefix } = require('./corpus');
 
-const BILLS_DIR = path.join(ROOT, 'legislature', 'bills');
+const BILLS_DIR = path.join(ROOT, 'Legislature', 'legislature', 'bills');
 
 function pipelineStage(status, outcome, rounds) {
   const s = `${status} ${outcome}`.toLowerCase();
@@ -55,8 +55,8 @@ function parseBills() {
       voteRecord: stripMd(voteRecord).slice(0, 2000),
       sovereignConsultation: sovM ? stripMd(sovM[1]).slice(0, 600) : '',
       sourcePath: path.relative(ROOT, path.join(BILLS_DIR, file)),
-      pdfPath: fs.existsSync(path.join(ROOT, 'legislature', 'pdfs', `${file.replace(/\.md$/, '')}.pdf`))
-        ? path.join('legislature', 'pdfs', `${file.replace(/\.md$/, '')}.pdf`) : null,
+      pdfPath: fs.existsSync(path.join(ROOT, 'Legislature', 'legislature', 'pdfs', `${file.replace(/\.md$/, '')}.pdf`))
+        ? path.join('Legislature', 'legislature', 'pdfs', `${file.replace(/\.md$/, '')}.pdf`) : null,
       searchBody: stripMd(raw.replace(/<!--[\s\S]*?-->/g, '')).slice(0, 20000),
     });
   }

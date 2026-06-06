@@ -32,8 +32,8 @@ cd "$ROOT"
 run_check() {
   if command -v cdd >/dev/null 2>&1; then cdd check-citator; return $?; fi
   if command -v vjs >/dev/null 2>&1; then vjs check-citator; return $?; fi
+  if [ -f Executive/cli/bin/cdd.js ] && command -v node >/dev/null 2>&1; then node Executive/cli/bin/cdd.js check-citator; return $?; fi
   if [ -f cli/bin/cdd.js ] && command -v node >/dev/null 2>&1; then node cli/bin/cdd.js check-citator; return $?; fi
-  if [ -f .justice/cli/bin/cdd.js ] && command -v node >/dev/null 2>&1; then node .justice/cli/bin/cdd.js check-citator; return $?; fi
   echo "VJS pre-commit: cdd CLI not found; skipping citator audit (install the CLI to enforce)." >&2
   return 0
 }
@@ -53,10 +53,10 @@ fi
 # layer, so a build hiccup warns and the commit proceeds (rebuild manually if so). Errors are
 # trapped so they can never abort the commit under `set -e`.
 staged="$(git diff --cached --name-only 2>/dev/null || true)"
-if printf '%s\n' "$staged" | grep -qE '^\.justice/INDEX\.md$|^\.justice/judgments/|^legislature/bills/'; then
-  if command -v node >/dev/null 2>&1 && [ -f law-reports/build/ingest.js ]; then
-    if node law-reports/build/ingest.js >/dev/null 2>&1 && node law-reports/build/build-search-index.js >/dev/null 2>&1; then
-      git add law-reports/corpus.json law-reports/site/search-index.json >/dev/null 2>&1 || true
+if printf '%s\n' "$staged" | grep -qE '^Judicature/\.justice/INDEX\.md$|^Judicature/\.justice/judgments/|^Legislature/legislature/bills/'; then
+  if command -v node >/dev/null 2>&1 && [ -f Judicature/law-reports/build/ingest.js ]; then
+    if node Judicature/law-reports/build/ingest.js >/dev/null 2>&1 && node Judicature/law-reports/build/build-search-index.js >/dev/null 2>&1; then
+      git add Judicature/law-reports/corpus.json Judicature/law-reports/site/search-index.json >/dev/null 2>&1 || true
       echo "VJS pre-commit: law-site corpus + search index rebuilt in lockstep and staged." >&2
     else
       echo "VJS pre-commit: WARNING - law-site projection rebuild failed; committing without refresh (rebuild manually)." >&2
@@ -64,9 +64,9 @@ if printf '%s\n' "$staged" | grep -qE '^\.justice/INDEX\.md$|^\.justice/judgment
   else
     echo "VJS pre-commit: WARNING - node or law-reports build scripts missing; law-site projection NOT refreshed (REALM-PC 4 lockstep not enforced this commit)." >&2
   fi
-  if command -v python3 >/dev/null 2>&1 && [ -f ministry-of-justice/ledger/build-ledger.py ]; then
-    if python3 ministry-of-justice/ledger/build-ledger.py >/dev/null 2>&1; then
-      git add ministry-of-justice/ledger/INDEX.md >/dev/null 2>&1 || true
+  if command -v python3 >/dev/null 2>&1 && [ -f Judicature/ministry-of-justice/ledger/build-ledger.py ]; then
+    if python3 Judicature/ministry-of-justice/ledger/build-ledger.py >/dev/null 2>&1; then
+      git add Judicature/ministry-of-justice/ledger/INDEX.md >/dev/null 2>&1 || true
       echo "VJS pre-commit: universal rulings ledger rebuilt in lockstep and staged." >&2
     else
       echo "VJS pre-commit: WARNING - rulings-ledger rebuild failed; committing without refresh." >&2

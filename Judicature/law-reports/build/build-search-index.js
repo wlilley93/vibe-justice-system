@@ -12,7 +12,7 @@ const path = require('path');
 const MiniSearch = require('minisearch');
 const { ROOT } = require('./corpus');
 
-const corpus = JSON.parse(fs.readFileSync(path.join(ROOT, 'law-reports', 'corpus.json'), 'utf8'));
+const corpus = JSON.parse(fs.readFileSync(path.join(ROOT, 'Judicature', 'law-reports', 'corpus.json'), 'utf8'));
 
 const docs = [];
 for (const c of corpus.cases) {
@@ -44,7 +44,7 @@ const ms = new MiniSearch({
 // deterministic insert order (corpus is already sorted)
 ms.addAll(docs);
 
-const dest = path.join(ROOT, 'law-reports', 'site', 'search-index.json');
+const dest = path.join(ROOT, 'Judicature', 'law-reports', 'site', 'search-index.json');
 fs.mkdirSync(path.dirname(dest), { recursive: true });
 fs.writeFileSync(dest, JSON.stringify(ms.toJSON()) + '\n');
 console.log(`search-index.json: ${docs.length} documents (lexical, pointer-only) -> ${path.relative(ROOT, dest)}`);
