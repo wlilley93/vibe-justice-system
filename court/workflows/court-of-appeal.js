@@ -2,7 +2,7 @@ export const meta = {
   name: 'vjs-court-of-appeal',
   description: 'Vibe Justice System - Court of Appeal (3-judge panel). Reviews a First Instance ruling on an arguable point of law or binding-precedent conflict. Permission to appeal is decided by an independent leave-judge who did not sit below (s. 19(3)); the matter then reaches the panel on a symmetric researched record (s. 19(1)). The judgment is authored by one of the three (s. 18). General-purpose; runs on any repo.',
   phases: [
-    { title: 'Law Load', detail: 'Read SPEC-LAW.md and .justice/INDEX.md from the repo - always bound to the current law' },
+    { title: 'Law Load', detail: 'Read CASE-LAW.md and .justice/INDEX.md from the repo - always bound to the current law' },
     { title: 'Permission to appeal', detail: 'An independent leave-judge (randomised, never the trial judge or a panel member) decides leave on a Sonnet-class model (s. 19(3))' },
     { title: 'Hard research - both sides', detail: 'Researched intake (s. 19(1)): appellant and respondent each file a brief so the panel sits on a symmetric record' },
     { title: 'Appeal - Three Independent Opinions', detail: 'The three-judge panel (Blackmere J strict-construction, Goffe J pragmatist, Elden J precedent-hawk) delivers independent opinions' },
@@ -23,7 +23,7 @@ const YEAR = args.year || 2026
 const BENCH = [
   { name: 'Hallam CJ', brief: 'Principled and precise; anchors to statute first.' },
   { name: 'Goffe J', brief: 'Pragmatist; tests every ruling for real-world workability.' },
-  { name: 'Blackmere J', brief: 'Textualist; holds hard to the literal words of SPEC-LAW.' },
+  { name: 'Blackmere J', brief: 'Textualist; holds hard to the literal words of CASE-LAW.' },
   { name: 'Sumberly J', brief: 'Formalist; procedural correctness as a substantive guarantee.' },
   { name: 'Elden J', brief: 'Historically minded; draws on precedent and tradition.' },
   { name: 'Coade J', brief: 'Restrained; prefers the narrowest ruling that resolves the case.' },
@@ -34,8 +34,8 @@ const BENCH = [
 
 // The fixed three-judge panel (s. 18: the bench is THREE; Elden J authors from within).
 const PANEL = [
-  { name: 'Blackmere J', posture: 'strict-construction', brief: 'You are Blackmere J, the textualist of the panel. You hold hard to the literal words of SPEC-LAW; where the text is plain no purposive reasoning overrides it; where SPEC-LAW is silent you apply the s. 7 default precisely. Your question: does the ratio below hold under the letter of the statute?' },
-  { name: 'Goffe J', posture: 'pragmatist', brief: 'You are Goffe J, the pragmatist of the panel. You read SPEC-LAW purposively and test the outcome for real-world workability and proportionate remedy (s. 6). Your question: does the ruling below serve the principal and produce a workable result?' },
+  { name: 'Blackmere J', posture: 'strict-construction', brief: 'You are Blackmere J, the textualist of the panel. You hold hard to the literal words of CASE-LAW; where the text is plain no purposive reasoning overrides it; where CASE-LAW is silent you apply the s. 7 default precisely. Your question: does the ratio below hold under the letter of the statute?' },
+  { name: 'Goffe J', posture: 'pragmatist', brief: 'You are Goffe J, the pragmatist of the panel. You read CASE-LAW purposively and test the outcome for real-world workability and proportionate remedy (s. 6). Your question: does the ruling below serve the principal and produce a workable result?' },
   { name: 'Elden J', posture: 'precedent-hawk (presiding, authoring)', brief: 'You are Elden J, the precedent-hawk and presiding member. Consistency of the case law is itself a value; a ruling that departs from precedent without distinguishing or overruling it is an error. Your question: is the ruling below consistent with all binding and persuasive precedent, cited and uncited? As presiding member you will also author the judgment of the Court from within the panel (s. 18).' },
 ]
 
@@ -44,14 +44,14 @@ const PANEL = [
 // --------------------------------------------------------------------------
 phase('Law Load')
 const lawLoad = await parallel([
-  () => agent('Read the file .justice/SPEC-LAW.md in the current working directory. If it does not exist, read SPEC-LAW.md instead. Return the complete text verbatim with no commentary.', { label: 'load SPEC-LAW', phase: 'Law Load', agentType: 'Explore' }),
+  () => agent('Read the file .justice/CASE-LAW.md in the current working directory. If it does not exist, read CASE-LAW.md instead. Return the complete text verbatim with no commentary.', { label: 'load CASE-LAW', phase: 'Law Load', agentType: 'Explore' }),
   () => agent('Read the file .justice/INDEX.md in the current working directory. If it does not exist, try caselaw/INDEX.md (legacy). Return the complete text verbatim with no commentary.', { label: 'load .justice/INDEX.md', phase: 'Law Load', agentType: 'Explore' }),
 ])
 const liveSpec = (lawLoad[0] && lawLoad[0].trim()) || null
 const liveIndex = (lawLoad[1] && lawLoad[1].trim()) || null
-const specBlock = liveSpec || args.spec || '(SPEC-LAW not available)'
+const specBlock = liveSpec || args.spec || '(CASE-LAW not available)'
 const caselawBlock = liveIndex || args.caselaw || '(no caselaw available)'
-if (liveSpec) log('SPEC-LAW loaded from repo.')
+if (liveSpec) log('CASE-LAW loaded from repo.')
 if (liveIndex) log('.justice/INDEX.md loaded from repo.')
 
 function nextCitation(citatorText, code, year) {
@@ -103,7 +103,7 @@ ${JSON.stringify(lowerRuling, null, 2)}
 THE GROUNDS OF APPEAL:
 ${grounds}
 
-SPEC-LAW:
+CASE-LAW:
 ${specBlock}
 
 CASELAW:
@@ -139,7 +139,7 @@ ${JSON.stringify(lowerRuling, null, 2)}
 
 PROPOSED CITATION (clerk, deterministic): ${assignedCitation}
 
-SPEC-LAW:
+CASE-LAW:
 ${specBlock}
 
 CASELAW:
@@ -170,7 +170,7 @@ const briefs = await parallel([
 ].map(({ role, stance }) => () => agent(
   `You are COUNSEL FOR THE ${role.toUpperCase()} in the Court of Appeal of the Vibe Justice System. ${stance}
 
-This is the mandatory hard-research first leg (s. 19(1)). Research the law HARD: you may READ the full text of any ruling under .justice/judgments/ and re-read SPEC-LAW.md. Ground every argument in a cited article (s. n) or neutral citation. No em dashes or en dashes.
+This is the mandatory hard-research first leg (s. 19(1)). Research the law HARD: you may READ the full text of any ruling under .justice/judgments/ and re-read CASE-LAW.md. Ground every argument in a cited article (s. n) or neutral citation. No em dashes or en dashes.
 
 ${arsenal}
 

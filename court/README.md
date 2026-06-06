@@ -11,7 +11,7 @@ invoked via the `Workflow` tool. They are general-purpose: they work for any pro
 |------|------|-------|-------------|
 | `workflows/first-instance.js` | First Instance | 1 judge | All matters start here (VPR 1). Standing check + fast-path on binding precedent. Full deliberation only for genuine first-impression questions. |
 | `workflows/court-of-appeal.js` | Court of Appeal | 3 judges | After First Instance, with permission to appeal. Three independent postures: strict-construction, pragmatist, precedent-hawk. |
-| `workflows/supreme-court.js` | Supreme Court | 5 judges (9 for constitutional) | The apex court. Only reached by progression or the Principal's express leapfrog certificate. The only court that can enact new SPEC-LAW. |
+| `workflows/supreme-court.js` | Supreme Court | 5 judges (9 for constitutional) | The apex court. Only reached by progression or the Principal's express leapfrog certificate. The only court that can enact new CASE-LAW. |
 
 ---
 
@@ -26,7 +26,7 @@ Workflow({
   args: {
     kind: 'request_for_ruling',
     question: 'Should we use server-side rendering or a SPA for this project?',
-    spec: '...contents of SPEC-LAW.md...',
+    spec: '...contents of CASE-LAW.md...',
     caselaw: '...contents of caselaw/INDEX.md...',
   }
 })
@@ -37,7 +37,7 @@ Workflow({
   args: {
     kind: 'breach',
     charge: 'The authentication layer was implemented without a prior ruling, contrary to an existing precedent on this point.',
-    spec: '...contents of SPEC-LAW.md...',
+    spec: '...contents of CASE-LAW.md...',
     caselaw: '...contents of caselaw/INDEX.md...',
   }
 })

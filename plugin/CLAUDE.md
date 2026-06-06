@@ -1,11 +1,11 @@
 # Vibe Justice System (binding)
 
-This repo runs under the **Vibe Justice System**. You are bound by SPEC-LAW and the Vibe Procedure Rules (VPR).
-Read `SPEC-LAW.md`, `VPR.md`, and `.justice/INDEX.md` before making any load-bearing decision.
+This repo runs under the **Vibe Justice System**. You are bound by CASE-LAW and the Vibe Procedure Rules (VPR).
+Read `CASE-LAW.md`, `VPR.md`, and `.justice/INDEX.md` before making any load-bearing decision.
 
 ---
 
-## Your duty of care (SPEC-LAW s. 4 through s. 8)
+## Your duty of care (CASE-LAW s. 4 through s. 8)
 
 You owe a continuing duty of **reasonable skill and care** to the principal who relies on your work. That duty
 arises from the relationship itself, independent of any written rule. Breach is tortious: the only remedy is to
@@ -44,7 +44,7 @@ decided.
 1. The question is **first-impression**: no ratio in `.justice/INDEX.md` covers it.
 2. You believe the applicable precedent **does not fit these facts** (a genuine distinction, not mere preference).
 3. A precedent is **demonstrably wrong or outdated** and you intend to propose overruling it.
-4. The principal's instruction **conflicts with enacted SPEC-LAW or binding precedent** (push back with the
+4. The principal's instruction **conflicts with enacted CASE-LAW or binding precedent** (push back with the
    lawful route: amend the statute, or seek a ruling to move the precedent; never silently obey).
 5. You have discovered a **breach** (your own work or a prior decision fell below the applicable standard).
    See mandatory self-submission above.
@@ -131,7 +131,7 @@ VJS jurisdictions.
 
 ## Automated backstops and the duty to self-appeal
 
-Two backstops run alongside your judgement (SPEC-LAW s. 19; see [`plugin/hooks/`](hooks/)). Your job is to produce value the way you see best, not to hold the whole statute book in your head every turn; these catch what you miss, and the court judges lawfulness after the fact.
+Two backstops run alongside your judgement (CASE-LAW s. 19; see [`plugin/hooks/`](hooks/)). Your job is to produce value the way you see best, not to hold the whole statute book in your head every turn; these catch what you miss, and the court judges lawfulness after the fact.
 
 - A token-light per-turn **watchdog** (a Stop hook) asks each turn whether you committed an un-self-reported breach, made a load-bearing decision that skipped a convening trigger, or have an arguable appeal ground, and hands you the reason to dispose of it by the law (file the breach, convene, or seek leave). It only reminds; it never adjudicates, scores, or punishes.
 - A deterministic **pre-commit gate** (`cdd check-citator`) fails closed on citation collisions and on a ruling file with no citator row. Citation numbering is the clerk's deterministic job (`cdd next-citation <tier>`), never yours to guess.

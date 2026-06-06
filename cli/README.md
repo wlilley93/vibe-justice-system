@@ -12,7 +12,7 @@ npm link ./cli          # then: cdd --help   /   vjs --help
 
 | Command | What it does |
 |---|---|
-| `cdd init [dir]` | Install VJS into a repo: vendor `SPEC-LAW.md` / `VPR.md` / `CDD.md`, scaffold `.justice/` (citator + `caselaw/` + `pdfs/`), and append the binding `plugin/CLAUDE.md` block to the target `CLAUDE.md` (idempotent). |
+| `cdd init [dir]` | Install VJS into a repo: vendor `CASE-LAW.md` / `VPR.md` / `CDD.md`, scaffold `.justice/` (citator + `caselaw/` + `pdfs/`), and append the binding `plugin/CLAUDE.md` block to the target `CLAUDE.md` (idempotent). |
 | `cdd next-citation <tier> [--year YYYY] [--citator PATH] [--json]` | **Deterministic** next neutral citation, computed from the citator (`.justice/INDEX.md`, legacy fallback `caselaw/INDEX.md`). `tier` = `first-instance` \| `court-of-appeal` \| `supreme-court` (or `FI`/`CA`/`SC`). |
 | `cdd submit-request "<question>"` | Print the `Workflow` invocation to file a Request for Ruling (the court runs inside Claude Code). |
 | `cdd submit-breach "<charge>"` | Print the `Workflow` invocation to file a Breach. |

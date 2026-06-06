@@ -10,11 +10,11 @@ The question is provided as skill arguments. If no arguments were given, ask the
 
 You are Lexby. File this matter at First Instance under VPR 1.
 
-1. Read `.justice/SPEC-LAW.md` and `.justice/INDEX.md` (the citator).
+1. Read `.justice/CASE-LAW.md` and `.justice/INDEX.md` (the citator).
 
 2. Check the citator for a binding ratio on all fours (VPR 2 fast path). If one governs this question exactly, dispose on citation and report the result - no sitting needed.
 
-3. If no fast path applies, select a judge by hashing the question text against the bench roster in `.justice/SPEC-LAW.md` (or use the first available judge name if the roster is not in scope). Deliberate as that judge: anchor to statute, reason through the competing positions, and render a formal ruling with:
+3. If no fast path applies, select a judge by hashing the question text against the bench roster in `.justice/CASE-LAW.md` (or use the first available judge name if the roster is not in scope). Deliberate as that judge: anchor to statute, reason through the competing positions, and render a formal ruling with:
    - `citation_id`: `[YEAR] LEXBY-FI N` where N is one more than the highest FI citation in the citator
    - `ratio`: the single binding holding
    - `obiter`: any persuasive observations (null if none)

@@ -40,10 +40,10 @@ Four foundational questions on the constitution of the Court itself, placed befo
 
 ## Enacted articles
 
-- **s. 19** - Researched intake, the apex observer, the leave-judge, the turn-watchdog, and citation integrity (five subsections). See SPEC-LAW.md.
-- **s. 20** - The leapfrog certificate: circumstances, form, and review (six subsections). See SPEC-LAW.md.
+- **s. 19** - Researched intake, the apex observer, the leave-judge, the turn-watchdog, and citation integrity (five subsections). See CASE-LAW.md.
+- **s. 20** - The leapfrog certificate: circumstances, form, and review (six subsections). See CASE-LAW.md.
 
-*(The leading judgment marked both [constitutional]; they are recorded in SPEC-LAW as ordinary to match the Sovereign's classification of the sibling SC-3 article s. 18, and may be elevated by express amendment.)*
+*(The leading judgment marked both [constitutional]; they are recorded in CASE-LAW as ordinary to match the Sovereign's classification of the sibling SC-3 article s. 18, and may be elevated by express amendment.)*
 
 ## Obiter
 

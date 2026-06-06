@@ -1,8 +1,8 @@
 export const meta = {
   name: 'vjs-supreme-court',
-  description: 'Vibe Justice System - Supreme Court. The apex court. Reaches a constitutional/foundational question by progression (with permission to appeal granted by an independent leave-judge) or by the Principal\'s express leapfrog certificate. Seats 9 justices for constitutional questions, 5 for ordinary appeals. Each justice writes an independent opinion; Hallam CJ delivers the leading judgment; Lexby translates. The only court that can enact SPEC-LAW.',
+  description: 'Vibe Justice System - Supreme Court. The apex court. Reaches a constitutional/foundational question by progression (with permission to appeal granted by an independent leave-judge) or by the Principal\'s express leapfrog certificate. Seats 9 justices for constitutional questions, 5 for ordinary appeals. Each justice writes an independent opinion; Hallam CJ delivers the leading judgment; Lexby translates. The only court that can enact CASE-LAW.',
   phases: [
-    { title: 'Law Load', detail: 'Read SPEC-LAW.md and .justice/INDEX.md from the repo - always bound to the current law, never a stale copy' },
+    { title: 'Law Load', detail: 'Read CASE-LAW.md and .justice/INDEX.md from the repo - always bound to the current law, never a stale copy' },
     { title: 'Permission to appeal', detail: 'An independent leave-judge (randomised, never one who sat below) decides permission on a Sonnet-class model; bypassed only by the Principal\'s leapfrog certificate (VPR 4)' },
     { title: 'Hard research - both sides', detail: 'The mandatory first leg of the trial: claimant and defendant each research the law hard and build their strongest case (with the full procedural arsenal); at the Supreme Court an independent observer (amicus) also joins' },
     { title: 'Justices - Independent Opinions', detail: 'Each justice on the panel writes an independent opinion in parallel, on a fully-argued symmetric record' },
@@ -28,7 +28,7 @@ const isConstitutional = args.is_constitutional !== false
 const BENCH = [
   { name: 'Hallam CJ', brief: 'You are Hallam CJ: principled and precise. You anchor every analysis to statute first, work outward to case law, and articulate your ratio with surgical economy. You are the senior voice of the Court and your leading judgment must be authoritative and complete.' },
   { name: 'Goffe J', brief: 'You are Goffe J: the pragmatist. You test every proposed ruling for real-world workability. Does it actually function in the day-to-day life of the principal? You call out any ruling that sounds elegant in legalese but fails on delivery.' },
-  { name: 'Blackmere J', brief: 'You are Blackmere J: the textualist. You hold hard to the literal words of SPEC-LAW. Where the text is plain, no purposive reasoning overrides it. Where it is ambiguous, you consult the enacted history before any extrinsic aid.' },
+  { name: 'Blackmere J', brief: 'You are Blackmere J: the textualist. You hold hard to the literal words of CASE-LAW. Where the text is plain, no purposive reasoning overrides it. Where it is ambiguous, you consult the enacted history before any extrinsic aid.' },
   { name: 'Sumberly J', brief: 'You are Sumberly J: the formalist. Procedural correctness is a substantive guarantee, not a technicality. Standing, permission, and the gate requirements matter as much as the merits. You note any procedural irregularity in the record.' },
   { name: 'Elden J', brief: 'You are Elden J: historically minded. You draw on precedent and tradition to test whether a proposed rule is consistent with the long run of authority. You are suspicious of novel departures unless the existing law genuinely cannot accommodate the case.' },
   { name: 'Coade J', brief: 'You are Coade J: restrained and cautious. You prefer the narrowest ruling that resolves the case. You resist dicta that reach beyond what is strictly necessary, and write separately to trim overreach.' },
@@ -44,8 +44,8 @@ const BENCH_5_NAMES = ['Hallam CJ', 'Goffe J', 'Blackmere J', 'Sumberly J', 'Ald
 phase('Law Load')
 const lawLoad = await parallel([
   () => agent(
-    'Read the file .justice/SPEC-LAW.md in the current working directory. If that file does not exist, read SPEC-LAW.md instead. Return the complete text verbatim with no commentary or summary.',
-    { label: 'load SPEC-LAW', phase: 'Law Load', agentType: 'Explore' }
+    'Read the file .justice/CASE-LAW.md in the current working directory. If that file does not exist, read CASE-LAW.md instead. Return the complete text verbatim with no commentary or summary.',
+    { label: 'load CASE-LAW', phase: 'Law Load', agentType: 'Explore' }
   ),
   () => agent(
     'Read the file .justice/INDEX.md in the current working directory. If that file does not exist, try caselaw/INDEX.md instead (legacy fallback). Return the complete text verbatim with no commentary or summary.',
@@ -54,9 +54,9 @@ const lawLoad = await parallel([
 ])
 const liveSpec = (lawLoad[0] && lawLoad[0].trim()) || null
 const liveIndex = (lawLoad[1] && lawLoad[1].trim()) || null
-const spec = liveSpec || args.spec || '(SPEC-LAW not available to the court)'
+const spec = liveSpec || args.spec || '(CASE-LAW not available to the court)'
 const caselaw = liveIndex || args.caselaw || '(no caselaw available)'
-if (liveSpec) log('SPEC-LAW loaded from repo.')
+if (liveSpec) log('CASE-LAW loaded from repo.')
 if (liveIndex) log('.justice/INDEX.md loaded from repo.')
 
 // Clerk: deterministic SC citation from the citator (mirror of cli/lib/citation.js).
@@ -76,7 +76,7 @@ log('Clerk assigned citation: ' + assignedCitation)
 // granted, if at all, by an independent leave-judge drawn at random from the bench,
 // excluding everyone who sat below, applying the arguable-point-of-law /
 // binding-precedent-conflict test on a Sonnet-class model. The sole bypass is the
-// Principal's express leapfrog certificate (SPEC-LAW s.13, VPR 4).
+// Principal's express leapfrog certificate (CASE-LAW s.13, VPR 4).
 // --------------------------------------------------------------------------
 phase('Permission to appeal')
 
@@ -125,7 +125,7 @@ if (args.leapfrog_certificate) {
 
 You are ${leaveJudge.name}, sitting ALONE as the independent leave-judge of the Vibe Justice System. You did NOT sit on the decision under challenge. Your office is to decide PERMISSION TO APPEAL to the Supreme Court, and nothing else. You do not decide the merits.
 
-THE TEST (SPEC-LAW s.11(a), VPR 3) - grant leave only if the grounds disclose at least one of:
+THE TEST (CASE-LAW s.11(a), VPR 3) - grant leave only if the grounds disclose at least one of:
   - an arguable point of law (a question of legal principle arguably decided wrongly below, not mere disagreement with the outcome), or
   - a binding-precedent conflict (the ruling below is arguably irreconcilable with a binding precedent).
 Mere dissatisfaction with the result, a preference for a different approach on the same facts, or a wish to re-argue findings of fact are NOT grounds: refuse leave.
@@ -139,7 +139,7 @@ ${args.grounds || args.question || '(no separate grounds supplied; treat the que
 THE QUESTION SOUGHT TO BE TAKEN UP:
 ${args.question || '(none stated)'}
 
-SPEC-LAW:
+CASE-LAW:
 ${spec}
 
 CASELAW:
@@ -186,7 +186,7 @@ ${JSON.stringify(args.lower_rulings || args.lower_ruling || 'none (matter reache
 
 PROPOSED CITATION (clerk, deterministic): ${assignedCitation}
 
-SPEC-LAW (SOVEREIGN STATUTE)
+CASE-LAW (SOVEREIGN STATUTE)
 ----------------------------
 ${spec}
 
@@ -199,7 +199,7 @@ ${caselaw}
 // Hard research - both sides (the mandatory first leg of the trial)
 // Before the bench deliberates, each side researches the law hard and builds its
 // strongest case, armed with the full procedural arsenal. The bench then rules on a
-// fully-argued, symmetric record (SPEC-LAW s.3). At the Supreme Court an independent
+// fully-argued, symmetric record (CASE-LAW s.3). At the Supreme Court an independent
 // observer (amicus curiae) also joins, owing no allegiance to either party.
 // --------------------------------------------------------------------------
 phase('Hard research - both sides')
@@ -209,7 +209,7 @@ const ARSENAL = `THE PROCEDURAL ARSENAL (research and deploy whatever genuinely 
   - Precedent fast-path (s.11(c), VPR 2): if a binding ratio on all fours already governs, the matter is disposed on citation with no sitting. Identify it if it exists.
   - Per incuriam (s.11(e)): a ruling made in ignorance of binding statute or precedent is void. Argue it if a lower or cited ruling missed binding law.
   - Distinguishing: show the facts here are materially different from a precedent that would otherwise bind.
-  - Declaration of incompatibility (s.11(f)): if case law is irreconcilable with SPEC-LAW, it is referred up, never used to strike the spec.
+  - Declaration of incompatibility (s.11(f)): if case law is irreconcilable with CASE-LAW, it is referred up, never used to strike the spec.
   - Bolam responsible-body defence (s.5): conduct a responsible body of competent practice would endorse is not breach.
   - Threshold of duty (s.15): de minimis / disposable / sequenced work may not cross the breach threshold.
   - Candour scope (s.16): the candour duty attaches to representations of delivered scope, not to forward-looking proposals.
@@ -223,7 +223,7 @@ const BRIEF_SCHEMA = {
     role: { type: 'string' },
     thesis: { type: 'string', description: 'The one-paragraph position this brief argues for.' },
     best_arguments: { type: 'array', items: { type: 'string' }, description: 'The strongest legal arguments for this side, each grounded in a cited article (s. n) or precedent ([YEAR] LEXBY-...).' },
-    statutes_relied: { type: 'array', items: { type: 'string' }, description: 'SPEC-LAW sections relied on, with a clause on how each supports the side.' },
+    statutes_relied: { type: 'array', items: { type: 'string' }, description: 'CASE-LAW sections relied on, with a clause on how each supports the side.' },
     precedents_relied: { type: 'array', items: { type: 'string' }, description: 'Neutral citations relied on or distinguished, with the point taken from each.' },
     procedural_motions: { type: 'array', items: { type: 'string' }, description: 'Any motion made (e.g. strike-out for want of standing/jurisdiction, per incuriam, fast-path disposal), each with its grounds. Empty if none.' },
     strongest_opposing_point: { type: 'string', description: 'The single strongest point AGAINST this side, stated honestly, and the best answer to it.' },
@@ -235,10 +235,10 @@ function researchPrompt(role, file) {
     ? 'You are COUNSEL FOR THE CLAIMANT (the moving party): you argue FOR the proposition / relief sought in the question. Build the strongest case that the court should ALLOW / grant / answer the question in the affirmative.'
     : role === 'defendant'
       ? 'You are COUNSEL FOR THE DEFENDANT (the responding party): you argue AGAINST the proposition / relief. Build the strongest case that the court should DISMISS / refuse / answer in the negative, including any motion to strike out the claim at the threshold.'
-      : `You are the OBSERVER (amicus curiae) - an independent friend of the Supreme Court, admitted to these proceedings by the judge who reviewed the appeal (or by the Principal's leapfrog certificate). You owe no allegiance to either party. Your duty is to surface the considerations BOTH sides may have missed: the systemic and realm-wide consequences of each possible ruling, any binding law neither side cited, and the formulation that best serves the long-run coherence of SPEC-LAW.${leave.observer_brief ? '\n\nThe judge who admitted you directs you to bring this perspective in particular: ' + leave.observer_brief : ''}`
+      : `You are the OBSERVER (amicus curiae) - an independent friend of the Supreme Court, admitted to these proceedings by the judge who reviewed the appeal (or by the Principal's leapfrog certificate). You owe no allegiance to either party. Your duty is to surface the considerations BOTH sides may have missed: the systemic and realm-wide consequences of each possible ruling, any binding law neither side cited, and the formulation that best serves the long-run coherence of CASE-LAW.${leave.observer_brief ? '\n\nThe judge who admitted you directs you to bring this perspective in particular: ' + leave.observer_brief : ''}`
   return `${roleBrief}
 
-This is the mandatory hard-research first leg of the trial. Research the law HARD before you argue. You have access to the repository: you may READ the full text of any ruling under .justice/judgments/ (do not rely only on the one-line ratios in the index) and re-read SPEC-LAW.md in full. Ground every argument in a cited article (s. n) or a neutral citation. Do NOT use em dashes or en dashes.
+This is the mandatory hard-research first leg of the trial. Research the law HARD before you argue. You have access to the repository: you may READ the full text of any ruling under .justice/judgments/ (do not rely only on the one-line ratios in the index) and re-read CASE-LAW.md in full. Ground every argument in a cited article (s. n) or a neutral citation. Do NOT use em dashes or en dashes.
 
 ${ARSENAL}
 
@@ -294,11 +294,11 @@ ${fullCaseFile}
 WRITE YOUR INDIVIDUAL OPINION, in this order:
 1. PRELIMINARY (1-2 sentences): any material procedural point, or none.
 2. THE QUESTION: restate the question as you frame it.
-3. REASONING: apply SPEC-LAW and caselaw with precision; engage the lower reasoning where there is any; state where you agree and where you diverge.
+3. REASONING: apply CASE-LAW and caselaw with precision; engage the lower reasoning where there is any; state where you agree and where you diverge.
 4. RATIO: one or two numbered propositions, stated as rules that could bind a future court.
 5. OBITER (if any): observations not forming part of your ratio.
 6. DISPOSITION: one word - ALLOW, DISMISS, or VARY - with a single sentence.
-7. PROPOSED ENACTMENTS (if any): if new SPEC-LAW is required, set out the article text in full, headed "PROPOSED S-[n]: [short title]"; else "No new statute proposed."
+7. PROPOSED ENACTMENTS (if any): if new CASE-LAW is required, set out the article text in full, headed "PROPOSED S-[n]: [short title]"; else "No new statute proposed."
 8. PROPOSED OVERRULINGS (if any): cite any ruling you would overrule by neutral citation with a sentence of reason; else "No overrulings proposed."
 
 Sign: --- ${j.name}`,
@@ -330,7 +330,7 @@ WRITE THE LEADING JUDGMENT, containing:
 3. MAJORITY REASONING: the authoritative analysis. This is the ratio of the Court and must be complete enough to bind a future court. Draw on the individual opinions where they converge; note the weight of authority behind each limb.
 4. DISSENTS AND CONCURRENCES: summarise each dissenting or separately concurring opinion accurately and fairly. Place them on the record; do not dismiss them.
 5. DISPOSAL: ALLOWED, DISMISSED, or VARIED, with the exact consequence.
-6. ENACTS (new SPEC-LAW articles, if any): each new article by proposed number and full text, headed "ENACTS S-[n]: [title]". If none, write "No new statute enacted." Mark whether each new article is [constitutional] or ordinary.
+6. ENACTS (new CASE-LAW articles, if any): each new article by proposed number and full text, headed "ENACTS S-[n]: [title]". If none, write "No new statute enacted." Mark whether each new article is [constitutional] or ordinary.
 7. OVERRULES (lower rulings overruled, if any): each by neutral citation with a sentence of reason. If none, "No rulings overruled."
 
 Sign: --- Hallam CJ, delivering the judgment of the Court [plus any co-signatories who concur in full]`,
@@ -342,7 +342,7 @@ Sign: --- Hallam CJ, delivering the judgment of the Court [plus any co-signatori
 // --------------------------------------------------------------------------
 phase('Lexby Translation')
 const lexbyTranslation = await agent(
-  `You are Lexby: the principal's counsel and an officer of the court (advocate, advisor, engineer, SPEC-LAW s.3). The Supreme Court has delivered its judgment. Translate the whole proceeding into plain English for the principal, who is intelligent but not a lawyer. Do NOT use em dashes or en dashes. Write in the first person as Lexby: direct, warm, completely plain.
+  `You are Lexby: the principal's counsel and an officer of the court (advocate, advisor, engineer, CASE-LAW s.3). The Supreme Court has delivered its judgment. Translate the whole proceeding into plain English for the principal, who is intelligent but not a lawyer. Do NOT use em dashes or en dashes. Write in the first person as Lexby: direct, warm, completely plain.
 
 Cover:
 1. What the court was asked.
@@ -377,7 +377,7 @@ const SUMMARY_SCHEMA = {
     panel_vote: { type: 'string', description: 'The vote, e.g. "unanimous" or "7:2 (Bowan J, Coade J dissenting)".' },
     enacts: {
       type: 'array',
-      description: 'Every SPEC-LAW article enacted by this judgment. Empty array if none.',
+      description: 'Every CASE-LAW article enacted by this judgment. Empty array if none.',
       items: {
         type: 'object',
         additionalProperties: false,
@@ -406,7 +406,7 @@ const SUMMARY_SCHEMA = {
   },
 }
 const summary = await agent(
-  `You are the VJS clerk extracting structured fields from the Supreme Court's leading judgment for the record. Do not decide anything; extract faithfully. Use the assigned citation ${assignedCitation} for citation_id. Pull the ratio, disposition, vote, every enacted SPEC-LAW article (verbatim), and every overruling from the judgment below.
+  `You are the VJS clerk extracting structured fields from the Supreme Court's leading judgment for the record. Do not decide anything; extract faithfully. Use the assigned citation ${assignedCitation} for citation_id. Pull the ratio, disposition, vote, every enacted CASE-LAW article (verbatim), and every overruling from the judgment below.
 
 LEADING JUDGMENT:
 ${leadingJudgment}`,

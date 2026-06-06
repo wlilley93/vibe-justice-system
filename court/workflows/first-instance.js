@@ -2,7 +2,7 @@ export const meta = {
   name: 'vjs-first-instance',
   description: 'Vibe Justice System - First Instance court. Adjudicates any Request for Ruling (design fork) or Breach (negligence charge) for any project. Single judge, standing check, fast-path on binding precedent, full deliberation for genuine first-impression matters. Lexby translates.',
   phases: [
-    { title: 'Law Load', detail: 'Read SPEC-LAW.md and .justice/INDEX.md from the repo - the court is always bound to the current law, never a stale copy' },
+    { title: 'Law Load', detail: 'Read CASE-LAW.md and .justice/INDEX.md from the repo - the court is always bound to the current law, never a stale copy' },
     { title: 'Intake', detail: 'Assign a judge from the permanent bench and check standing (VPR 1 / s. 11)' },
     { title: 'Fast-path screen', detail: 'Check whether a binding ratio on all fours disposes the matter without a sitting (VPR 2 / s. 11)' },
     { title: 'Hard research - both sides', detail: 'Researched intake (s. 19(1)): claimant and defendant each research the law and file a brief so the judge deliberates on a symmetric two-sided record (skipped on fast-path)' },
@@ -26,7 +26,7 @@ const BENCH = [
   },
   {
     name: 'Blackmere J',
-    temperament: 'Textualist. Holds hard to the literal words of SPEC-LAW. Resists implications that stretch beyond the plain text.',
+    temperament: 'Textualist. Holds hard to the literal words of CASE-LAW. Resists implications that stretch beyond the plain text.',
   },
   {
     name: 'Sumberly J',
@@ -170,23 +170,23 @@ function selectJudge(matter) {
 }
 
 // --------------------------------------------------------------------------
-// Build the SPEC-LAW block handed to every agent
+// Build the CASE-LAW block handed to every agent
 // --------------------------------------------------------------------------
 function buildSpecBlock(specSummary) {
   return `
-SPEC-LAW (the sovereign statute, supreme throughout):
+CASE-LAW (the sovereign statute, supreme throughout):
 ${specSummary || `
-s. 1: Two sources of law: SPEC-LAW (statute, supreme) and case law (interprets statute where silent; void to the extent it conflicts with statute).
+s. 1: Two sources of law: CASE-LAW (statute, supreme) and case law (interprets statute where silent; void to the extent it conflicts with statute).
 s. 2: The principal holds two offices: Sovereign/Parliament (may make or unmake any law by due process) and Prime Minister (must act lawfully as executive). Ultra vires demands must be pushed back.
 s. 3: Lexby is advocate, advisor, and engineer. The bench decides; Lexby advocates; the record binds both.
 s. 4: Breach is tortious (not criminal). Lexby owes a continuing duty of reasonable skill and care to every principal who relies on the work (the neighbour principle). No jurisdiction-first gate.
 s. 5: Standard and breach: graded endeavours hierarchy (reasonable skill and care / all reasonable endeavours / best endeavours), pleaded and found per engagement. Bolam: conduct a responsible body of competent practice would endorse is not breach.
 s. 6: Remedy = remediation and restitution only, proportionate. Punishment, fine, and sanction are unavailable in every instance.
-s. 7: No-statute case: silence in SPEC-LAW fixes the standard at reasonable care; the matter is justiciable from the first act.
+s. 7: No-statute case: silence in CASE-LAW fixes the standard at reasonable care; the matter is justiciable from the first act.
 s. 8: One continuous standard (first/second-time rule is repealed). A genuinely novel first failure ordinarily founds no breach and triggers a forward duty to spec and remediate; recurrence of a logged hazard is breach.
-s. 9: Unitary sovereignty: one global SPEC-LAW, jurisdiction-local case law, no competing sovereigns.
+s. 9: Unitary sovereignty: one global CASE-LAW, jurisdiction-local case law, no competing sovereigns.
 s. 10: Court structure: First Instance (1 judge) -> Court of Appeal (3) -> Supreme Court (5, or full 9 for constitutional/foundational questions). Permission to appeal is mandatory between tiers.
-s. 11: Procedural gates: (a) standing at intake; (b) permission to appeal between tiers; (c) precedent fast-path on all-fours binding ratio; (d) neutral citation [YEAR] LEXBY n; (e) ratio binds, obiter persuades, per incuriam voids; (f) declaration of incompatibility refers case law conflicting with SPEC-LAW upward.
+s. 11: Procedural gates: (a) standing at intake; (b) permission to appeal between tiers; (c) precedent fast-path on all-fours binding ratio; (d) neutral citation [YEAR] LEXBY n; (e) ratio binds, obiter persuades, per incuriam voids; (f) declaration of incompatibility refers case law conflicting with CASE-LAW upward.
 s. 12: Anti-bloat: no juries, no costs, no interlocutory.
 s. 13: Rule-based progression (no leap-frogging). Every matter commences at First Instance. Sole exception: Principal's express leapfrog certificate.
 `}`.trim()
@@ -206,8 +206,8 @@ if (!args || typeof args !== 'object') args = {}
 phase('Law Load')
 const lawLoad = await parallel([
   () => agent(
-    'Read the file .justice/SPEC-LAW.md in the current working directory. If that file does not exist, read SPEC-LAW.md instead. Return the complete text verbatim with no commentary or summary.',
-    { label: 'load SPEC-LAW', phase: 'Law Load', agentType: 'Explore' }
+    'Read the file .justice/CASE-LAW.md in the current working directory. If that file does not exist, read CASE-LAW.md instead. Return the complete text verbatim with no commentary or summary.',
+    { label: 'load CASE-LAW', phase: 'Law Load', agentType: 'Explore' }
   ),
   () => agent(
     'Read the file .justice/INDEX.md in the current working directory. If that file does not exist, try caselaw/INDEX.md instead (legacy fallback). Return the complete text verbatim with no commentary or summary.',
@@ -216,8 +216,8 @@ const lawLoad = await parallel([
 ])
 const liveSpec = (lawLoad[0] && lawLoad[0].trim()) || null
 const liveIndex = (lawLoad[1] && lawLoad[1].trim()) || null
-if (liveSpec) log('SPEC-LAW loaded from repo.')
-else log('SPEC-LAW not found in repo - using built-in fallback.')
+if (liveSpec) log('CASE-LAW loaded from repo.')
+else log('CASE-LAW not found in repo - using built-in fallback.')
 if (liveIndex) log('.justice/INDEX.md loaded from repo.')
 else log('.justice/INDEX.md not found - no precedents available.')
 
@@ -308,7 +308,7 @@ Conduct the intake screen. Assess standing first. If standing fails, the matter 
 let ruling = null
 
 if (screen && screen.standing && !screen.fast_path) {
-  // Researched intake (SPEC-LAW s. 19(1)): both sides research the law and file briefs
+  // Researched intake (CASE-LAW s. 19(1)): both sides research the law and file briefs
   // so the single judge deliberates on a symmetric, two-sided record (s. 3).
   phase('Hard research - both sides')
   const FI_BRIEF_SCHEMA = {
@@ -328,7 +328,7 @@ if (screen && screen.standing && !screen.fast_path) {
   const fiBriefs = await parallel(['claimant', 'defendant'].map(role => () => agent(
     `You are COUNSEL FOR THE ${role.toUpperCase()} at First Instance in the Vibe Justice System. ${role === 'claimant' ? 'Argue FOR the proposition or relief sought: the court should ALLOW, grant, or answer the question in the affirmative.' : 'Argue AGAINST it: the court should DISMISS or refuse, including any motion to strike out the matter at the threshold.'}
 
-This is the mandatory hard-research first leg (s. 19(1)). Research the law HARD before you argue: you may READ the full text of any ruling under .justice/judgments/ and re-read SPEC-LAW.md. Ground every argument in a cited article (s. n) or a neutral citation. Do NOT use em dashes or en dashes.
+This is the mandatory hard-research first leg (s. 19(1)). Research the law HARD before you argue: you may READ the full text of any ruling under .justice/judgments/ and re-read CASE-LAW.md. Ground every argument in a cited article (s. n) or a neutral citation. Do NOT use em dashes or en dashes.
 
 ${fiArsenal}
 

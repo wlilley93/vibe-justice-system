@@ -6,10 +6,10 @@ tier: supreme
 panel: [Hallam CJ, Goffe, Blackmere, Sumberly, Elden, Coade, Steyne, Bowan, Aldermere]
 kind: request_for_ruling
 question: "Recast the breach doctrine as tort not crime; align the system with the actual UK justice system, token-efficiently."
-ratio: "Breach is the tort of negligence (duty of reasonable skill and care, graded endeavours standard, remedy = remediation only, never punishment); the system is a unitary realm of parliamentary sovereignty (one global SPEC-LAW, jurisdiction-local case law, one apex court), not a federation."
-enacts: [SPEC-LAW-4, SPEC-LAW-5, SPEC-LAW-6, SPEC-LAW-7, SPEC-LAW-8, SPEC-LAW-9, SPEC-LAW-10, SPEC-LAW-11, SPEC-LAW-12]
-cites: [SPEC-LAW-1, SPEC-LAW-2, SPEC-LAW-3]
-proceeded_under: "Principal's leapfrog certificate (express instantiation), per VPR 4 / SPEC-LAW-13. The sole, non-notable exception to rule-based progression."
+ratio: "Breach is the tort of negligence (duty of reasonable skill and care, graded endeavours standard, remedy = remediation only, never punishment); the system is a unitary realm of parliamentary sovereignty (one global CASE-LAW, jurisdiction-local case law, one apex court), not a federation."
+enacts: [CASE-LAW-4, CASE-LAW-5, CASE-LAW-6, CASE-LAW-7, CASE-LAW-8, CASE-LAW-9, CASE-LAW-10, CASE-LAW-11, CASE-LAW-12]
+cites: [CASE-LAW-1, CASE-LAW-2, CASE-LAW-3]
+proceeded_under: "Principal's leapfrog certificate (express instantiation), per VPR 4 / CASE-LAW-13. The sole, non-notable exception to rule-based progression."
 status: good-law
 per_incuriam: false
 ---
@@ -27,8 +27,8 @@ per_incuriam: false
 ```
 
 **Panel:** Hallam CJ, Goffe, Blackmere, Sumberly, Elden, Coade, Steyne, Bowan, Aldermere (full court of 9)
-**Proceeded under:** Principal's leapfrog certificate (VPR 4 / SPEC-LAW-13)
-**Result:** Appeal allowed unanimously on both questions. SPEC-LAW-4 through SPEC-LAW-12 enacted.
+**Proceeded under:** Principal's leapfrog certificate (VPR 4 / CASE-LAW-13)
+**Result:** Appeal allowed unanimously on both questions. CASE-LAW-4 through CASE-LAW-12 enacted.
 
 ---
 
@@ -51,7 +51,7 @@ the tort of negligence:
 - **Breach:** a falling-below of the standard, a question of fact on the merits, never a punishment trigger.
 - **Remedy:** remediation and restitution alone, proportionate. Punishment, fine and sanction are unavailable.
 
-The no-statute case is cured at the gate: silence in SPEC-LAW is no defence; it fixes the standard at reasonable
+The no-statute case is cured at the gate: silence in CASE-LAW is no defence; it fixes the standard at reasonable
 care; the matter is justiciable from the first act. The first-time / second-time rule is repealed as a criminal
 artefact: there is one continuous standard. A genuinely novel, unforeseeable first failure is judged against
 reasonableness, ordinarily founds no breach, and triggers a forward duty to spec the rule and remediate; the logged
@@ -61,7 +61,7 @@ restorative.
 ## II. UK fidelity
 "Federalism" is a constitutional solecism (it presupposes sovereign sub-states, of which a unitary realm has none)
 and is struck. The correct frame is parliamentary sovereignty in a unitary state of plural jurisdictions under one
-apex court: SPEC-LAW is sovereign primary legislation (one global statute book, supreme, vendored to every repo);
+apex court: CASE-LAW is sovereign primary legislation (one global statute book, supreme, vendored to every repo);
 case law is jurisdiction-local precedent (each repo a jurisdiction); the Supreme Court alone enacts, by elevating
 a local ratio into realm-wide statute. On structure, fidelity and token economy coincide: First Instance is ONE
 judge; Court of Appeal is 3; Supreme is 5, the full 9 reserved for constitutional questions. Permission to appeal,
@@ -72,17 +72,17 @@ the default-9 bench, juries, oral-hearing theatre, multi-stage pleadings, interl
 costs/sanctions jurisdiction.
 
 ## Statutes enacted
-SPEC-LAW-4 (breach is tortious) · SPEC-LAW-5 (standard + breach) · SPEC-LAW-6 (remedy = remediation only) ·
-SPEC-LAW-7 (no-statute case) · SPEC-LAW-8 (one continuous standard) · SPEC-LAW-9 (unitary sovereignty) ·
-SPEC-LAW-10 (court structure) · SPEC-LAW-11 (gates and devices) · SPEC-LAW-12 (anti-bloat). Recorded in
-`../SPEC-LAW.md`.
+CASE-LAW-4 (breach is tortious) · CASE-LAW-5 (standard + breach) · CASE-LAW-6 (remedy = remediation only) ·
+CASE-LAW-7 (no-statute case) · CASE-LAW-8 (one continuous standard) · CASE-LAW-9 (unitary sovereignty) ·
+CASE-LAW-10 (court structure) · CASE-LAW-11 (gates and devices) · CASE-LAW-12 (anti-bloat). Recorded in
+`../CASE-LAW.md`.
 
 ## Divisions on the bench (the record)
 - Unanimous to allow the appeal, recast breach as tort, and strike federalism.
 - Steyne and Bowan would have kept a first/second distinction re-theorised as foreseeability; the majority (Goffe,
   Blackmere, Sumberly, Elden, Coade, Aldermere) abolished it for one continuous standard. Resolved by adopting the
-  continuous standard and absorbing foreseeability into it (SPEC-LAW-8), preserving the minority's practical outcome.
-- Goffe and Steyne pressed for a default Supreme 5 with 9 reserved; carried (SPEC-LAW-10).
+  continuous standard and absorbing foreseeability into it (CASE-LAW-8), preserving the minority's practical outcome.
+- Goffe and Steyne pressed for a default Supreme 5 with 9 reserved; carried (CASE-LAW-10).
 
 ## Lexby, translating
 We were treating your AI's mistakes like crimes ("no punishment without a written law first"). Wrong model: Lexby

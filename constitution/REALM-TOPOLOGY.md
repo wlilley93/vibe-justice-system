@@ -1,14 +1,14 @@
 # Realm topology
 
 Constitutional structure of Agent Universe, as settled by **In the matter of Agent Universe [2026] LEXBY-HARVEY-SC 2**
-(Supreme Court, full nine, affirming 8-1) and entrenched by **SPEC-LAW s. 22**, building on SC-DC 1 / s. 21
+(Supreme Court, full nine, affirming 8-1) and entrenched by **CASE-LAW s. 22**, building on SC-DC 1 / s. 21
 ("divisions over one spine, never domain courts").
 
 ## The state
 
 - **Agent Universe** (this repo) - the realm/Sovereign level. Houses the constitutional documentation and (future) a
   system of parliament: ministers, convened sittings, bills.
-- **Ministry of Justice** - governance only, pure and meta. The one spine lives here: SPEC-LAW, the VPR, the single
+- **Ministry of Justice** - governance only, pure and meta. The one spine lives here: CASE-LAW, the VPR, the single
   Court of Appeal and Supreme Court (which alone enact and bind the realm), and the **universal ledger** of all cases.
   (Built on the VJS fork; the VJS files sit at the realm root and sync with the public `upstream`.)
 - **Ministry for Business, Work and Skills** - the executive ministry holding the operational departments.
@@ -18,7 +18,7 @@ Constitutional structure of Agent Universe, as settled by **In the matter of Age
 ## The judiciary (one court, sitting in many places)
 
 ```
-Supreme Court            apex; foundational/constitutional; the ONLY enactor of SPEC-LAW   ── Ministry of Justice
+Supreme Court            apex; foundational/constitutional; the ONLY enactor of CASE-LAW   ── Ministry of Justice
 Court of Appeal          apex; single & central; hears from every department (cross-cutting) ┘
       ▲ appeal (leave)
 High Court (X Division)  DEPARTMENT level; sets the department's jurisdiction-local rule-set
@@ -31,7 +31,7 @@ County Court at <repo>   REPO level; a project's own matters; refers weightier /
 - **One** Court of Appeal and **one** Supreme Court, central, at the Ministry of Justice. Their singleness may never be
   relaxed (s. 22(2)); a per-department appellate court or apex would be the competing sovereign s. 9 forbids.
 - Local courts (District Circuits / County Courts at a repo; High Court Divisions at a department) are **hearing-centres**
-  of the one judiciary: they apply the one SPEC-LAW, record jurisdiction-local precedent only, and **never enact**
+  of the one judiciary: they apply the one CASE-LAW, record jurisdiction-local precedent only, and **never enact**
   realm-wide statute (reserved to the single Supreme Court, s. 9, s. 22).
 - A department's **product** deliberation feature (e.g. the Legal Department's diligence review panel) is **not a court**
   (s. 14, s. 21(3)): it uses the deliberation pattern as method, takes a product-local id, and never the LEXBY series.

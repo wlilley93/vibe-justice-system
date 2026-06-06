@@ -92,7 +92,7 @@ function installHooks(target) {
 
 function cmdInit(args) {
   const target = path.resolve(args._[0] || process.cwd());
-  const copy = ['SPEC-LAW.md', 'VPR.md', 'CDD.md'];
+  const copy = ['CASE-LAW.md', 'VPR.md', 'CDD.md'];
   for (const f of copy) {
     const src = path.join(PKG_ROOT, f);
     if (!fs.existsSync(src)) { process.stderr.write(`skip (missing in package): ${f}\n`); continue; }
@@ -151,7 +151,7 @@ function main() {
 `vjs / cdd - Vibe Justice System CLI (v${VERSION})
 
 Commands:
-  init [dir]                       Install VJS into a repo (vendor SPEC-LAW/VPR/CDD, scaffold .justice/, inject plugin block into CLAUDE.md)
+  init [dir]                       Install VJS into a repo (vendor CASE-LAW/VPR/CDD, scaffold .justice/, inject plugin block into CLAUDE.md)
   next-citation <tier> [--year Y]  Deterministic next neutral citation from the citator (.justice/INDEX.md). tier = first-instance|court-of-appeal|supreme-court. --json for full object.
   check-citator                    Deterministic citator audit (the hard gate): fails closed on citation collisions and on ruling-file/citator-row mismatches. Exit 1 on any problem.
   submit-request "<question>"      Print the Workflow invocation to file a Request for Ruling

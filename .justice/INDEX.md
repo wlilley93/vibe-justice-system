@@ -17,7 +17,7 @@ It is also the first place Lexby checks before convening a bench. If a point is 
 - To check whether a question is already settled: scan the `ratio` column.
 - To check whether a ruling is still binding: read the `status` column (see Status Key below).
 - To find the full text of a ruling: open `.justice/judgments/<tier>/<file>` - e.g. `.justice/judgments/supreme-court/2026-LEXBY-SC-1.md`.
-- To trace how a ruling interacts with statute: read the `cites` column (statute it relies on) and check SPEC-LAW.md for any articles it enacted.
+- To trace how a ruling interacts with statute: read the `cites` column (statute it relies on) and check CASE-LAW.md for any articles it enacted.
 
 ## Column guide
 
@@ -32,7 +32,7 @@ It is also the first place Lexby checks before convening a bench. If a point is 
 
 ## How to cite a ruling
 
-Neutral citation form (SPEC-LAW s. 11(d)):
+Neutral citation form (CASE-LAW s. 11(d)):
 
 ```
 [YEAR] LEXBY-SC n      (Supreme Court)
@@ -52,7 +52,7 @@ Only the ratio binds. Obiter dicta are persuasive only. A ruling made in ignoran
 
 | Citation | Tier | Status | Ratio (one line) | Scope | Cites |
 |----------|------|--------|------------------|-------|-------|
-| [[2026] LEXBY-SC 1](judgments/supreme-court/2026-LEXBY-SC-1.md) | supreme | good-law | Breach is the tort of negligence (duty + graded endeavours + remediation only); the system is a unitary realm of parliamentary sovereignty (one global SPEC-LAW, jurisdiction-local case law, one apex court). | All repos, all matters (constitutional founding ruling) | s. 1, s. 2, s. 3 (founding); enacts s. 4 through s. 12 |
+| [[2026] LEXBY-SC 1](judgments/supreme-court/2026-LEXBY-SC-1.md) | supreme | good-law | Breach is the tort of negligence (duty + graded endeavours + remediation only); the system is a unitary realm of parliamentary sovereignty (one global CASE-LAW, jurisdiction-local case law, one apex court). | All repos, all matters (constitutional founding ruling) | s. 1, s. 2, s. 3 (founding); enacts s. 4 through s. 12 |
 | [[2026] LEXBY-FI 1](judgments/high-court/2026-LEXBY-FI-1.md) | first-instance | good-law | A governance system is fit for alpha release where the core legal model is coherent, statute + procedure + founding caselaw are committed, constitutional enforcement is in place, and known gaps are disclosed; convenience-layer tooling is not a prerequisite for alpha; deterministic citation numbering is a necessary condition for v1. | vibe-justice-system repo (alpha-readiness standard for governance systems) | s. 4, s. 5, s. 7, s. 8, s. 11(d), s. 14 |
 | [[2026] LEXBY-FI 2](judgments/high-court/2026-LEXBY-FI-2.md) | first-instance | good-law | VJS is ready for public outreach under reasonable skill and care provided the README carries a prominently placed known-limitations section disclosing the three material gaps before any outreach act; public outreach is a materially distinct standard from alpha release (mass unsolicited audience, author credibility at stake); coherence and honest disclosure are necessary and sufficient; feature completeness is not required. | vibe-justice-system repo (public outreach readiness) | s. 4, s. 5, s. 8, s. 11(d); distinguishes [2026] LEXBY-FI 1 (alpha vs outreach standard) |
 | [[2026] LEXBY-CA 1](judgments/appeals-court/2026-LEXBY-CA-1.md) | appeal | good-law | Appeal dismissed unanimously. The s. 8/s. 5 sequencing complaint is not made out on a fair reading of [2026] LEXBY-FI 1; further, s. 8 cannot be applied without implicitly applying s. 5 (the reasonableness in s. 8 is the s. 5 standard), so the sequencing complaint describes a structural impossibility. [2026] LEXBY-FI 1 confirmed as good law. | All repos (s. 5/s. 8 sequencing; appellate standards) | s. 5, s. 8, s. 12; affirms [2026] LEXBY-FI 1 |
@@ -70,7 +70,7 @@ Only the ratio binds. Obiter dicta are persuasive only. A ruling made in ignoran
 | **good-law** | The ruling stands and binds. It may be cited and applied without qualification. |
 | **distinguished** | The ruling is good law on its own facts but a later court found the facts of the current matter materially different. It does not control the distinguished case but is otherwise unaffected. |
 | **overruled** | A higher court (or the same court in a later sitting) has expressly set the ruling aside. It no longer binds. The overruling case must be cited instead. |
-| **superseded-by-statute** | The ratio has been replaced by an enacted SPEC-LAW article. The ruling is of historical interest only; the statute controls. |
+| **superseded-by-statute** | The ratio has been replaced by an enacted CASE-LAW article. The ruling is of historical interest only; the statute controls. |
 | **per-incuriam** | The ruling was made in ignorance of a binding statute or prior precedent. It is void and does not bind. A fresh sitting is required to resolve the point. |
 
 ---
@@ -83,5 +83,5 @@ When a new ruling is committed to `.justice/judgments/`:
 2. Fill every column. Do not leave `ratio` vague - one tight line is better than a paragraph.
 3. Set `status` to `good-law` unless the ruling itself overrules or supersedes an earlier one.
 4. If the new ruling overrules or supersedes an existing entry, update that row's status to `overruled` or `superseded-by-statute` and add a bracketed note: `(overruled by [YEAR] LEXBY-SC n)`.
-5. If new SPEC-LAW articles are enacted by the ruling, record them in the `cites` column and update `SPEC-LAW.md`.
+5. If new CASE-LAW articles are enacted by the ruling, record them in the `cites` column and update `CASE-LAW.md`.
 6. Commit the ruling file and this index in the same commit. The citator must never lag the caselaw.

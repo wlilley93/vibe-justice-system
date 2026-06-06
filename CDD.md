@@ -89,7 +89,7 @@ Every ruling is a markdown file committed to `.justice/judgments/` with:
 - **Panel** - named judges (ephemeral stances seeded only on first impression)
 - **Ratio** - the binding holding, stated precisely
 - **Obiter** - non-binding observations (persuasive only, VPR 6)
-- **Remedy** - for breach matters: make good, restore the position; no punishment (SPEC-LAW s. 6)
+- **Remedy** - for breach matters: make good, restore the position; no punishment (CASE-LAW s. 6)
 - **Lexby TL;DR** - plain-English translation of the holding
 
 Only the ratio binds. Obiter is persuasive. A ruling made in ignorance of binding law or precedent is per incuriam and void.
@@ -103,7 +103,7 @@ law real: Claude Code loads `CLAUDE.md` into every agent session, so every agent
 enumerable trigger list, the commands, and the pointer to the citator before it writes a single line.
 
 The binding block lives at `plugin/CLAUDE.md` in the VJS repo. It covers:
-- The duty of care and the graded endeavours standard (SPEC-LAW s. 4 through s. 8)
+- The duty of care and the graded endeavours standard (CASE-LAW s. 4 through s. 8)
 - The citator check (grep .justice/INDEX.md first; cite if covered, convene if not)
 - The enumerable trigger list (exactly five conditions that warrant a sitting; nothing else)
 - The commands (`submit-request-to-court`, `submit-breach-to-court`)
@@ -117,7 +117,7 @@ actually requires it, and cite existing precedent for everything else.
 
 ## Cross-references
 
-- **SPEC-LAW.md** - the sovereign statute book; case law is subordinate to it and void where it conflicts
+- **CASE-LAW.md** - the sovereign statute book; case law is subordinate to it and void where it conflicts
 - **VPR.md** - the Vibe Procedure Rules; governs standing, progression, the fast path, bench sizes, and the leapfrog certificate
 - **plugin/CLAUDE.md** - the binding injection block; what gets appended to your repo's CLAUDE.md by `cdd init`
 - **court/README.md** - how to invoke the three court workflows directly

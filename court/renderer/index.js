@@ -48,9 +48,58 @@ function formatDate(d) {
   return `${day} ${month} ${year}`
 }
 
-// Resolve the logo path for a given tier. Returns a data URI if the file exists,
-// otherwise returns the placeholder SVG data URI.
+// Normalise a tier identifier to one of the court levels of the realm geography
+// (s. 22, as extended). Five renderable levels:
+//   supreme-court    apex; sole enactor of CASE-LAW                       crest
+//   court-of-appeal  apex; single & central                              crest
+//   privy-council    FIRST INSTANCE for constitutional law (landmark);   wordmark
+//                    auto-leapfrogs the Court of Appeal to the Supreme Court
+//   high-court       department-level; sits as its Divisions/Lists       crest
+//   county-court     repo-level local hearing centre (County Court at X)  wordmark
+function normaliseTier(tier) {
+  const t = String(tier || '').toLowerCase().replace(/_/g, '-')
+  switch (t) {
+    case 'supreme-court':
+    case 'supreme-council':
+    case 'supreme':
+    case 'sc':
+      return 'supreme-court'
+    case 'court-of-appeal':
+    case 'appeal':
+    case 'appeals-court':
+    case 'ca':
+      return 'court-of-appeal'
+    case 'privy-council':
+    case 'privy':
+    case 'pc':
+      return 'privy-council'
+    case 'high-court':
+    case 'high':
+    case 'hc':
+      return 'high-court'
+    case 'county-court':
+    case 'county':
+    case 'cc':
+    case 'first-instance':   // legacy flat tier: lowest local court -> County Court
+    case 'fi':
+      return 'county-court'
+    default:
+      return 'county-court'
+  }
+}
+
+// Which levels carry an armorial crest. The Privy Council (no crest asset yet)
+// and the County Court (repo-level hearing centre) carry a typographic wordmark
+// rendered in the template instead.
+function tierHasCrest(tier) {
+  return tier === 'supreme-court' || tier === 'court-of-appeal' || tier === 'high-court'
+}
+
+// Resolve the logo path for a given (already normalised) tier. Returns a data
+// URI if the crest file exists, else the placeholder SVG. County Court returns
+// null (no crest; the template renders a wordmark).
 function resolveLogoDataUri(tier) {
+  if (!tierHasCrest(tier)) return null
   const candidates = [
     path.join(ASSETS_DIR, `${tier}-logo.png`),
     path.join(ASSETS_DIR, `${tier}-logo.svg`),
@@ -108,13 +157,51 @@ function placeholderLogoDataUri(tier) {
   return 'data:image/svg+xml;base64,' + Buffer.from(svg).toString('base64')
 }
 
-// Map the tier identifier to the court name displayed on the document.
+// Map the (normalised) tier to the court name displayed on the document.
 function courtName(tier) {
   switch (tier) {
-    case 'first-instance':   return 'FIRST INSTANCE COURT'
+    case 'county-court':     return 'COUNTY COURT'
+    case 'privy-council':    return 'PRIVY COUNCIL'
+    case 'high-court':       return 'HIGH COURT'
     case 'court-of-appeal':  return 'COURT OF APPEAL'
-    case 'supreme-court':  return 'SUPREME COURT'
+    case 'supreme-court':    return 'SUPREME COURT'
     default:                 return 'COURT'
+  }
+}
+
+// Build the heading block shown beneath the crest/wordmark.
+//   - High Court has no bare label: it sits as its Division and List. The header
+//     shows the Division (primary) and List (secondary); the crest reads
+//     "THE HIGH COURT".
+//   - County Court is local: "COUNTY COURT" with an "at <repo>" qualifier.
+//   - Privy Council / apex courts: the court name, plain.
+// Returns { title, subtitle } (subtitle may be '').
+function courtHeading(tier, input, ruling) {
+  const repo = input.repo || ruling.repo || ''
+  const division = input.division || ruling.division || ''
+  const list = input.list || ruling.list || ''
+  if (tier === 'high-court') {
+    return {
+      title: (division || 'HIGH COURT').toUpperCase(),
+      subtitle: list ? `${list} of the Vibe Justice System (VJS)` : 'of the Vibe Justice System (VJS)',
+    }
+  }
+  if (tier === 'county-court') {
+    // The "at <repo>" qualifier is carried by wordmark_qualifier, not the subtitle.
+    return { title: 'COUNTY COURT', subtitle: 'of the Vibe Justice System (VJS)' }
+  }
+  return { title: courtName(tier), subtitle: 'of the Vibe Justice System (VJS)' }
+}
+
+// Default appeal/progression route per tier (overridable via input.appeal_route).
+function defaultAppealRoute(tier) {
+  switch (tier) {
+    case 'privy-council':
+      return 'Constitutional matter. Appeal lies by automatic leapfrog certificate (s. 13, s. 20), bypassing the Court of Appeal, direct to the Supreme Court.'
+    case 'county-court':
+      return 'Refers weightier or rule-setting questions up to the relevant High Court Division (s. 22).'
+    default:
+      return ''
   }
 }
 
@@ -155,7 +242,7 @@ function numberedParagraphs(text) {
 function buildTemplateData(input) {
   const ruling = input.ruling || {}
   const lexby = input.lexby_translation || input.lexby || {}
-  const tier = input.tier || ruling.tier || 'first-instance'
+  const tier = normaliseTier(input.tier || ruling.tier)
 
   // Decide what body text to render.
   // For First Instance: compose the judgment from structured fields.
@@ -172,7 +259,7 @@ function buildTemplateData(input) {
     if (ruling.kind === 'request_for_ruling') {
       composed.push('This court was asked to rule upon the following question: ' + (ruling.question_or_charge || ''))
     } else if (ruling.kind === 'breach') {
-      composed.push('This matter comes before the court as a charge in negligence (breach of the duty of care) pursuant to SPEC-LAW s. 4 through s. 8. The charge is: ' + (ruling.question_or_charge || ''))
+      composed.push('This matter comes before the court as a charge in negligence (breach of the duty of care) pursuant to CASE-LAW s. 4 through s. 8. The charge is: ' + (ruling.question_or_charge || ''))
     }
     if (ruling.fast_path && ruling.fast_path_cite) {
       composed.push('The matter falls to be disposed of on citation under VPR 2. A binding ratio on all fours governs: ' + ruling.fast_path_cite + '.')
@@ -189,10 +276,21 @@ function buildTemplateData(input) {
     bodyParagraphs = numberedParagraphs(composed.join('\n\n'))
   }
 
+  const heading = courtHeading(tier, input, ruling)
+  const logoUri = resolveLogoDataUri(tier)
+  const appealRoute = input.appeal_route || ruling.appeal_route || defaultAppealRoute(tier)
+
   return {
     tier,
-    court_name: courtName(tier),
-    citation: ruling.citation_id || '[YEAR] LEXBY n',
+    court_name: heading.title,
+    court_subtitle: heading.subtitle,
+    has_crest: tierHasCrest(tier) && !!logoUri,
+    is_wordmark: !tierHasCrest(tier),
+    wordmark: courtName(tier),                  // e.g. PRIVY COUNCIL / COUNTY COURT
+    wordmark_qualifier: tier === 'county-court'
+      ? (input.repo || ruling.repo ? `at ${input.repo || ruling.repo}` : '')
+      : '',
+    citation: ruling.citation_id || ruling.citation || '[YEAR] LEXBY n',
     date: formatDate(input.date),
     before: formatBefore(ruling),
     kind_label: ruling.kind === 'breach' ? 'BREACH PROCEEDINGS' : 'REQUEST FOR RULING',
@@ -204,10 +302,11 @@ function buildTemplateData(input) {
     remedy: ruling.remedy || '',
     per_incuriam: ruling.per_incuriam || false,
     status: ruling.status || 'good-law',
+    appeal_route: appealRoute,
     lexby_summary: lexby.plain_english_summary || '',
     lexby_practice: lexby.what_it_means_in_practice || '',
     lexby_appeal: lexby.can_it_be_appealed || '',
-    logo_uri: resolveLogoDataUri(tier),
+    logo_uri: logoUri,
   }
 }
 
@@ -244,19 +343,21 @@ async function renderJudgment(rulingJson, outputPath) {
   try {
     const page = await browser.newPage()
     await page.setContent(html, { waitUntil: 'networkidle0' })
+    // Full-bleed cream A4. Page margins are zero on all four sides so the cream
+    // body background (the realm cream #fcf7f1, the same colour the logos are
+    // exported on) runs truly edge to edge - a fixed background or a non-zero
+    // margin would leave a white frame, which is exactly what we are removing.
+    // Per-page top/bottom/side text margins are reserved inside the document
+    // instead (judgment.html): a repeating <thead>/<tfoot> holds the top/bottom
+    // inset on every printed page, and the body padding holds the left/right
+    // inset. (Chrome's live page number is only available via header/footer
+    // templates, which force a ~5mm white edge, so it is omitted here in favour
+    // of the full bleed; the footer carries the wordmark instead.)
     await page.pdf({
       path: outputPath,
       format: 'A4',
       printBackground: true,
-      margin: { top: '2.5cm', bottom: '2.5cm', left: '3cm', right: '2.5cm' },
-      displayHeaderFooter: true,
-      headerTemplate: '<span></span>',
-      footerTemplate: `
-        <div style="font-family: 'Times New Roman', serif; font-size: 9pt; color: #444; width: 100%;
-                    display: flex; justify-content: space-between; padding: 0 3cm 0 3cm; box-sizing: border-box;">
-          <span style="font-style: italic;">Vibe Justice System</span>
-          <span><span class="pageNumber"></span></span>
-        </div>`,
+      margin: { top: '0', bottom: '0', left: '0', right: '0' },
     })
   } finally {
     await browser.close()

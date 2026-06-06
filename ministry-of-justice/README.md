@@ -169,7 +169,7 @@ Ship fast. The court is in session.
 ```
 Install VJS into this repo. From github.com/wlilley93/vibe-justice-system, fetch and save:
 - plugin/CLAUDE.md -> append to this repo's CLAUDE.md
-- SPEC-LAW.md -> .justice/SPEC-LAW.md
+- CASE-LAW.md -> .justice/CASE-LAW.md
 - VPR.md -> .justice/VPR.md
 - .justice/suites/security.md -> .justice/suites/security.md
 - .justice/suites/refactoring.md -> .justice/suites/refactoring.md

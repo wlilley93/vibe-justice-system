@@ -18,7 +18,7 @@ The VJS Community Record. Every project running the Vibe Justice System contribu
 All three court tiers (First Instance, Court of Appeal, Supreme Court) automatically open a PR here after every ruling. The submission is anonymised: project-specific identifiers (repo names, file paths, variable names, function names) are replaced by generic placeholders. The legal question, ratio, tier, law applied, and outcome are preserved unchanged.
 
 The clerk reviews every PR for:
-1. Constitutional compliance (does it conflict with SPEC-LAW?)
+1. Constitutional compliance (does it conflict with CASE-LAW?)
 2. Subject matter jurisdiction (s. 14: is this a decision arising in project work?)
 3. Correct anonymisation
 
@@ -30,7 +30,7 @@ PRs that pass are auto-merged. PRs that fail receive a request-for-changes comme
 
 Each file in `caselaw/YYYY/` is a self-contained ruling artefact. The **ratio** is the binding holding. The **obiter** is persuasive only. The **tier** tells you how much weight to give it.
 
-Cross-reference with `SPEC-LAW.md` to find the governing statute articles cited. Cross-reference with your local `caselaw/INDEX.md` to see if any community ruling covers a question you are facing.
+Cross-reference with `CASE-LAW.md` to find the governing statute articles cited. Cross-reference with your local `caselaw/INDEX.md` to see if any community ruling covers a question you are facing.
 
 ---
 

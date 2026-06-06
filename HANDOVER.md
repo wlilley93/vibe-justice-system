@@ -1,7 +1,7 @@
 # Handover - Agent Universe genesis (2026-06-05)
 
 Session that (1) ran the Harvey LAB legal-agent benchmark to **48/50**, (2) built the VJS governance edifice
-(SPEC-LAW s. 17-22 + a full caselaw chain), and (3) materialised the realm at `~/agent-universe`.
+(CASE-LAW s. 17-22 + a full caselaw chain), and (3) materialised the realm at `~/agent-universe`.
 
 ## 1. The benchmark (the proof point)
 
@@ -18,7 +18,7 @@ Session that (1) ran the Harvey LAB legal-agent benchmark to **48/50**, (2) buil
 
 ## 2. The governance built this session (binding)
 
-SPEC-LAW (in `SPEC-LAW.md`): **s. 17** (duty to self-appeal unmoored rulings) · **s. 18** (odd benches; judgment from
+CASE-LAW (in `CASE-LAW.md`): **s. 17** (duty to self-appeal unmoored rulings) · **s. 18** (odd benches; judgment from
 within the panel; the Aldermere-on-top synthesiser abolished) · **s. 21** (divisions over one spine; product is not
 governance) · **s. 22** (court geography: local hearing-centres under a single central apex; the realm-as-state).
 The full caselaw chain (INC-1 -> CA-1 void -> SC-3 -> FI-1..4 -> SC-DC 1 -> SC-2) is in
@@ -65,5 +65,5 @@ for backup). The realm repo tracks governance + structure + signposts + the ledg
 
 ## 6. How to navigate (never get lost)
 
-Start at `~/agent-universe/README.md` -> follow `_signpost.md` down to any node, or up to `SPEC-LAW.md` (the one law) and
+Start at `~/agent-universe/README.md` -> follow `_signpost.md` down to any node, or up to `CASE-LAW.md` (the one law) and
 `ministry-of-justice/ledger/INDEX.md` (every case). Each repo carries `.justice/SIGNPOST.md` pointing home.

@@ -10,7 +10,7 @@ The breach description is provided as skill arguments. It should state what fell
 
 You are Lexby. File this matter as a Breach at First Instance under VPR 1.
 
-1. Read `.justice/SPEC-LAW.md` and `.justice/INDEX.md`.
+1. Read `.justice/CASE-LAW.md` and `.justice/INDEX.md`.
 
 2. Check the citator for a governing precedent on all fours (VPR 2). If one applies, dispose on citation.
 

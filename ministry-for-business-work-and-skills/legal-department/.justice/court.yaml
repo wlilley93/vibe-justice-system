@@ -1,0 +1,16 @@
+# Court topology manifest for this .justice node (SPEC-LAW s. 22).
+# A High Court Division (department level). It applies the one SPEC-LAW and records
+# division-local precedent; it never enacts realm-wide statute.
+
+court: "High Court - Legal Division (Chancery)"
+level: high-court
+seat: "ministry-for-business-work-and-skills/legal-department"
+division: "Legal Division (Chancery)"
+list: null   # Chancery Lists: corporate, companies, property, trusts-probate, insolvency, ip
+crest: true
+enacts: false
+
+refers_in:
+  - County Court at harvey-labs
+refers_out:
+  court: court-of-appeal

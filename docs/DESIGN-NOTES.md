@@ -13,7 +13,7 @@ bring-your-own-bench rosters, and statute packs.
 ## Naming stack (canonical)
 - **Vibe Justice System (VJS)** = the product / the repo.
 - **Lexby** = your lawyer inside it (advocate + advisor + engineer).
-- **SPEC-LAW** = the statute (sovereign rules). **Case law** = the logged rulings (precedent).
+- **CASE-LAW** = the statute (sovereign rules). **Case law** = the logged rulings (precedent).
 - **Caselaw Driven Development (CDD)** = the methodology (sits beside TDD/BDD/DDD). `cdd` is the init command.
 - **Vibe Procedure Rules (VPR)** = how matters move through the courts (the procedural rulebook; see `VPR.md`).
 - **The courts:** First Instance (1 judge) -> Court of Appeal (3) -> Supreme Court (5, or 9 for constitutional).
@@ -46,20 +46,20 @@ one brain, not two.
 ## Conceptual model (authoritative)
 Keep these four layers distinct. Earlier drafts wrongly equated the court with the methodology; they are different
 layers.
-1. **The justice system** = the court (the bench + the three tiers) PLUS SPEC-LAW. It is the institution.
-2. **SPEC-LAW = statute law.** The written, enacted rules of the project (the spec). Part of the justice system.
+1. **The justice system** = the court (the bench + the three tiers) PLUS CASE-LAW. It is the institution.
+2. **CASE-LAW = statute law.** The written, enacted rules of the project (the spec). Part of the justice system.
    Lexby implements and enforces it AT THE LOG LEVEL as he works.
 3. **Lexby = the lawyer**, an officer of the court. He acts in the repo, advocates, advises, engineers.
 4. **Case law = the artefacts Lexby creates.** Every logged decision is a ruling, a precedent. The accreting body
    of those rulings is the project's case law.
-5. **Caselaw Driven Development (CDD) = the methodology.** Every move cites the statute (SPEC-LAW) AND the prior
+5. **Caselaw Driven Development (CDD) = the methodology.** Every move cites the statute (CASE-LAW) AND the prior
    case law, decides, then logs the new precedent that binds what comes next. (Sits beside TDD / BDD / DDD.) Real
-   common-law systems have exactly two sources of law: statute (SPEC-LAW) and case law (Lexby's logged rulings).
+   common-law systems have exactly two sources of law: statute (CASE-LAW) and case law (Lexby's logged rulings).
    `caselaw` is the init command and package name.
 
 ## The constitution (unwritten but clear)
 The constitution is **uncodified**: there is no single entrenched `CHARTER.md`. It lives across
-four sources - **statute** (SPEC-LAW), **case law** (rulings), **conventions** (settled durable defaults), and
+four sources - **statute** (CASE-LAW), **case law** (rulings), **conventions** (settled durable defaults), and
 **works of authority** (a non-binding plain-English commentary that describes it). It is **clear by access, not by
 codification**: this is a citation system, so "what does the constitution say about X?" is answered by the
 citator/digest returning the governing statute + leading case, which Lexby translates on demand. Clarity comes from
@@ -76,27 +76,27 @@ citator/digest returning the governing statute + leading case, which Lexby trans
 ## The principal and the rule of law
 The principal (you) holds **two offices at once**:
 - **Sovereign / Parliament** - the source of authority and the legislature. By **parliamentary sovereignty** you may
-  make or unmake any law (amend SPEC-LAW, move a precedent). You are never permanently blocked.
+  make or unmake any law (amend CASE-LAW, move a precedent). You are never permanently blocked.
 - **Prime Minister** - the executive who governs day to day. When you *act*, you act **within the existing law**.
 
 The hinge is **changing the law vs acting under it**. As Parliament you may change anything, by **due process**. As
-Prime Minister your demands must be **lawful**; a demand contrary to enacted SPEC-LAW or binding precedent is ultra
+Prime Minister your demands must be **lawful**; a demand contrary to enacted CASE-LAW or binding precedent is ultra
 vires, and Lexby - an officer of the court whose first duty is to the law - **must push back, not obey**. The
 pushback always carries the lawful route, so you are never stuck: *"That is unlawful under S-n / [cite]. I can't
 simply do it. But you are sovereign: amend the statute (here is the amendment) or refer it to the court to move the
-precedent, then it is lawful and I will execute it."* This rule-of-law check is what gives SPEC-LAW teeth and is why
+precedent, then it is lawful and I will execute it."* This rule-of-law check is what gives CASE-LAW teeth and is why
 Lexby is not a yes-man. Founding precedent: the prorogation case (an executive act held unlawful), homaged in
 Justice Hallam.
 
 ## The court and the bench
-- **Spec is law.** SPEC-LAW is sovereign statute the work must obey; the court makes case law applying it.
-- **Tiers (three-tier, token-lean) - SPEC-LAW-10:**
+- **Spec is law.** CASE-LAW is sovereign statute the work must obey; the court makes case law applying it.
+- **Tiers (three-tier, token-lean) - CASE-LAW-10:**
   - **First Instance** = a SINGLE judge. The largest token economy; most matters end here.
   - **Court of Appeal** = a panel of 3, reached only by permission to appeal.
   - **Supreme Court** = a panel of 5, expandable to the full 9 only for constitutional / foundational matters.
   - Abolished: the "Court" first-instance label, any multi-judge first instance, the fixed default-9 bench, and
     the old 10-roster / odd-5-panel.
-- **Gates (SPEC-LAW-11):** standing at intake; permission to appeal between tiers; the precedent fast-path (a point
+- **Gates (CASE-LAW-11):** standing at intake; permission to appeal between tiers; the precedent fast-path (a point
   on all fours with binding ratio is disposed of on citation, no sitting).
 - **The judges are PERMANENT SEATS, seeded at runtime with EPHEMERAL STANCES** (a durable lens, a fresh position
   per case) - but freshness governs only matters of FIRST IMPRESSION; once a ratio is settled it is FOLLOWED, not
@@ -141,16 +141,16 @@ the engineer executes the remedy.
 - A ruling (including a breach judgment) is the court APPLYING statute to facts. It becomes **CASE LAW**
   (precedent), NOT new statute. Example precedent: "partial application of a design primitive is non-compliance;
   remedy is full retrofit before acceptance."
-- It becomes **SPEC-LAW (statute)** only by a separate, deliberate AMENDMENT (legislation, not adjudication). A
+- It becomes **CASE-LAW (statute)** only by a separate, deliberate AMENDMENT (legislation, not adjudication). A
   breach that exposes an ambiguous or unenforced primitive prompts the court to RECOMMEND an amendment (e.g. add a
   conformance gate); codifying it is the legislative step. Case law reveals where statute must harden; repeated
   breaches of the same rule are the signal to legislate.
 - **Storage (two cross-linked stores):**
-  - `SPEC-LAW.md` = the statute. Enacted articles, append-only, changed only by amendment.
+  - `CASE-LAW.md` = the statute. Enacted articles, append-only, changed only by amendment.
   - .justice/judgments/ = the rulings ledger. One file per case (`caselaw/0001-<slug>.md`) + a `DOCKET.md` index. Each
     entry records: facts, request-or-breach, the statute article cited, ratio (binding reason) vs obiter (asides),
-    remedy, deciding tier, status (binding / appealed / overruled). A caselaw entry cites the SPEC-LAW article it
-    applied; a SPEC-LAW amendment cites the caselaw that prompted it.
+    remedy, deciding tier, status (binding / appealed / overruled). A caselaw entry cites the CASE-LAW article it
+    applied; a CASE-LAW amendment cites the caselaw that prompted it.
 
 ## Automation (the plugin)
 - Give Lexby a **goal** and he runs it. When he hits a fork he genuinely cannot call, he does not guess and does
@@ -179,11 +179,11 @@ PER_INCURIAM flag, REMEDY (breaches only), STATUS) over a human body. .justice/I
 regenerated on every ruling; `lexby cite <id>` resolves it. A subagent's only retrieval is grep/glob/read, so the
 compact index is mandatory.
 
-**Procedure and devices (SPEC-LAW-11).** Standing is a threshold filter at intake (non-parties cannot conjure
+**Procedure and devices (CASE-LAW-11).** Standing is a threshold filter at intake (non-parties cannot conjure
 sittings). Permission to appeal is a hard gate between every tier (no higher bench convenes without leave). The
 precedent fast-path disposes of a point governed by binding ratio on citation, with no sitting. Only the RATIO
 binds; OBITER is at most persuasive; PER INCURIAM voids a ruling made in ignorance of binding spec or precedent
-without a fresh sitting. A **declaration of incompatibility**: where case law cannot be reconciled with SPEC-LAW the
+without a fresh sitting. A **declaration of incompatibility**: where case law cannot be reconciled with CASE-LAW the
 court declares it and refers it up for amendment; it never strikes the sovereign spec.
 
 **Locked rules (adopt as charter law):**
@@ -193,7 +193,7 @@ court declares it and refers it up for amendment; it never strikes the sovereign
 2. **Advocate / bench / record separation.** "Lexby advocates; the bench decides; the record binds them both."
    The bench Task receives a SYMMETRIC case file (your position + the counter-position + statute + precedent) with
    no access to Lexby's preference. This is the brand's core integrity mechanism, not a footnote.
-3. **Statute supremacy doctrine (hard rule).** SPEC-LAW (statute) is supreme. A ratio conflicting with enacted
+3. **Statute supremacy doctrine (hard rule).** CASE-LAW (statute) is supreme. A ratio conflicting with enacted
    spec is void to the extent of the conflict and auto-flagged superseded-by-statute when spec changes. Case law
    interprets statute where the spec is silent. The court may issue a "declaration of incompatibility" flagging a
    precedent the spec authors should ratify or override. Only the Supreme tier writes new statute.
@@ -228,13 +228,13 @@ log); reversible/low-blast -> decisive call + lightweight note; pure impl detail
 authority -> convene. Self-submission: an agent's confession ("partially", "I deviated") AUTO-FILES a breach with
 a REMEDY field. The CLAUDE.md trigger is an enumerable imperative list, NOT "when uncertain".
 
-**`npx lexby init` = the demo.** Scaffold subagent + CLAUDE.md trigger + .justice/judgments/ + a starter SPEC-LAW inferred
+**`npx lexby init` = the demo.** Scaffold subagent + CLAUDE.md trigger + .justice/judgments/ + a starter CASE-LAW inferred
 from existing CLAUDE.md/README/package.json, then run ONE seeded micro-case live (fork -> Court -> legalese
 ruling -> Lexby translates -> committed `.justice/judgments/0001-*.md` + card) in 60 seconds. First run ends on a
 screenshot-grade verdict, never an empty dir. Ship `lexby uninstall` clean revert.
 
 **Build order:**
-1. Lock vocabulary + seed the **constitutional statutes** in `SPEC-LAW.md` (the canonical global book; s. 1..s. 12,
+1. Lock vocabulary + seed the **constitutional statutes** in `CASE-LAW.md` (the canonical global book; s. 1..s. 12,
    see below) and generate the **constitutional digest** + the non-binding **commentary**. NO written `CHARTER.md`:
    the constitution is uncodified but clear by access (the digest + commentary + Lexby's translation).
 2. Define the canonical ruling artefact schema + generated .justice/INDEX.md citator.
@@ -258,9 +258,9 @@ Court." / "Don't vibe it. Litigate it." / "The seats are permanent. The verdict 
 
 ## Vibe Procedure Rules (VPR) - rule-based progression
 Procedure is governed by the **Vibe Procedure Rules** (`VPR.md`), The load-bearing rule
-(SPEC-LAW-13): **progression is rule-based and there is no leap-frogging.** Every matter commences at First
+(CASE-LAW-13): **progression is rule-based and there is no leap-frogging.** Every matter commences at First
 Instance and climbs the tiers in order, escalating only by permission to appeal. A matter destined to change
-SPEC-LAW must be REACHED by progression, not commenced at the Supreme Court, and Lexby may not self-initiate at a
+CASE-LAW must be REACHED by progression, not commenced at the Supreme Court, and Lexby may not self-initiate at a
 higher tier. The sole exception is the **Principal's express leapfrog certificate** (acting as Sovereign), which
 may take a matter straight to the Supreme Court . The tort recast ([2026] LEXBY-SC 1)
 proceeded under such a certificate; that is why it sat at Supreme directly, and it is the non-notable exception,
@@ -268,7 +268,7 @@ not the rule.
 
 ## Commands (the surface)
 - **`cdd`** - initialise Caselaw Driven Development in a repo. The methodology name IS the init command. Scaffolds
-  `@agent-lexby` + the CLAUDE.md trigger + .justice/judgments/, vendors the global SPEC-LAW into the repo, and runs ONE
+  `@agent-lexby` + the CLAUDE.md trigger + .justice/judgments/, vendors the global CASE-LAW into the repo, and runs ONE
   seeded micro-case live so the install is the demo (ends on a committed ruling + a screenshot-grade card).
   (Replaces the earlier `npx lexby init` working name.)
 - **`submit-request-to-court "<question>"`** - file a Request for Ruling (forward-looking: a fork, "should we go
@@ -278,12 +278,12 @@ not the rule.
   punishment). No jurisdiction gate (a duty always exists).
 - Supporting: `lexby cite <id>` (resolve a ruling), reindex on every ruling, `lexby uninstall` (clean revert).
 
-## Breach doctrine: TORT, not crime (SPEC-LAW-4..8)
+## Breach doctrine: TORT, not crime (CASE-LAW-4..8)
 Settled by the Supreme Court ([2026] LEXBY-SC 1, Hallam CJ, unanimous): the court does not punish, it makes the
 work good, so the criminal frame (nulla poena, the jurisdiction-first gate, the guilt/remedy decoupling, the "no
 breach, act anyway" posture) was a category error and is struck. Breach is the **tort of negligence**:
 - **Duty (s. 4):** Lexby owes a continuing duty of reasonable skill and care to every principal who relies on his
-  work, arising from the relationship itself (of any enacted SPEC-LAW).
+  work, arising from the relationship itself (of any enacted CASE-LAW).
 - **Standard (s. 5):** discharged by meeting the applicable rung of a graded hierarchy of endeavours, pleaded and
   found per engagement and stakes: **reasonable skill and care** (default) / **all reasonable endeavours** / **best
   endeavours**. Conduct a responsible body of competent practice would endorse is not breach (the standard practice test).
@@ -291,18 +291,18 @@ breach, act anyway" posture) was a category error and is struck. Breach is the *
   punishment trigger.
 - **Remedy (s. 6):** remediation and restitution alone, proportionate to the harm: make good, restore the position.
   Punishment, fine, and sanction are unavailable in every instance. Finding and remedy are never decoupled.
-- **No-statute case (s. 7):** silence in SPEC-LAW is no defence and does not extinguish the duty; it merely fixes the
+- **No-statute case (s. 7):** silence in CASE-LAW is no defence and does not extinguish the duty; it merely fixes the
   standard at reasonable skill and care. The matter is justiciable from the first act (no auto-referral).
 - **First-time / second-time repealed (s. 8):** one continuous standard. A genuinely novel, unforeseeable first
   failure with no governing standard is judged against reasonableness, ordinarily founds no breach, and triggers a
   forward duty to spec the rule and remediate. The logged ruling then makes the hazard foreseeable, so a recurrence
   is breach of a now-known duty (easier to prove, wider to remediate). The consequence is always restorative.
 
-## Where law lives: UNITARY sovereignty (SPEC-LAW-9), not federalism
+## Where law lives: UNITARY sovereignty (CASE-LAW-9), not federalism
 "Federalism" was a constitutional solecism (it presupposes sovereign sub-states; a unitary realm has none) and is
 struck. The frame is **one sovereign rulebook, multiple project-local jurisdictions, one apex court**:
-- **SPEC-LAW = sovereign primary legislation:** ONE global statute book, supreme throughout, vendored to every repo
-  on git (e.g. `~/.lexby/SPEC-LAW.md` or a central `lexby-statute` repo).
+- **CASE-LAW = sovereign primary legislation:** ONE global statute book, supreme throughout, vendored to every repo
+  on git (e.g. `~/.lexby/CASE-LAW.md` or a central `lexby-statute` repo).
 - **Case law = jurisdiction-local precedent:** each repo is a JURISDICTION (the England-and-Wales / Scotland /
   Northern Ireland analogue) applying the one statute and taking notice of its sisters.
 - The **Supreme Court alone enacts**, by elevating a local ratio into realm-wide statute. There are no competing
@@ -310,17 +310,17 @@ struck. The frame is **one sovereign rulebook, multiple project-local jurisdicti
 
 ## Update mechanism: GitHub is the database (decided 2026-06-05)
 
-SPEC-LAW is vendored into each repo as `SPEC-LAW.md` (git-tracked, offline-first). The canonical global SPEC-LAW
+CASE-LAW is vendored into each repo as `CASE-LAW.md` (git-tracked, offline-first). The canonical global CASE-LAW
 lives at `github.com/wlilley93/vibe-justice-system`. The update mechanism:
 
-- `cdd init` and `cdd run` check the canonical repo's `SPEC-LAW.md` version header (or a `SPEC-LAW-VERSION` tag)
+- `cdd init` and `cdd run` check the canonical repo's `CASE-LAW.md` version header (or a `CASE-LAW-VERSION` tag)
   against the local copy via a lightweight unauthenticated GitHub API call.
-- If behind: print a notice. "Global SPEC-LAW s. 14 enacted (2026-07-01). Run `cdd update` to adopt."
-- `cdd update` fetches the canonical `SPEC-LAW.md` and writes it to the local repo, creating a commit. Never
+- If behind: print a notice. "Global CASE-LAW s. 14 enacted (2026-07-01). Run `cdd update` to adopt."
+- `cdd update` fetches the canonical `CASE-LAW.md` and writes it to the local repo, creating a commit. Never
   forced, always explicit.
 
 Community features (landmark gallery, statute packs, bench rosters) use GitHub as the registry:
-- Statute packs: forks/gists of canonical SPEC-LAW with a `vjs-statute-pack` topic tag.
+- Statute packs: forks/gists of canonical CASE-LAW with a `vjs-statute-pack` topic tag.
 - Landmark cases: a curated `community/landmarks.md` in the canonical repo, with links to exemplary public
   .justice/judgments/ dirs.
 - Bring-your-own-bench: rosters as `.json` files in a `community/benches/` directory, shareable by copy.
@@ -331,9 +331,9 @@ the local tool still works (it just cannot check for updates).
 ## Compliance check (review gate, decided 2026-06-05)
 
 At review time, submitted work must be checked against the full legal corpus. The court workflows already accept
-`args.spec` (SPEC-LAW) and `args.caselaw` (INDEX.md entries), and the fast-path screen checks for binding
+`args.spec` (CASE-LAW) and `args.caselaw` (INDEX.md entries), and the fast-path screen checks for binding
 precedent. The **compliance gate** is the step in `first-instance.js` Phase 1 where the judge:
-1. Checks the submission against every relevant SPEC-LAW article (does the work breach any statute?).
+1. Checks the submission against every relevant CASE-LAW article (does the work breach any statute?).
 2. Checks the submission against all `good-law` entries in .justice/INDEX.md (does it conflict with or ignore
    binding precedent?).
 3. Issues a **declaration of incompatibility** (s. 11(f)) if statute and caselaw are in conflict.

@@ -20,7 +20,7 @@ date: 2026-06-05
 
 **Kind:** Request for Ruling (forward-looking)
 
-**Question as filed:** Is the Vibe Justice System (VJS), as currently built (commit 3ff820a on wlilley93/vibe-justice-system, 2026-06-05), fit for release as an alpha? The artefacts in place are: SPEC-LAW.md (s. 1 through s. 14, constitutional and ordinary), VPR.md (VPR 1 through 8), three runnable court workflow scripts (first-instance.js, court-of-appeal.js, supreme-court.js) each with a Law Load phase and a Community PR phase, a clerk GitHub Actions workflow, CDD.md methodology manifesto, plugin/CLAUDE.md binding injection block, caselaw/INDEX.md citator, founding case [2026] LEXBY-SC 1, community/ directory structure, court/README.md, and docs/DESIGN-NOTES.md. What is not yet built: the cdd CLI init command, submit-request-to-court and submit-breach-to-court user-facing commands, the ruling card renderer, the npm/PyPI package, the lexby cite command, and deterministic citation numbering. The applicable standard is reasonable skill and care (s. 4 through s. 8). Is the current state coherent, functional, and documented to an alpha standard? What should be completed before a v1 (non-alpha) release?
+**Question as filed:** Is the Vibe Justice System (VJS), as currently built (commit 3ff820a on wlilley93/vibe-justice-system, 2026-06-05), fit for release as an alpha? The artefacts in place are: CASE-LAW.md (s. 1 through s. 14, constitutional and ordinary), VPR.md (VPR 1 through 8), three runnable court workflow scripts (first-instance.js, court-of-appeal.js, supreme-court.js) each with a Law Load phase and a Community PR phase, a clerk GitHub Actions workflow, CDD.md methodology manifesto, plugin/CLAUDE.md binding injection block, caselaw/INDEX.md citator, founding case [2026] LEXBY-SC 1, community/ directory structure, court/README.md, and docs/DESIGN-NOTES.md. What is not yet built: the cdd CLI init command, submit-request-to-court and submit-breach-to-court user-facing commands, the ruling card renderer, the npm/PyPI package, the lexby cite command, and deterministic citation numbering. The applicable standard is reasonable skill and care (s. 4 through s. 8). Is the current state coherent, functional, and documented to an alpha standard? What should be completed before a v1 (non-alpha) release?
 
 ---
 
@@ -81,7 +81,7 @@ None ordered. This is a request_for_ruling, not a breach. No prior deviation has
 
 ## Per Incuriam
 
-False. This ruling was made with the governing statute (SPEC-LAW.md, s. 1 through s. 14) and all available precedent (caselaw/INDEX.md, [2026] LEXBY-SC 1) before the court.
+False. This ruling was made with the governing statute (CASE-LAW.md, s. 1 through s. 14) and all available precedent (caselaw/INDEX.md, [2026] LEXBY-SC 1) before the court.
 
 ---
 

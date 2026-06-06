@@ -4,7 +4,7 @@ The master citator for this jurisdiction. The authoritative index of every rulin
 repo. Updated whenever a new ruling is committed to `.justice/caselaw/`. Lexby checks this FIRST: if a
 binding ratio is on all fours, the matter is disposed of on citation (VPR 2 fast path), no sitting.
 
-## How to cite (SPEC-LAW S-11(d))
+## How to cite (CASE-LAW S-11(d))
 
 Neutral citation form: `[YEAR] LEXBY-<TIER> N`. Tier codes: `SC` (Supreme Court), `CA` (Court of
 Appeal), `FI` (First Instance). The next number is assigned deterministically from this index - run
@@ -39,5 +39,5 @@ a ruling made in ignorance of binding statute or precedent is per incuriam and v
 | **good-law** | Stands and binds. Cite and apply without qualification. |
 | **distinguished** | Good law on its own facts; a later court found the present facts materially different. |
 | **overruled** | Expressly set aside by a higher court (or the same court later). Cite the overruling case. |
-| **superseded-by-statute** | The ratio was replaced by an enacted SPEC-LAW article; the statute controls. |
+| **superseded-by-statute** | The ratio was replaced by an enacted CASE-LAW article; the statute controls. |
 | **per-incuriam** | Made in ignorance of binding statute/precedent. Void; a fresh sitting is required. |

@@ -2,7 +2,7 @@
 
 The realm. A private fork of the [Vibe Justice System](https://github.com/wlilley93/vibe-justice-system) (kept as the
 `upstream` remote), organised as a state under the court geography the Supreme Court settled in
-**In the matter of Agent Universe [2026] LEXBY-HARVEY-SC 2**, enacting **SPEC-LAW s. 22**. (The inherited VJS readme is
+**In the matter of Agent Universe [2026] LEXBY-HARVEY-SC 2**, enacting **CASE-LAW s. 22**. (The inherited VJS readme is
 preserved at [`ministry-of-justice/README.md`](ministry-of-justice/README.md).)
 
 > **Signpost rule:** everything signposts everything else, so an agent (or a court doing research) never gets lost.
@@ -11,7 +11,7 @@ preserved at [`ministry-of-justice/README.md`](ministry-of-justice/README.md).)
 
 ## The one spine (the law, at the root = the Ministry of Justice's substance)
 
-- **[SPEC-LAW.md](SPEC-LAW.md)** - the one sovereign statute book (s. 1-22). The Supreme Court alone enacts it.
+- **[CASE-LAW.md](CASE-LAW.md)** - the one sovereign statute book (s. 1-22). The Supreme Court alone enacts it.
 - **[VPR.md](VPR.md)** - the Vibe Procedure Rules. **[CDD.md](CDD.md)** - the commentary.
 - **[court/workflows/](court/workflows/)** - the runnable courts (First Instance, Court of Appeal, Supreme Court).
 - **[caselaw/](caselaw/)** + **[community/caselaw/](community/caselaw/)** - apex precedent.
@@ -23,9 +23,9 @@ the whole realm (s. 9, s. 22). Local courts are hearing-centres only and may nev
 
 ```
 agent-universe/                                    the realm (Sovereign level)
-├── SPEC-LAW.md VPR.md court/ caselaw/             the one spine = Ministry of Justice's law (syncs with upstream)
+├── CASE-LAW.md VPR.md court/ caselaw/             the one spine = Ministry of Justice's law (syncs with upstream)
 ├── parliament/                                    the legislature (Sovereign route to law, s. 2): bills, sittings, ministers
-├── statutes/                                      the legislative archive (Acts as passed); SPEC-LAW.md is the consolidation
+├── statutes/                                      the legislative archive (Acts as passed); CASE-LAW.md is the consolidation
 ├── constitution/                                  realm constitutional docs; future parliament
 ├── ministry-of-justice/                           governance only, pure/meta
 │   └── ledger/INDEX.md                            the UNIVERSAL case ledger (every ruling, one series)
@@ -47,7 +47,7 @@ agent-universe/                                    the realm (Sovereign level)
 
 | To find... | Go to |
 |---|---|
-| The law (statute) | [`SPEC-LAW.md`](SPEC-LAW.md) |
+| The law (statute) | [`CASE-LAW.md`](CASE-LAW.md) |
 | Procedure | [`VPR.md`](VPR.md) |
 | Every case, everywhere | [`ministry-of-justice/ledger/INDEX.md`](ministry-of-justice/ledger/INDEX.md) |
 | The Legal Department | [`ministry-for-business-work-and-skills/legal-department/`](ministry-for-business-work-and-skills/legal-department/) |

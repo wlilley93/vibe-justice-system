@@ -32,10 +32,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Read SPEC-LAW.md
+      - name: Read CASE-LAW.md
         id: spec_law
         run: |
-          SPEC_LAW=$(cat SPEC-LAW.md)
+          SPEC_LAW=$(cat CASE-LAW.md)
           {
             echo 'SPEC_LAW<<EOF_SPEC'
             echo "$SPEC_LAW"
@@ -88,7 +88,7 @@ jobs:
 
           system_prompt = (
               "You are the VJS Clerk. Your role is to review pull requests against the "
-              "Vibe Justice System constitution (SPEC-LAW.md). You must check compliance "
+              "Vibe Justice System constitution (CASE-LAW.md). You must check compliance "
               "with all constitutional statutes (S-1, S-2, S-3, S-9, S-10, S-13) and "
               "ordinary statutes (S-4 through S-12). Be precise and strict. "
               "Reply with exactly: CONSTITUTIONAL or UNCONSTITUTIONAL on the first line, "
@@ -96,7 +96,7 @@ jobs:
           )
 
           user_prompt = (
-              "## SPEC-LAW.md (the VJS constitution)\n\n"
+              "## CASE-LAW.md (the VJS constitution)\n\n"
               + spec_law
               + "\n\n---\n\n"
               "## Pull Request\n\n"
@@ -104,7 +104,7 @@ jobs:
               "**Description:**\n" + pr_body + "\n\n"
               "**Diff:**\n```diff\n" + pr_diff + "\n```\n\n"
               "---\n\n"
-              "Is this PR constitutional under SPEC-LAW? "
+              "Is this PR constitutional under CASE-LAW? "
               "Reply with: CONSTITUTIONAL or UNCONSTITUTIONAL, "
               "then one paragraph explaining why."
           )
@@ -177,11 +177,11 @@ jobs:
           if result == "constitutional":
               badge = "**CONSTITUTIONAL**"
               intro = ("The VJS Clerk has reviewed this pull request and found it "
-                       "**constitutional** under SPEC-LAW. Auto-merge will proceed.")
+                       "**constitutional** under CASE-LAW. Auto-merge will proceed.")
           else:
               badge = "**UNCONSTITUTIONAL**"
               intro = ("The VJS Clerk has reviewed this pull request and found it "
-                       "**unconstitutional** under SPEC-LAW. "
+                       "**unconstitutional** under CASE-LAW. "
                        "Changes are required before this PR can be merged.")
 
           body = "\n".join([
@@ -196,7 +196,7 @@ jobs:
               verdict,
               "",
               "---",
-              f"*Automated review by the VJS Clerk using SPEC-LAW.md at commit `{pr_sha}`.*",
+              f"*Automated review by the VJS Clerk using CASE-LAW.md at commit `{pr_sha}`.*",
           ])
 
           with open("/tmp/clerk_comment.txt", "w") as f:
@@ -228,7 +228,7 @@ jobs:
           pr_num = os.environ.get("PR_NUMBER", "")
 
           body = "\n".join([
-              "The VJS Clerk has determined this PR is unconstitutional under SPEC-LAW.",
+              "The VJS Clerk has determined this PR is unconstitutional under CASE-LAW.",
               "",
               verdict,
               "",
