@@ -5,6 +5,7 @@ Derived, pointer-only (see [`README.md`](README.md)). The committed instrument m
 | Citation | Title | Parent (enabling) | Made by | Status | Instrument |
 |----------|-------|-------------------|---------|--------|------------|
 | [2026] REALM-SI 1 (under Bill 21) | The Security and Integrity (Server Estate) Instrument 2026 | Bill 21 s. 16 (Security and Integrity Act 2026) | Standing Committee | made | [2026-realm-si-1-security-and-integrity-server-estate.md](2026-realm-si-1-security-and-integrity-server-estate.md) |
+| [2026] REALM-SI 2 (under Bill 5, Bill 14, Bill 26 and Bill 27) | The Judgment Rendering and Lodgement Instrument 2026 | Bill 5 s. 18 (Ministries and Offices Act 2026), parent authority MBES; read with Bill 14; Bill 16 s. 12 substantive | Standing Committee | made | [2026-realm-si-2-judgment-rendering-and-lodgement.md](2026-realm-si-2-judgment-rendering-and-lodgement.md) |
 
 ## Status key (Bill 16 s. 15(1A))
 
