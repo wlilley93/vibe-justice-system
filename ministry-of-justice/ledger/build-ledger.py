@@ -12,8 +12,12 @@ import re, pathlib, datetime, sys
 REALM = pathlib.Path(__file__).resolve().parents[2]            # ~/agent-universe
 LEDGER = REALM / "ministry-of-justice" / "ledger" / "INDEX.md"
 
-# Neutral-citation forms: [YEAR] LEXBY-<TIER> n  and  [YEAR] LEXBY-<JURISDICTION>-<TIER> n
-CITE = re.compile(r"\[(20\d\d)\]\s+LEXBY-[A-Z-]*?(?:FI|CA|SC|INC)\s+\d+", re.I)
+# Neutral-citation forms. Provenance scheme (current): [YEAR] REALM-SC/PC/CA n,
+# [YEAR] <DIVISION> n (ENG/CHAN), [YEAR] CC-<repo> n. Legacy (un-migrated acmeco/harvey):
+# [YEAR] LEXBY-<...> n. The ledger spans the migration, so it matches both.
+CITE = re.compile(
+    r"\[(20\d\d)\]\s+(?:REALM-(?:SC|PC|CA)|ENG|CHAN|CC-[A-Z0-9-]+|LEXBY-[A-Z-]*?(?:FI|CA|SC|INC))\s+\d+",
+    re.I)
 
 SKIP_DIRS = {".git", "node_modules", ".justice/pdfs", "renderer"}
 
