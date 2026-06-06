@@ -13,3 +13,4 @@
 **/.env
 .env
 *.env.local
+law-reports/node_modules/

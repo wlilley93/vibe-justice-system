@@ -1,0 +1,15 @@
+{
+  "name": "@realm/law-reports",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The Realm Law Reports & Gazette - a deterministic, pointer-only, searchable projection of the realm's committed case law + legislation. Derived from the markdown (CASE-LAW s.1; [2026] REALM-PC 4; Bill 16 s.12); never the store of law.",
+  "scripts": {
+    "ingest": "node build/ingest.js",
+    "index": "node build/build-search-index.js",
+    "build": "node build/ingest.js && node build/build-search-index.js && cp corpus.json site/corpus.json",
+    "serve": "cd site && python3 -m http.server 8787"
+  },
+  "dependencies": {
+    "minisearch": "^7.1.0"
+  }
+}

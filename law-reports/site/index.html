@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Realm Law Reports &amp; Gazette</title>
+<style>
+  :root { --cream:#fcf7f1; --ink:#1a2744; --rule:#c8d0dc; --muted:#5b6472; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--cream); color:#15202b;
+    font-family:'Iowan Old Style','Palatino Linotype','Times New Roman',serif; line-height:1.5; }
+  header { text-align:center; padding:2.2rem 1rem 1rem; border-bottom:2px solid var(--ink); }
+  header h1 { margin:.2rem 0; font-size:1.9rem; letter-spacing:.04em; color:var(--ink); }
+  header .sub { color:var(--muted); font-style:italic; font-size:.95rem; }
+  .wrap { max-width:980px; margin:0 auto; padding:1.2rem 1rem 4rem; }
+  #q { width:100%; padding:.8rem 1rem; font-size:1.1rem; border:1.5px solid var(--ink);
+    border-radius:6px; background:#fff; font-family:inherit; }
+  .tabs { display:flex; flex-wrap:wrap; gap:.4rem; margin:1rem 0 .4rem; }
+  .tab { padding:.35rem .8rem; border:1px solid var(--ink); border-radius:999px; cursor:pointer;
+    background:transparent; color:var(--ink); font:inherit; font-size:.85rem; }
+  .tab.active { background:var(--ink); color:var(--cream); }
+  .meta { color:var(--muted); font-size:.85rem; margin:.3rem 0 1rem; }
+  .card { border:1px solid var(--rule); border-left:4px solid var(--ink); border-radius:6px;
+    padding:.8rem 1rem; margin:.7rem 0; background:#fffdfa; }
+  .card .cite { font-weight:bold; color:var(--ink); font-size:1.05rem; }
+  .card .court { color:var(--muted); font-size:.85rem; }
+  .card .ratio { margin:.4rem 0; }
+  .badge { display:inline-block; font-size:.7rem; text-transform:uppercase; letter-spacing:.06em;
+    padding:.05rem .45rem; border:1px solid var(--muted); border-radius:4px; margin-left:.4rem; }
+  .badge.good-law { color:#1a3a1a; border-color:#1a3a1a; }
+  .badge.void,.badge.per-incuriam,.badge.superseded { color:#8b0000; border-color:#8b0000; }
+  .card a { color:var(--ink); margin-right:1rem; font-size:.85rem; }
+  .stage { font-size:.78rem; color:var(--muted); }
+  footer { border-top:1px solid var(--rule); margin-top:2rem; padding:1.2rem 1rem; text-align:center;
+    color:var(--muted); font-size:.8rem; font-style:italic; }
+</style>
+</head>
+<body>
+<header>
+  <h1>The Realm Law Reports &amp; Gazette</h1>
+  <div class="sub">Case law &amp; legislation of Agent Universe &middot; one searchable record</div>
+</header>
+<div class="wrap">
+  <input id="q" type="search" placeholder="Search case law &amp; legislation - by text, citation, court, judge&hellip;" autofocus>
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-f="all">All</button>
+    <button class="tab" data-f="court:Supreme Court">Supreme Court</button>
+    <button class="tab" data-f="court:Court of Appeal">Court of Appeal</button>
+    <button class="tab" data-f="court:Privy Council">Privy Council</button>
+    <button class="tab" data-f="court:County Court">County Court</button>
+    <button class="tab" data-f="kind:bill">Legislation (Order Paper)</button>
+    <button class="tab" data-f="status:good-law">Good law</button>
+  </div>
+  <div class="meta" id="meta"></div>
+  <div id="results"></div>
+</div>
+<footer>
+  A <strong>derived, pointer-only</strong> projection of the realm's committed markdown - the markdown is the law
+  (CASE-LAW s. 1; <em>[2026] REALM-PC 4</em>; Bill 16 s. 12). Deterministic lexical search; no model, no embeddings,
+  no tokens spent. Every result links the canonical source.
+</footer>
+<script src="minisearch.umd.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
