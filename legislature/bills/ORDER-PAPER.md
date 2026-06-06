@@ -50,6 +50,7 @@ instruments**, a fresh primary statute being exceptional.
 | No. | Bill | Function | Status |
 |---|---|---|---|
 | 26 | **Statutory Instruments (Framework) Act 2026** | Instantiates the uniform SI route the Privy Council found missing: amends Bills 14/16/13/15 (binding-regulation tier, amendment procedure, REALM-SI citation slot + status vocab, enforcement receiver), inserts enabling clauses into 9 parent Acts, and binds the Committee remit. Responds to [2026] REALM-PC 10 + [2026] REALM-PC 11. | **ENACTED** (Royal Assent 2026-06-06; passed committee 4/4, 2 drafting rounds) |
+| 27 | **VJS (Constitution and Machinery) Act 2026** | Fixes the canonical name VJS; mandates the four-branch layout (Constitution/Judicature/Legislature/Executive) + system-data-only public repo; the public-mechanics rule (ministry charters + registry schema public, contents private); renames MBWS->Ministry of Business, Engineering and Skills and Defence->Ministry of Data Security (reconciling Bill 21); assigns the refactoring + security suites to those ministries (amendable by SI); confirms the Standing Committee as SI maker; and the judgments-publication rule (the law of every judgment public, personal facts sealed, local judgments private). | **PRESENTED FOR ROYAL ASSENT** (passed committee 4/4, 2 drafting rounds; NOT yet enacted - awaiting the Sovereign) |
 
 ## Status key (and the database it will live in)
 
