@@ -4,5 +4,5 @@
 
 **UP:** the realm - `../README.md`.
 **Consolidated book (authoritative):** `../CASE-LAW.md`.
-**Legislature:** `../parliament/`.
+**Legislature:** `../legislature/`.
 **Ledger:** `../ministry-of-justice/ledger/INDEX.md`.

@@ -1,13 +1,13 @@
-# [2026] LEXBY-FI 3
+# [2026] REALM-PC 3
 
 | Field | Value |
 |-------|-------|
-| **Citation** | [2026] LEXBY-FI 3 |
-| **Tier** | First Instance |
+| **Citation** | [2026] REALM-PC 3 |
+| **Tier** | Privy Council |
 | **Judge** | Elden J |
 | **Kind** | Request for Ruling |
 | **Status** | good-law |
-| **Cites** | s. 4, s. 5, s. 8, s. 11(d); anchors to and extends [2026] LEXBY-FI 2 |
+| **Cites** | s. 4, s. 5, s. 8, s. 11(d); anchors to and extends [2026] REALM-PC 2 |
 
 ## The question
 
@@ -19,7 +19,7 @@ Established. A real party (Lexby) and a live, consequential decision: whether an
 
 ## Fast path
 
-Not available. [2026] LEXBY-FI 2 is the nearest analogue and strongly persuasive, but it is not on all fours: its ratio is bound to honest disclosure of defect-gaps gating an outreach act, and it never engaged the form / anti-duplication question now squarely raised. First-impression fork (trigger 1), anchored to FI 2.
+Not available. [2026] REALM-PC 2 is the nearest analogue and strongly persuasive, but it is not on all fours: its ratio is bound to honest disclosure of defect-gaps gating an outreach act, and it never engaged the form / anti-duplication question now squarely raised. First-impression fork (trigger 1), anchored to FI 2.
 
 ## Ratio
 
@@ -29,7 +29,7 @@ The required and sufficient form is **summary-with-pointer**: the canonical, aut
 
 ## Obiter
 
-This court treats [2026] LEXBY-FI 2 (Sumberly J) as the controlling lineage though not on all fours, extending the same prominence principle from a defect-disclosure to an affirmative differentiator-and-methodology explainer. The exact section heading, wording, and ordering are reversible low-blast editorial choices for Lexby (a decisive call plus a one-line note), provided the result is genuinely prominent and not buried below the install fold. The same summary-with-pointer doctrine should govern future README treatments of any other canonical artefact (for example the duty-of-care standard or the citator fast-path), so the README may onboard comprehensively without becoming a rival source of governing law.
+This court treats [2026] REALM-PC 2 (Sumberly J) as the controlling lineage though not on all fours, extending the same prominence principle from a defect-disclosure to an affirmative differentiator-and-methodology explainer. The exact section heading, wording, and ordering are reversible low-blast editorial choices for Lexby (a decisive call plus a one-line note), provided the result is genuinely prominent and not buried below the install fold. The same summary-with-pointer doctrine should govern future README treatments of any other canonical artefact (for example the duty-of-care standard or the citator fast-path), so the README may onboard comprehensively without becoming a rival source of governing law.
 
 ## Lexby, translating
 

@@ -24,7 +24,7 @@ and never creates a second governing statute book (s. 9, s. 21, s. 22).
 
 Full judgments are filed in the Legal Division's local caselaw and indexed in the universal ledger
 ([`../ministry-of-justice/ledger/INDEX.md`](../ministry-of-justice/ledger/INDEX.md)). Future Parliament Acts are drafted
-in [`../parliament/bills/`](../parliament/) and recorded here on passing.
+in [`../legislature/bills/`](../legislature/) and recorded here on passing.
 
 **UP:** the realm - [`../README.md`](../README.md). **Consolidated book:** [`../CASE-LAW.md`](../CASE-LAW.md).
-**Legislature:** [`../parliament/`](../parliament/).
+**Legislature:** [`../legislature/`](../legislature/).

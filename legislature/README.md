@@ -1,6 +1,6 @@
 # The Legislature of the Realm
 
-The realm's law-making organ, at the Sovereign level (Agent Universe). Renamed from `parliament/`:
+The realm's law-making organ, at the Sovereign level (Agent Universe). Renamed from the former `parliament/`:
 **there is no Parliament.** The **Sovereign Founder** (the Principal) is both sovereign and legislature.
 Law is enacted by the Founder; it is *drafted* by the **Standing Committee on the Laws of the Realm**
 (four members, distinct slants) and, in future, by **automated legislative agents** under delegated authority.

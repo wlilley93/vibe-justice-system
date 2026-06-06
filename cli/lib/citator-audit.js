@@ -13,7 +13,13 @@
 const fs = require('fs');
 const path = require('path');
 
-const TIER_DIR = { FI: 'high-court', CA: 'appeals-court', SC: 'supreme-court' };
+// Provenance scheme: the three central courts file under fixed dirs at this .justice root.
+// High Court (ENG/CHAN) and County Court (CC-<repo>) series belong to other repos' .justice
+// trees, so they are collision-checked but not file-checked here.
+const DIR_BY_CODE = { 'REALM-SC': 'supreme-court', 'REALM-PC': 'privy-council', 'REALM-CA': 'court-of-appeal' };
+const TIER_DIR = DIR_BY_CODE; // back-compat alias
+// Series codes recognised in citations: central (REALM-*), High Court divisions, County Court repos.
+const CODE_RE = '(REALM-SC|REALM-PC|REALM-CA|ENG|CHAN|CC-[A-Z0-9-]+)';
 
 // Walk up from `start` until a directory containing .justice/ is found.
 function findRepoRoot(start) {
@@ -27,12 +33,15 @@ function findRepoRoot(start) {
   return null;
 }
 
-function citationKey(year, code, n) { return `[${year}] LEXBY-${code} ${n}`; }
+function citationKey(year, code, n) { return `[${year}] ${code} ${n}`; }
+
+// code -> filename slug: REALM-SC -> realm-sc, CC-ACMECO -> cc-acmeco
+function codeSlug(code) { return String(code).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
 
 // Pull citations only from MARKDOWN TABLE ROWS of the citator (lines starting with `|`), so
 // that prose examples and the "how to cite" section never register as phantom duplicates.
 function citationsFromIndex(indexText) {
-  const re = /\[(\d{4})\]\s*LEXBY-(FI|CA|SC)\s+(\d+)/;
+  const re = new RegExp('\\[(\\d{4})\\]\\s*' + CODE_RE + '\\s+(\\d+)');
   const out = [];
   for (const rawLine of String(indexText || '').split('\n')) {
     const line = rawLine.trim();
@@ -44,22 +53,26 @@ function citationsFromIndex(indexText) {
   return out;
 }
 
-// Expected ruling filename for a citation, matching the committed convention
-// (.justice/judgments/<tier-dir>/<YEAR>-LEXBY-<CODE>-<N>.md).
+// Expected ruling filename for a central citation, matching the committed convention
+// (.justice/judgments/<court-dir>/<YEAR>-<code-slug>-<N>.md). Returns null for series whose
+// files live outside this .justice root (High Court divisions, County Court repos).
 function expectedRulingPath(root, c) {
-  return path.join(root, '.justice', 'judgments', TIER_DIR[c.code], `${c.year}-LEXBY-${c.code}-${c.n}.md`);
+  const dir = DIR_BY_CODE[c.code];
+  if (!dir) return null;
+  return path.join(root, '.justice', 'judgments', dir, `${c.year}-${codeSlug(c.code)}-${c.n}.md`);
 }
 
-// Scan the judgments tree for ruling files and parse their citation from the filename.
+// Scan the central judgment dirs for ruling files and parse their citation from the filename.
 function rulingFilesOnDisk(root) {
   const files = [];
-  for (const code of Object.keys(TIER_DIR)) {
-    const dir = path.join(root, '.justice', 'judgments', TIER_DIR[code]);
+  for (const code of Object.keys(DIR_BY_CODE)) {
+    const dir = path.join(root, '.justice', 'judgments', DIR_BY_CODE[code]);
     if (!fs.existsSync(dir)) continue;
+    const fileRe = new RegExp('^(\\d{4})-' + codeSlug(code) + '-(\\d+)\\.md$', 'i');
     for (const name of fs.readdirSync(dir)) {
-      const m = name.match(/^(\d{4})-LEXBY-(FI|CA|SC)-(\d+)\.md$/i);
+      const m = name.match(fileRe);
       if (!m) continue;
-      files.push({ year: +m[1], code: m[2].toUpperCase(), n: +m[3], key: citationKey(m[1], m[2].toUpperCase(), m[3]), path: path.join(dir, name) });
+      files.push({ year: +m[1], code, n: +m[2], key: citationKey(m[1], code, m[2]), path: path.join(dir, name) });
     }
   }
   return files;
@@ -90,13 +103,15 @@ function auditCitator(start) {
     if (count > 1) problems.push({ type: 'collision', message: `citation ${key} appears ${count} times in the citator (collision)` });
   }
 
-  // 2a. Citator row with no ruling file.
+  // 2a. Citator row with no ruling file (central series only; division/repo series file elsewhere).
   const seen = new Set();
   for (const c of cites) {
     if (seen.has(c.key)) continue;
     seen.add(c.key);
-    if (!fs.existsSync(expectedRulingPath(root, c))) {
-      problems.push({ type: 'missing-file', message: `citator lists ${c.key} but ruling file is missing (${path.relative(root, expectedRulingPath(root, c))})` });
+    const expected = expectedRulingPath(root, c);
+    if (!expected) continue;
+    if (!fs.existsSync(expected)) {
+      problems.push({ type: 'missing-file', message: `citator lists ${c.key} but ruling file is missing (${path.relative(root, expected)})` });
     }
   }
 

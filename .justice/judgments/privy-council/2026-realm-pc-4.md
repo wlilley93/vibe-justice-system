@@ -1,13 +1,13 @@
-# [2026] LEXBY-FI 4
+# [2026] REALM-PC 4
 
 | Field | Value |
 |-------|-------|
-| **Citation** | [2026] LEXBY-FI 4 |
-| **Tier** | First Instance |
+| **Citation** | [2026] REALM-PC 4 |
+| **Tier** | Privy Council |
 | **Judge** | Coade J |
 | **Kind** | Request for Ruling |
 | **Status** | good-law |
-| **Cites** | s. 1, s. 8, s. 11(c), s. 12, s. 15, s. 19(5); VPR 2, VPR 8; extends [2026] LEXBY-FI 3; persuasive [2026] LEXBY-SC 1, [2026] LEXBY-SC 3 |
+| **Cites** | s. 1, s. 8, s. 11(c), s. 12, s. 15, s. 19(5); VPR 2, VPR 8; extends [2026] REALM-PC 3; persuasive [2026] REALM-SC 1, [2026] REALM-SC 3 |
 
 ## The question
 
@@ -15,13 +15,13 @@ Should VJS adopt a deterministic semantic retrieval layer (a vector index, e.g. 
 
 ## Standing / fast path
 
-Standing established (a live, forward-looking architectural fork; the conceded fact that demonstrated-need is unmet at seven rulings goes to disposal, not standing). No fast path: nearest authority [2026] LEXBY-FI 3 (summary-with-pointer) is strongly persuasive but governs README information architecture, not a machine-built index over the whole corpus; genuine first-impression fork.
+Standing established (a live, forward-looking architectural fork; the conceded fact that demonstrated-need is unmet at seven rulings goes to disposal, not standing). No fast path: nearest authority [2026] REALM-PC 3 (summary-with-pointer) is strongly persuasive but governs README information architecture, not a machine-built index over the whole corpus; genuine first-impression fork.
 
 ## Ratio
 
 A deterministic, token-free semantic retrieval layer (a vector index built over the canonical committed markdown and queried by a deterministic command returning top-K citations) is a **screening device within the express allowance of s. 12 and does NOT offend it** - but only on three cumulative and binding conditions, the absence of any one of which renders adoption unlawful as bloat (s. 12) or as a competing source of law (s. 1):
 
-1. **Index-not-replacement is MANDATORY.** The committed markdown (the citator and the full judgments) remains the single and only source of law under s. 1. The index must be wholly derived, deterministically rebuildable from that markdown, and never the store of any ratio, status, or citation. It points to canonical text; it never speaks the law. A query result is a pointer to be verified against the committed markdown, never itself authority. To guarantee this against drift, the index must be regenerated deterministically as part of the same operation that amends the citator, so it can never silently diverge from the source. This extends the summary-with-pointer doctrine of [2026] LEXBY-FI 3 from a human onboarding view to a machine retrieval view; severability holds because the index can drift only into harmless staleness (a missed pointer cured by the unchanged markdown), not into a competing rule.
+1. **Index-not-replacement is MANDATORY.** The committed markdown (the citator and the full judgments) remains the single and only source of law under s. 1. The index must be wholly derived, deterministically rebuildable from that markdown, and never the store of any ratio, status, or citation. It points to canonical text; it never speaks the law. A query result is a pointer to be verified against the committed markdown, never itself authority. To guarantee this against drift, the index must be regenerated deterministically as part of the same operation that amends the citator, so it can never silently diverge from the source. This extends the summary-with-pointer doctrine of [2026] REALM-PC 3 from a human onboarding view to a machine retrieval view; severability holds because the index can drift only into harmless staleness (a missed pointer cured by the unchanged markdown), not into a competing rule.
 
 2. **Adoption is GATED on demonstrated need and is presently FORBIDDEN.** At the current corpus the machinery costs more tokens to build and embed than it saves, so the demonstrated-need gate of the three-gate split test is not met (s. 12; s. 15). Adoption becomes permissible only upon a stated, measured condition being met on the field record: (a) the citator, loaded entire, exceeding a token budget fixed by Lexby in advance, OR (b) a measured fast-path miss rate (on-point precedent that better matching would have surfaced) exceeding a stated rate, measured not speculated.
 

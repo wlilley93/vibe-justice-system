@@ -1,14 +1,14 @@
 ---
-citation: "[2026] LEXBY-FI 1"
+citation: "[2026] REALM-PC 1"
 uuid: 86b154cf-52d9-44a1-b472-289948da3403
-tier: first-instance
+tier: privy-council
 judge: Bowan J
 kind: request_for_ruling
 status: good-law
 date: 2026-06-05
 ---
 
-# [2026] LEXBY-FI 1
+# [2026] REALM-PC 1
 
 **IN THE FIRST INSTANCE COURT OF THE VIBE JUSTICE SYSTEM**
 
@@ -20,7 +20,7 @@ date: 2026-06-05
 
 **Kind:** Request for Ruling (forward-looking)
 
-**Question as filed:** Is the Vibe Justice System (VJS), as currently built (commit 3ff820a on wlilley93/vibe-justice-system, 2026-06-05), fit for release as an alpha? The artefacts in place are: CASE-LAW.md (s. 1 through s. 14, constitutional and ordinary), VPR.md (VPR 1 through 8), three runnable court workflow scripts (first-instance.js, court-of-appeal.js, supreme-court.js) each with a Law Load phase and a Community PR phase, a clerk GitHub Actions workflow, CDD.md methodology manifesto, plugin/CLAUDE.md binding injection block, caselaw/INDEX.md citator, founding case [2026] LEXBY-SC 1, community/ directory structure, court/README.md, and docs/DESIGN-NOTES.md. What is not yet built: the cdd CLI init command, submit-request-to-court and submit-breach-to-court user-facing commands, the ruling card renderer, the npm/PyPI package, the lexby cite command, and deterministic citation numbering. The applicable standard is reasonable skill and care (s. 4 through s. 8). Is the current state coherent, functional, and documented to an alpha standard? What should be completed before a v1 (non-alpha) release?
+**Question as filed:** Is the Vibe Justice System (VJS), as currently built (commit 3ff820a on wlilley93/vibe-justice-system, 2026-06-05), fit for release as an alpha? The artefacts in place are: CASE-LAW.md (s. 1 through s. 14, constitutional and ordinary), VPR.md (VPR 1 through 8), three runnable court workflow scripts (first-instance.js, court-of-appeal.js, supreme-court.js) each with a Law Load phase and a Community PR phase, a clerk GitHub Actions workflow, CDD.md methodology manifesto, plugin/CLAUDE.md binding injection block, caselaw/INDEX.md citator, founding case [2026] REALM-SC 1, community/ directory structure, court/README.md, and docs/DESIGN-NOTES.md. What is not yet built: the cdd CLI init command, submit-request-to-court and submit-breach-to-court user-facing commands, the ruling card renderer, the npm/PyPI package, the lexby cite command, and deterministic citation numbering. The applicable standard is reasonable skill and care (s. 4 through s. 8). Is the current state coherent, functional, and documented to an alpha standard? What should be completed before a v1 (non-alpha) release?
 
 ---
 
@@ -28,7 +28,7 @@ date: 2026-06-05
 
 **Standing:** Established. The principal files a genuine forward-looking request concerning a real release decision with real consequences for a named project at a specific commit. There is a real party, a real question, and real stakes. Standing is not in doubt.
 
-**Fast-path:** No binding ratio on all fours governs this question. The only precedent in the citator is [2026] LEXBY-SC 1, which establishes the negligence model, unitary sovereignty, and court structure. That ratio does not govern the question of alpha-readiness of the VJS itself. The matter proceeds to full deliberation.
+**Fast-path:** No binding ratio on all fours governs this question. The only precedent in the citator is [2026] REALM-SC 1, which establishes the negligence model, unitary sovereignty, and court structure. That ratio does not govern the question of alpha-readiness of the VJS itself. The matter proceeds to full deliberation.
 
 ---
 
@@ -81,12 +81,12 @@ None ordered. This is a request_for_ruling, not a breach. No prior deviation has
 
 ## Per Incuriam
 
-False. This ruling was made with the governing statute (CASE-LAW.md, s. 1 through s. 14) and all available precedent (caselaw/INDEX.md, [2026] LEXBY-SC 1) before the court.
+False. This ruling was made with the governing statute (CASE-LAW.md, s. 1 through s. 14) and all available precedent (caselaw/INDEX.md, [2026] REALM-SC 1) before the court.
 
 ---
 
 **Status:** good-law
-**Citation:** [2026] LEXBY-FI 1
+**Citation:** [2026] REALM-PC 1
 
 ---
 

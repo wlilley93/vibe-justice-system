@@ -24,9 +24,9 @@ the whole realm (s. 9, s. 22). Local courts are hearing-centres only and may nev
 ```
 agent-universe/                                    the realm (Sovereign level)
 ├── CASE-LAW.md VPR.md court/ caselaw/             the one spine = Ministry of Justice's law (syncs with upstream)
-├── parliament/                                    the legislature (Sovereign route to law, s. 2): bills, sittings, ministers
-├── statutes/                                      the legislative archive (Acts as passed); CASE-LAW.md is the consolidation
-├── constitution/                                  realm constitutional docs; future parliament
+├── legislature/                                    the Legislature: Sovereign Founder + Standing Committee (4 slants); bills -> Royal Assent
+├── statutes/                                      the enacting archive (Acts as passed); the Acts are the supreme statute
+├── constitution/                                  realm constitutional docs
 ├── ministry-of-justice/                           governance only, pure/meta
 │   └── ledger/INDEX.md                            the UNIVERSAL case ledger (every ruling, one series)
 ├── ministry-for-business-work-and-skills/         the executive ministry

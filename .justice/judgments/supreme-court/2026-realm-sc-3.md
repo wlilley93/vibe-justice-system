@@ -1,19 +1,19 @@
-# [2026] LEXBY-SC 3
+# [2026] REALM-SC 3
 
 **IN THE SUPREME COURT OF THE VIBE JUSTICE SYSTEM** - Full Court of Nine (constitutional sitting)
 
 | Field | Value |
 |-------|-------|
-| **Citation** | [2026] LEXBY-SC 3 |
+| **Citation** | [2026] REALM-SC 3 |
 | **Tier** | Supreme Court (full court of 9, constitutional) |
 | **Panel** | Hallam CJ (leading judgment), Goffe J, Blackmere J, Sumberly J, Elden J, Coade J, Steyne J, Bowan J, Aldermere J |
 | **Seised by** | Principal's express leapfrog certificate (VPR 4 / s. 13); observer admitted by the certificate |
 | **Disposition** | VARIED. Vote 8:1 (Bowan J dissenting in part, on the apex observer s. 19(2) only); unanimous in result on all other heads |
 | **Status** | good-law |
 | **Enacts** | s. 19, s. 20 |
-| **Cites / confirms** | s. 1, s. 2, s. 3, s. 4, s. 5, s. 6, s. 7, s. 8, s. 11, s. 12, s. 13, s. 17, s. 18; confirms [2026] LEXBY-FI 1, [2026] LEXBY-CA 1, [2026] LEXBY-SC 1, [2026] LEXBY-SC 2 (the last two as paradigm proper leapfrogs); overrules nothing |
+| **Cites / confirms** | s. 1, s. 2, s. 3, s. 4, s. 5, s. 6, s. 7, s. 8, s. 11, s. 12, s. 13, s. 17, s. 18; confirms [2026] REALM-PC 1, [2026] REALM-CA 1, [2026] REALM-SC 1, [2026] REALM-SC 2 (the last two as paradigm proper leapfrogs); overrules nothing |
 
-> **Citation note.** The runnable workflow emitted a colliding `[2026] LEXBY-SC 1` and the bench in obiter guessed `SC 4`; the deterministic clerk assigns the correct next citation **[2026] LEXBY-SC 3** (s. 11(d)). This judgment's own arrival bearing a duplicate citation, drawn from a case file that falsely reported the statute book as absent, was noted by the Court as the most eloquent evidence on the record for the deterministic citation-integrity gate it enacts at s. 19(5).
+> **Citation note.** The runnable workflow emitted a colliding `[2026] REALM-SC 1` and the bench in obiter guessed `SC 4`; the deterministic clerk assigns the correct next citation **[2026] REALM-SC 3** (s. 11(d)). This judgment's own arrival bearing a duplicate citation, drawn from a case file that falsely reported the statute book as absent, was noted by the Court as the most eloquent evidence on the record for the deterministic citation-integrity gate it enacts at s. 19(5).
 
 ## The questions
 
@@ -36,7 +36,7 @@ Four foundational questions on the constitution of the Court itself, placed befo
 
 5. A token-light, **non-adjudicating per-turn watchdog** is lawful as part of the substrate, asking only whether a turn committed an un-self-reported breach, skipped a convening trigger, or yields an arguable appeal ground, and on a yes handing the agent the reason to dispose by the law; it discharges the standing self-appeal duty (s. 17(b), VPR 9), consistent with s. 4 and s. 8. As a binding condition of its lawfulness it may not adjudicate, score, gate, sanction, or punish, nor raise the s. 5 standard; any adjudication or consequence issuing from it is ultra vires and void, the remedy remaining exclusively judicial (s. 6).
 
-6. Citation and filing integrity must be guaranteed by a **deterministic pre-commit gate** that fails closed on a duplicate neutral citation and on any ruling file committed without its citator row; this gives effect to s. 1 and s. 11(d) and discharges the forward duty in [2026] LEXBY-FI 1 (confirmed [2026] LEXBY-CA 1), and may not be left to model judgement.
+6. Citation and filing integrity must be guaranteed by a **deterministic pre-commit gate** that fails closed on a duplicate neutral citation and on any ruling file committed without its citator row; this gives effect to s. 1 and s. 11(d) and discharges the forward duty in [2026] REALM-PC 1 (confirmed [2026] REALM-CA 1), and may not be left to model judgement.
 
 ## Enacted articles
 
@@ -47,7 +47,7 @@ Four foundational questions on the constitution of the Court itself, placed befo
 
 ## Obiter
 
-The line between making law (Sovereign, unreviewable) and routing a matter (executive, reviewable) means the defendant's Thoburn point bites only on the former, which is not what the leapfrog certificate is. The two prior leapfrogs ([2026] LEXBY-SC 1 and [2026] LEXBY-SC 2) are confirmed as the paradigm of proper invocation. Goffe J's caution that operability, not doctrine, is the live constraint on enforcement tooling: an advisory watchdog anyone has reason to disable has failed regardless of legal pedigree.
+The line between making law (Sovereign, unreviewable) and routing a matter (executive, reviewable) means the defendant's Thoburn point bites only on the former, which is not what the leapfrog certificate is. The two prior leapfrogs ([2026] REALM-SC 1 and [2026] REALM-SC 2) are confirmed as the paradigm of proper invocation. Goffe J's caution that operability, not doctrine, is the live constraint on enforcement tooling: an advisory watchdog anyone has reason to disable has failed regardless of legal pedigree.
 
 ## The bench (one line each)
 

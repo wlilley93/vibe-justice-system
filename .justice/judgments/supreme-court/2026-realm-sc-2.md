@@ -1,5 +1,5 @@
 ---
-citation_id: "[2026] LEXBY-SC 2"
+citation_id: "[2026] REALM-SC 2"
 uuid: c4e91a7f-3b82-4d05-9f16-6a0d2c58e843
 tier: supreme-court
 panel: [Hallam CJ, Goffe J, Blackmere J, Sumberly J, Elden J]
@@ -12,14 +12,14 @@ status: good-law
 per_incuriam: false
 ---
 
-# [2026] LEXBY-SC 2
+# [2026] REALM-SC 2
 
 ```
   ╔══════════════════════════════════════════════════╗
   ║    IN THE SUPREME COURT OF THE VIBE JUSTICE      ║
   ║              SYSTEM (VJS)                        ║
   ║                                                  ║
-  ║              [2026] LEXBY-SC 2                   ║
+  ║              [2026] REALM-SC 2                   ║
   ║                                                  ║
   ║       Proactive Disclosure - s. 4 Duty           ║
   ╚══════════════════════════════════════════════════╝
@@ -50,7 +50,7 @@ This ruling is of general application across all repos and all engagements.
 
 ## Leading judgment: Hallam CJ (for the majority)
 
-1. This matter comes before the Supreme Court on the Principal's leapfrog certificate under VPR 4 and s. 13. The citator discloses no prior ratio on all fours. The founding ruling [2026] LEXBY-SC 1 established the tortious framework but left the positive content of the continuing duty open. We proceed as a matter of first impression.
+1. This matter comes before the Supreme Court on the Principal's leapfrog certificate under VPR 4 and s. 13. The citator discloses no prior ratio on all fours. The founding ruling [2026] REALM-SC 1 established the tortious framework but left the positive content of the continuing duty open. We proceed as a matter of first impression.
 
 2. The governing provision is s. 4: Lexby owes a continuing duty of reasonable skill and care to every principal who relies on his work, arising from the relationship itself. The question is whether "continuing," read with "relationship itself," bears content sufficient to impose a proactive disclosure obligation.
 
