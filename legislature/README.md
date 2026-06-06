@@ -29,6 +29,13 @@ Acts of Union 2026                 the constitutional root (supreme)
 
 Statute beats case law where they conflict; the courts interpret statute and develop case law in the gaps.
 
+> **Constitutional caveat (raised by the Standing Committee on Privy Council guidance, 2026).** This
+> Acts-over-case-law tier is **intended law, not yet law in force**, until it is brought into being by an
+> **express amendment** of the entrenched CASE-LAW ss. 1, 2 and 9 (s. 9 forbids a competing statute book; ss. 1-2
+> vest one legislative power in the Founder). The **Acts of Union 2026** (Bill 1) is the instrument that effects
+> that express amendment; the hierarchy above takes force on its Royal Assent (or on a Supreme Court ruling the
+> Sovereign affirms). Pending that, the entrenched case law governs. This is a matter for **Sovereign consultation**.
+
 ## The drafting ladder (how a bill is made, and how doubt is resolved)
 
 1. **The Standing Committee drafts.** Four members, each with a different slant (restraint, codification,
