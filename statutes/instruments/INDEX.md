@@ -1,0 +1,25 @@
+# Statutory Instruments register
+
+Derived, pointer-only (see [`README.md`](README.md)). The committed instrument markdown is canonical.
+
+| Citation | Title | Parent (enabling) | Made by | Status | Instrument |
+|----------|-------|-------------------|---------|--------|------------|
+| [2026] REALM-SI 1 (under Bill 21) | The Security and Integrity (Server Estate) Instrument 2026 | Bill 21 s. 16 (Security and Integrity Act 2026) | Standing Committee | made | [2026-realm-si-1-security-and-integrity-server-estate.md](2026-realm-si-1-security-and-integrity-server-estate.md) |
+
+## Status key (Bill 16 s. 15(1A))
+
+| Status | Meaning |
+|--------|---------|
+| **made** | drafted and issued by the Standing Committee; awaiting commencement (in the objection window). |
+| **in-force** | commenced (objection window lapsed without valid objection, or affirmed). |
+| **amended** | text altered by an amending instrument (Bill 14 s. 27), still in force as amended. |
+| **revoked** | removed from the subordinate estate by a later instrument or Sovereign override. |
+| **spent** | operation exhausted; of no continuing effect. |
+
+## Adding an instrument
+
+1. The Standing Committee makes the instrument (Bill 26 s. 15) in exercise of a parent office's enabling
+   power (Bill 26 s. 14), opening with the Form C enabling recital so the engine derives the parent tag.
+2. Add a row above; the citation is `[YEAR] REALM-SI N` minted by `cdd next-citation si`, shown with the
+   derived `(under Bill NN)` tag.
+3. Commit the instrument file and this index together.
