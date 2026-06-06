@@ -33,9 +33,9 @@ one brain, not two.
 ## The README (how to write it)
 - **Value first.** Lead with the value and the feeling, not what it does or how it does it. Mechanics come later.
 - Do NOT get lawyerly or technical up front. The repo handles all the machinery for the user.
-- **Beautiful and clear**, written for a degen / crypto-bro audience: confident, punchy, memetic where it lands,
-  but the substance is real and the code stays strong. Use the best practices of high-signal degen-AI READMEs
-  (bold hook, badges, short lines, whitespace, a manifesto tone, a WAGMI-style close).
+- **Beautiful and clear**, written for a crypto-native, builder audience: confident, punchy, memetic where it
+  lands, but the substance is real and the code stays strong. Use the best practices of high-signal
+  crypto-native AI READMEs (bold hook, badges, short lines, whitespace, a manifesto tone, a strong close).
 - Include a **"Things you can say to Lexby"** section, natural language, e.g.:
   - "I think we should go in this direction. Submit it to the Court."
   - "I don't agree with the outcome. Can we appeal?"
@@ -218,7 +218,7 @@ re-summarises. Cost-tier: Court on a fast/cheap model + short budgets; Appeals/S
 model; record the model id per ruling. Port `scratch-to-signals` court.js/appeals.js as the start.
 
 **The shareable RULING CARD.** Every case auto-renders a boxed terminal-art verdict (citation, panel, VOTE 7-2,
-one-line memetic HOLDING, Lexby's TL;DR) to CLI + saved PNG/SVG in `.justice/cards/`. Degens share artefacts, not
+one-line memetic HOLDING, Lexby's TL;DR) to CLI + saved PNG/SVG in `.justice/cards/`. People share artefacts, not
 tools: the card is the distribution flywheel. "Nine invented law-lords 7-2 striking down 'just use localStorage
 bro' and then translating it" is the retweet.
 
@@ -389,7 +389,7 @@ convention, not a code change.
 
 ## Open / later (decisions pending)
 - **Auto-convene default:** ship ON (zero-babysitting, risk of token spend + interruption) or OFF with a prompt?
-  Triage mitigates spend either way; the default shapes the trust story for the degen audience.
+  Triage mitigates spend either way; the default shapes the trust story for the crypto-native audience.
 - **Launch scope:** code-first with the textbook as the single beyond-code proof, or ship `--template
   research|legal|product` starters in v1?
 - **Overruling retroactivity:** when Supreme overrules, default to reconcile existing code (retroactive) or
