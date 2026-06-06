@@ -1,57 +1,58 @@
-# Agent Universe
+# VJS - the Vibe Justice System
 
-The realm. A private fork of the [Vibe Justice System](https://github.com/wlilley93/vibe-justice-system) (kept as the
-`upstream` remote), organised as a state under the court geography the Supreme Court settled in
-**In the matter of Agent Universe [2026] LEXBY-HARVEY-SC 2**, enacting **CASE-LAW s. 22**. (The inherited VJS readme is
-preserved at [`ministry-of-justice/README.md`](ministry-of-justice/README.md).)
+The realm: a sovereign-agent civilisation governed as a state, under the founding case-law settlement
+([`Constitution/CASE-LAW.md`](Constitution/CASE-LAW.md)) and the enacted statute book. The canonical name is
+fixed by the **VJS (Constitution and Machinery) Act 2026** (Bill 27), which also mandates the layout below.
+(Formerly developed under the code name "agent-universe".)
 
-> **Signpost rule:** everything signposts everything else, so an agent (or a court doing research) never gets lost.
-> Every node carries a `_signpost.md` (UP to its parent + the apex law; DOWN to its children). Climb: repo -> department
-> (High Court Division) -> apex (Court of Appeal / Supreme Court) -> the one statute book. The universal ledger sees all.
+> **Signpost rule:** every node carries a `_signpost.md` (UP to its parent + the apex law; DOWN to its
+> children), so an agent or a court doing research never gets lost.
 
-## The one spine (the law, at the root = the Ministry of Justice's substance)
-
-- **[CASE-LAW.md](CASE-LAW.md)** - the one sovereign statute book (s. 1-22). The Supreme Court alone enacts it.
-- **[VPR.md](VPR.md)** - the Vibe Procedure Rules. **[CDD.md](CDD.md)** - the commentary.
-- **[court/workflows/](court/workflows/)** - the runnable courts (First Instance, Court of Appeal, Supreme Court).
-- **[caselaw/](caselaw/)** + **[community/caselaw/](community/caselaw/)** - apex precedent.
-
-There is **one** Court of Appeal and **one** Supreme Court, central, at the Ministry of Justice; they alone enact and bind
-the whole realm (s. 9, s. 22). Local courts are hearing-centres only and may never enact.
-
-## The map
+## The four branches (separation of powers as directory structure, Bill 27)
 
 ```
-agent-universe/                                    the realm (Sovereign level)
-├── CASE-LAW.md VPR.md court/ caselaw/             the one spine = Ministry of Justice's law (syncs with upstream)
-├── legislature/                                    the Legislature: Sovereign Founder + Standing Committee (4 slants); bills -> Royal Assent
-├── statutes/                                      the enacting archive (Acts as passed); the Acts are the supreme statute
-├── constitution/                                  realm constitutional docs
-├── ministry-of-justice/                           governance only, pure/meta
-│   └── ledger/INDEX.md                            the UNIVERSAL case ledger (every ruling, one series)
-├── ministry-for-business-work-and-skills/         the executive ministry
-│   ├── legal-department/                          High Court, Legal Division (≈ Chancery)
-│   │   ├── harvey-labs/                           County Court at harvey-labs - Corporate DD (48/50 on Harvey LAB)
-│   │   ├── lists/                                 Chancery Lists: corporate, companies, property, trusts-probate, insolvency, ip
-│   │   └── references/mike                        legal-AI-product reference
-│   ├── engineering-department/                    High Court, Engineering Division
-│   │   └── projects/                              acmeco, Operator, Onyx, fleetco-agent, Jarvis, jarvis-voice
-│   ├── skills-and-education/scratch-to-signals
-│   └── business-operations/Clara                  client estate
-├── home-office/                                   (future: personal)
-├── ministry-of-defence/                           (future: research & policy)
-└── national-archives/                             archive, acmeco-legacy, ldd-plugin (dead/superseded)
+VJS/                                  top-level: GitHub files + the four branches, and nothing else
+├── Constitution/                     the founding settlement
+│   ├── CASE-LAW.md                   the founding case-law settlement (s. 1-22); subordinate to the Acts
+│   ├── VPR.md  CDD.md  AGENTS.md     the Vibe Procedure Rules + commentary + the binding agent spine
+│   ├── constitution/                 REALM-TOPOLOGY and the constitutional docs
+│   └── docs/                         governance documentation
+├── Judicature/                       the judiciary + the public law record
+│   ├── .justice/                     the central citator (INDEX.md) + judgments + suites
+│   ├── court/                        the judgment renderer + workflows
+│   ├── caselaw/  community/          apex + Community-Record precedent
+│   ├── ministry-of-justice/          the universal rulings ledger + the reasons ledger (derived, pointer-only)
+│   └── law-reports/                  The Realm Law Reports & Gazette (searchable, central-courts only)
+├── Legislature/                      law-making + enacted law
+│   ├── legislature/                  the Standing Committee + the bills (drafting -> vote -> Royal Assent)
+│   └── statutes/                     the enacting archive (Acts) + instruments/ (the SI register)
+└── Executive/                        the ministries + machinery
+    ├── ministry-of-business-engineering-and-skills/   the executive ministry (owns the refactoring suite)
+    ├── ministry-of-data-security/    the security ministry (owns the security suite; private estate registry)
+    ├── cli/                          the cdd CLI (citation engine + the citator-integrity gate)
+    ├── plugin/                       the agent spine (CLAUDE.md) + the hooks (pre-commit gate, watchdog)
+    └── docker/                       the clerk runner
 ```
+
+## What is public (Bill 27: system data only)
+
+The public realm holds **system data only**: the law (CASE-LAW + the Acts + the SI register), the **central
+courts' judgments** (Supreme Court `REALM-SC`, Court of Appeal `REALM-CA`, Privy Council `REALM-PC`), the
+procedure rules, and the derived registers. The **law of every judgment is public**; **personal or operational
+facts are sealed** (Bill 22) and **local (County Court / Division) judgments stay in their own repos** (Bill 27
+s. 14). Personal/operational data lives only in separate, gitignored repos (mainly under the Executive
+ministries).
 
 ## Navigation
 
 | To find... | Go to |
 |---|---|
-| The law (statute) | [`CASE-LAW.md`](CASE-LAW.md) |
-| Procedure | [`VPR.md`](VPR.md) |
-| Every case, everywhere | [`ministry-of-justice/ledger/INDEX.md`](ministry-of-justice/ledger/INDEX.md) |
-| The Legal Department | [`ministry-for-business-work-and-skills/legal-department/`](ministry-for-business-work-and-skills/legal-department/) |
-| The Engineering Department | [`ministry-for-business-work-and-skills/engineering-department/`](ministry-for-business-work-and-skills/engineering-department/) |
-| The realm structure / topology | [`constitution/REALM-TOPOLOGY.md`](constitution/REALM-TOPOLOGY.md) |
-
-The repos still resolve at their old `~/Projects/<repo>` paths (symlinks) during transition.
+| The founding law | [`Constitution/CASE-LAW.md`](Constitution/CASE-LAW.md) |
+| Procedure | [`Constitution/VPR.md`](Constitution/VPR.md) |
+| The Acts (statute book) | [`Legislature/statutes/README.md`](Legislature/statutes/README.md) |
+| The bills + Standing Committee | [`Legislature/legislature/bills/ORDER-PAPER.md`](Legislature/legislature/bills/ORDER-PAPER.md) |
+| Every central ruling | [`Judicature/ministry-of-justice/ledger/INDEX.md`](Judicature/ministry-of-justice/ledger/INDEX.md) |
+| The citator | [`Judicature/.justice/INDEX.md`](Judicature/.justice/INDEX.md) |
+| Significant decisions (reasons) | [`Judicature/ministry-of-justice/reasons-ledger/INDEX.md`](Judicature/ministry-of-justice/reasons-ledger/INDEX.md) |
+| The realm topology | [`Constitution/constitution/REALM-TOPOLOGY.md`](Constitution/constitution/REALM-TOPOLOGY.md) |
+| Maintainer notes (paths, couplings) | [`STRUCTURE.md`](STRUCTURE.md) |
