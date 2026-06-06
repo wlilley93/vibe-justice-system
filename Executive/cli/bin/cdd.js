@@ -19,6 +19,16 @@ function findCitator(dir) {
   return null;
 }
 
+// Statutory instruments are numbered from their own register, not the judgments citator
+// ([2026] REALM-PC 11: one flat REALM-SI ordinal). Walk up to find the SI register.
+function findSIRegister(dir) {
+  for (const rel of ['Legislature/statutes/instruments/INDEX.md', 'statutes/instruments/INDEX.md']) {
+    const p = path.join(dir, rel);
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
 function die(msg, code = 1) { process.stderr.write(msg + '\n'); process.exit(code); }
 
 function cmdNextCitation(args) {
@@ -29,9 +39,11 @@ function cmdNextCitation(args) {
   if (args.repo) opts.repo = args.repo;
   if (args.year) opts.year = parseInt(args.year, 10);
   try { seriesCode(tier, opts); } catch (e) { die('next-citation: ' + e.message); } // validate early
-  const citatorPath = args.citator || findCitator(process.cwd());
+  // SIs number from the SI register; everything else from the judgments citator.
+  const isSI = /^(si|statutory[-_]instrument)$/i.test(tier);
+  const citatorPath = args.citator || (isSI ? findSIRegister(process.cwd()) : findCitator(process.cwd()));
   const text = citatorPath && fs.existsSync(citatorPath) ? fs.readFileSync(citatorPath, 'utf8') : '';
-  if (!citatorPath) process.stderr.write('note: no .justice/INDEX.md found; numbering from an empty citator (this will be N=1)\n');
+  if (!citatorPath) process.stderr.write(`note: no ${isSI ? 'SI register' : '.justice/INDEX.md'} found; numbering from empty (this will be N=1)\n`);
   const r = nextCitation(text, tier, opts);
   if (args.json) process.stdout.write(JSON.stringify(r) + '\n');
   else process.stdout.write(r.citation + '\n');
