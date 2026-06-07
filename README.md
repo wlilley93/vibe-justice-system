@@ -111,6 +111,19 @@ Most things never leave first instance: one judge, a ruling, a permanent citatio
 
 ---
 
+## The system at large
+
+The repo is organised like the thing it describes: a small state for AI governance.
+
+- [`Constitution/`](Constitution/) holds the founding settlement, procedure, and CDD method.
+- [`Legislature/`](Legislature/) holds the Acts and statutory instruments: the rules the system can point to instead of improvising.
+- [`Judicature/`](Judicature/) holds the courts, judgments, citator, law reports, and ledgers: the memory that stops decisions drifting.
+- [`Executive/`](Executive/) holds the machinery: the CLI, hooks, skills, ministries, and operational glue that make the law bite in a real repo.
+
+That structure is the value: the AI gets a constitution, a rulebook, a court record, and enforcement hooks. You get continuity across sessions instead of a string of fresh starts.
+
+---
+
 ## Say this to Lexby
 
 ```

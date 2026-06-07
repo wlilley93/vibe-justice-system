@@ -207,7 +207,7 @@ function cmdLodgeJudgment(args) {
 function workflowInvocation(script, kind, text) {
   const q = String(text || '').replace(/'/g, "\\'");
   return `Run the court in Claude Code via the Workflow tool:\n\n` +
-    `Workflow({\n  scriptPath: 'court/workflows/${script}',\n  args: { kind: '${kind}', ${kind === 'breach' ? 'charge' : 'question'}: '${q}' }\n})\n`;
+    `Workflow({\n  scriptPath: 'Judicature/court/workflows/${script}',\n  args: { kind: '${kind}', ${kind === 'breach' ? 'charge' : 'question'}: '${q}' }\n})\n`;
 }
 
 function main() {
@@ -241,7 +241,7 @@ function main() {
 
 Commands:
   init [dir]                       Install VJS into a repo (vendor CASE-LAW/VPR/CDD, scaffold .justice/, inject plugin block into CLAUDE.md)
-  next-citation <tier> [--year Y]  Deterministic next neutral citation from the citator (.justice/INDEX.md). tier = first-instance|court-of-appeal|supreme-court. --json for full object.
+  next-citation <tier> [--year Y]  Deterministic next neutral citation from the citator (.justice/INDEX.md). tier = privy-council|court-of-appeal|supreme-court|high-court|county-court|si. --json for full object.
   check-citator                    Deterministic citator audit (the hard gate): fails closed on citation collisions and on ruling-file/citator-row mismatches. Exit 1 on any problem.
   lodge-judgment [--check-only]    Render-and-lodge a judgment ([2026] REALM-SI 2): render PDFs (idempotent, fail-open), rebuild the corpus/index/ledger projections in lockstep (fail-open), and verify the citation layer (fail-closed). --no-render to skip the PDF.
   submit-request "<question>"      Print the Workflow invocation to file a Request for Ruling
