@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Realm Law Reports &amp; Gazette</title>
 <style>
-  :root { --cream:#fcf7f1; --ink:#1a2744; --rule:#c8d0dc; --muted:#5b6472; }
+  :root { --cream:#fcf7f1; --paper:#fffdfa; --ink:#1a2744; --rule:#c8d0dc; --muted:#5b6472; --accent:#8b0000; }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--cream); color:#15202b;
     font-family:'Iowan Old Style','Palatino Linotype','Times New Roman',serif; line-height:1.5; }
-  header { text-align:center; padding:2.2rem 1rem 1rem; border-bottom:2px solid var(--ink); }
+  header { text-align:center; padding:2rem 1rem 1rem; border-bottom:2px solid var(--ink); }
+  .logo { display:block; width:min(170px, 42vw); height:auto; margin:0 auto .6rem; }
   header h1 { margin:.2rem 0; font-size:1.9rem; letter-spacing:.04em; color:var(--ink); }
   header .sub { color:var(--muted); font-style:italic; font-size:.95rem; }
   .wrap { max-width:980px; margin:0 auto; padding:1.2rem 1rem 4rem; }
@@ -20,33 +21,42 @@
     background:transparent; color:var(--ink); font:inherit; font-size:.85rem; }
   .tab.active { background:var(--ink); color:var(--cream); }
   .meta { color:var(--muted); font-size:.85rem; margin:.3rem 0 1rem; }
-  .start { border:1px solid var(--rule); border-left:4px solid var(--ink); border-radius:6px;
-    background:#fffdfa; padding:1rem; margin:0 0 1rem; }
-  .start h2 { margin:0 0 .35rem; color:var(--ink); font-size:1.15rem; }
-  .start p { margin:.25rem 0 .7rem; color:#33404f; }
-  .start ol { margin:.4rem 0 .2rem; padding-left:1.35rem; }
+  .start { border:1px solid var(--rule); border-radius:6px; background:var(--paper); padding:.85rem 1rem;
+    margin:0 0 1rem; }
+  .start h2 { margin:0; color:var(--ink); font-size:1.05rem; }
+  .start p { margin:.2rem 0 .55rem; color:#33404f; }
+  .quick { display:flex; flex-wrap:wrap; gap:.45rem; margin:.45rem 0; }
+  .quick a { border:1px solid var(--rule); border-radius:4px; padding:.28rem .55rem; color:var(--ink);
+    text-decoration:none; background:#fff; font-size:.86rem; }
+  .quick a:hover { border-color:var(--ink); }
+  .start details { margin:.35rem 0 0; }
+  .start summary { font-size:.83rem; }
+  .start ol { margin:.45rem 0 .2rem; padding-left:1.35rem; }
   .start li { margin:.35rem 0; }
   .start a { color:var(--ink); }
   .card { border:1px solid var(--rule); border-left:4px solid var(--ink); border-radius:6px;
-    padding:.8rem 1rem; margin:.7rem 0; background:#fffdfa; }
+    padding:.8rem 1rem; margin:.7rem 0; background:var(--paper); transition:border-color .12s ease, transform .12s ease; }
+  .card.clickable { cursor:pointer; }
+  .card.clickable:hover { border-color:var(--ink); transform:translateY(-1px); }
+  .card.clickable:focus { outline:2px solid var(--ink); outline-offset:2px; }
   .card .cite { font-weight:bold; color:var(--ink); font-size:1.05rem; }
   .card .court { color:var(--muted); font-size:.85rem; }
   .card .ratio { margin:.4rem 0; }
   .badge { display:inline-block; font-size:.7rem; text-transform:uppercase; letter-spacing:.06em;
     padding:.05rem .45rem; border:1px solid var(--muted); border-radius:4px; margin-left:.4rem; }
   .badge.good-law { color:#1a3a1a; border-color:#1a3a1a; }
-  .badge.void,.badge.per-incuriam,.badge.superseded { color:#8b0000; border-color:#8b0000; }
+  .badge.void,.badge.per-incuriam,.badge.superseded { color:var(--accent); border-color:var(--accent); }
   .card a { color:var(--ink); margin-right:1rem; font-size:.85rem; }
   .stage { font-size:.78rem; color:var(--muted); }
   .pipe { margin:.45rem 0; font-size:.72rem; }
   .pstep { color:var(--muted); }
   .pstep.on { color:var(--ink); font-weight:bold; }
-  .pstep.dl { color:#8b0000; font-style:italic; font-weight:normal; }
+  .pstep.dl { color:var(--accent); font-style:italic; font-weight:normal; }
   .parrow { color:var(--rule); margin:0 .25rem; }
   details { margin:.5rem 0; }
   summary { cursor:pointer; color:var(--ink); font-size:.82rem; }
   .vote,.sov,.cnote { font-size:.82rem; margin:.4rem 0; color:#33404f; }
-  .sov { border-left:3px solid #8b0000; padding-left:.6rem; }
+  .sov { border-left:3px solid var(--accent); padding-left:.6rem; }
   .cnote { color:var(--muted); }
   footer { border-top:1px solid var(--rule); margin-top:2rem; padding:1.2rem 1rem; text-align:center;
     color:var(--muted); font-size:.8rem; font-style:italic; }
@@ -54,8 +64,9 @@
 </head>
 <body>
 <header>
+  <img class="logo" src="../../../assets/vibe-justice-system-logo.png" alt="Vibe Justice System">
   <h1>The Realm Law Reports &amp; Gazette</h1>
-  <div class="sub">Case law &amp; legislation of Agent Universe &middot; one searchable record</div>
+  <div class="sub">Case law &amp; legislation of VJS &middot; newest first</div>
 </header>
 <div class="wrap">
   <section class="start" id="start"></section>
