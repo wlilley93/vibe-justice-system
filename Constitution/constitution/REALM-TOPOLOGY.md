@@ -52,7 +52,7 @@ Houses the operational ministries and executive departments.
 Supreme Court            apex; foundational/constitutional; the ONLY enactor of CASE-LAW   ── Ministry of Justice
 Court of Appeal          apex; single & central; hears from every department (cross-cutting) ┘
       ▲ appeal (leave)
-Privy Council (PC)       constitutional first instance (one per division); refers constitutional questions up
+Privy Council (PC)       the realm's CENTRAL constitutional / governance first instance (ONE court, MoJ / realm level; REALM-PC 15); climbs by progression
       ▲ refer up (transfer)
 High Court Division      DEPARTMENT level; sets the department's jurisdiction-local rule-set
    ├ Legal Division (≈ Chancery)  → Lists: corporate, companies, property, trusts-probate, insolvency, ip
@@ -80,6 +80,6 @@ County Court at <repo>   REPO level; a project's own matters; refers weightier /
   - **[YEAR] REALM-FI n**: First Instance (single judge, jurisdiction-local hearing-centre).
   - **[YEAR] REALM-CA n**: Court of Appeal (panel of 3, central apex).
   - **[YEAR] REALM-SC n**: Supreme Court (panel of 5 or 9, central apex, sole enactor of CASE-LAW).
-  - **[YEAR] REALM-PC n**: Privy Council (one per division, constitutional first instance).
+  - **[YEAR] REALM-PC n**: Privy Council (the realm's CENTRAL constitutional / governance first instance, one court at the MoJ / realm level, distinct from the distributed County Courts; [2026] REALM-PC 15).
 
-Full judgment example: `Judicature/ministry-of-justice/.justice/judgments/supreme-court/2026-realm-sc-2.md`.
+Full judgment example: `Judicature/.justice/judgments/supreme-court/2026-realm-sc-2.md`.

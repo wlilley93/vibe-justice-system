@@ -11,7 +11,7 @@ Privy Council / High Court Division / County Court), and re-rendered as full-ble
 |---|---|---|---|
 | Supreme Court | realm apex; sole enactor | `[YEAR] REALM-SC n` | crest |
 | Court of Appeal | realm appellate | `[YEAR] REALM-CA n` | crest |
-| Privy Council | realm constitutional, first instance (leapfrogs CoA -> SC) | `[YEAR] REALM-PC n` | wordmark |
+| Privy Council | realm constitutional / governance, the CENTRAL first instance (one court, at the MoJ / realm level; climbs by ordinary progression, leapfrog only by the Principal's certificate per s. 20; [2026] REALM-PC 15) | `[YEAR] REALM-PC n` | wordmark |
 | High Court | by Division | `[YEAR] <DIVISION> n` (ENG, CHAN) | crest + Division/List |
 | County Court | by repo | `[YEAR] CC-<REPO> n` | wordmark |
 
