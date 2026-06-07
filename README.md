@@ -47,6 +47,7 @@ ministries).
 
 | To find... | Go to |
 |---|---|
+| Why VJS exists (the pitch / onboarding) | [`Constitution/docs/ABOUT-VJS.md`](Constitution/docs/ABOUT-VJS.md) |
 | The founding law | [`Constitution/CASE-LAW.md`](Constitution/CASE-LAW.md) |
 | Procedure | [`Constitution/VPR.md`](Constitution/VPR.md) |
 | The Acts (statute book) | [`Legislature/statutes/README.md`](Legislature/statutes/README.md) |
