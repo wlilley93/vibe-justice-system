@@ -15,7 +15,7 @@ appeal_from: "[2026] REALM-PC 5"
 **Appeal from: [2026] REALM-PC 5 (the inclusion / framework-seeding refusals)**
 **5 June 2026**
 
-> Reconstituted from the previous-system citation [2026] LEXBY-HARVEY-CA 1. Retained for the record only.
+> Reconstituted from the previous-system citation [2026] LEXBY-LEGACY-BENCHMARK-CA 1. Retained for the record only.
 
 ---
 

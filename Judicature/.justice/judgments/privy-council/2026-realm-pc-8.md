@@ -5,13 +5,13 @@ kind: request_for_ruling
 status: good-law
 per_incuriam: false
 date: 2026-06-05
-reconstituted_from: "lexby-harvey-fi-3-domain-courts"
+reconstituted_from: "lexby-legacy-benchmark-fi-3-domain-courts"
 panel: ["Goffe J"]
 ---
 
 # [2026] REALM-PC 8
 
-> Reconstituted into the provenance scheme from the previous-system source `lexby-harvey-fi-3-domain-courts.md`. Body text retained verbatim; the citation is the new neutral citation. Status: **good-law**.
+> Reconstituted into the provenance scheme from the previous-system source `lexby-legacy-benchmark-fi-3-domain-courts.md`. Body text retained verbatim; the citation is the new neutral citation. Status: **good-law**.
 
 ## Ratio
 VJS is one unitary court applying one SPEC-LAW with jurisdiction-local case law (s. 9): domains supply only the content of a matter and the form of its output, never a second sovereign, statute, or court - so the realm may run domain DIVISIONS over one procedural spine but may not fracture into domain COURTS; and the benchmark's legal-analysis deliberation is a product feature outside VJS governance (s. 14) that must be severed from the governance bench, pseudonyms, and citation series.
@@ -25,7 +25,7 @@ Correctives ordered (held pending the higher court):
 4. Confirm in the harness docs that the agents-final department pattern governs the product, and the judiciary is unitary.
 
 ## Judgment
-# [2026] LEXBY-HARVEY-FI 3 - Re Domain-Specific Courts vs One Spine
+# [2026] LEXBY-LEGACY-BENCHMARK-FI 3 - Re Domain-Specific Courts vs One Spine
 
 Tier: First Instance (Goffe J, sitting alone, s. 18). Decided: 2026-06-05.
 Status: ruling delivered; certified for an appeal panel (needs_appeal_panel: true) - the entrenchment question touches the constitutional s. 9 and s. 14 and only the Supreme Court can enact a constitutional re-constitution (s. 9). Pending the Principal's leapfrog certificate (VPR 4) or ordinary progression. Correctives below are ordered but held pending the higher court.

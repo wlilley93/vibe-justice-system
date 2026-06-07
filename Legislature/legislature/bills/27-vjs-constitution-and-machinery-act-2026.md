@@ -139,10 +139,10 @@ In this Act:
 
 (2) The current .gitignore lists (non-exhaustively):
    - /ministry-of-business-engineering-and-skills/engineering-department/projects/
-   - /ministry-of-business-engineering-and-skills/legal-department/harvey-labs/
+   - /ministry-of-business-engineering-and-skills/legal-department/legacy-benchmark/
    - /ministry-of-business-engineering-and-skills/legal-department/references/
-   - /ministry-of-business-engineering-and-skills/skills-and-education/scratch-to-signals/
-   - /ministry-of-business-engineering-and-skills/business-operations/Clara/
+   - /ministry-of-business-engineering-and-skills/skills-and-education/teaching-repo/
+   - /ministry-of-business-engineering-and-skills/business-operations/private-client-estate/
    - /national-archives/
    - **/node_modules/
    - **/.env

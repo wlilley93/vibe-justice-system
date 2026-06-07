@@ -5,13 +5,13 @@ kind: request_for_ruling
 status: good-law
 per_incuriam: false
 date: 2026-06-05
-reconstituted_from: "lexby-harvey-fi-4-practitioner-treatise"
+reconstituted_from: "lexby-legacy-benchmark-fi-4-practitioner-treatise"
 panel: ["Coade J"]
 ---
 
 # [2026] REALM-PC 9
 
-> Reconstituted into the provenance scheme from the previous-system source `lexby-harvey-fi-4-practitioner-treatise.md`. Body text retained verbatim; the citation is the new neutral citation. Status: **good-law**.
+> Reconstituted into the provenance scheme from the previous-system source `lexby-legacy-benchmark-fi-4-practitioner-treatise.md`. Body text retained verbatim; the citation is the new neutral citation. Status: **good-law**.
 
 ## Ratio
 A practitioner treatise is permitted as a PRODUCT artifact, not governance: it is the Legal Department's synthesised-doctrine (reference) layer above the atomic skills, organised as chapters per capability within one department (sub-departments barred by the SPEC-LAW-3 split test), living in the agents-final legal reference tier and never in the LEXBY series or the VPR/SPEC-LAW, and it must be built provenance-clean on the HOW alone (SC-3 / FI-1 / FI-2), never ingesting or encoding the rubric or any per-issue WHAT, so it can never become an answer-key vehicle for a scored task.
@@ -19,7 +19,7 @@ A practitioner treatise is permitted as a PRODUCT artifact, not governance: it i
 Governing law applied: s. 21, s. 14, s. 9, SC-3 / FI-1 / FI-2, consolidation-over-fragmentation, SPEC-LAW-3.
 
 ## Judgment
-# [2026] LEXBY-HARVEY-FI 4 - Re the Practitioner Treatise (capturing learnings)
+# [2026] LEXBY-LEGACY-BENCHMARK-FI 4 - Re the Practitioner Treatise (capturing learnings)
 
 Tier: First Instance (Coade J, sitting alone, s. 18). Decided: 2026-06-05. Disposition: permitted; no appeal needed.
 Question (Principal): how should the Legal Department capture/synthesise its learnings - may it build a Sweet & Maxwell / Restatement-style practitioner textbook, and how should it be structured?

@@ -98,7 +98,7 @@ It does **not** decide where the authoritative status record lives; that questio
 
 (2) The amendment changes only the **non-operative label** (the form of the citation). It does **not** vary the unitary-citator and single-apex substance that the form gives effect to under the entrenched ss. 9, 10 and the declaratory s. 22(2); that substance is preserved unchanged (section 3(3)).
 
-(3) **Savings for legacy citations.** Every citation in the former `[YEAR] LEXBY...` and `[YEAR] HARVEY...` forms **remains a valid handle** to the instrument it denoted and is **not invalidated** by this Act. The authoritative old-to-new map is the Schedule (section 24); a legacy citation resolves through that map to its provenance successor, and no existing cross-reference in the corpus is broken by commencement.
+(3) **Savings for legacy citations.** Every citation in the former `[YEAR] LEXBY...` and `[YEAR] LEGACY-BENCHMARK...` forms **remains a valid handle** to the instrument it denoted and is **not invalidated** by this Act. The authoritative old-to-new map is the Schedule (section 24); a legacy citation resolves through that map to its provenance successor, and no existing cross-reference in the corpus is broken by commencement.
 
 ## The single citator (no fork)
 
@@ -254,7 +254,7 @@ It does **not** decide where the authoritative status record lives; that questio
 
 # SCHEDULE - TRANSITION MAP (legacy citation -> provenance successor)
 
-*Enacted under section 9(3). Every legacy LEXBY / HARVEY citation has one authoritative successor; no ruling is orphaned. The map is `docs/CITATION-MAP.md` as it stands at commencement; corrections to the flagged harvey entries are made by amendment of this Schedule or by the maintenance route in the Interpretation Act 2026.*
+*Enacted under section 9(3). Every legacy LEXBY / LEGACY-BENCHMARK citation has one authoritative successor; no ruling is orphaned. The map is `docs/CITATION-MAP.md` as it stands at commencement; corrections to the flagged legacy-benchmark entries are made by amendment of this Schedule or by the maintenance route in the Interpretation Act 2026.*
 
 **Realm (`.justice/`):**
 
@@ -271,7 +271,7 @@ It does **not** decide where the authoritative status record lives; that questio
 
 **County Court at acmeco (flat CC-ACMECO series):** [2026] LEXBY-FI 1..8 -> [2026] CC-ACMECO 1..8; [2026] LEXBY-CA 1 -> CC-ACMECO 9; [2026] LEXBY-CA 2 -> CC-ACMECO 10; [2026] LEXBY-SC 2 -> CC-ACMECO 11.
 
-**Harvey-labs (decisive calls; flagged source aliasing / void / superseded entries carried forward, open to correction):** HARVEY-SC 3 -> [2026] REALM-SC 4 (good-law); HARVEY-SC 1 / -SC-DC 1 -> REALM-SC 5 (good-law); HARVEY-SC 2 -> REALM-SC 6 (good-law); HARVEY-CA 1 -> REALM-CA 2 (**void ab initio**); HARVEY-INC 1 -> REALM-PC 5 (**superseded**); HARVEY-FI 1..4 -> REALM-PC 6..9 (good-law).
+**Legacy benchmark-labs (decisive calls; flagged source aliasing / void / superseded entries carried forward, open to correction):** LEGACY-BENCHMARK-SC 3 -> [2026] REALM-SC 4 (good-law); LEGACY-BENCHMARK-SC 1 / -SC-DC 1 -> REALM-SC 5 (good-law); LEGACY-BENCHMARK-SC 2 -> REALM-SC 6 (good-law); LEGACY-BENCHMARK-CA 1 -> REALM-CA 2 (**void ab initio**); LEGACY-BENCHMARK-INC 1 -> REALM-PC 5 (**superseded**); LEGACY-BENCHMARK-FI 1..4 -> REALM-PC 6..9 (good-law).
 
 ---
 

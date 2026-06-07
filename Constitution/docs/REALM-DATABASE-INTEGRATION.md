@@ -148,7 +148,7 @@ anchored to one `event`. The citator projection updates automatically.
 ## 5. Ingestion (what to load first)
 
 1. Mint a `global_identifier` for every existing citation under the new scheme (the `docs/CITATION-MAP.md` set:
-   realm REALM-*, acmeco CC-ACMECO-*, harvey).
+   realm REALM-*, acmeco CC-ACMECO-*, legacy-benchmark).
 2. Insert one `instrument` per ruling and per Act; load each text as a `document_version`.
 3. Backfill `instrument_status` from the current ledger (good-law / void / superseded) and `law_relation` from the
    "cites / confirms / enacts / overrules" columns already in the citators.

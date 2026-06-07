@@ -61,7 +61,7 @@ citation scheme by the Neutral Citations Act).
 | s. 21 | [2026] REALM-SC 5 (divisions over one spine) | `CASE-LAW.md` s. 21 | Judicature Act 2026 |
 | s. 22 | [2026] REALM-SC 6 (court geography) | `CASE-LAW.md` s. 22 | Judicature Act 2026 |
 
-(REALM-SC 4-6 are the reconstituted harvey-labs supreme rulings; see `docs/CITATION-MAP.md`.)
+(REALM-SC 4-6 are the reconstituted legacy-benchmark supreme rulings; see `docs/CITATION-MAP.md`.)
 
 **UP:** the realm - [`../README.md`](../README.md). **Case law:** [`../CASE-LAW.md`](../CASE-LAW.md).
 **Legislature:** [`../legislature/`](../legislature/). **Order Paper:** [`../legislature/bills/ORDER-PAPER.md`](../legislature/bills/ORDER-PAPER.md).

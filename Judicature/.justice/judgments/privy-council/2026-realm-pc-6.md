@@ -5,12 +5,12 @@ kind: request_for_ruling
 status: good-law
 per_incuriam: false
 date: 2026-06-05
-reconstituted_from: "lexby-harvey-fi-1-harvesting"
+reconstituted_from: "lexby-legacy-benchmark-fi-1-harvesting"
 ---
 
 # [2026] REALM-PC 6
 
-> Reconstituted into the provenance scheme from the previous-system source `lexby-harvey-fi-1-harvesting.md`. Body text retained verbatim; the citation is the new neutral citation. Status: **good-law**.
+> Reconstituted into the provenance scheme from the previous-system source `lexby-legacy-benchmark-fi-1-harvesting.md`. Body text retained verbatim; the citation is the new neutral citation. Status: **good-law**.
 
 ## Ratio
 Findings from a scored run may be harvested to enhance the harness only as generic, fact-free, provenance-clean method (the HOW), anonymised per VPR 8; the matter's specific findings (the WHAT / answer key) may never be fed forward, an enhancement that exists only because the task's answers were seen is prohibited as the answer key in disguise, and the harvested task is never re-scored.
@@ -18,7 +18,7 @@ Findings from a scored run may be harvested to enhance the harness only as gener
 Binding authority applied: [2026] LEXBY-SC 3. This entry records the fast-path application; it adds no new law.
 
 ## Judgment
-# [2026] LEXBY-HARVEY-FI 1 - Re Harvesting Findings to Enhance the Harness
+# [2026] LEXBY-LEGACY-BENCHMARK-FI 1 - Re Harvesting Findings to Enhance the Harness
 
 Tier: First Instance. Disposition: disposed on the precedent fast-path (VPR 2 / s. 11(c)) - the point is governed by binding ratio [2026] LEXBY-SC 3; no bench convened, no re-argument.
 Decided: 2026-06-05. Question (Principal): "We should harvest all findings from this run and enhance the harness without facts - is that allowed?"

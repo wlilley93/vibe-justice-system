@@ -13,7 +13,7 @@ REALM = pathlib.Path(__file__).resolve().parents[2]            # repo root
 LEDGER = REALM / "ministry-of-justice" / "ledger" / "INDEX.md"
 
 # Neutral-citation forms (provenance scheme): [YEAR] REALM-SC/PC/CA n, [YEAR] <DIVISION> n
-# (ENG/CHAN), [YEAR] CC-<repo> n. The realm/harvey/acmeco reconstitution is complete, so the
+# (ENG/CHAN), [YEAR] CC-<repo> n. The realm/legacy-benchmark/acmeco reconstitution is complete, so the
 # retired LEXBY-* series is no longer counted as live rulings (it survives only as provenance
 # notes inside reconstituted files; counting it would phantom-double rulings).
 CITE = re.compile(

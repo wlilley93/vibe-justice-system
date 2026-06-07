@@ -6,7 +6,7 @@ Running capture of every decision and direction. Append-only. The README and cod
 The **Vibe Justice System (VJS)** exists to make **bounded, rule-based decisions on ANYTHING**: any decision that
 should be principled, recorded, and binding. **Lexby** is your lawyer inside it. **Coding is just the first
 application**, not the definition. The README leads with this general value and uses coding as the flagship example
-(with the scratch-to-signals textbook, a non-code project with real rulings on disk, as living proof of "beyond
+(with the teaching-repo textbook, a non-code project with real rulings on disk, as living proof of "beyond
 code"). The community element is a headline, not a footnote: shareable ruling cards, a landmark-cases gallery,
 bring-your-own-bench rosters, and statute packs.
 
@@ -215,7 +215,7 @@ court declares it and refers it up for amendment; it never strikes the sovereign
 **Tiers as runnable workflows.** `court.md` / `appeals.md` / `supreme.md` invoked via Task with a STRICT
 structured emit (verdict, per-judge vote + one-liner, holding, ratio, citations) that Lexby PARSES, never
 re-summarises. Cost-tier: Court on a fast/cheap model + short budgets; Appeals/Supreme escalate to the strong
-model; record the model id per ruling. Port `scratch-to-signals` court.js/appeals.js as the start.
+model; record the model id per ruling. Port `teaching-repo` court.js/appeals.js as the start.
 
 **The shareable RULING CARD.** Every case auto-renders a boxed terminal-art verdict (citation, panel, VOTE 7-2,
 one-line memetic HOLDING, Lexby's TL;DR) to CLI + saved PNG/SVG in `.justice/cards/`. People share artefacts, not
@@ -245,7 +245,7 @@ screenshot-grade verdict, never an empty dir. Ship `lexby uninstall` clean rever
    advocacy/adjudication separation here). Includes the breach self-submission door.
 6. Ship the ruling CARD renderer.
 7. Build `npx lexby init` (scaffold + infer starter statute + enumerable CLAUDE.md trigger + live demo case).
-8. Rename + repoint `scratch-to-signals` to canonical vocab (lexly/ -> caselaw vocab, LDD -> CDD, court/ ->
+8. Rename + repoint `teaching-repo` to canonical vocab (lexly/ -> caselaw vocab, LDD -> CDD, court/ ->
    .justice/judgments/, keep "Court" as the first-instance TIER) as the flagship beyond-code proof; link its live
    .justice/judgments/ from the README.
 9. Write the README in strict order (hook + install one-liner + ONE card screenshot above the fold; "Things you
@@ -400,4 +400,4 @@ convention, not a code change.
 - **Extensibility name** ("Lexby chambers" for practice areas): reserve + sketch now, or footnote until launch?
 - Decide final styling of the names if any read too close to a real justice.
 - Confirm odd panel size drawn from the 10 (3 vs 5).
-- The scratch-to-signals textbook becomes the first real consumer/example of Lexby.
+- The teaching-repo textbook becomes the first real consumer/example of Lexby.

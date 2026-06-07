@@ -66,7 +66,7 @@
 **7. Single central apex; the apex belongs to the realm, not the ministry.** *(Codifying s. 9 and s. 22(2).)*
 (1) The Court of Appeal and the Supreme Court are **single and central**, the sole organs of appeal and the sole enactors of realm-wide statute. Their singleness and centrality **may never be relaxed** (s. 22(2)). The power to enact realm-wide statute is **non-delegable** from the single Supreme Court.
 (2) No Division, List, County Court, ministry, department, super-repo, or executive officer is a court of separate sovereignty, owns a statute book or apex, or mints a parallel citation series; no per-department or per-repo appellate court or apex is permitted (s. 9, s. 22(2)).
-(3) The Court of Appeal and the Supreme Court sit at the level of the Ministry of Justice but are **organs of the realm, not of that ministry**. No ministry, department, super-repo, or executive officer may instruct, constitute, re-size, fund-gate, or stay them; and the Ministry of Justice may never become the instrument by which the executive or the Founder edits the law the courts are to be judged against (*harvey-SC-2* separation-of-powers dicta).
+(3) The Court of Appeal and the Supreme Court sit at the level of the Ministry of Justice but are **organs of the realm, not of that ministry**. No ministry, department, super-repo, or executive officer may instruct, constitute, re-size, fund-gate, or stay them; and the Ministry of Justice may never become the instrument by which the executive or the Founder edits the law the courts are to be judged against (*legacy-benchmark-SC-2* separation-of-powers dicta).
 
 **8. Judicial independence (interim footing pending Bill 11).**
 (1) The independence of every court and judge from the executive (the office of Prime Minister) and from the Sovereign's executive office is secured. The Sovereign's legislative office (Parliament) is expressly distinct: the Sovereign may make or unmake law by express, deliberate due process (s. 2), but the assenting and executive offices may not, by any act, instruct, stay, pack, or reconstitute the judiciary into which the Sovereign assents.
@@ -191,7 +191,7 @@ It must not be read to legislate any of those matters in full or to create a sec
 | 3, 25 | s. 1 (supremacy) | faithful | case-law version continues; statute supreme |
 | 5 | s. 9, s. 11(d), s. 14, s. 19, s. 21, s. 22 (definitions) | faithful | definitions fixed once; no variation |
 | 6, 7 | s. 9, s. 22(2) (one judiciary; single central apex) | faithful | s. 9/s. 22(2) re-enacted; cease independent effect to that extent |
-| 8 | s. 2, s. 18(1)/(5), s. 19(3)/(4), s. 22(2); *harvey-SC-2* | interim guarantee | hooks to Bill 11; does not foreclose |
+| 8 | s. 2, s. 18(1)/(5), s. 19(3)/(4), s. 22(2); *legacy-benchmark-SC-2* | interim guarantee | hooks to Bill 11; does not foreclose |
 | 9, 10, 11, 12 | s. 10, s. 18, s. 22(1)/(2) (tiers, benches, distributed first instance) | faithful codification | corresponding case-law text ceases **independent** effect; substance unchanged; entrenchment untouched |
 | 13 | s. 13, s. 20, s. 21, s. 22 (Privy Council as first-instance hearing-centre) | saving construction | **no auto-leapfrog**; escalation by leave or s. 20 certificate only |
 | 14 | s. 21, s. 22(4) (Divisions/Lists, non-operative) | faithful | single home of Division/List definition; codes to Bill 16 |

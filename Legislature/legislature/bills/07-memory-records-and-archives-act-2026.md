@@ -131,7 +131,7 @@ A clause of this Act that would re-legislate a matter in this section is void to
 
 (2) The presumption is **displaced only** by a shown break in the deterministic integrity chain (s. 5(8)), not by mere assertion. A record whose integrity chain is broken is flagged unsafe and may not found a breach finding (s. 4 to s. 8), a per incuriam holding (s. 11(e)), or an amendment finding until the break is cured.
 
-(3) This Part dovetails with the existing intake and admissibility line (the symmetric researched case file, s. 19(1); the sealed-rooms doctrine of [2026] LEXBY-HARVEY-FI 2) and mints **no** parallel evidence regime. A derived-index result is a pointer to be verified against the committed markdown, never authority (s. 10; FI 4).
+(3) This Part dovetails with the existing intake and admissibility line (the symmetric researched case file, s. 19(1); the sealed-rooms doctrine of [2026] LEXBY-LEGACY-BENCHMARK-FI 2) and mints **no** parallel evidence regime. A derived-index result is a pointer to be verified against the committed markdown, never authority (s. 10; FI 4).
 
 ---
 

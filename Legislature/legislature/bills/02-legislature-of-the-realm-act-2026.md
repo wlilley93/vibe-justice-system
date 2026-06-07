@@ -281,7 +281,7 @@ When the pipeline of Part 4 is run by automation, it **fails closed** on any mal
 
 (1) The rename of `parliament/` to `legislature/` must be completed, and every UP/DOWN signpost link repaired, so an agent navigating the realm does not hit a broken reference.
 
-(2) Until the enabling amendment recited in section 3(3) lands, the realm's documents that assert the inverted hierarchy as if in force (`README.md`, `legislature/README.md`, `statutes/_signpost.md`, and the consolidated book's transitional note) are to be read as **intended/aspirational** drafting, not as enacted law, so the realm's own files do not state void-by-implication law.
+(2) Until the enabling amendment recited in section 3(3) lands, the realm's documents that assert the inverted hierarchy as if in force (`README.md`, `legislature/README.md`, public statute navigation, and the consolidated book's transitional note) are to be read as **intended/aspirational** drafting, not as enacted law, so the realm's own files do not state void-by-implication law.
 
 ### 29. Savings for downstream rights and review routes
 

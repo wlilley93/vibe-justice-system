@@ -5,13 +5,13 @@ kind: request_for_ruling
 status: per-incuriam
 per_incuriam: false
 date: 2026-06-05
-reconstituted_from: "lexby-harvey-inc-1-inclusion-court"
+reconstituted_from: "lexby-legacy-benchmark-inc-1-inclusion-court"
 panel: ["Goffe J", "Sumberly J", "Bowan J", "Aldermere J"]
 ---
 
 # [2026] REALM-PC 5
 
-> Reconstituted into the provenance scheme from the previous-system source `lexby-harvey-inc-1-inclusion-court.md`. Body text retained verbatim; the citation is the new neutral citation. Status: **per-incuriam**.
+> Reconstituted into the provenance scheme from the previous-system source `lexby-legacy-benchmark-inc-1-inclusion-court.md`. Body text retained verbatim; the citation is the new neutral citation. Status: **per-incuriam**.
 
 ## Ratio
 A1: Included to the skills catalogue only; the this-project leg is refused on the framework-seeding ground - the benchmark must test whether the analyst generates its own review framework rather than reward a pre-seeded lens (a thumb on the scale even when it leaks no answers).
@@ -31,14 +31,14 @@ FORK-DOCX: Adopt pandoc+openpyxl; reject Acmeco docrender as a benchmark depende
 Standing rule synthesised from these holdings (binds the scored run): Only generic professional methodology reaches a scored-agent prompt: HOW to review and substantiate (A9 sweep, A4/A11 citation, A7 severity), never WHAT to conclude. No rubric-derived specifics - no enumerated review lenses tuned to the planted issues, no fixed finding/category/row COUNTS, no human-curated column set mirroring the rubric, no party names/figures/criteria. The agent must derive its own framework, categories, and counts. Deliverables are built with pandoc + openpyxl; Acmeco engines never appear as agent tools.
 
 ## Judgment
-STATUS: SUPERSEDED. The "framework-seeding" refusals below were appealed. The Court of Appeal ([2026] LEXBY-HARVEY-CA 1) varied them but was itself improperly constituted (a bench of four). The Supreme Court of nine ([2026] LEXBY-SC 3) set CA 1 aside as void ab initio, re-determined the substance afresh, and held the framework-seeding doctrine an unmoored extension (s. 17) and no part of the law. The binding standard is now SC 3: generic answer-key-free methodology (A1 + the enumerated lenses) is admissible to the scored prompt; only rubric-fixed counts / category-sets / column-sets are prohibited; uniform application + disclosure required. This panel was also itself defective (one judge permitted at first instance; this matter sat a per-candidate panel). Retained for the record; do not rely on its refusals.
+STATUS: SUPERSEDED. The "framework-seeding" refusals below were appealed. The Court of Appeal ([2026] LEXBY-LEGACY-BENCHMARK-CA 1) varied them but was itself improperly constituted (a bench of four). The Supreme Court of nine ([2026] LEXBY-SC 3) set CA 1 aside as void ab initio, re-determined the substance afresh, and held the framework-seeding doctrine an unmoored extension (s. 17) and no part of the law. The binding standard is now SC 3: generic answer-key-free methodology (A1 + the enumerated lenses) is admissible to the scored prompt; only rubric-fixed counts / category-sets / column-sets are prohibited; uniform application + disclosure required. This panel was also itself defective (one judge permitted at first instance; this matter sat a per-candidate panel). Retained for the record; do not rely on its refusals.
 
-[2026] LEXBY-HARVEY-INC 1 - Re Inclusion of Harvested Assets
+[2026] LEXBY-LEGACY-BENCHMARK-INC 1 - Re Inclusion of Harvested Assets
 
-Matter: Which harvested assets (from willchen96/mike, agents-final/legal, and Acmeco) to adopt for the Harvey LAB red-flag benchmark, and where each belongs.
+Matter: Which harvested assets (from private-reference, private-legal-catalogue, and Acmeco) to adopt for the legacy benchmark red-flag benchmark, and where each belongs.
 Court: VJS inclusion court (requirement-inclusion gate) - per-candidate panel (Goffe J, Sumberly J, Bowan J) + Aldermere J synthesis.
 Decided: 2026-06-05
-Destinations: this-project (Harvey-LAB harness) / skills (agents-final legal catalogue) / VJS (governance) / Acmeco (substrate).
+Destinations: this-project (legacy benchmark harness) / skills (agents-final legal catalogue) / VJS (governance) / Acmeco (substrate).
 
 # Binding holdings
 

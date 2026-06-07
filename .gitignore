@@ -2,10 +2,9 @@
 # refactor). Each is its own git repo (or plain dir); the public VJS tracks only the governance
 # machinery + realm structure, never the departments' contents (Bill 27: system data only).
 /Executive/ministry-of-business-engineering-and-skills/engineering-department/projects/
-/Executive/ministry-of-business-engineering-and-skills/legal-department/harvey-labs/
-/Executive/ministry-of-business-engineering-and-skills/legal-department/references/
-/Executive/ministry-of-business-engineering-and-skills/skills-and-education/scratch-to-signals/
-/Executive/ministry-of-business-engineering-and-skills/business-operations/Clara/
+/Executive/ministry-of-business-engineering-and-skills/legal-department/*
+/Executive/ministry-of-business-engineering-and-skills/skills-and-education/*
+/Executive/ministry-of-business-engineering-and-skills/business-operations/*
 /Executive/national-archives/
 
 # Ministry of Data Security private operational estate registry - PRIVATE (the facts: the master

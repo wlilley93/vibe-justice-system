@@ -5,13 +5,13 @@ kind: request_for_ruling
 status: good-law
 per_incuriam: false
 date: 2026-06-05
-reconstituted_from: "lexby-harvey-sc-dc-1-divisions-over-one-spine"
+reconstituted_from: "lexby-legacy-benchmark-sc-dc-1-divisions-over-one-spine"
 panel: ["Hallam CJ", "Goffe J", "Blackmere J", "Sumberly J", "Elden J", "Coade J", "Steyne J", "Bowan J", "Aldermere J"]
 ---
 
 # [2026] REALM-SC 5
 
-> Reconstituted into the provenance scheme from the previous-system source `lexby-harvey-sc-dc-1-divisions-over-one-spine.md`. This is a condensed record; the full original judgment text is retained at the source. Enacts s. 21.
+> Reconstituted into the provenance scheme from the previous-system source `lexby-legacy-benchmark-sc-dc-1-divisions-over-one-spine.md`. This is a condensed record; the full original judgment text is retained at the source. Enacts s. 21.
 
 ## Matter
 Should the realm be re-organised into domain-specific courts, or remain one unitary court with domain divisions over one spine?

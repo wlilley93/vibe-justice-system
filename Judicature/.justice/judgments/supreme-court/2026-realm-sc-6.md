@@ -5,13 +5,13 @@ kind: request_for_ruling
 status: good-law
 per_incuriam: false
 date: 2026-06-05
-reconstituted_from: "lexby-harvey-sc-2-agent-universe-court-geography"
+reconstituted_from: "lexby-legacy-benchmark-sc-2-agent-universe-court-geography"
 panel: ["Hallam CJ", "Goffe J", "Blackmere J", "Sumberly J", "Elden J", "Coade J", "Steyne J", "Bowan J", "Aldermere J"]
 ---
 
 # [2026] REALM-SC 6
 
-> Reconstituted into the provenance scheme from the previous-system source `lexby-harvey-sc-2-agent-universe-court-geography.md`. This is a condensed record; the full original judgment text is retained at the source. Enacts s. 22.
+> Reconstituted into the provenance scheme from the previous-system source `lexby-legacy-benchmark-sc-2-agent-universe-court-geography.md`. This is a condensed record; the full original judgment text is retained at the source. Enacts s. 22.
 
 ## Matter
 May the realm be administered as a super-repo ('Agent Universe') over a Ministry of Justice and operational jurisdiction-repos, each repo carrying a local first-instance hearing-centre of the one judiciary?
