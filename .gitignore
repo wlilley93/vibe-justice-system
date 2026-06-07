@@ -13,6 +13,10 @@
 # (REALM-SI 1) states principles only; the facts never enter the public tree (Bill 27 s.14; Bill 22).
 /Executive/ministry-of-data-security/_private-estate/
 
+# Repos House private registers (operational facts of the registers; the public schema is committed at
+# repos-house/register-schemas.md). Principles-at-law / facts-in-the-private-store (Bill 27 s.5A(3); REALM-SI 6).
+/Executive/ministry-of-business-engineering-and-skills/repos-house/_private-registers/
+
 # Secrets and build artefacts - never commit
 **/node_modules/
 **/.env
