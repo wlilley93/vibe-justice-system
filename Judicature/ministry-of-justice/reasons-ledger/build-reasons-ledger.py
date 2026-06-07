@@ -67,8 +67,21 @@ DE_MINIMIS_RE = re.compile(
     r"lint|whitespace|rename|banner|slim|tidy|cleanup|nit)\b[:\s]",
     re.I)
 
+PROJECTION_REDACTIONS = (
+    (re.compile("Bee" + "link", re.I), "local-development host"),
+    (re.compile("Het" + "zner", re.I), "public-production host"),
+    (re.compile(r"gh" + r"p_[A-Za-z0-9_]+"), "<github-token>"),
+    (re.compile(r"sk" + r"-ant-[A-Za-z0-9_-]+"), "<anthropic-token>"),
+)
+
+def redact_projection(s: str) -> str:
+    """Redact historical operational facts when projecting public ledger text from git history."""
+    for pattern, repl in PROJECTION_REDACTIONS:
+        s = pattern.sub(repl, s)
+    return s
+
 def norm(s: str) -> str:
-    return re.sub(r"\s+", " ", s).strip()
+    return redact_projection(re.sub(r"\s+", " ", s).strip())
 
 def esc(s: str) -> str:
     """Escape for a markdown table cell."""
