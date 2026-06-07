@@ -1,0 +1,246 @@
+name: VJS Clerk - Constitutional Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: PR number to review
+        required: true
+        type: string
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  constitutional-review:
+    runs-on: self-hosted
+
+    steps:
+      - name: Resolve PR number
+        run: |
+          if [ -n "${{ github.event.pull_request.number }}" ]; then
+            echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> "$GITHUB_ENV"
+          else
+            echo "PR_NUMBER=${{ inputs.pr_number }}" >> "$GITHUB_ENV"
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read CASE-LAW.md
+        id: spec_law
+        run: |
+          SPEC_LAW=$(cat CASE-LAW.md)
+          {
+            echo 'SPEC_LAW<<EOF_SPEC'
+            echo "$SPEC_LAW"
+            echo 'EOF_SPEC'
+          } >> "$GITHUB_ENV"
+
+      - name: Fetch PR diff
+        id: pr_diff
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_DIFF=$(gh pr diff "$PR_NUMBER")
+          {
+            echo 'PR_DIFF<<EOF_DIFF'
+            echo "$PR_DIFF"
+            echo 'EOF_DIFF'
+          } >> "$GITHUB_ENV"
+
+      - name: Fetch PR metadata
+        id: pr_meta
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_META=$(gh pr view "$PR_NUMBER" --json title,body,headRefOid)
+          PR_TITLE=$(echo "$PR_META" | python3 -c "import json,sys; print(json.load(sys.stdin)['title'])")
+          PR_BODY=$(echo "$PR_META" | python3 -c "import json,sys; print(json.load(sys.stdin)['body'] or '')")
+          PR_SHA=$(echo "$PR_META" | python3 -c "import json,sys; print(json.load(sys.stdin)['headRefOid'])")
+          echo "PR_TITLE=$PR_TITLE" >> "$GITHUB_ENV"
+          echo "PR_SHA=$PR_SHA" >> "$GITHUB_ENV"
+          echo "PR_BODY<<EOF_BODY" >> "$GITHUB_ENV"
+          echo "$PR_BODY" >> "$GITHUB_ENV"
+          echo "EOF_BODY" >> "$GITHUB_ENV"
+
+      - name: Call Claude for constitutional review
+        id: claude_review
+        # ANTHROPIC_API_KEY, ANTHROPIC_BASE_URL and CLERK_MODEL are read from the runner
+        # environment. The self-hosted clerk-runner injects them via docker-compose/.env, so
+        # the clerk works with any Anthropic-compatible endpoint (e.g. GLM on z.ai's
+        # https://api.z.ai/api/anthropic) without needing a real Anthropic key or a repo secret.
+        # For a GitHub-hosted runner instead, map these here from repo secrets.
+        run: |
+          # Build the prompt JSON using a Python helper to handle quoting safely
+          python3 - <<'PYEOF'
+          import json, os
+
+          spec_law = os.environ.get("SPEC_LAW", "")
+          pr_diff  = os.environ.get("PR_DIFF", "")
+          pr_title = os.environ.get("PR_TITLE", "")
+          pr_body  = os.environ.get("PR_BODY", "")
+
+          system_prompt = (
+              "You are the VJS Clerk. Your role is to review pull requests against the "
+              "Vibe Justice System constitution (CASE-LAW.md). You must check compliance "
+              "with all constitutional statutes (S-1, S-2, S-3, S-9, S-10, S-13) and "
+              "ordinary statutes (S-4 through S-12). Be precise and strict. "
+              "Reply with exactly: CONSTITUTIONAL or UNCONSTITUTIONAL on the first line, "
+              "then one paragraph explaining why, citing specific statute numbers where relevant."
+          )
+
+          user_prompt = (
+              "## CASE-LAW.md (the VJS constitution)\n\n"
+              + spec_law
+              + "\n\n---\n\n"
+              "## Pull Request\n\n"
+              "**Title:** " + pr_title + "\n\n"
+              "**Description:**\n" + pr_body + "\n\n"
+              "**Diff:**\n```diff\n" + pr_diff + "\n```\n\n"
+              "---\n\n"
+              "Is this PR constitutional under CASE-LAW? "
+              "Reply with: CONSTITUTIONAL or UNCONSTITUTIONAL, "
+              "then one paragraph explaining why."
+          )
+
+          payload = {
+              "model": os.environ.get("CLERK_MODEL", "claude-sonnet-4-6"),
+              "max_tokens": 1024,
+              "system": system_prompt,
+              "messages": [
+                  {"role": "user", "content": user_prompt}
+              ]
+          }
+
+          with open("/tmp/claude_payload.json", "w") as f:
+              json.dump(payload, f)
+
+          print("Payload written to /tmp/claude_payload.json")
+          PYEOF
+
+          RESPONSE=$(curl -s \
+            --max-time 120 \
+            -X POST "${ANTHROPIC_BASE_URL:-https://api.anthropic.com}/v1/messages" \
+            -H "x-api-key: $ANTHROPIC_API_KEY" \
+            -H "anthropic-version: 2023-06-01" \
+            -H "content-type: application/json" \
+            -d @/tmp/claude_payload.json)
+
+          echo "Raw API response: $RESPONSE"
+
+          # Extract the text content from the response
+          VERDICT=$(echo "$RESPONSE" | python3 -c "
+          import sys, json
+          data = json.load(sys.stdin)
+          content = data.get('content', [])
+          for block in content:
+              if block.get('type') == 'text':
+                  print(block['text'])
+                  break
+          ")
+
+          # Write verdict to env and file for subsequent steps
+          {
+            echo 'CLERK_VERDICT<<EOF_VERDICT'
+            echo "$VERDICT"
+            echo 'EOF_VERDICT'
+          } >> "$GITHUB_ENV"
+
+          echo "$VERDICT" > /tmp/clerk_verdict.txt
+
+          # Determine pass/fail
+          FIRST_LINE=$(echo "$VERDICT" | head -1 | tr -d '[:space:]')
+          if echo "$FIRST_LINE" | grep -qi "^CONSTITUTIONAL$"; then
+            echo "REVIEW_RESULT=constitutional" >> "$GITHUB_ENV"
+          else
+            echo "REVIEW_RESULT=unconstitutional" >> "$GITHUB_ENV"
+          fi
+
+      - name: Post verdict comment on PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 - <<'PYEOF'
+          import os, subprocess
+
+          result = os.environ.get("REVIEW_RESULT", "")
+          verdict = os.environ.get("CLERK_VERDICT", "")
+          pr_sha = os.environ.get("PR_SHA", "")
+          pr_num = os.environ.get("PR_NUMBER", "")
+
+          if result == "constitutional":
+              badge = "**CONSTITUTIONAL**"
+              intro = ("The VJS Clerk has reviewed this pull request and found it "
+                       "**constitutional** under CASE-LAW. Auto-merge will proceed.")
+          else:
+              badge = "**UNCONSTITUTIONAL**"
+              intro = ("The VJS Clerk has reviewed this pull request and found it "
+                       "**unconstitutional** under CASE-LAW. "
+                       "Changes are required before this PR can be merged.")
+
+          body = "\n".join([
+              "## VJS Clerk - Constitutional Review",
+              "",
+              badge,
+              "",
+              intro,
+              "",
+              "### Clerk's Reasoning",
+              "",
+              verdict,
+              "",
+              "---",
+              f"*Automated review by the VJS Clerk using CASE-LAW.md at commit `{pr_sha}`.*",
+          ])
+
+          with open("/tmp/clerk_comment.txt", "w") as f:
+              f.write(body)
+
+          subprocess.run(
+              ["gh", "pr", "comment", pr_num, "--body-file", "/tmp/clerk_comment.txt"],
+              check=True,
+          )
+          PYEOF
+
+      - name: Auto-merge if constitutional
+        if: env.REVIEW_RESULT == 'constitutional'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge "$PR_NUMBER" --auto --squash \
+            --subject "$(gh pr view "$PR_NUMBER" --json title --jq '.title') [constitutional]"
+
+      - name: Request changes if unconstitutional
+        if: env.REVIEW_RESULT == 'unconstitutional'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 - <<'PYEOF'
+          import os, subprocess
+
+          verdict = os.environ.get("CLERK_VERDICT", "")
+          pr_num = os.environ.get("PR_NUMBER", "")
+
+          body = "\n".join([
+              "The VJS Clerk has determined this PR is unconstitutional under CASE-LAW.",
+              "",
+              verdict,
+              "",
+              "Please address the stated violations before requesting a re-review.",
+          ])
+
+          with open("/tmp/clerk_review.txt", "w") as f:
+              f.write(body)
+
+          subprocess.run(
+              ["gh", "pr", "review", pr_num,
+               "--request-changes", "--body-file", "/tmp/clerk_review.txt"],
+              check=True,
+          )
+          PYEOF

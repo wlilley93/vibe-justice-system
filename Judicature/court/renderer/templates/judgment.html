@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{citation}} - {{court_name}} of the Vibe Justice System (VJS)</title>
+<style>
+
+/* =========================================================================
+   VJS JUDGMENT - UK COURT STYLE
+   Modelled on official Supreme Court of the United Kingdom judgment layout.
+   A4, Times New Roman, formal, accurate.
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: #fcf7f1;
+}
+
+body {
+  /* The page has zero margins on all sides (set in index.js) so this cream body
+     runs edge to edge for a true full-bleed A4. The left/right text inset is this
+     padding (applies on every page); the top/bottom inset on every page is held
+     by the repeating thead/tfoot of .page-frame below. */
+  width: 100%;
+  padding: 0 2.5cm 0 3cm;
+  font-family: 'Times New Roman', 'Times', serif;
+  font-size: 12pt;
+  line-height: 1.6;
+  color: #111;
+  background: #fcf7f1;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* -------------------------------------------------------------------------
+   PAGE FRAME - a table whose thead/tfoot repeat on every printed page, so the
+   top and bottom text margins (and the footer wordmark) recur on each page
+   while the cream still bleeds to the sheet edge (zero page margins).
+   ------------------------------------------------------------------------- */
+
+table.page-frame {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table.page-frame > thead,
+table.page-frame > tfoot {
+  /* repeat on every page break */
+  display: table-header-group;
+}
+table.page-frame > tfoot {
+  display: table-footer-group;
+}
+
+td.frame-spacer-top { height: 2.2cm; }
+td.frame-spacer-bottom {
+  height: 1.8cm;
+  vertical-align: bottom;
+}
+
+.frame-foot {
+  font-size: 9pt;
+  font-style: italic;
+  color: #777;
+  padding-bottom: 0.7cm;
+}
+
+/* -------------------------------------------------------------------------
+   COVER PAGE - full-height first page
+   ------------------------------------------------------------------------- */
+
+.cover-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  page-break-after: always;
+  padding: 0 0 2cm 0;
+}
+
+/* Court logo / arms */
+.court-arms {
+  margin-top: 0.2cm;
+  margin-bottom: 0.35cm;
+  text-align: center;
+}
+
+.court-arms img {
+  height: 130px;
+  width: auto;
+  max-width: 520px;
+  display: block;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+/* Court name */
+.court-title {
+  text-align: center;
+  margin-bottom: 0.15cm;
+}
+
+.court-title h1 {
+  font-size: 13pt;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: 'Times New Roman', serif;
+}
+
+.court-title h2 {
+  font-size: 11pt;
+  font-weight: normal;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-family: 'Times New Roman', serif;
+}
+
+/* Typographic masthead for the crest-less courts (Privy Council, County Court).
+   A dignified engraved-style wordmark in the old-face IM Fell English, framed by
+   thin rules - clearly a court, clearly not one of the crested apex/High courts. */
+.court-wordmark {
+  text-align: center;
+  margin-top: 1.1cm;
+  margin-bottom: 0.55cm;
+}
+
+.court-wordmark .wordmark-rule {
+  width: 6.5cm;
+  margin: 0 auto;
+  border-top: 0.75px solid #1a2744;
+}
+
+.court-wordmark .wordmark-name {
+  font-family: 'IM Fell English', 'Times New Roman', serif;
+  font-size: 26pt;
+  font-weight: normal;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #1a2744;
+  margin: 0.32cm 0 0.18cm 0;
+  padding-left: 0.18em;  /* optical balance for the tracked caps */
+  line-height: 1.05;
+}
+
+.court-wordmark .wordmark-qualifier {
+  font-family: 'IM Fell English', 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 12.5pt;
+  color: #2a3a55;
+  margin-bottom: 0.3cm;
+  letter-spacing: 0.02em;
+}
+
+.court-wordmark .wordmark-sub {
+  font-size: 10.5pt;
+  font-weight: normal;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #444;
+  margin-top: 0.3cm;
+  font-family: 'Times New Roman', serif;
+}
+
+/* Citation block */
+.citation-block {
+  text-align: center;
+  margin: 0.3cm 0;
+}
+
+.citation-block .neutral-citation {
+  font-size: 11pt;
+  font-weight: bold;
+}
+
+.citation-block .cite-label {
+  font-size: 9pt;
+  color: #555;
+  font-style: italic;
+  margin-bottom: 0.1cm;
+}
+
+/* Heavy ruled line */
+hr.heavy {
+  border: none;
+  border-top: 2px solid #111;
+  width: 100%;
+  margin: 0.4cm 0;
+}
+
+/* Light ruled line */
+hr.light {
+  border: none;
+  border-top: 0.75px solid #111;
+  width: 100%;
+  margin: 0.35cm 0;
+}
+
+/* IN THE MATTER OF / kind label */
+.matter-section {
+  width: 100%;
+  margin: 0.4cm 0;
+}
+
+.matter-section .kind-label {
+  font-size: 9pt;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 0.1cm;
+  font-style: italic;
+}
+
+.matter-section .matter-body {
+  font-size: 11pt;
+  font-style: italic;
+  padding-left: 1cm;
+  border-left: 2px solid #ccc;
+  color: #222;
+  line-height: 1.5;
+}
+
+/* Before: section */
+.before-section {
+  width: 100%;
+  margin: 0.5cm 0 0.2cm 0;
+}
+
+.before-section .before-label {
+  font-size: 10pt;
+  font-weight: bold;
+  margin-bottom: 0.1cm;
+}
+
+.before-section .before-names {
+  font-size: 11pt;
+  padding-left: 1.5cm;
+  line-height: 1.8;
+}
+
+/* Date and ruling type row */
+.meta-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 10pt;
+  margin: 0.3cm 0 0 0;
+  color: #333;
+}
+
+.meta-row .date-section {}
+.meta-row .kind-badge {
+  font-style: italic;
+  color: #555;
+}
+
+/* "JUDGMENT" heading centred below the cover meta */
+.judgment-heading {
+  text-align: center;
+  margin: 0.6cm 0 0 0;
+  font-size: 14pt;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* -------------------------------------------------------------------------
+   JUDGMENT BODY
+   ------------------------------------------------------------------------- */
+
+.judgment-body {
+  padding-top: 0.2cm;
+}
+
+/* Numbered paragraphs - number in left margin, text indented */
+.judgment-body ol.paragraphs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.judgment-body ol.paragraphs li.para {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.55em;
+  page-break-inside: avoid;
+}
+
+.judgment-body ol.paragraphs li.para .para-num {
+  min-width: 1.5cm;
+  font-size: 10pt;
+  color: #444;
+  padding-top: 0.1em;
+  flex-shrink: 0;
+  font-style: normal;
+}
+
+.judgment-body ol.paragraphs li.para .para-text {
+  flex: 1;
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* Section heading paragraphs */
+.judgment-body ol.paragraphs li.section-heading {
+  margin: 0.8em 0 0.4em 0;
+  page-break-after: avoid;
+}
+
+.judgment-body ol.paragraphs li.section-heading .section-heading-text {
+  font-size: 11pt;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-left: 1.5cm;
+}
+
+/* -------------------------------------------------------------------------
+   RATIO SECTION - highlighted holding
+   ------------------------------------------------------------------------- */
+
+.ratio-section {
+  margin: 1cm 0 0.6cm 0;
+  border-top: 1.5px solid #111;
+  border-bottom: 1.5px solid #111;
+  padding: 0.5cm 0.8cm;
+  page-break-inside: avoid;
+}
+
+.ratio-section .ratio-label {
+  font-size: 8.5pt;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 0.2cm;
+}
+
+.ratio-section .ratio-text {
+  font-style: italic;
+  font-size: 11.5pt;
+  line-height: 1.65;
+  color: #111;
+}
+
+/* -------------------------------------------------------------------------
+   OBITER SECTION
+   ------------------------------------------------------------------------- */
+
+.obiter-section {
+  margin: 0.6cm 0;
+  page-break-inside: avoid;
+}
+
+.obiter-section .obiter-label {
+  font-size: 8.5pt;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 0.15cm;
+  font-weight: bold;
+}
+
+.obiter-section .obiter-text {
+  font-size: 11pt;
+  color: #333;
+  padding-left: 1cm;
+  border-left: 1.5px solid #aaa;
+  line-height: 1.6;
+}
+
+/* -------------------------------------------------------------------------
+   REMEDY SECTION
+   ------------------------------------------------------------------------- */
+
+.remedy-section {
+  margin: 0.6cm 0;
+  border: 1px solid #999;
+  padding: 0.4cm 0.8cm;
+  page-break-inside: avoid;
+}
+
+.remedy-section .remedy-label {
+  font-size: 8.5pt;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #333;
+  margin-bottom: 0.15cm;
+  font-weight: bold;
+}
+
+.remedy-section .remedy-text {
+  font-size: 11pt;
+  color: #111;
+}
+
+/* -------------------------------------------------------------------------
+   STATUS + PER INCURIAM
+   ------------------------------------------------------------------------- */
+
+.status-row {
+  margin: 0.4cm 0;
+  font-size: 9pt;
+  color: #555;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.05cm 0.25cm;
+  border: 1px solid #aaa;
+  font-size: 8.5pt;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-right: 0.3cm;
+  vertical-align: middle;
+}
+
+.status-badge.good-law { border-color: #1a3a1a; color: #1a3a1a; }
+.status-badge.per-incuriam { border-color: #8b0000; color: #8b0000; }
+
+.progression-row {
+  margin: 0.25cm 0 0.4cm 0;
+  font-size: 9.5pt;
+  color: #444;
+  font-style: italic;
+  line-height: 1.5;
+}
+.progression-row .progression-label {
+  font-style: normal;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 8pt;
+  color: #1a2744;
+  margin-right: 0.2cm;
+}
+
+/* -------------------------------------------------------------------------
+   LEXBY TRANSLATION SECTION
+   ------------------------------------------------------------------------- */
+
+.lexby-section {
+  margin: 0.8cm 0 0.4cm 0;
+  border: 1.5px solid #1a2744;
+  padding: 0.6cm 0.9cm;
+  page-break-inside: avoid;
+  background: #fafbfc;
+}
+
+.lexby-section .lexby-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.3cm;
+}
+
+.lexby-section .lexby-monogram {
+  font-size: 18pt;
+  font-weight: bold;
+  color: #1a2744;
+  font-style: italic;
+  margin-right: 0.4cm;
+  font-family: 'Times New Roman', serif;
+  line-height: 1;
+}
+
+.lexby-section .lexby-title {
+  font-size: 9pt;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #1a2744;
+  font-weight: bold;
+}
+
+.lexby-section .lexby-subtitle {
+  font-size: 8pt;
+  color: #666;
+  font-style: italic;
+}
+
+.lexby-section .lexby-divider {
+  border: none;
+  border-top: 1px solid #c8d0dc;
+  margin: 0.25cm 0;
+}
+
+.lexby-section .lexby-body p {
+  font-size: 11pt;
+  color: #222;
+  margin-bottom: 0.35cm;
+  line-height: 1.6;
+}
+
+.lexby-section .lexby-body p:last-child {
+  margin-bottom: 0;
+}
+
+.lexby-section .lexby-sub-label {
+  font-size: 8pt;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 0.05cm;
+}
+
+/* -------------------------------------------------------------------------
+   SIGNATURE LINE
+   ------------------------------------------------------------------------- */
+
+.signature-line {
+  margin-top: 1.2cm;
+  text-align: center;
+  font-size: 9pt;
+  color: #777;
+  font-style: italic;
+}
+
+.signature-line::before {
+  content: '';
+  display: block;
+  width: 5cm;
+  margin: 0 auto 0.3cm;
+  border-top: 1px solid #aaa;
+}
+
+</style>
+</head>
+<body>
+
+<!-- Page frame: thead/tfoot repeat on every printed page to hold the top and
+     bottom margins (and the footer wordmark) while the cream bleeds to the edge. -->
+<table class="page-frame">
+<thead>
+  <tr><td class="frame-spacer-top"></td></tr>
+</thead>
+<tfoot>
+  <tr><td class="frame-spacer-bottom"><div class="frame-foot">Vibe Justice System</div></td></tr>
+</tfoot>
+<tbody>
+<tr><td>
+
+<!-- =========================================================================
+     COVER PAGE
+     ========================================================================= -->
+<div class="cover-page">
+
+  {{#if has_crest}}
+  <!-- Court arms / crest (apex + High Court) -->
+  <div class="court-arms">
+    <img src="{{logo_uri}}" alt="{{court_name}} of the Vibe Justice System (VJS)">
+  </div>
+
+  <!-- Court name -->
+  <div class="court-title">
+    <h1>{{court_name}}</h1>
+    <h2>{{court_subtitle}}</h2>
+  </div>
+  {{else}}
+  <!-- Typographic wordmark (Privy Council, County Court) - no crest -->
+  <div class="court-wordmark">
+    <div class="wordmark-rule"></div>
+    <h1 class="wordmark-name">{{wordmark}}</h1>
+    {{#if wordmark_qualifier}}<div class="wordmark-qualifier">{{wordmark_qualifier}}</div>{{/if}}
+    <div class="wordmark-rule"></div>
+    <h2 class="wordmark-sub">{{court_subtitle}}</h2>
+  </div>
+  {{/if}}
+
+  <!-- Citation -->
+  <div class="citation-block">
+    <div class="cite-label">Neutral Citation Number</div>
+    <div class="neutral-citation">{{citation}}</div>
+  </div>
+
+  <hr class="heavy">
+
+  <!-- Matter / question -->
+  <div class="matter-section">
+    <div class="kind-label">In the matter of</div>
+    <div class="matter-body">{{matter}}</div>
+  </div>
+
+  <hr class="light">
+
+  <!-- Before -->
+  <div class="before-section">
+    <div class="before-label">Before:</div>
+    <div class="before-names">{{before}}</div>
+  </div>
+
+  <!-- Date and kind -->
+  <div class="meta-row">
+    <div class="date-section">Date: <strong>{{date}}</strong></div>
+    <div class="kind-badge">{{kind_label}}</div>
+  </div>
+
+  <hr class="light">
+
+  <div class="judgment-heading">Judgment</div>
+
+</div>
+
+<!-- =========================================================================
+     JUDGMENT BODY
+     ========================================================================= -->
+<div class="judgment-body">
+
+  <ol class="paragraphs">
+    {{#each body_paragraphs}}
+      {{#if this.heading}}
+        <li class="section-heading">
+          <span class="section-heading-text">{{this.text}}</span>
+        </li>
+      {{else}}
+        <li class="para">
+          <span class="para-num">{{this.n}}.</span>
+          <span class="para-text">{{this.text}}</span>
+        </li>
+      {{/if}}
+    {{/each}}
+  </ol>
+
+  <!-- Ratio decidendi (the binding holding) -->
+  {{#if (hasText ratio)}}
+  <div class="ratio-section">
+    <div class="ratio-label">Ratio Decidendi - The Binding Holding</div>
+    <div class="ratio-text">{{ratio}}</div>
+  </div>
+  {{/if}}
+
+  <!-- Obiter dicta -->
+  {{#if (hasText obiter)}}
+  <div class="obiter-section">
+    <div class="obiter-label">Obiter Dicta</div>
+    <div class="obiter-text">{{obiter}}</div>
+  </div>
+  {{/if}}
+
+  <!-- Remedy (breach matters) -->
+  {{#if (hasText remedy)}}
+  <div class="remedy-section">
+    <div class="remedy-label">Order - Remedy</div>
+    <div class="remedy-text">{{remedy}}</div>
+  </div>
+  {{/if}}
+
+  <!-- Status line -->
+  <div class="status-row">
+    {{#if per_incuriam}}
+      <span class="status-badge per-incuriam">Per Incuriam</span>
+    {{else}}
+      <span class="status-badge good-law">{{status}}</span>
+    {{/if}}
+    &nbsp; Citation: {{citation}}
+  </div>
+
+  <!-- Progression / appeal route -->
+  {{#if (hasText appeal_route)}}
+  <div class="progression-row">
+    <span class="progression-label">Progression</span> {{appeal_route}}
+  </div>
+  {{/if}}
+
+  <!-- Lexby translation -->
+  {{#if (hasText lexby_summary)}}
+  <div class="lexby-section">
+    <div class="lexby-header">
+      <div class="lexby-monogram">L</div>
+      <div>
+        <div class="lexby-title">Lexby - Plain English Translation</div>
+        <div class="lexby-subtitle">Lexby is an officer of this court. The bench speaks; Lexby translates.</div>
+      </div>
+    </div>
+    <hr class="lexby-divider">
+    <div class="lexby-body">
+      {{#if (hasText lexby_summary)}}
+      <div class="lexby-sub-label">Summary</div>
+      <p>{{lexby_summary}}</p>
+      {{/if}}
+      {{#if (hasText lexby_practice)}}
+      <div class="lexby-sub-label">What this means in practice</div>
+      <p>{{lexby_practice}}</p>
+      {{/if}}
+      {{#if (hasText lexby_appeal)}}
+      <div class="lexby-sub-label">Appeal route</div>
+      <p>{{lexby_appeal}}</p>
+      {{/if}}
+    </div>
+  </div>
+  {{/if}}
+
+  <!-- Signature line -->
+  <div class="signature-line">
+    Handed down by the {{court_name}} of the Vibe Justice System (VJS). {{date}}.
+  </div>
+
+</div>
+
+</td></tr>
+</tbody>
+</table>
+</body>
+</html>

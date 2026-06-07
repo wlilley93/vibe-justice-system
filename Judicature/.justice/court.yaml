@@ -1,0 +1,25 @@
+# Court topology manifest for this .justice node.
+# Declares this node's place in the realm's single judiciary (SPEC-LAW s. 22): its
+# level, the courts that refer matters IN to it, and the court it refers OUT (up) to.
+# There is ONE Supreme Court, ONE Court of Appeal, and ONE Privy Council, all central
+# at the Ministry of Justice; local nodes are hearing-centres only and never enact.
+
+court: "The Central Courts of the Vibe Justice System"
+level: central-apex
+seat: "agent-universe (Ministry of Justice)"
+crest: true
+enacts: true            # the Supreme Court alone enacts SPEC-LAW (s. 9, s. 22)
+
+# Courts that sit at this central node (one node, several courts):
+hosts:
+  - supreme-court       # apex; sole enactor of SPEC-LAW
+  - court-of-appeal     # apex; single and central
+  - privy-council       # first instance for constitutional law; leapfrogs to the Supreme Court
+
+# The referral graph (matters climb by leave / transfer; the Privy Council leapfrogs).
+refers_in:
+  - court: court-of-appeal
+    from: "every High Court Division, by permission to appeal"
+  - court: privy-council
+    from: "constitutional matters, by automatic leapfrog certificate (s. 13, s. 20)"
+refers_out: null        # apex; law-making passes to Parliament / the Sovereign (s. 2)

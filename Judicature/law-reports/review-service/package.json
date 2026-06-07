@@ -1,0 +1,8 @@
+{
+  "name": "@realm/review-service",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Neutral annotation + comment-for-review service for The Realm Law Reports & Gazette. Ports acmeco's pdf_annotation + review_item (concepts, not the server). Zero runtime deps (node:http + node:sqlite); pdfjs-dist vendored for the browser viewer.",
+  "scripts": { "serve": "node server/index.js" },
+  "devDependencies": { "pdfjs-dist": "^4.7.76" }
+}

@@ -1,0 +1,27 @@
+services:
+  clerk-runner:
+    image: myoung34/github-runner:latest
+    restart: unless-stopped
+    environment:
+      - REPO_URL=https://github.com/wlilley93/vibe-justice-system
+      - RUNNER_NAME=vjs-clerk-runner
+      - RUNNER_WORKDIR=/tmp/github-runner
+      - RUNNER_SCOPE=repo
+      - LABELS=self-hosted
+      - DISABLE_AUTO_UPDATE=false
+      # Set one of these in .env (see .env.example):
+      - ACCESS_TOKEN=${GH_RUNNER_PAT}
+      # LLM key + endpoint - inherited by the clerk workflow job (no repo secret needed).
+      # Use a real Anthropic key with the default endpoint, OR a GLM coding-plan key with
+      # z.ai's Anthropic-compatible endpoint (ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic).
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL:-https://api.anthropic.com}
+      - CLERK_MODEL=${CLERK_MODEL:-claude-sonnet-4-6}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - clerk-runner-work:/tmp/github-runner
+    extra_hosts:
+      - host-gateway:host-gateway
+
+volumes:
+  clerk-runner-work:

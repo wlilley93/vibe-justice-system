@@ -1,0 +1,34 @@
+# Independent operational repos nested in the realm (under Executive/ after the four-branch
+# refactor). Each is its own git repo (or plain dir); the public VJS tracks only the governance
+# machinery + realm structure, never the departments' contents (Bill 27: system data only).
+/Executive/ministry-of-business-engineering-and-skills/engineering-department/projects/
+/Executive/ministry-of-business-engineering-and-skills/legal-department/*
+/Executive/ministry-of-business-engineering-and-skills/skills-and-education/*
+/Executive/ministry-of-business-engineering-and-skills/business-operations/*
+/Executive/national-archives/
+
+# Ministry of Data Security private operational estate registry - PRIVATE (the facts: the master
+# digital estate registry, the repo->server-config list, and policy papers). The public law
+# (REALM-SI 1) states principles only; the facts never enter the public tree (Bill 27 s.14; Bill 22).
+/Executive/ministry-of-data-security/_private-estate/
+
+# Repos House private registers (operational facts of the registers; the public schema is committed at
+# repos-house/register-schemas.md). Principles-at-law / facts-in-the-private-store (Bill 27 s.5A(3); REALM-SI 6).
+/Executive/ministry-of-business-engineering-and-skills/repos-house/_private-registers/
+
+# Secrets and build artefacts - never commit
+**/node_modules/
+**/.env
+.env
+*.env.local
+Judicature/law-reports/node_modules/
+Judicature/law-reports/review-service/node_modules/
+Judicature/law-reports/review-service/data/
+
+# OS / editor junk - never belongs in the repo (and never in a public VJS)
+.DS_Store
+**/.DS_Store
+._*
+**/._*
+*.swp
+Thumbs.db
