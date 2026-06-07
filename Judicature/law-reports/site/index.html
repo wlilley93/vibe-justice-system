@@ -20,6 +20,13 @@
     background:transparent; color:var(--ink); font:inherit; font-size:.85rem; }
   .tab.active { background:var(--ink); color:var(--cream); }
   .meta { color:var(--muted); font-size:.85rem; margin:.3rem 0 1rem; }
+  .start { border:1px solid var(--rule); border-left:4px solid var(--ink); border-radius:6px;
+    background:#fffdfa; padding:1rem; margin:0 0 1rem; }
+  .start h2 { margin:0 0 .35rem; color:var(--ink); font-size:1.15rem; }
+  .start p { margin:.25rem 0 .7rem; color:#33404f; }
+  .start ol { margin:.4rem 0 .2rem; padding-left:1.35rem; }
+  .start li { margin:.35rem 0; }
+  .start a { color:var(--ink); }
   .card { border:1px solid var(--rule); border-left:4px solid var(--ink); border-radius:6px;
     padding:.8rem 1rem; margin:.7rem 0; background:#fffdfa; }
   .card .cite { font-weight:bold; color:var(--ink); font-size:1.05rem; }
@@ -51,14 +58,16 @@
   <div class="sub">Case law &amp; legislation of Agent Universe &middot; one searchable record</div>
 </header>
 <div class="wrap">
+  <section class="start" id="start"></section>
   <input id="q" type="search" placeholder="Search case law &amp; legislation - by text, citation, court, judge&hellip;" autofocus>
   <div class="tabs" id="tabs">
     <button class="tab active" data-f="all">All</button>
+    <button class="tab" data-f="kind:bill">Acts</button>
+    <button class="tab" data-f="kind:case">Case law</button>
     <button class="tab" data-f="court:Supreme Court">Supreme Court</button>
     <button class="tab" data-f="court:Court of Appeal">Court of Appeal</button>
     <button class="tab" data-f="court:Privy Council">Privy Council</button>
     <button class="tab" data-f="court:County Court">County Court</button>
-    <button class="tab" data-f="kind:bill">Legislation (Order Paper)</button>
     <button class="tab" data-f="status:good-law">Good law</button>
   </div>
   <div class="meta" id="meta"></div>

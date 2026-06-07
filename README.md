@@ -13,6 +13,7 @@
 
 > **Disclaimers**
 > - **Not a real court. Not legal advice.** VJS is an AI governance framework. Rulings are AI outputs, not legal instruments.
+> - **Real-world law still controls.** Local sovereignty means sovereignty over the local VJS copy, not immunity from real-world law. The local Principal/Sovereign remains responsible for following the real-world law that applies to them and their repo. Agents have delegated authority to refuse, stop, narrow, or escalate instructions that appear unlawful, unauthorised, or cyber-abusive.
 > - **Production systems need real engineers.** VJS helps record and structure AI decisions - it does not replace qualified engineering review, security audit, or human sign-off on anything that matters in the real world.
 > - **It only refines what you give it.** Rulings are only as good as the spec and context you provide. Garbage in, garbage out. A weak spec produces weak law.
 
@@ -57,7 +58,7 @@ Everything else is a **citation, not a sitting**: before any bench sits, the cit
 
 That loop is **Caselaw Driven Development (CDD)**: a fork produces a ruling; the ruling is committed with a citation; every future session cites it instead of re-deciding. Where TDD records that the code does what you said, CDD records *why* you said it.
 
-> These five conditions are summarised here for onboarding. The canonical, binding text lives in [`Executive/plugin/CLAUDE.md`](Executive/plugin/CLAUDE.md), with the methodology in [`Constitution/CDD.md`](Constitution/CDD.md); this summary points to that source and never replaces it. *(Required form per [2026] REALM-PC 3.)*
+> These five conditions are summarised here for onboarding. The installed binding text and CDD method are vendored by the CLI into each local repo; this summary points readers to that source and never replaces it. The public law record is on the hosted Law Reports & Gazette. *(Required form per [2026] REALM-PC 3.)*
 
 ---
 
@@ -105,21 +106,23 @@ PRIVY COUNCIL              3 AI judges                   Realm constitutional fi
 
 Most project work starts at first instance. Escalate by permission. You cannot skip the route unless the law gives you a leapfrog certificate.
 
-Local project rulings live in the project repo under `.justice/`. Central realm rulings live in this repo under [`Judicature/.justice/judgments/`](Judicature/.justice/judgments/) and are indexed in the citator at [`Judicature/.justice/INDEX.md`](Judicature/.justice/INDEX.md). The public VJS repo carries system data only: the law of the judgment is public, while personal and operational facts stay sealed.
+Local project rulings live in the project repo under `.justice/`. Central realm rulings are published as rendered judgment PDFs in [`Judicature/.justice/pdfs/`](Judicature/.justice/pdfs/) and searchable on the hosted [`Law Reports & Gazette`](https://wlilley93.github.io/vibe-justice-system/Judicature/law-reports/site/). The public VJS repo carries system data only: the law of the judgment is public, while personal and operational facts stay sealed.
 
 Most things never leave first instance: one judge, a ruling, a permanent citation, and a future fast path. Higher courts are for contested calls, overruling, or questions foundational enough that every future VJS project should inherit the answer.
 
 ---
 
-## Multiplayer and local sovereignty
+## Local sovereignty and community record
 
-Installing or forking VJS starts your repo as a local jurisdiction subscribed to the canonical VJS law. That gives your agents a working constitution, courts, procedure, citation rules, and safety hooks on day one.
+Installing, downloading, or forking VJS starts your repo as a local jurisdiction subscribed to the canonical VJS law. The person responsible for that repo becomes the local Principal, acting as sovereign for that copy. That gives their agents a working constitution, courts, procedure, citation rules, and safety hooks on day one.
 
-It does not make your repo a subject of this GitHub repo forever. Your local Principal can branch, amend the local law, create or remove courts, change ministries, become independent, or join/create another community record. Those changes bind your repo only unless they are accepted back into canonical VJS or into another federation by that community's rules.
+That subscription is a starting point, not a lock-in. The local Principal can branch, amend the local law, create or remove courts, change ministries, become independent, or join/create another real-world community record. Those changes bind that repo only unless they are accepted back into canonical VJS or into another community by that community's rules.
+
+Local sovereignty is repo sovereignty, not legal immunity. The local Principal and their agents must follow the real-world law that applies to them. VJS cannot be used to authorise unauthorised access, credential misuse, malware, evasion, exfiltration, or other unlawful external acts.
 
 Nothing automatically pushes your case law upstream. If you want to contribute a generally useful ruling, you can submit an anonymised PR to the Community Record. If you do not, your rulings stay local.
 
-That is the multiplayer model: shared starting law, local freedom, optional federation.
+That is the community model: shared starting law, local sovereignty, optional contribution.
 
 ---
 
@@ -138,15 +141,19 @@ That structure is the value: the AI gets a constitution, a rulebook, a court rec
 
 ## Read the law
 
-The short version is in this README. Start with the rendered public law:
+The hosted law site is here: [`VJS Law Reports & Gazette`](https://wlilley93.github.io/vibe-justice-system/Judicature/law-reports/site/).
+
+The short version is in this README. Start with the constitutional Acts, then move outwards:
 
 - **Constitutional machinery:** [`27-vjs-constitution-and-machinery-act-2026.pdf`](Legislature/legislature/pdfs/27-vjs-constitution-and-machinery-act-2026.pdf).
 - **Courts and precedent:** [`03-judicature-act-2026.pdf`](Legislature/legislature/pdfs/03-judicature-act-2026.pdf), [`16-neutral-citations-and-law-reporting-act-2026.pdf`](Legislature/legislature/pdfs/16-neutral-citations-and-law-reporting-act-2026.pdf), and [`2026-realm-pc-4.pdf`](Judicature/.justice/pdfs/2026-realm-pc-4.pdf).
-- **Multiplayer and public boundary:** [`30-multi-jurisdiction-and-community-record-act-2026.pdf`](Legislature/legislature/pdfs/30-multi-jurisdiction-and-community-record-act-2026.pdf), [`2026-realm-pc-17.pdf`](Judicature/.justice/pdfs/2026-realm-pc-17.pdf), and [`2026-realm-si-7-super-repo-public-push-review.pdf`](Legislature/statutes/instruments/pdfs/2026-realm-si-7-super-repo-public-push-review.pdf).
+- **Rights, records, and confidentiality:** [`07-memory-records-and-archives-act-2026.pdf`](Legislature/legislature/pdfs/07-memory-records-and-archives-act-2026.pdf), [`12-rights-standing-and-due-process-act-2026.pdf`](Legislature/legislature/pdfs/12-rights-standing-and-due-process-act-2026.pdf), and [`22-data-disclosure-and-confidentiality-act-2026.pdf`](Legislature/legislature/pdfs/22-data-disclosure-and-confidentiality-act-2026.pdf).
+- **Local sovereignty and community record:** [`30-multi-jurisdiction-and-community-record-act-2026.pdf`](Legislature/legislature/pdfs/30-multi-jurisdiction-and-community-record-act-2026.pdf), [`2026-realm-pc-17.pdf`](Judicature/.justice/pdfs/2026-realm-pc-17.pdf), and [`2026-realm-si-7-super-repo-public-push-review.pdf`](Legislature/statutes/instruments/pdfs/2026-realm-si-7-super-repo-public-push-review.pdf).
+- **Real-world law and delegated agent authority:** [`2026-realm-pc-18.pdf`](Judicature/.justice/pdfs/2026-realm-pc-18.pdf) and [`2026-realm-sc-9.pdf`](Judicature/.justice/pdfs/2026-realm-sc-9.pdf).
 - **All rendered Acts:** [`Legislature/legislature/pdfs/`](Legislature/legislature/pdfs/).
 - **All rendered statutory instruments:** [`Legislature/statutes/instruments/pdfs/`](Legislature/statutes/instruments/pdfs/).
 - **All rendered judgments:** [`Judicature/.justice/pdfs/`](Judicature/.justice/pdfs/).
-- **Searchable law reports:** [`Judicature/law-reports/site/`](Judicature/law-reports/site/) contains the derived public law-report projection.
+- **Searchable law reports:** [`VJS Law Reports & Gazette`](https://wlilley93.github.io/vibe-justice-system/Judicature/law-reports/site/) contains the derived public law-report projection.
 
 ---
 
@@ -247,7 +254,7 @@ Symlink .git/hooks/pre-push -> ../../.claude/hooks/vjs-pre-push.sh.
 VJS is now active.
 ```
 
-For the technical map of this repo, see [`STRUCTURE.md`](STRUCTURE.md). For the public law map, see [`Constitution/docs/CITATION-MAP.md`](Constitution/docs/CITATION-MAP.md). For the CLI reference, see [`Executive/cli/README.md`](Executive/cli/README.md).
+For the technical map of this repo, see [`STRUCTURE.md`](STRUCTURE.md). For the public law map, use the hosted [`VJS Law Reports & Gazette`](https://wlilley93.github.io/vibe-justice-system/Judicature/law-reports/site/). For the CLI reference, see [`Executive/cli/README.md`](Executive/cli/README.md).
 
 ---
 

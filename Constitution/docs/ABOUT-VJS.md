@@ -143,14 +143,19 @@ project should inherit the answer.
 
 ---
 
-## Multiplayer
+## Local sovereignty and community record
 
-Installing or forking VJS starts your repo as a local jurisdiction subscribed to canonical VJS law. You get
-the constitution, procedure, courts, citator, and hooks immediately.
+Installing, downloading, or forking VJS starts your repo as a local jurisdiction subscribed to canonical VJS
+law. The person responsible for that repo becomes the local Principal, acting as sovereign for that copy. You
+get the constitution, procedure, courts, citator, and hooks immediately.
 
-That subscription is not a lock-in. Your local Principal can keep the canonical law, amend it locally,
-become independent, or join/create another community record. Local changes bind your repo only unless they
-are accepted back into canonical VJS or another federation under that community's rules.
+That subscription is not a lock-in. Your local Principal can keep the canonical law, amend it locally, become
+independent, or join/create another real-world community record. Local changes bind your repo only unless they
+are accepted back into canonical VJS or another community under that community's rules.
+
+Local sovereignty is repo sovereignty, not legal immunity. The local Principal and their agents must follow the
+real-world law that applies to them. Agents have delegated authority to refuse, stop, narrow, or escalate
+instructions that appear unlawful, unauthorised, or cyber-abusive ([2026] REALM-SC 9).
 
 Nothing automatically pushes your case law upstream. Contributions to the Community Record are optional and
 anonymised.
