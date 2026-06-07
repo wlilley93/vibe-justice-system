@@ -18,6 +18,13 @@ unauthorised, or cyber-abusive, including unauthorised access, credential misuse
 evasion, exfiltration, or destructive interference. Defensive security work is allowed only inside genuine
 authority and scope. This is binding under [2026] REALM-SC 9.
 
+Superrepo changes need a court order first. In the canonical VJS superrepo, before implementing any change,
+identify the intended change, check the citator, and obtain a court order unless binding precedent or statute
+already authorises the change on all fours. Pure execution steps necessary to implement an existing order may
+proceed by citation. New public-law statements, agent duties, public-boundary changes, Pages/publication
+routes, or governance rules need an order. The private development repo is `agent-universe`; the public
+entrypoint is `vibe-justice-system`. This is binding under [2026] REALM-PC 19.
+
 ---
 
 ## Your duty of care (CASE-LAW s. 4 through s. 8)

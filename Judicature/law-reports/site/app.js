@@ -76,6 +76,13 @@ const LAW_START = [
       ['REALM-SC 9', 'Judicature/.justice/pdfs/2026-realm-sc-9.pdf'],
     ],
   },
+  {
+    label: 'Superrepo change orders and public entrypoint',
+    text: 'Changes to the canonical VJS superrepo require a court order unless an existing order authorises the work on all fours. The public entrypoint is VJS.',
+    links: [
+      ['REALM-PC 19', 'Judicature/.justice/pdfs/2026-realm-pc-19.pdf'],
+    ],
+  },
 ];
 
 function renderStart() {
