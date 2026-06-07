@@ -53,11 +53,19 @@ require_field() {
 field_value() {
   local file="$1"
   local key="$2"
-  awk -F'[:=]' -v key="$key" '
-    $1 == key {
-      sub(/^[[:space:]]+/, "", $2)
-      sub(/[[:space:]]+$/, "", $2)
-      print $2
+  awk -v key="$key" '
+    index($0, key "=") == 1 {
+      value = substr($0, length(key) + 2)
+      sub(/^[[:space:]]+/, "", value)
+      sub(/[[:space:]]+$/, "", value)
+      print value
+      exit
+    }
+    index($0, key ":") == 1 {
+      value = substr($0, length(key) + 2)
+      sub(/^[[:space:]]+/, "", value)
+      sub(/[[:space:]]+$/, "", value)
+      print value
       exit
     }
   ' "$file"
