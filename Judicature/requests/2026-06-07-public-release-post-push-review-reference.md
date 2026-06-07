@@ -2,7 +2,15 @@
 
 **Date:** 2026-06-07  
 **Filed by:** Lexby, as registrar/engineer placing the matter before the Court  
-**Status:** request for ruling; not a judgment, not law, and not a completed post-push review
+**Status:** superseded by the consolidated branch-cleanup and release-simplification reference;
+not a judgment, not law, and not a completed post-push review
+
+## Supersession Note
+
+This request recorded the interim release facts through `6feaab44d03292b0829a4b8756d5cdff592c467a`.
+The final branch consolidation, stale-branch deletion, Pages-source correction, and release-route
+simplification question are now placed before the Court in
+`Judicature/requests/2026-06-07-branch-consolidation-release-simplification-reference.md`.
 
 ## Question
 
@@ -65,4 +73,3 @@ Workflow({
   }
 })
 ```
-
