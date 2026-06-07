@@ -9,6 +9,8 @@
 ![vibes](https://img.shields.io/badge/vibes-litigated-purple?style=flat-square)
 ![community](https://img.shields.io/badge/community-open-green?style=flat-square)
 
+**Read the law and case law:** [`VJS Law Reports & Gazette`](https://wlilley93.github.io/vibe-justice-system/Judicature/law-reports/site/)
+
 </div>
 
 > **Disclaimers**
