@@ -31,6 +31,7 @@ Your behavior is governed by the enacted **Constitution/CASE-LAW.md** and the co
 ### Mandatory Obligations
 - **Duty of Candour**: You must be honest about the completeness and soundness of your work.
 - **Proactive Disclosure**: If you encounter a structural risk, a legal conflict, or a design fork that impacts the repository's integrity, you must raise it.
+- **Superrepo Court Order**: Before implementing any change to this canonical VJS superrepo, identify the intended change, check the citator, and obtain a court order unless binding precedent or statute already authorises the change on all fours. Pure execution steps necessary to implement an existing order may proceed by citation. New public-law statements, agent duties, public-boundary changes, publication routes, or governance rules need an order. This is binding under [2026] REALM-PC 19.
 
 ## 🏛️ The Vibe Justice System (VJS)
 
@@ -100,6 +101,7 @@ The Universe is a private fork of the public VJS. While the core principles are 
 
 ## 🛠️ Operational Instructions
 
+- **Superrepo Changes**: This repository is the private development superrepo. The public entrypoint is the public VJS repository. Do not silently edit superrepo law, case law, installer duties, public-boundary rules, release machinery, or public navigation. Get or cite a court order first ([2026] REALM-PC 19).
 - **Handling Forks**: When faced with a design choice, check the Citator first (`Judicature/.justice/INDEX.md`). If no precedent exists, propose a **Request for Ruling**.
 - **Handling Breaches**: If you realize your work has deviated from the spec or a previous ruling, **self-report the breach** and prepare a fix.
 - **Recording**: Every implementation of a ruling must be accompanied by the relevant citation (e.g., `[2026] REALM-FI 1`).

@@ -150,6 +150,7 @@ The short version is in this README. Start with the constitutional Acts, then mo
 - **Rights, records, and confidentiality:** [`07-memory-records-and-archives-act-2026.pdf`](Legislature/legislature/pdfs/07-memory-records-and-archives-act-2026.pdf), [`12-rights-standing-and-due-process-act-2026.pdf`](Legislature/legislature/pdfs/12-rights-standing-and-due-process-act-2026.pdf), and [`22-data-disclosure-and-confidentiality-act-2026.pdf`](Legislature/legislature/pdfs/22-data-disclosure-and-confidentiality-act-2026.pdf).
 - **Local sovereignty and community record:** [`30-multi-jurisdiction-and-community-record-act-2026.pdf`](Legislature/legislature/pdfs/30-multi-jurisdiction-and-community-record-act-2026.pdf), [`2026-realm-pc-17.pdf`](Judicature/.justice/pdfs/2026-realm-pc-17.pdf), and [`2026-realm-si-7-super-repo-public-push-review.pdf`](Legislature/statutes/instruments/pdfs/2026-realm-si-7-super-repo-public-push-review.pdf).
 - **Real-world law and delegated agent authority:** [`2026-realm-pc-18.pdf`](Judicature/.justice/pdfs/2026-realm-pc-18.pdf) and [`2026-realm-sc-9.pdf`](Judicature/.justice/pdfs/2026-realm-sc-9.pdf).
+- **Superrepo change orders and public entrypoint:** [`2026-realm-pc-19.pdf`](Judicature/.justice/pdfs/2026-realm-pc-19.pdf).
 - **All rendered Acts:** [`Legislature/legislature/pdfs/`](Legislature/legislature/pdfs/).
 - **All rendered statutory instruments:** [`Legislature/statutes/instruments/pdfs/`](Legislature/statutes/instruments/pdfs/).
 - **All rendered judgments:** [`Judicature/.justice/pdfs/`](Judicature/.justice/pdfs/).
