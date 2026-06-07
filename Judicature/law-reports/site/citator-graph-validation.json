@@ -7,8 +7,8 @@
   "malformedEdgesFailBuild": true,
   "forwardFilingReportStatus": "complete",
   "counts": {
-    "nodes": 71,
-    "edges": 736,
+    "nodes": 72,
+    "edges": 752,
     "malformedEdgeErrors": 0,
     "isolatedNodes": 1,
     "noEdgeDeclarations": 1,

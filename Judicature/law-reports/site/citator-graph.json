@@ -10,8 +10,8 @@
     "status": "pass",
     "forwardFilingReportStatus": "complete",
     "counts": {
-      "nodes": 71,
-      "edges": 736,
+      "nodes": 72,
+      "edges": 752,
       "malformedEdgeErrors": 0,
       "isolatedNodes": 1,
       "noEdgeDeclarations": 1,
@@ -20,11 +20,11 @@
     }
   },
   "counts": {
-    "nodes": 71,
-    "edges": 736,
+    "nodes": 72,
+    "edges": 752,
     "omittedReferences": 0,
     "relations": {
-      "cites": 349,
+      "cites": 365,
       "depends-on": 176,
       "commences": 67,
       "amends": 73,
@@ -525,6 +525,17 @@
       "date": "2026-06-05",
       "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-2.md",
       "pdfPath": "Judicature/.justice/pdfs/2026-realm-pc-2.pdf"
+    },
+    {
+      "id": "case:[2026] REALM-PC 20",
+      "kind": "case",
+      "label": "[2026] REALM-PC 20",
+      "citation": "[2026] REALM-PC 20",
+      "title": "[2026] REALM-PC 20",
+      "status": "good-law",
+      "date": "2026-06-07",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "pdfPath": "Judicature/.justice/pdfs/2026-realm-pc-20.pdf"
     },
     {
       "id": "case:[2026] REALM-PC 3",
@@ -8891,6 +8902,262 @@
     },
     {
       "id": "edge:00505",
+      "source": "case:[2026] REALM-PC 20",
+      "target": "bill:16",
+      "type": "cites",
+      "label": "cites",
+      "direction": "outgoing",
+      "pinpoint": null,
+      "briefWhy": "Derived because the public Cites field contains Bill 16 in language classified as \"cites\".",
+      "edgeSource": "backfilled-derived",
+      "edgeStatus": "derived",
+      "sourceField": "cites",
+      "evidenceToken": "Bill 16",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "targetPath": "Legislature/legislature/bills/16-neutral-citations-and-law-reporting-act-2026.md"
+    },
+    {
+      "id": "edge:00506",
+      "source": "case:[2026] REALM-PC 20",
+      "target": "bill:18",
+      "type": "cites",
+      "label": "cites",
+      "direction": "outgoing",
+      "pinpoint": null,
+      "briefWhy": "Derived because the public Cites field contains Bill 18 in language classified as \"cites\".",
+      "edgeSource": "backfilled-derived",
+      "edgeStatus": "derived",
+      "sourceField": "cites",
+      "evidenceToken": "Bill 18",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "targetPath": "Legislature/legislature/bills/18-autonomous-execution-and-safety-act-2026.md"
+    },
+    {
+      "id": "edge:00507",
+      "source": "case:[2026] REALM-PC 20",
+      "target": "bill:20",
+      "type": "cites",
+      "label": "cites",
+      "direction": "outgoing",
+      "pinpoint": null,
+      "briefWhy": "Derived because the public Cites field contains Bill 20 in language classified as \"cites\".",
+      "edgeSource": "backfilled-derived",
+      "edgeStatus": "derived",
+      "sourceField": "cites",
+      "evidenceToken": "Bill 20",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "targetPath": "Legislature/legislature/bills/20-repositories-and-records-certification-act-2026.md"
+    },
+    {
+      "id": "edge:00508",
+      "source": "case:[2026] REALM-PC 20",
+      "target": "bill:22",
+      "type": "cites",
+      "label": "cites",
+      "direction": "outgoing",
+      "pinpoint": null,
+      "briefWhy": "Derived because the public Cites field contains Bill 22 in language classified as \"cites\".",
+      "edgeSource": "backfilled-derived",
+      "edgeStatus": "derived",
+      "sourceField": "cites",
+      "evidenceToken": "Bill 22",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "targetPath": "Legislature/legislature/bills/22-data-disclosure-and-confidentiality-act-2026.md"
+    },
+    {
+      "id": "edge:00509",
+      "source": "case:[2026] REALM-PC 20",
+      "target": "bill:27",
+      "type": "cites",
+      "label": "cites",
+      "direction": "outgoing",
+      "pinpoint": null,
+      "briefWhy": "Derived because the public Cites field contains Bill 27 in language classified as \"cites\".",
+      "edgeSource": "backfilled-derived",
+      "edgeStatus": "derived",
+      "sourceField": "cites",
+      "evidenceToken": "Bill 27",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
+    },
+    {
+      "id": "edge:00510",
+      "source": "case:[2026] REALM-PC 20",
+      "target": "bill:29",
+      "type": "cites",
+      "label": "cites",
+      "direction": "outgoing",
+      "pinpoint": null,
+      "briefWhy": "Derived because the public Cites field contains Bill 29 in language classified as \"cites\".",
+      "edgeSource": "backfilled-derived",
+      "edgeStatus": "derived",
+      "sourceField": "cites",
+      "evidenceToken": "Bill 29",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "targetPath": "Legislature/legislature/bills/29-ministerial-policy-arm-act-2026.md"
+    },
+    {
+      "id": "edge:00511",
+      "source": "case:[2026] REALM-PC 20",
+      "target": "bill:8",
+      "type": "cites",
+      "label": "cites",
+      "direction": "outgoing",
+      "pinpoint": null,
+      "briefWhy": "Derived because the public Cites field contains Bill 8 in language classified as \"cites\".",
+      "edgeSource": "backfilled-derived",
+      "edgeStatus": "derived",
+      "sourceField": "cites",
+      "evidenceToken": "Bill 8",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "targetPath": "Legislature/legislature/bills/08-public-reasons-and-audit-act-2026.md"
+    },
+    {
+      "id": "edge:00512",
+      "source": "case:[2026] REALM-PC 20",
+      "target": "case:[2026] REALM-PC 16",
+      "type": "cites",
+      "label": "cites",
+      "direction": "outgoing",
+      "pinpoint": null,
+      "briefWhy": "Derived because the public Cites field contains [2026] REALM-PC 16 in language classified as \"cites\".",
+      "edgeSource": "backfilled-derived",
+      "edgeStatus": "derived",
+      "sourceField": "cites",
+      "evidenceToken": "[2026] REALM-PC 16",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-16.md"
+    },
+    {
+      "id": "edge:00513",
+      "source": "case:[2026] REALM-PC 20",
+      "target": "case:[2026] REALM-PC 17",
+      "type": "cites",
+      "label": "cites",
+      "direction": "outgoing",
+      "pinpoint": null,
+      "briefWhy": "Derived because the public Cites field contains [2026] REALM-PC 17 in language classified as \"cites\".",
+      "edgeSource": "backfilled-derived",
+      "edgeStatus": "derived",
+      "sourceField": "cites",
+      "evidenceToken": "[2026] REALM-PC 17",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-17.md"
+    },
+    {
+      "id": "edge:00514",
+      "source": "case:[2026] REALM-PC 20",
+      "target": "case:[2026] REALM-PC 19",
+      "type": "cites",
+      "label": "cites",
+      "direction": "outgoing",
+      "pinpoint": null,
+      "briefWhy": "Derived because the public Cites field contains [2026] REALM-PC 19 in language classified as \"cites\".",
+      "edgeSource": "backfilled-derived",
+      "edgeStatus": "derived",
+      "sourceField": "cites",
+      "evidenceToken": "[2026] REALM-PC 19",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-19.md"
+    },
+    {
+      "id": "edge:00515",
+      "source": "case:[2026] REALM-PC 20",
+      "target": "case:[2026] REALM-SC 8",
+      "type": "cites",
+      "label": "cites",
+      "direction": "outgoing",
+      "pinpoint": null,
+      "briefWhy": "Derived because the public Cites field contains [2026] REALM-SC 8 in language classified as \"cites\".",
+      "edgeSource": "backfilled-derived",
+      "edgeStatus": "derived",
+      "sourceField": "cites",
+      "evidenceToken": "[2026] REALM-SC 8",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-8.md"
+    },
+    {
+      "id": "edge:00516",
+      "source": "case:[2026] REALM-PC 20",
+      "target": "si:[2026] REALM-SI 10",
+      "type": "cites",
+      "label": "cites",
+      "direction": "outgoing",
+      "pinpoint": null,
+      "briefWhy": "Derived because the public Cites field contains [2026] REALM-SI 10 in language classified as \"cites\".",
+      "edgeSource": "backfilled-derived",
+      "edgeStatus": "derived",
+      "sourceField": "cites",
+      "evidenceToken": "[2026] REALM-SI 10",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "targetPath": "Legislature/statutes/instruments/2026-realm-si-10-agent-lawfulness-hooks-agent-agnostic-amendment.md"
+    },
+    {
+      "id": "edge:00517",
+      "source": "case:[2026] REALM-PC 20",
+      "target": "si:[2026] REALM-SI 11",
+      "type": "cites",
+      "label": "cites",
+      "direction": "outgoing",
+      "pinpoint": null,
+      "briefWhy": "Derived because the public Cites field contains [2026] REALM-SI 11 in language classified as \"cites\".",
+      "edgeSource": "backfilled-derived",
+      "edgeStatus": "derived",
+      "sourceField": "cites",
+      "evidenceToken": "[2026] REALM-SI 11",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "targetPath": "Legislature/statutes/instruments/2026-realm-si-11-agent-lawfulness-hooks-best-efforts-trigger-amendment.md"
+    },
+    {
+      "id": "edge:00518",
+      "source": "case:[2026] REALM-PC 20",
+      "target": "si:[2026] REALM-SI 7",
+      "type": "cites",
+      "label": "cites",
+      "direction": "outgoing",
+      "pinpoint": null,
+      "briefWhy": "Derived because the public Cites field contains [2026] REALM-SI 7 in language classified as \"cites\".",
+      "edgeSource": "backfilled-derived",
+      "edgeStatus": "derived",
+      "sourceField": "cites",
+      "evidenceToken": "[2026] REALM-SI 7",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "targetPath": "Legislature/statutes/instruments/2026-realm-si-7-super-repo-public-push-review.md"
+    },
+    {
+      "id": "edge:00519",
+      "source": "case:[2026] REALM-PC 20",
+      "target": "si:[2026] REALM-SI 8",
+      "type": "cites",
+      "label": "cites",
+      "direction": "outgoing",
+      "pinpoint": null,
+      "briefWhy": "Derived because the public Cites field contains [2026] REALM-SI 8 in language classified as \"cites\".",
+      "edgeSource": "backfilled-derived",
+      "edgeStatus": "derived",
+      "sourceField": "cites",
+      "evidenceToken": "[2026] REALM-SI 8",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "targetPath": "Legislature/statutes/instruments/2026-realm-si-8-agent-lawfulness-hooks.md"
+    },
+    {
+      "id": "edge:00520",
+      "source": "case:[2026] REALM-PC 20",
+      "target": "si:[2026] REALM-SI 9",
+      "type": "cites",
+      "label": "cites",
+      "direction": "outgoing",
+      "pinpoint": null,
+      "briefWhy": "Derived because the public Cites field contains [2026] REALM-SI 9 in language classified as \"cites\".",
+      "edgeSource": "backfilled-derived",
+      "edgeStatus": "derived",
+      "sourceField": "cites",
+      "evidenceToken": "[2026] REALM-SI 9",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-20.md",
+      "targetPath": "Legislature/statutes/instruments/2026-realm-si-9-gazette-graph-database.md"
+    },
+    {
+      "id": "edge:00521",
       "source": "case:[2026] REALM-PC 3",
       "target": "case:[2026] REALM-PC 2",
       "type": "extends",
@@ -8906,7 +9173,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-2.md"
     },
     {
-      "id": "edge:00506",
+      "id": "edge:00522",
       "source": "case:[2026] REALM-PC 4",
       "target": "case:[2026] REALM-PC 3",
       "type": "extends",
@@ -8922,7 +9189,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-3.md"
     },
     {
-      "id": "edge:00507",
+      "id": "edge:00523",
       "source": "case:[2026] REALM-PC 5",
       "target": "case:[2026] REALM-SC 4",
       "type": "superseded-by",
@@ -8938,7 +9205,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-4.md"
     },
     {
-      "id": "edge:00508",
+      "id": "edge:00524",
       "source": "case:[2026] REALM-PC 6",
       "target": "case:[2026] REALM-SC 4",
       "type": "applies",
@@ -8954,7 +9221,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-4.md"
     },
     {
-      "id": "edge:00509",
+      "id": "edge:00525",
       "source": "case:[2026] REALM-PC 7",
       "target": "case:[2026] REALM-SC 4",
       "type": "applies",
@@ -8970,7 +9237,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-4.md"
     },
     {
-      "id": "edge:00510",
+      "id": "edge:00526",
       "source": "case:[2026] REALM-PC 8",
       "target": "case:[2026] REALM-SC 5",
       "type": "affirmed-by",
@@ -8986,7 +9253,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-5.md"
     },
     {
-      "id": "edge:00511",
+      "id": "edge:00527",
       "source": "case:[2026] REALM-SC 2",
       "target": "case:[2026] REALM-SC 1",
       "type": "extends",
@@ -9002,7 +9269,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-1.md"
     },
     {
-      "id": "edge:00512",
+      "id": "edge:00528",
       "source": "case:[2026] REALM-SC 3",
       "target": "case:[2026] REALM-CA 1",
       "type": "confirms",
@@ -9018,7 +9285,7 @@
       "targetPath": "Judicature/.justice/judgments/court-of-appeal/2026-realm-ca-1.md"
     },
     {
-      "id": "edge:00513",
+      "id": "edge:00529",
       "source": "case:[2026] REALM-SC 3",
       "target": "case:[2026] REALM-PC 1",
       "type": "confirms",
@@ -9034,7 +9301,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-1.md"
     },
     {
-      "id": "edge:00514",
+      "id": "edge:00530",
       "source": "case:[2026] REALM-SC 3",
       "target": "case:[2026] REALM-SC 1",
       "type": "confirms",
@@ -9050,7 +9317,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-1.md"
     },
     {
-      "id": "edge:00515",
+      "id": "edge:00531",
       "source": "case:[2026] REALM-SC 3",
       "target": "case:[2026] REALM-SC 2",
       "type": "confirms",
@@ -9066,7 +9333,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-2.md"
     },
     {
-      "id": "edge:00516",
+      "id": "edge:00532",
       "source": "case:[2026] REALM-SC 7",
       "target": "bill:15",
       "type": "cites",
@@ -9082,7 +9349,7 @@
       "targetPath": "Legislature/legislature/bills/15-interpretation-act-2026.md"
     },
     {
-      "id": "edge:00517",
+      "id": "edge:00533",
       "source": "case:[2026] REALM-SC 7",
       "target": "bill:16",
       "type": "cites",
@@ -9098,7 +9365,7 @@
       "targetPath": "Legislature/legislature/bills/16-neutral-citations-and-law-reporting-act-2026.md"
     },
     {
-      "id": "edge:00518",
+      "id": "edge:00534",
       "source": "case:[2026] REALM-SC 7",
       "target": "bill:20",
       "type": "cites",
@@ -9114,7 +9381,7 @@
       "targetPath": "Legislature/legislature/bills/20-repositories-and-records-certification-act-2026.md"
     },
     {
-      "id": "edge:00519",
+      "id": "edge:00535",
       "source": "case:[2026] REALM-SC 7",
       "target": "bill:25",
       "type": "cites",
@@ -9130,7 +9397,7 @@
       "targetPath": "Legislature/legislature/bills/25-commencement-and-transitional-provisions-act-2026.md"
     },
     {
-      "id": "edge:00520",
+      "id": "edge:00536",
       "source": "case:[2026] REALM-SC 7",
       "target": "case:[2026] REALM-SC 4",
       "type": "affirms",
@@ -9146,7 +9413,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-4.md"
     },
     {
-      "id": "edge:00521",
+      "id": "edge:00537",
       "source": "case:[2026] REALM-SC 8",
       "target": "bill:14",
       "type": "cites",
@@ -9162,7 +9429,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00522",
+      "id": "edge:00538",
       "source": "case:[2026] REALM-SC 8",
       "target": "bill:2",
       "type": "cites",
@@ -9178,7 +9445,7 @@
       "targetPath": "Legislature/legislature/bills/02-legislature-of-the-realm-act-2026.md"
     },
     {
-      "id": "edge:00523",
+      "id": "edge:00539",
       "source": "case:[2026] REALM-SC 8",
       "target": "case:[2026] REALM-PC 12",
       "type": "applies",
@@ -9194,7 +9461,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-12.md"
     },
     {
-      "id": "edge:00524",
+      "id": "edge:00540",
       "source": "case:[2026] REALM-SC 8",
       "target": "case:[2026] REALM-SC 4",
       "type": "applies",
@@ -9210,7 +9477,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-4.md"
     },
     {
-      "id": "edge:00525",
+      "id": "edge:00541",
       "source": "case:[2026] REALM-SC 8",
       "target": "case:[2026] REALM-SC 7",
       "type": "applies",
@@ -9226,7 +9493,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-7.md"
     },
     {
-      "id": "edge:00526",
+      "id": "edge:00542",
       "source": "case:[2026] REALM-SC 9",
       "target": "bill:12",
       "type": "cites",
@@ -9242,7 +9509,7 @@
       "targetPath": "Legislature/legislature/bills/12-rights-standing-and-due-process-act-2026.md"
     },
     {
-      "id": "edge:00527",
+      "id": "edge:00543",
       "source": "case:[2026] REALM-SC 9",
       "target": "bill:13",
       "type": "cites",
@@ -9258,7 +9525,7 @@
       "targetPath": "Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md"
     },
     {
-      "id": "edge:00528",
+      "id": "edge:00544",
       "source": "case:[2026] REALM-SC 9",
       "target": "bill:18",
       "type": "cites",
@@ -9274,7 +9541,7 @@
       "targetPath": "Legislature/legislature/bills/18-autonomous-execution-and-safety-act-2026.md"
     },
     {
-      "id": "edge:00529",
+      "id": "edge:00545",
       "source": "case:[2026] REALM-SC 9",
       "target": "bill:21",
       "type": "cites",
@@ -9290,7 +9557,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00530",
+      "id": "edge:00546",
       "source": "case:[2026] REALM-SC 9",
       "target": "bill:22",
       "type": "cites",
@@ -9306,7 +9573,7 @@
       "targetPath": "Legislature/legislature/bills/22-data-disclosure-and-confidentiality-act-2026.md"
     },
     {
-      "id": "edge:00531",
+      "id": "edge:00547",
       "source": "case:[2026] REALM-SC 9",
       "target": "bill:27",
       "type": "cites",
@@ -9322,7 +9589,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00532",
+      "id": "edge:00548",
       "source": "case:[2026] REALM-SC 9",
       "target": "bill:30",
       "type": "cites",
@@ -9338,7 +9605,7 @@
       "targetPath": "Legislature/legislature/bills/30-multi-jurisdiction-and-community-record-act-2026.md"
     },
     {
-      "id": "edge:00533",
+      "id": "edge:00549",
       "source": "case:[2026] REALM-SC 9",
       "target": "bill:6",
       "type": "cites",
@@ -9354,7 +9621,7 @@
       "targetPath": "Legislature/legislature/bills/06-agents-and-duties-act-2026.md"
     },
     {
-      "id": "edge:00534",
+      "id": "edge:00550",
       "source": "case:[2026] REALM-SC 9",
       "target": "case:[2026] REALM-PC 17",
       "type": "applies",
@@ -9370,7 +9637,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-17.md"
     },
     {
-      "id": "edge:00535",
+      "id": "edge:00551",
       "source": "case:[2026] REALM-SC 9",
       "target": "case:[2026] REALM-PC 18",
       "type": "applies",
@@ -9386,7 +9653,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-18.md"
     },
     {
-      "id": "edge:00536",
+      "id": "edge:00552",
       "source": "case:[2026] REALM-SC 9",
       "target": "case:[2026] REALM-SC 8",
       "type": "applies",
@@ -9402,7 +9669,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-8.md"
     },
     {
-      "id": "edge:00537",
+      "id": "edge:00553",
       "source": "si:[2026] REALM-SI 1",
       "target": "bill:12",
       "type": "depends-on",
@@ -9418,7 +9685,7 @@
       "targetPath": "Legislature/legislature/bills/12-rights-standing-and-due-process-act-2026.md"
     },
     {
-      "id": "edge:00538",
+      "id": "edge:00554",
       "source": "si:[2026] REALM-SI 1",
       "target": "bill:13",
       "type": "cites",
@@ -9434,7 +9701,7 @@
       "targetPath": "Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md"
     },
     {
-      "id": "edge:00539",
+      "id": "edge:00555",
       "source": "si:[2026] REALM-SI 1",
       "target": "bill:13",
       "type": "depends-on",
@@ -9450,7 +9717,7 @@
       "targetPath": "Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md"
     },
     {
-      "id": "edge:00540",
+      "id": "edge:00556",
       "source": "si:[2026] REALM-SI 1",
       "target": "bill:14",
       "type": "amends",
@@ -9466,7 +9733,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00541",
+      "id": "edge:00557",
       "source": "si:[2026] REALM-SI 1",
       "target": "bill:14",
       "type": "commences",
@@ -9482,7 +9749,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00542",
+      "id": "edge:00558",
       "source": "si:[2026] REALM-SI 1",
       "target": "bill:14",
       "type": "depends-on",
@@ -9498,7 +9765,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00543",
+      "id": "edge:00559",
       "source": "si:[2026] REALM-SI 1",
       "target": "bill:21",
       "type": "cites",
@@ -9514,7 +9781,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00544",
+      "id": "edge:00560",
       "source": "si:[2026] REALM-SI 1",
       "target": "bill:21",
       "type": "depends-on",
@@ -9530,7 +9797,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00545",
+      "id": "edge:00561",
       "source": "si:[2026] REALM-SI 1",
       "target": "bill:22",
       "type": "depends-on",
@@ -9546,7 +9813,7 @@
       "targetPath": "Legislature/legislature/bills/22-data-disclosure-and-confidentiality-act-2026.md"
     },
     {
-      "id": "edge:00546",
+      "id": "edge:00562",
       "source": "si:[2026] REALM-SI 1",
       "target": "bill:8",
       "type": "cites",
@@ -9562,7 +9829,7 @@
       "targetPath": "Legislature/legislature/bills/08-public-reasons-and-audit-act-2026.md"
     },
     {
-      "id": "edge:00547",
+      "id": "edge:00563",
       "source": "si:[2026] REALM-SI 10",
       "target": "bill:13",
       "type": "amends",
@@ -9578,7 +9845,7 @@
       "targetPath": "Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md"
     },
     {
-      "id": "edge:00548",
+      "id": "edge:00564",
       "source": "si:[2026] REALM-SI 10",
       "target": "bill:13",
       "type": "depends-on",
@@ -9594,7 +9861,7 @@
       "targetPath": "Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md"
     },
     {
-      "id": "edge:00549",
+      "id": "edge:00565",
       "source": "si:[2026] REALM-SI 10",
       "target": "bill:14",
       "type": "commences",
@@ -9610,7 +9877,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00550",
+      "id": "edge:00566",
       "source": "si:[2026] REALM-SI 10",
       "target": "bill:18",
       "type": "amends",
@@ -9626,7 +9893,7 @@
       "targetPath": "Legislature/legislature/bills/18-autonomous-execution-and-safety-act-2026.md"
     },
     {
-      "id": "edge:00551",
+      "id": "edge:00567",
       "source": "si:[2026] REALM-SI 10",
       "target": "bill:18",
       "type": "cites",
@@ -9642,7 +9909,7 @@
       "targetPath": "Legislature/legislature/bills/18-autonomous-execution-and-safety-act-2026.md"
     },
     {
-      "id": "edge:00552",
+      "id": "edge:00568",
       "source": "si:[2026] REALM-SI 10",
       "target": "bill:21",
       "type": "amends",
@@ -9658,7 +9925,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00553",
+      "id": "edge:00569",
       "source": "si:[2026] REALM-SI 10",
       "target": "bill:21",
       "type": "cites",
@@ -9674,7 +9941,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00554",
+      "id": "edge:00570",
       "source": "si:[2026] REALM-SI 10",
       "target": "bill:22",
       "type": "amends",
@@ -9690,7 +9957,7 @@
       "targetPath": "Legislature/legislature/bills/22-data-disclosure-and-confidentiality-act-2026.md"
     },
     {
-      "id": "edge:00555",
+      "id": "edge:00571",
       "source": "si:[2026] REALM-SI 10",
       "target": "bill:22",
       "type": "cites",
@@ -9706,7 +9973,7 @@
       "targetPath": "Legislature/legislature/bills/22-data-disclosure-and-confidentiality-act-2026.md"
     },
     {
-      "id": "edge:00556",
+      "id": "edge:00572",
       "source": "si:[2026] REALM-SI 10",
       "target": "bill:26",
       "type": "amends",
@@ -9722,7 +9989,7 @@
       "targetPath": "Legislature/legislature/bills/26-statutory-instruments-framework-act-2026.md"
     },
     {
-      "id": "edge:00557",
+      "id": "edge:00573",
       "source": "si:[2026] REALM-SI 10",
       "target": "bill:27",
       "type": "amends",
@@ -9738,7 +10005,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00558",
+      "id": "edge:00574",
       "source": "si:[2026] REALM-SI 10",
       "target": "bill:27",
       "type": "cites",
@@ -9754,7 +10021,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00559",
+      "id": "edge:00575",
       "source": "si:[2026] REALM-SI 10",
       "target": "bill:29",
       "type": "amends",
@@ -9770,7 +10037,7 @@
       "targetPath": "Legislature/legislature/bills/29-ministerial-policy-arm-act-2026.md"
     },
     {
-      "id": "edge:00560",
+      "id": "edge:00576",
       "source": "si:[2026] REALM-SI 10",
       "target": "bill:29",
       "type": "cites",
@@ -9786,7 +10053,7 @@
       "targetPath": "Legislature/legislature/bills/29-ministerial-policy-arm-act-2026.md"
     },
     {
-      "id": "edge:00561",
+      "id": "edge:00577",
       "source": "si:[2026] REALM-SI 10",
       "target": "bill:5",
       "type": "amends",
@@ -9802,7 +10069,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00562",
+      "id": "edge:00578",
       "source": "si:[2026] REALM-SI 10",
       "target": "si:[2026] REALM-SI 8",
       "type": "amends",
@@ -9818,7 +10085,7 @@
       "targetPath": "Legislature/statutes/instruments/2026-realm-si-8-agent-lawfulness-hooks.md"
     },
     {
-      "id": "edge:00563",
+      "id": "edge:00579",
       "source": "si:[2026] REALM-SI 10",
       "target": "si:[2026] REALM-SI 8",
       "type": "cites",
@@ -9834,7 +10101,7 @@
       "targetPath": "Legislature/statutes/instruments/2026-realm-si-8-agent-lawfulness-hooks.md"
     },
     {
-      "id": "edge:00564",
+      "id": "edge:00580",
       "source": "si:[2026] REALM-SI 11",
       "target": "bill:13",
       "type": "amends",
@@ -9850,7 +10117,7 @@
       "targetPath": "Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md"
     },
     {
-      "id": "edge:00565",
+      "id": "edge:00581",
       "source": "si:[2026] REALM-SI 11",
       "target": "bill:13",
       "type": "depends-on",
@@ -9866,7 +10133,7 @@
       "targetPath": "Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md"
     },
     {
-      "id": "edge:00566",
+      "id": "edge:00582",
       "source": "si:[2026] REALM-SI 11",
       "target": "bill:14",
       "type": "commences",
@@ -9882,7 +10149,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00567",
+      "id": "edge:00583",
       "source": "si:[2026] REALM-SI 11",
       "target": "bill:18",
       "type": "amends",
@@ -9898,7 +10165,7 @@
       "targetPath": "Legislature/legislature/bills/18-autonomous-execution-and-safety-act-2026.md"
     },
     {
-      "id": "edge:00568",
+      "id": "edge:00584",
       "source": "si:[2026] REALM-SI 11",
       "target": "bill:18",
       "type": "cites",
@@ -9914,7 +10181,7 @@
       "targetPath": "Legislature/legislature/bills/18-autonomous-execution-and-safety-act-2026.md"
     },
     {
-      "id": "edge:00569",
+      "id": "edge:00585",
       "source": "si:[2026] REALM-SI 11",
       "target": "bill:21",
       "type": "amends",
@@ -9930,7 +10197,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00570",
+      "id": "edge:00586",
       "source": "si:[2026] REALM-SI 11",
       "target": "bill:21",
       "type": "cites",
@@ -9946,7 +10213,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00571",
+      "id": "edge:00587",
       "source": "si:[2026] REALM-SI 11",
       "target": "bill:22",
       "type": "amends",
@@ -9962,7 +10229,7 @@
       "targetPath": "Legislature/legislature/bills/22-data-disclosure-and-confidentiality-act-2026.md"
     },
     {
-      "id": "edge:00572",
+      "id": "edge:00588",
       "source": "si:[2026] REALM-SI 11",
       "target": "bill:22",
       "type": "cites",
@@ -9978,7 +10245,7 @@
       "targetPath": "Legislature/legislature/bills/22-data-disclosure-and-confidentiality-act-2026.md"
     },
     {
-      "id": "edge:00573",
+      "id": "edge:00589",
       "source": "si:[2026] REALM-SI 11",
       "target": "bill:26",
       "type": "amends",
@@ -9994,7 +10261,7 @@
       "targetPath": "Legislature/legislature/bills/26-statutory-instruments-framework-act-2026.md"
     },
     {
-      "id": "edge:00574",
+      "id": "edge:00590",
       "source": "si:[2026] REALM-SI 11",
       "target": "bill:27",
       "type": "amends",
@@ -10010,7 +10277,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00575",
+      "id": "edge:00591",
       "source": "si:[2026] REALM-SI 11",
       "target": "bill:27",
       "type": "cites",
@@ -10026,7 +10293,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00576",
+      "id": "edge:00592",
       "source": "si:[2026] REALM-SI 11",
       "target": "bill:29",
       "type": "amends",
@@ -10042,7 +10309,7 @@
       "targetPath": "Legislature/legislature/bills/29-ministerial-policy-arm-act-2026.md"
     },
     {
-      "id": "edge:00577",
+      "id": "edge:00593",
       "source": "si:[2026] REALM-SI 11",
       "target": "bill:29",
       "type": "cites",
@@ -10058,7 +10325,7 @@
       "targetPath": "Legislature/legislature/bills/29-ministerial-policy-arm-act-2026.md"
     },
     {
-      "id": "edge:00578",
+      "id": "edge:00594",
       "source": "si:[2026] REALM-SI 11",
       "target": "bill:5",
       "type": "amends",
@@ -10074,7 +10341,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00579",
+      "id": "edge:00595",
       "source": "si:[2026] REALM-SI 11",
       "target": "si:[2026] REALM-SI 10",
       "type": "amends",
@@ -10090,7 +10357,7 @@
       "targetPath": "Legislature/statutes/instruments/2026-realm-si-10-agent-lawfulness-hooks-agent-agnostic-amendment.md"
     },
     {
-      "id": "edge:00580",
+      "id": "edge:00596",
       "source": "si:[2026] REALM-SI 11",
       "target": "si:[2026] REALM-SI 10",
       "type": "cites",
@@ -10106,7 +10373,7 @@
       "targetPath": "Legislature/statutes/instruments/2026-realm-si-10-agent-lawfulness-hooks-agent-agnostic-amendment.md"
     },
     {
-      "id": "edge:00581",
+      "id": "edge:00597",
       "source": "si:[2026] REALM-SI 11",
       "target": "si:[2026] REALM-SI 8",
       "type": "amends",
@@ -10122,7 +10389,7 @@
       "targetPath": "Legislature/statutes/instruments/2026-realm-si-8-agent-lawfulness-hooks.md"
     },
     {
-      "id": "edge:00582",
+      "id": "edge:00598",
       "source": "si:[2026] REALM-SI 2",
       "target": "bill:13",
       "type": "cites",
@@ -10138,7 +10405,7 @@
       "targetPath": "Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md"
     },
     {
-      "id": "edge:00583",
+      "id": "edge:00599",
       "source": "si:[2026] REALM-SI 2",
       "target": "bill:14",
       "type": "cites",
@@ -10154,7 +10421,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00584",
+      "id": "edge:00600",
       "source": "si:[2026] REALM-SI 2",
       "target": "bill:14",
       "type": "commences",
@@ -10170,7 +10437,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00585",
+      "id": "edge:00601",
       "source": "si:[2026] REALM-SI 2",
       "target": "bill:14",
       "type": "depends-on",
@@ -10186,7 +10453,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00586",
+      "id": "edge:00602",
       "source": "si:[2026] REALM-SI 2",
       "target": "bill:14",
       "type": "repeals",
@@ -10202,7 +10469,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00587",
+      "id": "edge:00603",
       "source": "si:[2026] REALM-SI 2",
       "target": "bill:16",
       "type": "amends",
@@ -10218,7 +10485,7 @@
       "targetPath": "Legislature/legislature/bills/16-neutral-citations-and-law-reporting-act-2026.md"
     },
     {
-      "id": "edge:00588",
+      "id": "edge:00604",
       "source": "si:[2026] REALM-SI 2",
       "target": "bill:16",
       "type": "cites",
@@ -10234,7 +10501,7 @@
       "targetPath": "Legislature/legislature/bills/16-neutral-citations-and-law-reporting-act-2026.md"
     },
     {
-      "id": "edge:00589",
+      "id": "edge:00605",
       "source": "si:[2026] REALM-SI 2",
       "target": "bill:16",
       "type": "depends-on",
@@ -10250,7 +10517,7 @@
       "targetPath": "Legislature/legislature/bills/16-neutral-citations-and-law-reporting-act-2026.md"
     },
     {
-      "id": "edge:00590",
+      "id": "edge:00606",
       "source": "si:[2026] REALM-SI 2",
       "target": "bill:26",
       "type": "amends",
@@ -10266,7 +10533,7 @@
       "targetPath": "Legislature/legislature/bills/26-statutory-instruments-framework-act-2026.md"
     },
     {
-      "id": "edge:00591",
+      "id": "edge:00607",
       "source": "si:[2026] REALM-SI 2",
       "target": "bill:26",
       "type": "cites",
@@ -10282,7 +10549,7 @@
       "targetPath": "Legislature/legislature/bills/26-statutory-instruments-framework-act-2026.md"
     },
     {
-      "id": "edge:00592",
+      "id": "edge:00608",
       "source": "si:[2026] REALM-SI 2",
       "target": "bill:27",
       "type": "cites",
@@ -10298,7 +10565,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00593",
+      "id": "edge:00609",
       "source": "si:[2026] REALM-SI 2",
       "target": "bill:27",
       "type": "depends-on",
@@ -10314,7 +10581,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00594",
+      "id": "edge:00610",
       "source": "si:[2026] REALM-SI 2",
       "target": "bill:5",
       "type": "amends",
@@ -10330,7 +10597,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00595",
+      "id": "edge:00611",
       "source": "si:[2026] REALM-SI 2",
       "target": "bill:5",
       "type": "depends-on",
@@ -10346,7 +10613,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00596",
+      "id": "edge:00612",
       "source": "si:[2026] REALM-SI 2",
       "target": "bill:8",
       "type": "cites",
@@ -10362,7 +10629,7 @@
       "targetPath": "Legislature/legislature/bills/08-public-reasons-and-audit-act-2026.md"
     },
     {
-      "id": "edge:00597",
+      "id": "edge:00613",
       "source": "si:[2026] REALM-SI 2",
       "target": "case:[2026] REALM-PC 4",
       "type": "amends",
@@ -10378,7 +10645,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-4.md"
     },
     {
-      "id": "edge:00598",
+      "id": "edge:00614",
       "source": "si:[2026] REALM-SI 2",
       "target": "case:[2026] REALM-PC 4",
       "type": "cites",
@@ -10394,7 +10661,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-4.md"
     },
     {
-      "id": "edge:00599",
+      "id": "edge:00615",
       "source": "si:[2026] REALM-SI 2",
       "target": "case:[2026] REALM-PC 4",
       "type": "depends-on",
@@ -10410,7 +10677,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-4.md"
     },
     {
-      "id": "edge:00600",
+      "id": "edge:00616",
       "source": "si:[2026] REALM-SI 2",
       "target": "case:[2026] REALM-SC 8",
       "type": "cites",
@@ -10426,7 +10693,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-8.md"
     },
     {
-      "id": "edge:00601",
+      "id": "edge:00617",
       "source": "si:[2026] REALM-SI 2",
       "target": "case:[2026] REALM-SC 8",
       "type": "commences",
@@ -10442,7 +10709,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-8.md"
     },
     {
-      "id": "edge:00602",
+      "id": "edge:00618",
       "source": "si:[2026] REALM-SI 2",
       "target": "case:[2026] REALM-SC 8",
       "type": "depends-on",
@@ -10458,7 +10725,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-8.md"
     },
     {
-      "id": "edge:00603",
+      "id": "edge:00619",
       "source": "si:[2026] REALM-SI 3",
       "target": "bill:13",
       "type": "cites",
@@ -10474,7 +10741,7 @@
       "targetPath": "Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md"
     },
     {
-      "id": "edge:00604",
+      "id": "edge:00620",
       "source": "si:[2026] REALM-SI 3",
       "target": "bill:14",
       "type": "cites",
@@ -10490,7 +10757,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00605",
+      "id": "edge:00621",
       "source": "si:[2026] REALM-SI 3",
       "target": "bill:14",
       "type": "commences",
@@ -10506,7 +10773,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00606",
+      "id": "edge:00622",
       "source": "si:[2026] REALM-SI 3",
       "target": "bill:14",
       "type": "depends-on",
@@ -10522,7 +10789,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00607",
+      "id": "edge:00623",
       "source": "si:[2026] REALM-SI 3",
       "target": "bill:14",
       "type": "repeals",
@@ -10538,7 +10805,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00608",
+      "id": "edge:00624",
       "source": "si:[2026] REALM-SI 3",
       "target": "bill:26",
       "type": "amends",
@@ -10554,7 +10821,7 @@
       "targetPath": "Legislature/legislature/bills/26-statutory-instruments-framework-act-2026.md"
     },
     {
-      "id": "edge:00609",
+      "id": "edge:00625",
       "source": "si:[2026] REALM-SI 3",
       "target": "bill:26",
       "type": "cites",
@@ -10570,7 +10837,7 @@
       "targetPath": "Legislature/legislature/bills/26-statutory-instruments-framework-act-2026.md"
     },
     {
-      "id": "edge:00610",
+      "id": "edge:00626",
       "source": "si:[2026] REALM-SI 3",
       "target": "bill:27",
       "type": "amends",
@@ -10586,7 +10853,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00611",
+      "id": "edge:00627",
       "source": "si:[2026] REALM-SI 3",
       "target": "bill:27",
       "type": "cites",
@@ -10602,7 +10869,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00612",
+      "id": "edge:00628",
       "source": "si:[2026] REALM-SI 3",
       "target": "bill:27",
       "type": "depends-on",
@@ -10618,7 +10885,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00613",
+      "id": "edge:00629",
       "source": "si:[2026] REALM-SI 3",
       "target": "bill:27",
       "type": "implements",
@@ -10634,7 +10901,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00614",
+      "id": "edge:00630",
       "source": "si:[2026] REALM-SI 3",
       "target": "bill:5",
       "type": "amends",
@@ -10650,7 +10917,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00615",
+      "id": "edge:00631",
       "source": "si:[2026] REALM-SI 3",
       "target": "bill:5",
       "type": "depends-on",
@@ -10666,7 +10933,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00616",
+      "id": "edge:00632",
       "source": "si:[2026] REALM-SI 3",
       "target": "bill:6",
       "type": "cites",
@@ -10682,7 +10949,7 @@
       "targetPath": "Legislature/legislature/bills/06-agents-and-duties-act-2026.md"
     },
     {
-      "id": "edge:00617",
+      "id": "edge:00633",
       "source": "si:[2026] REALM-SI 3",
       "target": "bill:6",
       "type": "depends-on",
@@ -10698,7 +10965,7 @@
       "targetPath": "Legislature/legislature/bills/06-agents-and-duties-act-2026.md"
     },
     {
-      "id": "edge:00618",
+      "id": "edge:00634",
       "source": "si:[2026] REALM-SI 3",
       "target": "bill:8",
       "type": "depends-on",
@@ -10714,7 +10981,7 @@
       "targetPath": "Legislature/legislature/bills/08-public-reasons-and-audit-act-2026.md"
     },
     {
-      "id": "edge:00619",
+      "id": "edge:00635",
       "source": "si:[2026] REALM-SI 3",
       "target": "case:[2026] REALM-SC 8",
       "type": "cites",
@@ -10730,7 +10997,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-8.md"
     },
     {
-      "id": "edge:00620",
+      "id": "edge:00636",
       "source": "si:[2026] REALM-SI 3",
       "target": "case:[2026] REALM-SC 8",
       "type": "depends-on",
@@ -10746,7 +11013,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-8.md"
     },
     {
-      "id": "edge:00621",
+      "id": "edge:00637",
       "source": "si:[2026] REALM-SI 3",
       "target": "si:[2026] REALM-SI 2",
       "type": "amends",
@@ -10762,7 +11029,7 @@
       "targetPath": "Legislature/statutes/instruments/2026-realm-si-2-judgment-rendering-and-lodgement.md"
     },
     {
-      "id": "edge:00622",
+      "id": "edge:00638",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:13",
       "type": "cites",
@@ -10778,7 +11045,7 @@
       "targetPath": "Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md"
     },
     {
-      "id": "edge:00623",
+      "id": "edge:00639",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:14",
       "type": "cites",
@@ -10794,7 +11061,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00624",
+      "id": "edge:00640",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:14",
       "type": "commences",
@@ -10810,7 +11077,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00625",
+      "id": "edge:00641",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:14",
       "type": "depends-on",
@@ -10826,7 +11093,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00626",
+      "id": "edge:00642",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:14",
       "type": "repeals",
@@ -10842,7 +11109,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00627",
+      "id": "edge:00643",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:21",
       "type": "amends",
@@ -10858,7 +11125,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00628",
+      "id": "edge:00644",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:21",
       "type": "cites",
@@ -10874,7 +11141,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00629",
+      "id": "edge:00645",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:21",
       "type": "depends-on",
@@ -10890,7 +11157,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00630",
+      "id": "edge:00646",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:26",
       "type": "cites",
@@ -10906,7 +11173,7 @@
       "targetPath": "Legislature/legislature/bills/26-statutory-instruments-framework-act-2026.md"
     },
     {
-      "id": "edge:00631",
+      "id": "edge:00647",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:27",
       "type": "amends",
@@ -10922,7 +11189,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00632",
+      "id": "edge:00648",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:27",
       "type": "cites",
@@ -10938,7 +11205,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00633",
+      "id": "edge:00649",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:27",
       "type": "commences",
@@ -10954,7 +11221,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00634",
+      "id": "edge:00650",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:27",
       "type": "depends-on",
@@ -10970,7 +11237,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00635",
+      "id": "edge:00651",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:27",
       "type": "implements",
@@ -10986,7 +11253,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00636",
+      "id": "edge:00652",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:5",
       "type": "depends-on",
@@ -11002,7 +11269,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00637",
+      "id": "edge:00653",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:8",
       "type": "cites",
@@ -11018,7 +11285,7 @@
       "targetPath": "Legislature/legislature/bills/08-public-reasons-and-audit-act-2026.md"
     },
     {
-      "id": "edge:00638",
+      "id": "edge:00654",
       "source": "si:[2026] REALM-SI 4",
       "target": "bill:8",
       "type": "depends-on",
@@ -11034,7 +11301,7 @@
       "targetPath": "Legislature/legislature/bills/08-public-reasons-and-audit-act-2026.md"
     },
     {
-      "id": "edge:00639",
+      "id": "edge:00655",
       "source": "si:[2026] REALM-SI 4",
       "target": "case:[2026] REALM-SC 8",
       "type": "cites",
@@ -11050,7 +11317,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-8.md"
     },
     {
-      "id": "edge:00640",
+      "id": "edge:00656",
       "source": "si:[2026] REALM-SI 4",
       "target": "si:[2026] REALM-SI 1",
       "type": "cites",
@@ -11066,7 +11333,7 @@
       "targetPath": "Legislature/statutes/instruments/2026-realm-si-1-security-and-integrity-server-estate.md"
     },
     {
-      "id": "edge:00641",
+      "id": "edge:00657",
       "source": "si:[2026] REALM-SI 4",
       "target": "si:[2026] REALM-SI 1",
       "type": "depends-on",
@@ -11082,7 +11349,7 @@
       "targetPath": "Legislature/statutes/instruments/2026-realm-si-1-security-and-integrity-server-estate.md"
     },
     {
-      "id": "edge:00642",
+      "id": "edge:00658",
       "source": "si:[2026] REALM-SI 5",
       "target": "bill:13",
       "type": "cites",
@@ -11098,7 +11365,7 @@
       "targetPath": "Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md"
     },
     {
-      "id": "edge:00643",
+      "id": "edge:00659",
       "source": "si:[2026] REALM-SI 5",
       "target": "bill:14",
       "type": "cites",
@@ -11114,7 +11381,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00644",
+      "id": "edge:00660",
       "source": "si:[2026] REALM-SI 5",
       "target": "bill:14",
       "type": "commences",
@@ -11130,7 +11397,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00645",
+      "id": "edge:00661",
       "source": "si:[2026] REALM-SI 5",
       "target": "bill:14",
       "type": "depends-on",
@@ -11146,7 +11413,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00646",
+      "id": "edge:00662",
       "source": "si:[2026] REALM-SI 5",
       "target": "bill:18",
       "type": "cites",
@@ -11162,7 +11429,7 @@
       "targetPath": "Legislature/legislature/bills/18-autonomous-execution-and-safety-act-2026.md"
     },
     {
-      "id": "edge:00647",
+      "id": "edge:00663",
       "source": "si:[2026] REALM-SI 5",
       "target": "bill:18",
       "type": "depends-on",
@@ -11178,7 +11445,7 @@
       "targetPath": "Legislature/legislature/bills/18-autonomous-execution-and-safety-act-2026.md"
     },
     {
-      "id": "edge:00648",
+      "id": "edge:00664",
       "source": "si:[2026] REALM-SI 5",
       "target": "bill:21",
       "type": "amends",
@@ -11194,7 +11461,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00649",
+      "id": "edge:00665",
       "source": "si:[2026] REALM-SI 5",
       "target": "bill:21",
       "type": "cites",
@@ -11210,7 +11477,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00650",
+      "id": "edge:00666",
       "source": "si:[2026] REALM-SI 5",
       "target": "bill:21",
       "type": "depends-on",
@@ -11226,7 +11493,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00651",
+      "id": "edge:00667",
       "source": "si:[2026] REALM-SI 5",
       "target": "bill:22",
       "type": "cites",
@@ -11242,7 +11509,7 @@
       "targetPath": "Legislature/legislature/bills/22-data-disclosure-and-confidentiality-act-2026.md"
     },
     {
-      "id": "edge:00652",
+      "id": "edge:00668",
       "source": "si:[2026] REALM-SI 5",
       "target": "bill:27",
       "type": "cites",
@@ -11258,7 +11525,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00653",
+      "id": "edge:00669",
       "source": "si:[2026] REALM-SI 5",
       "target": "bill:27",
       "type": "depends-on",
@@ -11274,7 +11541,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00654",
+      "id": "edge:00670",
       "source": "si:[2026] REALM-SI 5",
       "target": "bill:5",
       "type": "depends-on",
@@ -11290,7 +11557,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00655",
+      "id": "edge:00671",
       "source": "si:[2026] REALM-SI 5",
       "target": "bill:8",
       "type": "cites",
@@ -11306,7 +11573,7 @@
       "targetPath": "Legislature/legislature/bills/08-public-reasons-and-audit-act-2026.md"
     },
     {
-      "id": "edge:00656",
+      "id": "edge:00672",
       "source": "si:[2026] REALM-SI 5",
       "target": "case:[2026] REALM-PC 13",
       "type": "amends",
@@ -11322,7 +11589,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-13.md"
     },
     {
-      "id": "edge:00657",
+      "id": "edge:00673",
       "source": "si:[2026] REALM-SI 5",
       "target": "case:[2026] REALM-PC 13",
       "type": "cites",
@@ -11338,7 +11605,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-13.md"
     },
     {
-      "id": "edge:00658",
+      "id": "edge:00674",
       "source": "si:[2026] REALM-SI 5",
       "target": "case:[2026] REALM-PC 13",
       "type": "depends-on",
@@ -11354,7 +11621,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-13.md"
     },
     {
-      "id": "edge:00659",
+      "id": "edge:00675",
       "source": "si:[2026] REALM-SI 5",
       "target": "si:[2026] REALM-SI 1",
       "type": "cites",
@@ -11370,7 +11637,7 @@
       "targetPath": "Legislature/statutes/instruments/2026-realm-si-1-security-and-integrity-server-estate.md"
     },
     {
-      "id": "edge:00660",
+      "id": "edge:00676",
       "source": "si:[2026] REALM-SI 5",
       "target": "si:[2026] REALM-SI 4",
       "type": "amends",
@@ -11386,7 +11653,7 @@
       "targetPath": "Legislature/statutes/instruments/2026-realm-si-4-security-suite.md"
     },
     {
-      "id": "edge:00661",
+      "id": "edge:00677",
       "source": "si:[2026] REALM-SI 5",
       "target": "si:[2026] REALM-SI 4",
       "type": "cites",
@@ -11402,7 +11669,7 @@
       "targetPath": "Legislature/statutes/instruments/2026-realm-si-4-security-suite.md"
     },
     {
-      "id": "edge:00662",
+      "id": "edge:00678",
       "source": "si:[2026] REALM-SI 6",
       "target": "bill:13",
       "type": "cites",
@@ -11418,7 +11685,7 @@
       "targetPath": "Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md"
     },
     {
-      "id": "edge:00663",
+      "id": "edge:00679",
       "source": "si:[2026] REALM-SI 6",
       "target": "bill:14",
       "type": "cites",
@@ -11434,7 +11701,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00664",
+      "id": "edge:00680",
       "source": "si:[2026] REALM-SI 6",
       "target": "bill:14",
       "type": "commences",
@@ -11450,7 +11717,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00665",
+      "id": "edge:00681",
       "source": "si:[2026] REALM-SI 6",
       "target": "bill:14",
       "type": "depends-on",
@@ -11466,7 +11733,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00666",
+      "id": "edge:00682",
       "source": "si:[2026] REALM-SI 6",
       "target": "bill:16",
       "type": "cites",
@@ -11482,7 +11749,7 @@
       "targetPath": "Legislature/legislature/bills/16-neutral-citations-and-law-reporting-act-2026.md"
     },
     {
-      "id": "edge:00667",
+      "id": "edge:00683",
       "source": "si:[2026] REALM-SI 6",
       "target": "bill:20",
       "type": "cites",
@@ -11498,7 +11765,7 @@
       "targetPath": "Legislature/legislature/bills/20-repositories-and-records-certification-act-2026.md"
     },
     {
-      "id": "edge:00668",
+      "id": "edge:00684",
       "source": "si:[2026] REALM-SI 6",
       "target": "bill:20",
       "type": "depends-on",
@@ -11514,7 +11781,7 @@
       "targetPath": "Legislature/legislature/bills/20-repositories-and-records-certification-act-2026.md"
     },
     {
-      "id": "edge:00669",
+      "id": "edge:00685",
       "source": "si:[2026] REALM-SI 6",
       "target": "bill:21",
       "type": "amends",
@@ -11530,7 +11797,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00670",
+      "id": "edge:00686",
       "source": "si:[2026] REALM-SI 6",
       "target": "bill:21",
       "type": "cites",
@@ -11546,7 +11813,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00671",
+      "id": "edge:00687",
       "source": "si:[2026] REALM-SI 6",
       "target": "bill:22",
       "type": "cites",
@@ -11562,7 +11829,7 @@
       "targetPath": "Legislature/legislature/bills/22-data-disclosure-and-confidentiality-act-2026.md"
     },
     {
-      "id": "edge:00672",
+      "id": "edge:00688",
       "source": "si:[2026] REALM-SI 6",
       "target": "bill:26",
       "type": "amends",
@@ -11578,7 +11845,7 @@
       "targetPath": "Legislature/legislature/bills/26-statutory-instruments-framework-act-2026.md"
     },
     {
-      "id": "edge:00673",
+      "id": "edge:00689",
       "source": "si:[2026] REALM-SI 6",
       "target": "bill:27",
       "type": "cites",
@@ -11594,7 +11861,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00674",
+      "id": "edge:00690",
       "source": "si:[2026] REALM-SI 6",
       "target": "bill:27",
       "type": "depends-on",
@@ -11610,7 +11877,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00675",
+      "id": "edge:00691",
       "source": "si:[2026] REALM-SI 6",
       "target": "bill:5",
       "type": "amends",
@@ -11626,7 +11893,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00676",
+      "id": "edge:00692",
       "source": "si:[2026] REALM-SI 6",
       "target": "bill:5",
       "type": "cites",
@@ -11642,7 +11909,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00677",
+      "id": "edge:00693",
       "source": "si:[2026] REALM-SI 6",
       "target": "bill:5",
       "type": "depends-on",
@@ -11658,7 +11925,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00678",
+      "id": "edge:00694",
       "source": "si:[2026] REALM-SI 6",
       "target": "case:[2026] REALM-PC 13",
       "type": "cites",
@@ -11674,7 +11941,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-13.md"
     },
     {
-      "id": "edge:00679",
+      "id": "edge:00695",
       "source": "si:[2026] REALM-SI 6",
       "target": "case:[2026] REALM-PC 14",
       "type": "cites",
@@ -11690,7 +11957,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-14.md"
     },
     {
-      "id": "edge:00680",
+      "id": "edge:00696",
       "source": "si:[2026] REALM-SI 6",
       "target": "case:[2026] REALM-PC 14",
       "type": "depends-on",
@@ -11706,7 +11973,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-14.md"
     },
     {
-      "id": "edge:00681",
+      "id": "edge:00697",
       "source": "si:[2026] REALM-SI 6",
       "target": "case:[2026] REALM-PC 4",
       "type": "cites",
@@ -11722,7 +11989,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-4.md"
     },
     {
-      "id": "edge:00682",
+      "id": "edge:00698",
       "source": "si:[2026] REALM-SI 6",
       "target": "case:[2026] REALM-PC 4",
       "type": "depends-on",
@@ -11738,7 +12005,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-4.md"
     },
     {
-      "id": "edge:00683",
+      "id": "edge:00699",
       "source": "si:[2026] REALM-SI 6",
       "target": "case:[2026] REALM-PC 8",
       "type": "cites",
@@ -11754,7 +12021,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-8.md"
     },
     {
-      "id": "edge:00684",
+      "id": "edge:00700",
       "source": "si:[2026] REALM-SI 6",
       "target": "case:[2026] REALM-PC 8",
       "type": "depends-on",
@@ -11770,7 +12037,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-8.md"
     },
     {
-      "id": "edge:00685",
+      "id": "edge:00701",
       "source": "si:[2026] REALM-SI 6",
       "target": "case:[2026] REALM-SC 5",
       "type": "cites",
@@ -11786,7 +12053,7 @@
       "targetPath": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-5.md"
     },
     {
-      "id": "edge:00686",
+      "id": "edge:00702",
       "source": "si:[2026] REALM-SI 6",
       "target": "si:[2026] REALM-SI 5",
       "type": "cites",
@@ -11802,7 +12069,7 @@
       "targetPath": "Legislature/statutes/instruments/2026-realm-si-5-agent-security.md"
     },
     {
-      "id": "edge:00687",
+      "id": "edge:00703",
       "source": "si:[2026] REALM-SI 7",
       "target": "bill:14",
       "type": "commences",
@@ -11818,7 +12085,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00688",
+      "id": "edge:00704",
       "source": "si:[2026] REALM-SI 7",
       "target": "bill:18",
       "type": "cites",
@@ -11834,7 +12101,7 @@
       "targetPath": "Legislature/legislature/bills/18-autonomous-execution-and-safety-act-2026.md"
     },
     {
-      "id": "edge:00689",
+      "id": "edge:00705",
       "source": "si:[2026] REALM-SI 7",
       "target": "bill:18",
       "type": "depends-on",
@@ -11850,7 +12117,7 @@
       "targetPath": "Legislature/legislature/bills/18-autonomous-execution-and-safety-act-2026.md"
     },
     {
-      "id": "edge:00690",
+      "id": "edge:00706",
       "source": "si:[2026] REALM-SI 7",
       "target": "bill:20",
       "type": "cites",
@@ -11866,7 +12133,7 @@
       "targetPath": "Legislature/legislature/bills/20-repositories-and-records-certification-act-2026.md"
     },
     {
-      "id": "edge:00691",
+      "id": "edge:00707",
       "source": "si:[2026] REALM-SI 7",
       "target": "bill:20",
       "type": "depends-on",
@@ -11882,7 +12149,7 @@
       "targetPath": "Legislature/legislature/bills/20-repositories-and-records-certification-act-2026.md"
     },
     {
-      "id": "edge:00692",
+      "id": "edge:00708",
       "source": "si:[2026] REALM-SI 7",
       "target": "bill:22",
       "type": "cites",
@@ -11898,7 +12165,7 @@
       "targetPath": "Legislature/legislature/bills/22-data-disclosure-and-confidentiality-act-2026.md"
     },
     {
-      "id": "edge:00693",
+      "id": "edge:00709",
       "source": "si:[2026] REALM-SI 7",
       "target": "bill:26",
       "type": "amends",
@@ -11914,7 +12181,7 @@
       "targetPath": "Legislature/legislature/bills/26-statutory-instruments-framework-act-2026.md"
     },
     {
-      "id": "edge:00694",
+      "id": "edge:00710",
       "source": "si:[2026] REALM-SI 7",
       "target": "bill:27",
       "type": "cites",
@@ -11930,7 +12197,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00695",
+      "id": "edge:00711",
       "source": "si:[2026] REALM-SI 7",
       "target": "bill:27",
       "type": "depends-on",
@@ -11946,7 +12213,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00696",
+      "id": "edge:00712",
       "source": "si:[2026] REALM-SI 7",
       "target": "bill:29",
       "type": "cites",
@@ -11962,7 +12229,7 @@
       "targetPath": "Legislature/legislature/bills/29-ministerial-policy-arm-act-2026.md"
     },
     {
-      "id": "edge:00697",
+      "id": "edge:00713",
       "source": "si:[2026] REALM-SI 7",
       "target": "bill:29",
       "type": "depends-on",
@@ -11978,7 +12245,7 @@
       "targetPath": "Legislature/legislature/bills/29-ministerial-policy-arm-act-2026.md"
     },
     {
-      "id": "edge:00698",
+      "id": "edge:00714",
       "source": "si:[2026] REALM-SI 7",
       "target": "bill:5",
       "type": "amends",
@@ -11994,7 +12261,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00699",
+      "id": "edge:00715",
       "source": "si:[2026] REALM-SI 7",
       "target": "case:[2026] REALM-PC 15",
       "type": "cites",
@@ -12010,7 +12277,7 @@
       "targetPath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-15.md"
     },
     {
-      "id": "edge:00700",
+      "id": "edge:00716",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:13",
       "type": "cites",
@@ -12026,7 +12293,7 @@
       "targetPath": "Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md"
     },
     {
-      "id": "edge:00701",
+      "id": "edge:00717",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:13",
       "type": "depends-on",
@@ -12042,7 +12309,7 @@
       "targetPath": "Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md"
     },
     {
-      "id": "edge:00702",
+      "id": "edge:00718",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:14",
       "type": "commences",
@@ -12058,7 +12325,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00703",
+      "id": "edge:00719",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:18",
       "type": "cites",
@@ -12074,7 +12341,7 @@
       "targetPath": "Legislature/legislature/bills/18-autonomous-execution-and-safety-act-2026.md"
     },
     {
-      "id": "edge:00704",
+      "id": "edge:00720",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:18",
       "type": "depends-on",
@@ -12090,7 +12357,7 @@
       "targetPath": "Legislature/legislature/bills/18-autonomous-execution-and-safety-act-2026.md"
     },
     {
-      "id": "edge:00705",
+      "id": "edge:00721",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:21",
       "type": "cites",
@@ -12106,7 +12373,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00706",
+      "id": "edge:00722",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:21",
       "type": "depends-on",
@@ -12122,7 +12389,7 @@
       "targetPath": "Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
     {
-      "id": "edge:00707",
+      "id": "edge:00723",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:22",
       "type": "cites",
@@ -12138,7 +12405,7 @@
       "targetPath": "Legislature/legislature/bills/22-data-disclosure-and-confidentiality-act-2026.md"
     },
     {
-      "id": "edge:00708",
+      "id": "edge:00724",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:22",
       "type": "depends-on",
@@ -12154,7 +12421,7 @@
       "targetPath": "Legislature/legislature/bills/22-data-disclosure-and-confidentiality-act-2026.md"
     },
     {
-      "id": "edge:00709",
+      "id": "edge:00725",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:26",
       "type": "amends",
@@ -12170,7 +12437,7 @@
       "targetPath": "Legislature/legislature/bills/26-statutory-instruments-framework-act-2026.md"
     },
     {
-      "id": "edge:00710",
+      "id": "edge:00726",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:26",
       "type": "cites",
@@ -12186,7 +12453,7 @@
       "targetPath": "Legislature/legislature/bills/26-statutory-instruments-framework-act-2026.md"
     },
     {
-      "id": "edge:00711",
+      "id": "edge:00727",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:26",
       "type": "depends-on",
@@ -12202,7 +12469,7 @@
       "targetPath": "Legislature/legislature/bills/26-statutory-instruments-framework-act-2026.md"
     },
     {
-      "id": "edge:00712",
+      "id": "edge:00728",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:27",
       "type": "cites",
@@ -12218,7 +12485,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00713",
+      "id": "edge:00729",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:27",
       "type": "depends-on",
@@ -12234,7 +12501,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00714",
+      "id": "edge:00730",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:29",
       "type": "cites",
@@ -12250,7 +12517,7 @@
       "targetPath": "Legislature/legislature/bills/29-ministerial-policy-arm-act-2026.md"
     },
     {
-      "id": "edge:00715",
+      "id": "edge:00731",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:29",
       "type": "depends-on",
@@ -12266,7 +12533,7 @@
       "targetPath": "Legislature/legislature/bills/29-ministerial-policy-arm-act-2026.md"
     },
     {
-      "id": "edge:00716",
+      "id": "edge:00732",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:5",
       "type": "amends",
@@ -12282,7 +12549,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00717",
+      "id": "edge:00733",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:5",
       "type": "cites",
@@ -12298,7 +12565,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00718",
+      "id": "edge:00734",
       "source": "si:[2026] REALM-SI 8",
       "target": "bill:5",
       "type": "depends-on",
@@ -12314,7 +12581,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00719",
+      "id": "edge:00735",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:14",
       "type": "commences",
@@ -12330,7 +12597,7 @@
       "targetPath": "Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
     {
-      "id": "edge:00720",
+      "id": "edge:00736",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:16",
       "type": "cites",
@@ -12346,7 +12613,7 @@
       "targetPath": "Legislature/legislature/bills/16-neutral-citations-and-law-reporting-act-2026.md"
     },
     {
-      "id": "edge:00721",
+      "id": "edge:00737",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:16",
       "type": "depends-on",
@@ -12362,7 +12629,7 @@
       "targetPath": "Legislature/legislature/bills/16-neutral-citations-and-law-reporting-act-2026.md"
     },
     {
-      "id": "edge:00722",
+      "id": "edge:00738",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:20",
       "type": "cites",
@@ -12378,7 +12645,7 @@
       "targetPath": "Legislature/legislature/bills/20-repositories-and-records-certification-act-2026.md"
     },
     {
-      "id": "edge:00723",
+      "id": "edge:00739",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:20",
       "type": "depends-on",
@@ -12394,7 +12661,7 @@
       "targetPath": "Legislature/legislature/bills/20-repositories-and-records-certification-act-2026.md"
     },
     {
-      "id": "edge:00724",
+      "id": "edge:00740",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:22",
       "type": "cites",
@@ -12410,7 +12677,7 @@
       "targetPath": "Legislature/legislature/bills/22-data-disclosure-and-confidentiality-act-2026.md"
     },
     {
-      "id": "edge:00725",
+      "id": "edge:00741",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:22",
       "type": "depends-on",
@@ -12426,7 +12693,7 @@
       "targetPath": "Legislature/legislature/bills/22-data-disclosure-and-confidentiality-act-2026.md"
     },
     {
-      "id": "edge:00726",
+      "id": "edge:00742",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:26",
       "type": "amends",
@@ -12442,7 +12709,7 @@
       "targetPath": "Legislature/legislature/bills/26-statutory-instruments-framework-act-2026.md"
     },
     {
-      "id": "edge:00727",
+      "id": "edge:00743",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:26",
       "type": "depends-on",
@@ -12458,7 +12725,7 @@
       "targetPath": "Legislature/legislature/bills/26-statutory-instruments-framework-act-2026.md"
     },
     {
-      "id": "edge:00728",
+      "id": "edge:00744",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:27",
       "type": "cites",
@@ -12474,7 +12741,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00729",
+      "id": "edge:00745",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:27",
       "type": "depends-on",
@@ -12490,7 +12757,7 @@
       "targetPath": "Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
     {
-      "id": "edge:00730",
+      "id": "edge:00746",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:29",
       "type": "cites",
@@ -12506,7 +12773,7 @@
       "targetPath": "Legislature/legislature/bills/29-ministerial-policy-arm-act-2026.md"
     },
     {
-      "id": "edge:00731",
+      "id": "edge:00747",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:29",
       "type": "depends-on",
@@ -12522,7 +12789,7 @@
       "targetPath": "Legislature/legislature/bills/29-ministerial-policy-arm-act-2026.md"
     },
     {
-      "id": "edge:00732",
+      "id": "edge:00748",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:5",
       "type": "amends",
@@ -12538,7 +12805,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00733",
+      "id": "edge:00749",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:5",
       "type": "depends-on",
@@ -12554,7 +12821,7 @@
       "targetPath": "Legislature/legislature/bills/05-ministries-and-offices-act-2026.md"
     },
     {
-      "id": "edge:00734",
+      "id": "edge:00750",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:7",
       "type": "depends-on",
@@ -12570,7 +12837,7 @@
       "targetPath": "Legislature/legislature/bills/07-memory-records-and-archives-act-2026.md"
     },
     {
-      "id": "edge:00735",
+      "id": "edge:00751",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:8",
       "type": "cites",
@@ -12586,7 +12853,7 @@
       "targetPath": "Legislature/legislature/bills/08-public-reasons-and-audit-act-2026.md"
     },
     {
-      "id": "edge:00736",
+      "id": "edge:00752",
       "source": "si:[2026] REALM-SI 9",
       "target": "bill:8",
       "type": "depends-on",
