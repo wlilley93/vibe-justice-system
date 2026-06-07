@@ -1,13 +1,31 @@
 {
-  "//": "VJS plugin hooks. Merge this into the target repo's .claude/settings.json (cdd init does this for you). The Stop hook runs the token-light turn watchdog after every agent turn; it is inert unless .justice/ exists and ANTHROPIC_API_KEY is set, and it fails open. Set VJS_WATCHDOG_MODE=warn to make it advisory instead of blocking, or VJS_WATCHDOG=off to disable.",
+  "//": "Claude adapter binding for the agent-agnostic VJS hook contract. cdd init installs generic scripts under .vjs/hooks/ and also copies them to .claude/hooks/ for this adapter. Claude fires UserPromptSubmit after prompt submission and before Claude processes it; Stop fires when Claude finishes responding. The Stop watchdog is inert unless .justice/ or Judicature/.justice/ exists and ANTHROPIC_API_KEY is set, and it fails open. Set VJS_WATCHDOG_MODE=warn to make it advisory instead of blocking, or VJS_WATCHDOG=off to disable.",
   "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/vjs-pre-answer.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/vjs-watchdog.sh"
+            "command": "bash .claude/hooks/vjs-post-answer.sh",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/vjs-watchdog.sh",
+            "timeout": 45
           }
         ]
       }

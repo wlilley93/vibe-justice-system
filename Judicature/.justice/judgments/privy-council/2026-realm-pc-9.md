@@ -18,6 +18,8 @@ A practitioner treatise is permitted as a PRODUCT artifact, not governance: it i
 
 Governing law applied: s. 21, s. 14, s. 9, SC-3 / FI-1 / FI-2, consolidation-over-fragmentation, SPEC-LAW-3.
 
+**Gazette graph no-edge declaration:** this reconstituted legacy practitioner-treatise record cites previous-system sources and internal provenance labels that are not current Gazette items. No current Gazette edge is declared from this item.
+
 ## Judgment
 # [2026] LEXBY-LEGACY-BENCHMARK-FI 4 - Re the Practitioner Treatise (capturing learnings)
 
@@ -38,4 +40,3 @@ Question (Principal): how should the Legal Department capture/synthesise its lea
 4. Anti-cheat constraints (binding, SC-3 / FI-1 / FI-2): HOW-only intake; a per-sentence provenance/disguise test; VPR-8 anonymisation when drawing from records (fabricated or fully-generalised illustrations, never planted facts); sealed-room boundary (the treatise never ingests run_eval, the rubric, or task.json); no answer-key-vehicle; honest-scoring temporal limb (never re-score a harvested task to credit treatise content); disclosure + uniform application if any chapter is ever injected into a scored prompt.
 
 Destination: product skills/references tier (agents-final legal references/).
-

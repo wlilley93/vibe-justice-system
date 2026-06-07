@@ -5,16 +5,20 @@
 // Judicature/law-reports/site/ under the repo root (local or GitHub Pages subpath).
 
 const REL = '../../../'; // site lives at Judicature/law-reports/site/ ; corpus paths are repo-root-relative
-let MS = null, CORPUS = null, FILTER = 'all';
+let MS = null, CORPUS = null, GRAPH = null, FILTER = 'all';
+let GRAPH_NODES = new Map(), GRAPH_OUT = new Map(), GRAPH_IN = new Map();
 
 const el = (id) => document.getElementById(id);
 
 async function boot() {
-  const [idxRaw, corpus] = await Promise.all([
+  const [idxRaw, corpus, graph] = await Promise.all([
     fetch('search-index.json').then(r => r.json()),
     fetch('corpus.json').then(r => r.json()),
+    fetch('citator-graph.json').then(r => r.ok ? r.json() : null).catch(() => null),
   ]);
   CORPUS = corpus;
+  GRAPH = graph;
+  hydrateGraph();
   MS = MiniSearch.loadJS(idxRaw, {
     fields: ['citation', 'title', 'ratio', 'body', 'court', 'status', 'panel', 'cites'],
     storeFields: ['kind', 'citation', 'title', 'series', 'court', 'status', 'ratio',
@@ -95,6 +99,7 @@ function renderStart() {
       <a href="${REL}Legislature/statutes/instruments/pdfs/">SI PDFs</a>
       <a href="${REL}Judicature/.justice/pdfs/">Judgment PDFs</a>
       <a href="${REL}Judicature/.justice/INDEX.md">Citator</a>
+      <a href="citator-graph.json">Graph JSON</a>
     </nav>
     <details>
       <summary>Suggested reading order</summary>
@@ -159,6 +164,53 @@ function pipeline(stage, rounds) {
 // Find the full bill record (for methodology detail) by its number.
 function billDetail(no) { return (CORPUS.legislation || []).find(b => b.no === no); }
 
+function hydrateGraph() {
+  GRAPH_NODES = new Map(); GRAPH_OUT = new Map(); GRAPH_IN = new Map();
+  if (!GRAPH) return;
+  for (const n of GRAPH.nodes || []) GRAPH_NODES.set(n.id, n);
+  for (const e of GRAPH.edges || []) {
+    if (!GRAPH_OUT.has(e.source)) GRAPH_OUT.set(e.source, []);
+    if (!GRAPH_IN.has(e.target)) GRAPH_IN.set(e.target, []);
+    GRAPH_OUT.get(e.source).push(e);
+    GRAPH_IN.get(e.target).push(e);
+  }
+}
+
+function graphId(d) {
+  if (d.kind === 'case') return `case:${d.citation}`;
+  if (d.kind === 'bill') return `bill:${d.p_no}`;
+  if (d.kind === 'si') return `si:${d.citation}`;
+  return '';
+}
+
+function nodeHref(n) {
+  if (!n) return '';
+  return n.pdfPath ? `${REL}${n.pdfPath}` : (n.sourcePath ? `${REL}${n.sourcePath}` : '');
+}
+
+function nodeLink(id) {
+  const n = GRAPH_NODES.get(id);
+  if (!n) return escHtml(id);
+  const href = nodeHref(n);
+  const label = escHtml(n.label || n.citation || id);
+  return href ? `<a href="${escAttr(href)}">${label}</a>` : label;
+}
+
+function lineage(d) {
+  if (!GRAPH) return '';
+  const id = graphId(d);
+  const outgoing = (GRAPH_OUT.get(id) || []).slice(0, 8);
+  const incoming = (GRAPH_IN.get(id) || []).slice(0, 8);
+  const count = (GRAPH_OUT.get(id) || []).length + (GRAPH_IN.get(id) || []).length;
+  if (!count) return '';
+  const rows = [
+    ...outgoing.map(e => `<li><span>${escHtml(e.label)}</span> ${nodeLink(e.target)}</li>`),
+    ...incoming.map(e => `<li>${nodeLink(e.source)} <span>${escHtml(e.label)}</span></li>`),
+  ].join('');
+  const clipped = count > outgoing.length + incoming.length ? `<p>${count - outgoing.length - incoming.length} more edge${count - outgoing.length - incoming.length === 1 ? '' : 's'} in citator-graph.json.</p>` : '';
+  return `<details class="lineage"><summary>lineage · ${count} public edge${count === 1 ? '' : 's'}</summary><ul>${rows}</ul>${clipped}</details>`;
+}
+
 function card(d) {
   const st = (d.status || 'good-law').toLowerCase().replace(/[^a-z-]/g, '');
   const href = d.p_pdf ? `${REL}${d.p_pdf}` : (d.p_source ? `${REL}${d.p_source}` : '');
@@ -178,6 +230,7 @@ function card(d) {
       <span class="court">Legislature${when} &middot; ${b.ayes || ''} ${b.ayes ? 'ayes' : ''}</span>
       ${pipeline(d.p_stage || b.pipelineStage || '', b.rounds || 1)}
       <div class="ratio">${(d.ratio || '').slice(0, 360)}</div>
+      ${lineage(d)}
       <details><summary>methodology &amp; committee record</summary>
         ${vote}${sov}${note}
       </details>
@@ -190,6 +243,7 @@ function card(d) {
         <span class="badge ${st}">${(d.status || '').replace(/-/g, ' ')}</span></div>
       <span class="court">Statutory Instrument${when}</span>
       <div class="ratio">${(d.ratio || '').slice(0, 360)}</div>
+      ${lineage(d)}
       <div>${links.join('')}</div>
     </div>`;
   }
@@ -199,6 +253,7 @@ function card(d) {
       <span class="badge ${st}">${d.status || 'good-law'}</span></div>
     ${sub}<span class="court">${when}</span>
     <div class="ratio">${(d.ratio || '').slice(0, 360)}</div>
+    ${lineage(d)}
     <div>${links.join('')}</div>
   </div>`;
 }
@@ -219,7 +274,7 @@ function render() {
 
 function openCard(e) {
   if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ') return;
-  if (e.target.closest('a, button, summary')) return;
+  if (e.target.closest('a, button, details, summary')) return;
   const cardEl = e.target.closest('.card[data-href]');
   if (!cardEl || !cardEl.dataset.href) return;
   e.preventDefault();
@@ -228,6 +283,10 @@ function openCard(e) {
 
 function escAttr(s) {
   return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+}
+
+function escHtml(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 boot();

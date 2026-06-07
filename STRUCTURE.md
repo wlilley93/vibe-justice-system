@@ -2,7 +2,8 @@
 
 The repository is organised into four top-level branches mandated by the VJS (Constitution and Machinery)
 Act 2026 (Bill 27): **Constitution / Judicature / Legislature / Executive**. Top-level holds only those four
-branches plus the GitHub files (`README.md`, `.gitignore`, `.github/`, `.claude/`, `assets/`).
+branches plus the GitHub and agent-adapter files (`README.md`, `AGENTS.md`, `.gitignore`,
+`.github/`, `.vjs/`, `.claude/`, `assets/`).
 
 ## Where the machinery lives (and the path couplings to respect)
 

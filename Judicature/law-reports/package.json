@@ -7,6 +7,7 @@
     "ingest": "node build/ingest.js",
     "index": "node build/build-search-index.js",
     "pdf-indexes": "node build/build-pdf-indexes.js",
+    "check:bench-names": "node ../../Executive/cli/bin/cdd.js check-bench-names",
     "build": "node build/ingest.js && node build/build-search-index.js && cp corpus.json site/corpus.json && node build/build-pdf-indexes.js",
     "serve": "cd site && python3 -m http.server 8787"
   },

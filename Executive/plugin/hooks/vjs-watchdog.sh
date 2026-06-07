@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# vjs-watchdog.sh - the VJS turn watchdog. A token-light Stop hook.
+# vjs-watchdog.sh - the VJS turn watchdog. A token-light post-answer hook.
 #
 # Lexby is meant to catch himself: self-file a breach, convene on a real fork, seek
 # permission to appeal. But an agent's job is to produce value the way it sees best,
@@ -21,10 +21,11 @@
 # If any answer is yes, the hook hands Lexby the reason and (in block mode) refuses to let
 # the turn end until he disposes of it by the law: file the breach, convene, or seek leave.
 #
-# Inert by design unless ALL of: .justice/ exists (VJS is installed in this repo) AND
-# ANTHROPIC_API_KEY is set. It never blocks a non-VJS repo and never blocks if it cannot
-# reach the model - it fails OPEN, because a watchdog that wedges your session is itself a
-# breach of the duty of care.
+# In the bundled Claude adapter this is wired as a Stop hook. Other adapters may bind it at their
+# nearest post-answer / post-act event. Inert by design unless ALL of: root .justice/ or
+# Judicature/.justice/ exists (VJS is installed in this repo) AND ANTHROPIC_API_KEY is set. It
+# never blocks a non-VJS repo and never blocks if it cannot reach the model - it fails OPEN,
+# because a watchdog that wedges your session is itself a breach of the duty of care.
 #
 # Env:
 #   VJS_WATCHDOG=off          disable entirely
@@ -48,7 +49,13 @@ emit("CWD", d.get("cwd", "."))
 [ "${STOP_ACTIVE:-False}" = "True" ] && exit 0       # already a stop-hook continuation; do not re-fire (loop guard)
 [ "${VJS_WATCHDOG:-on}" = "off" ] && exit 0
 cd "${CWD:-.}" 2>/dev/null || exit 0
-[ -d .justice ] || exit 0                             # not a VJS jurisdiction
+if [ -d .justice ]; then
+  VJS_JUSTICE_DIR=".justice"
+elif [ -d Judicature/.justice ]; then
+  VJS_JUSTICE_DIR="Judicature/.justice"
+else
+  exit 0                                              # not a VJS jurisdiction
+fi
 [ -n "${ANTHROPIC_API_KEY:-}" ] || exit 0            # advisory feature; silent without a key
 [ -n "${TRANSCRIPT:-}" ] && [ -f "$TRANSCRIPT" ] || exit 0
 command -v curl >/dev/null 2>&1 || exit 0
@@ -139,7 +146,7 @@ MSG="VJS watchdog: this turn may need the court before it closes.
 Flagged: ${FLAGS}. Reason: ${WHY}
 Dispose of it by the law, do not work around it:
   - breach  -> submit-breach-to-court \"<what fell below standard and why>\"
-  - fork    -> check .justice/INDEX.md first; cite if covered, else submit-request-to-court \"<the fork>\"
+  - fork    -> check ${VJS_JUSTICE_DIR}/INDEX.md first; cite if covered, else submit-request-to-court \"<the fork>\"
   - appeal  -> seek permission to appeal (arguable point of law / binding-precedent conflict)
 If on a fair view none applies, say so in one line and proceed (the watchdog is conservative, not infallible)."
 

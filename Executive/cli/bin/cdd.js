@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const { nextCitation, seriesCode } = require('../lib/citation');
 const { auditCitator } = require('../lib/citator-audit');
+const { scanBenchNames } = require('../lib/bench-name-scan');
 
 const CLI_ROOT = path.resolve(__dirname, '..');
 const REPO_ROOT = path.resolve(__dirname, '..', '..', '..'); // the vibe-justice-system repo root
@@ -58,21 +59,70 @@ function cmdCheckCitator() {
   process.exit(1);
 }
 
-// Install the VJS hooks into a target repo: the watchdog Stop hook, the settings wiring, and the
-// deterministic pre-commit hard gate. Idempotent.
-function installHooks(target) {
-  const srcHooks = path.join(REPO_ROOT, 'Executive', 'plugin', 'hooks');
-  if (!fs.existsSync(srcHooks)) { process.stderr.write('skip hooks: plugin/hooks not found in package\n'); return; }
-  const dstHooks = path.join(target, '.claude', 'hooks');
+function cmdCheckBenchNames(args) {
+  if (args['source-only'] && args['corpus-only']) die('check-bench-names: choose at most one of --source-only or --corpus-only');
+  const res = scanBenchNames(process.cwd(), {
+    root: args.root,
+    sources: !args['corpus-only'],
+    corpus: !args['source-only'],
+  });
+  if (args.json) {
+    process.stdout.write(JSON.stringify(res, null, 2) + '\n');
+    if (!res.ok) process.exit(1);
+    return;
+  }
+  if (res.ok) {
+    process.stdout.write(`bench-name scan OK: ${res.scanned.length} target(s), no prohibited real jurist labels.\n`);
+    return;
+  }
+  for (const f of res.findings) {
+    if (f.type === 'prohibited-bench-name') {
+      const loc = f.line ? `${f.path}:${f.line}:${f.column}` : `${f.path}${f.pointer ? '#' + f.pointer : ''}`;
+      const where = f.pointer ? ` (${f.pointer}${f.citation ? ', ' + f.citation : ''})` : '';
+      process.stderr.write(`FAIL [bench-name]: ${loc}${where} matched "${f.match}" (${f.jurist})\n`);
+      if (f.context) process.stderr.write(`  ${f.context}\n`);
+    } else {
+      process.stderr.write(`FAIL [${f.type}]: ${f.path || '.'}${f.message ? ': ' + f.message : ''}\n`);
+    }
+  }
+  process.stderr.write(`\n${res.findings.length} problem(s). Replace real jurist labels with invented VJS bench names.\n`);
+  process.exit(1);
+}
+
+function appendMarkedInstruction(target, src, mark, closeMark, label) {
+  if (!fs.existsSync(src)) { process.stderr.write(`skip ${label}: source not found in package\n`); return; }
+  const existing = fs.existsSync(target) ? fs.readFileSync(target, 'utf8') : '';
+  if (existing.includes(mark)) {
+    process.stdout.write(`${label} already present, left as-is\n`);
+    return;
+  }
+  const block = `\n${mark}\n` + fs.readFileSync(src, 'utf8') + `\n${closeMark}\n`;
+  fs.writeFileSync(target, existing + block);
+  process.stdout.write(`appended ${label}\n`);
+}
+
+function copyHookScripts(srcHooks, dstHooks, label, target) {
   fs.mkdirSync(dstHooks, { recursive: true });
   for (const f of fs.readdirSync(srcHooks)) {
     if (!f.endsWith('.sh')) continue;
     const dst = path.join(dstHooks, f);
     fs.copyFileSync(path.join(srcHooks, f), dst);
     try { fs.chmodSync(dst, 0o755); } catch (_) {}
-    process.stdout.write('installed hook .claude/hooks/' + f + '\n');
+    process.stdout.write(`installed ${label} hook ${path.relative(target, dst)}\n`);
   }
-  // Merge the Stop-hook wiring into .claude/settings.json, idempotently.
+}
+
+// Install the VJS hooks into a target repo: portable hook scripts, adapter wiring, and deterministic
+// git hard gates. Claude remains the bundled adapter, not the contract itself. Idempotent.
+function installHooks(target) {
+  const srcHooks = path.join(REPO_ROOT, 'Executive', 'plugin', 'hooks');
+  if (!fs.existsSync(srcHooks)) { process.stderr.write('skip hooks: plugin/hooks not found in package\n'); return; }
+  const genericHooks = path.join(target, '.vjs', 'hooks');
+  const claudeHooks = path.join(target, '.claude', 'hooks');
+  copyHookScripts(srcHooks, genericHooks, 'generic VJS', target);
+  copyHookScripts(srcHooks, claudeHooks, 'Claude adapter', target);
+
+  // Merge the Claude adapter hook wiring into .claude/settings.json, idempotently.
   const settingsSrc = path.join(REPO_ROOT, 'Executive', 'plugin', 'settings.json');
   if (fs.existsSync(settingsSrc)) {
     let incoming = {};
@@ -82,12 +132,27 @@ function installHooks(target) {
     if (fs.existsSync(dstSettings)) { try { cur = JSON.parse(fs.readFileSync(dstSettings, 'utf8')); } catch (_) { cur = {}; } }
     cur.hooks = cur.hooks || {};
     let added = false;
+    const hookKey = (hook) => hook && hook.command ? `command:${hook.command}` : JSON.stringify(hook);
+    const collectKeys = (entries) => {
+      const keys = new Set();
+      for (const entry of entries || []) {
+        for (const hook of entry.hooks || []) keys.add(hookKey(hook));
+      }
+      return keys;
+    };
     for (const event of Object.keys(incoming.hooks || {})) {
       const arr = Array.isArray(cur.hooks[event]) ? cur.hooks[event] : (cur.hooks[event] = []);
-      if (!JSON.stringify(arr).includes('vjs-watchdog')) { arr.push(...incoming.hooks[event]); added = true; }
+      const existing = collectKeys(arr);
+      for (const entry of incoming.hooks[event] || []) {
+        const hooks = (entry.hooks || []).filter((hook) => !existing.has(hookKey(hook)));
+        if (!hooks.length) continue;
+        arr.push({ ...entry, hooks });
+        for (const hook of hooks) existing.add(hookKey(hook));
+        added = true;
+      }
     }
     fs.writeFileSync(dstSettings, JSON.stringify(cur, null, 2) + '\n');
-    process.stdout.write(added ? 'merged VJS hooks into .claude/settings.json\n' : '.claude/settings.json already has VJS hooks, left as-is\n');
+    process.stdout.write(added ? 'merged Claude adapter hooks into .claude/settings.json\n' : '.claude/settings.json already has VJS hooks, left as-is\n');
   }
   // Lay down the deterministic git hard gates.
   const gitDir = path.join(target, '.git');
@@ -98,13 +163,16 @@ function installHooks(target) {
       ['pre-commit', 'vjs-pre-commit.sh', 'pre-commit hard gate'],
       ['pre-push', 'vjs-pre-push.sh', 'pre-push checkpoint gate'],
     ]) {
-      const src = path.join(dstHooks, scriptName);
+      const src = path.join(genericHooks, scriptName);
       if (!fs.existsSync(src)) continue;
       const dst = path.join(ghooks, hookName);
+      const rel = path.relative(ghooks, src);
       if (fs.existsSync(dst)) {
-        process.stdout.write(`note: .git/hooks/${hookName} exists; chain it to .claude/hooks/${scriptName} manually\n`);
+        let installed = false;
+        try { installed = fs.lstatSync(dst).isSymbolicLink() && fs.readlinkSync(dst) === rel; } catch (_) {}
+        if (installed) process.stdout.write(`git ${label} already installed\n`);
+        else process.stdout.write(`note: .git/hooks/${hookName} exists; chain it to .vjs/hooks/${scriptName} manually\n`);
       } else {
-        const rel = path.relative(ghooks, src);
         try { fs.symlinkSync(rel, dst); } catch (_) { fs.copyFileSync(src, dst); }
         try { fs.chmodSync(dst, 0o755); } catch (_) {}
         process.stdout.write(`installed git ${label}\n`);
@@ -153,14 +221,22 @@ function cmdInit(args) {
     fs.copyFileSync(path.join(CLI_ROOT, 'templates', 'INDEX.md'), indexPath);
     process.stdout.write('created .justice/INDEX.md (empty citator)\n');
   } else process.stdout.write('.justice/INDEX.md already present, left as-is\n');
-  // Append the binding plugin block to CLAUDE.md, idempotently.
-  const MARK = '<!-- vjs:plugin -->';
-  const block = `\n${MARK}\n` + fs.readFileSync(path.join(REPO_ROOT, 'Executive', 'plugin', 'CLAUDE.md'), 'utf8') + `\n<!-- /vjs:plugin -->\n`;
-  const claudePath = path.join(target, 'CLAUDE.md');
-  const existing = fs.existsSync(claudePath) ? fs.readFileSync(claudePath, 'utf8') : '';
-  if (existing.includes(MARK)) process.stdout.write('CLAUDE.md already has the VJS plugin block, left as-is\n');
-  else { fs.writeFileSync(claudePath, existing + block); process.stdout.write('appended the VJS plugin block to CLAUDE.md\n'); }
-  // Install the watchdog Stop hook + the deterministic pre-commit hard gate.
+  // Append the portable agent contract and the Claude adapter instruction block, idempotently.
+  appendMarkedInstruction(
+    path.join(target, 'AGENTS.md'),
+    path.join(REPO_ROOT, 'Executive', 'plugin', 'AGENTS.md'),
+    '<!-- vjs:agent-contract -->',
+    '<!-- /vjs:agent-contract -->',
+    'the VJS agent contract to AGENTS.md'
+  );
+  appendMarkedInstruction(
+    path.join(target, 'CLAUDE.md'),
+    path.join(REPO_ROOT, 'Executive', 'plugin', 'CLAUDE.md'),
+    '<!-- vjs:plugin -->',
+    '<!-- /vjs:plugin -->',
+    'the VJS Claude adapter block to CLAUDE.md'
+  );
+  // Install portable hooks, the bundled Claude adapter, and deterministic git hard gates.
   installHooks(target);
   process.stdout.write('\nVJS installed. The court is in session.\n');
 }
@@ -231,7 +307,8 @@ function cmdLodgeJudgment(args) {
 
 function workflowInvocation(script, kind, text) {
   const q = String(text || '').replace(/'/g, "\\'");
-  return `Run the court in Claude Code via the Workflow tool:\n\n` +
+  return `Run the court through your agent's delegable workflow adapter.\n` +
+    `Claude Code adapter example:\n\n` +
     `Workflow({\n  scriptPath: 'Judicature/court/workflows/${script}',\n  args: { kind: '${kind}', ${kind === 'breach' ? 'charge' : 'question'}: '${q}' }\n})\n`;
 }
 
@@ -254,6 +331,7 @@ function main() {
   switch (cmd) {
     case 'next-citation': return cmdNextCitation(args);
     case 'check-citator': return cmdCheckCitator();
+    case 'check-bench-names': return cmdCheckBenchNames(args);
     case 'lodge-judgment': return cmdLodgeJudgment(args);
     case 'init': return cmdInit(args);
     case 'submit-request': return process.stdout.write(workflowInvocation('first-instance.js', 'request_for_ruling', args._[0]));
@@ -265,12 +343,13 @@ function main() {
 `vjs / cdd - Vibe Justice System CLI (v${VERSION})
 
 Commands:
-  init [dir]                       Install VJS into a repo (vendor CASE-LAW/VPR/CDD, scaffold .justice/, inject plugin block into CLAUDE.md)
+  init [dir]                       Install VJS into a repo (vendor law, scaffold .justice/, inject AGENTS.md contract, install generic hooks plus Claude adapter)
   next-citation <tier> [--year Y]  Deterministic next neutral citation from the citator (.justice/INDEX.md). tier = privy-council|court-of-appeal|supreme-court|high-court|county-court|si. --json for full object.
   check-citator                    Deterministic citator audit (the hard gate): fails closed on citation collisions and on ruling-file/citator-row mismatches. Exit 1 on any problem.
+  check-bench-names                Deterministic scan for prohibited real jurist labels in judgment records and law-report case corpus. Flags include --source-only, --corpus-only, --json.
   lodge-judgment [--check-only]    Render-and-lodge a judgment ([2026] REALM-SI 2): render PDFs (idempotent, fail-open), rebuild the corpus/index/ledger projections in lockstep (fail-open), and verify the citation layer (fail-closed). --no-render to skip the PDF.
-  submit-request "<question>"      Print the Workflow invocation to file a Request for Ruling
-  submit-breach "<charge>"         Print the Workflow invocation to file a Breach
+  submit-request "<question>"      Print a delegable workflow invocation to file a Request for Ruling
+  submit-breach "<charge>"         Print a delegable workflow invocation to file a Breach
   --version                        Print version
 
 Spec is law. Rulings are precedent. Lexby is your lawyer.\n`);

@@ -43,7 +43,7 @@ Houses the operational ministries and executive departments.
 - **Ministry of Data Security (MDS)** - Data protection, security, and integrity (formerly Ministry of Defence).
 - **Home Office** - Personal matters and future jurisdiction.
 - **National Archives** - Dead and superseded work.
-- **CLI / Plugin** - Claude Code harness and operative tooling.
+- **CLI / Plugin** - agent contract, adapter bindings, hooks, and operative tooling.
 - **Docker** - Containerised deployment.
 
 ## The judiciary (one court, sitting in many places)

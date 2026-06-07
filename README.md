@@ -25,6 +25,7 @@ Search Acts, statutory instruments, and judgments. Result cards open the rendere
 > - **Citation numbering is deterministic.** The next neutral citation is computed from the citator, not guessed: run `cdd next-citation <tier>`. Current realm citations use the `REALM-*` provenance scheme, including `REALM-PC`, `REALM-CA`, `REALM-SC`, and `REALM-SI`.
 > - **The CLI is local-first.** The zero-dependency Node CLI lives in [`Executive/cli/`](Executive/cli/) (`cdd` / `vjs`: `init`, `next-citation`, `check-citator`, `lodge-judgment`, `submit-request`, `submit-breach`). Use `node Executive/cli/bin/cdd.js` or `npm link ./Executive/cli`. Registry publishing remains packaging work.
 > - **The public repo is system data only.** Personal, operational, and project-private facts do not belong here. The public record holds the law, central judgments, procedure, plugin machinery, and derived registers.
+> - **Private working papers go in `_private/`.** The root [`_private/`](_private/) directory is gitignored except for its instructions. Use it for unredacted local evidence, repo-level facts, screenshots, logs, and private routing papers; public Judicature and Legislature files should contain only system data, anonymised summaries, or redacted pointers.
 
 ---
 
@@ -235,13 +236,17 @@ cd /path/to/your/repo
 cdd init
 ```
 
-`cdd init` vendors the governing materials, scaffolds `.justice/`, appends the binding VJS block to `CLAUDE.md`, installs the token-light turn watchdog, and installs deterministic git gates. The watchdog is inert unless `ANTHROPIC_API_KEY` is set; the hard gates need no model.
+`cdd init` vendors the governing materials, scaffolds `.justice/`, appends the generic VJS agent
+contract to `AGENTS.md`, installs portable scripts under `.vjs/hooks/`, and binds the bundled Claude
+adapter through `CLAUDE.md`, `.claude/hooks/`, and `.claude/settings.json`. The watchdog is inert
+unless `ANTHROPIC_API_KEY` is set; the hard gates need no model.
 
 For AI-assisted manual installation, give your agent this prompt:
 
 ```text
 Install VJS into this repo. From github.com/wlilley93/vibe-justice-system, fetch and save:
-- Executive/plugin/CLAUDE.md -> append to this repo's CLAUDE.md inside a VJS-marked block
+- Executive/plugin/AGENTS.md -> append to this repo's AGENTS.md inside a VJS agent-contract block
+- Executive/plugin/CLAUDE.md -> append to this repo's CLAUDE.md inside a VJS Claude-adapter block
 - Constitution/CASE-LAW.md -> CASE-LAW.md
 - Constitution/VPR.md -> VPR.md
 - Constitution/CDD.md -> CDD.md
@@ -249,13 +254,12 @@ Install VJS into this repo. From github.com/wlilley93/vibe-justice-system, fetch
 - Judicature/.justice/suites/refactoring.md -> .justice/suites/refactoring.md
 - Executive/plugin/skills/submit-request-to-court/SKILL.md -> .claude/skills/submit-request-to-court/SKILL.md
 - Executive/plugin/skills/submit-breach-to-court/SKILL.md -> .claude/skills/submit-breach-to-court/SKILL.md
-- Executive/plugin/hooks/vjs-watchdog.sh -> .claude/hooks/vjs-watchdog.sh
-- Executive/plugin/hooks/vjs-pre-commit.sh -> .claude/hooks/vjs-pre-commit.sh
-- Executive/plugin/hooks/vjs-pre-push.sh -> .claude/hooks/vjs-pre-push.sh
-- Executive/plugin/settings.json -> merge its hooks block into .claude/settings.json
+- Executive/plugin/hooks/*.sh -> .vjs/hooks/*.sh
+- Executive/plugin/hooks/*.sh -> .claude/hooks/*.sh (Claude adapter)
+- Executive/plugin/settings.json -> merge its Claude adapter hooks block into .claude/settings.json
 Create .justice/ directories: caselaw, judgments, pdfs, suites. Create .justice/INDEX.md as an empty citator.
-Symlink .git/hooks/pre-commit -> ../../.claude/hooks/vjs-pre-commit.sh.
-Symlink .git/hooks/pre-push -> ../../.claude/hooks/vjs-pre-push.sh.
+Symlink .git/hooks/pre-commit -> ../../.vjs/hooks/vjs-pre-commit.sh.
+Symlink .git/hooks/pre-push -> ../../.vjs/hooks/vjs-pre-push.sh.
 VJS is now active.
 ```
 

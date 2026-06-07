@@ -5,6 +5,11 @@ Read the local `CASE-LAW.md`, `VPR.md`, and `.justice/INDEX.md` before making an
 In the canonical VJS source repo, those same materials live at `Constitution/CASE-LAW.md`,
 `Constitution/VPR.md`, and `Judicature/.justice/INDEX.md`.
 
+This file is the Claude adapter binding for the agent-agnostic VJS contract. Claude Code is one
+adapter, not the design boundary. Where these instructions refer to hooks, workflows, or subagents,
+use the equivalent delegable workflow, task, reviewer, or independent-check surface if a different
+runtime is operating under the same contract.
+
 By default, installing, downloading, or forking VJS subscribes this repo to the canonical VJS law it vendors.
 The person responsible for this repo is the local Principal/Sovereign for this copy. That subscription is a
 starting point, not a lock-in: the local Principal/Sovereign may amend the local law, create or remove local
@@ -58,6 +63,13 @@ submit-breach-to-court "<what fell below standard and why>"
 Open `.justice/INDEX.md` (or, in the canonical source repo, `Judicature/.justice/INDEX.md`). If a binding ratio covers the question on all fours, **follow it** (cite the ruling ID
 in your work log and continue). Do not re-litigate settled points. Do not convene a court for a point already
 decided.
+
+Before governed load-bearing work, also apply the REALM-SI 8 lawfulness sequence proportionately:
+retrieve the current law and record, identify the source of authority and route, separate materially
+separable research/review/verification through a delegable workflow or subagent where available,
+and keep Lexby's Advocate, Advisor, Engineer, registrar, and officer-of-the-court functions distinct
+from the bench. If no delegable surface is available, state that limitation and use the best
+substitute check: citator lookup, deterministic audit, explicit role-labelled review, or referral.
 
 ---
 

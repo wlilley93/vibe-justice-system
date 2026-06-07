@@ -5,10 +5,10 @@ kind: request_for_ruling
 status: good-law
 per_incuriam: false
 date: 2026-06-07
-panel: ["Hale J", "Bingham J", "Neuberger J"]
+panel: ["Coade J", "Goffe J", "Sumberly J"]
 seised_by: "Sovereign Founder reference: whether all superrepo changes require court order before implementation"
 cause_title: "In the matter of superrepo edit control, court orders, and public-entrypoint discipline"
-registrar_note: "Authored by the bench (Hale J for the Court, Bingham J and Neuberger J concurring); reduced to the filed record by Lexby as s.18(4) registrar, the decision pre-existing the prose ([2026] REALM-SC 8)."
+registrar_note: "Authored by the bench (Coade J for the Court, Goffe J and Sumberly J concurring); reduced to the filed record by Lexby as s.18(4) registrar, the decision pre-existing the prose ([2026] REALM-SC 8). Bench-name conformance only: invented VJS names replace non-VJS real jurist labels; no change to ratio, status, citation, vote, or legal force."
 ---
 
 # [2026] REALM-PC 19
@@ -17,7 +17,7 @@ registrar_note: "Authored by the bench (Hale J for the Court, Bingham J and Neub
 |-------|-------|
 | **Citation** | [2026] REALM-PC 19 |
 | **Tier** | Privy Council (constitutional first instance, bench of three) |
-| **Before** | Hale J (judgment of the Court), Bingham J, Neuberger J |
+| **Before** | Coade J (judgment of the Court), Goffe J, Sumberly J |
 | **Kind** | Request for ruling |
 | **Status** | good-law |
 | **Cites** | CASE-LAW s. 1; s. 2; s. 3; s. 5; s. 6; s. 8; s. 9; s. 13; s. 18; s. 19(1)/(5); Bill 8; Bill 16; Bill 20; Bill 22; Bill 27; Bill 30; [2026] REALM-PC 16; [2026] REALM-PC 17; [2026] REALM-PC 18; [2026] REALM-SC 9 |

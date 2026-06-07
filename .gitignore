@@ -12,6 +12,16 @@
 # (REALM-SI 1) states principles only; the facts never enter the public tree (Bill 27 s.14; Bill 22).
 /Executive/ministry-of-data-security/_private-estate/
 
+# Ministry / court private working papers - repo-local facts, client/project identifiers, and
+# unredacted evidence stay out of the public superrepo record. Public policy/court files should
+# contain only system data, anonymised facts, or redacted pointers.
+/_private/*
+!/_private/.gitignore
+!/_private/README.md
+/Judicature/requests/_private/
+/Judicature/ministry-of-justice/policy/_private/
+/Legislature/legislature/committee/referrals/_private/
+
 # Repos House private registers (operational facts of the registers; the public schema is committed at
 # repos-house/register-schemas.md). Principles-at-law / facts-in-the-private-store (Bill 27 s.5A(3); REALM-SI 6).
 /Executive/ministry-of-business-engineering-and-skills/repos-house/_private-registers/

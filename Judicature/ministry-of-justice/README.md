@@ -6,6 +6,10 @@ the procedure, and the apex sit here, and nothing else. This charter is **public
 public-mechanics rule): it states the Ministry's mechanics; there are no private operational facts to seal,
 because the Ministry holds none.
 
+Unredacted local evidence, repo-level facts, project identifiers, screenshots, logs, and private working papers
+must not be placed in the public MoJ tree. Use the root `_private/` working area, or the relevant local
+jurisdiction's private evidence record, and leave only redacted/system-data summaries in public MoJ files.
+
 ## Mechanics (what the Ministry does)
 
 - **Is the seat of the central apex courts.** The single **Court of Appeal** and the single **Supreme
@@ -39,6 +43,7 @@ because the Ministry holds none.
 | Reasons ledger (derived) | **public** | [`reasons-ledger/INDEX.md`](reasons-ledger/INDEX.md) |
 | The one citator (source) | **public** | [`../.justice/INDEX.md`](../.justice/INDEX.md) |
 | Apex caselaw / Community Record | **public** (law of every judgment) | [`../caselaw/`](../caselaw/) · [`../community/`](../community/) |
+| Private working papers | **private / gitignored** | root `_private/` or a local jurisdiction private evidence record |
 
 ## The principle: governance pure and meta, projections never a second record
 

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "title": "Gazette Citator Graph Validation Report",
+  "note": "Deterministic report for the derived, pointer-only Gazette graph. Malformed edge entries fail the build; isolated nodes and no-edge declarations are report-only for the current static projection.",
+  "boundary": "Public Gazette corpus only: central judgments, Acts, and statutory instruments already present in corpus.json. Local/private judgment trees are not scanned.",
+  "status": "pass",
+  "malformedEdgesFailBuild": true,
+  "forwardFilingReportStatus": "complete",
+  "counts": {
+    "nodes": 71,
+    "edges": 736,
+    "malformedEdgeErrors": 0,
+    "isolatedNodes": 1,
+    "noEdgeDeclarations": 1,
+    "isolatedNodesWithoutNoEdgeDeclaration": 0,
+    "noEdgeDeclarationsWithEdges": 0
+  },
+  "malformedEdgeErrors": [],
+  "isolatedNodes": [
+    {
+      "id": "case:[2026] REALM-PC 9",
+      "kind": "case",
+      "label": "[2026] REALM-PC 9",
+      "citation": "[2026] REALM-PC 9",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-9.md",
+      "pdfPath": "Judicature/.justice/pdfs/2026-realm-pc-9.pdf",
+      "degree": 0
+    }
+  ],
+  "noEdgeDeclarations": [
+    {
+      "nodeId": "case:[2026] REALM-PC 9",
+      "kind": "case",
+      "label": "[2026] REALM-PC 9",
+      "sourcePath": "Judicature/.justice/judgments/privy-council/2026-realm-pc-9.md",
+      "declarationSource": "markdown-field"
+    }
+  ],
+  "isolatedNodesWithoutNoEdgeDeclaration": [],
+  "noEdgeDeclarationsWithEdges": []
+}

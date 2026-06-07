@@ -9,6 +9,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execFileSync } = require('child_process');
 const MiniSearch = require('minisearch');
 const { ROOT } = require('./corpus');
 
@@ -56,3 +57,6 @@ const dest = path.join(ROOT, 'Judicature', 'law-reports', 'site', 'search-index.
 fs.mkdirSync(path.dirname(dest), { recursive: true });
 fs.writeFileSync(dest, JSON.stringify(ms.toJSON()) + '\n');
 console.log(`search-index.json: ${docs.length} documents (lexical, pointer-only) -> ${path.relative(ROOT, dest)}`);
+
+// Keep the Gazette graph in lockstep with the same public corpus without changing package scripts.
+execFileSync(process.execPath, [path.join(__dirname, 'build-citator-graph.js')], { stdio: 'inherit' });

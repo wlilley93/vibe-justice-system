@@ -17,7 +17,8 @@
 # lags the in-progress commit by one).
 #
 # Install it as the repo's git pre-commit hook (cdd init does this for you, or symlink it:
-#   ln -sf ../../.claude/hooks/vjs-pre-commit.sh .git/hooks/pre-commit).
+#   ln -sf ../../.vjs/hooks/vjs-pre-commit.sh .git/hooks/pre-commit).
+# Older Claude-adapter installs that point at .claude/hooks/vjs-pre-commit.sh still work.
 # It runs `cdd check-citator`; if the citator is sound it is silent and exits 0, otherwise it
 # prints the problems and exits 1, blocking the commit.
 #
