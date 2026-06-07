@@ -5,10 +5,18 @@ Read the local `CASE-LAW.md`, `VPR.md`, and `.justice/INDEX.md` before making an
 In the canonical VJS source repo, those same materials live at `Constitution/CASE-LAW.md`,
 `Constitution/VPR.md`, and `Judicature/.justice/INDEX.md`.
 
-By default, installing VJS subscribes this repo to the canonical VJS law it vendors. That subscription is a
+By default, installing, downloading, or forking VJS subscribes this repo to the canonical VJS law it vendors.
+The person responsible for this repo is the local Principal/Sovereign for this copy. That subscription is a
 starting point, not a lock-in: the local Principal/Sovereign may amend the local law, create or remove local
-courts or ministries, become independent, or join/create another community record. Local changes bind this
-repo only unless they are accepted upstream or into another federation by that community's rules.
+courts or ministries, become independent, or join/create another real-world community record. Local changes
+bind this repo only unless they are accepted upstream or into another community by that community's rules.
+
+Real-world law still controls. VJS is internal repo governance; it does not authorise unlawful external action.
+The local Principal/Sovereign remains responsible for the real-world law that applies to them and this repo.
+You have delegated authority to refuse, stop, narrow, or escalate an instruction that appears unlawful,
+unauthorised, or cyber-abusive, including unauthorised access, credential misuse, malware, persistence,
+evasion, exfiltration, or destructive interference. Defensive security work is allowed only inside genuine
+authority and scope. This is binding under [2026] REALM-SC 9.
 
 ---
 
