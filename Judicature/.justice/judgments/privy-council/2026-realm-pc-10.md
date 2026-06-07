@@ -28,7 +28,7 @@ view, which the Council is asked to apply, is that the twenty-five Acts are a **
 Standing Committee should largely give the realm its operating detail by statutory instrument under those Acts,
 not by minting a fresh primary statute for each subject. The motivating example: the Security and Integrity Act
 2026 (Bill 21) needs an instrument by which the security rules and procedure of the realm's server estate (the
-local Host and the public Hetzner production servers, applying to servers local and public) are secured.
+local development host and the public production hosts, applying to servers local and public) are secured.
 
 ## Ratio
 
@@ -63,8 +63,8 @@ The Standing Committee refers a systemic question. The Founder's standing view i
 Acts (Royal Assent, 2026-06-06) are a broad base: the Committee should largely give the realm its operating detail
 by subordinate legislation made, amended, repealed and enforced under those Acts, not by minting fresh primary
 statutes for each subject. The motivating example is concrete: the Security and Integrity Act 2026 (Bill 21) needs
-an instrument by which the security rules and procedure of the realm's server estate (the local Host and the
-public Hetzner production servers) are secured.
+an instrument by which the security rules and procedure of the realm's server estate (the local development host
+and the public production hosts) are secured.
 
 We read all twenty-five Acts for two things: an express enabling power to make instruments, and a full
 make/amend/repeal/enforce lifecycle. The finding is stark. Express enabling power is present in one Act (Bill 14,
@@ -155,8 +155,8 @@ s. 12). This honours the broad-base design while keeping the propose-not-enact f
 
 ### G. The worked exemplar
 
-The exemplar (the Security and Integrity (Server Estate) Instrument under Bill 21, for the Host + Hetzner
-estate) is set out in full below. In short: it would be a regulation of binding operative effect in the new estate
+The exemplar (the Security and Integrity (Server Estate) Instrument under Bill 21, for the local-development and
+public-production estate) is set out in full below. In short: it would be a regulation of binding operative effect in the new estate
 tier, parented to Bill 21 by the new enabling clause, made by the Ministry of Security and Integrity (on the
 Bill 14 s. 8 authorisation roll, seated under Bill 5 s. 14(2)), published and cited under Bill 16, enforced
 through Bill 13's deterministic gate and watchdog (the substrate Bill 21 s. 13 already names), amendable by the
@@ -269,12 +269,11 @@ s. 2) remain intact: the Committee proposes and makes subordinate law; it never 
 
 Under Bill 21 (worked exemplar). Provisional citation under the new Bill 16 slot, e.g. `[2026] REALM-SI 1`.
 
-**What it secures (the Host local + Hetzner public-prod estate).** A single binding-operative-effect regulation
+**What it secures (the local-development + public-production estate).** A single binding-operative-effect regulation
 setting the security rules and procedure of the realm's server estate, applying to servers local and public:
-- **Scope:** the Host SER5 (local; cable + Wi-Fi per the network topology) and the Hetzner production servers
-  (public prod), and any future server of the realm.
+- **Scope:** the local development host and the public production hosts, and any future server of the realm.
 - **Rules:** SSH and access controls; firewall posture (e.g. the UFW port-5201 cable-only rule as a worked
-  instance); secrets / credential handling; the commit / publication boundary (Bill 21 s. 5 "no PKI" design
+  instance, with concrete port and topology facts sealed); secrets / credential handling; the commit / publication boundary (Bill 21 s. 5 "no PKI" design
   baseline as a rule the SI can now version rather than hard-code); per-host hardening baselines; tamper-evident
   integrity controls keyed to Bill 21's definitions of corruption / compromise / integrity (s. 1); a
   deterministic, machine-checkable conformance check.
@@ -329,7 +328,7 @@ citation slot in Bill 16, and an enforcement hook in Bill 13. Crucially this *co
 than changing it, so it does **not** go up to the Supreme Court - the Committee drafts it and the Sovereign signs
 it the ordinary way. And the headline reframe is now law of practice: the Committee's normal job is to make and
 amend instruments under the existing Acts; writing a whole new Act is the rare exception. Worked example included:
-the Security and Integrity (Server Estate) Instrument that would secure the Host and Hetzner servers, made under
+the Security and Integrity (Server Estate) Instrument that would secure the local-development and public-production servers, made under
 Bill 21 and enforced by the existing gate - no new statute, no new coercive power.
 
 **Appeal:** Privy Council reading at constitutional first instance. Appeal lies by automatic leapfrog certificate

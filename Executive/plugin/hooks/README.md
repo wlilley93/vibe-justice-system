@@ -1,6 +1,6 @@
 # VJS hooks
 
-Two backstops. One soft and behavioural, one hard and mechanical. Together they close the gap
+Three backstops: one soft and behavioural, two hard and mechanical. Together they close the gap
 the alpha had: VJS was entirely trust-based, invisible the moment the agent stopped cooperating.
 
 > The agent's job is to produce value the way it sees best, not to hold the entire statute book in
@@ -38,7 +38,7 @@ Wired via `.claude/settings.json` as a `Stop` hook (see `plugin/settings.json`).
 
 ---
 
-## 2. The hard gate (deterministic, no model) - `vjs-pre-commit.sh`
+## 2. The hard record gate (deterministic, no model) - `vjs-pre-commit.sh`
 
 A **git pre-commit hook**. Filing and citation integrity are mechanical facts, not judgment
 calls, so they are enforced **deterministically and fail closed** - no model, no trust required.
@@ -66,5 +66,39 @@ cdd check-citator
 
 ---
 
-*The watchdog catches what the agent missed. The gate refuses to let the record lie. The court
-decides what was lawful. None of the three has to be perfect for the system to hold.*
+## 3. The public-publish checkpoint gate - `vjs-pre-push.sh`
+
+A **git pre-push hook**. Private/dev pushes are allowed, including the private `agent-universe`
+backup branch. A push to `wlilley93/vibe-justice-system` is different: it is a public VJS
+publication and therefore an irreversible outward act. The hook fails closed unless the matter
+records express Founder authorisation.
+
+Accepted authorisation records:
+
+```text
+Judicature/ministry-of-justice/reasons-ledger/outward-act-authorisations/public-vjs-publish.md
+.vjs/checkpoints/public-vjs-publish-authorisation.env
+```
+
+Minimum fields:
+
+```text
+AUTHORISED_OUTWARD_ACT=public-vjs-publish
+AUTHORISED_BY=Sovereign Founder
+AUTHORISED_AT=YYYY-MM-DDTHH:MM:SSZ
+```
+
+Optional fields (`AUTHORISED_REMOTE_URL`, `AUTHORISED_REMOTE_REF`, `AUTHORISED_LOCAL_SHA`) scope the
+authorisation to one exact push.
+
+Install with `cdd init` (it symlinks the hook into `.git/hooks/pre-push`), or manually:
+
+```bash
+ln -sf ../../Executive/plugin/hooks/vjs-pre-push.sh .git/hooks/pre-push
+```
+
+---
+
+*The watchdog catches what the agent missed. The gates refuse to let the record lie or the public
+realm publish without a checkpoint. The court decides what was lawful. None of the three has to be
+perfect for the system to hold.*

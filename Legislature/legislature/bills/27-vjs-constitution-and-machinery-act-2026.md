@@ -174,10 +174,10 @@ In this Act:
    - The neutral citation: [2026] REALM-SI 1
    - The title: "The Security and Integrity (Server Estate) Instrument 2026"
    - The status: "made", "coming into force [date]", "in force"
-   - A public gist: "This Instrument specifies the security baseline of the server estate (Host local infrastructure and Hetzner acmeco production). Operative content is sealed under Bill 22 s. 13. Refer to the sealed register for audit and review."
+   - A public gist: "This Instrument specifies the security baseline of the server estate (local development infrastructure and public production infrastructure). Operative content is sealed under Bill 22 s. 13. Refer to the sealed register for audit and review."
    - The seal metadata: ordering court (if any), ordering date, expiry, review route.
 
-(4) The operative content (the full Instrument with the specific Host IP, UFW rules, Caddy paths, bearer-token locations, container hardening flags, HMAC secrets, and verification scripts) SHALL be committed ONLY to a private, gitignored operational repository with its own .gitignore, never to the public realm.
+(4) The operative content (the full Instrument with specific host identifiers, firewall rules, reverse-proxy paths, bearer-token locations, container hardening flags, HMAC secrets, and verification scripts) SHALL be committed ONLY to a private, gitignored operational repository with its own .gitignore, never to the public realm.
 
 (5) The private operational repository SHALL:
    - Be registered in the public realm's .gitignore (section 9).
@@ -325,7 +325,7 @@ In section 14(1) of the Statutory Instruments (Framework) Act 2026 (Bill 26), in
 
 ### 13. Transitional provision: [2026] REALM-SI 1
 
-(1) The Security and Integrity (Server Estate) Instrument 2026 ([2026] REALM-SI 1), committed to statutes/instruments/2026-realm-si-1-security-and-integrity-server-estate.md on 2026-06-06, currently contains sensitive operational content (Host IP address, UFW rules, Caddy paths, bearer-token locations, acmeco container hardening, HMAC secrets, and verification scripts).
+(1) The Security and Integrity (Server Estate) Instrument 2026 ([2026] REALM-SI 1), committed to statutes/instruments/2026-realm-si-1-security-and-integrity-server-estate.md on 2026-06-06, contained sensitive operational content (host identifiers, firewall rules, reverse-proxy paths, bearer-token locations, container hardening, HMAC secrets, and verification scripts) before it was replaced with a public stub.
 
 (2) Within ten (10) days of this Act coming into force, the following transition SHALL occur:
    - The current SI 1 markdown file is replaced with a public stub containing only the citation, title, status, and a public gist of what the Instrument governs (section 10(3)).

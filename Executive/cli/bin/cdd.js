@@ -88,19 +88,26 @@ function installHooks(target) {
     fs.writeFileSync(dstSettings, JSON.stringify(cur, null, 2) + '\n');
     process.stdout.write(added ? 'merged VJS hooks into .claude/settings.json\n' : '.claude/settings.json already has VJS hooks, left as-is\n');
   }
-  // Lay down the deterministic pre-commit hard gate.
+  // Lay down the deterministic git hard gates.
   const gitDir = path.join(target, '.git');
   if (fs.existsSync(gitDir)) {
     const ghooks = path.join(gitDir, 'hooks');
     fs.mkdirSync(ghooks, { recursive: true });
-    const dst = path.join(ghooks, 'pre-commit');
-    if (fs.existsSync(dst)) {
-      process.stdout.write('note: .git/hooks/pre-commit exists; chain it to .claude/hooks/vjs-pre-commit.sh manually\n');
-    } else {
-      const rel = path.relative(ghooks, path.join(dstHooks, 'vjs-pre-commit.sh'));
-      try { fs.symlinkSync(rel, dst); } catch (_) { fs.copyFileSync(path.join(dstHooks, 'vjs-pre-commit.sh'), dst); }
-      try { fs.chmodSync(dst, 0o755); } catch (_) {}
-      process.stdout.write('installed git pre-commit hard gate\n');
+    for (const [hookName, scriptName, label] of [
+      ['pre-commit', 'vjs-pre-commit.sh', 'pre-commit hard gate'],
+      ['pre-push', 'vjs-pre-push.sh', 'pre-push checkpoint gate'],
+    ]) {
+      const src = path.join(dstHooks, scriptName);
+      if (!fs.existsSync(src)) continue;
+      const dst = path.join(ghooks, hookName);
+      if (fs.existsSync(dst)) {
+        process.stdout.write(`note: .git/hooks/${hookName} exists; chain it to .claude/hooks/${scriptName} manually\n`);
+      } else {
+        const rel = path.relative(ghooks, src);
+        try { fs.symlinkSync(rel, dst); } catch (_) { fs.copyFileSync(src, dst); }
+        try { fs.chmodSync(dst, 0o755); } catch (_) {}
+        process.stdout.write(`installed git ${label}\n`);
+      }
     }
   }
 }
