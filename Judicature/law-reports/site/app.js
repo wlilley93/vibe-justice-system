@@ -113,7 +113,10 @@ function allDocs() {
   const bills = CORPUS.legislation.map(b => ({ kind: 'bill', citation: 'Bill ' + b.no, title: b.shortTitle,
     date: b.royalAssent, series: 'BILL', court: 'Legislature', status: b.status, ratio: b.longTitle,
     p_source: b.sourcePath, p_pdf: b.pdfPath, p_stage: b.pipelineStage, p_no: b.no }));
-  return sortByDate([...bills, ...cases]);
+  const instruments = (CORPUS.instruments || []).map(si => ({ kind: 'si', citation: si.citation, title: si.shortTitle,
+    date: si.made, series: 'REALM-SI', court: 'Legislature', status: si.status, ratio: si.longTitle,
+    p_source: si.sourcePath, p_pdf: si.pdfPath, p_no: si.no }));
+  return sortByDate([...instruments, ...bills, ...cases]);
 }
 
 const BILL_ORDER = [27, 1, 2, 3, 16, 7, 12, 22, 8, 20, 30];
@@ -161,7 +164,7 @@ function card(d) {
   const href = d.p_pdf ? `${REL}${d.p_pdf}` : (d.p_source ? `${REL}${d.p_source}` : '');
   const when = d.date ? ` &middot; ${d.date}` : '';
   const links = [];
-  if (d.p_pdf) links.push(`<a href="${REL}${d.p_pdf}">${d.kind === 'bill' ? 'Act' : 'judgment'} &middot; .pdf</a>`);
+  if (d.p_pdf) links.push(`<a href="${REL}${d.p_pdf}">${d.kind === 'bill' ? 'Act' : d.kind === 'si' ? 'SI' : 'judgment'} &middot; .pdf</a>`);
   if (!d.p_pdf && d.p_source) links.push(`<a href="${REL}${d.p_source}">source</a>`);
   if (d.kind === 'bill') {
     const b = billDetail(d.p_no) || {};
@@ -178,6 +181,15 @@ function card(d) {
       <details><summary>methodology &amp; committee record</summary>
         ${vote}${sov}${note}
       </details>
+      <div>${links.join('')}</div>
+    </div>`;
+  }
+  if (d.kind === 'si') {
+    return `<div class="card clickable" data-href="${escAttr(href)}" tabindex="0" role="link" aria-label="Open ${escAttr(d.title)} PDF">
+      <div><span class="cite">${d.citation}: ${d.title}</span>
+        <span class="badge ${st}">${(d.status || '').replace(/-/g, ' ')}</span></div>
+      <span class="court">Statutory Instrument${when}</span>
+      <div class="ratio">${(d.ratio || '').slice(0, 360)}</div>
       <div>${links.join('')}</div>
     </div>`;
   }
@@ -201,7 +213,7 @@ function render() {
   }
   el('meta').textContent = `${docs.length} result${docs.length === 1 ? '' : 's'}`
     + (q ? ` for "${q}"` : ' (browsing)')
-    + ` · newest first · ${CORPUS.counts.cases} rulings + ${CORPUS.counts.legislation} Acts in the record`;
+    + ` · newest first · ${CORPUS.counts.cases} rulings + ${CORPUS.counts.legislation} Acts + ${(CORPUS.counts.instruments || 0)} SIs in the record`;
   el('results').innerHTML = docs.map(card).join('') || '<p>No matches.</p>';
 }
 

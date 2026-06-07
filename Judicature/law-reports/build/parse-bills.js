@@ -8,6 +8,7 @@ const path = require('path');
 const { ROOT, read, stripMd, sections, sectionByPrefix } = require('./corpus');
 
 const BILLS_DIR = path.join(ROOT, 'Legislature', 'legislature', 'bills');
+const INSTRUMENTS_DIR = path.join(ROOT, 'Legislature', 'statutes', 'instruments');
 
 function pipelineStage(status, outcome, rounds) {
   const s = `${status} ${outcome}`.toLowerCase();
@@ -63,4 +64,49 @@ function parseBills() {
   return bills;
 }
 
-module.exports = { parseBills, pipelineStage };
+function mdField(raw, key) {
+  const re = new RegExp(`^\\*\\*${key}:\\*\\*\\s*(.+)$`, 'im');
+  const m = raw.match(re);
+  return m ? stripMd(m[1]).trim() : '';
+}
+
+function parseInstruments() {
+  if (!fs.existsSync(INSTRUMENTS_DIR)) return [];
+  const instruments = [];
+  for (const file of fs.readdirSync(INSTRUMENTS_DIR).filter(f => /^2026-realm-si-\d+-.*\.md$/.test(f)).sort()) {
+    const raw = read(path.join(INSTRUMENTS_DIR, file));
+    const noM = file.match(/^2026-realm-si-(\d+)-/);
+    const no = noM ? parseInt(noM[1], 10) : 0;
+    const titleM = raw.match(/^#\s+(.*)$/m);
+    const shortTitle = titleM ? titleM[1].trim() : file.replace(/\.md$/, '');
+    const citationRaw = mdField(raw, 'Citation') || `[2026] REALM-SI ${no}`;
+    const citationM = citationRaw.match(/\[\d{4}\]\s+REALM-SI\s+\d+/);
+    const citation = citationM ? citationM[0] : citationRaw;
+    const status = mdField(raw, 'Status') || 'made';
+    const made = mdField(raw, 'Made');
+    const procedure = mdField(raw, 'Procedure');
+    const force = mdField(raw, 'Coming into force');
+    const recitals = sectionByPrefix(sections(raw), ['recitals']);
+    const longTitle = stripMd(recitals || raw.replace(/^#.*$/m, '')).slice(0, 600);
+    const slug = file.replace(/\.md$/, '');
+    const pdfRel = path.join('Legislature', 'statutes', 'instruments', 'pdfs', `${slug}.pdf`);
+    instruments.push({
+      type: 'instrument',
+      no,
+      slug,
+      citation,
+      shortTitle,
+      longTitle,
+      status,
+      made,
+      procedure,
+      comingIntoForce: force,
+      sourcePath: path.relative(ROOT, path.join(INSTRUMENTS_DIR, file)),
+      pdfPath: fs.existsSync(path.join(ROOT, pdfRel)) ? pdfRel : null,
+      searchBody: stripMd(raw).slice(0, 20000),
+    });
+  }
+  return instruments;
+}
+
+module.exports = { parseBills, parseInstruments, pipelineStage };

@@ -33,6 +33,14 @@ for (const b of corpus.legislation) {
     p_slug: b.slug, p_source: b.sourcePath, p_pdf: b.pdfPath, p_stage: b.pipelineStage, p_no: b.no,
   });
 }
+for (const si of corpus.instruments || []) {
+  docs.push({
+    id: `si:${si.no}`, kind: 'si',
+    citation: si.citation, title: si.shortTitle, date: si.made, series: 'REALM-SI', court: 'Legislature',
+    status: si.status, panel: '', ratio: si.longTitle, cites: '', body: si.searchBody,
+    p_slug: si.slug, p_source: si.sourcePath, p_pdf: si.pdfPath, p_no: si.no,
+  });
+}
 
 const ms = new MiniSearch({
   idField: 'id',
