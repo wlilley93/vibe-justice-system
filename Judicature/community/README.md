@@ -1,6 +1,6 @@
 # Community Record
 
-The VJS Community Record. Every project running the Vibe Justice System contributes rulings here. This is the shared commons: the more precedent it holds, the more disputes across all projects resolve on the fast path with no sitting required.
+The VJS Community Record. Projects running the Vibe Justice System may contribute rulings here when their local Principal chooses to share them. This is the shared commons: the more good precedent it holds, the more disputes across participating projects resolve on the fast path with no sitting required.
 
 ---
 
@@ -15,14 +15,14 @@ The VJS Community Record. Every project running the Vibe Justice System contribu
 
 ## Submitting a ruling (VPR 8)
 
-All three court tiers (First Instance, Court of Appeal, Supreme Court) automatically open a PR here after every ruling. The submission is anonymised: project-specific identifiers (repo names, file paths, variable names, function names) are replaced by generic placeholders. The legal question, ratio, tier, law applied, and outcome are preserved unchanged.
+Submission is opt-in. A local VJS jurisdiction is not required to push its rulings here, and no hook automatically publishes local case law upstream. Where the local Principal chooses to contribute, the submission is anonymised: project-specific identifiers (repo names, file paths, variable names, function names) are replaced by generic placeholders. The legal question, ratio, tier, law applied, and outcome are preserved unchanged.
 
 The clerk reviews every PR for:
 1. Constitutional compliance (does it conflict with CASE-LAW?)
 2. Subject matter jurisdiction (s. 14: is this a decision arising in project work?)
 3. Correct anonymisation
 
-PRs that pass are auto-merged. PRs that fail receive a request-for-changes comment explaining why.
+PRs that pass may be merged under the canonical VJS maintainers' rules. PRs that fail receive a request-for-changes comment explaining why.
 
 ---
 
@@ -30,7 +30,7 @@ PRs that pass are auto-merged. PRs that fail receive a request-for-changes comme
 
 Each file in `caselaw/YYYY/` is a self-contained ruling artefact. The **ratio** is the binding holding. The **obiter** is persuasive only. The **tier** tells you how much weight to give it.
 
-Cross-reference with `CASE-LAW.md` to find the governing statute articles cited. Cross-reference with your local `caselaw/INDEX.md` to see if any community ruling covers a question you are facing.
+Cross-reference with `CASE-LAW.md` to find the governing statute articles cited. Cross-reference with your local `.justice/INDEX.md` to see if any community ruling covers a question you are facing.
 
 ---
 
@@ -40,4 +40,4 @@ Community rulings cover decisions arising in AI-assisted software, engineering, 
 
 ---
 
-*The first contributors shape the law everyone inherits.*
+*The first contributors shape the law every subscribing jurisdiction can use.*

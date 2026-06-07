@@ -12,8 +12,8 @@ npm link ./Executive/cli   # then: cdd --help   /   vjs --help
 
 | Command | What it does |
 |---|---|
-| `cdd init [dir]` | Install VJS into a repo: vendor `CASE-LAW.md` / `VPR.md` / `CDD.md`, scaffold `Judicature/.justice/` (citator + `caselaw/` + `pdfs/`), and append the binding `Executive/plugin/CLAUDE.md` block to the target `CLAUDE.md` (idempotent). |
-| `cdd next-citation <tier> [--year YYYY] [--citator PATH] [--json]` | **Deterministic** next neutral citation, computed from the citator (`Judicature/.justice/INDEX.md`). `tier` = `privy-council` \| `court-of-appeal` \| `supreme-court` \| `si` (the SI series numbers from the SI register). |
+| `cdd init [dir]` | Install VJS into a repo: vendor `CASE-LAW.md` / `VPR.md` / `CDD.md`, scaffold local `.justice/` (citator, `judgments/`, `caselaw/`, `pdfs/`, `suites/`), and append the binding `Executive/plugin/CLAUDE.md` block to the target `CLAUDE.md` (idempotent). |
+| `cdd next-citation <tier> [--year YYYY] [--citator PATH] [--json]` | **Deterministic** next neutral citation, computed from the local citator (`.justice/INDEX.md`) or the canonical source citator (`Judicature/.justice/INDEX.md`). `tier` = `privy-council` \| `court-of-appeal` \| `supreme-court` \| `si` (the SI series numbers from the SI register). |
 | `cdd check-citator` | **Deterministic** citator audit (the hard gate): fails closed on citation collisions and ruling-file/row mismatches. |
 | `cdd lodge-judgment [--check-only] [--no-render]` | Render-and-lodge a judgment ([2026] REALM-SI 2): render PDFs (idempotent, fail-open), rebuild the corpus/index/ledger projections in lockstep (fail-open), verify the citation layer (fail-closed). |
 | `cdd submit-request "<question>"` | Print the `Workflow` invocation to file a Request for Ruling (the court runs inside Claude Code). |

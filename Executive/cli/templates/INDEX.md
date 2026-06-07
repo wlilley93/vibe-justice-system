@@ -1,22 +1,23 @@
 # Caselaw Index (Citator)
 
-The master citator for this jurisdiction. The authoritative index of every ruling handed down in this
-repo. Updated whenever a new ruling is committed to `.justice/caselaw/`. Lexby checks this FIRST: if a
+The local citator for this jurisdiction. It starts empty, while the repo subscribes to the canonical VJS
+law vendored in `CASE-LAW.md` and `VPR.md`. It becomes the authoritative index of rulings handed down in
+this repo. Updated whenever a new ruling is committed to `.justice/judgments/`. Lexby checks this FIRST: if a
 binding ratio is on all fours, the matter is disposed of on citation (VPR 2 fast path), no sitting.
 
-## How to cite (CASE-LAW S-11(d))
+## How to cite
 
-Neutral citation form: `[YEAR] LEXBY-<TIER> N`. Tier codes: `SC` (Supreme Court), `CA` (Court of
-Appeal), `FI` (First Instance). The next number is assigned deterministically from this index - run
-`cdd next-citation <tier>` or let the court Workflow assign it. Only the ratio binds; obiter persuades;
-a ruling made in ignorance of binding statute or precedent is per incuriam and void.
+Use `cdd next-citation <tier>` to mint the next citation from this index. Current VJS provenance codes
+are `REALM-PC`, `REALM-CA`, `REALM-SC`, and local `CC-<repo>` / division codes where a repo chooses to
+create them. Only the ratio binds; obiter persuades; a ruling made in ignorance of binding statute or
+precedent is per incuriam and void.
 
 ## Column guide
 
 | Column | Meaning |
 |--------|---------|
-| **Citation** | Neutral citation, `[YEAR] LEXBY-<TIER> N`. Links to the ruling file in `.justice/caselaw/`. |
-| **Tier** | `supreme` \| `appeal` \| `first-instance`. |
+| **Citation** | Neutral citation, `[YEAR] <CODE> N`. Links to the ruling file in `.justice/judgments/`. |
+| **Tier** | `privy-council` \| `court-of-appeal` \| `supreme-court` \| local court code. |
 | **Status** | `good-law` \| `distinguished` \| `overruled` \| `superseded-by-statute` \| `per-incuriam`. |
 | **Ratio (one line)** | The binding holding, stripped to its minimum. Obiter excluded. |
 | **Scope** | Repos / matters / subject areas governed. `all repos` = realm-wide. |

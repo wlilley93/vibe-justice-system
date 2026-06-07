@@ -13,7 +13,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { DatabaseSync } = require('node:sqlite');
 
-const ROOT = path.resolve(__dirname, '..', '..', '..');          // ~/agent-universe
+const ROOT = path.resolve(__dirname, '..', '..', '..');          // repo root
 const SVC = path.resolve(__dirname, '..');                        // review-service/
 const PORT = process.env.PORT || 8790;
 const DB_PATH = path.join(SVC, 'data', 'realm-review.db');

@@ -32,7 +32,7 @@ Usage:  python3 build-reasons-ledger.py    (writes ministry-of-justice/reasons-l
 """
 import re, pathlib, subprocess, sys
 
-REALM = pathlib.Path(__file__).resolve().parents[2]            # ~/agent-universe
+REALM = pathlib.Path(__file__).resolve().parents[2]            # repo root
 LEDGER = REALM / "ministry-of-justice" / "reasons-ledger" / "INDEX.md"
 
 # ---------------------------------------------------------------------------
@@ -72,6 +72,9 @@ PROJECTION_REDACTIONS = (
     (re.compile("Het" + "zner", re.I), "public-production host"),
     (re.compile(r"gh" + r"p_[A-Za-z0-9_]+"), "<github-token>"),
     (re.compile(r"sk" + r"-ant-[A-Za-z0-9_-]+"), "<anthropic-token>"),
+    (re.compile(r"/home/" + r"operator/agent-universe/?"), "<repo-root>/"),
+    (re.compile(r"/home/" + r"operator/\.claude/plans/[A-Za-z0-9_.-]+"), "<local-plan>"),
+    (re.compile(r"~/" + r"agent-universe"), "<repo-root>"),
 )
 
 def redact_projection(s: str) -> str:

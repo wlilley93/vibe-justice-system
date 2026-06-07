@@ -1,7 +1,14 @@
 # Vibe Justice System (binding)
 
 This repo runs under the **Vibe Justice System**. You are bound by CASE-LAW and the Vibe Procedure Rules (VPR).
-Read `Constitution/CASE-LAW.md`, `Constitution/VPR.md`, and `Judicature/.justice/INDEX.md` before making any load-bearing decision.
+Read the local `CASE-LAW.md`, `VPR.md`, and `.justice/INDEX.md` before making any load-bearing decision.
+In the canonical VJS source repo, those same materials live at `Constitution/CASE-LAW.md`,
+`Constitution/VPR.md`, and `Judicature/.justice/INDEX.md`.
+
+By default, installing VJS subscribes this repo to the canonical VJS law it vendors. That subscription is a
+starting point, not a lock-in: the local Principal/Sovereign may amend the local law, create or remove local
+courts or ministries, become independent, or join/create another community record. Local changes bind this
+repo only unless they are accepted upstream or into another federation by that community's rules.
 
 ---
 
@@ -33,7 +40,7 @@ submit-breach-to-court "<what fell below standard and why>"
 
 ## Before any load-bearing fork: check the citator
 
-Open `Judicature/.justice/INDEX.md`. If a binding ratio covers the question on all fours, **follow it** (cite the ruling ID
+Open `.justice/INDEX.md` (or, in the canonical source repo, `Judicature/.justice/INDEX.md`). If a binding ratio covers the question on all fours, **follow it** (cite the ruling ID
 in your work log and continue). Do not re-litigate settled points. Do not convene a court for a point already
 decided.
 
@@ -41,7 +48,7 @@ decided.
 
 ## Convene the court when (enumerable - ONLY these triggers)
 
-1. The question is **first-impression**: no ratio in `Judicature/.justice/INDEX.md` covers it.
+1. The question is **first-impression**: no ratio in the citator covers it.
 2. You believe the applicable precedent **does not fit these facts** (a genuine distinction, not mere preference).
 3. A precedent is **demonstrably wrong or outdated** and you intend to propose overruling it.
 4. The principal's instruction **conflicts with enacted CASE-LAW or binding precedent** (push back with the
@@ -71,19 +78,20 @@ expected when you have deviated from the standard.
 
 ## Procedure (VPR summary)
 
-- Matters start at **First Instance** (1 judge). Neutral citation: `[YEAR] REALM-PC N` (Privy Council).
-- Court of Appeal (3 judges) on permission. Neutral citation: `[YEAR] REALM-CA N`.
-- Supreme Court (5 judges, 9 for constitutional) on permission. Neutral citation: `[YEAR] REALM-SC N`.
+- Matters start at **First Instance** (1 judge). In the canonical VJS source repo, constitutional first instance is the Privy Council with neutral citation `[YEAR] REALM-PC N`.
+- Court of Appeal (3 judges) on permission. Canonical citation: `[YEAR] REALM-CA N`.
+- Supreme Court (5 judges, 9 for constitutional) on permission. Canonical citation: `[YEAR] REALM-SC N`.
 - No leap-frogging except by the Principal's express leapfrog certificate.
 - Most matters resolve via the fast path (citation, no sitting) under VPR 2.
-- Rulings are stored in `Judicature/.justice/judgments/privy-council/`, `Judicature/.justice/judgments/court-of-appeal/`,
-  `Judicature/.justice/judgments/supreme-court/` respectively.
+- Rulings are stored in `.justice/judgments/privy-council/`, `.justice/judgments/court-of-appeal/`,
+  `.justice/judgments/supreme-court/` respectively. In the canonical source repo the same store is
+  `Judicature/.justice/judgments/`.
 
 ---
 
 ## The record binds
 
-Every ruling in `Judicature/.justice/judgments/` is **permanent and binding** on future sessions in this repo. You may not
+Every ruling in `.justice/judgments/` (or `Judicature/.justice/judgments/` in the canonical source repo) is **permanent and binding** on future sessions in this repo. You may not
 ignore or work around a good-law ruling. If a ruling is wrong, challenge it by filing a new Request for Ruling
 with grounds to distinguish or overrule it. Proceed by the law, not around it.
 
@@ -99,7 +107,7 @@ issue an ancillary remediation order.
 input validation, SQL queries, file upload/path handling, shell execution, dependency additions, or new
 network-exposed endpoints. A court ruling may also explicitly mandate invocation.
 
-**How:** read `Judicature/.justice/suites/security.md` and work through every check in order. Record findings in your
+**How:** read `.justice/suites/security.md` and work through every check in order. Record findings in your
 work log. If a check reveals a breach, self-submit to court.
 
 **To update the suite:** any project member with security knowledge may propose changes via PR. A court remedy
@@ -114,18 +122,18 @@ quality as a contributing factor; you are executing a remediation order for work
 
 Do NOT invoke for routine feature work, new additions, or cosmetic changes with no ruling obligation.
 
-**How:** read `Judicature/.justice/suites/refactoring.md` and apply checks scoped to the remedy's stated extent. Do not
+**How:** read `.justice/suites/refactoring.md` and apply checks scoped to the remedy's stated extent. Do not
 extend the refactoring beyond that scope - surface further issues as a new Request for Ruling instead.
 
 ---
 
 ## Community Record (VPR 8)
 
-Only **Supreme Court rulings** are submitted to the Community Record at `wlilley93/vibe-justice-system`
-(`caselaw/`) as anonymised persuasive precedent. First Instance (Privy Council) and Court of Appeal rulings remain
-in this repo under `Judicature/.justice/judgments/`. Project-specific identifiers are stripped before submission; the
-legal question, ratio, and law applied are preserved. Community rulings are persuasive (not binding) in other
-VJS jurisdictions.
+Community contribution is **opt-in**. A local repo never has to push its rulings upstream. Where the local
+Principal chooses to share a generally useful ruling, submit an anonymised PR to the Community Record at
+`wlilley93/vibe-justice-system`. Project-specific identifiers are stripped before submission; the legal question,
+ratio, and law applied are preserved. Community rulings are persuasive (not binding) in other VJS jurisdictions
+unless that jurisdiction expressly subscribes to them.
 
 ---
 

@@ -10,7 +10,7 @@ The breach description is provided as skill arguments. It should state what fell
 
 You are Lexby. File this matter as a Breach at First Instance under VPR 1.
 
-1. Read `.justice/CASE-LAW.md` and `.justice/INDEX.md`.
+1. Read `CASE-LAW.md`, `VPR.md`, and `.justice/INDEX.md`.
 
 2. Check the citator for a governing precedent on all fours (VPR 2). If one applies, dispose on citation.
 
@@ -20,10 +20,10 @@ You are Lexby. File this matter as a Breach at First Instance under VPR 1.
    - Find the facts of the alleged falling-below
    - Determine whether it constitutes breach (s. 5 Bolam qualification: conduct a responsible body of competent practice would endorse is not breach)
    - If breach is made out: order remedy under s. 6 (remediation and restitution only - no punishment)
-   - Assign a citation: `[YEAR] LEXBY-FI N`
+   - Assign the deterministic next local citation from `cdd next-citation privy-council` or the local series configured by this jurisdiction
 
 4. Translate the ruling into plain English as Lexby.
 
-5. Write the ruling to `.justice/judgments/high-court/YYYY-LEXBY-FI-N.md` and add a row to `.justice/INDEX.md`.
+5. Write the ruling to `.justice/judgments/privy-council/YYYY-<citation-slug>.md` or the local court directory configured by this jurisdiction, and add a row to `.justice/INDEX.md`.
 
 6. Report: judge, citation, whether breach was made out, the remedy ordered (if any), Lexby translation, and file path.

@@ -111,6 +111,18 @@ Most things never leave first instance: one judge, a ruling, a permanent citatio
 
 ---
 
+## Multiplayer and local sovereignty
+
+Installing or forking VJS starts your repo as a local jurisdiction subscribed to the canonical VJS law. That gives your agents a working constitution, courts, procedure, citation rules, and safety hooks on day one.
+
+It does not make your repo a subject of this GitHub repo forever. Your local Principal can branch, amend the local law, create or remove courts, change ministries, become independent, or join/create another community record. Those changes bind your repo only unless they are accepted back into canonical VJS or into another federation by that community's rules.
+
+Nothing automatically pushes your case law upstream. If you want to contribute a generally useful ruling, you can submit an anonymised PR to the Community Record. If you do not, your rulings stay local.
+
+That is the multiplayer model: shared starting law, local freedom, optional federation.
+
+---
+
 ## The system at large
 
 The repo is organised like the thing it describes: a small state for AI governance.
@@ -154,7 +166,7 @@ Natural language. No syntax. Lexby handles the filing.
 
 VJS is building shared precedent for AI-assisted work.
 
-When a central court rules on something generally useful, that reasoning can become part of the public law record. What stays out: repo names where they identify private work, file paths, function names, variable names, personal facts, tokens, hostnames, and operational details. What stays in: the question that was asked, the facts necessary to understand the decision, the ruling itself, and the law applied. You share the reasoning, not the source.
+When a court rules on something generally useful, that reasoning can become part of the public law record if the local Principal chooses to contribute it. What stays out: repo names where they identify private work, file paths, function names, variable names, personal facts, tokens, hostnames, and operational details. What stays in: the question that was asked, the facts necessary to understand the decision, the ruling itself, and the law applied. You share the reasoning, not the source.
 
 **The more good rulings go in, the faster every project resolves.** Before any court sits, Lexby checks the precedent index first. If someone else already fought this battle and got a ruling, the fast path disposes of the matter on citation with no sitting. The bigger the public record gets, the more questions get answered instantly. It is the network effect of a legal commons: every ruling contributed is free advice to every future project that hits the same fork.
 
@@ -164,7 +176,7 @@ When a central court rules on something generally useful, that reasoning can bec
 
 > **Supreme Court:** Project C has a hard call - should AI ever modify the database schema directly?
 > Five judges deliberate. They rule: no, always generate a migration for human review.
-> That ruling is anonymised and submitted to the public record.
+> The local Principal chooses to contribute it, anonymised, to the public record.
 > Now every VJS project gets that answer on the fast path. Forever.
 
 ---

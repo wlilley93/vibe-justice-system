@@ -9,7 +9,7 @@ Usage:  python3 build-ledger.py            (writes ministry-of-justice/ledger/IN
 """
 import re, pathlib, datetime, sys
 
-REALM = pathlib.Path(__file__).resolve().parents[2]            # ~/agent-universe
+REALM = pathlib.Path(__file__).resolve().parents[2]            # repo root
 LEDGER = REALM / "ministry-of-justice" / "ledger" / "INDEX.md"
 
 # Neutral-citation forms (provenance scheme): [YEAR] REALM-SC/PC/CA n, [YEAR] <DIVISION> n

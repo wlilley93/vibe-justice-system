@@ -369,13 +369,13 @@ The workability point is the mirror image. Bill 2 s. 26 records that the legisla
 
 ---
 
-**Key files relied on (absolute paths):**
-- `/home/operator/agent-universe/Constitution/CASE-LAW.md` (s. 2, s. 3, s. 6, s. 7, s. 8, s. 11(c), s. 18, s. 19)
-- `/home/operator/agent-universe/Legislature/legislature/bills/02-legislature-of-the-realm-act-2026.md` (Clerk-Drafter s. 5; drafting front-end s. 7; pipeline s. 12-14; Royal Assent s. 21; ceiling s. 24; deferred harness s. 26)
-- `/home/operator/agent-universe/Legislature/legislature/bills/01-acts-of-union-2026.md` (Royal Assent record; supremacy settlement)
-- `/home/operator/agent-universe/Legislature/legislature/committee/CHARTER.md` (the Clerk-Drafter reconciliation mechanic; vote + Royal Assent)
-- `/home/operator/agent-universe/Judicature/.justice/judgments/supreme-court/2026-realm-sc-7.md` (entry-by-entry validity; provenance is not a vice; wholesale-void is ultra vires; prospective restorative disposal)
-- `/home/operator/agent-universe/Judicature/.justice/INDEX.md` (citator; status of all cited rulings as good-law)
+**Key files relied on (repo-relative paths):**
+- `Constitution/CASE-LAW.md` (s. 2, s. 3, s. 6, s. 7, s. 8, s. 11(c), s. 18, s. 19)
+- `Legislature/legislature/bills/02-legislature-of-the-realm-act-2026.md` (Clerk-Drafter s. 5; drafting front-end s. 7; pipeline s. 12-14; Royal Assent s. 21; ceiling s. 24; deferred harness s. 26)
+- `Legislature/legislature/bills/01-acts-of-union-2026.md` (Royal Assent record; supremacy settlement)
+- `Legislature/legislature/committee/CHARTER.md` (the Clerk-Drafter reconciliation mechanic; vote + Royal Assent)
+- `Judicature/.justice/judgments/supreme-court/2026-realm-sc-7.md` (entry-by-entry validity; provenance is not a vice; wholesale-void is ultra vires; prospective restorative disposal)
+- `Judicature/.justice/INDEX.md` (citator; status of all cited rulings as good-law)
 
 ### Defendant's case (for voidness as an instrument)
 

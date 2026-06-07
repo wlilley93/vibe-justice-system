@@ -44,7 +44,7 @@ A **git pre-commit hook**. Filing and citation integrity are mechanical facts, n
 calls, so they are enforced **deterministically and fail closed** - no model, no trust required.
 It runs `cdd check-citator`, which catches:
 
-- **Citation collisions** - the same `[YEAR] LEXBY-<TIER> N` issued twice (the manual-numbering
+- **Citation collisions** - the same `[YEAR] <CODE> N` issued twice (the manual-numbering
   hazard: two sessions both grab `N+1`).
 - **Filing breaks** - a ruling file with no citator row, or a citator row with no ruling file
   (the "judgment returned but never filed" hazard).
@@ -68,10 +68,10 @@ cdd check-citator
 
 ## 3. The public-publish checkpoint gate - `vjs-pre-push.sh`
 
-A **git pre-push hook**. Private/dev pushes are allowed, including the private `agent-universe`
-backup branch. A push to `wlilley93/vibe-justice-system` is different: it is a public VJS
-publication and therefore an irreversible outward act. The hook fails closed unless the matter
-records express Founder authorisation.
+A **git pre-push hook**. Private/dev pushes, forks, and independent local jurisdictions are allowed.
+Only a push to the exact canonical public VJS remote (`wlilley93/vibe-justice-system`) is a public VJS
+publication and therefore an irreversible outward act. The hook fails closed for that remote unless the
+matter records express Founder authorisation.
 
 Accepted authorisation records:
 

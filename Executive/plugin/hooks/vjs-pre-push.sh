@@ -6,8 +6,8 @@
 # wlilley93/vibe-justice-system repository is an irreversible outward act (Bill 18 s. 2(e), s. 7;
 # Bill 27 s. 6(3)). It therefore fails closed unless the matter records express authorisation.
 #
-# Private/dev pushes are allowed: backing up the private agent-universe branch is reversible and
-# not the public VJS publication/destruction checkpoint.
+# Private/dev pushes are allowed. So are forks and locally independent VJS jurisdictions. Only
+# the exact canonical public VJS remote is the public VJS publication checkpoint.
 #
 # Accepted public-publish authorisation records:
 #   1. Tracked system record:
@@ -35,8 +35,11 @@ REMOTE_NAME="${1:-}"
 REMOTE_URL="${2:-}"
 
 is_public_vjs_remote() {
-  case "$REMOTE_NAME $REMOTE_URL" in
-    *vibe-justice-system*|*wlilley93/vibe-justice-system*) return 0 ;;
+  case "$REMOTE_URL" in
+    https://github.com/wlilley93/vibe-justice-system|\
+https://github.com/wlilley93/vibe-justice-system.git|\
+git@github.com:wlilley93/vibe-justice-system.git|\
+ssh://git@github.com/wlilley93/vibe-justice-system.git) return 0 ;;
     *) return 1 ;;
   esac
 }
@@ -111,7 +114,7 @@ record_authorises_push() {
 }
 
 if ! is_public_vjs_remote; then
-  echo "VJS pre-push: non-public/dev remote '${REMOTE_NAME:-?}' allowed ($REMOTE_URL)." >&2
+  echo "VJS pre-push: non-canonical/dev remote '${REMOTE_NAME:-?}' allowed ($REMOTE_URL)." >&2
   exit 0
 fi
 

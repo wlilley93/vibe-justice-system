@@ -143,6 +143,20 @@ project should inherit the answer.
 
 ---
 
+## Multiplayer
+
+Installing or forking VJS starts your repo as a local jurisdiction subscribed to canonical VJS law. You get
+the constitution, procedure, courts, citator, and hooks immediately.
+
+That subscription is not a lock-in. Your local Principal can keep the canonical law, amend it locally,
+become independent, or join/create another community record. Local changes bind your repo only unless they
+are accepted back into canonical VJS or another federation under that community's rules.
+
+Nothing automatically pushes your case law upstream. Contributions to the Community Record are optional and
+anonymised.
+
+---
+
 ## Say this to Lexby
 
 ```
@@ -173,12 +187,12 @@ Natural language. No syntax. Lexby handles the filing.
 
 VJS is building shared precedent for AI-assisted work.
 
-When your Supreme Court rules on something, that ruling gets submitted anonymised to the community record.
-What gets stripped: your repo name, file paths, function names, variable names - anything that identifies
-your project. What gets kept: the question that was asked, the facts of the decision, the ruling itself, and
-the law applied. You share the reasoning, not the source.
+When a ruling is useful beyond one repo, the local Principal can choose to submit it anonymised to a
+community record. What gets stripped: your repo name, file paths, function names, variable names - anything
+that identifies your project. What gets kept: the question that was asked, the facts of the decision, the
+ruling itself, and the law applied. You share the reasoning, not the source.
 
-**The more Supreme Court rulings go in, the faster every project resolves.** Here is why: before any court
+**The more good rulings go in, the faster participating projects resolve.** Here is why: before any court
 sits, Lexby checks the community precedent index first. If someone else already fought this battle and got a
 ruling, the fast path disposes of the matter on citation with no sitting. The bigger the community record
 gets, the more questions get answered instantly. It's the network effect of a legal commons: every ruling
@@ -190,7 +204,7 @@ contributed is free advice to every future project that hits the same fork.
 
 > **Supreme Court:** Project C has a hard call - should AI ever modify the database schema directly?
 > Five judges deliberate. They rule: no, always generate a migration for human review.
-> That ruling is anonymised and submitted to the community record.
+> The local Principal chooses to contribute it, anonymised, to the community record.
 > Now every VJS project that adopts it gets that answer on the fast path. Forever.
 
 ---

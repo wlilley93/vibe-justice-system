@@ -5,7 +5,7 @@
 // NOT use a model: filing and citation integrity are mechanical facts, not judgment calls, so
 // they are checked deterministically and fail closed. It catches the two failure modes that
 // silently corrupt a jurisdiction:
-//   1. citation collisions - the same [YEAR] LEXBY-<TIER> N issued twice (the manual-numbering
+//   1. citation collisions - the same [YEAR] <CODE> N issued twice (the manual-numbering
 //      hazard: two sessions both grab "N+1" and the citator now has two of the same number).
 //   2. filing breaks - a ruling file with no citator row, or a citator row with no ruling file
 //      (the "judgment returned but never filed" hazard).
@@ -21,16 +21,23 @@ const TIER_DIR = DIR_BY_CODE; // back-compat alias
 // Series codes recognised in citations: central (REALM-*), High Court divisions, County Court repos.
 const CODE_RE = '(REALM-SC|REALM-PC|REALM-CA|ENG|CHAN|CC-[A-Z0-9-]+)';
 
-// Walk up from `start` until a directory containing .justice/ is found.
+// Walk up from `start` until a central or local .justice/ directory is found.
 function findRepoRoot(start) {
   let dir = path.resolve(start || process.cwd());
   for (let i = 0; i < 12; i++) {
     if (fs.existsSync(path.join(dir, 'Judicature', '.justice'))) return dir;
+    if (fs.existsSync(path.join(dir, '.justice'))) return dir;
     const parent = path.dirname(dir);
     if (parent === dir) break;
     dir = parent;
   }
   return null;
+}
+
+function justiceRoot(root) {
+  const central = path.join(root, 'Judicature', '.justice');
+  if (fs.existsSync(central)) return central;
+  return path.join(root, '.justice');
 }
 
 function citationKey(year, code, n) { return `[${year}] ${code} ${n}`; }
@@ -59,14 +66,15 @@ function citationsFromIndex(indexText) {
 function expectedRulingPath(root, c) {
   const dir = DIR_BY_CODE[c.code];
   if (!dir) return null;
-  return path.join(root, 'Judicature', '.justice', 'judgments', dir, `${c.year}-${codeSlug(c.code)}-${c.n}.md`);
+  return path.join(justiceRoot(root), 'judgments', dir, `${c.year}-${codeSlug(c.code)}-${c.n}.md`);
 }
 
 // Scan the central judgment dirs for ruling files and parse their citation from the filename.
 function rulingFilesOnDisk(root) {
   const files = [];
+  const jroot = justiceRoot(root);
   for (const code of Object.keys(DIR_BY_CODE)) {
-    const dir = path.join(root, 'Judicature', '.justice', 'judgments', DIR_BY_CODE[code]);
+    const dir = path.join(jroot, 'judgments', DIR_BY_CODE[code]);
     if (!fs.existsSync(dir)) continue;
     const fileRe = new RegExp('^(\\d{4})-' + codeSlug(code) + '-(\\d+)\\.md$', 'i');
     for (const name of fs.readdirSync(dir)) {
@@ -84,8 +92,9 @@ function auditCitator(start) {
   if (!root) return { ok: false, root: null, problems: [{ type: 'no-justice', message: 'no .justice/ directory found from ' + (start || process.cwd()) }] };
 
   const problems = [];
-  const indexPath = fs.existsSync(path.join(root, 'Judicature', '.justice', 'INDEX.md'))
-    ? path.join(root, 'Judicature', '.justice', 'INDEX.md')
+  const jroot = justiceRoot(root);
+  const indexPath = fs.existsSync(path.join(jroot, 'INDEX.md'))
+    ? path.join(jroot, 'INDEX.md')
     : path.join(root, 'Judicature', 'caselaw', 'INDEX.md');
 
   if (!fs.existsSync(indexPath)) {
@@ -126,4 +135,4 @@ function auditCitator(start) {
   return { ok: problems.length === 0, root, problems };
 }
 
-module.exports = { auditCitator, citationsFromIndex, findRepoRoot, TIER_DIR };
+module.exports = { auditCitator, citationsFromIndex, findRepoRoot, TIER_DIR, justiceRoot };

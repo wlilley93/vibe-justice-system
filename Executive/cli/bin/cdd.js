@@ -126,9 +126,27 @@ function cmdInit(args) {
     fs.copyFileSync(src, path.join(target, dstRel));
     process.stdout.write(`vendored ${dstRel}\n`);
   }
-  // .justice scaffold
+  // .justice scaffold. A downloaded repo starts as a local jurisdiction subscribed to the
+  // canonical VJS law, with its own local citator and judgment store.
   const jdir = path.join(target, '.justice');
-  for (const d of ['', 'caselaw', 'pdfs']) fs.mkdirSync(path.join(jdir, d), { recursive: true });
+  for (const d of [
+    '',
+    'caselaw',
+    'pdfs',
+    'suites',
+    'judgments',
+    path.join('judgments', 'privy-council'),
+    path.join('judgments', 'court-of-appeal'),
+    path.join('judgments', 'supreme-court'),
+  ]) fs.mkdirSync(path.join(jdir, d), { recursive: true });
+  const suitesSrc = path.join(REPO_ROOT, 'Judicature', '.justice', 'suites');
+  if (fs.existsSync(suitesSrc)) {
+    for (const f of fs.readdirSync(suitesSrc)) {
+      if (!f.endsWith('.md')) continue;
+      fs.copyFileSync(path.join(suitesSrc, f), path.join(jdir, 'suites', f));
+      process.stdout.write(`vendored .justice/suites/${f}\n`);
+    }
+  }
   const indexPath = path.join(jdir, 'INDEX.md');
   if (!fs.existsSync(indexPath)) {
     // Seed an EMPTY citator template - a fresh jurisdiction starts with no rulings of its own.
@@ -147,11 +165,12 @@ function cmdInit(args) {
   process.stdout.write('\nVJS installed. The court is in session.\n');
 }
 
-// Walk up from a starting dir to the repo root (the dir holding Judicature/.justice).
+// Walk up from a starting dir to the repo root (central Judicature/.justice or local .justice).
 function findRepoRoot(start) {
   let dir = start;
   for (let i = 0; i < 64; i++) {
     if (fs.existsSync(path.join(dir, 'Judicature', '.justice'))) return dir;
+    if (fs.existsSync(path.join(dir, '.justice'))) return dir;
     const up = path.dirname(dir);
     if (up === dir) break;
     dir = up;
@@ -168,7 +187,13 @@ function findRepoRoot(start) {
 function cmdLodgeJudgment(args) {
   const { spawnSync } = require('child_process');
   const root = findRepoRoot(process.cwd());
-  if (!root) die('lodge-judgment: no Judicature/.justice found above ' + process.cwd());
+  if (!root) die('lodge-judgment: no .justice found above ' + process.cwd());
+  if (!fs.existsSync(path.join(root, 'Judicature', '.justice'))) {
+    const res = auditCitator(root);
+    if (res.ok) { process.stdout.write('lodge-judgment: local citation layer OK (fail-closed verify passed).\n'); return; }
+    for (const p of res.problems) process.stderr.write('FAIL [' + p.type + ']: ' + p.message + '\n');
+    die('\nlodge-judgment: the local citation layer failed (fail-closed).');
+  }
   const run = (cmd, argv) => spawnSync(cmd, argv, { cwd: root, stdio: 'pipe', encoding: 'utf8' });
   const have = (cmd) => spawnSync(cmd, ['--version'], { stdio: 'ignore' }).status === 0;
   const checkOnly = !!args['check-only'];
