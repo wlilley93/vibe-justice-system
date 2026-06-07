@@ -130,10 +130,22 @@ function dateKey(d) {
   const m = `${d.citation || ''}`.match(/\[(\d{4})\].*?\s(\d+)$/);
   return m ? `${m[1]}-00-${String(m[2]).padStart(4, '0')}` : '';
 }
+function sameDayRank(d) {
+  if (d.kind === 'case') return 3000 + citationNumber(d.citation);
+  if (d.kind === 'si') return 2000 + citationNumber(d.citation);
+  if (d.kind === 'bill') return 1000 + Number(d.p_no || 0);
+  return 0;
+}
+function citationNumber(citation) {
+  const m = `${citation || ''}`.match(/(?:REALM-[A-Z]+|Bill)\s+(\d+)$/);
+  return m ? Number(m[1]) : 0;
+}
 function sortByDate(docs) {
   return docs.sort((a, b) => {
     const byDate = dateKey(b).localeCompare(dateKey(a));
     if (byDate) return byDate;
+    const bySameDay = sameDayRank(b) - sameDayRank(a);
+    if (bySameDay) return bySameDay;
     if (a.kind === 'bill' && b.kind === 'bill') {
       const ai = BILL_ORDER.includes(a.p_no) ? BILL_ORDER.indexOf(a.p_no) : 100 + a.p_no;
       const bi = BILL_ORDER.includes(b.p_no) ? BILL_ORDER.indexOf(b.p_no) : 100 + b.p_no;

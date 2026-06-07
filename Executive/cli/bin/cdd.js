@@ -218,6 +218,29 @@ function checkPublicLawIndex(root) {
         else if (record.no) remember(`${kind}No`, record.no, record);
       }
     }
+    const displayRecords = [
+      ...(corpus.cases || []).map(r => ({ kind: 'case', citation: r.citation, date: r.date, no: 0 })),
+      ...(corpus.instruments || []).map(r => ({ kind: 'si', citation: r.citation, date: r.made || r.date, no: r.no || 0 })),
+      ...(corpus.legislation || []).map(r => ({ kind: 'bill', citation: `Bill ${r.no}`, date: r.royalAssent || r.date, no: r.no || 0 })),
+    ];
+    const citationNumber = (citation) => {
+      const m = String(citation || '').match(/(?:REALM-[A-Z]+|Bill)\s+(\d+)$/);
+      return m ? Number(m[1]) : 0;
+    };
+    const sameDayRank = (record) => {
+      if (record.kind === 'case') return 3000 + citationNumber(record.citation);
+      if (record.kind === 'si') return 2000 + citationNumber(record.citation);
+      if (record.kind === 'bill') return 1000 + Number(record.no || 0);
+      return 0;
+    };
+    displayRecords.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')) || sameDayRank(b) - sameDayRank(a));
+    const latest = displayRecords[0];
+    if (latest && latest.kind === 'bill') {
+      const sameDateHasCourtOrSi = displayRecords.some(record => record.date === latest.date && (record.kind === 'case' || record.kind === 'si'));
+      if (sameDateHasCourtOrSi) {
+        findings.push(`latest Gazette display candidate is ${latest.citation}; same-day court or SI records must sort ahead of Acts`);
+      }
+    }
   }
 
   const graphValidationPath = path.join(root, 'Judicature', 'law-reports', 'site', 'citator-graph-validation.json');
