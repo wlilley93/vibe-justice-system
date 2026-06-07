@@ -14,20 +14,20 @@ through one deterministic `cdd` route rather than manual branch and warrant hand
 
 | Item | Fact |
 |---|---|
-| Final synced SHA | `9f6666ad217979493a6b60ed57352e5f77013e9e` |
+| Branch-consolidation base SHA under review | `9f6666ad217979493a6b60ed57352e5f77013e9e` |
 | Public repository | `wlilley93/vibe-justice-system` |
 | Development repository | `wlilley93/agent-universe` |
-| Remaining public branches | `master` and `public-vjs-canonical-preview`, both at `9f6666ad217979493a6b60ed57352e5f77013e9e` |
-| Remaining development branches | `master` and `public-vjs-canonical-preview`, both at `9f6666ad217979493a6b60ed57352e5f77013e9e` |
+| Remaining public branches | `master` and `public-vjs-canonical-preview`, kept in lockstep after branch cleanup and later request-publication pushes |
+| Remaining development branches | `master` and `public-vjs-canonical-preview`, kept in lockstep after branch cleanup and later request-publication pushes |
 | Deleted stale public branches | `cli-and-deterministic-citations`, `community/2026-lexby-fi-1`, and `publish/2026-lexby-sc-2` |
 | Deleted stale development branches | `cli-and-deterministic-citations` and `publish/2026-lexby-sc-2` |
 | Default branches | Both public and development repositories now default to `public-vjs-canonical-preview` |
 | GitHub Pages source | Public Pages serves `public-vjs-canonical-preview` at path `/` |
-| Gazette stale-site issue | Resolved by fast-forwarding the Pages source branch to `9f6666ad217979493a6b60ed57352e5f77013e9e` |
+| Gazette stale-site issue | Resolved by fast-forwarding the Pages source branch to the branch-consolidation base SHA |
 | Gazette latest-ordering issue | Live Pages assets include the same-day ordering fix that prevents `Bill 30` presenting above same-day court or SI records |
 | Gazette colourisation | Live Pages assets include the MoJ taxonomy: Supreme Court gold, Court of Appeal blue, first instance lighter blue, Acts red, SIs darker red, and Privy Council pink/distinct |
 | Gazette graph visualisation | Live Pages assets include per-card lineage display, node chips, edge badges, graph JSON access, and CLI graph retrieval support |
-| Local CI | `node Executive/cli/bin/cdd.js local-ci --json` passed after branch consolidation |
+| Local CI | `node Executive/cli/bin/cdd.js local-ci --json` passed after branch consolidation and before publication of this reference |
 | Operational checkpoint state | No `.vjs/checkpoints` files remained after release handling |
 | Host governance signal | Public `master` accepted a push while reporting a branch-rule bypass requiring pull requests |
 
@@ -53,7 +53,7 @@ release does not yet have one first-class deterministic command that owns the wh
 
 The Court is asked to determine:
 
-1. whether the final branch consolidation to `9f6666ad217979493a6b60ed57352e5f77013e9e` was lawful;
+1. whether the branch consolidation represented by `9f6666ad217979493a6b60ed57352e5f77013e9e` was lawful;
 2. whether retaining both `master` and `public-vjs-canonical-preview` in lockstep is sufficient, or whether
    the public repository should migrate to literal `main` plus canonical branch terminology;
 3. whether branch-rule bypass on `master` requires remediation, branch-protection amendment, or only recording;
