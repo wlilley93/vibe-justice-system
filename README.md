@@ -1,59 +1,221 @@
-# VJS - the Vibe Justice System
+<div align="center">
 
-The realm: a sovereign-agent civilisation governed as a state, under the founding case-law settlement
-([`Constitution/CASE-LAW.md`](Constitution/CASE-LAW.md)) and the enacted statute book. The canonical name is
-fixed by the **VJS (Constitution and Machinery) Act 2026** (Bill 27), which also mandates the layout below.
-(Formerly developed under the code name "agent-universe".)
+<img src="assets/vjs-header.png" alt="Vibe Justice System" width="100%">
 
-> **Signpost rule:** every node carries a `_signpost.md` (UP to its parent + the apex law; DOWN to its
-> children), so an agent or a court doing research never gets lost.
+*AI governance for your repo. The court is AI. Not legal advice.*
 
-## The four branches (separation of powers as directory structure, Bill 27)
+![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
+![status](https://img.shields.io/badge/status-alpha-orange?style=flat-square)
+![vibes](https://img.shields.io/badge/vibes-litigated-purple?style=flat-square)
+![community](https://img.shields.io/badge/community-open-green?style=flat-square)
+
+</div>
+
+> **Disclaimers**
+> - **Not a real court. Not legal advice.** VJS is an AI governance framework. Rulings are AI outputs, not legal instruments.
+> - **Production systems need real engineers.** VJS helps record and structure AI decisions - it does not replace qualified engineering review, security audit, or human sign-off on anything that matters in the real world.
+> - **It only refines what you give it.** Rulings are only as good as the spec and context you provide. Garbage in, garbage out. A weak spec produces weak law.
+
+> **Alpha status**
+> - **Citation numbering is deterministic.** The next neutral citation is computed from the citator, not guessed: run `cdd next-citation <tier>`. Current realm citations use the `REALM-*` provenance scheme, including `REALM-PC`, `REALM-CA`, `REALM-SC`, and `REALM-SI`.
+> - **The CLI is local-first.** The zero-dependency Node CLI lives in [`Executive/cli/`](Executive/cli/) (`cdd` / `vjs`: `init`, `next-citation`, `check-citator`, `lodge-judgment`, `submit-request`, `submit-breach`). Use `node Executive/cli/bin/cdd.js` or `npm link ./Executive/cli`. Registry publishing remains packaging work.
+> - **The public repo is system data only.** Personal, operational, and project-private facts do not belong here. The public record holds the law, central judgments, procedure, plugin machinery, and derived registers.
+
+---
+
+**The biggest barrier to success is being able to define correctness. This repo solves it.**
+
+---
+
+Your AI makes decisions every session. Nobody writes them down. Six PRs later, a different session contradicts the first one. Now you have two conventions, zero explanation, and a codebase that has lost the plot.
+
+**VJS gives your AI a justice system.** Decisions become binding precedent. Past rulings are checked before anything new is done. If the AI breaks its own rules, it must self-report and fix it.
+
+---
+
+## The idea
+
+Sometimes people break the rules. So do AI agents. That is not, on its own, a failure: an agent's job is to produce value the way it sees best, not to hold the entire rulebook in its head every single turn. The job of the court is to decide, after the fact, whether the way it worked was lawful, and to make the work good where it was not.
+
+The agent builds. The record judges. Neither has to be perfect for the system to work, because nothing load-bearing is decided silently and nothing wrong is allowed to stand once it is seen.
+
+---
+
+## When the court convenes (and when it does not)
+
+This is the part that keeps VJS cheap. An agent told "convene whenever you are unsure" will convene on every trivial fork and cost a fortune. VJS instead gives the agent **five precise conditions**, and for everything else it cites existing precedent and moves on, no sitting required.
+
+The court convenes only when:
+
+1. **First-impression** - no existing ruling covers the question.
+2. **Distinction** - precedent exists but genuinely does not fit these facts.
+3. **Overruling** - a ruling is wrong or outdated and should be set aside.
+4. **Conflict** - an instruction clashes with enacted law or binding precedent.
+5. **Breach** - work fell below the duty of care: self-reported, then fixed.
+
+Everything else is a **citation, not a sitting**: before any bench sits, the citator is searched, and a binding ruling on all fours disposes of the matter instantly.
+
+That loop is **Caselaw Driven Development (CDD)**: a fork produces a ruling; the ruling is committed with a citation; every future session cites it instead of re-deciding. Where TDD records that the code does what you said, CDD records *why* you said it.
+
+> These five conditions are summarised here for onboarding. The canonical, binding text lives in [`Executive/plugin/CLAUDE.md`](Executive/plugin/CLAUDE.md), with the methodology in [`Constitution/CDD.md`](Constitution/CDD.md); this summary points to that source and never replaces it. *(Required form per [2026] REALM-PC 3.)*
+
+---
+
+## Lexby
+
+Your AI counsel. Three things at once:
+
+- **ADVOCATE** - builds the strongest case for your idea and argues hard for it, because he does not decide the outcome
+- **ADVISOR** - gives it to you straight; if your idea has a fatal flaw he names it before the judges do
+- **ENGINEER** - ships the code, then records why
+
+The separation matters. Lexby argues the case but does not sit on the bench - he cannot tip the outcome and then quietly do the opposite. The court decides independently. Lexby executes. The record is permanent.
+
+---
+
+## How it works
+
+Every time you use AI to build something, it makes silent calls: which approach, which trade-off, which direction. Most never get written down. Then a new session picks a different direction, and now nothing is consistent.
+
+VJS catches those calls and turns them into binding decisions:
+
+1. The AI hits a choice: "build this ourselves or use the library?", "ship now or wait for the audit?"
+2. Lexby checks if that type of choice was already decided. If yes: follows the ruling instantly - no deliberation, same answer every time, for the life of the project.
+3. If not: an AI court deliberates and issues a ruling. It gets committed to the repo.
+4. Every future session inherits it. The AI cannot contradict its own record. If it does, it must self-report and go back to court.
+
+**When the AI gets something wrong, it must report itself and fix it.**
+
+### Brownfield code
+
+If you are installing VJS on an existing codebase, the best practice is to start a fresh repo. Treat the brownfield site as requirements: read it, extract what it does and why, and use that as the input to your spec. Then build green, with VJS governing every decision from day one. Trying to retrofit a justice system onto undocumented history is harder than building clean from known requirements - and the brownfield code already contains the answers you need.
+
+---
+
+## The courts
+
+VJS has one judiciary, with central realm courts and local project courts.
 
 ```
-VJS/                                  top-level: GitHub files + the four branches, and nothing else
-├── Constitution/                     the founding settlement
-│   ├── CASE-LAW.md                   the founding case-law settlement (s. 1-22); subordinate to the Acts
-│   ├── VPR.md  CDD.md  AGENTS.md     the Vibe Procedure Rules + commentary + the binding agent spine
-│   ├── constitution/                 REALM-TOPOLOGY and the constitutional docs
-│   └── docs/                         governance documentation
-├── Judicature/                       the judiciary + the public law record
-│   ├── .justice/                     the central citator (INDEX.md) + judgments + suites
-│   ├── court/                        the judgment renderer + workflows
-│   ├── caselaw/  community/          apex + Community-Record precedent
-│   ├── ministry-of-justice/          the universal rulings ledger + the reasons ledger (derived, pointer-only)
-│   └── law-reports/                  The Realm Law Reports & Gazette (searchable, central-courts only)
-├── Legislature/                      law-making + enacted law
-│   ├── legislature/                  the Standing Committee + the bills (drafting -> vote -> Royal Assent)
-│   └── statutes/                     the enacting archive (Acts) + instruments/ (the SI register)
-└── Executive/                        the ministries + machinery
-    ├── ministry-of-business-engineering-and-skills/   the executive ministry (owns the refactoring suite)
-    ├── ministry-of-data-security/    the security ministry (owns the security suite; private estate registry)
-    ├── cli/                          the cdd CLI (citation engine + the citator-integrity gate)
-    ├── plugin/                       the agent spine (CLAUDE.md) + the hooks (pre-commit gate, watchdog)
-    └── docker/                       the clerk runner
+PROJECT FIRST INSTANCE     1 AI judge                    Everyday project decisions. Repo local.
+COURT OF APPEAL            3 AI judges                   Disputed calls. Central citation: REALM-CA.
+SUPREME COURT              5 AI judges (9 for big calls) Foundational. Central citation: REALM-SC.
+PRIVY COUNCIL              3 AI judges                   Realm constitutional first instance. Central citation: REALM-PC.
 ```
 
-## What is public (Bill 27: system data only)
+Most project work starts at first instance. Escalate by permission. You cannot skip the route unless the law gives you a leapfrog certificate.
 
-The public realm holds **system data only**: the law (CASE-LAW + the Acts + the SI register), the **central
-courts' judgments** (Supreme Court `REALM-SC`, Court of Appeal `REALM-CA`, Privy Council `REALM-PC`), the
-procedure rules, and the derived registers. The **law of every judgment is public**; **personal or operational
-facts are sealed** (Bill 22) and **local (County Court / Division) judgments stay in their own repos** (Bill 27
-s. 14). Personal/operational data lives only in separate, gitignored repos (mainly under the Executive
-ministries).
+Local project rulings live in the project repo under `.justice/`. Central realm rulings live in this repo under [`Judicature/.justice/judgments/`](Judicature/.justice/judgments/) and are indexed in the citator at [`Judicature/.justice/INDEX.md`](Judicature/.justice/INDEX.md). The public VJS repo carries system data only: the law of the judgment is public, while personal and operational facts stay sealed.
 
-## Navigation
+Most things never leave first instance: one judge, a ruling, a permanent citation, and a future fast path. Higher courts are for contested calls, overruling, or questions foundational enough that every future VJS project should inherit the answer.
 
-| To find... | Go to |
-|---|---|
-| Why VJS exists (the pitch / onboarding) | [`Constitution/docs/ABOUT-VJS.md`](Constitution/docs/ABOUT-VJS.md) |
-| The founding law | [`Constitution/CASE-LAW.md`](Constitution/CASE-LAW.md) |
-| Procedure | [`Constitution/VPR.md`](Constitution/VPR.md) |
-| The Acts (statute book) | [`Legislature/statutes/README.md`](Legislature/statutes/README.md) |
-| The bills + Standing Committee | [`Legislature/legislature/bills/ORDER-PAPER.md`](Legislature/legislature/bills/ORDER-PAPER.md) |
-| Every central ruling | [`Judicature/ministry-of-justice/ledger/INDEX.md`](Judicature/ministry-of-justice/ledger/INDEX.md) |
-| The citator | [`Judicature/.justice/INDEX.md`](Judicature/.justice/INDEX.md) |
-| Significant decisions (reasons) | [`Judicature/ministry-of-justice/reasons-ledger/INDEX.md`](Judicature/ministry-of-justice/reasons-ledger/INDEX.md) |
-| The realm topology | [`Constitution/constitution/REALM-TOPOLOGY.md`](Constitution/constitution/REALM-TOPOLOGY.md) |
-| Maintainer notes (paths, couplings) | [`STRUCTURE.md`](STRUCTURE.md) |
+---
+
+## Say this to Lexby
+
+```
+"I think we should go this way. Submit it to the court."
+
+"I don't agree with the outcome. Can we appeal?"
+
+"What did we decide about X, and why?"
+
+"Is this allowed under our spec?"
+```
+
+Lexby also catches himself:
+
+```
+"I'm not sure this is right..."         -> self-files for a ruling before proceeding
+
+"I think I broke the rules earlier..."  -> self-reports the breach and orders a fix
+
+"I didn't follow what we decided..."    -> files it, finds the original ruling, corrects course
+```
+
+Natural language. No syntax. Lexby handles the filing.
+
+---
+
+## Community
+
+VJS is building shared precedent for AI-assisted work.
+
+When a central court rules on something generally useful, that reasoning can become part of the public law record. What stays out: repo names where they identify private work, file paths, function names, variable names, personal facts, tokens, hostnames, and operational details. What stays in: the question that was asked, the facts necessary to understand the decision, the ruling itself, and the law applied. You share the reasoning, not the source.
+
+**The more good rulings go in, the faster every project resolves.** Before any court sits, Lexby checks the precedent index first. If someone else already fought this battle and got a ruling, the fast path disposes of the matter on citation with no sitting. The bigger the public record gets, the more questions get answered instantly. It is the network effect of a legal commons: every ruling contributed is free advice to every future project that hits the same fork.
+
+> **Fast path:** Project A ruled: *"always encrypt tokens at rest, even in dev."*
+> Six months later, Project B hits the same question.
+> Lexby finds the ruling. Done in seconds. No court needed.
+
+> **Supreme Court:** Project C has a hard call - should AI ever modify the database schema directly?
+> Five judges deliberate. They rule: no, always generate a migration for human review.
+> That ruling is anonymised and submitted to the public record.
+> Now every VJS project gets that answer on the fast path. Forever.
+
+---
+
+## Ship it
+
+You built the thing. The AI helped. Nobody knows who decided what.
+
+Now you have a record.
+Now you have precedent.
+Now you have Lexby.
+
+Ship fast. The court is in session.
+
+---
+
+## Install
+
+From a checkout of this repository:
+
+```bash
+node Executive/cli/bin/cdd.js init /path/to/your/repo
+```
+
+Or link the CLI locally:
+
+```bash
+npm link ./Executive/cli
+cd /path/to/your/repo
+cdd init
+```
+
+`cdd init` vendors the governing materials, scaffolds `.justice/`, appends the binding VJS block to `CLAUDE.md`, installs the token-light turn watchdog, and installs deterministic git gates. The watchdog is inert unless `ANTHROPIC_API_KEY` is set; the hard gates need no model.
+
+For AI-assisted manual installation, give your agent this prompt:
+
+```text
+Install VJS into this repo. From github.com/wlilley93/vibe-justice-system, fetch and save:
+- Executive/plugin/CLAUDE.md -> append to this repo's CLAUDE.md inside a VJS-marked block
+- Constitution/CASE-LAW.md -> CASE-LAW.md
+- Constitution/VPR.md -> VPR.md
+- Constitution/CDD.md -> CDD.md
+- Judicature/.justice/suites/security.md -> .justice/suites/security.md
+- Judicature/.justice/suites/refactoring.md -> .justice/suites/refactoring.md
+- Executive/plugin/skills/submit-request-to-court/SKILL.md -> .claude/skills/submit-request-to-court/SKILL.md
+- Executive/plugin/skills/submit-breach-to-court/SKILL.md -> .claude/skills/submit-breach-to-court/SKILL.md
+- Executive/plugin/hooks/vjs-watchdog.sh -> .claude/hooks/vjs-watchdog.sh
+- Executive/plugin/hooks/vjs-pre-commit.sh -> .claude/hooks/vjs-pre-commit.sh
+- Executive/plugin/hooks/vjs-pre-push.sh -> .claude/hooks/vjs-pre-push.sh
+- Executive/plugin/settings.json -> merge its hooks block into .claude/settings.json
+Create .justice/ directories: caselaw, judgments, pdfs, suites. Create .justice/INDEX.md as an empty citator.
+Symlink .git/hooks/pre-commit -> ../../.claude/hooks/vjs-pre-commit.sh.
+Symlink .git/hooks/pre-push -> ../../.claude/hooks/vjs-pre-push.sh.
+VJS is now active.
+```
+
+For the technical map of this repo, see [`STRUCTURE.md`](STRUCTURE.md). For the public law map, see [`Constitution/docs/CITATION-MAP.md`](Constitution/docs/CITATION-MAP.md). For the CLI reference, see [`Executive/cli/README.md`](Executive/cli/README.md).
+
+---
+
+<div align="center">
+
+*VJS is open source. MIT licensed. Contributions, bench rosters, statute packs, and landmark cases welcome.*
+
+*The court structure and procedure draw from the tradition of common law courts. Names on the bench are inventions - never real sitting or living jurists.*
+
+</div>

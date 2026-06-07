@@ -8,7 +8,8 @@ const path = require('path');
 const { nextCitation, seriesCode } = require('../lib/citation');
 const { auditCitator } = require('../lib/citator-audit');
 
-const PKG_ROOT = path.resolve(__dirname, '..', '..'); // the vibe-justice-system repo/package root
+const CLI_ROOT = path.resolve(__dirname, '..');
+const REPO_ROOT = path.resolve(__dirname, '..', '..', '..'); // the vibe-justice-system repo root
 const VERSION = require('../package.json').version;
 
 function findCitator(dir) {
@@ -60,7 +61,7 @@ function cmdCheckCitator() {
 // Install the VJS hooks into a target repo: the watchdog Stop hook, the settings wiring, and the
 // deterministic pre-commit hard gate. Idempotent.
 function installHooks(target) {
-  const srcHooks = path.join(PKG_ROOT, 'plugin', 'hooks');
+  const srcHooks = path.join(REPO_ROOT, 'Executive', 'plugin', 'hooks');
   if (!fs.existsSync(srcHooks)) { process.stderr.write('skip hooks: plugin/hooks not found in package\n'); return; }
   const dstHooks = path.join(target, '.claude', 'hooks');
   fs.mkdirSync(dstHooks, { recursive: true });
@@ -72,7 +73,7 @@ function installHooks(target) {
     process.stdout.write('installed hook .claude/hooks/' + f + '\n');
   }
   // Merge the Stop-hook wiring into .claude/settings.json, idempotently.
-  const settingsSrc = path.join(PKG_ROOT, 'plugin', 'settings.json');
+  const settingsSrc = path.join(REPO_ROOT, 'Executive', 'plugin', 'settings.json');
   if (fs.existsSync(settingsSrc)) {
     let incoming = {};
     try { incoming = JSON.parse(fs.readFileSync(settingsSrc, 'utf8')); } catch (_) { incoming = {}; }
@@ -114,12 +115,16 @@ function installHooks(target) {
 
 function cmdInit(args) {
   const target = path.resolve(args._[0] || process.cwd());
-  const copy = ['CASE-LAW.md', 'VPR.md', 'CDD.md'];
-  for (const f of copy) {
-    const src = path.join(PKG_ROOT, f);
-    if (!fs.existsSync(src)) { process.stderr.write(`skip (missing in package): ${f}\n`); continue; }
-    fs.copyFileSync(src, path.join(target, f));
-    process.stdout.write(`vendored ${f}\n`);
+  const copy = [
+    ['Constitution/CASE-LAW.md', 'CASE-LAW.md'],
+    ['Constitution/VPR.md', 'VPR.md'],
+    ['Constitution/CDD.md', 'CDD.md'],
+  ];
+  for (const [srcRel, dstRel] of copy) {
+    const src = path.join(REPO_ROOT, srcRel);
+    if (!fs.existsSync(src)) { process.stderr.write(`skip (missing in package): ${srcRel}\n`); continue; }
+    fs.copyFileSync(src, path.join(target, dstRel));
+    process.stdout.write(`vendored ${dstRel}\n`);
   }
   // .justice scaffold
   const jdir = path.join(target, '.justice');
@@ -127,12 +132,12 @@ function cmdInit(args) {
   const indexPath = path.join(jdir, 'INDEX.md');
   if (!fs.existsSync(indexPath)) {
     // Seed an EMPTY citator template - a fresh jurisdiction starts with no rulings of its own.
-    fs.copyFileSync(path.join(__dirname, '..', 'templates', 'INDEX.md'), indexPath);
+    fs.copyFileSync(path.join(CLI_ROOT, 'templates', 'INDEX.md'), indexPath);
     process.stdout.write('created .justice/INDEX.md (empty citator)\n');
   } else process.stdout.write('.justice/INDEX.md already present, left as-is\n');
   // Append the binding plugin block to CLAUDE.md, idempotently.
   const MARK = '<!-- vjs:plugin -->';
-  const block = `\n${MARK}\n` + fs.readFileSync(path.join(PKG_ROOT, 'plugin', 'CLAUDE.md'), 'utf8') + `\n<!-- /vjs:plugin -->\n`;
+  const block = `\n${MARK}\n` + fs.readFileSync(path.join(REPO_ROOT, 'Executive', 'plugin', 'CLAUDE.md'), 'utf8') + `\n<!-- /vjs:plugin -->\n`;
   const claudePath = path.join(target, 'CLAUDE.md');
   const existing = fs.existsSync(claudePath) ? fs.readFileSync(claudePath, 'utf8') : '';
   if (existing.includes(MARK)) process.stdout.write('CLAUDE.md already has the VJS plugin block, left as-is\n');
