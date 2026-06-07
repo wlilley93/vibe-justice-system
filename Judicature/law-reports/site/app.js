@@ -193,7 +193,9 @@ function nodeLink(id) {
   if (!n) return escHtml(id);
   const href = nodeHref(n);
   const label = escHtml(n.label || n.citation || id);
-  return href ? `<a href="${escAttr(href)}">${label}</a>` : label;
+  const tone = graphTone(n);
+  const chip = `<span class="node-chip tone-${tone}">${escHtml(toneLabel(tone))}</span>`;
+  return href ? `${chip}<a href="${escAttr(href)}">${label}</a>` : `${chip}${label}`;
 }
 
 function lineage(d) {
@@ -204,15 +206,61 @@ function lineage(d) {
   const count = (GRAPH_OUT.get(id) || []).length + (GRAPH_IN.get(id) || []).length;
   if (!count) return '';
   const rows = [
-    ...outgoing.map(e => `<li><span>${escHtml(e.label)}</span> ${nodeLink(e.target)}</li>`),
-    ...incoming.map(e => `<li>${nodeLink(e.source)} <span>${escHtml(e.label)}</span></li>`),
+    ...outgoing.map(e => `<li><span class="edge-badge tone-${edgeTone(e)}">${escHtml(edgeLabel(e))}</span> ${nodeLink(e.target)}</li>`),
+    ...incoming.map(e => `<li>${nodeLink(e.source)} <span class="edge-badge tone-${edgeTone(e)}">${escHtml(edgeLabel(e))}</span></li>`),
   ].join('');
   const clipped = count > outgoing.length + incoming.length ? `<p>${count - outgoing.length - incoming.length} more edge${count - outgoing.length - incoming.length === 1 ? '' : 's'} in citator-graph.json.</p>` : '';
   return `<details class="lineage"><summary>lineage · ${count} public edge${count === 1 ? '' : 's'}</summary><ul>${rows}</ul>${clipped}</details>`;
 }
 
+function itemTone(d) {
+  if (d.kind === 'bill') return 'act';
+  if (d.kind === 'si') return 'si';
+  return courtTone(d.court);
+}
+
+function courtTone(court) {
+  const c = String(court || '').toLowerCase().replace(/[-_]/g, ' ');
+  if (c.includes('supreme court') || c.includes('realm sc')) return 'sc';
+  if (c.includes('court of appeal') || c.includes('realm ca')) return 'ca';
+  if (c.includes('privy council') || c.includes('realm pc')) return 'pc';
+  if (c.includes('county court') || c.includes('first instance') || c.includes('high court')) return 'first';
+  return 'first';
+}
+
+function graphTone(n) {
+  if (!n) return 'first';
+  if (n.kind === 'bill') return 'act';
+  if (n.kind === 'si') return 'si';
+  return courtTone(`${n.court || ''} ${n.citation || ''} ${n.sourcePath || ''}`);
+}
+
+function edgeTone(e) {
+  return graphTone(GRAPH_NODES.get(e.target) || GRAPH_NODES.get(e.source));
+}
+
+function toneLabel(tone) {
+  return {
+    sc: 'SC',
+    ca: 'CA',
+    first: 'First instance',
+    act: 'Act',
+    si: 'SI',
+    pc: 'PC',
+  }[tone] || 'Item';
+}
+
+function edgeLabel(e) {
+  return e.label || e.type || 'related';
+}
+
+function classChip(tone) {
+  return `<span class="class-chip tone-${tone}">${escHtml(toneLabel(tone))}</span>`;
+}
+
 function card(d) {
   const st = (d.status || 'good-law').toLowerCase().replace(/[^a-z-]/g, '');
+  const tone = itemTone(d);
   const href = d.p_pdf ? `${REL}${d.p_pdf}` : (d.p_source ? `${REL}${d.p_source}` : '');
   const when = d.date ? ` &middot; ${d.date}` : '';
   const links = [];
@@ -224,8 +272,9 @@ function card(d) {
       ? `<div class="sov"><strong>Sovereign consultation:</strong> ${b.sovereignConsultation.slice(0, 320)}</div>` : '';
     const note = b.committeeNote ? `<div class="cnote"><strong>Committee note.</strong> ${b.committeeNote.slice(0, 700)}</div>` : '';
     const vote = b.voteRecord ? `<div class="vote">${b.voteRecord.slice(0, 500)}</div>` : '';
-    return `<div class="card clickable" data-href="${escAttr(href)}" tabindex="0" role="link" aria-label="Open ${escAttr(d.title)} PDF">
+    return `<div class="card clickable tone-${tone}" data-href="${escAttr(href)}" tabindex="0" role="link" aria-label="Open ${escAttr(d.title)} PDF">
       <div><span class="cite">${d.citation}: ${d.title}</span>
+        ${classChip(tone)}
         <span class="badge ${st}">${(d.status || '').replace(/-/g, ' ')}</span></div>
       <span class="court">Legislature${when} &middot; ${b.ayes || ''} ${b.ayes ? 'ayes' : ''}</span>
       ${pipeline(d.p_stage || b.pipelineStage || '', b.rounds || 1)}
@@ -238,8 +287,9 @@ function card(d) {
     </div>`;
   }
   if (d.kind === 'si') {
-    return `<div class="card clickable" data-href="${escAttr(href)}" tabindex="0" role="link" aria-label="Open ${escAttr(d.title)} PDF">
+    return `<div class="card clickable tone-${tone}" data-href="${escAttr(href)}" tabindex="0" role="link" aria-label="Open ${escAttr(d.title)} PDF">
       <div><span class="cite">${d.citation}: ${d.title}</span>
+        ${classChip(tone)}
         <span class="badge ${st}">${(d.status || '').replace(/-/g, ' ')}</span></div>
       <span class="court">Statutory Instrument${when}</span>
       <div class="ratio">${(d.ratio || '').slice(0, 360)}</div>
@@ -248,8 +298,9 @@ function card(d) {
     </div>`;
   }
   const sub = `<span class="court">${d.court}${d.p_jur && d.p_jur.includes('acmeco') ? ' &middot; at acmeco' : ''}</span>`;
-  return `<div class="card clickable" data-href="${escAttr(href)}" tabindex="0" role="link" aria-label="Open ${escAttr(d.citation)} PDF">
+  return `<div class="card clickable tone-${tone}" data-href="${escAttr(href)}" tabindex="0" role="link" aria-label="Open ${escAttr(d.citation)} PDF">
     <div><span class="cite">${d.citation}</span>
+      ${classChip(tone)}
       <span class="badge ${st}">${d.status || 'good-law'}</span></div>
     ${sub}<span class="court">${when}</span>
     <div class="ratio">${(d.ratio || '').slice(0, 360)}</div>

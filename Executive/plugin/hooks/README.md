@@ -2,13 +2,14 @@
 
 This directory contains the portable VJS hook scripts. They are agent-agnostic at the contract
 level: any runtime that can bind shell hooks, delegable workflows, subagents, tasks, or equivalent
-independent checks can use them. Claude Code is the bundled adapter, not the design boundary.
-The public trigger-quality record is `../AGENT-ADAPTERS.md`.
+independent checks can use them. Claude Code, Codex, Gemini-style, and opencode-style bindings are
+bundled adapters, not the design boundary. The public trigger-quality record is
+`../AGENT-ADAPTERS.md`.
 
 Three active backstops ship today: one soft and behavioural, two hard and mechanical. The Claude
-adapter also carries pre/post answer binding stubs for the REALM-SI 8 lawfulness hooks. Together
-they close the gap the alpha had: VJS was entirely trust-based, invisible the moment the agent
-stopped cooperating.
+and Codex adapters also carry pre/post answer binding stubs for the REALM-SI 8 lawfulness hooks.
+Together they close the gap the alpha had: VJS was entirely trust-based, invisible the moment the
+agent stopped cooperating.
 
 > The agent's job is to produce value the way it sees best, not to hold the entire statute book in
 > its head every turn. These hooks are the safety net for the turns where it was heads-down and
@@ -41,10 +42,12 @@ open**: a watchdog that wedges your session would itself breach the duty of care
 | `VJS_WATCHDOG_MODEL` | `claude-haiku-4-5` | model used for the check |
 | `VJS_WATCHDOG_MAXCHARS` | `6000` | cap on last-turn characters sent to the model |
 
-Installed generically under `.vjs/hooks/`. The Claude adapter also wires it through
-`.claude/settings.json` as a `Stop` hook (see `plugin/settings.json`). In a canonical source
-checkout it detects `Judicature/.justice/`; in an installed local jurisdiction it detects root
-`.justice/`.
+Installed generically under `.vjs/hooks/`. The Claude adapter wires it through
+`.claude/settings.json` as a `Stop` hook (see `plugin/settings.json`). The Codex adapter wires it
+through project `.codex/hooks.json` as a `Stop` hook (see `plugin/codex-hooks.json`; the canonical
+source checkout has its own `.codex/hooks.json` pointing at `Executive/plugin/hooks/`). In a
+canonical source checkout it detects `Judicature/.justice/`; in an installed local jurisdiction it
+detects root `.justice/`.
 
 ---
 
@@ -75,9 +78,26 @@ workflows, it should delegate materially separable research, verification, revie
 work rather than collapsing all roles into one thread. If no delegation surface exists, the agent
 must record the substitute check used.
 
-Use Claude Code's `/hooks` menu to verify that the project settings loaded these hooks. The
-reference behavior is documented in Claude Code's hooks reference:
-<https://code.claude.com/docs/en/hooks>.
+Use Claude Code's `/hooks` menu to verify that the project settings loaded these hooks.
+
+Codex exposes lifecycle hooks through `hooks.json` or inline `[hooks]` tables in `config.toml`.
+The bundled Codex adapter is `Executive/plugin/codex-hooks.json`, installed by `cdd init` to
+`.codex/hooks.json`. The canonical source checkout also carries `.codex/hooks.json`, pointing
+directly at `Executive/plugin/hooks/`. It maps:
+
+- `SessionStart`, `SubagentStart`, and `UserPromptSubmit` to `vjs-pre-answer.sh`;
+- `PreToolUse` to `vjs-pre-answer.sh`;
+- `PostToolUse` to `vjs-post-answer.sh`;
+- `Stop` to `vjs-post-answer.sh` and `vjs-watchdog.sh`.
+
+Codex requires its normal hook review/trust flow before project hooks execute. Verify with Codex's
+`/hooks` command in the TUI. Project hooks load only when the project `.codex/` layer is trusted.
+
+Gemini-style and opencode-style source checkout adapters live at `.gemini/settings.json` and
+`.opencode/plugins/vjs-lawfulness.js`, with distributable reference files under
+`Executive/plugin/`. They are best-efforts runtime bindings under the same MBES hook implementation
+route: they connect available session/tool lifecycle events to the portable VJS scripts, but they do
+not change legal force, routing authority, or the public/private boundary.
 
 ---
 

@@ -1,0 +1,85 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -lc 'root=\"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\"; hook=\"$root/Executive/plugin/hooks/vjs-pre-answer.sh\"; [ -f \"$hook\" ] || exit 0; VJS_PRE_ANSWER_REMINDER=on bash \"$hook\"'",
+            "timeout": 10,
+            "statusMessage": "Checking VJS session lawfulness context"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -lc 'root=\"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\"; hook=\"$root/Executive/plugin/hooks/vjs-pre-answer.sh\"; [ -f \"$hook\" ] || exit 0; VJS_PRE_ANSWER_REMINDER=on bash \"$hook\"'",
+            "timeout": 10,
+            "statusMessage": "Checking VJS subagent lawfulness context"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -lc 'root=\"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\"; hook=\"$root/Executive/plugin/hooks/vjs-pre-answer.sh\"; [ -f \"$hook\" ] || exit 0; VJS_PRE_ANSWER_REMINDER=on bash \"$hook\"'",
+            "timeout": 10,
+            "statusMessage": "Checking VJS pre-answer lawfulness context"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -lc 'root=\"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\"; hook=\"$root/Executive/plugin/hooks/vjs-pre-answer.sh\"; [ -f \"$hook\" ] || exit 0; bash \"$hook\"'",
+            "timeout": 10,
+            "statusMessage": "Checking VJS pre-tool lawfulness context"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -lc 'root=\"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\"; hook=\"$root/Executive/plugin/hooks/vjs-post-answer.sh\"; [ -f \"$hook\" ] || exit 0; bash \"$hook\"'",
+            "timeout": 10,
+            "statusMessage": "Checking VJS post-tool lawfulness context"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -lc 'root=\"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\"; hook=\"$root/Executive/plugin/hooks/vjs-post-answer.sh\"; [ -f \"$hook\" ] || exit 0; bash \"$hook\"'",
+            "timeout": 10,
+            "statusMessage": "Checking VJS post-answer lawfulness context"
+          },
+          {
+            "type": "command",
+            "command": "bash -lc 'root=\"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\"; hook=\"$root/Executive/plugin/hooks/vjs-watchdog.sh\"; [ -f \"$hook\" ] || exit 0; bash \"$hook\"'",
+            "timeout": 45,
+            "statusMessage": "Running VJS turn watchdog"
+          }
+        ]
+      }
+    ]
+  }
+}

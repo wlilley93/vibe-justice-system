@@ -5,7 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Realm Law Reports &amp; Gazette</title>
 <style>
-  :root { --cream:#fcf7f1; --paper:#fffdfa; --ink:#1a2744; --rule:#c8d0dc; --muted:#5b6472; --accent:#8b0000; }
+  :root {
+    --cream:#fcf7f1; --paper:#fffdfa; --ink:#1a2744; --rule:#c8d0dc; --muted:#5b6472; --accent:#8b0000;
+    --sc:#8a5a00; --sc-bg:#fff2bf;
+    --ca:#1d4f91; --ca-bg:#e8f1ff;
+    --first:#3d7fbd; --first-bg:#eef7ff;
+    --act:#b42318; --act-bg:#fff0ec;
+    --si:#761919; --si-bg:#fbe6e6;
+    --pc:#a31963; --pc-bg:#fde7f3;
+  }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--cream); color:#15202b;
     font-family:'Iowan Old Style','Palatino Linotype','Times New Roman',serif; line-height:1.5; }
@@ -17,9 +25,9 @@
   #q { width:100%; padding:.8rem 1rem; font-size:1.1rem; border:1.5px solid var(--ink);
     border-radius:6px; background:#fff; font-family:inherit; }
   .tabs { display:flex; flex-wrap:wrap; gap:.4rem; margin:1rem 0 .4rem; }
-  .tab { padding:.35rem .8rem; border:1px solid var(--ink); border-radius:999px; cursor:pointer;
-    background:transparent; color:var(--ink); font:inherit; font-size:.85rem; }
-  .tab.active { background:var(--ink); color:var(--cream); }
+  .tab { --tone:var(--ink); --tone-bg:var(--cream); padding:.35rem .8rem; border:1px solid var(--tone);
+    border-radius:999px; cursor:pointer; background:transparent; color:var(--tone); font:inherit; font-size:.85rem; }
+  .tab.active { background:var(--tone); color:var(--cream); }
   .meta { color:var(--muted); font-size:.85rem; margin:.3rem 0 1rem; }
   .start { border:1px solid var(--rule); border-radius:6px; background:var(--paper); padding:.85rem 1rem;
     margin:0 0 1rem; }
@@ -34,7 +42,13 @@
   .start ol { margin:.45rem 0 .2rem; padding-left:1.35rem; }
   .start li { margin:.35rem 0; }
   .start a { color:var(--ink); }
-  .card { border:1px solid var(--rule); border-left:4px solid var(--ink); border-radius:6px;
+  .tone-sc { --tone:var(--sc); --tone-bg:var(--sc-bg); }
+  .tone-ca { --tone:var(--ca); --tone-bg:var(--ca-bg); }
+  .tone-first { --tone:var(--first); --tone-bg:var(--first-bg); }
+  .tone-act { --tone:var(--act); --tone-bg:var(--act-bg); }
+  .tone-si { --tone:var(--si); --tone-bg:var(--si-bg); }
+  .tone-pc { --tone:var(--pc); --tone-bg:var(--pc-bg); }
+  .card { --tone:var(--ink); --tone-bg:#fff; border:1px solid var(--rule); border-left:5px solid var(--tone); border-radius:6px;
     padding:.8rem 1rem; margin:.7rem 0; background:var(--paper); transition:border-color .12s ease, transform .12s ease; }
   .card.clickable { cursor:pointer; }
   .card.clickable:hover { border-color:var(--ink); transform:translateY(-1px); }
@@ -44,6 +58,12 @@
   .card .ratio { margin:.4rem 0; }
   .badge { display:inline-block; font-size:.7rem; text-transform:uppercase; letter-spacing:.06em;
     padding:.05rem .45rem; border:1px solid var(--muted); border-radius:4px; margin-left:.4rem; }
+  .class-chip,.node-chip,.edge-badge { display:inline-block; border:1px solid var(--tone); border-radius:4px;
+    background:var(--tone-bg); color:var(--tone); font-size:.68rem; font-style:normal; letter-spacing:.04em;
+    line-height:1.2; text-transform:uppercase; padding:.08rem .4rem; vertical-align:.08rem; }
+  .class-chip { margin-left:.4rem; }
+  .node-chip { margin-right:.25rem; }
+  .edge-badge { margin:0 .18rem; }
   .badge.good-law { color:#1a3a1a; border-color:#1a3a1a; }
   .badge.void,.badge.per-incuriam,.badge.superseded { color:var(--accent); border-color:var(--accent); }
   .card a { color:var(--ink); margin-right:1rem; font-size:.85rem; }
@@ -61,7 +81,8 @@
   .lineage { border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); padding:.35rem 0; }
   .lineage ul { margin:.35rem 0 .1rem; padding-left:1.15rem; font-size:.82rem; }
   .lineage li { margin:.18rem 0; }
-  .lineage span { color:var(--muted); font-style:italic; }
+  .lineage .edge-label { color:var(--muted); font-style:italic; }
+  .lineage .edge-badge,.lineage .node-chip { font-style:normal; }
   .lineage p { margin:.3rem 0 0; color:var(--muted); font-size:.8rem; }
   footer { border-top:1px solid var(--rule); margin-top:2rem; padding:1.2rem 1rem; text-align:center;
     color:var(--muted); font-size:.8rem; font-style:italic; }
@@ -78,13 +99,13 @@
   <input id="q" type="search" placeholder="Search case law &amp; legislation - by text, citation, court, judge&hellip;" autofocus>
   <div class="tabs" id="tabs">
     <button class="tab active" data-f="all">All</button>
-    <button class="tab" data-f="kind:bill">Acts</button>
-    <button class="tab" data-f="kind:si">SIs</button>
+    <button class="tab tone-act" data-f="kind:bill">Acts</button>
+    <button class="tab tone-si" data-f="kind:si">SIs</button>
     <button class="tab" data-f="kind:case">Case law</button>
-    <button class="tab" data-f="court:Supreme Court">Supreme Court</button>
-    <button class="tab" data-f="court:Court of Appeal">Court of Appeal</button>
-    <button class="tab" data-f="court:Privy Council">Privy Council</button>
-    <button class="tab" data-f="court:County Court">County Court</button>
+    <button class="tab tone-sc" data-f="court:Supreme Court">Supreme Court</button>
+    <button class="tab tone-ca" data-f="court:Court of Appeal">Court of Appeal</button>
+    <button class="tab tone-pc" data-f="court:Privy Council">Privy Council</button>
+    <button class="tab tone-first" data-f="court:County Court">County Court</button>
     <button class="tab" data-f="status:good-law">Good law</button>
   </div>
   <div class="meta" id="meta"></div>

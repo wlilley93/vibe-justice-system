@@ -23,4 +23,12 @@ cd "${CWD:-.}" 2>/dev/null || exit 0
 [ -d .justice ] || [ -d Judicature/.justice ] || exit 0
 [ "${VJS_PRE_ANSWER_REMINDER:-off}" = "on" ] || exit 0
 
-printf '%s\n' '{"hookSpecificOutput":{"hookEventName":"UserPromptSubmit","additionalContext":"VJS pre-answer lawfulness hook is installed under REALM-SI 8. For governed, load-bearing work, retrieve applicable law, separate delegable review where useful, and route before answering; this advisory stub does not adjudicate."}}'
+python3 -c '
+import json, os
+print(json.dumps({
+    "hookSpecificOutput": {
+        "hookEventName": os.environ.get("VJS_HOOK_EVENT_NAME", "UserPromptSubmit"),
+        "additionalContext": "VJS pre-answer lawfulness hook is installed under REALM-SI 8. For governed, load-bearing work, retrieve applicable law, separate delegable review where useful, and route before answering; this advisory stub does not adjudicate.",
+    }
+}))
+'

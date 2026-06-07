@@ -62,6 +62,17 @@ is also linked directly from the Gazette shortcuts for external tools. The graph
 public/private boundary as `corpus.json`: it scans the central public Gazette corpus only and does not scan local or
 private judgment trees.
 
+## Gazette colour taxonomy
+
+The reading-room UI applies a presentation-only colour taxonomy requested by MoJ and implemented by MBES for quick
+orientation: Supreme Court gold, Court of Appeal blue, first instance lighter blue, Acts red, statutory instruments
+darker red, and Privy Council pink. The tokens are applied to result-card strokes, class chips, court/kind tabs, and
+lineage node/edge badges in `site/index.html` and `site/app.js`.
+
+The colours are not legal metadata and do not alter source of force, priority, hierarchy, remedy, ratio,
+commencement, repeal, validity, or binding status. Text labels remain present so the site is usable without colour,
+and graph/source JSON is left unchanged.
+
 Graph validation is part of the static build. Malformed edge records fail before the graph is written: edge endpoints
 must be existing graph nodes, relation labels must match the allowed taxonomy, source/target paths must match the node
 pointers, and edge payloads may not carry authoritative legal text. The companion

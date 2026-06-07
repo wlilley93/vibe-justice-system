@@ -1,0 +1,68 @@
+{
+  "hooksConfig": {
+    "enabled": true,
+    "notifications": true
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "name": "vjs-pre-answer-session",
+            "type": "command",
+            "command": "VJS_PRE_ANSWER_REMINDER=on VJS_HOOK_EVENT_NAME=SessionStart bash -lc 'root=\"${GEMINI_PROJECT_DIR:-$(pwd)}\"; bash \"$root/.vjs/hooks/vjs-pre-answer.sh\"'"
+          }
+        ]
+      }
+    ],
+    "BeforeAgent": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "vjs-pre-answer-before-agent",
+            "type": "command",
+            "command": "VJS_PRE_ANSWER_REMINDER=on VJS_HOOK_EVENT_NAME=BeforeAgent bash -lc 'root=\"${GEMINI_PROJECT_DIR:-$(pwd)}\"; bash \"$root/.vjs/hooks/vjs-pre-answer.sh\"'"
+          }
+        ]
+      }
+    ],
+    "BeforeTool": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "vjs-pre-tool-lawfulness",
+            "type": "command",
+            "command": "VJS_HOOK_EVENT_NAME=BeforeTool bash -lc 'root=\"${GEMINI_PROJECT_DIR:-$(pwd)}\"; bash \"$root/.vjs/hooks/vjs-pre-answer.sh\"'"
+          }
+        ]
+      }
+    ],
+    "AfterAgent": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "vjs-post-answer-after-agent",
+            "type": "command",
+            "command": "bash -lc 'root=\"${GEMINI_PROJECT_DIR:-$(pwd)}\"; bash \"$root/.vjs/hooks/vjs-post-answer.sh\"'"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "exit",
+        "hooks": [
+          {
+            "name": "vjs-post-answer-session-end",
+            "type": "command",
+            "command": "bash -lc 'root=\"${GEMINI_PROJECT_DIR:-$(pwd)}\"; bash \"$root/.vjs/hooks/vjs-post-answer.sh\"'"
+          }
+        ]
+      }
+    ]
+  }
+}

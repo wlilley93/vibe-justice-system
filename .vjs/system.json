@@ -1,0 +1,17 @@
+{
+  "system": "vjs",
+  "included": true,
+  "repositoryRoot": ".",
+  "basis": "canonical-source",
+  "inclusionRight": "canonical-vjs-source-repository",
+  "subscription": "canonical-vjs-law",
+  "authorities": [
+    "Constitution/CASE-LAW.md s.9(2)-(6)",
+    "Bill 27",
+    "Bill 30 ss.4-7",
+    "[2026] REALM-PC 15",
+    "[2026] REALM-PC 17",
+    "[2026] REALM-PC 19",
+    "[2026] REALM-SI 6"
+  ]
+}

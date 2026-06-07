@@ -23,7 +23,7 @@ Search Acts, statutory instruments, and judgments. Result cards open the rendere
 
 > **Alpha status**
 > - **Citation numbering is deterministic.** The next neutral citation is computed from the citator, not guessed: run `cdd next-citation <tier>`. Current realm citations use the `REALM-*` provenance scheme, including `REALM-PC`, `REALM-CA`, `REALM-SC`, and `REALM-SI`.
-> - **The CLI is local-first.** The zero-dependency Node CLI lives in [`Executive/cli/`](Executive/cli/) (`cdd` / `vjs`: `init`, `next-citation`, `check-citator`, `lodge-judgment`, `submit-request`, `submit-breach`). Use `node Executive/cli/bin/cdd.js` or `npm link ./Executive/cli`. Registry publishing remains packaging work.
+> - **The CLI is local-first.** The zero-dependency Node CLI lives in [`Executive/cli/`](Executive/cli/) (`cdd` / `vjs`: `init`, `next-citation`, `check-citator`, `lodge-judgment`, `law search`, `law get`, `graph node`, `graph edges`, `submit-request`, `submit-breach`). Use `node Executive/cli/bin/cdd.js` or `npm link ./Executive/cli`. Registry publishing remains packaging work.
 > - **The public repo is system data only.** Personal, operational, and project-private facts do not belong here. The public record holds the law, central judgments, procedure, plugin machinery, and derived registers.
 > - **Private working papers go in `_private/`.** The root [`_private/`](_private/) directory is gitignored except for its instructions. Use it for unredacted local evidence, repo-level facts, screenshots, logs, and private routing papers; public Judicature and Legislature files should contain only system data, anonymised summaries, or redacted pointers.
 
@@ -225,7 +225,7 @@ Ship fast. The court is in session.
 From a checkout of this repository:
 
 ```bash
-node Executive/cli/bin/cdd.js init /path/to/your/repo
+node Executive/cli/bin/cdd.js init /path/to/your/repo --declare-system-repo
 ```
 
 Or link the CLI locally:
@@ -233,18 +233,24 @@ Or link the CLI locally:
 ```bash
 npm link ./Executive/cli
 cd /path/to/your/repo
-cdd init
+cdd init --declare-system-repo
 ```
 
-`cdd init` vendors the governing materials, scaffolds `.justice/`, appends the generic VJS agent
-contract to `AGENTS.md`, installs portable scripts under `.vjs/hooks/`, and binds the bundled Claude
-adapter through `CLAUDE.md`, `.claude/hooks/`, and `.claude/settings.json`. The watchdog is inert
+`cdd init` must be run at the git worktree root. On first install, `--declare-system-repo` records
+`.vjs/system.json`, the local declaration that this repo is included as a VJS system repo by local
+sovereign act. The command then vendors the governing materials, scaffolds `.justice/`, appends the
+generic VJS agent contract to `AGENTS.md`, installs portable scripts under `.vjs/hooks/`, and binds the
+bundled Claude, Codex, Gemini-style, and opencode-style adapters through `CLAUDE.md`, `.claude/hooks/`,
+`.claude/settings.json`, `.codex/hooks.json`, `.gemini/settings.json`, and
+`.opencode/plugins/vjs-lawfulness.js`. The watchdog is inert
 unless `ANTHROPIC_API_KEY` is set; the hard gates need no model.
 
 For AI-assisted manual installation, give your agent this prompt:
 
 ```text
 Install VJS into this repo. From github.com/wlilley93/vibe-justice-system, fetch and save:
+- Create .vjs/system.json declaring system="vjs", included=true, repositoryRoot=".", basis="local-sovereign-act",
+  and subscription="canonical-vjs-law-at-install-time"; run only from the git worktree root
 - Executive/plugin/AGENTS.md -> append to this repo's AGENTS.md inside a VJS agent-contract block
 - Executive/plugin/CLAUDE.md -> append to this repo's CLAUDE.md inside a VJS Claude-adapter block
 - Constitution/CASE-LAW.md -> CASE-LAW.md
@@ -257,6 +263,9 @@ Install VJS into this repo. From github.com/wlilley93/vibe-justice-system, fetch
 - Executive/plugin/hooks/*.sh -> .vjs/hooks/*.sh
 - Executive/plugin/hooks/*.sh -> .claude/hooks/*.sh (Claude adapter)
 - Executive/plugin/settings.json -> merge its Claude adapter hooks block into .claude/settings.json
+- Executive/plugin/codex-hooks.json -> .codex/hooks.json (Codex adapter; review/trust through `/hooks`)
+- Executive/plugin/gemini-settings.json -> merge its Gemini-style adapter hooks block into .gemini/settings.json
+- Executive/plugin/opencode-vjs-lawfulness.js -> .opencode/plugins/vjs-lawfulness.js
 Create .justice/ directories: caselaw, judgments, pdfs, suites. Create .justice/INDEX.md as an empty citator.
 Symlink .git/hooks/pre-commit -> ../../.vjs/hooks/vjs-pre-commit.sh.
 Symlink .git/hooks/pre-push -> ../../.vjs/hooks/vjs-pre-push.sh.
