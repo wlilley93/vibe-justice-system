@@ -17,6 +17,14 @@ Existing implementation coverage:
 - Gemini-style and opencode-style source-checkout adapters exist as best-efforts lifecycle bindings to the portable hook scripts.
 - Git hooks protect commits and pushes only.
 - The deterministic CLI gate now includes `cdd check`, which aggregates new-judgment provenance, citator consistency, and bench-name checks so hooks can call one CLI spine.
+- Agent instructions now state the deterministic CLI as the required spine where a command exists:
+  filings, retrieval, citation checks, graph movement, repo initialisation, judgment lodgement,
+  deterministic validation, and public-release gates must go through `cdd` or an adapter invoking
+  the same command unless the competent route records why the CLI is unavailable or insufficient.
+- Local CI is now a CLI command, `cdd local-ci`, and the public pre-push gate invokes it before
+  release-warrant validation. The VJS compliance checkpoint is local and deterministic; it does not
+  depend on GitHub Actions or hosted CI. It includes public-law index consistency checks for
+  repeated citations, slugs, source paths, and failed graph-validation facts.
 - `cdd init` now performs a deterministic repo-root and local system-declaration preflight before installation. The preflight records or verifies `.vjs/system.json` as the local sovereign act; it is not a Repositories House approval and does not confer status by operator choice.
 - The lawfulness hook proposal has been made as [2026] REALM-SI 8.
 - The agent-agnostic and delegable-workflow requirement has been made as [2026] REALM-SI 10.
@@ -44,6 +52,9 @@ Existing implementation coverage:
 | ALH-14 | Each agent must make good hook triggering on a best-efforts basis | complete | Legislature / every governed agent | `[2026] REALM-SI 11` |
 | ALH-15 | Prevent direct public judgment-file creation from being mistaken for a lawful court sitting | partial | MBES engineering / Court workflow conformance | `cdd check-judgment-provenance` and aggregate `cdd check` fail newly added central judgment files without explicit court-workflow or authorised-registrar provenance; stronger workflow-run evidence remains future work |
 | ALH-16 | Make `cdd init` flow through a declared system-repo and valid git-root location | complete | Existing law -> MBES engineering | Bill 30 and `[2026] REALM-PC 17` establish default local subscription on install/fork; `[2026] REALM-PC 14` and `[2026] REALM-SI 6` make formation/conformance a gate-plus-git fact. `cdd init` now requires git worktree root plus `.vjs/system.json` or `--declare-system-repo`. |
+| ALH-17 | Make deterministic CLI use mandatory where the CLI supplies the filing or movement route | complete | Existing `[2026] REALM-SI 8`, `10`, `11` -> MBES adapter/agent-contract engineering | Root `AGENTS.md`, `Constitution/AGENTS.md`, `Executive/plugin/AGENTS.md`, and `Executive/plugin/AGENT-ADAPTERS.md` now require agents to use `cdd` for supported filing, retrieval, validation, init, lodgement, graph, and release-gate acts or record why the CLI route is unavailable/insufficient. |
+| ALH-18 | Bind repo verification to local deterministic CI instead of hosted CI | complete | MBES engineering / public-release gate conformance | `cdd local-ci`; `Executive/plugin/hooks/vjs-pre-push.sh` runs local CI for the canonical public remote before release-warrant validation; local CI checks public-law index repetition and graph-validation status; agent contracts state that VJS compliance does not depend on GitHub Actions or hosted CI. |
+| ALH-19 | Add a review route for semantic legal contradiction and redundant-law analysis | open | Court / MoJ policy / MBES tooling | `cdd local-ci` can deterministically catch duplicate identifiers and graph-validation contradictions, but it cannot prove that all legal propositions are semantically non-contradictory. A lawful review route and bounded tooling spec remain needed before this can be marked complete. |
 | GAZ-1 | Make or reject the Gazette Graph Database Instrument | complete | Legislature / Standing Committee | `[2026] REALM-SI 9`; `Legislature/statutes/instruments/2026-realm-si-9-gazette-graph-database.md` |
 | GAZ-2 | MBES to settle graph database technical specification and execution plan | complete | MBES engineering | derived static JSON graph documented in `Judicature/law-reports/README.md` and built by `build/build-citator-graph.js` |
 | GAZ-3 | Backfill Gazette graph nodes and edges from existing public law records | complete | MBES engineering with MoJ review | `Judicature/law-reports/site/citator-graph.json` currently has 72 nodes and 752 edges |
@@ -65,6 +76,7 @@ Existing implementation coverage:
 2. Settle whether the invented-bench-name rule should be made express law for future judgments.
 3. Add forward-facing Gazette graph validation for new filings, including explicit no-edge declarations where a Gazette item has no public lineage.
 4. Replace provenance-by-metadata with verifiable court-workflow run evidence once the court workflow runtime exposes stable run IDs or signed artefacts.
+5. Settle a bounded review process for semantic contradiction and redundant-law analysis, distinct from deterministic duplicate-citation checks.
 
 ## Runtime Notes
 

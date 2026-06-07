@@ -13,6 +13,7 @@ npm link ./Executive/cli   # then: cdd --help   /   vjs --help
 | Command | What it does |
 |---|---|
 | `cdd check [--json]` | Run the deterministic repo gate: new-judgment provenance, citator consistency, and bench-name scan. Hooks call this aggregate command so the CLI is the single deterministic spine. |
+| `cdd local-ci [--json]` | Run local, no-hosted-CI VJS verification: syntax checks, JSON parse checks, public-law index consistency, CLI tests, deterministic aggregate checks, law/graph smoke checks, and whitespace checks. Public-release hooks call this before warrant validation. |
 | `cdd init [dir] --declare-system-repo` | Install VJS into a git repo root after recording the local system-repo declaration: vendor `CASE-LAW.md` / `VPR.md` / `CDD.md`, scaffold local `.justice/` (citator, `judgments/`, `caselaw/`, `pdfs/`, `suites/`), append the generic `Executive/plugin/AGENTS.md` contract to `AGENTS.md`, install portable scripts under `.vjs/hooks/`, and bind the bundled Claude, Codex, Gemini-style, and opencode-style adapters through `CLAUDE.md` / `.claude/settings.json` / `.codex/hooks.json` / `.gemini/settings.json` / `.opencode/plugins/vjs-lawfulness.js` (idempotent). |
 | `cdd next-citation <tier> [--year YYYY] [--citator PATH] [--json]` | **Deterministic** next neutral citation, computed from the local citator (`.justice/INDEX.md`) or the canonical source citator (`Judicature/.justice/INDEX.md`). `tier` = `privy-council` \| `court-of-appeal` \| `supreme-court` \| `si` (the SI series numbers from the SI register). |
 | `cdd check-citator` | **Deterministic** citator audit (the hard gate): fails closed on citation collisions and ruling-file/row mismatches. |
@@ -61,6 +62,7 @@ workflow scripts inline a minimal mirror of this for runtimes whose delegated wo
 `require` - keep them in sync.
 
 ```bash
+cdd local-ci
 cdd check
 npm test   # citation + bench-name scanner + law lookup + judgment provenance tests
 npm run test:bench-names

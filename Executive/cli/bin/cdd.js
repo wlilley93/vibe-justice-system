@@ -158,6 +158,187 @@ function cmdCheck(args) {
   }
 }
 
+function runLocalStep(steps, label, cmd, argv, opts = {}) {
+  const res = spawnSync(cmd, argv, {
+    cwd: opts.cwd,
+    encoding: 'utf8',
+    stdio: 'pipe',
+    env: { ...process.env, ...(opts.env || {}) },
+  });
+  const step = {
+    label,
+    command: [cmd, ...argv].join(' '),
+    cwd: opts.cwd || process.cwd(),
+    ok: res.status === 0,
+    status: res.status,
+    stdout: (res.stdout || '').trim(),
+    stderr: (res.stderr || '').trim(),
+  };
+  steps.push(step);
+  return step.ok;
+}
+
+function parseJsonFiles(root, files) {
+  const findings = [];
+  for (const rel of files) {
+    const full = path.join(root, rel);
+    if (!fs.existsSync(full)) continue;
+    try {
+      JSON.parse(fs.readFileSync(full, 'utf8'));
+    } catch (e) {
+      findings.push({ path: rel, message: e.message });
+    }
+  }
+  return findings;
+}
+
+function checkPublicLawIndex(root) {
+  const findings = [];
+  const corpusPath = path.join(root, 'Judicature', 'law-reports', 'site', 'corpus.json');
+  if (fs.existsSync(corpusPath)) {
+    const corpus = JSON.parse(fs.readFileSync(corpusPath, 'utf8'));
+    const buckets = [
+      ['case', corpus.cases || []],
+      ['bill', corpus.legislation || []],
+      ['instrument', corpus.instruments || []],
+    ];
+    const seen = new Map();
+    const remember = (field, value, record) => {
+      if (!value) return;
+      const key = `${field}:${value}`;
+      const label = record.citation || record.shortTitle || record.title || record.slug || record.sourcePath || record.type;
+      if (seen.has(key)) findings.push(`${field} repeats "${value}" in ${seen.get(key)} and ${label}`);
+      else seen.set(key, label);
+    };
+    for (const [kind, records] of buckets) {
+      for (const record of records) {
+        remember('sourcePath', record.sourcePath, record);
+        remember('slug', record.slug, record);
+        if (record.citation) remember('citation', record.citation, record);
+        else if (record.no) remember(`${kind}No`, record.no, record);
+      }
+    }
+  }
+
+  const graphValidationPath = path.join(root, 'Judicature', 'law-reports', 'site', 'citator-graph-validation.json');
+  if (fs.existsSync(graphValidationPath)) {
+    const validation = JSON.parse(fs.readFileSync(graphValidationPath, 'utf8'));
+    if (validation.status !== 'pass') findings.push(`citator graph validation status is ${validation.status || 'missing'}, expected pass`);
+    const counts = validation.counts || {};
+    if (counts.malformedEdgeErrors) findings.push(`citator graph has ${counts.malformedEdgeErrors} malformed edge error(s)`);
+    if (counts.isolatedNodesWithoutNoEdgeDeclaration) {
+      findings.push(`citator graph has ${counts.isolatedNodesWithoutNoEdgeDeclaration} isolated node(s) without no-edge declaration`);
+    }
+    if (counts.noEdgeDeclarationsWithEdges) {
+      findings.push(`citator graph has ${counts.noEdgeDeclarationsWithEdges} no-edge declaration(s) on nodes with edges`);
+    }
+  }
+  return findings;
+}
+
+function cmdLocalCi(args) {
+  const root = path.resolve(args.root || findRepoRoot(process.cwd()) || process.cwd());
+  const sourceCdd = path.join(root, 'Executive', 'cli', 'bin', 'cdd.js');
+  const localCdd = fs.existsSync(sourceCdd)
+    ? sourceCdd
+    : (process.argv[1] && fs.existsSync(process.argv[1]) ? path.resolve(process.argv[1]) : null);
+  const steps = [];
+  const jsonFiles = [
+    '.vjs/system.json',
+    '.claude/settings.json',
+    '.codex/hooks.json',
+    '.gemini/settings.json',
+    'Executive/plugin/settings.json',
+    'Executive/plugin/codex-hooks.json',
+    'Executive/plugin/gemini-settings.json',
+    'Judicature/law-reports/site/corpus.json',
+    'Judicature/law-reports/site/search-index.json',
+    'Judicature/law-reports/site/citator-graph.json',
+    'Judicature/law-reports/site/citator-graph-validation.json',
+  ];
+
+  const maybeNodeCheck = (rel) => {
+    const full = path.join(root, rel);
+    if (fs.existsSync(full)) runLocalStep(steps, `syntax ${rel}`, process.execPath, ['--check', rel], { cwd: root });
+  };
+
+  maybeNodeCheck('Executive/cli/bin/cdd.js');
+  maybeNodeCheck('Judicature/law-reports/site/app.js');
+  maybeNodeCheck('Executive/plugin/opencode-vjs-lawfulness.js');
+  maybeNodeCheck('.opencode/plugins/vjs-lawfulness.js');
+
+  const jsonFindings = parseJsonFiles(root, jsonFiles);
+  steps.push({
+    label: 'json parse',
+    command: 'parse selected VJS JSON config and Gazette assets',
+    cwd: root,
+    ok: jsonFindings.length === 0,
+    status: jsonFindings.length ? 1 : 0,
+    stdout: jsonFindings.length ? '' : 'JSON parse OK',
+    stderr: jsonFindings.map((f) => `${f.path}: ${f.message}`).join('\n'),
+  });
+  const publicLawFindings = checkPublicLawIndex(root);
+  steps.push({
+    label: 'public law index consistency',
+    command: 'check Gazette public-law identifiers, slugs, sources, and graph validation',
+    cwd: root,
+    ok: publicLawFindings.length === 0,
+    status: publicLawFindings.length ? 1 : 0,
+    stdout: publicLawFindings.length ? '' : 'Public law index consistency OK',
+    stderr: publicLawFindings.join('\n'),
+  });
+
+  if (fs.existsSync(path.join(root, 'Executive', 'cli', 'package.json'))) {
+    runLocalStep(steps, 'cli unit tests', 'npm', ['test'], { cwd: path.join(root, 'Executive', 'cli') });
+  }
+  if (localCdd) {
+    runLocalStep(steps, 'deterministic aggregate check', process.execPath, [localCdd, 'check', '--json'], { cwd: root });
+  } else {
+    steps.push({
+      label: 'deterministic aggregate check',
+      command: 'cdd check --json',
+      cwd: root,
+      ok: false,
+      status: 1,
+      stdout: '',
+      stderr: 'cdd CLI path could not be resolved',
+    });
+  }
+  if (localCdd && fs.existsSync(path.join(root, 'Judicature', 'law-reports', 'site', 'search-index.json'))) {
+    runLocalStep(steps, 'law search smoke', process.execPath, [localCdd, 'law', 'search', 'superrepo court order', '--limit', '1', '--json'], { cwd: root });
+    runLocalStep(steps, 'law get smoke', process.execPath, [localCdd, 'law', 'get', '[2026] REALM-SI 7', '--json'], { cwd: root });
+  }
+  if (localCdd && fs.existsSync(path.join(root, 'Judicature', 'law-reports', 'site', 'citator-graph.json'))) {
+    runLocalStep(steps, 'graph node smoke', process.execPath, [localCdd, 'graph', 'node', 'si:7', '--json'], { cwd: root });
+    runLocalStep(steps, 'graph edges smoke', process.execPath, [localCdd, 'graph', 'edges', 'si:7', '--limit', '1', '--json'], { cwd: root });
+  }
+  if (fs.existsSync(path.join(root, '.git'))) {
+    runLocalStep(steps, 'workspace whitespace check', 'git', ['diff', '--check'], { cwd: root });
+    runLocalStep(steps, 'staged whitespace check', 'git', ['diff', '--cached', '--check'], { cwd: root });
+  }
+
+  const ok = steps.every((step) => step.ok);
+  if (args.json) {
+    process.stdout.write(JSON.stringify({ ok, root, steps }, null, 2) + '\n');
+    if (!ok) process.exit(1);
+    return;
+  }
+  for (const step of steps) {
+    if (step.ok) {
+      process.stdout.write(`OK ${step.label}\n`);
+    } else {
+      process.stderr.write(`FAIL ${step.label}\n`);
+      if (step.stdout) process.stderr.write(step.stdout + '\n');
+      if (step.stderr) process.stderr.write(step.stderr + '\n');
+    }
+  }
+  if (!ok) {
+    process.stderr.write('\nVJS local CI failed. Fix the local deterministic checks before merge or public release.\n');
+    process.exit(1);
+  }
+  process.stdout.write('VJS local CI OK.\n');
+}
+
 function appendMarkedInstruction(target, src, mark, closeMark, label) {
   if (!fs.existsSync(src)) { process.stderr.write(`skip ${label}: source not found in package\n`); return; }
   const existing = fs.existsSync(target) ? fs.readFileSync(target, 'utf8') : '';
@@ -661,6 +842,7 @@ function main() {
   }
   switch (cmd) {
     case 'check': return cmdCheck(args);
+    case 'local-ci': return cmdLocalCi(args);
     case 'next-citation': return cmdNextCitation(args);
     case 'check-citator': return cmdCheckCitator();
     case 'check-bench-names': return cmdCheckBenchNames(args);
@@ -679,6 +861,7 @@ function main() {
 
 Commands:
   check                            Run the deterministic repo gate: judgment provenance, citator consistency, and bench-name scan. --json supported.
+  local-ci                         Run local, no-hosted-CI VJS verification: syntax, JSON, public-law index consistency, tests, deterministic checks, law/graph smoke, and whitespace. --json supported.
   init [dir] --declare-system-repo Install VJS into a declared git repo root (vendor law, scaffold .justice/, inject AGENTS.md contract, install generic hooks plus Claude, Codex, Gemini-style, and opencode-style adapters)
   next-citation <tier> [--year Y]  Deterministic next neutral citation from the citator (.justice/INDEX.md). tier = privy-council|court-of-appeal|supreme-court|high-court|county-court|si. --json for full object.
   check-citator                    Deterministic citator audit (the hard gate): fails closed on citation collisions and on ruling-file/citator-row mismatches. Exit 1 on any problem.

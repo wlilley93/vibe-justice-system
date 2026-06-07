@@ -44,6 +44,21 @@ ssh://git@github.com/wlilley93/vibe-justice-system.git) return 0 ;;
   esac
 }
 
+run_local_ci() {
+  if command -v cdd >/dev/null 2>&1; then cdd local-ci; return $?; fi
+  if command -v vjs >/dev/null 2>&1; then vjs local-ci; return $?; fi
+  if [ -f Executive/cli/bin/cdd.js ] && command -v node >/dev/null 2>&1; then
+    node Executive/cli/bin/cdd.js local-ci
+    return $?
+  fi
+  if [ -f cli/bin/cdd.js ] && command -v node >/dev/null 2>&1; then
+    node cli/bin/cdd.js local-ci
+    return $?
+  fi
+  echo "VJS pre-push: cdd CLI not found; cannot run local CI for public VJS push." >&2
+  return 1
+}
+
 require_field() {
   local file="$1"
   local key="$2"
@@ -116,6 +131,13 @@ record_authorises_push() {
 if ! is_public_vjs_remote; then
   echo "VJS pre-push: non-canonical/dev remote '${REMOTE_NAME:-?}' allowed ($REMOTE_URL)." >&2
   exit 0
+fi
+
+if ! run_local_ci; then
+  echo "" >&2
+  echo "VJS pre-push: BLOCKED public VJS push because local CI failed." >&2
+  echo "This repository does not rely on hosted CI for the public checkpoint." >&2
+  exit 1
 fi
 
 AUTH_RECORDS=(

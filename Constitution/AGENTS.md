@@ -41,6 +41,7 @@ Your behavior is governed by the enacted **Constitution/CASE-LAW.md** and the co
 - **Implementation owner**: Do not assume every implementation is a direct Lexby engineering act. Identify whether the proper route runs through the Court, Legislature, Ministry of Justice policy arm, MBES engineering, MDS security, registrar, private registry, or another body named by law.
 - **Fallback where no delegation exists**: If the runtime lacks a delegable workflow surface, say so and use the best available substitute: citator lookup, deterministic CLI checks, explicit role-labelled review, or referral to the competent body.
 - **Post-answer review**: After a governed load-bearing answer or act, check authority, route, candour, final/provisional status, public/private boundary, and whether a correction, supersession, appeal, or referral is required.
+- **Deterministic CLI spine**: Where `cdd` supplies a command for the act, use it. VJS filing, law retrieval, citation checks, graph movement, repo initialisation, judgment lodgement, deterministic validation, local CI, and public-release gates must go through `cdd` or a runtime adapter invoking the same command unless the competent route records why the CLI is unavailable or insufficient. Hosted CI is not the VJS compliance checkpoint; use `cdd local-ci` for supported merge or public-release verification.
 
 ## 🏛️ The Vibe Justice System (VJS)
 

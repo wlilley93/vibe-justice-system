@@ -9,6 +9,14 @@ lawfulness hooks to trigger in the runtime actually being used. If automatic hoo
 use the best available substitute: this instruction file, portable `.vjs/hooks/`, deterministic
 checks, a wrapper, delegable workflows, explicit role-labelled review, or referral.
 
+The deterministic CLI is the required spine where a command exists. Use `cdd` for VJS filing,
+retrieval, citation checks, graph checks, repository initialisation, judgment lodgement, release
+checkpointing, and aggregate deterministic validation. An adapter may call the same command, but an
+agent should not hand-roll a parallel filing, movement, or legal-record check unless the competent
+route records why the CLI is unavailable or insufficient.
+For supported merge or public-release verification, run `cdd local-ci` locally. VJS compliance does
+not depend on GitHub Actions or hosted CI.
+
 The public adapter record is `Executive/plugin/AGENT-ADAPTERS.md`.
 
 Read the local `CASE-LAW.md`, `VPR.md`, and `.justice/INDEX.md` before making any load-bearing
@@ -93,14 +101,21 @@ by citation, or ordinary uncertainty about preference.
 The portable command surface is:
 
 ```text
-submit-request-to-court "<question>"
-submit-breach-to-court "<charge>"
+cdd check
+cdd local-ci
+cdd submit-request "<question>"
+cdd submit-breach "<charge>"
+cdd law search "<query>"
+cdd law get "<citation|id>"
+cdd graph node "<node|citation>"
+cdd graph edges "<node|citation>"
+cdd lodge-judgment
 ```
 
-If those commands print or require a runtime-specific workflow invocation, run the equivalent in
-the current adapter. Claude Code may use its `Workflow` tool. Other agents must use their own
-delegable workflow, task, subagent, or wrapper surface. If no delegable workflow surface exists,
-state that limitation and file or route the matter by the best available deterministic mechanism.
+If a command prints or requires a runtime-specific workflow invocation, run the equivalent in the
+current adapter. Claude Code may use its `Workflow` tool. Other agents must use their own delegable
+workflow, task, subagent, or wrapper surface. If no delegable workflow surface exists, state that
+limitation and file or route the matter by the best available deterministic mechanism.
 
 ## Automated backstops
 

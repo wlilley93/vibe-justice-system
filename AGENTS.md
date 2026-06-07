@@ -10,6 +10,12 @@ Every agent must make good, on a best-efforts basis, the ability for the hook to
 runtime it is actually using: enable the available adapter, review/trust `.codex/hooks.json` where
 using Codex, use portable `.vjs/hooks/`, follow this instruction file, run deterministic checks,
 delegate where supported, or record the substitute check where automatic triggering is unavailable.
+Where a `cdd` command exists for the act, use it as the deterministic spine. Court filings,
+legislative/public-law retrieval, citation checks, graph lookups, repository initialisation,
+judgment lodgement, and release/publication gates must flow through `cdd` or an adapter that invokes
+the same command, unless the competent route records why the CLI is unavailable or insufficient.
+For supported merges or public-release preparation, use `cdd local-ci`; do not rely on GitHub Actions
+or hosted CI as the VJS compliance checkpoint.
 
 Before governed load-bearing work, retrieve the current law and record first, then identify the
 source of authority and route. After governed load-bearing work, review authority, candour,

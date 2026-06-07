@@ -105,12 +105,16 @@ not change legal force, routing authority, or the public/private boundary.
 
 A **git pre-commit hook**. Filing and citation integrity are mechanical facts, not judgment
 calls, so they are enforced **deterministically and fail closed** - no model, no trust required.
-It runs `cdd check-citator`, which catches:
+It runs `cdd check`, which catches:
 
+- **Unauthorised-looking central judgments** - newly added central judgment files without explicit
+  court-workflow or authorised-registrar provenance metadata.
 - **Citation collisions** - the same `[YEAR] <CODE> N` issued twice (the manual-numbering
   hazard: two sessions both grab `N+1`).
 - **Filing breaks** - a ruling file with no citator row, or a citator row with no ruling file
   (the "judgment returned but never filed" hazard).
+- **Real jurist labels** - prohibited real bench-name labels in central judgment records and the
+  law-report case corpus projections.
 
 If the citator is sound it is silent and the commit proceeds. If not, the commit is blocked with
 the list of problems. Deliberate exception: `git commit --no-verify`.
@@ -127,7 +131,7 @@ Older Claude-only installs that symlink `.claude/hooks/vjs-pre-commit.sh` contin
 You can also run the audit any time:
 
 ```bash
-cdd check-citator
+cdd check
 ```
 
 ---
@@ -137,7 +141,17 @@ cdd check-citator
 A **git pre-push hook**. Private/dev pushes, forks, and independent local jurisdictions are allowed.
 Only a push to the exact canonical public VJS remote (`wlilley93/vibe-justice-system`) is a public VJS
 publication and therefore an irreversible outward act. The hook fails closed for that remote unless the
-matter records express Founder authorisation.
+local deterministic CI passes and the matter records express Founder authorisation. This is a local
+checkpoint. It does not rely on GitHub Actions or any hosted CI service.
+
+The local CI command is:
+
+```bash
+cdd local-ci
+```
+
+It runs source syntax checks, JSON parse checks, public-law index consistency, CLI unit tests,
+aggregate deterministic checks, law/graph smoke checks, and workspace/staged whitespace checks.
 
 Accepted authorisation records:
 
