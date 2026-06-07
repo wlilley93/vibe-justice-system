@@ -11,6 +11,8 @@
 
 **Read the law and case law:** [`VJS Law Reports & Gazette`](https://wlilley93.github.io/vibe-justice-system/Judicature/law-reports/site/)
 
+Search Acts, statutory instruments, and judgments. Result cards open the rendered PDFs.
+
 </div>
 
 > **Disclaimers**
@@ -108,7 +110,7 @@ PRIVY COUNCIL              3 AI judges                   Realm constitutional fi
 
 Most project work starts at first instance. Escalate by permission. You cannot skip the route unless the law gives you a leapfrog certificate.
 
-Local project rulings live in the project repo under `.justice/`. Central realm rulings are published as rendered judgment PDFs in [`Judicature/.justice/pdfs/`](Judicature/.justice/pdfs/) and searchable on the hosted [`Law Reports & Gazette`](https://wlilley93.github.io/vibe-justice-system/Judicature/law-reports/site/). The public VJS repo carries system data only: the law of the judgment is public, while personal and operational facts stay sealed.
+Local project rulings live in the project repo under `.justice/`. Central realm rulings are published as rendered judgment PDFs and searchable on the hosted [`Law Reports & Gazette`](https://wlilley93.github.io/vibe-justice-system/Judicature/law-reports/site/). The public VJS repo carries system data only: the law of the judgment is public, while personal and operational facts stay sealed.
 
 Most things never leave first instance: one judge, a ruling, a permanent citation, and a future fast path. Higher courts are for contested calls, overruling, or questions foundational enough that every future VJS project should inherit the answer.
 

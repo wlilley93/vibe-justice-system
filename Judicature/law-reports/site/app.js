@@ -18,10 +18,12 @@ async function boot() {
   MS = MiniSearch.loadJS(idxRaw, {
     fields: ['citation', 'title', 'ratio', 'body', 'court', 'status', 'panel', 'cites'],
     storeFields: ['kind', 'citation', 'title', 'series', 'court', 'status', 'ratio',
-      'p_slug', 'p_source', 'p_pdf', 'p_court', 'p_jur', 'p_stage', 'p_no'],
+      'date', 'p_slug', 'p_source', 'p_pdf', 'p_court', 'p_jur', 'p_stage', 'p_no'],
     searchOptions: { boost: { citation: 5, title: 4, ratio: 3 }, prefix: true, fuzzy: 0.2 },
   });
   el('q').addEventListener('input', render);
+  el('results').addEventListener('click', openCard);
+  el('results').addEventListener('keydown', openCard);
   for (const t of document.querySelectorAll('.tab')) {
     t.addEventListener('click', () => {
       document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
@@ -88,30 +90,52 @@ const LAW_START = [
 function renderStart() {
   el('start').innerHTML = `
     <h2>Find the law and case law</h2>
-    <p>Start with the constitutional Acts, then move outwards to courts, rights, records, local sovereignty, and the full precedent record.</p>
-    <ol>
-      ${LAW_START.map(item => `<li><strong>${item.label}.</strong> ${item.text}<br>${item.links.map(([label, path]) => `<a href="${REL}${path}">${label}</a>`).join(' &middot; ')}</li>`).join('')}
-    </ol>
-    <p><a href="${REL}Legislature/legislature/pdfs/">All Act PDFs</a> &middot; <a href="${REL}Legislature/statutes/instruments/pdfs/">All SI PDFs</a> &middot; <a href="${REL}Judicature/.justice/pdfs/">All judgment PDFs</a> &middot; <a href="${REL}Judicature/.justice/INDEX.md">Citator</a></p>
+    <nav class="quick" aria-label="Law shortcuts">
+      <a href="${REL}Legislature/legislature/pdfs/">Act PDFs</a>
+      <a href="${REL}Legislature/statutes/instruments/pdfs/">SI PDFs</a>
+      <a href="${REL}Judicature/.justice/pdfs/">Judgment PDFs</a>
+      <a href="${REL}Judicature/.justice/INDEX.md">Citator</a>
+    </nav>
+    <details>
+      <summary>Suggested reading order</summary>
+      <ol>
+        ${LAW_START.map(item => `<li><strong>${item.label}.</strong> ${item.text}<br>${item.links.map(([label, path]) => `<a href="${REL}${path}">${label}</a>`).join(' &middot; ')}</li>`).join('')}
+      </ol>
+    </details>
   `;
 }
 
 // Browse base set (from corpus.json) when there is no query, as stored docs shape.
 function allDocs() {
   const cases = CORPUS.cases.map(c => ({ kind: 'case', citation: c.citation, title: c.citation,
-    series: c.series, court: c.courtLabel, status: c.status, ratio: c.ratioOneLine,
+    date: c.date, series: c.series, court: c.courtLabel, status: c.status, ratio: c.ratioOneLine,
     p_source: c.sourcePath, p_pdf: c.pdfPath, p_jur: c.jurisdiction }));
   const bills = CORPUS.legislation.map(b => ({ kind: 'bill', citation: 'Bill ' + b.no, title: b.shortTitle,
-    series: 'BILL', court: 'Legislature', status: b.status, ratio: b.longTitle,
+    date: b.royalAssent, series: 'BILL', court: 'Legislature', status: b.status, ratio: b.longTitle,
     p_source: b.sourcePath, p_pdf: b.pdfPath, p_stage: b.pipelineStage, p_no: b.no }));
-  return [...bills.sort(sortBills), ...cases];
+  const instruments = (CORPUS.instruments || []).map(si => ({ kind: 'si', citation: si.citation, title: si.shortTitle,
+    date: si.made, series: 'REALM-SI', court: 'Legislature', status: si.status, ratio: si.longTitle,
+    p_source: si.sourcePath, p_pdf: si.pdfPath, p_no: si.no }));
+  return sortByDate([...instruments, ...bills, ...cases]);
 }
 
 const BILL_ORDER = [27, 1, 2, 3, 16, 7, 12, 22, 8, 20, 30];
-function sortBills(a, b) {
-  const ai = BILL_ORDER.includes(a.p_no) ? BILL_ORDER.indexOf(a.p_no) : 100 + a.p_no;
-  const bi = BILL_ORDER.includes(b.p_no) ? BILL_ORDER.indexOf(b.p_no) : 100 + b.p_no;
-  return ai - bi;
+function dateKey(d) {
+  if (d.date) return `${d.date}`;
+  const m = `${d.citation || ''}`.match(/\[(\d{4})\].*?\s(\d+)$/);
+  return m ? `${m[1]}-00-${String(m[2]).padStart(4, '0')}` : '';
+}
+function sortByDate(docs) {
+  return docs.sort((a, b) => {
+    const byDate = dateKey(b).localeCompare(dateKey(a));
+    if (byDate) return byDate;
+    if (a.kind === 'bill' && b.kind === 'bill') {
+      const ai = BILL_ORDER.includes(a.p_no) ? BILL_ORDER.indexOf(a.p_no) : 100 + a.p_no;
+      const bi = BILL_ORDER.includes(b.p_no) ? BILL_ORDER.indexOf(b.p_no) : 100 + b.p_no;
+      return ai - bi;
+    }
+    return `${b.citation || ''}`.localeCompare(`${a.citation || ''}`);
+  });
 }
 
 function matchFilter(d) {
@@ -137,8 +161,10 @@ function billDetail(no) { return (CORPUS.legislation || []).find(b => b.no === n
 
 function card(d) {
   const st = (d.status || 'good-law').toLowerCase().replace(/[^a-z-]/g, '');
+  const href = d.p_pdf ? `${REL}${d.p_pdf}` : (d.p_source ? `${REL}${d.p_source}` : '');
+  const when = d.date ? ` &middot; ${d.date}` : '';
   const links = [];
-  if (d.p_pdf) links.push(`<a href="${REL}${d.p_pdf}">${d.kind === 'bill' ? 'Act' : 'judgment'} &middot; .pdf</a>`);
+  if (d.p_pdf) links.push(`<a href="${REL}${d.p_pdf}">${d.kind === 'bill' ? 'Act' : d.kind === 'si' ? 'SI' : 'judgment'} &middot; .pdf</a>`);
   if (!d.p_pdf && d.p_source) links.push(`<a href="${REL}${d.p_source}">source</a>`);
   if (d.kind === 'bill') {
     const b = billDetail(d.p_no) || {};
@@ -146,10 +172,10 @@ function card(d) {
       ? `<div class="sov"><strong>Sovereign consultation:</strong> ${b.sovereignConsultation.slice(0, 320)}</div>` : '';
     const note = b.committeeNote ? `<div class="cnote"><strong>Committee note.</strong> ${b.committeeNote.slice(0, 700)}</div>` : '';
     const vote = b.voteRecord ? `<div class="vote">${b.voteRecord.slice(0, 500)}</div>` : '';
-    return `<div class="card">
+    return `<div class="card clickable" data-href="${escAttr(href)}" tabindex="0" role="link" aria-label="Open ${escAttr(d.title)} PDF">
       <div><span class="cite">${d.citation}: ${d.title}</span>
         <span class="badge ${st}">${(d.status || '').replace(/-/g, ' ')}</span></div>
-      <span class="court">Legislature &middot; ${b.ayes || ''} ${b.ayes ? 'ayes' : ''}</span>
+      <span class="court">Legislature${when} &middot; ${b.ayes || ''} ${b.ayes ? 'ayes' : ''}</span>
       ${pipeline(d.p_stage || b.pipelineStage || '', b.rounds || 1)}
       <div class="ratio">${(d.ratio || '').slice(0, 360)}</div>
       <details><summary>methodology &amp; committee record</summary>
@@ -158,11 +184,20 @@ function card(d) {
       <div>${links.join('')}</div>
     </div>`;
   }
+  if (d.kind === 'si') {
+    return `<div class="card clickable" data-href="${escAttr(href)}" tabindex="0" role="link" aria-label="Open ${escAttr(d.title)} PDF">
+      <div><span class="cite">${d.citation}: ${d.title}</span>
+        <span class="badge ${st}">${(d.status || '').replace(/-/g, ' ')}</span></div>
+      <span class="court">Statutory Instrument${when}</span>
+      <div class="ratio">${(d.ratio || '').slice(0, 360)}</div>
+      <div>${links.join('')}</div>
+    </div>`;
+  }
   const sub = `<span class="court">${d.court}${d.p_jur && d.p_jur.includes('acmeco') ? ' &middot; at acmeco' : ''}</span>`;
-  return `<div class="card">
+  return `<div class="card clickable" data-href="${escAttr(href)}" tabindex="0" role="link" aria-label="Open ${escAttr(d.citation)} PDF">
     <div><span class="cite">${d.citation}</span>
       <span class="badge ${st}">${d.status || 'good-law'}</span></div>
-    ${sub}
+    ${sub}<span class="court">${when}</span>
     <div class="ratio">${(d.ratio || '').slice(0, 360)}</div>
     <div>${links.join('')}</div>
   </div>`;
@@ -172,14 +207,27 @@ function render() {
   const q = el('q').value.trim();
   let docs;
   if (q) {
-    docs = MS.search(q).filter(matchFilter);
+    docs = sortByDate(MS.search(q).filter(matchFilter));
   } else {
     docs = allDocs().filter(matchFilter);
   }
   el('meta').textContent = `${docs.length} result${docs.length === 1 ? '' : 's'}`
     + (q ? ` for "${q}"` : ' (browsing)')
-    + ` · ${CORPUS.counts.cases} rulings + ${CORPUS.counts.legislation} Acts in the record`;
+    + ` · newest first · ${CORPUS.counts.cases} rulings + ${CORPUS.counts.legislation} Acts + ${(CORPUS.counts.instruments || 0)} SIs in the record`;
   el('results').innerHTML = docs.map(card).join('') || '<p>No matches.</p>';
+}
+
+function openCard(e) {
+  if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ') return;
+  if (e.target.closest('a, button, summary')) return;
+  const cardEl = e.target.closest('.card[data-href]');
+  if (!cardEl || !cardEl.dataset.href) return;
+  e.preventDefault();
+  window.location.href = cardEl.dataset.href;
+}
+
+function escAttr(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 }
 
 boot();

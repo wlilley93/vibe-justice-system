@@ -146,6 +146,7 @@ function scanJudgments(justiceDir, jurisdiction) {
       cases.push({
         type: 'case',
         citation,
+        date: meta.date || '',
         slug,
         series: seriesOf(citation),
         court,

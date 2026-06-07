@@ -6,7 +6,8 @@
   "scripts": {
     "ingest": "node build/ingest.js",
     "index": "node build/build-search-index.js",
-    "build": "node build/ingest.js && node build/build-search-index.js && cp corpus.json site/corpus.json",
+    "pdf-indexes": "node build/build-pdf-indexes.js",
+    "build": "node build/ingest.js && node build/build-search-index.js && cp corpus.json site/corpus.json && node build/build-pdf-indexes.js",
     "serve": "cd site && python3 -m http.server 8787"
   },
   "dependencies": {

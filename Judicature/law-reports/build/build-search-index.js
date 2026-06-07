@@ -18,7 +18,7 @@ const docs = [];
 for (const c of corpus.cases) {
   docs.push({
     id: c.citation, kind: 'case',
-    citation: c.citation, title: c.citation, series: c.series, court: c.courtLabel,
+    citation: c.citation, title: c.citation, date: c.date, series: c.series, court: c.courtLabel,
     status: c.status, panel: (c.panel || []).join(' '), ratio: c.ratioOneLine, cites: c.cites,
     body: c.searchBody,
     // pointer payload (stored) - everything needed to render a result card + link out:
@@ -28,9 +28,17 @@ for (const c of corpus.cases) {
 for (const b of corpus.legislation) {
   docs.push({
     id: `bill:${b.no}`, kind: 'bill',
-    citation: `Bill ${b.no}`, title: b.shortTitle, series: 'BILL', court: 'Legislature',
+    citation: `Bill ${b.no}`, title: b.shortTitle, date: b.royalAssent, series: 'BILL', court: 'Legislature',
     status: b.status, panel: '', ratio: b.longTitle, cites: '', body: b.searchBody,
     p_slug: b.slug, p_source: b.sourcePath, p_pdf: b.pdfPath, p_stage: b.pipelineStage, p_no: b.no,
+  });
+}
+for (const si of corpus.instruments || []) {
+  docs.push({
+    id: `si:${si.no}`, kind: 'si',
+    citation: si.citation, title: si.shortTitle, date: si.made, series: 'REALM-SI', court: 'Legislature',
+    status: si.status, panel: '', ratio: si.longTitle, cites: '', body: si.searchBody,
+    p_slug: si.slug, p_source: si.sourcePath, p_pdf: si.pdfPath, p_no: si.no,
   });
 }
 
@@ -38,7 +46,7 @@ const ms = new MiniSearch({
   idField: 'id',
   fields: ['citation', 'title', 'ratio', 'body', 'court', 'status', 'panel', 'cites'],
   storeFields: ['kind', 'citation', 'title', 'series', 'court', 'status', 'ratio',
-    'p_slug', 'p_source', 'p_pdf', 'p_court', 'p_jur', 'p_stage', 'p_no'],
+    'date', 'p_slug', 'p_source', 'p_pdf', 'p_court', 'p_jur', 'p_stage', 'p_no'],
   searchOptions: { boost: { citation: 5, title: 4, ratio: 3 }, prefix: true, fuzzy: 0.2 },
 });
 // deterministic insert order (corpus is already sorted)
