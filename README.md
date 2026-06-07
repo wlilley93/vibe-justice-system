@@ -138,12 +138,14 @@ That structure is the value: the AI gets a constitution, a rulebook, a court rec
 
 ## Read the law
 
-The short version is in this README. The actual governing record is here:
+The short version is in this README. Start with the rendered public law:
 
-- **Constitutional law:** [`Constitution/CASE-LAW.md`](Constitution/CASE-LAW.md), [`Constitution/VPR.md`](Constitution/VPR.md), and [`Constitution/CDD.md`](Constitution/CDD.md).
-- **Acts of the Realm:** [`Legislature/legislature/bills/`](Legislature/legislature/bills/) and rendered Act PDFs in [`Legislature/legislature/pdfs/`](Legislature/legislature/pdfs/).
-- **Statutory instruments:** [`Legislature/statutes/instruments/`](Legislature/statutes/instruments/) and rendered SI PDFs in [`Legislature/statutes/instruments/pdfs/`](Legislature/statutes/instruments/pdfs/).
-- **Judgments and precedent:** [`Judicature/.justice/judgments/`](Judicature/.justice/judgments/), rendered judgment PDFs in [`Judicature/.justice/pdfs/`](Judicature/.justice/pdfs/), and the citator at [`Judicature/.justice/INDEX.md`](Judicature/.justice/INDEX.md).
+- **Constitutional machinery:** [`27-vjs-constitution-and-machinery-act-2026.pdf`](Legislature/legislature/pdfs/27-vjs-constitution-and-machinery-act-2026.pdf).
+- **Courts and precedent:** [`03-judicature-act-2026.pdf`](Legislature/legislature/pdfs/03-judicature-act-2026.pdf), [`16-neutral-citations-and-law-reporting-act-2026.pdf`](Legislature/legislature/pdfs/16-neutral-citations-and-law-reporting-act-2026.pdf), and [`2026-realm-pc-4.pdf`](Judicature/.justice/pdfs/2026-realm-pc-4.pdf).
+- **Multiplayer and public boundary:** [`30-multi-jurisdiction-and-community-record-act-2026.pdf`](Legislature/legislature/pdfs/30-multi-jurisdiction-and-community-record-act-2026.pdf), [`2026-realm-pc-17.pdf`](Judicature/.justice/pdfs/2026-realm-pc-17.pdf), and [`2026-realm-si-7-super-repo-public-push-review.pdf`](Legislature/statutes/instruments/pdfs/2026-realm-si-7-super-repo-public-push-review.pdf).
+- **All rendered Acts:** [`Legislature/legislature/pdfs/`](Legislature/legislature/pdfs/).
+- **All rendered statutory instruments:** [`Legislature/statutes/instruments/pdfs/`](Legislature/statutes/instruments/pdfs/).
+- **All rendered judgments:** [`Judicature/.justice/pdfs/`](Judicature/.justice/pdfs/).
 - **Searchable law reports:** [`Judicature/law-reports/site/`](Judicature/law-reports/site/) contains the derived public law-report projection.
 
 ---
