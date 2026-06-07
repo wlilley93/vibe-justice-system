@@ -136,6 +136,18 @@ That structure is the value: the AI gets a constitution, a rulebook, a court rec
 
 ---
 
+## Read the law
+
+The short version is in this README. The actual governing record is here:
+
+- **Constitutional law:** [`Constitution/CASE-LAW.md`](Constitution/CASE-LAW.md), [`Constitution/VPR.md`](Constitution/VPR.md), and [`Constitution/CDD.md`](Constitution/CDD.md).
+- **Acts of the Realm:** [`Legislature/legislature/bills/`](Legislature/legislature/bills/) and rendered Act PDFs in [`Legislature/legislature/pdfs/`](Legislature/legislature/pdfs/).
+- **Statutory instruments:** [`Legislature/statutes/instruments/`](Legislature/statutes/instruments/) and rendered SI PDFs in [`Legislature/statutes/instruments/pdfs/`](Legislature/statutes/instruments/pdfs/).
+- **Judgments and precedent:** [`Judicature/.justice/judgments/`](Judicature/.justice/judgments/), rendered judgment PDFs in [`Judicature/.justice/pdfs/`](Judicature/.justice/pdfs/), and the citator at [`Judicature/.justice/INDEX.md`](Judicature/.justice/INDEX.md).
+- **Searchable law reports:** [`Judicature/law-reports/site/`](Judicature/law-reports/site/) contains the derived public law-report projection.
+
+---
+
 ## Say this to Lexby
 
 ```
