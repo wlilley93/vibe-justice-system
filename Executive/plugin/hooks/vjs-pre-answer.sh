@@ -25,10 +25,21 @@ cd "${CWD:-.}" 2>/dev/null || exit 0
 
 python3 -c '
 import json, os
+text = (
+    "VJS Agent Loop reminder under Bill 31 and REALM-SI 8/10/11: "
+    "these hook instructions are addressed to Lexby as the acting VJS officer for governed work; "
+    "they are not instructions to decide whether to become Lexby. "
+    "For governed load-bearing work, run the preloop before answering. "
+    "Use cdd as the deterministic spine where a command exists; retrieve current law/status; "
+    "build a legal-evidence plan; forecast likely court route and subagent/substitute-check use "
+    "before any prehook question; answer or act only within authority; then run the posthook "
+    "validity review and ask whether Lexby should self-refer unless an exempt route is recorded. "
+    "Hooks, CLI output, subagents, and projections are evidence/workflow only, not legal force."
+)
 print(json.dumps({
     "hookSpecificOutput": {
         "hookEventName": os.environ.get("VJS_HOOK_EVENT_NAME", "UserPromptSubmit"),
-        "additionalContext": "VJS pre-answer lawfulness hook is installed under REALM-SI 8. For governed, load-bearing work, retrieve applicable law, separate delegable review where useful, and route before answering; this advisory stub does not adjudicate.",
+        "additionalContext": text,
     }
 }))
 '

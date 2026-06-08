@@ -10,7 +10,7 @@ Law is enacted by the Founder; it is *drafted* by the **Standing Committee on th
 ```
 legislature/
 ├── committee/        the Standing Committee (4 members) that drafts the bills - see CHARTER.md
-├── bills/            bills in progress; ORDER-PAPER.md lists the first 25 and their status
+├── bills/            bills and enacted Acts; ORDER-PAPER.md lists the founding 25 and later Acts
 └── (passed Acts are recorded in ../statutes/ and are the supreme enacted law of the realm)
 ```
 
@@ -35,6 +35,7 @@ Statute beats case law where they conflict; the courts interpret statute and dev
 > effects that amendment (Schedule 1, ss. 1/2/9/10 by number). The Sovereign Founder **granted Royal Assent to all
 > 25 Acts on 2026-06-06**; the hierarchy above is therefore **now in force**, and the entrenched articles were
 > amended by the lawful express route. The consultation is closed (see `bills/SOVEREIGN-CONSULTATIONS.md`).
+> Later Acts 26-31 amend, clarify, or consolidate that base and are listed in the Order Paper and statute register. Bill 31 supplies the source-mapped Agent Loop harness and determinism route.
 
 ## The drafting ladder (how a bill is made, and how doubt is resolved)
 

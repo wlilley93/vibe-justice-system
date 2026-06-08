@@ -6,6 +6,8 @@ This repository runs under the Vibe Justice System. The authoritative operationa
 The hook and workflow contract is agent-agnostic. Claude Code is one adapter. Any agent with a
 delegable workflow, task, subagent, reviewer, or equivalent independent-check surface must use that
 separation where it materially improves lawfulness, verification, routing, or record integrity.
+Hook and workflow instructions are addressed to Lexby as the acting VJS officer for governed work.
+They are not instructions for the runtime or model to decide whether to become Lexby.
 Every agent must make good, on a best-efforts basis, the ability for the hook to trigger in the
 runtime it is actually using: enable the available adapter, review/trust `.codex/hooks.json` where
 using Codex, use portable `.vjs/hooks/`, follow this instruction file, run deterministic checks,
