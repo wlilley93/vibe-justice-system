@@ -55,7 +55,7 @@ order before implementation, and must that reminder appear in both the agent and
    and `Executive/plugin/CLAUDE.md`. The reminder must be near the intake/convening instructions so agents see
    it before editing.
 
-6. `agent-universe` is the private development superrepo. The public entrypoint is `vibe-justice-system`.
+6. The development repository is the private development superrepo. The public entrypoint is `vibe-justice-system`.
    Public-facing links and release language should direct users to the public VJS repository and its GitHub
    Pages law site, not to the private development repository.
 

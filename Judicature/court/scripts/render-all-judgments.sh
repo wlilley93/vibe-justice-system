@@ -13,6 +13,7 @@ JDIR="Judicature/.justice/judgments"
 PDIR="Judicature/.justice/pdfs"
 CONV="Judicature/court/scripts/md_to_ruling_json.py"
 REND="Judicature/court/renderer/index.js"
+TMPL="Judicature/court/renderer/templates/judgment.html"
 mkdir -p "$PDIR"
 
 command -v node >/dev/null 2>&1 || { echo "render-all-judgments: node not found; skipping." >&2; exit 0; }
@@ -24,8 +25,11 @@ for f in "$JDIR"/*/*.md; do
   [ -f "$f" ] || continue
   slug="$(basename "$f" .md)"
   pdf="$PDIR/$slug.pdf"
-  # up to date? skip.
-  if [ -f "$pdf" ] && [ "$pdf" -nt "$f" ]; then continue; fi
+  # up to date? skip. Renderer, template, and markdown parser changes affect
+  # every rendered PDF even when the judgment markdown itself is unchanged.
+  if [ -f "$pdf" ] && [ "$pdf" -nt "$f" ] && [ "$pdf" -nt "$CONV" ] && [ "$pdf" -nt "$REND" ] && [ "$pdf" -nt "$TMPL" ]; then
+    continue
+  fi
   # derive tier (frontmatter, else the court-dir name) + citation (the H1 title) from the source.
   tier="$(grep -m1 -E '^tier:' "$f" | sed -E 's/^tier:[[:space:]]*//; s/"//g')"
   [ -z "$tier" ] && tier="$(basename "$(dirname "$f")")"

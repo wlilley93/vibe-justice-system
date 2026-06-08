@@ -136,22 +136,19 @@ if ! is_public_vjs_remote; then
   exit 0
 fi
 
-if ! run_local_ci; then
-  echo "" >&2
-  echo "VJS pre-push: BLOCKED public VJS push because local CI failed." >&2
-  echo "This repository does not rely on hosted CI for the public checkpoint." >&2
-  exit 1
-fi
-
 AUTH_RECORDS=(
   "Judicature/ministry-of-justice/reasons-ledger/outward-act-authorisations/public-vjs-publish.md"
   ".vjs/checkpoints/public-vjs-publish-authorisation.env"
 )
 
 blocked=0
+has_publish=0
+PUSH_UPDATES="$(cat)"
 while read -r local_ref local_sha remote_ref remote_sha; do
+  [ -n "${local_ref}${local_sha}${remote_ref}${remote_sha}" ] || continue
   # Deleted refs do not publish new public VJS content; leave destructive remote deletion to host perms.
   [ "$local_sha" = "0000000000000000000000000000000000000000" ] && continue
+  has_publish=1
 
   ok=1
   for record in "${AUTH_RECORDS[@]}"; do
@@ -174,6 +171,21 @@ while read -r local_ref local_sha remote_ref remote_sha; do
     echo "Accepted records:" >&2
     for record in "${AUTH_RECORDS[@]}"; do echo "  - $record" >&2; done
   fi
-done
+done <<< "$PUSH_UPDATES"
 
-exit "$blocked"
+if [ "$blocked" -ne 0 ]; then
+  exit "$blocked"
+fi
+
+if [ "$has_publish" -eq 0 ]; then
+  exit 0
+fi
+
+if ! run_local_ci; then
+  echo "" >&2
+  echo "VJS pre-push: BLOCKED public VJS push because local CI failed." >&2
+  echo "This repository does not rely on hosted CI for the public checkpoint." >&2
+  exit 1
+fi
+
+exit 0

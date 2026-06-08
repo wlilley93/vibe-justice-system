@@ -45,9 +45,39 @@ law-reports/
   corpus.json, site/*.json    derived artifacts, committed in lockstep with the corpus
 ```
 
-The index covers the central public rulings (REALM-SC/PC/CA), Acts, and statutory instruments in `corpus.json`.
+The index covers the central public rulings (REALM-SC/PC/CA), Acts, statutory instruments, and
+public submission records in `corpus.json`. Submission records include public court requests,
+committee referrals, and MoJ policy briefings; they are displayed as public record material, not as
+law unless separately made law by a competent organ.
 Future: the bill PDF renderer + the PDF annotation / comment-for-review surface (a neutral Node+SQLite service
 porting acmeco's `pdf_annotation` + `review_item`) - see `docs/REALM-DATABASE-INTEGRATION.md` and the plan.
+
+## Live Gazette invariant
+
+The local Gazette build is not enough for public use. After a public release, the deployed GitHub
+Pages Gazette must match the generated local `site/` artifacts. The release route is:
+
+```bash
+npm run build
+node ../../Executive/cli/bin/cdd.js gazette privacy
+node ../../Executive/cli/bin/cdd.js local-ci
+node ../../Executive/cli/bin/cdd.js release-warrant --remote-url <url> --remote-ref <ref> --local-sha <sha>
+# authorised git push to the public VJS remote
+node ../../Executive/cli/bin/cdd.js gazette live-check
+```
+
+`cdd gazette live-check` compares the deployed `index.html`, `app.js`, `corpus.json`, and
+`search-index.json` with the local generated files and verifies the live corpus item set. If it
+fails, the live Gazette is stale even if the local build contains the latest law.
+
+Always-live release todo:
+
+- [ ] Rebuild the Gazette after every lodged case, Act, SI, or public submission.
+- [ ] Run `cdd gazette privacy` before any public release candidate is treated as publishable.
+- [ ] Run `cdd local-ci`; GitHub Actions is not the VJS compliance checkpoint.
+- [ ] Retrieve a current `cdd release-warrant` for the exact public remote, ref, and commit SHA.
+- [ ] Push only through the authorised CLI route.
+- [ ] Run `cdd gazette live-check` after Pages rebuilds and treat any mismatch as a stale Gazette.
 
 ## Gazette graph
 

@@ -21,6 +21,11 @@ const lawResults = searchLaw(root, 'superrepo court order', { limit: 5 });
 assert.ok(lawResults.length > 0, 'searchLaw should return results');
 assert.ok(lawResults.some((r) => String(r.id).includes('REALM-PC 19') || /superrepo/i.test(r.summary)), 'searchLaw should find superrepo material');
 assert.ok(lawResults.every((r) => r.source === undefined), 'searchLaw must not include source text');
+assert.notStrictEqual(lawResults[0].kind, 'submission', 'default law search should rank legal authority ahead of submissions');
+
+const submissionResults = searchLaw(root, 'Agent Loop', { kind: 'submission', limit: 10 });
+assert.ok(submissionResults.some((r) => r.date === '2026-06-08' && /Agent Loop/i.test(r.title)), 'submission search should find 2026-06-08 public filing records');
+assert.ok(submissionResults.every((r) => r.kind === 'submission'), 'submission kind filter should return only submissions');
 
 const si = getLawRecord(root, '[2026] REALM-SI 7');
 assert.ok(si && si.id === 'si:7', 'getLawRecord should resolve SI citation');

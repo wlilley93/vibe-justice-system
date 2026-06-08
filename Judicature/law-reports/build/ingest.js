@@ -7,8 +7,9 @@
 
 const fs = require('fs');
 const path = require('path');
-const { ROOT, scanJudgments } = require('./corpus');
+const { ROOT, scanJudgments, scanSubmissions } = require('./corpus');
 const { parseBills, parseInstruments } = require('./parse-bills');
+const { sanitizePublicGazetteValue } = require('../../../Executive/cli/lib/gazette-audit');
 
 function main() {
   // Central courts only (Supreme Court, Court of Appeal, Privy Council). Per the VJS (Constitution
@@ -21,22 +22,24 @@ function main() {
   const cases = [...central].sort((a, b) => a.citation.localeCompare(b.citation));
   const legislation = parseBills().sort((a, b) => a.no - b.no);
   const instruments = parseInstruments().sort((a, b) => a.no - b.no);
+  const submissions = scanSubmissions();
 
   const seriesCounts = {};
   for (const c of cases) seriesCounts[c.series] = (seriesCounts[c.series] || 0) + 1;
 
-  const out = {
+  const out = sanitizePublicGazetteValue({
     realm: 'Vibe Justice System (VJS)',
     title: 'The Realm Law Reports & Gazette',
-    counts: { cases: cases.length, legislation: legislation.length, instruments: instruments.length, series: seriesCounts },
-    note: 'Derived, pointer-only projection of the committed markdown (CASE-LAW s. 1; [2026] REALM-PC 4; Bill 16 s. 12). The markdown is the law; this is a rebuildable index.',
+    counts: { cases: cases.length, legislation: legislation.length, instruments: instruments.length, submissions: submissions.length, series: seriesCounts },
+    note: 'Derived, pointer-only projection of the committed public markdown (CASE-LAW s. 1; [2026] REALM-PC 4; Bill 16 s. 12). Judgments, Acts, and SIs carry law according to their own sources. Submissions are public record material only and are not law unless separately made law by a competent organ.',
     cases,
     legislation,
     instruments,
-  };
+    submissions,
+  });
   const dest = path.join(ROOT, 'Judicature', 'law-reports', 'corpus.json');
   fs.writeFileSync(dest, JSON.stringify(out, null, 2) + '\n');
-  console.log(`corpus.json: ${cases.length} cases + ${legislation.length} Acts + ${instruments.length} SIs -> ${path.relative(ROOT, dest)}`);
+  console.log(`corpus.json: ${cases.length} cases + ${legislation.length} Acts + ${instruments.length} SIs + ${submissions.length} submissions -> ${path.relative(ROOT, dest)}`);
   console.log('series:', Object.entries(seriesCounts).map(([k, v]) => `${k}=${v}`).join(' '));
 }
 

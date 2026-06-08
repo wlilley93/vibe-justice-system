@@ -10,6 +10,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { sanitizePublicGazetteText } = require('../../../Executive/cli/lib/gazette-audit');
 
 const ROOT = path.resolve(__dirname, '..', '..', '..'); // repo root (build/ is now Judicature/law-reports/build/)
 
@@ -71,6 +72,15 @@ function sectionByPrefix(secs, prefixes) {
     if (prefixes.some(p => h.startsWith(p))) return s.text;
   }
   return '';
+}
+
+function parseInlineMetadata(raw) {
+  const meta = {};
+  for (const m of String(raw).matchAll(/^\*\*([^*:\n]+):\*\*\s*(.+?)\s*$/gm)) {
+    const key = m[1].trim().toLowerCase();
+    if (meta[key] === undefined) meta[key] = stripMd(m[2].trim());
+  }
+  return meta;
 }
 
 // --- citator (.justice/INDEX.md) one-line ratios + cites -----------------
@@ -166,5 +176,65 @@ function scanJudgments(justiceDir, jurisdiction) {
   return cases;
 }
 
+function scanSubmissionFile(full, kind, label) {
+  const raw = read(full);
+  if (!raw.trim()) return null;
+  const heading = (raw.match(/^#\s+(.+)$/m) || [null, path.basename(full, '.md')])[1].trim();
+  const inline = parseInlineMetadata(raw);
+  const { body } = parseFrontmatter(raw);
+  const secs = sections(body);
+  const summary = sectionByPrefix(secs, ['question', 'referral', 'commission', 'policy', 'proposed definition', 'requested direction'])
+    || body.split('\n').find(line => line.trim() && !line.trim().startsWith('#') && !line.trim().startsWith('**'))
+    || '';
+  const rel = path.relative(ROOT, full);
+  const date = inline.date || (path.basename(full).match(/^(\d{4}-\d{2}-\d{2})/) || [null, ''])[1];
+  const status = inline.status || `${label}; not law`;
+  return {
+    type: 'submission',
+    kind,
+    label,
+    title: heading,
+    date,
+    status,
+    filedBy: sanitizePublicGazetteText(inline['filed by'] || inline.from || inline['referring ministry'] || ''),
+    route: sanitizePublicGazetteText(inline['route requested'] || inline.to || inline['requested output'] || ''),
+    sourcePath: rel,
+    searchBody: sanitizePublicGazetteText(stripMd(body)).slice(0, 12000),
+    summary: sanitizePublicGazetteText(stripMd(summary)).slice(0, 700),
+  };
+}
+
+function scanSubmissions() {
+  const specs = [
+    {
+      dir: path.join(ROOT, 'Judicature', 'requests'),
+      kind: 'request',
+      label: 'Court request',
+    },
+    {
+      dir: path.join(ROOT, 'Legislature', 'legislature', 'committee', 'referrals'),
+      kind: 'referral',
+      label: 'Committee referral',
+    },
+    {
+      dir: path.join(ROOT, 'Judicature', 'ministry-of-justice', 'policy'),
+      kind: 'policy',
+      label: 'MoJ policy',
+    },
+  ];
+  const submissions = [];
+  for (const spec of specs) {
+    if (!exists(spec.dir)) continue;
+    for (const file of listMd(spec.dir)) {
+      const record = scanSubmissionFile(path.join(spec.dir, file), spec.kind, spec.label);
+      if (record) submissions.push(record);
+    }
+  }
+  return submissions.sort((a, b) =>
+    String(a.date || '').localeCompare(String(b.date || ''))
+    || String(a.kind || '').localeCompare(String(b.kind || ''))
+    || String(a.sourcePath || '').localeCompare(String(b.sourcePath || '')));
+}
+
 module.exports = { ROOT, read, exists, listMd, stripMd, parseFrontmatter, sections, sectionByPrefix,
-  parseCitator, slugOf, seriesOf, scanJudgments, COURT_LABELS };
+  parseCitator, slugOf, seriesOf, scanJudgments, scanSubmissions, COURT_LABELS };

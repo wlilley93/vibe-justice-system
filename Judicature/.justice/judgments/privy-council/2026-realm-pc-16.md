@@ -77,7 +77,7 @@ The matter does not climb. No arguable conflict with the Acts or Supreme Court a
 
 ## Appendix A - release commits and refs reviewed
 
-### Private source branch: `agent-universe/cli-and-deterministic-citations`
+### Private source branch: `[development branch]`
 
 | Commit | Subject | Role in release |
 |---|---|---|

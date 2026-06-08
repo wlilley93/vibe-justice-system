@@ -28,14 +28,14 @@ registrar_note: "Authored by the bench (Sumberly J for the Court, Coade J and Ma
 
 ## Questions
 
-1. Was pushing branch `codex/agent-loop-hooks` to `origin` and opening draft PR #1 lawful?
+1. Was pushing the development branch to `origin` and opening draft PR #1 lawful?
 2. Does the GitHub connector route used for the draft PR invalidate the PR or require retraction?
 3. How should the Principal's direction that basically every action should flow through the CLI be expressed?
 4. Must the CLI retrieve the relevant licences, release warrants, or route authority before governed push and merge movement?
 
 ## Ratio (binding, realm-wide)
 
-1. The push to `origin` was a development-remote act, not a canonical public VJS publication. On the record before the Court, the VJS pre-push gate identified `origin` as the non-canonical development remote `https://github.com/wlilley93/agent-universe.git` and allowed the push. [2026] REALM-SI 7 was not triggered as a canonical public VJS release warrant because the push was not to the public VJS remote.
+1. The push to `origin` was a development-remote act, not a canonical public VJS publication. On the record before the Court, the VJS pre-push gate identified `origin` as the non-canonical development remote and allowed the push. [2026] REALM-SI 7 was not triggered as a canonical public VJS release warrant because the push was not to the public VJS remote.
 
 2. Draft PR #1 was a review and merge-preparation surface, not a merge, publication to the canonical VJS public remote, or final public-law enactment step. It may remain open in draft while checks, review, and legal-route questions are resolved.
 
@@ -71,7 +71,7 @@ The same answer protects against ceremony. If the CLI is absent, insufficient, u
 
 ## Disposal
 
-1. The development-remote push of `codex/agent-loop-hooks` to `origin` is approved on the present record.
+1. The development-remote push of the development branch to `origin` is approved on the present record.
 2. Draft PR #1 is approved as a draft review and merge-preparation surface on the present record.
 3. The non-CLI connector used to create the draft PR is recorded as a curable process defect, not an invalidating act.
 4. Bill 31, the CLI, and the agent-facing instruction files may be conformed so CLI action routing and push-licence retrieval are express.
@@ -84,10 +84,10 @@ The same answer protects against ceremony. If the CLI is absent, insufficient, u
 
 | Item | Finding |
 |---|---|
-| Branch | `codex/agent-loop-hooks` |
-| Development remote | `origin`, `https://github.com/wlilley93/agent-universe.git` |
+| Branch | `[development branch]` |
+| Development remote | `origin`, `[development repository]` |
 | Public VJS remote | `upstream`, `https://github.com/wlilley93/vibe-justice-system.git` |
-| PR | Draft PR #1 against `master` in `wlilley93/agent-universe` |
+| PR | Draft PR #1 against `master` in `[development repository]` |
 | Local gate | `cdd local-ci --json` passed before the first push |
 | Pre-push gate | allowed `origin` as non-canonical/development remote |
 | Licence retrieval | `cdd release-warrant` reports no public VJS warrant required for `origin`; it retrieves the matching prior public VJS release warrant when supplied with that public remote, ref, and SHA |

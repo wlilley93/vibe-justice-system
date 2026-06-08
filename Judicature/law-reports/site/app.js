@@ -5,7 +5,7 @@
 // Judicature/law-reports/site/ under the repo root (local or GitHub Pages subpath).
 
 const REL = '../../../'; // site lives at Judicature/law-reports/site/ ; corpus paths are repo-root-relative
-let MS = null, CORPUS = null, GRAPH = null, FILTER = 'all';
+let MS = null, CORPUS = null, GRAPH = null, TYPE_FILTER = 'all', STATUS_FILTER = 'all';
 let GRAPH_NODES = new Map(), GRAPH_OUT = new Map(), GRAPH_IN = new Map();
 
 const el = (id) => document.getElementById(id);
@@ -22,7 +22,8 @@ async function boot() {
   MS = MiniSearch.loadJS(idxRaw, {
     fields: ['citation', 'title', 'ratio', 'body', 'court', 'status', 'panel', 'cites'],
     storeFields: ['kind', 'citation', 'title', 'series', 'court', 'status', 'ratio',
-      'date', 'p_slug', 'p_source', 'p_pdf', 'p_court', 'p_jur', 'p_stage', 'p_no'],
+      'date', 'p_slug', 'p_source', 'p_pdf', 'p_court', 'p_jur', 'p_stage', 'p_no',
+      'p_submission_kind', 'p_filed_by', 'p_route'],
     searchOptions: { boost: { citation: 5, title: 4, ratio: 3 }, prefix: true, fuzzy: 0.2 },
   });
   el('q').addEventListener('input', render);
@@ -31,10 +32,11 @@ async function boot() {
   for (const t of document.querySelectorAll('.tab')) {
     t.addEventListener('click', () => {
       document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
-      t.classList.add('active'); FILTER = t.dataset.f; render();
+      t.classList.add('active'); TYPE_FILTER = t.dataset.f; render();
     });
   }
   renderStart();
+  renderStatusChips();
   render();
 }
 
@@ -121,7 +123,10 @@ function allDocs() {
   const instruments = (CORPUS.instruments || []).map(si => ({ kind: 'si', citation: si.citation, title: si.shortTitle,
     date: si.made, series: 'REALM-SI', court: 'Legislature', status: si.status, ratio: si.longTitle,
     p_source: si.sourcePath, p_pdf: si.pdfPath, p_no: si.no }));
-  return sortByDate([...instruments, ...bills, ...cases]);
+  const submissions = (CORPUS.submissions || []).map(s => ({ kind: 'submission', citation: s.label, title: s.title,
+    date: s.date, series: 'SUBMISSION', court: s.label, status: s.status, ratio: s.summary,
+    p_source: s.sourcePath, p_submission_kind: s.kind, p_filed_by: s.filedBy, p_route: s.route }));
+  return sortByDate([...instruments, ...bills, ...cases, ...submissions]);
 }
 
 const BILL_ORDER = [27, 1, 2, 3, 16, 7, 12, 22, 8, 20, 30];
@@ -134,6 +139,7 @@ function sameDayRank(d) {
   if (d.kind === 'case') return 3000 + citationNumber(d.citation);
   if (d.kind === 'si') return 2000 + citationNumber(d.citation);
   if (d.kind === 'bill') return 1000 + Number(d.p_no || 0);
+  if (d.kind === 'submission') return 500;
   return 0;
 }
 function citationNumber(citation) {
@@ -155,13 +161,79 @@ function sortByDate(docs) {
   });
 }
 
-function matchFilter(d) {
-  if (FILTER === 'all') return true;
-  const [k, v] = FILTER.split(':');
+function statusKeys(status) {
+  const s = String(status || '').toLowerCase().replace(/_/g, '-');
+  const keys = [];
+  if (/\bgood[- ]law\b/.test(s)) keys.push('good-law');
+  if (/\bvoid\b/.test(s)) keys.push('void');
+  if (/\bper[- ]incuriam\b/.test(s)) keys.push('per-incuriam');
+  if (/\bsuperseded\b/.test(s)) keys.push('superseded');
+  if (/\brevoked\b/.test(s)) keys.push('revoked');
+  if (/\bin[- ]force\b/.test(s)) keys.push('in-force');
+  if (/\benacted\b/.test(s)) keys.push('enacted');
+  if (/\bmade\b/.test(s)) keys.push('made');
+  if (/\bnot law\b|\bnot-law\b|\bsubmission\b|\bpublic request\b|\bpublic record\b/.test(s)) keys.push('not-law');
+  if (!keys.length && s.trim()) keys.push(s.trim().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, ''));
+  return [...new Set(keys.filter(Boolean))];
+}
+
+function statusLabel(key) {
+  return {
+    'all': 'Any status',
+    'good-law': 'Good law',
+    'void': 'Void',
+    'per-incuriam': 'Per incuriam',
+    'superseded': 'Superseded',
+    'revoked': 'Revoked',
+    'in-force': 'In force',
+    'enacted': 'Enacted',
+    'made': 'Made',
+    'not-law': 'Not law',
+  }[key] || key.replace(/-/g, ' ');
+}
+
+function preferredStatusOrder(key) {
+  const order = ['all', 'good-law', 'in-force', 'enacted', 'made', 'not-law', 'void', 'superseded', 'per-incuriam', 'revoked'];
+  const i = order.indexOf(key);
+  return i === -1 ? 100 : i;
+}
+
+function renderStatusChips() {
+  const docs = allDocs();
+  const counts = new Map();
+  for (const doc of docs) {
+    for (const key of statusKeys(doc.status)) counts.set(key, (counts.get(key) || 0) + 1);
+  }
+  const keys = ['all', ...[...counts.keys()].sort((a, b) => preferredStatusOrder(a) - preferredStatusOrder(b) || a.localeCompare(b))];
+  el('status-chips').innerHTML = keys.map((key) => {
+    const count = key === 'all' ? docs.length : counts.get(key);
+    return `<button class="status-chip${key === STATUS_FILTER ? ' active' : ''}" data-status="${escAttr(key)}">${escHtml(statusLabel(key))}<span>${count || 0}</span></button>`;
+  }).join('');
+  for (const chip of document.querySelectorAll('.status-chip')) {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.status-chip').forEach(x => x.classList.remove('active'));
+      chip.classList.add('active');
+      STATUS_FILTER = chip.dataset.status || 'all';
+      render();
+    });
+  }
+}
+
+function matchTypeFilter(d) {
+  if (TYPE_FILTER === 'all') return true;
+  const [k, v] = TYPE_FILTER.split(':');
   if (k === 'court') return d.court === v;
   if (k === 'kind') return d.kind === v;
-  if (k === 'status') return (d.status || '').toLowerCase().startsWith(v);
   return true;
+}
+
+function matchStatusFilter(d) {
+  if (STATUS_FILTER === 'all') return true;
+  return statusKeys(d.status).includes(STATUS_FILTER);
+}
+
+function matchFilter(d) {
+  return matchTypeFilter(d) && matchStatusFilter(d);
 }
 
 // The legislative pipeline (CHARTER): declared topic -> drafting -> vote -> (deadlock 2nd round) -> Royal Assent.
@@ -228,6 +300,7 @@ function lineage(d) {
 function itemTone(d) {
   if (d.kind === 'bill') return 'act';
   if (d.kind === 'si') return 'si';
+  if (d.kind === 'submission') return 'submission';
   return courtTone(d.court);
 }
 
@@ -259,6 +332,7 @@ function toneLabel(tone) {
     act: 'Act',
     si: 'SI',
     pc: 'PC',
+    submission: 'Submission',
   }[tone] || 'Item';
 }
 
@@ -309,6 +383,19 @@ function card(d) {
       <div>${links.join('')}</div>
     </div>`;
   }
+  if (d.kind === 'submission') {
+    const filed = d.p_filed_by ? ` &middot; ${escHtml(d.p_filed_by)}` : '';
+    const route = d.p_route ? `<div class="stage">${escHtml(d.p_route).slice(0, 260)}</div>` : '';
+    return `<div class="card clickable tone-${tone}" data-href="${escAttr(href)}" tabindex="0" role="link" aria-label="Open ${escAttr(d.title)} source">
+      <div><span class="cite">${escHtml(d.title)}</span>
+        ${classChip(tone)}
+        <span class="badge ${st}">${escHtml(d.status || 'not law')}</span></div>
+      <span class="court">${escHtml(d.citation || 'Submission')}${when}${filed}</span>
+      ${route}
+      <div class="ratio">${escHtml(d.ratio || '').slice(0, 420)}</div>
+      <div>${links.join('')}</div>
+    </div>`;
+  }
   const sub = `<span class="court">${d.court}${d.p_jur && d.p_jur.includes('acmeco') ? ' &middot; at acmeco' : ''}</span>`;
   return `<div class="card clickable tone-${tone}" data-href="${escAttr(href)}" tabindex="0" role="link" aria-label="Open ${escAttr(d.citation)} PDF">
     <div><span class="cite">${d.citation}</span>
@@ -331,7 +418,7 @@ function render() {
   }
   el('meta').textContent = `${docs.length} result${docs.length === 1 ? '' : 's'}`
     + (q ? ` for "${q}"` : ' (browsing)')
-    + ` · newest first · ${CORPUS.counts.cases} rulings + ${CORPUS.counts.legislation} Acts + ${(CORPUS.counts.instruments || 0)} SIs in the record`;
+    + ` · newest first · ${CORPUS.counts.cases} rulings + ${CORPUS.counts.legislation} Acts + ${(CORPUS.counts.instruments || 0)} SIs + ${(CORPUS.counts.submissions || 0)} submissions in the record`;
   el('results').innerHTML = docs.map(card).join('') || '<p>No matches.</p>';
 }
 

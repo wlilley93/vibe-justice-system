@@ -15,7 +15,7 @@ function tmpRoot() {
 }
 
 assert.ok(isPublicVjsRemote('https://github.com/wlilley93/vibe-justice-system.git'));
-assert.ok(!isPublicVjsRemote('https://github.com/wlilley93/agent-universe.git'));
+assert.ok(!isPublicVjsRemote('https://github.com/example/development-repository.git'));
 
 const fields = parseWarrantText(`
 AUTHORISED_OUTWARD_ACT=public-vjs-publish
@@ -51,7 +51,7 @@ assert.strictEqual(fields.IGNORED_SECRET, undefined);
 
 {
   const report = releaseWarrantReport(tmpRoot(), {
-    remoteUrl: 'https://github.com/wlilley93/agent-universe.git',
+    remoteUrl: 'https://github.com/example/development-repository.git',
   });
   assert.strictEqual(report.ok, true);
   assert.strictEqual(report.requiresWarrant, false);

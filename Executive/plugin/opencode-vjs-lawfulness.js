@@ -25,6 +25,7 @@ function runVjsHook(ctx, script, event, input, extraEnv = {}) {
     encoding: "utf8",
     env: {
       ...process.env,
+      VJS_AGENT_RUNTIME: "opencode",
       ...extraEnv,
     },
   });

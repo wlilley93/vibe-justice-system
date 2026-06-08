@@ -31,15 +31,15 @@ set -euo pipefail
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$ROOT"
 
-# Resolve the CLI: prefer an installed `cdd`/`vjs`, else the vendored cli/bin/cdd.js, else skip.
+# Resolve the CLI: prefer an installed `cdd`/`vjs`, else the vendored cli/bin/cdd.js.
 run_cdd() {
   local subcmd="$1"
   if command -v cdd >/dev/null 2>&1; then cdd "$subcmd"; return $?; fi
   if command -v vjs >/dev/null 2>&1; then vjs "$subcmd"; return $?; fi
   if [ -f Executive/cli/bin/cdd.js ] && command -v node >/dev/null 2>&1; then node Executive/cli/bin/cdd.js "$subcmd"; return $?; fi
   if [ -f cli/bin/cdd.js ] && command -v node >/dev/null 2>&1; then node cli/bin/cdd.js "$subcmd"; return $?; fi
-  echo "VJS pre-commit: cdd CLI not found; skipping deterministic audit (install the CLI to enforce)." >&2
-  return 0
+  echo "VJS pre-commit: cdd CLI not found; cannot run the deterministic audit." >&2
+  return 127
 }
 
 if ! run_cdd check; then

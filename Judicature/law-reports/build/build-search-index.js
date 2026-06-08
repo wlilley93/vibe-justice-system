@@ -42,12 +42,21 @@ for (const si of corpus.instruments || []) {
     p_slug: si.slug, p_source: si.sourcePath, p_pdf: si.pdfPath, p_no: si.no,
   });
 }
+for (const s of corpus.submissions || []) {
+  docs.push({
+    id: `submission:${s.sourcePath}`, kind: 'submission',
+    citation: s.label, title: s.title, date: s.date, series: 'SUBMISSION', court: s.label,
+    status: s.status, panel: s.filedBy || '', ratio: s.summary, cites: s.route || '', body: s.searchBody,
+    p_source: s.sourcePath, p_submission_kind: s.kind, p_filed_by: s.filedBy, p_route: s.route,
+  });
+}
 
 const ms = new MiniSearch({
   idField: 'id',
   fields: ['citation', 'title', 'ratio', 'body', 'court', 'status', 'panel', 'cites'],
   storeFields: ['kind', 'citation', 'title', 'series', 'court', 'status', 'ratio',
-    'date', 'p_slug', 'p_source', 'p_pdf', 'p_court', 'p_jur', 'p_stage', 'p_no'],
+    'date', 'p_slug', 'p_source', 'p_pdf', 'p_court', 'p_jur', 'p_stage', 'p_no',
+    'p_submission_kind', 'p_filed_by', 'p_route'],
   searchOptions: { boost: { citation: 5, title: 4, ratio: 3 }, prefix: true, fuzzy: 0.2 },
 });
 // deterministic insert order (corpus is already sorted)

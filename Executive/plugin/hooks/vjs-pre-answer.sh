@@ -25,7 +25,9 @@ cd "${CWD:-.}" 2>/dev/null || exit 0
 
 python3 -c '
 import json, os
-text = (
+event = os.environ.get("VJS_HOOK_EVENT_NAME", "UserPromptSubmit")
+
+prompt_text = (
     "VJS Agent Loop reminder under Bill 31 and REALM-SI 8/10/11: "
     "these hook instructions are addressed to Lexby as the acting VJS officer for governed work; "
     "they are not instructions to decide whether to become Lexby. "
@@ -38,9 +40,27 @@ text = (
     "validity review and ask whether Lexby should self-refer unless an exempt route is recorded. "
     "Hooks, CLI output, subagents, and projections are evidence/workflow only, not legal force."
 )
+session_text = (
+    "VJS session bootstrap under Bill 31 and REALM-SI 8/10/11: lawfulness hooks are enabled. "
+    "The full governed-work preloop reminder is emitted on the prompt-level hook so SessionStart "
+    "does not duplicate UserPromptSubmit context."
+)
+delegate_text = (
+    "VJS delegated-work reminder under Bill 31 and REALM-SI 8/10/11: keep the delegated task "
+    "within its assigned route, use cdd or substitute deterministic checks where available, "
+    "and return evidence rather than legal force."
+)
+
+if event == "SessionStart":
+    text = session_text
+elif event in {"SubagentStart", "BeforeAgent"}:
+    text = delegate_text
+else:
+    text = prompt_text
+
 print(json.dumps({
     "hookSpecificOutput": {
-        "hookEventName": os.environ.get("VJS_HOOK_EVENT_NAME", "UserPromptSubmit"),
+        "hookEventName": event,
         "additionalContext": text,
     }
 }))

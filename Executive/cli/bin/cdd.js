@@ -5,6 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { spawnSync } = require('child_process');
 const { nextCitation, seriesCode } = require('../lib/citation');
 const { auditCitator } = require('../lib/citator-audit');
@@ -18,6 +19,11 @@ const {
   graphEdges,
 } = require('../lib/law-lookup');
 const { releaseWarrantReport } = require('../lib/release-warrant');
+const {
+  auditPublicGazetteArtifacts,
+  corpusIds,
+  corpusLatestDates,
+} = require('../lib/gazette-audit');
 
 const CLI_ROOT = path.resolve(__dirname, '..');
 const REPO_ROOT = path.resolve(__dirname, '..', '..', '..'); // the vibe-justice-system repo root
@@ -260,6 +266,45 @@ function checkPublicLawIndex(root) {
   return findings;
 }
 
+function checkHookReminderBehavior(root) {
+  const hook = path.join(root, 'Executive', 'plugin', 'hooks', 'vjs-pre-answer.sh');
+  if (!fs.existsSync(hook)) return { ok: true, stdout: 'pre-answer hook not present, skipped', stderr: '' };
+  const run = (event) => spawnSync('bash', [hook], {
+    cwd: root,
+    input: JSON.stringify({ cwd: root }),
+    encoding: 'utf8',
+    stdio: 'pipe',
+    env: {
+      ...process.env,
+      VJS_PRE_ANSWER_REMINDER: 'on',
+      VJS_HOOK_EVENT_NAME: event,
+      VJS_LAWFULNESS_HOOKS: 'on',
+    },
+  });
+  const session = run('SessionStart');
+  const prompt = run('UserPromptSubmit');
+  const parseContext = (res, label) => {
+    if (res.status !== 0) throw new Error(`${label} exited ${res.status}: ${res.stderr || res.stdout}`);
+    const parsed = JSON.parse(res.stdout);
+    return String(parsed.hookSpecificOutput && parsed.hookSpecificOutput.additionalContext || '');
+  };
+  try {
+    const sessionContext = parseContext(session, 'SessionStart');
+    const promptContext = parseContext(prompt, 'UserPromptSubmit');
+    if (!sessionContext || !promptContext) throw new Error('missing hook additionalContext');
+    if (sessionContext === promptContext) throw new Error('SessionStart and UserPromptSubmit contexts are identical');
+    if (!/full governed-work preloop reminder is emitted on the prompt-level hook/i.test(sessionContext)) {
+      throw new Error('SessionStart context does not identify itself as session bootstrap');
+    }
+    if (!/For governed load-bearing work, run the preloop before answering/i.test(promptContext)) {
+      throw new Error('UserPromptSubmit context does not contain the full preloop reminder');
+    }
+    return { ok: true, stdout: 'Hook reminder behavior OK', stderr: '' };
+  } catch (e) {
+    return { ok: false, stdout: '', stderr: e.message };
+  }
+}
+
 function cmdLocalCi(args) {
   const root = path.resolve(args.root || findRepoRoot(process.cwd()) || process.cwd());
   const sourceCdd = path.join(root, 'Executive', 'cli', 'bin', 'cdd.js');
@@ -310,6 +355,28 @@ function cmdLocalCi(args) {
     status: publicLawFindings.length ? 1 : 0,
     stdout: publicLawFindings.length ? '' : 'Public law index consistency OK',
     stderr: publicLawFindings.join('\n'),
+  });
+
+  const privacy = auditPublicGazetteArtifacts(root);
+  steps.push({
+    label: 'public Gazette privacy scan',
+    command: 'scan Gazette public artifacts for private operational data',
+    cwd: root,
+    ok: privacy.ok,
+    status: privacy.ok ? 0 : 1,
+    stdout: privacy.ok ? `Gazette privacy scan OK: ${privacy.scanned.join(', ')}` : '',
+    stderr: privacy.findings.map((f) => `${f.path}: ${f.type}: ${f.match}`).join('\n'),
+  });
+
+  const hookReminder = checkHookReminderBehavior(root);
+  steps.push({
+    label: 'hook reminder behavior',
+    command: 'smoke SessionStart and UserPromptSubmit hook contexts',
+    cwd: root,
+    ok: hookReminder.ok,
+    status: hookReminder.ok ? 0 : 1,
+    stdout: hookReminder.stdout,
+    stderr: hookReminder.stderr,
   });
 
   if (fs.existsSync(path.join(root, 'Executive', 'cli', 'package.json'))) {
@@ -771,7 +838,7 @@ function cmdLaw(args) {
   const root = lawRoot();
   if (sub === 'search') {
     const query = args._.slice(1).join(' ').trim();
-    if (!query) die('usage: cdd law search "<query>" [--kind case|bill|si|all] [--court NAME] [--status STATUS] [--limit N] [--json]');
+    if (!query) die('usage: cdd law search "<query>" [--kind case|bill|si|submission|all] [--court NAME] [--status STATUS] [--limit N] [--json]');
     const results = searchLaw(root, query, {
       kind: args.kind,
       court: args.court,
@@ -840,10 +907,15 @@ function printReleaseWarrantReport(report) {
 
 function cmdReleaseWarrant(args) {
   const root = findRepoRoot(process.cwd()) || process.cwd();
+  const resolveSha = (value) => {
+    if (!value || /^[0-9a-f]{40}$/i.test(String(value))) return value;
+    const res = spawnSync('git', ['rev-parse', String(value)], { cwd: root, encoding: 'utf8', stdio: 'pipe' });
+    return res.status === 0 ? res.stdout.trim() : value;
+  };
   const report = releaseWarrantReport(root, {
     remoteUrl: args['remote-url'] || args.remote,
     remoteRef: args['remote-ref'] || args.ref,
-    localSha: args['local-sha'] || args.sha,
+    localSha: resolveSha(args['local-sha'] || args.sha),
   });
   if (args.json) {
     process.stdout.write(JSON.stringify(report, null, 2) + '\n');
@@ -886,6 +958,126 @@ function cmdGraph(args) {
   die('usage: cdd graph <node|edges> ...');
 }
 
+const DEFAULT_GAZETTE_PAGES_BASE = 'https://wlilley93.github.io/vibe-justice-system/Judicature/law-reports/site';
+
+function sha256(text) {
+  return crypto.createHash('sha256').update(text).digest('hex');
+}
+
+function readLocalGazetteArtifact(root, name) {
+  const full = path.join(root, 'Judicature', 'law-reports', 'site', name);
+  if (!fs.existsSync(full)) throw new Error(`missing local Gazette artifact: ${path.relative(root, full)}`);
+  return fs.readFileSync(full, 'utf8');
+}
+
+function fetchText(url) {
+  const res = spawnSync('curl', ['-fsSL', url], { encoding: 'utf8', stdio: 'pipe', maxBuffer: 20 * 1024 * 1024 });
+  if (res.status !== 0) throw new Error(`curl failed for ${url}: ${res.stderr || res.stdout || `exit ${res.status}`}`);
+  return res.stdout;
+}
+
+function gazetteLiveCheck(root, opts = {}) {
+  const baseUrl = String(opts.url || opts['base-url'] || DEFAULT_GAZETTE_PAGES_BASE).replace(/\/+$/, '');
+  const artifactNames = ['index.html', 'app.js', 'corpus.json', 'search-index.json'];
+  const artifacts = [];
+  const findings = [];
+  for (const name of artifactNames) {
+    const localText = readLocalGazetteArtifact(root, name);
+    const liveUrl = `${baseUrl}/${name}`;
+    let liveText = '';
+    try {
+      liveText = fetchText(liveUrl);
+    } catch (e) {
+      findings.push(`${name}: ${e.message}`);
+      artifacts.push({ name, liveUrl, ok: false, localSha256: sha256(localText), liveSha256: null });
+      continue;
+    }
+    const localHash = sha256(localText);
+    const liveHash = sha256(liveText);
+    const ok = localHash === liveHash;
+    if (!ok) findings.push(`${name}: live artifact hash differs from local build`);
+    artifacts.push({ name, liveUrl, ok, localSha256: localHash, liveSha256: liveHash });
+  }
+
+  let localCorpus = null;
+  let liveCorpus = null;
+  try {
+    localCorpus = JSON.parse(readLocalGazetteArtifact(root, 'corpus.json'));
+    liveCorpus = JSON.parse(fetchText(`${baseUrl}/corpus.json`));
+    const localIds = corpusIds(localCorpus);
+    const liveIds = corpusIds(liveCorpus);
+    const liveSet = new Set(liveIds);
+    const missingLiveIds = localIds.filter((id) => !liveSet.has(id));
+    const extraLiveIds = liveIds.filter((id) => !new Set(localIds).has(id));
+    if (missingLiveIds.length) findings.push(`live corpus is missing ${missingLiveIds.length} local item(s): ${missingLiveIds.slice(0, 12).join(', ')}`);
+    if (extraLiveIds.length) findings.push(`live corpus has ${extraLiveIds.length} item(s) not in local build: ${extraLiveIds.slice(0, 12).join(', ')}`);
+  } catch (e) {
+    findings.push(`corpus semantic comparison failed: ${e.message}`);
+  }
+
+  return {
+    ok: findings.length === 0,
+    root,
+    baseUrl,
+    artifacts,
+    findings,
+    local: localCorpus ? { counts: localCorpus.counts || {}, latestDates: corpusLatestDates(localCorpus).slice(-8) } : null,
+    live: liveCorpus ? { counts: liveCorpus.counts || {}, latestDates: corpusLatestDates(liveCorpus).slice(-8) } : null,
+    note: 'Gazette live-check compares generated local Pages artifacts with deployed GitHub Pages; it is evidence, not legal force',
+  };
+}
+
+function printGazetteAudit(report) {
+  process.stdout.write(`gazette privacy: ${report.ok ? 'OK' : 'FAILED'}\n`);
+  process.stdout.write(`  scanned: ${report.scanned.join(', ') || 'none'}\n`);
+  for (const f of report.findings) process.stdout.write(`  - ${f.path}: ${f.type}: ${f.match}\n`);
+}
+
+function printGazetteLiveCheck(report) {
+  process.stdout.write(`gazette live-check: ${report.ok ? 'OK' : 'FAILED'}\n`);
+  process.stdout.write(`  base: ${report.baseUrl}\n`);
+  for (const artifact of report.artifacts) {
+    process.stdout.write(`  - ${artifact.name}: ${artifact.ok ? 'match' : 'mismatch'}\n`);
+  }
+  if (report.local) process.stdout.write(`  local counts: ${JSON.stringify(report.local.counts)}\n`);
+  if (report.live) process.stdout.write(`  live counts:  ${JSON.stringify(report.live.counts)}\n`);
+  for (const finding of report.findings) process.stdout.write(`  finding: ${finding}\n`);
+  process.stdout.write(`\n${report.note}\n`);
+}
+
+function cmdGazette(args) {
+  const sub = args._[0];
+  const root = path.resolve(args.root || findRepoRoot(process.cwd()) || process.cwd());
+  if (sub === 'privacy') {
+    const report = auditPublicGazetteArtifacts(root);
+    if (args.json) {
+      process.stdout.write(JSON.stringify(report, null, 2) + '\n');
+      if (!report.ok) process.exit(1);
+      return;
+    }
+    printGazetteAudit(report);
+    if (!report.ok) process.exit(1);
+    return;
+  }
+  if (sub === 'live-check') {
+    let report;
+    try {
+      report = gazetteLiveCheck(root, args);
+    } catch (e) {
+      report = { ok: false, root, baseUrl: args.url || args['base-url'] || DEFAULT_GAZETTE_PAGES_BASE, artifacts: [], findings: [e.message], local: null, live: null, note: 'Gazette live-check failed before comparison completed' };
+    }
+    if (args.json) {
+      process.stdout.write(JSON.stringify(report, null, 2) + '\n');
+      if (!report.ok) process.exit(1);
+      return;
+    }
+    printGazetteLiveCheck(report);
+    if (!report.ok) process.exit(1);
+    return;
+  }
+  die('usage: cdd gazette <privacy|live-check> [--base-url URL] [--json]');
+}
+
 function workflowInvocation(script, kind, text) {
   const q = String(text || '').replace(/'/g, "\\'");
   return `Run the court through your agent's delegable workflow adapter.\n` +
@@ -919,6 +1111,7 @@ function main() {
     case 'lodge-judgment': return cmdLodgeJudgment(args);
     case 'law': return cmdLaw(args);
     case 'graph': return cmdGraph(args);
+    case 'gazette': return cmdGazette(args);
     case 'release-warrant':
     case 'push-licence':
     case 'push-license':
@@ -941,10 +1134,12 @@ Commands:
   check-bench-names                Deterministic scan for prohibited real jurist labels in judgment records and law-report case corpus. Flags include --source-only, --corpus-only, --json.
   check-judgment-provenance        Deterministic scan for newly added central judgment files without court-workflow or authorised-registrar provenance metadata. --json supported.
   lodge-judgment [--check-only]    Render-and-lodge a judgment ([2026] REALM-SI 2): render PDFs (idempotent, fail-open), rebuild the corpus/index/ledger projections in lockstep (fail-open), and verify the citation layer (fail-closed). --no-render to skip the PDF.
-  law search "<query>"             Token-efficient public law search over search-index.json. Pointer-first; --kind case|bill|si|all, --court, --status, --limit N, --json.
+  law search "<query>"             Token-efficient public law search over search-index.json. Pointer-first; --kind case|bill|si|submission|all, --court, --status, --limit N, --json.
   law get "<citation|id>"          Resolve a public law pointer. Source text is omitted unless --include-source is explicit; use --max-chars N to bound it. --json supported.
   graph node "<node|citation>"     Resolve one Gazette graph node from citator-graph.json. --json supported.
   graph edges "<node|citation>"    Return bounded adjacent Gazette graph edges. Flags: --dir in|out|both, --type TYPE, --limit N, --json.
+  gazette privacy                  Scan generated public Gazette artifacts for private operational data. --json supported.
+  gazette live-check               Compare local generated Gazette Pages artifacts with the deployed GitHub Pages site. Flags: --base-url URL, --json.
   release-warrant                  Retrieve push/release warrant evidence for a proposed public VJS push. Aliases: push-licence, push-license. Flags: --remote-url URL, --remote-ref REF, --local-sha SHA, --json.
   submit-request "<question>"      Print a delegable workflow invocation to file a Request for Ruling
   submit-breach "<charge>"         Print a delegable workflow invocation to file a Breach

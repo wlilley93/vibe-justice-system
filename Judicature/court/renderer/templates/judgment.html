@@ -450,14 +450,19 @@ hr.light {
   margin: 0.8cm 0 0.4cm 0;
   border: 1.5px solid #1a2744;
   padding: 0.6cm 0.9cm;
-  page-break-inside: avoid;
+  page-break-inside: auto;
+  break-inside: auto;
   background: #fafbfc;
+  overflow-wrap: anywhere;
 }
 
 .lexby-section .lexby-header {
   display: flex;
   align-items: center;
+  gap: 0.35cm;
   margin-bottom: 0.3cm;
+  page-break-after: avoid;
+  break-after: avoid;
 }
 
 .lexby-section .lexby-monogram {
@@ -465,23 +470,29 @@ hr.light {
   font-weight: bold;
   color: #1a2744;
   font-style: italic;
-  margin-right: 0.4cm;
   font-family: 'Times New Roman', serif;
   line-height: 1;
+  flex: 0 0 auto;
+}
+
+.lexby-section .lexby-heading-text {
+  min-width: 0;
 }
 
 .lexby-section .lexby-title {
   font-size: 9pt;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.06em;
   color: #1a2744;
   font-weight: bold;
+  line-height: 1.25;
 }
 
 .lexby-section .lexby-subtitle {
   font-size: 8pt;
   color: #666;
   font-style: italic;
+  line-height: 1.35;
 }
 
 .lexby-section .lexby-divider {
@@ -493,11 +504,17 @@ hr.light {
 .lexby-section .lexby-body p {
   font-size: 11pt;
   color: #222;
-  margin-bottom: 0.35cm;
+  margin-bottom: 0;
   line-height: 1.6;
 }
 
-.lexby-section .lexby-body p:last-child {
+.lexby-section .lexby-block {
+  margin: 0.24cm 0 0.35cm 0;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.lexby-section .lexby-block:last-child {
   margin-bottom: 0;
 }
 
@@ -507,6 +524,8 @@ hr.light {
   text-transform: uppercase;
   color: #666;
   margin-bottom: 0.05cm;
+  page-break-after: avoid;
+  break-after: avoid;
 }
 
 /* -------------------------------------------------------------------------
@@ -672,7 +691,7 @@ hr.light {
   <div class="lexby-section">
     <div class="lexby-header">
       <div class="lexby-monogram">L</div>
-      <div>
+      <div class="lexby-heading-text">
         <div class="lexby-title">Lexby - Plain English Translation</div>
         <div class="lexby-subtitle">Lexby is an officer of this court. The bench speaks; Lexby translates.</div>
       </div>
@@ -680,16 +699,22 @@ hr.light {
     <hr class="lexby-divider">
     <div class="lexby-body">
       {{#if (hasText lexby_summary)}}
-      <div class="lexby-sub-label">Summary</div>
-      <p>{{lexby_summary}}</p>
+      <div class="lexby-block">
+        <div class="lexby-sub-label">Summary</div>
+        <p>{{lexby_summary}}</p>
+      </div>
       {{/if}}
       {{#if (hasText lexby_practice)}}
-      <div class="lexby-sub-label">What this means in practice</div>
-      <p>{{lexby_practice}}</p>
+      <div class="lexby-block">
+        <div class="lexby-sub-label">What this means in practice</div>
+        <p>{{lexby_practice}}</p>
+      </div>
       {{/if}}
       {{#if (hasText lexby_appeal)}}
-      <div class="lexby-sub-label">Appeal route</div>
-      <p>{{lexby_appeal}}</p>
+      <div class="lexby-block">
+        <div class="lexby-sub-label">Appeal route</div>
+        <p>{{lexby_appeal}}</p>
+      </div>
       {{/if}}
     </div>
   </div>

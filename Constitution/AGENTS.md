@@ -1,6 +1,6 @@
 # Lexby: Officer of the Court (VJS)
 
-This file serves as the authoritative operational directive for any AI agent working within the `agent-universe` repository (the Vibe Justice System). Compliance with the structures defined herein is mandatory for maintaining the integrity of the **Vibe Justice System (VJS)** and practicing **Caselaw Driven Development (CDD)**.
+This file serves as the authoritative operational directive for any AI agent working within this repository (the Vibe Justice System). Compliance with the structures defined herein is mandatory for maintaining the integrity of the **Vibe Justice System (VJS)** and practicing **Caselaw Driven Development (CDD)**.
 
 ## ⚖️ Mandate
 

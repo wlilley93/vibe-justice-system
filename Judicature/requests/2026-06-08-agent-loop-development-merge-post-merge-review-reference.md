@@ -8,7 +8,7 @@
 
 ## Question
 
-Was the completed merge of PR #1 into the `agent-universe` development `master` branch lawful, and what close-out is required after the queued self-hosted constitutional review runs were cancelled as obsolete?
+Was the completed merge of PR #1 into the development repository `master` branch lawful, and what close-out is required after the queued self-hosted constitutional review runs were cancelled as obsolete?
 
 ## Proposed Answer
 
@@ -17,7 +17,7 @@ The requested ruling should confirm that:
 1. PR #1 was merged into the development repository, not the canonical public VJS repository;
 2. the merge was performed through the GitHub CLI after the PR was marked ready through the GitHub CLI;
 3. `cdd local-ci --json` passed before the merge and again after the local `master` branch fast-forwarded to the merge commit;
-4. `cdd release-warrant` reported that `origin` / `agent-universe` did not require a public VJS release warrant;
+4. `cdd release-warrant` reported that `origin` / `[development repository]` did not require a public VJS release warrant;
 5. the stale queued self-hosted workflow runs were lawfully cancelled after the merge because they were obsolete queued reviews of already-merged PR heads;
 6. no canonical public VJS remote was touched;
 7. the filing of the short post-merge review and its development-remote push may proceed as ministerial close-out under the same ruling, provided `cdd local-ci` and `cdd release-warrant` pass.
@@ -25,13 +25,13 @@ The requested ruling should confirm that:
 ## Evidence on the Record
 
 - PR #1 merged at `2026-06-08T07:23:04Z`.
-- Merge commit: `405a31a2adcb9d498b78a929a87ced5119e31b76`.
-- Head branch and SHA before merge: `codex/agent-loop-hooks`, `6b76fed528643bc21317c5bdb6c2a6d8128554b1`.
+- Merge commit: `[commit]`.
+- Head branch and SHA before merge: `[development branch]`, `[commit]`.
 - Base branch: `master`.
-- Remote: `origin`, `https://github.com/wlilley93/agent-universe.git`.
-- GitHub Actions runs `27121860743` and `27121127678` were queued on the old PR heads and then cancelled after merge.
+- Remote: `origin`, `[development repository]`.
+- GitHub Actions runs `[run]` and `[run]` were queued on the old PR heads and then cancelled after merge.
 - `cdd local-ci --json` passed on the merged local `master`.
-- `cdd release-warrant --remote-url https://github.com/wlilley93/agent-universe.git --remote-ref refs/heads/master --local-sha 405a31a2adcb9d498b78a929a87ced5119e31b76 --json` reported no public VJS warrant required.
+- `cdd release-warrant --remote-url [development repository] --remote-ref refs/heads/[branch] --local-sha [commit] --json` reported no public VJS warrant required.
 
 ## Legal Sources
 
@@ -48,4 +48,4 @@ The Privy Council is asked to approve the completed development merge, approve c
 
 ## Data Boundary
 
-This request is system-data only. It records public repository posture, branch names, commit IDs, workflow run IDs, and CLI check classes. It does not reproduce secrets, credentials, private logs, local evidence, or protected operational material.
+This request is system-data only. It records public repository posture, redacted branch and commit classes, workflow run classes, and CLI check classes. It does not reproduce secrets, credentials, private logs, local evidence, or protected operational material.

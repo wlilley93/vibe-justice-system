@@ -16,7 +16,7 @@ through one deterministic `cdd` route rather than manual branch and warrant hand
 |---|---|
 | Branch-consolidation base SHA under review | `9f6666ad217979493a6b60ed57352e5f77013e9e` |
 | Public repository | `wlilley93/vibe-justice-system` |
-| Development repository | `wlilley93/agent-universe` |
+| Development repository | `[development repository]` |
 | Remaining public branches | `master` and `public-vjs-canonical-preview`, kept in lockstep after branch cleanup and later request-publication pushes |
 | Remaining development branches | `master` and `public-vjs-canonical-preview`, kept in lockstep after branch cleanup and later request-publication pushes |
 | Deleted stale public branches | `cli-and-deterministic-citations`, `community/2026-lexby-fi-1`, and `publish/2026-lexby-sc-2` |

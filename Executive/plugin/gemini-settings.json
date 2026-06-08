@@ -11,7 +11,7 @@
           {
             "name": "vjs-pre-answer-session",
             "type": "command",
-            "command": "VJS_PRE_ANSWER_REMINDER=on VJS_HOOK_EVENT_NAME=SessionStart bash -lc 'root=\"${GEMINI_PROJECT_DIR:-$(pwd)}\"; bash \"$root/.vjs/hooks/vjs-pre-answer.sh\"'"
+            "command": "VJS_AGENT_RUNTIME=gemini VJS_PRE_ANSWER_REMINDER=on VJS_HOOK_EVENT_NAME=SessionStart bash -lc 'root=\"${GEMINI_PROJECT_DIR:-$(pwd)}\"; bash \"$root/.vjs/hooks/vjs-pre-answer.sh\"'"
           }
         ]
       }
@@ -23,7 +23,7 @@
           {
             "name": "vjs-pre-answer-before-agent",
             "type": "command",
-            "command": "VJS_PRE_ANSWER_REMINDER=on VJS_HOOK_EVENT_NAME=BeforeAgent bash -lc 'root=\"${GEMINI_PROJECT_DIR:-$(pwd)}\"; bash \"$root/.vjs/hooks/vjs-pre-answer.sh\"'"
+            "command": "VJS_AGENT_RUNTIME=gemini VJS_PRE_ANSWER_REMINDER=on VJS_HOOK_EVENT_NAME=BeforeAgent bash -lc 'root=\"${GEMINI_PROJECT_DIR:-$(pwd)}\"; bash \"$root/.vjs/hooks/vjs-pre-answer.sh\"'"
           }
         ]
       }
@@ -35,7 +35,7 @@
           {
             "name": "vjs-pre-tool-lawfulness",
             "type": "command",
-            "command": "VJS_HOOK_EVENT_NAME=BeforeTool bash -lc 'root=\"${GEMINI_PROJECT_DIR:-$(pwd)}\"; bash \"$root/.vjs/hooks/vjs-pre-answer.sh\"'"
+            "command": "VJS_AGENT_RUNTIME=gemini VJS_HOOK_EVENT_NAME=BeforeTool bash -lc 'root=\"${GEMINI_PROJECT_DIR:-$(pwd)}\"; bash \"$root/.vjs/hooks/vjs-pre-answer.sh\"'"
           }
         ]
       }
@@ -47,7 +47,7 @@
           {
             "name": "vjs-post-answer-after-agent",
             "type": "command",
-            "command": "bash -lc 'root=\"${GEMINI_PROJECT_DIR:-$(pwd)}\"; bash \"$root/.vjs/hooks/vjs-post-answer.sh\"'"
+            "command": "VJS_AGENT_RUNTIME=gemini bash -lc 'root=\"${GEMINI_PROJECT_DIR:-$(pwd)}\"; bash \"$root/.vjs/hooks/vjs-post-answer.sh\"'"
           }
         ]
       }
@@ -59,7 +59,7 @@
           {
             "name": "vjs-post-answer-session-end",
             "type": "command",
-            "command": "bash -lc 'root=\"${GEMINI_PROJECT_DIR:-$(pwd)}\"; bash \"$root/.vjs/hooks/vjs-post-answer.sh\"'"
+            "command": "VJS_AGENT_RUNTIME=gemini bash -lc 'root=\"${GEMINI_PROJECT_DIR:-$(pwd)}\"; bash \"$root/.vjs/hooks/vjs-post-answer.sh\"'"
           }
         ]
       }

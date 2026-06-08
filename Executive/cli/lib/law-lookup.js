@@ -8,8 +8,16 @@ const INDEX_OPTIONS = {
   storeFields: [
     'kind', 'citation', 'title', 'series', 'court', 'status', 'ratio',
     'date', 'p_slug', 'p_source', 'p_pdf', 'p_court', 'p_jur', 'p_stage', 'p_no',
+    'p_submission_kind', 'p_filed_by', 'p_route',
   ],
   searchOptions: { boost: { citation: 5, title: 4, ratio: 3 }, prefix: true, fuzzy: 0.2 },
+};
+
+const DEFAULT_AUTHORITY_RANK = {
+  case: 4,
+  si: 3,
+  bill: 2,
+  submission: 1,
 };
 
 function findLawSiteRoot(start) {
@@ -112,6 +120,18 @@ function applyFilters(records, opts = {}) {
   });
 }
 
+function authorityRank(record, opts = {}) {
+  if (opts.kind && opts.kind !== 'all') return 0;
+  return DEFAULT_AUTHORITY_RANK[record.kind] || 0;
+}
+
+function sortSearchResults(records, opts = {}) {
+  return records.sort((a, b) =>
+    authorityRank(b, opts) - authorityRank(a, opts)
+    || (b.score || 0) - (a.score || 0)
+    || String(a.id).localeCompare(String(b.id)));
+}
+
 function fallbackSearch(index, query, opts = {}) {
   const terms = tokenize(query);
   const raw = normalize(query);
@@ -153,9 +173,7 @@ function searchLaw(root, query, opts = {}) {
   } else {
     records = fallbackSearch(index, query, opts);
   }
-  return applyFilters(records, opts)
-    .sort((a, b) => (b.score || 0) - (a.score || 0) || String(a.id).localeCompare(String(b.id)))
-    .slice(0, limit);
+  return sortSearchResults(applyFilters(records, opts), opts).slice(0, limit);
 }
 
 function citationAliases(needle) {

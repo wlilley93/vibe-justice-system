@@ -8,7 +8,7 @@
 
 ## Question
 
-Was the development-remote push of branch `codex/agent-loop-hooks` and the creation of draft PR #1 lawful, and how should the Agent Loop express the Principal's direction that basically every governed action should flow through the CLI, including retrieval of relevant push licences and warrants?
+Was the development-remote push of the development branch and the creation of draft PR #1 lawful, and how should the Agent Loop express the Principal's direction that basically every governed action should flow through the CLI, including retrieval of relevant push licences and warrants?
 
 ## Proposed Answer
 
@@ -38,8 +38,8 @@ The filing record includes:
 
 1. `cdd local-ci --json` passing before commit;
 2. pre-commit provenance, citator, bench-name scan, and render-and-lodge gates passing;
-3. `git push -u origin codex/agent-loop-hooks` accepted by the VJS pre-push hook as a non-canonical development remote;
-4. draft PR #1 opened against `master` for branch `codex/agent-loop-hooks`;
+3. `git push -u origin [development branch]` accepted by the VJS pre-push hook as a non-canonical development remote;
+4. draft PR #1 opened against `master` for branch `[development branch]`;
 5. `gh pr view` recording the PR as draft, open, and `UNSTABLE` while GitHub Actions remained queued;
 6. `cdd release-warrant` reporting that `origin` requires no public VJS release warrant, and retrieving the earlier matching private release warrant for the canonical public VJS push when supplied with its remote/ref/SHA;
 7. no direct merge and no canonical public VJS push.

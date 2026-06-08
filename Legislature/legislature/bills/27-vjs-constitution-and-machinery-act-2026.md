@@ -57,7 +57,7 @@ In this Act:
 
 (2) The canonical name "Vibe Justice System" or "VJS" is the legal name of the realm and shall be used in all official documentation, legislation, the neutral-citation namespace under the Neutral Citations and Law Reporting Act 2026 (Bill 16), the ledger, the law reports, and all public governance materials.
 
-(3) The public realm repository shall be recorded in GitHub and public DNS under the canonical name: the "vibe-justice-system" repository (or "VJS" repository), destroying or deprecating the earlier "agent-universe" or other non-canonical names as the Principal directs. (The destruction of the earlier v1 at wlilley93/vibe-justice-system is an irreversible outward act of the Principal and is not in scope for this Act, which governs the new canonical layout.)
+(3) The public realm repository shall be recorded in GitHub and public DNS under the canonical name: the "vibe-justice-system" repository (or "VJS" repository), destroying or deprecating earlier non-canonical names as the Principal directs. (The destruction of the earlier v1 at wlilley93/vibe-justice-system is an irreversible outward act of the Principal and is not in scope for this Act, which governs the new canonical layout.)
 
 (4) Every nested operational, departmental, or project repository may carry a descriptive local name (e.g. "engineering-department/projects/acmeco") but shall defer to the canonical VJS naming for any public-facing or governance-related citation.
 

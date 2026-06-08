@@ -94,13 +94,17 @@ def extract_question(text):
 def parse_lexby(text):
     """Split a Lexby section into summary / practice / appeal by its bold sub-labels."""
     out = {'plain_english_summary': '', 'what_it_means_in_practice': '', 'can_it_be_appealed': ''}
-    # markers
-    practice = re.search(r'(?:In practice|What it means in practice|What this means in practice)\s*[:\-]?\s*', text, re.I)
-    appeal = re.search(r'(?:Appeal route|Can it be appealed\??|Appeal)\s*[:\-]?\s*', text, re.I)
+    marker_re = re.compile(
+        r'(?m)^\s*(?:\*\*)?\s*'
+        r'(In practice|What it means in practice|What this means in practice|Appeal route|Can it be appealed\?|Appeal)'
+        r'\s*(?:\*\*)?\s*[:\-]?\s*',
+        re.I,
+    )
     idxs = []
-    if practice: idxs.append((practice.start(), practice.end(), 'practice'))
-    if appeal: idxs.append((appeal.start(), appeal.end(), 'appeal'))
-    idxs.sort()
+    for match in marker_re.finditer(text):
+        label = match.group(1).lower()
+        kind = 'practice' if 'practice' in label or 'means' in label else 'appeal'
+        idxs.append((match.start(), match.end(), kind))
     if not idxs:
         out['plain_english_summary'] = text.strip()
         return out
