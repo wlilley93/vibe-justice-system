@@ -1,52 +1,99 @@
-id: ACT-FEDERATION
-title: Federation and Community Record Act
+id: ACT-007
+citation: "[2026] VJS-ACT 7"
+title: Federation and Local Sovereignty Act
 status: in_force
-rank: primary
+enacted_by: principal
+purpose: >
+  To establish each installed repo as a local jurisdiction, define default subscription,
+  local variation, and community contribution rules.
 
 sections:
-  - id: ACT-FEDERATION:s1
-    title: Default subscription
-    rule: >
+  - id: ACT-007:s1
+    title: Installing VJS creates local jurisdiction
+    text: >
+      Installing VJS into a repo creates a local jurisdiction. The repo gets a
+      .vjs/config.toml as the fixed discovery point. All other record paths are configurable.
+    kernel_effect:
+      defines:
+        - local.jurisdiction.created_on_install
+        - local.discovery_point: ".vjs/config.toml"
+        - local.paths.configurable
+      must:
+        - create_config_toml_on_install
+
+  - id: ACT-007:s2
+    title: Default subscription to lawpack
+    text: >
       Installed repos subscribe to the canonical V2 lawpack by default. Subscription means
       the kernel loads the canonical lawpack on route.
     kernel_effect:
-      default_subscription: true
-      canonical_lawpack: true
+      defines:
+        - local.subscription.default: true
+        - canonical_lawpack: true
+      must:
+        - load_canonical_lawpack_on_route
 
-  - id: ACT-FEDERATION:s2
-    title: Local independence
-    rule: >
-      Repos may have local variations, orders, and conventions. Local law does not override
-      the canonical lawpack unless a Privy Council order or Principal assent permits it.
+  - id: ACT-007:s3
+    title: Local Principal may vary local law
+    text: >
+      The local Principal may vary local law, orders, and conventions. Local law does not
+      override the canonical lawpack unless a Privy Council order or Principal assent permits it.
     kernel_effect:
-      local_variations: allowed
-      local_does_not_override: true
-      requires_authority_for_override: true
+      may:
+        - local_principal_varies_local_law
+      must_not:
+        - local_law_override_canonical_without_authority
+      exceptions:
+        - privy_council_order_authorises
+        - principal_assent
 
-  - id: ACT-FEDERATION:s3
-    title: Forks
-    rule: >
-      Forks inherit the lawpack of their origin. They may diverge with local sovereignty
-      change approved by the Principal or Privy Council.
+  - id: ACT-007:s4
+    title: Local law does not bind other repos
+    text: >
+      Local orders, decisions, and conventions apply only to the local repo. They do not
+      bind other repos unless adopted by those repos.
     kernel_effect:
-      forks_inherit: true
-      divergence_requires_approval: true
+      defines:
+        - local.law.local_scope_only
+      must_not:
+        - local_order_bind_other_repos
 
-  - id: ACT-FEDERATION:s4
-    title: Community precedent
-    rule: >
-      Anonymised community precedent is persuasive, not binding. It may be cited but does
-      not override canonical law or local orders.
+  - id: ACT-007:s5
+    title: Community contribution is opt-in
+    text: >
+      Community contribution is opt-in and anonymised. Contributors may submit anonymised
+      summaries and conventions. Private facts from contributor repos must not enter
+      the public record.
     kernel_effect:
-      community_precedent: persuasive
-      not_binding: true
+      defines:
+        - community_contribution.opt_in
+        - community_contribution.anonymised
+      must_not:
+        - publish_private_facts_from_contributors
 
-  - id: ACT-FEDERATION:s5
+  - id: ACT-007:s6
+    title: Forks must declare lawpack lineage
+    text: >
+      Forks inherit the lawpack of their origin. They must declare their lawpack lineage
+      in .vjs/config.toml. Divergence requires a Privy Council order or Principal assent.
+    kernel_effect:
+      must:
+        - declare_lawpack_lineage
+      must_not:
+        - fork_without_declaring_lineage
+      exceptions:
+        - privy_council_order_authorises
+        - principal_assent
+
+  - id: ACT-007:s7
     title: Canonical lawpack versions
-    rule: >
+    text: >
       The canonical lawpack has versions. A repo may pin a version. The kernel checks the
       lock file for version consistency.
     kernel_effect:
-      versioned: true
-      pin_allowed: true
-      lock_check: true
+      defines:
+        - lawpack.versioned
+        - lawpack.pin_allowed
+        - lawpack.lock_check
+      must:
+        - check_lawpack_lock_consistency

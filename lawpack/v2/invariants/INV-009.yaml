@@ -1,0 +1,9 @@
+id: INV-009
+title: Required proofs exist before permit closes
+severity: error
+rule: proofs_exist_before_close
+basis:
+  - ACT-003:s3
+  - REG-004
+  - REG-006
+remedy: Attach required proofs before closing permit.

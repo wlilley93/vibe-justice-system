@@ -1,0 +1,23 @@
+id: REG-005
+citation: "[2026] VJS-REG 5"
+title: Word Limit Regulation
+authority: ACT-004:s10
+status: in_force
+text: >
+  Defines word limits for court output and records.
+kernel_effect:
+  defines:
+    - word_limit.county_submission: "500"
+    - word_limit.county_order: "500"
+    - word_limit.county_opinion: "2000"
+    - word_limit.privy_submission: "1000"
+    - word_limit.privy_order: "1000"
+    - word_limit.privy_opinion: "5000"
+    - word_limit.supreme_order: "1500"
+    - word_limit.decision_log: "150"
+    - word_limit.route_output: "300"
+    - word_limit.authority_summary: "120"
+  must:
+    - enforce_word_limits
+  must_not:
+    - accept_overlong_records

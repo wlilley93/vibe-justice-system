@@ -1,0 +1,25 @@
+id: DEC-002
+citation: "[2026] VJS-DEC 2"
+title: Orders bind, opinions explain
+status: active
+scope:
+  records:
+    - court_order
+    - court_opinion
+decision: >
+  The kernel applies orders and rule atoms. Opinions are explanatory unless incorporated
+  into an order or rule.
+basis:
+  - ACT-002:s7
+  - ACT-004:s1
+reason: >
+  Runtime authority must be compact and operative. Opinions are for humans.
+  The kernel should not reason over long prose.
+consequences:
+  must:
+    - apply_order_directives
+    - treat_opinion_as_explanatory
+  must_not:
+    - treat_opinion_as_runtime_authority
+review_triggers:
+  - opinion_claimed_as_binding

@@ -1,0 +1,10 @@
+id: INV-013
+title: V1 archive not loaded by default
+severity: error
+rule: v1_not_loaded_by_default
+basis:
+  - ACT-001:s4
+  - DEC-001
+  - REG-008
+  - REG-006
+remedy: Do not load V1 archive as runtime authority unless expressly incorporated.

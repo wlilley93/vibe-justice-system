@@ -1,0 +1,28 @@
+id: DEC-001
+citation: "[2026] VJS-DEC 1"
+title: V1 is archive, not runtime
+status: active
+scope:
+  action_kinds:
+    - implementation_decision
+    - legislative_draft
+  paths:
+    - lawpack/v2/**
+decision: >
+  V1 is preserved as Gazette and archive and migration evidence. V2 runtime uses the compact
+  lawpack. Only expressly migrated V1 learnings become live V2 runtime law.
+basis:
+  - ACT-001:s4
+  - ACT-005:s6
+  - REG-008
+reason: >
+  V1 discovered the law. V2 compiles it. The archive preserves the journey.
+  The runtime uses only compact executable law.
+consequences:
+  must:
+    - preserve_v1_as_archive
+    - use_compact_lawpack_as_runtime
+  must_not:
+    - load_v1_as_runtime_by_default
+review_triggers:
+  - v1_archive_requested_as_runtime

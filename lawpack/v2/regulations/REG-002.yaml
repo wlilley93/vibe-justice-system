@@ -1,0 +1,24 @@
+id: REG-002
+citation: "[2026] VJS-REG 2"
+title: Directory Roles Regulation
+authority: ACT-007:s1
+status: in_force
+text: >
+  Defines configurable directory roles for VJS records. One fixed anchor: .vjs/config.toml.
+  All other paths configurable by role.
+kernel_effect:
+  defines:
+    - directory.role.orders_root
+    - directory.role.logs_root
+    - directory.role.submissions_root
+    - directory.role.specs_root
+    - directory.role.decisions_root
+    - directory.role.proofs_root
+    - directory.role.permits_root
+    - directory.role.private_root
+    - directory.role.cache_root
+    - directory.config_anchor: ".vjs/config.toml"
+  must:
+    - resolve_records_by_role_not_path
+  must_not:
+    - require_ministry_style_paths

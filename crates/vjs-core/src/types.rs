@@ -260,6 +260,12 @@ pub enum Trigger {
     LogMissing,
     KernelExternalCapabilityRequired,
     KernelModelCapabilityRequired,
+    V1ArchiveRequestedAsRuntime,
+    OpinionClaimedAsBinding,
+    AppealVolumeHigh,
+    McpAuthorityClaimed,
+    PathBrittlenessDetected,
+    SemanticSearchProposedForAuthority,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

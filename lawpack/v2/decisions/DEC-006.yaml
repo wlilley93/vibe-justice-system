@@ -1,0 +1,27 @@
+id: DEC-006
+citation: "[2026] VJS-DEC 6"
+title: No semantic authority matching
+status: active
+scope:
+  paths:
+    - crates/vjs-core/**
+    - lawpack/v2/**
+decision: >
+  Binding authority is resolved by issue tags, jurisdiction, rank, status, scope,
+  and supersession, not cosine similarity or model judgement.
+basis:
+  - ACT-001:s5
+  - ACT-003:s8
+  - ACT-004:s3
+reason: >
+  Semantic search is for human discovery, not runtime authority. The kernel must be
+  deterministic and auditable.
+consequences:
+  must:
+    - resolve_by_tags_and_scope
+    - resolve_by_rank_and_status
+  must_not:
+    - use_cosine_for_authority
+    - use_llm_for_authority
+review_triggers:
+  - semantic_search_proposed_for_authority

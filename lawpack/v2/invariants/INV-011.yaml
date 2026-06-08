@@ -1,0 +1,9 @@
+id: INV-011
+title: MCP is local-first
+severity: error
+rule: mcp_local_first
+basis:
+  - ACT-003:s8
+  - REG-007
+  - REG-006
+remedy: Ensure MCP server binds to local interface only.

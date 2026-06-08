@@ -1,0 +1,24 @@
+id: REG-007
+citation: "[2026] VJS-REG 7"
+title: MCP Safety Regulation
+authority: ACT-003:s8
+status: in_force
+text: >
+  Defines MCP safety requirements. MCP is local-first, uses explicit repo root,
+  no arbitrary shell, write tools limited, audit log required, human confirmation
+  for sensitive acts.
+kernel_effect:
+  defines:
+    - mcp.local_first
+    - mcp.explicit_repo_root
+    - mcp.no_arbitrary_shell
+    - mcp.write_tools_limited
+    - mcp.audit_log
+    - mcp.human_confirmation
+  must:
+    - validate_mcp_input
+    - audit_mcp_calls
+  must_not:
+    - expose_release_tool_in_mcp
+    - expose_direct_file_write_in_mcp
+    - allow_arbitrary_shell_in_mcp

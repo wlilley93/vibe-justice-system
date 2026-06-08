@@ -1,0 +1,26 @@
+id: DEC-005
+citation: "[2026] VJS-DEC 5"
+title: Configurable directories
+status: active
+scope:
+  action_kinds:
+    - implementation_decision
+  paths:
+    - .vjs/config.toml
+decision: >
+  VJS binds records by schema, ID, and configured role, not by ceremonial path.
+  Users may choose their own directory layout.
+basis:
+  - ACT-007:s1
+  - REG-002
+reason: >
+  Ministry-style paths are too state-like for user repos. One fixed anchor
+  plus configurable roles is the right balance.
+consequences:
+  must:
+    - use_config_toml_as_anchor
+    - resolve_by_role_not_path
+  must_not:
+    - require_ministry_paths
+review_triggers:
+  - path_brittleness_detected

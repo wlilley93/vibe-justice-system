@@ -160,7 +160,7 @@ impl Lawpack {
                     status: statute.status.clone(),
                     jurisdiction: None,
                     title: section.title.clone(),
-                    summary: section.rule.clone(),
+                    summary: section.text.clone(),
                     source_path: None,
                     issue_tags: Vec::new(),
                     scope: None,
@@ -178,7 +178,7 @@ impl Lawpack {
                 status: regulation.status.clone(),
                 jurisdiction: None,
                 title: regulation.title.clone(),
-                summary: regulation.authority.clone(),
+                summary: regulation.text.clone(),
                 source_path: None,
                 issue_tags: Vec::new(),
                 scope: None,
@@ -220,9 +220,11 @@ impl Lawpack {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Statute {
     pub id: AuthorityId,
+    pub citation: Option<String>,
     pub title: String,
     pub status: AuthorityStatus,
-    pub rank: String,
+    pub enacted_by: Option<String>,
+    pub purpose: Option<String>,
     pub sections: Vec<StatuteSection>,
 }
 
@@ -230,17 +232,39 @@ pub struct Statute {
 pub struct StatuteSection {
     pub id: AuthorityId,
     pub title: String,
-    pub rule: String,
-    pub kernel_effect: Option<HashMap<String, serde_json::Value>>,
+    pub text: String,
+    pub commentary: Option<String>,
+    pub kernel_effect: Option<KernelEffect>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Regulation {
     pub id: AuthorityId,
+    pub citation: Option<String>,
     pub title: String,
     pub authority: String,
     pub status: AuthorityStatus,
-    pub rule: serde_json::Value,
+    pub text: String,
+    pub kernel_effect: Option<KernelEffect>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct KernelEffect {
+    pub when: Option<Condition>,
+    pub must: Option<Vec<String>>,
+    pub may: Option<Vec<String>>,
+    pub must_not: Option<Vec<String>>,
+    pub exceptions: Option<Vec<String>>,
+    pub proof: Option<Vec<String>>,
+    pub defines: Option<serde_json::Value>,
+    pub prohibits: Option<Vec<String>>,
+    pub status: Option<serde_json::Value>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct Condition {
+    pub any: Option<Vec<String>>,
+    pub all: Option<Vec<String>>,
 }
 
 pub struct LawpackValidator;
@@ -297,6 +321,45 @@ impl LawpackValidator {
                         suggested_fix: Some("Verify the superseded ID exists".into()),
                     });
                 }
+            }
+        }
+
+        // Check text present in statute sections
+        for statute in &lawpack.statutes {
+            for section in &statute.sections {
+                if section.text.is_empty() {
+                    findings.push(ValidationFinding {
+                        severity: Severity::Error,
+                        code: "MISSING_TEXT".into(),
+                        path: None,
+                        message: format!("Section {} has no text", section.id.0),
+                        suggested_fix: Some("Add text field with binding legal text".into()),
+                    });
+                    ok = false;
+                }
+                if section.kernel_effect.is_none() {
+                    findings.push(ValidationFinding {
+                        severity: Severity::Warning,
+                        code: "NO_KERNEL_EFFECT".into(),
+                        path: None,
+                        message: format!("Section {} has no kernel_effect", section.id.0),
+                        suggested_fix: Some("Add kernel_effect with structured executable rules".into()),
+                    });
+                }
+            }
+        }
+
+        // Check text present in regulations
+        for regulation in &lawpack.regulations {
+            if regulation.text.is_empty() {
+                findings.push(ValidationFinding {
+                    severity: Severity::Error,
+                    code: "MISSING_TEXT".into(),
+                    path: None,
+                    message: format!("Regulation {} has no text", regulation.id.0),
+                    suggested_fix: Some("Add text field with binding legal text".into()),
+                });
+                ok = false;
             }
         }
 

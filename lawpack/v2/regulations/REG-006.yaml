@@ -1,0 +1,26 @@
+id: REG-006
+citation: "[2026] VJS-REG 6"
+title: Default Invariant Suite Regulation
+authority: ACT-004:s3
+status: in_force
+text: >
+  Bootstraps the default deterministic invariant suite for V2.
+kernel_effect:
+  defines:
+    - inv.001.lawpack_validates
+    - inv.002.no_duplicate_ids
+    - inv.003.no_duplicate_citations
+    - inv.004.orders_have_directives
+    - inv.005.public_no_private_facts
+    - inv.006.core_no_model_calls
+    - inv.007.core_no_network
+    - inv.008.governed_writes_require_permit
+    - inv.009.proofs_exist_before_close
+    - inv.010.logs_short
+    - inv.011.mcp_local_first
+    - inv.012.directory_roles_resolve
+    - inv.013.v1_archive_not_loaded_by_default
+  must:
+    - evaluate_default_invariants
+  must_not:
+    - bypass_invariant_evaluation

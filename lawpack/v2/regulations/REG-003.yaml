@@ -1,0 +1,26 @@
+id: REG-003
+citation: "[2026] VJS-REG 3"
+title: Citation and ID Regulation
+authority: ACT-004:s8
+status: in_force
+text: >
+  Defines citation formats for VJS records: VJS-ACT, VJS-REG, VJS-SC, VJS-PC, VJS-CC-<REPO>,
+  LOG, SPEC, INV, DEC, PERMIT, PROOF.
+kernel_effect:
+  defines:
+    - citation.series.vjs_act
+    - citation.series.vjs_reg
+    - citation.series.vjs_sc
+    - citation.series.vjs_pc
+    - citation.series.vjs_cc
+    - citation.series.log
+    - citation.series.spec
+    - citation.series.inv
+    - citation.series.dec
+    - citation.series.permit
+    - citation.series.proof
+  must:
+    - generate_citations_deterministically
+    - check_citation_collisions
+  must_not:
+    - allow_duplicate_citations

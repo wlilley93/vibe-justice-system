@@ -1,67 +1,162 @@
-id: ACT-RECORDS-LOGS
-title: Records, Logs and Citations Act
+id: ACT-004
+citation: "[2026] VJS-ACT 4"
+title: Records, Logs, Specs and Invariants Act
 status: in_force
-rank: primary
+enacted_by: principal
+purpose: >
+  To define the typed records of V2, establish invariants as deterministic checks,
+  and set citation and supersession rules.
 
 sections:
-  - id: ACT-RECORDS-LOGS:s1
-    title: Short mandatory logs
-    rule: >
-      Material implementation decisions, public record changes, external acts, and
-      security-sensitive acts require a decision log. Logs must be 50-150 words.
+  - id: ACT-004:s1
+    title: Typed records
+    text: >
+      V2 records are typed: statutes, regulations, orders, rules, specs, decisions,
+      invariants, permits, proofs, and logs. Each type has a schema and validation rules.
     kernel_effect:
-      emits_rule: REG-LOG-001
-      log_required_when:
-        - material_implementation_decision
-        - public_record_change
-        - external_act
-        - security_sensitive_act
-      max_words: 150
+      defines:
+        - record.type.statute
+        - record.type.regulation
+        - record.type.order
+        - record.type.rule
+        - record.type.spec
+        - record.type.decision
+        - record.type.invariant
+        - record.type.permit
+        - record.type.proof
+        - record.type.log
+      must:
+        - validate_record_schema
 
-  - id: ACT-RECORDS-LOGS:s2
-    title: Citation scheme
-    rule: >
+  - id: ACT-004:s2
+    title: Specs define desired state
+    text: >
+      A Spec defines desired state for a repo, feature, module, or workflow. It contains
+      purpose, scope, decisions, invariants, obligations, and review triggers.
+    kernel_effect:
+      defines:
+        - spec.purpose
+        - spec.scope
+        - spec.decisions
+        - spec.invariants
+        - spec.obligations
+        - spec.review_triggers
+      must:
+        - evaluate_spec_on_governed_changes
+
+  - id: ACT-004:s3
+    title: Invariants are deterministic checks
+    text: >
+      An invariant is an always-true rule about the repo. It uses a fixed predicate
+      registry: path_changed, string_contains, import_contains, dependency_added,
+      decision_log_exists, order_exists, word_count_lte, citation_unique, etc.
+    kernel_effect:
+      defines:
+        - invariant.deterministic
+        - invariant.typed
+        - invariant.predicate_registry
+      must:
+        - evaluate_invariants_mechanically
+      must_not:
+        - use_llm_to_evaluate_invariant
+        - use_cosine_for_invariant
+        - use_free_form_script_for_invariant
+
+  - id: ACT-004:s4
+    title: Decisions record settled choices
+    text: >
+      A Decision records a settled choice. It is shorter than a judgment, closer to an
+      ADR. Max 60 words for the decision, 120 for the reason.
+    kernel_effect:
+      defines:
+        - decision.max_decision_words: "60"
+        - decision.max_reason_words: "120"
+      must:
+        - keep_decisions_short
+
+  - id: ACT-004:s5
+    title: Permits authorise governed action
+    text: >
+      A Permit authorises a governed action. It expires after 2 hours. Closing requires
+      proof. Unclosed permits are detected at validation.
+    kernel_effect:
+      defines:
+        - permit.expires_after: "2 hours"
+        - permit.requires_proof_to_close
+      must:
+        - close_permit_with_proof
+      must_not:
+        - act_without_valid_permit
+
+  - id: ACT-004:s6
+    title: Proofs close obligations
+    text: >
+      A Proof attaches evidence to a permit. Kinds: command_result, decision_log,
+      test_result, public_private_scan, validation_report.
+    kernel_effect:
+      defines:
+        - proof.kind.command_result
+        - proof.kind.decision_log
+        - proof.kind.test_result
+        - proof.kind.public_private_scan
+        - proof.kind.validation_report
+      must:
+        - attach_required_proofs
+
+  - id: ACT-004:s7
+    title: Logs record execution
+    text: >
+      A Decision Log records what happened. It links to the authority basis, risk level,
+      and reversibility. Logs are append-only.
+    kernel_effect:
+      defines:
+        - log.append_only
+        - log.links_to_authority
+      must:
+        - write_log_for_material_decisions
+      must_not:
+        - delete_logs
+
+  - id: ACT-004:s8
+    title: Citations and IDs
+    text: >
       Citations are deterministic and unique. Format: [YYYY] VJS-<COURT>-<REPO> N.
       Collisions are fatal.
     kernel_effect:
-      citation_format: "[YYYY] VJS-<COURT>-<REPO> N"
-      collision_policy: fatal
+      defines:
+        - citation.format: "[YYYY] VJS-<COURT>-<REPO> N"
+        - citation.collision_policy: fatal
+      must:
+        - check_citation_uniqueness
+      must_not:
+        - allow_duplicate_citations
 
-  - id: ACT-RECORDS-LOGS:s3
-    title: Status vocabulary
-    rule: >
-      Valid statuses: draft, proposed, binding, in_force, stayed, superseded, overruled,
-      revoked, spent, void.
-    kernel_effect:
-      statuses: [draft, proposed, binding, in_force, stayed, superseded, overruled, revoked, spent, void]
-
-  - id: ACT-RECORDS-LOGS:s4
-    title: Supersession
-    rule: >
+  - id: ACT-004:s9
+    title: Supersession and correction
+    text: >
       A new authority may supersede an old one. Supersession must be explicit. The old
-      authority remains visible but is no longer binding.
+      authority remains visible but is no longer binding. Corrections are new records.
     kernel_effect:
-      supersession_explicit: true
-      old_visible: true
-      old_not_binding: true
+      defines:
+        - supersession.explicit
+        - supersession.old_visible
+        - supersession.old_not_binding
+        - correction.is_new_record
+      must:
+        - record_supersession_explicitly
+      must_not:
+        - delete_old_records
 
-  - id: ACT-RECORDS-LOGS:s5
-    title: Append-only record
-    rule: >
-      Records are append-only. Corrections are new records that reference the old.
-      Nothing is deleted.
+  - id: ACT-004:s10
+    title: Records must be short and bounded
+    text: >
+      Runtime records must be short enough for the agent to use without long-context
+      reasoning. Route output max 300 words. Authority summaries max 120 words.
+      Decision logs max 150 words.
     kernel_effect:
-      append_only: true
-      corrections_are_new: true
-      no_deletion: true
-
-  - id: ACT-RECORDS-LOGS:s6
-    title: Authority graph
-    rule: >
-      The kernel maintains an authority graph of statutes, regulations, rules, orders, and
-      logs. It detects cycles, collisions, and orphaned references.
-    kernel_effect:
-      authority_graph: true
-      detect_cycles: true
-      detect_collisions: true
-      detect_orphans: true
+      defines:
+        - record.limit.route_output: "300"
+        - record.limit.authority_summary: "120"
+        - record.limit.decision_log: "150"
+      must:
+        - enforce_word_limits

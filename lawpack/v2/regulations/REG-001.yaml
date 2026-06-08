@@ -1,0 +1,18 @@
+id: REG-001
+citation: "[2026] VJS-REG 1"
+title: Lawpack Manifest Regulation
+authority: ACT-001:s3
+status: in_force
+text: >
+  Defines the lawpack manifest fields, versioning, digest, lockfile, and schema validation.
+kernel_effect:
+  defines:
+    - manifest.required_fields
+    - manifest.versioning
+    - manifest.digest
+    - manifest.lockfile
+  must:
+    - validate_manifest_on_load
+    - check_lawpack_digest
+  must_not:
+    - load_lawpack_without_manifest

@@ -1,0 +1,27 @@
+id: DEC-004
+citation: "[2026] VJS-DEC 4"
+title: Kernel first, MCP second
+status: active
+scope:
+  paths:
+    - crates/vjs-core/**
+    - crates/vjs-mcp/**
+decision: >
+  The Rust kernel is authoritative runtime machinery. MCP is an adapter. The kernel
+  must not depend on MCP.
+basis:
+  - ACT-001:s5
+  - ACT-003:s8
+  - REG-007
+reason: >
+  If MCP is authoritative, the system becomes fragile. The kernel must be
+  self-sufficient and deterministic.
+consequences:
+  must:
+    - keep_kernel_authoritative
+    - keep_mcp_as_adapter
+  must_not:
+    - make_mcp_authoritative
+    - make_kernel_depend_on_mcp
+review_triggers:
+  - mcp_authority_claimed
