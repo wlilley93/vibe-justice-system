@@ -1,0 +1,67 @@
+id: ACT-RECORDS-LOGS
+title: Records, Logs and Citations Act
+status: in_force
+rank: primary
+
+sections:
+  - id: ACT-RECORDS-LOGS:s1
+    title: Short mandatory logs
+    rule: >
+      Material implementation decisions, public record changes, external acts, and
+      security-sensitive acts require a decision log. Logs must be 50-150 words.
+    kernel_effect:
+      emits_rule: REG-LOG-001
+      log_required_when:
+        - material_implementation_decision
+        - public_record_change
+        - external_act
+        - security_sensitive_act
+      max_words: 150
+
+  - id: ACT-RECORDS-LOGS:s2
+    title: Citation scheme
+    rule: >
+      Citations are deterministic and unique. Format: [YYYY] VJS-<COURT>-<REPO> N.
+      Collisions are fatal.
+    kernel_effect:
+      citation_format: "[YYYY] VJS-<COURT>-<REPO> N"
+      collision_policy: fatal
+
+  - id: ACT-RECORDS-LOGS:s3
+    title: Status vocabulary
+    rule: >
+      Valid statuses: draft, proposed, binding, in_force, stayed, superseded, overruled,
+      revoked, spent, void.
+    kernel_effect:
+      statuses: [draft, proposed, binding, in_force, stayed, superseded, overruled, revoked, spent, void]
+
+  - id: ACT-RECORDS-LOGS:s4
+    title: Supersession
+    rule: >
+      A new authority may supersede an old one. Supersession must be explicit. The old
+      authority remains visible but is no longer binding.
+    kernel_effect:
+      supersession_explicit: true
+      old_visible: true
+      old_not_binding: true
+
+  - id: ACT-RECORDS-LOGS:s5
+    title: Append-only record
+    rule: >
+      Records are append-only. Corrections are new records that reference the old.
+      Nothing is deleted.
+    kernel_effect:
+      append_only: true
+      corrections_are_new: true
+      no_deletion: true
+
+  - id: ACT-RECORDS-LOGS:s6
+    title: Authority graph
+    rule: >
+      The kernel maintains an authority graph of statutes, regulations, rules, orders, and
+      logs. It detects cycles, collisions, and orphaned references.
+    kernel_effect:
+      authority_graph: true
+      detect_cycles: true
+      detect_collisions: true
+      detect_orphans: true

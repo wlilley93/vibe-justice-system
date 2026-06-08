@@ -1,0 +1,30 @@
+id: SPEC-AGENT-001
+title: Agent lifecycle spec
+scope:
+  action_kinds:
+    - implementation_decision
+    - public_record_change
+    - external_act
+    - security_sensitive_act
+owner: principal
+status: active
+
+purpose: >
+  The agent must follow the route-permit-obligations-proof-log-validate
+  lifecycle for all governed load-bearing work.
+
+decisions:
+  - DEC-AGENT-001
+
+invariants:
+  - INV-AGENT-001
+  - INV-AGENT-002
+
+obligations:
+  - OBL-LOG-001
+  - OBL-VALIDATE-001
+
+review_triggers:
+  - permit_bypassed
+  - proof_missing
+  - log_missing

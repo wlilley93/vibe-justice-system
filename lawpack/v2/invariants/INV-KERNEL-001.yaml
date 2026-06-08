@@ -1,0 +1,20 @@
+id: INV-KERNEL-001
+title: Core kernel performs no model calls
+scope:
+  paths:
+    - crates/vjs-core/**
+    - crates/vjs-lawpack/**
+    - crates/vjs-store/**
+rule:
+  none_of:
+    - import_contains: "openai"
+    - import_contains: "anthropic"
+    - string_contains: "chat.completions"
+    - string_contains: "/v1/messages"
+severity: fatal
+failure_route: blocked
+remedy: Move model interaction to adapter crate outside vjs-core.
+
+basis:
+  - ACT-AGENT-DUTIES:s8
+  - DEC-KERNEL-001

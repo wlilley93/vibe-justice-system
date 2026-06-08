@@ -1,0 +1,26 @@
+id: 2026-VJS-BOOT-005
+court: county
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: vjs-v2-mcp
+holding: MCP adapter is thin and local-first.
+directives:
+  - id: D1
+    actor: agent
+    must: use_mcp_tools
+    when: using_mcp
+  - id: D2
+    actor: agent
+    must: keep_mcp_thin
+    when: always
+forbidden:
+  - add_arbitrary_tools_to_mcp
+  - expose_release_tool_in_mcp
+  - expose_direct_file_write_in_mcp
+exceptions:
+  - principal_approved_tool
+supersedes: []
+source_opinion: null
+runtime_summary: "The MCP adapter exposes only 6 tools: route, lookup, validate, log, file, status. No arbitrary file writes, no release tools, no direct push actions."
+created_at: "2026-06-08T00:00:00Z"

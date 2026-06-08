@@ -1,0 +1,30 @@
+id: 2026-VJS-BOOT-009
+court: county
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: vjs-v2-permits
+holding: Permits are required for governed writes; hooks enforce the lifecycle, not the law.
+directives:
+  - id: D1
+    actor: agent
+    must: obtain_permit_before_governed_write
+    when: governed_write
+  - id: D2
+    actor: agent
+    must: close_permit_with_proof
+    when: after_action
+  - id: D3
+    actor: agent
+    must: keep_hooks_short
+    when: always
+forbidden:
+  - write_long_hook_prose
+  - explain_law_in_hook
+  - bypass_permit_check
+exceptions:
+  - read_only_work
+supersedes: []
+source_opinion: null
+runtime_summary: "Hooks enforce the permit lifecycle: session hint (40 words), pre-write check, pre-commit validation. They do not explain the law."
+created_at: "2026-06-08T00:00:00Z"

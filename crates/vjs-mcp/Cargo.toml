@@ -1,0 +1,24 @@
+[package]
+name = "vjs-mcp"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[dependencies]
+vjs-core = { path = "../vjs-core" }
+vjs-lawpack = { path = "../vjs-lawpack" }
+vjs-store = { path = "../vjs-store" }
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml.workspace = true
+thiserror.workspace = true
+chrono.workspace = true
+tokio.workspace = true
+regex.workspace = true
+sha2.workspace = true
+hex.workspace = true
+
+[dev-dependencies]
+serde_yaml.workspace = true

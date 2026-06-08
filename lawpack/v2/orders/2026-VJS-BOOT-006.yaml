@@ -1,0 +1,31 @@
+id: 2026-VJS-BOOT-006
+court: county
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: vjs-v2-kernel-determinism
+holding: Kernel must remain deterministic, model-free, and network-free.
+directives:
+  - id: D1
+    actor: agent
+    must: keep_kernel_deterministic
+    when: always
+  - id: D2
+    actor: agent
+    must: keep_kernel_model_free
+    when: always
+  - id: D3
+    actor: agent
+    must: keep_kernel_network_free
+    when: always
+forbidden:
+  - add_model_call_to_vjs_core
+  - add_network_call_to_vjs_core
+  - add_vector_search_to_vjs_core
+  - add_llm_judgement_to_vjs_core
+exceptions:
+  - adapter_crate
+supersedes: []
+source_opinion: null
+runtime_summary: vjs-core must not contain model calls, network clients, or vector search. Model interaction belongs in vjs-mcp or external adapters.
+created_at: "2026-06-08T00:00:00Z"

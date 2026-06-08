@@ -1,0 +1,92 @@
+id: ACT-COURTS-ORDERS
+title: Courts and Orders Act
+status: in_force
+rank: primary
+
+sections:
+  - id: ACT-COURTS-ORDERS:s1
+    title: County Court
+    rule: >
+      The County Court is the default local court for repo-level operational decisions.
+      Submissions max 500 words. Orders max 500 words. Opinions max 2,000 words.
+    kernel_effect:
+      default_court: county
+      county_limits:
+        submission: 500
+        order: 500
+        opinion: 2000
+
+  - id: ACT-COURTS-ORDERS:s2
+    title: Privy Council
+    rule: >
+      The Privy Council handles jurisdiction, routing, constitutional machinery, public/private
+      boundary, and local sovereignty. Submissions max 1,000 words. Orders max 1,000 words.
+      Opinions max 5,000 words.
+    kernel_effect:
+      privy_council_scope:
+        - jurisdiction
+        - routing
+        - constitutional_machinery
+        - public_private_boundary
+        - local_sovereignty
+      privy_limits:
+        submission: 1000
+        order: 1000
+        opinion: 5000
+
+  - id: ACT-COURTS-ORDERS:s3
+    title: Supreme Court
+    rule: >
+      The Supreme Court handles rare foundational doctrine. Operative orders max 1,500 words.
+      Opinions may be longer, but the runtime rule delta is mandatory and compact.
+    kernel_effect:
+      supreme_scope:
+        - foundational_doctrine
+        - constitutional_settlement
+        - overruling_core_authority
+      supreme_limits:
+        order: 1500
+
+  - id: ACT-COURTS-ORDERS:s4
+    title: No Court of Appeal in V2 MVP
+    rule: >
+      The Court of Appeal is not carried forward in V2 MVP. Appeals may be handled by the
+      Privy Council or Supreme Court at the Principal's discretion.
+    kernel_effect:
+      court_of_appeal: false
+      mvp_courts: [county, privy_council, supreme_court]
+
+  - id: ACT-COURTS-ORDERS:s5
+    title: Orders bind; opinions explain
+    rule: >
+      Court orders bind at runtime. Opinions explain the reasoning. The kernel applies
+      orders directly. Opinions are for humans and appeal, not runtime resolution.
+    kernel_effect:
+      orders_bind: true
+      opinions_explain: true
+
+  - id: ACT-COURTS-ORDERS:s6
+    title: Order format
+    rule: >
+      Every valid order must have: id, court, jurisdiction, status, issue, holding,
+      directives, runtime_summary, and may have forbidden, exceptions, superseded list.
+    kernel_effect:
+      order_required_fields:
+        - id
+        - court
+        - jurisdiction
+        - status
+        - issue
+        - holding
+        - directives
+        - runtime_summary
+
+  - id: ACT-COURTS-ORDERS:s7
+    title: Correction, variation, overruling
+    rule: >
+      Orders may be corrected for clerical errors. Variation requires a new order.
+      Overruling requires Supreme Court order.
+    kernel_effect:
+      correction: allowed
+      variation: requires_new_order
+      overruling: requires_supreme_court

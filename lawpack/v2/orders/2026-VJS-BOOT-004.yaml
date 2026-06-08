@@ -1,0 +1,25 @@
+id: 2026-VJS-BOOT-004
+court: county
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: vjs-v2-logs
+holding: Logs are mandatory for material implementation decisions.
+directives:
+  - id: D1
+    actor: agent
+    must: write_decision_log
+    when: material_implementation_decision
+  - id: D2
+    actor: agent
+    must: keep_logs_short
+    when: always
+forbidden:
+  - skip_log_for_material_decision
+  - write_overlong_log
+exceptions:
+  - trivial_reversible_preference
+supersedes: []
+source_opinion: null
+runtime_summary: Material implementation decisions, public record changes, external acts, and security-sensitive acts require a 50-150 word decision log.
+created_at: "2026-06-08T00:00:00Z"

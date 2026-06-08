@@ -1,0 +1,21 @@
+id: 2026-VJS-BOOT-002
+court: county
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: vjs-v2-archive
+holding: V1 archive is not runtime context unless incorporated.
+directives:
+  - id: D1
+    actor: agent
+    must: check_incorporation
+    when: citing_v1_archive
+forbidden:
+  - load_v1_archive_as_runtime
+  - treat_v1_judgments_as_binding
+exceptions:
+  - expressly_incorporated
+supersedes: []
+source_opinion: null
+runtime_summary: V1 archive is historical and persuasive. It is not live runtime law unless a V2 statute, rule, or order expressly incorporates it.
+created_at: "2026-06-08T00:00:00Z"

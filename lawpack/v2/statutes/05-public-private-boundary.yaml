@@ -1,0 +1,62 @@
+id: ACT-PUBLIC-PRIVATE
+title: Public and Private Boundary Act
+status: in_force
+rank: primary
+
+sections:
+  - id: ACT-PUBLIC-PRIVATE:s1
+    title: System data only in public
+    rule: >
+      The public record holds only system data: rules, orders, procedure, abstract issues,
+      redacted facts necessary to understand decisions, and source pointers. It must not
+      contain secrets, tokens, private repo paths, client facts, hostnames, logs, or
+      screenshots.
+    kernel_effect:
+      public_content: system_data_only
+      forbidden:
+        - secrets
+        - tokens
+        - private_repo_paths
+        - client_facts
+        - hostnames
+        - logs
+        - screenshots
+        - credentials
+
+  - id: ACT-PUBLIC-PRIVATE:s2
+    title: Private facts local
+    rule: >
+      Private operational facts, evidence, screenshots, and unredacted records belong in
+      the local private store (.vjs/private or configured path).
+    kernel_effect:
+      private_store: local
+      default_path: .vjs/private
+
+  - id: ACT-PUBLIC-PRIVATE:s3
+    title: Redaction
+    rule: >
+      Public records must be redacted before publication. Redaction is the agent's duty.
+      The kernel scanner flags likely leaks. The agent must act on flags.
+    kernel_effect:
+      redaction_duty: agent
+      scanner_flags: true
+      agent_must_act_on_flags: true
+
+  - id: ACT-PUBLIC-PRIVATE:s4
+    title: Local evidence
+    rule: >
+      Local evidence (screenshots, logs, operational notes) is private. It may be referenced
+      by pointer in public records, but the pointer must not expose the private detail.
+    kernel_effect:
+      evidence_is_private: true
+      pointers_allowed: true
+      pointer_must_not_expose: true
+
+  - id: ACT-PUBLIC-PRIVATE:s5
+    title: Community contribution
+    rule: >
+      Community contributions to the public record are limited to anonymised summaries and
+      system data. Private facts from contributor repos must not enter the public record.
+    kernel_effect:
+      community_contribution: anonymised_only
+      private_facts_blocked: true

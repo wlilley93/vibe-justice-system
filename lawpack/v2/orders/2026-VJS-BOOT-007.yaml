@@ -1,0 +1,26 @@
+id: 2026-VJS-BOOT-007
+court: county
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: vjs-v2-invariants
+holding: Invariants are deterministic, typed, and evaluated mechanically.
+directives:
+  - id: D1
+    actor: agent
+    must: evaluate_invariants_mechanically
+    when: validate
+  - id: D2
+    actor: agent
+    must: use_predicate_dsl
+    when: defining_invariant
+forbidden:
+  - use_llm_to_evaluate_invariant
+  - use_cosine_for_invariant
+  - use_free_form_script_for_invariant
+exceptions:
+  - principal_approved_expression_engine
+supersedes: []
+source_opinion: null
+runtime_summary: Invariants are evaluated by a fixed predicate registry in Rust. No LLM checks, no cosine similarity, no free-form scripts.
+created_at: "2026-06-08T00:00:00Z"

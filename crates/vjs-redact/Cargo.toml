@@ -1,0 +1,19 @@
+[package]
+name = "vjs-redact"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[dependencies]
+vjs-core = { path = "../vjs-core" }
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+chrono.workspace = true
+regex.workspace = true
+walkdir.workspace = true
+
+[dev-dependencies]
+serde_yaml.workspace = true

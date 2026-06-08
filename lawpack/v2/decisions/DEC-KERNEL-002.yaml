@@ -1,0 +1,24 @@
+id: DEC-KERNEL-002
+title: vjs-core has no model calls
+status: active
+scope:
+  paths:
+    - crates/vjs-core/**
+    - crates/vjs-lawpack/**
+    - crates/vjs-store/**
+decision: >
+  vjs-core must not contain LLM calls, vector search, or model judgement.
+  Model interaction belongs in vjs-mcp or external adapters.
+basis:
+  - ACT-AGENT-DUTIES:s8
+  - ACT-CONSTITUTION:s8
+  - INV-KERNEL-001
+reason: >
+  The kernel must be deterministic and auditable. Model calls belong outside core.
+consequences:
+  must:
+    - keep model crates outside vjs-core
+  must_not:
+    - add openai or anthropic clients to vjs-core
+review_triggers:
+  - kernel_model_capability_required

@@ -1,0 +1,25 @@
+id: 2026-VJS-BOOT-008
+court: county
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: vjs-v2-specs
+holding: Specs are first-class law objects with purpose, scope, decisions, invariants, and obligations.
+directives:
+  - id: D1
+    actor: agent
+    must: use_specs_for_contracts
+    when: governed_work
+  - id: D2
+    actor: agent
+    must: link_spec_to_decisions
+    when: defining_spec
+forbidden:
+  - use_specs_as_prose_only
+  - ignore_spec_invariants
+exceptions:
+  - draft_spec
+supersedes: []
+source_opinion: null
+runtime_summary: Specs are compact, machine-checkable contracts. They contain purpose, scope, decisions, invariants, obligations, and review triggers.
+created_at: "2026-06-08T00:00:00Z"

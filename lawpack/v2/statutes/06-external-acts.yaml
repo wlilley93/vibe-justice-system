@@ -1,0 +1,56 @@
+id: ACT-EXTERNAL-ACTS
+title: External Acts and Release Authority Act
+status: in_force
+rank: primary
+
+sections:
+  - id: ACT-EXTERNAL-ACTS:s1
+    title: Public push
+    rule: >
+      Pushing to a public repository is an external act. It requires a release warrant or
+      Principal authorisation.
+    kernel_effect:
+      public_push: external_act
+      requires_release_warrant: true
+
+  - id: ACT-EXTERNAL-ACTS:s2
+    title: Release warrant
+    rule: >
+      A release warrant is a record of authority for a public release. It must identify the
+      release, the authority basis, and the human checkpoint.
+    kernel_effect:
+      release_warrant_required: true
+      warrant_must_contain:
+        - release_id
+        - authority_basis
+        - human_checkpoint
+
+  - id: ACT-EXTERNAL-ACTS:s3
+    title: Credential safety
+    rule: >
+      Credentials, API keys, and secrets must not enter public repositories. The scanner must
+      flag them. The agent must remove them before commit.
+    kernel_effect:
+      secrets_not_in_public: true
+      scanner_flags: true
+      agent_must_remove: true
+
+  - id: ACT-EXTERNAL-ACTS:s4
+    title: Destructive actions
+    rule: >
+      Destructive actions (deletion, reset, rebase, force-push) require explicit human
+      approval. The kernel must block them unless a permit with human approval is present.
+    kernel_effect:
+      destructive_actions: require_human_approval
+      kernel_blocks_without_permit: true
+
+  - id: ACT-EXTERNAL-ACTS:s5
+    title: External service boundary
+    rule: >
+      External services (CI, deployment, third-party APIs) are outside the kernel. The
+      kernel may advise but cannot control them. The agent must use explicit credentials
+      and authority for external acts.
+    kernel_effect:
+      external_services: outside_kernel
+      kernel_may_advise: true
+      agent_must_use_explicit_authority: true

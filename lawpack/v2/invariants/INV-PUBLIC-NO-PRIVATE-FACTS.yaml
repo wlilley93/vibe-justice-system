@@ -1,0 +1,21 @@
+id: INV-PUBLIC-NO-PRIVATE-FACTS
+title: Public records must not contain private operational facts
+scope:
+  paths:
+    - lawpack/**
+    - public/**
+    - orders/realm/**
+rule:
+  none_of:
+    - likely_secret
+    - private_hostname
+    - private_repo_path
+    - token_pattern
+    - unredacted_email
+severity: fatal
+failure_route: block_commit
+remedy: Redact or move private facts to .vjs/private.
+
+basis:
+  - ACT-PUBLIC-PRIVATE:s1
+  - ACT-PUBLIC-PRIVATE:s3
