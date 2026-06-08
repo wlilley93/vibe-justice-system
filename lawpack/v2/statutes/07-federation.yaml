@@ -1,0 +1,52 @@
+id: ACT-FEDERATION
+title: Federation and Community Record Act
+status: in_force
+rank: primary
+
+sections:
+  - id: ACT-FEDERATION:s1
+    title: Default subscription
+    rule: >
+      Installed repos subscribe to the canonical V2 lawpack by default. Subscription means
+      the kernel loads the canonical lawpack on route.
+    kernel_effect:
+      default_subscription: true
+      canonical_lawpack: true
+
+  - id: ACT-FEDERATION:s2
+    title: Local independence
+    rule: >
+      Repos may have local variations, orders, and conventions. Local law does not override
+      the canonical lawpack unless a Privy Council order or Principal assent permits it.
+    kernel_effect:
+      local_variations: allowed
+      local_does_not_override: true
+      requires_authority_for_override: true
+
+  - id: ACT-FEDERATION:s3
+    title: Forks
+    rule: >
+      Forks inherit the lawpack of their origin. They may diverge with local sovereignty
+      change approved by the Principal or Privy Council.
+    kernel_effect:
+      forks_inherit: true
+      divergence_requires_approval: true
+
+  - id: ACT-FEDERATION:s4
+    title: Community precedent
+    rule: >
+      Anonymised community precedent is persuasive, not binding. It may be cited but does
+      not override canonical law or local orders.
+    kernel_effect:
+      community_precedent: persuasive
+      not_binding: true
+
+  - id: ACT-FEDERATION:s5
+    title: Canonical lawpack versions
+    rule: >
+      The canonical lawpack has versions. A repo may pin a version. The kernel checks the
+      lock file for version consistency.
+    kernel_effect:
+      versioned: true
+      pin_allowed: true
+      lock_check: true

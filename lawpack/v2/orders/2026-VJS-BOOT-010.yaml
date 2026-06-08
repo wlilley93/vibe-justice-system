@@ -1,0 +1,26 @@
+id: 2026-VJS-BOOT-010
+court: county
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: vjs-v2-boundary
+holding: The public/private boundary is enforced by deterministic scanner, not model judgement.
+directives:
+  - id: D1
+    actor: agent
+    must: run_boundary_scan
+    when: public_record_change
+  - id: D2
+    actor: agent
+    must: use_deterministic_scanner
+    when: always
+forbidden:
+  - use_llm_for_boundary_check
+  - rely_on_agent_discretion_for_boundary
+  - publish_private_facts
+exceptions:
+  - redacted_summary
+supersedes: []
+source_opinion: null
+runtime_summary: The public/private boundary is enforced by a deterministic scanner that detects secrets, tokens, hostnames, emails, and private paths.
+created_at: "2026-06-08T00:00:00Z"

@@ -1,0 +1,28 @@
+id: AGENT-LOOKUP-002
+title: Kernel-first lifecycle
+status: binding
+rank: regulation
+scope:
+  jurisdictions:
+    - "*"
+  action_kinds:
+    - implementation_decision
+    - public_record_change
+    - external_act
+    - security_sensitive_act
+effect:
+  must:
+    - call_kernel_route
+    - follow_permit
+    - attach_proof
+    - write_decision_log
+    - run_validate
+exceptions:
+  - emergency
+  - exempt
+source:
+  v1:
+    - Bill 31
+    - Agent Lawfulness Hooks instruments
+summary: The agent must follow the full route-permit-proof-log-validate lifecycle.
+supersedes: []

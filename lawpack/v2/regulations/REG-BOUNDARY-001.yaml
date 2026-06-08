@@ -1,0 +1,10 @@
+id: REG-BOUNDARY-001
+title: Public Boundary Scan Regulation
+authority: ACT-PUBLIC-PRIVATE:s3
+status: in_force
+rule:
+  when:
+    - public_record_change
+  must:
+    - run_public_private_scan
+  failure_mode: error

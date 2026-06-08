@@ -1,0 +1,92 @@
+id: ACT-CONSTITUTION
+title: Constitution and Sources of Authority Act
+status: in_force
+rank: constitutional
+
+sections:
+  - id: ACT-CONSTITUTION:s1
+    title: V2 consolidation
+    rule: >
+      V2 is a consolidation of V1 learnings. The kernel lawpack is the sole runtime
+      authority surface. V1 archive material is historical and persuasive unless expressly
+      incorporated.
+    kernel_effect:
+      archive_fallback: true
+      requires_incorporation: true
+
+  - id: ACT-CONSTITUTION:s2
+    title: Principal
+    rule: >
+      The Principal holds two offices: Sovereign (source of legitimacy) and Prime Minister
+      (executive direction). The Principal may set objectives, give policy, approve migration,
+      authorise external acts, and assent to legislation.
+    kernel_effect:
+      principal_can_set_objectives: true
+      principal_can_assent: true
+
+  - id: ACT-CONSTITUTION:s3
+    title: Local sovereignty
+    rule: >
+      Each repo is a local jurisdiction. Installed repos subscribe to the V2 lawpack by default
+      but may opt-out of specific regulations. Local sovereignty changes require Principal
+      assent or Privy Council order.
+    kernel_effect:
+      default_subscription: true
+      opt_out_requires_authority: true
+
+  - id: ACT-CONSTITUTION:s4
+    title: Sources of law
+    rule: >
+      The kernel resolves authority in this order: real-world law, Constitution, primary Acts,
+      kernel regulations, Supreme Court orders, Privy Council orders, County Court orders,
+      local decision logs, V1 archive (if incorporated).
+    kernel_effect:
+      authority_hierarchy: true
+      archive_incorporation_required: true
+
+  - id: ACT-CONSTITUTION:s5
+    title: Lexby cannot be the source of legal force
+    rule: >
+      Lexby may propose, argue, and draft, but adopted text derives force from the lawful
+      organ, not counsel's draft. Proposed law must be marked draft. Binding law requires
+      authorised adoption.
+    kernel_effect:
+      emits_rule: AUTH-003
+      draft_requires_adoption: true
+
+  - id: ACT-CONSTITUTION:s6
+    title: Real-world law supremacy
+    rule: >
+      Real-world law still controls. Agents have delegated authority to refuse, stop, narrow,
+      or escalate unlawful or unauthorised instructions.
+    kernel_effect:
+      real_world_supremacy: true
+      agent_may_refuse: true
+
+  - id: ACT-CONSTITUTION:s7
+    title: V1 archive status
+    rule: >
+      V1 is preserved as the historical VJS archive. It is not live runtime law unless a
+      V2 statute, rule, or order expressly incorporates it.
+    kernel_effect:
+      v1_is_archive: true
+      incorporation_required: true
+
+  - id: ACT-CONSTITUTION:s8
+    title: Kernel authority
+    rule: >
+      The kernel is the operating clerk. It does not litigate, judge, or model-call. It
+      resolves authority deterministically and returns bounded instructions.
+    kernel_effect:
+      kernel_is_clerk: true
+      no_model_calls: true
+
+  - id: ACT-CONSTITUTION:s9
+    title: Specs as first-class law
+    rule: >
+      A Spec is a compact, machine-checkable contract. It contains purpose, scope, decisions,
+      invariants, obligations, and prohibited states. The kernel can answer whether a change
+      is allowed under a spec.
+    kernel_effect:
+      specs_first_class: true
+      requires_spec_evaluation: true

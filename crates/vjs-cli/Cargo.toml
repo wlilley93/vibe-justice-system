@@ -1,0 +1,31 @@
+[package]
+name = "vjs-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "vjs"
+path = "src/main.rs"
+
+[dependencies]
+vjs-core = { path = "../vjs-core" }
+vjs-lawpack = { path = "../vjs-lawpack" }
+vjs-store = { path = "../vjs-store" }
+vjs-git = { path = "../vjs-git" }
+vjs-redact = { path = "../vjs-redact" }
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml.workspace = true
+thiserror.workspace = true
+chrono.workspace = true
+clap.workspace = true
+regex.workspace = true
+dirs.workspace = true
+sha2.workspace = true
+hex.workspace = true
+
+[dev-dependencies]
+serde_yaml.workspace = true

@@ -1,0 +1,10 @@
+id: REG-CITATION-001
+title: Citation Collision Prevention Regulation
+authority: ACT-RECORDS-LOGS:s2
+status: in_force
+rule:
+  when:
+    - order_created
+  must:
+    - unique_citation
+  failure_mode: fatal

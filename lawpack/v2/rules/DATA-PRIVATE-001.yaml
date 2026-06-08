@@ -1,0 +1,25 @@
+id: DATA-PRIVATE-001
+title: Private facts stay local
+status: binding
+rank: regulation
+scope:
+  jurisdictions:
+    - "*"
+  action_kinds:
+    - public_record_change
+    - external_act
+effect:
+  must:
+    - redact_private_facts
+    - run_public_private_scan
+  must_not:
+    - publish_private_facts
+    - publish_secrets
+    - publish_tokens
+    - publish_unredacted_evidence
+source:
+  v1:
+    - Bill 27
+    - Data boundary sweep
+summary: Public records must not contain private operational facts or secrets.
+supersedes: []

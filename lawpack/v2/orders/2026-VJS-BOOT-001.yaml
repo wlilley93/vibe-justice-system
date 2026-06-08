@@ -1,0 +1,29 @@
+id: 2026-VJS-BOOT-001
+court: county
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: vjs-v2-governance
+holding: V2 uses orders, rules, and logs as runtime law.
+directives:
+  - id: D1
+    actor: agent
+    must: use_orders_as_runtime
+    when: governed_load_bearing_act
+  - id: D2
+    actor: agent
+    must: use_rules_as_runtime
+    when: governed_load_bearing_act
+  - id: D3
+    actor: agent
+    must: use_logs_as_runtime
+    when: governed_load_bearing_act
+forbidden:
+  - use_v1_archive_as_runtime
+  - use_full_judgments_as_runtime
+exceptions:
+  - expressly_incorporated
+supersedes: []
+source_opinion: null
+runtime_summary: V2 runtime authority is orders, rules, and logs. V1 archive is not runtime context unless expressly incorporated.
+created_at: "2026-06-08T00:00:00Z"

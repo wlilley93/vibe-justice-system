@@ -1,0 +1,18 @@
+[vjs]
+version = "2"
+jurisdiction_id = "agent-universe-v2"
+lawpack = "vjs-v2@0.1.0"
+
+[paths]
+orders = ".vjs/orders"
+logs = ".vjs/logs"
+submissions = ".vjs/submissions"
+specs = "lawpack/v2/specs"
+decisions = "lawpack/v2/decisions"
+proofs = ".vjs/proofs"
+permits = ".vjs/permits"
+private = ".vjs/private"
+cache = ".vjs/cache"
+
+[paths.public]
+enabled = false

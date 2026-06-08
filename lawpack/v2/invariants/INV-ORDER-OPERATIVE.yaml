@@ -1,0 +1,16 @@
+id: INV-ORDER-OPERATIVE
+title: Court orders must contain operative directives
+scope:
+  records:
+    - court_order
+rule:
+  requires_fields:
+    - holding
+    - directives
+    - runtime_summary
+severity: fatal
+failure_route: reject_order
+
+basis:
+  - ACT-COURTS-ORDERS:s5
+  - ACT-COURTS-ORDERS:s6

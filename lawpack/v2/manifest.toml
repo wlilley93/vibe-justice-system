@@ -1,0 +1,19 @@
+id = "vjs-v2"
+version = "0.1.0"
+status = "alpha"
+canonical = true
+created_at = "2026-06-08T00:00:00Z"
+archive_source = "vjs-v1-archive"
+
+[limits]
+route_max_authorities = 5
+route_max_words = 300
+rule_summary_max_words = 120
+decision_log_max_words = 150
+county_submission_max_words = 500
+county_order_max_words = 500
+county_opinion_max_words = 2000
+privy_submission_max_words = 1000
+privy_order_max_words = 1000
+privy_opinion_max_words = 5000
+supreme_order_max_words = 1500

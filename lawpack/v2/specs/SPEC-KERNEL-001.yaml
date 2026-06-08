@@ -1,0 +1,35 @@
+id: SPEC-KERNEL-001
+title: VJS kernel determinism spec
+scope:
+  paths:
+    - crates/vjs-core/**
+    - crates/vjs-lawpack/**
+  action_kinds:
+    - implementation_decision
+    - dependency_change
+    - refactor
+owner: principal
+status: active
+
+purpose: >
+  The core kernel must remain deterministic, local-first, and independent
+  of model judgement.
+
+decisions:
+  - DEC-KERNEL-001
+  - DEC-KERNEL-002
+
+invariants:
+  - INV-KERNEL-001
+  - INV-KERNEL-002
+  - INV-KERNEL-003
+
+obligations:
+  - OBL-LOG-001
+  - OBL-TEST-001
+
+review_triggers:
+  - dependency_added
+  - network_capability_added
+  - model_call_added
+  - authority_ranking_changed
