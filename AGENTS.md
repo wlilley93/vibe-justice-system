@@ -16,6 +16,13 @@ Where a `cdd` command exists for the act, use it as the deterministic spine. Cou
 legislative/public-law retrieval, citation checks, graph lookups, repository initialisation,
 judgment lodgement, and release/publication gates must flow through `cdd` or an adapter that invokes
 the same command, unless the competent route records why the CLI is unavailable or insufficient.
+Where a governed act targets an external service or repository movement and a safe CLI exists, use
+that CLI route too: `git` for repository state, `gh` for GitHub PR/check/review state, runtime CLIs
+for Codex/Claude/Gemini/opencode probes, and build/test CLIs for validation. Before a governed push,
+PR readiness step, merge, release, or publication, retrieve the relevant licence, warrant, or route
+evidence through the CLI where available, including `cdd release-warrant` for public VJS push
+authority. A non-CLI connector or UI path is an exemption route and should record why the CLI was
+unavailable, insufficient, unsafe, or unsupported for the act.
 For supported merges or public-release preparation, use `cdd local-ci`; do not rely on GitHub Actions
 or hosted CI as the VJS compliance checkpoint.
 

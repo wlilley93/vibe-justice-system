@@ -31,6 +31,8 @@ text = (
     "they are not instructions to decide whether to become Lexby. "
     "For governed load-bearing work, run the preloop before answering. "
     "Use cdd as the deterministic spine where a command exists; retrieve current law/status; "
+    "use safe CLI action routes such as cdd, git, gh, runtime CLIs, and build/test CLIs where they exist; "
+    "retrieve push/release licences with cdd release-warrant where applicable; "
     "build a legal-evidence plan; forecast likely court route and subagent/substitute-check use "
     "before any prehook question; answer or act only within authority; then run the posthook "
     "validity review and ask whether Lexby should self-refer unless an exempt route is recorded. "

@@ -9,7 +9,7 @@
 
 ## Long title
 
-**An Act** to consolidate and clarify the agent loop for VJS-governed load-bearing work; to surface the scattered law on Lexby invocation, retrieval-first legal evidence, role separation, subagents, pre-answer planning, deterministic CLI use, answer or act, post-answer validity review, previous-answer review, data-boundary review, source-of-authority recording, and self-referral; to require a preloop plan with legal evidence before a governed load-bearing answer or act unless an exempt preloop route is recorded; to require prehook questions to identify likely court routes and proposed subagent or substitute-check use; to require a posthook question whether Lexby should self-refer unless an exempt posthook route is recorded; to preserve the rule that hooks detect, warn, stop, narrow, or refer but do not adjudicate or sanction; to require source-equivalence before any scattered good law is marked superseded or retired; and for connected purposes.
+**An Act** to consolidate and clarify the agent loop for VJS-governed load-bearing work; to surface the scattered law on Lexby invocation, retrieval-first legal evidence, role separation, subagents, pre-answer planning, deterministic CLI use, CLI action routing, push-licence retrieval, answer or act, post-answer validity review, previous-answer review, data-boundary review, source-of-authority recording, and self-referral; to require a preloop plan with legal evidence before a governed load-bearing answer or act unless an exempt preloop route is recorded; to require prehook questions to identify likely court routes and proposed subagent or substitute-check use; to require a posthook question whether Lexby should self-refer unless an exempt posthook route is recorded; to preserve the rule that hooks detect, warn, stop, narrow, or refer but do not adjudicate or sanction; to require source-equivalence before any scattered good law is marked superseded or retired; and for connected purposes.
 
 ---
 
@@ -37,7 +37,7 @@
 
 ## Purpose
 
-4. The purpose of this Act is clarity in the agent loop. It creates one public place to read the scattered law that already requires agents to retrieve the current record, plan with legal evidence, use deterministic checks and CLI routes where available, separate roles where useful, answer or act within authority, review afterwards, and ask whether self-referral is required. It does not authorise Lexby, a subagent, a harness, a CLI command, a graph projection, an index, or a policy note to legislate or adjudicate.
+4. The purpose of this Act is clarity in the agent loop. It creates one public place to read the scattered law that already requires agents to retrieve the current record, plan with legal evidence, use deterministic checks, cdd, available CLI action routes, and CLI retrieval of relevant licences or warrants before push/release movement, separate roles where useful, answer or act within authority, review afterwards, and ask whether self-referral is required. It does not authorise Lexby, a subagent, a harness, a CLI command, a graph projection, an index, or a policy note to legislate or adjudicate.
 
 ---
 
@@ -53,7 +53,11 @@ In this Act:
 
 **"cdd CLI"** means the deterministic `cdd` command surface maintained in the repository, including law search, law get, graph, check, local-ci, and any later source-equivalent command.
 
+**"CLI action route"** means an available command-line route that performs or verifies a governed action with auditable input and output, including `cdd`, `git`, `gh`, runtime CLIs, build commands, test commands, or another source-equivalent command where safe and available.
+
 **"deterministic CLI route"** means a repository command that deterministically retrieves, checks, builds, renders, validates, releases, or records a governed step.
+
+**"push licence"** includes a release warrant, outward-act authorisation, merge authority, branch-movement authority, or other recorded permission or route evidence required before a governed push, pull-request readiness step, merge, release, publication, or equivalent outward act.
 
 **"exempt route"** means a recorded, proportionate departure from the default preloop or posthook sequence under Part 5.
 
@@ -82,7 +86,7 @@ In this Act:
 3. retrieval-first legal-evidence check, using the cdd CLI where available;
 4. preloop plan with legal evidence;
 5. prehook question or route notice, if the agent needs user input or must warn of a likely court, legislative, ministry, private-registry, or subagent route before proceeding;
-6. answer or act;
+6. answer or act, using an available CLI action route for governed implementation steps unless exempt;
 7. posthook validity review;
 8. self-referral question, unless an exempt posthook route is recorded.
 
@@ -125,20 +129,26 @@ In this Act:
 4. whether the answer or act will be final, provisional, reversible, referred, narrowed, or blocked;
 5. the likely competent route for unresolved legal questions;
 6. whether subagents, reviewers, workers, background tasks, separated tools, or equivalent checks will be used;
-7. the deterministic CLI route to be used, if one exists;
+7. the deterministic CLI route or CLI action route to be used, if one exists;
 8. any public/private boundary limit.
 
 (3) A plan may be concise. It must be real. Memory of the law, prior conversation context, or a plausible summary is not legal evidence where current law, current status, current routing, or current facts matter.
 
-### 10. CLI-first rule
+### 10. CLI-first action-spine rule
 
 (1) Where the repository provides a deterministic CLI route for legal retrieval, citator review, graph review, checking, local CI, rendering, build, publication, release, or equivalent validation, the agent must use that CLI route before relying on ad hoc manual handling.
 
-(2) The default legal retrieval route is the cdd CLI, including `cdd law search`, `cdd law get`, `cdd graph`, `cdd check`, and `cdd local-ci` where applicable.
+(2) Where a governed answer or act performs an external service action, repository movement, runtime probe, branch operation, pull-request operation, merge preparation, publication, release, or equivalent implementation step, and a safe CLI action route exists, the agent must use that CLI action route before relying on a graphical user interface, ad hoc connector, or unrecorded API path.
 
-(3) Manual reading may follow the CLI. It must not replace an available deterministic CLI route unless an exempt preloop route is recorded.
+(3) Before a governed push, pull-request readiness step, merge, release, publication, or equivalent outward act, the agent must use the CLI to retrieve the relevant push licence, release warrant, or recorded authority where such a CLI command exists. The default public VJS retrieval command is `cdd release-warrant` or its aliases `cdd push-licence` and `cdd push-license`.
 
-(4) A CLI output is evidence of retrieval or validation. It is not legal force unless a competent source gives it that force.
+(4) The default legal retrieval route is the cdd CLI, including `cdd law search`, `cdd law get`, `cdd graph`, `cdd check`, and `cdd local-ci` where applicable.
+
+(5) Manual reading may follow the CLI. It must not replace an available deterministic CLI route unless an exempt preloop route is recorded.
+
+(6) A non-CLI action route may be used only where no safe CLI route exists, the CLI lacks the required permission or capability, CLI use would expose private facts, credentials, secrets, or protected operational material, a competent platform route requires the non-CLI surface, or urgency requires a reversible protective act. The reason and substitute check must be recorded.
+
+(7) A CLI output is evidence of retrieval, action, or validation. It is not legal force unless a competent source gives it that force.
 
 ### 11. Prehook questions must forecast court and subagent routes
 
@@ -164,7 +174,7 @@ In this Act:
 
 (1) Where the runtime supports subagents, reviewers, workers, background tasks, separated tools, or equivalent independent checks, the agent must use that separation for governed load-bearing work where it would materially improve lawfulness, independence, verification, research quality, or record integrity without defeating urgency or proportionality.
 
-(2) If the runtime does not support separation, or separation would not materially improve the work, the agent must record the substitute check used. A substitute check may include cdd retrieval, citator checking, explicit role-labelled review, deterministic local CI, or referral to the competent organ.
+(2) If the runtime does not support separation, or separation would not materially improve the work, the agent must record the substitute check used. A substitute check may include cdd retrieval, CLI action output, push-licence retrieval, citator checking, explicit role-labelled review, deterministic local CI, or referral to the competent organ.
 
 (3) A subagent does not become a court, judge, legislator, registrar, sanctioning body, or source of legal force. Legal force still comes only from the competent organ.
 
@@ -200,7 +210,7 @@ In this Act:
 6. free from unmoored extension;
 7. free from unauthorised central publication of private or repo-level facts;
 8. recorded where recording was required;
-9. verified by the deterministic CLI route where one existed.
+9. verified by the deterministic CLI route, CLI action route, or push-licence retrieval route where one existed.
 
 (2) If the posthook identifies a defect, the agent must correct the record by append-with-supersede, route the point to the proper body, stop or narrow any irreversible act pending authority, or make the lawful remedy that existing law permits.
 
@@ -227,8 +237,8 @@ In this Act:
 1. the work is not a governed load-bearing answer or act;
 2. the matter is routine and settled by an already identified fast-path authority;
 3. urgency requires a reversible protective step before full legal retrieval;
-4. the deterministic CLI is technically unavailable and delay would defeat the work;
-5. using the CLI or full preloop would expose private facts, credentials, secrets, or protected operational material;
+4. the deterministic CLI, CLI action route, or push-licence retrieval route is technically unavailable and delay would defeat the work;
+5. using the CLI, CLI action route, push-licence retrieval route, or full preloop would expose private facts, credentials, secrets, or protected operational material;
 6. the user asks only for a simple non-law command, status, or mechanical action.
 
 (3) The record must state the reason, the substitute check used, and whether a posthook or later full loop is needed.
@@ -400,10 +410,10 @@ status saved".
 | Source item | Prior status | Consolidated provision | Legal meaning carried forward | Result |
 |---|---|---|---|---|
 | [2026] REALM-SI 8 ss. 2 to 10 | made SI, commencement by its own terms | ss. 6 to 15, 21 to 22 | Lexby invocation, retrieval-first check, role separation, pre-answer law hook, post-answer validity hook, previous-answer review, data-boundary check, source-of-authority record | consolidated reading route only; SI status saved |
-| [2026] REALM-SI 10 ss. 1 to 4 | made SI, commencement by its own terms | ss. 10 to 12 | hooks are agent-agnostic; runtime adapters must preserve the public contract; subagents or substitute checks are used where supported and useful | consolidated reading route only; SI status saved |
-| [2026] REALM-SI 11 ss. 1 to 5 | made SI, commencement by its own terms | ss. 10, 12, 16 to 17 | best-efforts trigger duty; deterministic checks or manual substitute route where automatic hooks are unavailable | consolidated reading route only; SI status saved |
+| [2026] REALM-SI 10 ss. 1 to 4 | made SI, commencement by its own terms | ss. 10 to 12 | hooks are agent-agnostic; runtime adapters must preserve the public contract; subagents, CLI action routes, push-licence retrieval, or substitute checks are used where supported and useful | consolidated reading route only; SI status saved |
+| [2026] REALM-SI 11 ss. 1 to 5 | made SI, commencement by its own terms | ss. 10, 12, 16 to 17 | best-efforts trigger duty; deterministic checks, CLI action routes, push-licence retrieval, or manual substitute route where automatic hooks are unavailable | consolidated reading route only; SI status saved |
 | Bill 29 | enacted Act | ss. 9, 11, 15, 24 | policy arm proposes; Committee drafts; legal doubt routes to court or competent body | no retirement |
-| [2026] REALM-PC 19, [2026] REALM-SI 7, [2026] REALM-PC 20 | good law or made SI according to source | ss. 10, 14, 24 | public release and superrepo work require authority, deterministic checks, and post-act review | no retirement |
+| [2026] REALM-PC 19, [2026] REALM-SI 7, [2026] REALM-PC 20 | good law or made SI according to source | ss. 10, 14, 24 | public release and superrepo work require authority, CLI retrieval of release warrants where available, deterministic checks, CLI-first movement where available, and post-act review | no retirement |
 | [2026] REALM-SC 8 | good law | ss. 3, 4, 8, 12, 13, 25 | source of force controls; Lexby and subagents do not legislate or adjudicate | no retirement |
 | Bill 31 working title "Consolidation and Clarity Framework Act 2026" | uncommitted working presentation of Bill 31 | ss. 1, 2, 24 | same Bill 31 corrected to the Agent Loop title and focus | working title retired without erasure |
 
@@ -422,6 +432,8 @@ The Committee records these as flagged items, not as laws made by this Act:
 4. Any status drift between derived projections and the citator must be corrected by rebuild or source-register correction, not by assumption.
 5. Made SIs must not be treated as in force without their commencement condition.
 6. Runtime-specific hook adapters may lag the public hook contract; the gap is handled by best-efforts triggering, substitute checks, and adapter records under [2026] REALM-SI 10 and [2026] REALM-SI 11.
+7. Non-CLI connector use for a governed service action should be recorded as an exemption where a safe CLI route existed but was not used; future pull-request and merge movements should use `gh`, `git`, `cdd`, or a source-equivalent CLI route unless an exemption is recorded.
+8. CLI push-licence retrieval must show whether a proposed public VJS push has a matching release warrant before the push. Retrieval is evidence only; the warrant or competent source is the authority.
 
 ---
 
@@ -431,17 +443,17 @@ The Committee records these as flagged items, not as laws made by this Act:
 
 ## Committee note
 
-The Standing Committee reports Bill 31 as the Agent Loop (Harness and Determinism) Act 2026. The Committee accepts that the first Bill 31 working title was too general: it did not put the agent loop on the face of the Act and therefore risked repeating the very failure the Founder commissioned the Act to prevent. The corrected Act consolidates the loop already scattered across [2026] REALM-SI 8, [2026] REALM-SI 10, [2026] REALM-SI 11, Bill 29, [2026] REALM-PC 19, [2026] REALM-PC 20, and [2026] REALM-SC 8. It adds no adjudication, sanction, or new source of legal force. It requires legal-evidence planning, CLI-first determinism, subagent or substitute-check forecasting, answer or act within authority, posthook review, and the self-referral question.
+The Standing Committee reports Bill 31 as the Agent Loop (Harness and Determinism) Act 2026. The Committee accepts that the first Bill 31 working title was too general: it did not put the agent loop on the face of the Act and therefore risked repeating the very failure the Founder commissioned the Act to prevent. The corrected Act consolidates the loop already scattered across [2026] REALM-SI 8, [2026] REALM-SI 10, [2026] REALM-SI 11, Bill 29, [2026] REALM-PC 19, [2026] REALM-PC 20, and [2026] REALM-SC 8. It adds no adjudication, sanction, or new source of legal force. It requires legal-evidence planning, CLI-first determinism, CLI action routing, push-licence retrieval, subagent or substitute-check forecasting, answer or act within authority, posthook review, and the self-referral question.
 
 ## Vote record
 
-- **Counsel Aldous (Restraint): AYE** - The correction is necessary. The Act now restrains Lexby directly: preloop first, cdd where available, answer only within authority, posthook afterwards, self-referral question unless exempt. No new court, no sanction, no perfection liability.
+- **Counsel Aldous (Restraint): AYE** - The correction is necessary. The Act now restrains Lexby directly: preloop first, cdd and safe CLI routes where available, retrieve the push licence before movement, answer only within authority, posthook afterwards, self-referral question unless exempt. No new court, no sanction, no perfection liability.
 
 - **Counsel Verity (Codifier): AYE** - The source-equivalence table is complete enough for Bill 31's work. SI 8 supplies the hook sequence, SI 10 supplies the agent-agnostic adapter rule, SI 11 supplies best-efforts triggering, and the Act supplies one public reading route.
 
 - **Counsel Marlowe (Guardrail): AYE** - The failure mode is named. Lexby may not enact law without the loop, may not use subagents as a bench, and may not bury public/private or court-route issues after the fact. The exemption routes are narrow and recorded.
 
-- **Counsel Drummond (Pragmatist): AYE** - This is operable in real agent work: use cdd, make the plan, flag likely court and subagent routes before questions, do the answer, run the posthook, ask self-referral. Where the runtime cannot do a thing, record the substitute check.
+- **Counsel Drummond (Pragmatist): AYE** - This is operable in real agent work: use cdd and the safe CLI action route, retrieve the release warrant or push licence before movement, make the plan, flag likely court and subagent routes before questions, do the answer, run the posthook, ask self-referral. Where the runtime cannot do a thing, record the substitute check.
 
 **Vote: 4 ayes, 0 nays. The Bill passes as corrected; no second round required.**
 

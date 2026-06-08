@@ -24,6 +24,7 @@ npm link ./Executive/cli   # then: cdd --help   /   vjs --help
 | `cdd law get "<citation\|id>" [--include-source] [--max-chars N] [--json]` | Resolve one public law pointer. Source text is omitted by default and bounded when explicitly requested. |
 | `cdd graph node "<node\|citation>" [--json]` | Resolve one public Gazette graph node from `site/citator-graph.json`. |
 | `cdd graph edges "<node\|citation>" [--dir in\|out\|both] [--type TYPE] [--limit N] [--json]` | Return bounded adjacent graph edges with compact neighbouring node summaries and `briefWhy`. |
+| `cdd release-warrant [--remote-url URL] [--remote-ref REF] [--local-sha SHA] [--json]` | Retrieve push/release warrant evidence for a proposed public VJS push. Aliases: `cdd push-licence`, `cdd push-license`. |
 | `cdd submit-request "<question>"` | Print a delegable workflow invocation to file a Request for Ruling. Claude Code can run the printed `Workflow` example; other agents should use their equivalent delegable workflow adapter. |
 | `cdd submit-breach "<charge>"` | Print a delegable workflow invocation to file a Breach. |
 | `cdd --version` | Print version. |

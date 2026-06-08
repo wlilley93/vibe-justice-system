@@ -17,6 +17,7 @@ const {
   graphNode,
   graphEdges,
 } = require('../lib/law-lookup');
+const { releaseWarrantReport } = require('../lib/release-warrant');
 
 const CLI_ROOT = path.resolve(__dirname, '..');
 const REPO_ROOT = path.resolve(__dirname, '..', '..', '..'); // the vibe-justice-system repo root
@@ -808,6 +809,51 @@ function printGraphNode(record) {
   if (record.counts) process.stdout.write(`  edges: ${record.counts.incoming} in, ${record.counts.outgoing} out\n`);
 }
 
+function printReleaseWarrantReport(report) {
+  process.stdout.write(`release-warrant: ${report.requiresWarrant ? 'public VJS warrant required' : 'no public VJS warrant required for this remote'}\n`);
+  if (report.proposed.remoteUrl) process.stdout.write(`  remote: ${report.proposed.remoteUrl}\n`);
+  if (report.proposed.remoteRef) process.stdout.write(`  ref:    ${report.proposed.remoteRef}\n`);
+  if (report.proposed.localSha) process.stdout.write(`  sha:    ${report.proposed.localSha}\n`);
+  if (report.matchingRecords.length) {
+    process.stdout.write('  matching record(s):\n');
+    for (const rel of report.matchingRecords) process.stdout.write(`  - ${rel}\n`);
+  } else if (report.requiresWarrant) {
+    process.stdout.write('  matching record(s): none\n');
+  }
+  if (report.records.length) {
+    process.stdout.write('\nrecords found:\n');
+    for (const record of report.records) {
+      process.stdout.write(`- ${record.path}: ${record.match ? 'MATCH' : 'no match'}\n`);
+      if (record.authorisedBy) process.stdout.write(`  authorised by: ${record.authorisedBy}\n`);
+      if (record.authorisedAt) process.stdout.write(`  authorised at: ${record.authorisedAt}\n`);
+      if (record.scopedRemoteUrl) process.stdout.write(`  remote: ${record.scopedRemoteUrl}\n`);
+      if (record.scopedRemoteRef) process.stdout.write(`  ref: ${record.scopedRemoteRef}\n`);
+      if (record.scopedLocalSha) process.stdout.write(`  sha: ${record.scopedLocalSha}\n`);
+      if (record.legalAuthority) process.stdout.write(`  authority: ${record.legalAuthority}\n`);
+      for (const reason of record.matchReasons) process.stdout.write(`  reason: ${reason}\n`);
+    }
+  } else {
+    process.stdout.write('\nrecords found: none\n');
+  }
+  process.stdout.write(`\n${report.note}\n`);
+}
+
+function cmdReleaseWarrant(args) {
+  const root = findRepoRoot(process.cwd()) || process.cwd();
+  const report = releaseWarrantReport(root, {
+    remoteUrl: args['remote-url'] || args.remote,
+    remoteRef: args['remote-ref'] || args.ref,
+    localSha: args['local-sha'] || args.sha,
+  });
+  if (args.json) {
+    process.stdout.write(JSON.stringify(report, null, 2) + '\n');
+    if (!report.ok) process.exit(1);
+    return;
+  }
+  printReleaseWarrantReport(report);
+  if (!report.ok) process.exit(1);
+}
+
 function cmdGraph(args) {
   const sub = args._[0];
   const root = lawRoot();
@@ -873,6 +919,10 @@ function main() {
     case 'lodge-judgment': return cmdLodgeJudgment(args);
     case 'law': return cmdLaw(args);
     case 'graph': return cmdGraph(args);
+    case 'release-warrant':
+    case 'push-licence':
+    case 'push-license':
+      return cmdReleaseWarrant(args);
     case 'init': return cmdInit(args);
     case 'submit-request': return process.stdout.write(workflowInvocation('first-instance.js', 'request_for_ruling', args._[0]));
     case 'submit-breach': return process.stdout.write(workflowInvocation('first-instance.js', 'breach', args._[0]));
@@ -895,6 +945,7 @@ Commands:
   law get "<citation|id>"          Resolve a public law pointer. Source text is omitted unless --include-source is explicit; use --max-chars N to bound it. --json supported.
   graph node "<node|citation>"     Resolve one Gazette graph node from citator-graph.json. --json supported.
   graph edges "<node|citation>"    Return bounded adjacent Gazette graph edges. Flags: --dir in|out|both, --type TYPE, --limit N, --json.
+  release-warrant                  Retrieve push/release warrant evidence for a proposed public VJS push. Aliases: push-licence, push-license. Flags: --remote-url URL, --remote-ref REF, --local-sha SHA, --json.
   submit-request "<question>"      Print a delegable workflow invocation to file a Request for Ruling
   submit-breach "<charge>"         Print a delegable workflow invocation to file a Breach
   --version                        Print version

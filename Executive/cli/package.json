@@ -7,7 +7,7 @@
     "vjs": "bin/cdd.js"
   },
   "scripts": {
-    "test": "node lib/citation.test.js && node lib/bench-name-scan.test.js && node lib/law-lookup.test.js && node lib/judgment-provenance-scan.test.js && node lib/init-preflight.test.js",
+    "test": "node lib/citation.test.js && node lib/bench-name-scan.test.js && node lib/law-lookup.test.js && node lib/release-warrant.test.js && node lib/judgment-provenance-scan.test.js && node lib/init-preflight.test.js",
     "test:bench-names": "node lib/bench-name-scan.test.js"
   },
   "files": [
