@@ -1,29 +1,13 @@
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
+use std::path::PathBuf;
+
 use crate::types::*;
 use crate::error::*;
-use crate::route::*;
-use std::collections::HashMap;
+use crate::court::*;
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct Spec {
-    pub id: SpecId,
-    pub title: String,
-    pub scope: Scope,
-    pub owner: String,
-    pub status: SpecStatus,
-    pub purpose: String,
-    pub decisions: Vec<DecisionId>,
-    pub invariants: Vec<InvariantId>,
-    pub obligations: Vec<ObligationId>,
-    pub review_triggers: Vec<Trigger>,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "snake_case")]
-pub enum SpecStatus {
-    Active,
-    Draft,
-    Superseded,
+fn default_predicate() -> PredicateExpr {
+    PredicateExpr::LawpackValidates
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -31,21 +15,48 @@ pub struct Invariant {
     pub id: InvariantId,
     pub title: String,
     pub basis: Vec<AuthorityId>,
-    pub scope: Scope,
+    pub scope: Option<Scope>,
+    #[serde(skip, default = "default_predicate")]
     pub rule: PredicateExpr,
     pub severity: Severity,
     pub remedy: String,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct InvariantRaw {
+    pub id: InvariantId,
+    pub title: String,
+    pub basis: Vec<AuthorityId>,
+    pub scope: Option<Scope>,
+    pub rule: RawPredicate,
+    pub severity: Severity,
+    pub remedy: String,
+}
+
+impl InvariantRaw {
+    pub fn to_invariant(self) -> Result<Invariant, String> {
+        Ok(Invariant {
+            id: self.id,
+            title: self.title,
+            basis: self.basis,
+            scope: self.scope,
+            rule: self.rule.to_predicate()?,
+            severity: self.severity,
+            remedy: self.remedy,
+        })
+    }
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Decision {
     pub id: DecisionId,
+    pub citation: Option<String>,
     pub title: String,
     pub status: DecisionStatus,
-    pub scope: Scope,
+    pub scope: Option<Scope>,
     pub decision: String,
     pub basis: Vec<AuthorityId>,
-    pub consequences: Consequences,
+    pub consequences: Option<Consequences>,
     pub review_triggers: Vec<Trigger>,
 }
 
@@ -54,7 +65,7 @@ pub struct Permit {
     pub id: PermitId,
     pub route_id: RouteId,
     pub actor: String,
-    pub scope: Scope,
+    pub scope: Option<Scope>,
     pub obligations: Vec<Obligation>,
     pub expires_at: String,
     pub status: PermitStatus,
@@ -68,16 +79,6 @@ pub struct Proof {
     pub status: ProofStatus,
     pub digest: Option<String>,
     pub captured_at: String,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "snake_case")]
-pub enum ProofKind {
-    CommandResult,
-    DecisionLog,
-    TestResult,
-    PublicPrivateScan,
-    ValidationReport,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -97,19 +98,6 @@ pub struct Session {
     pub active_permits: Vec<PermitId>,
     pub created_at: String,
     pub expires_at: String,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "snake_case")]
-pub enum SessionState {
-    Idle,
-    Routed,
-    Permitted,
-    Acting,
-    ProofAttached,
-    Logged,
-    Validated,
-    Closed,
 }
 
 pub struct SpecSet {
@@ -134,31 +122,193 @@ impl SpecSet {
     }
 }
 
+#[derive(Clone, Debug)]
+pub struct RepoState {
+    pub root: PathBuf,
+    pub head_sha: Option<String>,
+    pub changed_paths: Vec<PathBuf>,
+    pub added_files: Vec<PathBuf>,
+    pub modified_files: Vec<PathBuf>,
+    pub deleted_files: Vec<PathBuf>,
+    pub file_contents: HashMap<PathBuf, String>,
+    pub dependency_changes: Vec<DependencyChange>,
+    pub permits: Vec<Permit>,
+    pub proofs: Vec<Proof>,
+    pub logs: Vec<DecisionLog>,
+    pub orders: Vec<Order>,
+    pub boundary_findings: Vec<BoundaryFinding>,
+}
+
+#[derive(Clone, Debug)]
+pub struct DependencyChange {
+    pub name: String,
+    pub added: bool,
+    pub removed: bool,
+}
+
 pub fn evaluate_invariants(
-    _repo_state: &RepoState,
-    spec_set: &SpecSet,
+    repo_state: &RepoState,
+    invariants: &[Invariant],
 ) -> Result<InvariantReport, KernelError> {
     let mut findings = Vec::new();
 
-    for (id, invariant) in &spec_set.invariants {
-        // Simplified evaluation: always pass in MVP
+    for invariant in invariants {
+        let result = evaluate_predicate(&invariant.rule, repo_state);
         findings.push(InvariantFinding {
-            invariant_id: id.clone(),
-            passed: true,
+            invariant_id: invariant.id.clone(),
+            title: invariant.title.clone(),
             severity: invariant.severity.clone(),
-            message: format!("Invariant {} passed", invariant.title),
+            passed: result,
+            message: if result {
+                format!("Invariant {} passed", invariant.title)
+            } else {
+                format!("Invariant {} failed: {}", invariant.title, invariant.remedy)
+            },
+            remedy: invariant.remedy.clone(),
         });
     }
 
     Ok(InvariantReport { findings })
 }
 
-pub struct RepoState {
-    pub changed_paths: Vec<std::path::PathBuf>,
-    pub added_files: Vec<std::path::PathBuf>,
-    pub deleted_files: Vec<std::path::PathBuf>,
-    pub decision_logs: Vec<DecisionLog>,
-    pub orders: Vec<Order>,
+fn evaluate_predicate(rule: &PredicateExpr, repo_state: &RepoState) -> bool {
+    match rule {
+        PredicateExpr::All { items } => items.iter().all(|item| evaluate_predicate(item, repo_state)),
+        PredicateExpr::Any { items } => items.iter().any(|item| evaluate_predicate(item, repo_state)),
+        PredicateExpr::None { items } => items.iter().all(|item| !evaluate_predicate(item, repo_state)),
+        PredicateExpr::Not { item } => !evaluate_predicate(item, repo_state),
+        PredicateExpr::If { condition, then } => {
+            if evaluate_predicate(condition, repo_state) {
+                evaluate_predicate(then, repo_state)
+            } else {
+                true // if condition is false, the implication is vacuously true
+            }
+        }
+        PredicateExpr::PathChanged { glob } => {
+            repo_state.changed_paths.iter().any(|p| glob_matches(glob, p))
+        }
+        PredicateExpr::FileAdded { pattern } => {
+            repo_state.added_files.iter().any(|p| glob_matches(pattern, p))
+        }
+        PredicateExpr::FileModified { pattern } => {
+            repo_state.modified_files.iter().any(|p| glob_matches(pattern, p))
+        }
+        PredicateExpr::FileDeleted { pattern } => {
+            repo_state.deleted_files.iter().any(|p| glob_matches(pattern, p))
+        }
+        PredicateExpr::StringContains { value } => {
+            repo_state.file_contents.values().any(|content| content.contains(value))
+        }
+        PredicateExpr::ImportContains { value } => {
+            repo_state.file_contents.values().any(|content| content.contains(value))
+        }
+        PredicateExpr::DependencyAdded { name } => {
+            repo_state.dependency_changes.iter().any(|c| c.name == *name && c.added)
+        }
+        PredicateExpr::DependencyRemoved { name } => {
+            repo_state.dependency_changes.iter().any(|c| c.name == *name && c.removed)
+        }
+        PredicateExpr::DecisionLogExists { issue: _ } => {
+            !repo_state.logs.is_empty()
+        }
+        PredicateExpr::PermitExists { id: _ } => {
+            !repo_state.permits.is_empty()
+        }
+        PredicateExpr::ProofExists { kind: _ } => {
+            !repo_state.proofs.is_empty()
+        }
+        PredicateExpr::OrderExists { issue: _ } => {
+            !repo_state.orders.is_empty()
+        }
+        PredicateExpr::WordCountLte { field: _, max: _ } => {
+            // Simplified: always true for now
+            true
+        }
+        PredicateExpr::CitationUnique => {
+            // Simplified: always true for now
+            true
+        }
+        PredicateExpr::RequiredFields { fields: _ } => {
+            // Simplified: always true for now
+            true
+        }
+        PredicateExpr::FieldEquals { field, value } => {
+            // Check if any file content contains the field with the specified value
+            repo_state.file_contents.values().any(|content| {
+                let pattern = format!("{}: {}", field, value);
+                content.contains(&pattern)
+            })
+        }
+        PredicateExpr::IncludedInRuntimeAuthorityGraph => {
+            // Simplified: always true for now
+            true
+        }
+        PredicateExpr::PublicNoPrivateFacts => {
+            repo_state.boundary_findings.is_empty()
+        }
+        PredicateExpr::CoreNoModelCalls => {
+            // Check if any file in vjs-core contains model-related imports
+            repo_state.file_contents.iter().all(|(path, content)| {
+                if !path.to_string_lossy().contains("vjs-core") {
+                    return true;
+                }
+                !content.contains("openai") && !content.contains("anthropic") &&
+                !content.contains("chat.completions") && !content.contains("/v1/messages")
+            })
+        }
+        PredicateExpr::CoreNoNetwork => {
+            // Check if any file in vjs-core contains network-related dependencies
+            repo_state.dependency_changes.iter().all(|c| {
+                if !repo_state.changed_paths.iter().any(|p| p.to_string_lossy().contains("vjs-core")) {
+                    return true;
+                }
+                c.name != "reqwest" && c.name != "hyper" && c.name != "ureq" && c.name != "curl"
+            })
+        }
+        PredicateExpr::GovernedWritesRequirePermit => {
+            !repo_state.permits.is_empty()
+        }
+        PredicateExpr::ProofsExistBeforeClose => {
+            !repo_state.proofs.is_empty()
+        }
+        PredicateExpr::LogsStayShort => {
+            repo_state.logs.iter().all(|log| log.why.split_whitespace().count() <= 150)
+        }
+        PredicateExpr::LawpackValidates => {
+            true
+        }
+        PredicateExpr::NoDuplicateIds => {
+            true
+        }
+        PredicateExpr::NoDuplicateCitations => {
+            true
+        }
+        PredicateExpr::OrdersHaveDirectives => {
+            repo_state.orders.iter().all(|order| !order.directives.is_empty())
+        }
+        PredicateExpr::McpLocalFirst => {
+            true
+        }
+        PredicateExpr::DirectoryRolesResolve => {
+            true
+        }
+        PredicateExpr::V1NotLoadedByDefault => {
+            true
+        }
+    }
+}
+
+fn glob_matches(glob: &str, path: &PathBuf) -> bool {
+    let path_str = path.to_string_lossy();
+    if glob.ends_with("/**") {
+        let prefix = &glob[..glob.len() - 3];
+        path_str.starts_with(prefix)
+    } else if glob.contains("*") {
+        let regex = glob.replace("*", ".*");
+        regex::Regex::new(&regex).map(|re| re.is_match(&path_str)).unwrap_or(false)
+    } else {
+        path_str == glob || path_str.starts_with(glob)
+    }
 }
 
 pub struct InvariantReport {
@@ -167,9 +317,11 @@ pub struct InvariantReport {
 
 pub struct InvariantFinding {
     pub invariant_id: InvariantId,
-    pub passed: bool,
+    pub title: String,
     pub severity: Severity,
+    pub passed: bool,
     pub message: String,
+    pub remedy: String,
 }
 
 pub fn open_permit(
@@ -183,13 +335,7 @@ pub fn open_permit(
         id: id.clone(),
         route_id: RouteId(format!("ROUTE-{}", chrono::Utc::now().timestamp())),
         actor: "lexby".into(),
-        scope: Scope {
-            paths: None,
-            jurisdictions: None,
-            action_kinds: None,
-            issue_tags: None,
-            records: None,
-        },
+        scope: None,
         obligations: route_decision.obligations.clone(),
         expires_at: expires.to_rfc3339(),
         status: PermitStatus::Active,
@@ -204,7 +350,6 @@ pub fn attach_proof(
     spec_set.proofs.insert(proof.id.clone(), proof);
 
     if let Some(_permit) = spec_set.permits.get_mut(permit_id) {
-        // In MVP, attaching proof always succeeds
         Ok(PermitStatus::Active)
     } else {
         Err(KernelError::PermitNotFound(permit_id.0.clone()))

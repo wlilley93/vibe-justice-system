@@ -1,0 +1,21 @@
+id: INV-LAWMAKING-001
+title: New law requires authority basis
+severity: fatal
+scope:
+  paths:
+    - lawpack/v2/statutes/**
+    - lawpack/v2/regulations/**
+    - lawpack/v2/rules/**
+rule:
+  kind: all
+  items:
+    - kind: required_fields
+      fields:
+        - authority
+        - status
+        - kernel_effect
+remedy: Add authority, status, and kernel_effect before treating the record as law.
+basis:
+  - ACT-004:s1
+  - REG-LAWMAKING-001
+  - SPEC-LAWMAKING-001

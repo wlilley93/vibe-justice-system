@@ -1,7 +1,8 @@
 id: INV-013
 title: V1 archive not loaded by default
 severity: error
-rule: v1_not_loaded_by_default
+rule:
+  kind: v1_not_loaded_by_default
 basis:
   - ACT-001:s4
   - DEC-001

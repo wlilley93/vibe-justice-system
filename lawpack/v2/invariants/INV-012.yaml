@@ -1,7 +1,8 @@
 id: INV-012
 title: Directory roles resolve inside repo
 severity: error
-rule: directory_roles_resolve
+rule:
+  kind: directory_roles_resolve
 basis:
   - ACT-007:s1
   - REG-002

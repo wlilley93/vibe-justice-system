@@ -6,6 +6,14 @@ license.workspace = true
 authors.workspace = true
 repository.workspace = true
 
+[[bin]]
+name = "vjs-mcp"
+path = "src/main.rs"
+
+[lib]
+name = "vjs_mcp"
+path = "src/lib.rs"
+
 [dependencies]
 vjs-core = { path = "../vjs-core" }
 vjs-lawpack = { path = "../vjs-lawpack" }
