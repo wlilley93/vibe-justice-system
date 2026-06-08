@@ -1,8 +1,10 @@
 id: INV-001
 title: Lawpack validates
 severity: fatal
-rule: lawpack_must_validate
+rule:
+  kind: lawpack_validates
 basis:
   - ACT-004:s1
   - REG-001
+  - REG-006
 remedy: Fix lawpack validation errors before proceeding.

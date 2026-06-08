@@ -1,0 +1,23 @@
+id: INV-LAWMAKING-002
+title: Draft law is not binding
+severity: fatal
+scope:
+  paths:
+    - lawpack/v2/statutes/**
+    - lawpack/v2/regulations/**
+    - lawpack/v2/rules/**
+rule:
+  kind: if
+  condition:
+    kind: field_equals
+    field: status
+    value: draft
+  then:
+    kind: not
+    item:
+      kind: included_in_runtime_authority_graph
+remedy: Assent, adopt, cite, validate, and enter into lawpack before runtime use.
+basis:
+  - ACT-001:s5
+  - REG-LAWMAKING-001
+  - SPEC-LAWMAKING-001

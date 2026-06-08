@@ -1,7 +1,13 @@
 id: INV-005
 title: Public records contain no private facts
 severity: fatal
-rule: public_no_private_facts
+scope:
+  paths:
+    - lawpack/v2/**
+    - public/**
+    - .vjs/**
+rule:
+  kind: public_no_private_facts
 basis:
   - ACT-005:s1
   - ACT-005:s7

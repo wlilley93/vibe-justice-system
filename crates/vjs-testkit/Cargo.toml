@@ -18,3 +18,5 @@ chrono.workspace = true
 
 [dev-dependencies]
 serde_yaml.workspace = true
+sha2.workspace = true
+hex.workspace = true

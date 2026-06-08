@@ -1,9 +1,16 @@
 id: INV-006
 title: vjs-core has no model calls
 severity: fatal
-rule: core_no_model_calls
+scope:
+  paths:
+    - crates/vjs-core/**
+    - crates/vjs-lawpack/**
+    - crates/vjs-store/**
+rule:
+  kind: core_no_model_calls
 basis:
   - ACT-003:s8
   - DEC-004
   - REG-006
+  - REG-007
 remedy: Move model interaction to adapter crate outside vjs-core.

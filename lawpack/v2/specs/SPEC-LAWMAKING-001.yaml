@@ -1,0 +1,29 @@
+id: SPEC-LAWMAKING-001
+citation: "[2026] VJS-SPEC 1"
+title: Lawpack amendment spec
+purpose: >
+  Ensure new legislation enters V2 only through proposal, validation, adoption,
+  citation, lawpack entry, and decision log.
+scope:
+  paths:
+    - lawpack/v2/statutes/**
+    - lawpack/v2/regulations/**
+    - lawpack/v2/rules/**
+  action_kinds:
+    - legislative_draft
+    - implementation_decision
+owner: principal
+status: active
+decisions:
+  - DEC-007
+invariants:
+  - INV-LAWMAKING-001
+  - INV-LAWMAKING-002
+obligations:
+  - proposal_record
+  - validation_report
+  - decision_log
+review_triggers:
+  - authority_basis_missing
+  - draft_treated_as_binding
+  - markdown_proposed_as_canonical

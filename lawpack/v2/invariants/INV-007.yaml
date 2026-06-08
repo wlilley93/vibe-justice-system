@@ -1,9 +1,16 @@
 id: INV-007
 title: vjs-core has no network calls
 severity: fatal
-rule: core_no_network
+scope:
+  paths:
+    - crates/vjs-core/**
+    - crates/vjs-lawpack/**
+    - crates/vjs-store/**
+rule:
+  kind: core_no_network
 basis:
   - ACT-003:s9
   - DEC-004
   - REG-006
+  - REG-007
 remedy: Move network code to vjs-mcp or vjs-git.

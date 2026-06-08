@@ -5,6 +5,7 @@ use std::path::{Path, PathBuf};
 use vjs_core::*;
 use vjs_core::types::*;
 use vjs_core::error::*;
+use vjs_core::spec::Permit;
 
 pub struct Store;
 
@@ -21,6 +22,7 @@ impl Store {
             "logs/breaches",
             "submissions/draft",
             "submissions/filed",
+            "permits",
             "cache",
             "private",
         ];
@@ -116,6 +118,45 @@ impl Store {
         }
 
         Ok(logs)
+    }
+
+    pub fn write_permit(repo_root: &Path, permit: &Permit) -> Result<(), KernelError> {
+        let permits_dir = repo_root.join(".vjs/permits");
+        std::fs::create_dir_all(&permits_dir)
+            .map_err(|e| KernelError::Io(e.to_string()))?;
+
+        let filename = format!("{}.yaml", permit.id.0);
+        let path = permits_dir.join(&filename);
+        let content = serde_yaml::to_string(permit)
+            .map_err(|e| KernelError::Serialization(e.to_string()))?;
+        std::fs::write(&path, content)
+            .map_err(|e| KernelError::Io(e.to_string()))?;
+
+        Ok(())
+    }
+
+    pub fn read_permits(repo_root: &Path) -> Result<Vec<Permit>, KernelError> {
+        let permits_dir = repo_root.join(".vjs/permits");
+        let mut permits = Vec::new();
+
+        if !permits_dir.exists() {
+            return Ok(permits);
+        }
+
+        for entry in std::fs::read_dir(&permits_dir)
+            .map_err(|e| KernelError::Io(e.to_string()))? {
+            let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
+            let path = entry.path();
+            if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
+                let content = std::fs::read_to_string(&path)
+                    .map_err(|e| KernelError::Io(e.to_string()))?;
+                let permit: Permit = serde_yaml::from_str(&content)
+                    .map_err(|e| KernelError::Serialization(e.to_string()))?;
+                permits.push(permit);
+            }
+        }
+
+        Ok(permits)
     }
 
     pub fn read_orders(repo_root: &Path) -> Result<Vec<Order>, KernelError> {

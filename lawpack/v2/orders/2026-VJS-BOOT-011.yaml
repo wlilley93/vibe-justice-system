@@ -1,0 +1,48 @@
+id: 2026-VJS-BOOT-011
+court: county
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: vjs-v2-alpha-hardening
+holding: >
+  VJS V2 alpha must harden predicate evaluation, repo state scanning, invariant
+  validation, permit enforcement, hooks, and tests before adding courts, Gazette,
+  migration automation, or other features.
+directives:
+  - id: D1
+    actor: agent
+    must: implement_predicate_dsl
+    when: always
+  - id: D2
+    actor: agent
+    must: implement_repo_state_scanner
+    when: always
+  - id: D3
+    actor: agent
+    must: wire_invariants_to_validate
+    when: always
+  - id: D4
+    actor: agent
+    must: persist_and_close_permits
+    when: always
+  - id: D5
+    actor: agent
+    must: install_hooks_on_init
+    when: always
+  - id: D6
+    actor: agent
+    must: add_golden_tests
+    when: always
+forbidden:
+  - expanding_doctrine_before_invariant_enforcement
+  - adding_gazette_features_before_kernel_validation
+  - adding_court_of_appeal_before_spine_hardened
+  - adding_semantic_search_before_kernel_validation
+  - adding_pdf_rendering_before_spine_hardened
+exceptions:
+  - principal_direction
+  - local_emergency
+supersedes: []
+source_opinion: null
+runtime_summary: Harden the deterministic spine before expanding V2. No doctrine, courts, Gazette, or migration until invariants, permits, hooks, and tests are real.
+created_at: "2026-06-08T00:00:00Z"

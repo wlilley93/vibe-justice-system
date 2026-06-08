@@ -6,6 +6,7 @@ use walkdir::WalkDir;
 use vjs_core::*;
 use vjs_core::types::*;
 use vjs_core::error::*;
+use vjs_core::spec::InvariantRaw;
 
 pub struct LawpackLoader;
 
@@ -94,21 +95,22 @@ impl LawpackLoader {
             }
         }
 
-        // Invariants temporarily disabled due to recursive PredicateExpr deserialization issue
-        // let invariants_dir = lawpack_dir.join("invariants");
-        // if invariants_dir.exists() {
-        //     for entry in WalkDir::new(&invariants_dir).max_depth(1) {
-        //         let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
-        //         let path = entry.path();
-        //         if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
-        //             let content = std::fs::read_to_string(path)
-        //                 .map_err(|e| KernelError::Io(e.to_string()))?;
-        //             let invariant: Invariant = serde_yaml::from_str(&content)
-        //                 .map_err(|e| KernelError::Serialization(e.to_string()))?;
-        //             invariants.push(invariant);
-        //         }
-        //     }
-        // }
+        let invariants_dir = lawpack_dir.join("invariants");
+        if invariants_dir.exists() {
+            for entry in WalkDir::new(&invariants_dir).max_depth(1) {
+                let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
+                let path = entry.path();
+                if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
+                    let content = std::fs::read_to_string(path)
+                        .map_err(|e| KernelError::Io(e.to_string()))?;
+                    let raw: InvariantRaw = serde_yaml::from_str(&content)
+                        .map_err(|e| KernelError::Serialization(e.to_string()))?;
+                    let invariant = raw.to_invariant()
+                        .map_err(|e| KernelError::Serialization(e))?;
+                    invariants.push(invariant);
+                }
+            }
+        }
 
         let decisions_dir = lawpack_dir.join("decisions");
         if decisions_dir.exists() {

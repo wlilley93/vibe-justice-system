@@ -1,0 +1,27 @@
+id: DEC-007
+citation: "[2026] VJS-DEC 7"
+title: Legislation is YAML-first
+status: active
+scope:
+  action_kinds:
+    - legislative_draft
+  paths:
+    - lawpack/v2/**
+decision: >
+  V2 legislation is canonical as schema-validated YAML. Markdown is rendered explanation only.
+  The kernel loads YAML. Human readers may read Markdown renderings.
+basis:
+  - ACT-001:s4
+  - ACT-004:s6
+  - REG-LAWMAKING-001
+reason: >
+  Machine-readable law is the runtime source. Markdown is commentary.
+  The kernel must not parse prose to determine authority.
+consequences:
+  must:
+    - validate_yaml_before_lawpack_entry
+    - treat_markdown_as_non_authoritative
+  must_not:
+    - load_markdown_as_runtime_law
+review_triggers:
+  - markdown_proposed_as_canonical

@@ -102,6 +102,10 @@ enum Commands {
         #[arg(long)]
         out: Option<PathBuf>,
     },
+    Permit {
+        #[command(subcommand)]
+        subcmd: PermitCommands,
+    },
 }
 
 #[derive(Subcommand)]
@@ -111,6 +115,17 @@ enum OrderCommands {
     },
     Apply {
         path: PathBuf,
+    },
+}
+
+#[derive(Subcommand)]
+enum PermitCommands {
+    List,
+    Close {
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        proof: Option<String>,
     },
 }
 
@@ -139,6 +154,7 @@ fn main() {
         Commands::Status => cmd_status(&repo, json),
         Commands::NextCitation { series, year } => cmd_next_citation(series, year, json),
         Commands::MigrateV1 { v1_path, out } => cmd_migrate_v1(&v1_path, out, json),
+        Commands::Permit { subcmd } => cmd_permit(&repo, subcmd, json),
     };
 
     if let Err(e) = result {
@@ -206,6 +222,20 @@ fn cmd_route(
 
     let ctx = build_kernel_context(repo)?;
     let decision = route(input, &ctx)?;
+
+    // Save permit if one was created
+    if let Some(ref permit_id) = decision.permit_id {
+        let permit = Permit {
+            id: permit_id.clone(),
+            route_id: RouteId(format!("ROUTE-{}", chrono::Utc::now().format("%Y%m%d-%H%M%S"))),
+            actor: "lexby".into(),
+            scope: None,
+            obligations: decision.obligations.clone(),
+            expires_at: (chrono::Utc::now() + chrono::Duration::hours(24)).to_rfc3339(),
+            status: PermitStatus::Active,
+        };
+        Store::write_permit(repo, &permit)?;
+    }
 
     if json {
         println!("{}", serde_json::to_string_pretty(&decision).unwrap());
@@ -365,6 +395,33 @@ fn cmd_validate(
                 message: format!("{} staged files", changed.len()),
                 suggested_fix: None,
             });
+            // Build repo state and evaluate invariants
+            let repo_state = RepoScanner::build_repo_state(repo)?;
+            let invariant_report = evaluate_invariants(&repo_state, &lawpack.invariants)?;
+            let mut invariant_failures = false;
+            for finding in &invariant_report.findings {
+                if !finding.passed {
+                    invariant_failures = true;
+                    findings.push(ValidationFinding {
+                        severity: finding.severity.clone(),
+                        code: finding.invariant_id.0.clone(),
+                        path: None,
+                        message: finding.message.clone(),
+                        suggested_fix: Some(finding.remedy.clone()),
+                    });
+                }
+            }
+            if invariant_failures {
+                ok = false;
+            } else {
+                findings.push(ValidationFinding {
+                    severity: Severity::Info,
+                    code: "INVARIANTS_PASS".into(),
+                    path: None,
+                    message: format!("{} invariants evaluated, all passed", invariant_report.findings.len()),
+                    suggested_fix: None,
+                });
+            }
         }
     }
 
@@ -481,6 +538,24 @@ fn cmd_local_ci(repo: &PathBuf, json: bool) -> Result<(), KernelError> {
         message: if order_ok { "Orders valid".into() } else { "Invalid orders found".into() },
     });
     if !order_ok {
+        ok = false;
+    }
+
+    // Step 5: Invariant evaluation
+    let repo_state = RepoScanner::build_repo_state(repo)?;
+    let invariant_report = evaluate_invariants(&repo_state, &lawpack.invariants)?;
+    let invariant_ok = invariant_report.findings.iter().all(|f| f.passed);
+    steps.push(CiStep {
+        name: "invariant_eval".into(),
+        passed: invariant_ok,
+        message: if invariant_ok {
+            format!("{} invariants passed", invariant_report.findings.len())
+        } else {
+            let failures: Vec<_> = invariant_report.findings.iter().filter(|f| !f.passed).map(|f| f.invariant_id.0.clone()).collect();
+            format!("Invariant failures: {}", failures.join(", "))
+        },
+    });
+    if !invariant_ok {
         ok = false;
     }
 
@@ -921,4 +996,63 @@ struct LawpackLock {
     lawpack_version: String,
     digest: String,
     generated_at: String,
+}
+
+fn cmd_permit(repo: &PathBuf, subcmd: PermitCommands, json: bool) -> Result<(), KernelError> {
+    match subcmd {
+        PermitCommands::List => {
+            let permits = Store::read_permits(repo)?;
+            if json {
+                println!("{}", serde_json::to_string_pretty(&permits).unwrap());
+            } else {
+                if permits.is_empty() {
+                    println!("No active permits");
+                } else {
+                    for permit in &permits {
+                        println!("{} ({:?}): {} obligations", permit.id.0, permit.status, permit.obligations.len());
+                    }
+                }
+            }
+            Ok(())
+        }
+        PermitCommands::Close { id, proof } => {
+            let mut permits = Store::read_permits(repo)?;
+            let mut found = false;
+            for permit in &mut permits {
+                if permit.id.0 == id {
+                    permit.status = PermitStatus::Closed;
+                    found = true;
+                    if let Some(proof_content) = proof {
+                        let proof_id = ProofId(format!("PROOF-{}", chrono::Utc::now().format("%Y%m%d-%H%M%S")));
+                        let proof = Proof {
+                            id: proof_id,
+                            permit_id: permit.id.clone(),
+                            kind: ProofKind::DecisionLog,
+                            status: ProofStatus::Passed,
+                            digest: None,
+                            captured_at: chrono::Utc::now().to_rfc3339(),
+                        };
+                        // Store proof separately? For now, just print it
+                        if json {
+                            println!("{}", serde_json::to_string_pretty(&proof).unwrap());
+                        }
+                    }
+                    break;
+                }
+            }
+            if !found {
+                return Err(KernelError::PermitNotFound(id));
+            }
+            // Write back all permits
+            for permit in permits {
+                Store::write_permit(repo, &permit)?;
+            }
+            if json {
+                println!("{{ \"ok\": true, \"permit_id\": \"{}\" }}", id);
+            } else {
+                println!("Permit {} closed", id);
+            }
+            Ok(())
+        }
+    }
 }

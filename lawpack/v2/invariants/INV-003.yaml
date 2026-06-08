@@ -1,8 +1,10 @@
 id: INV-003
 title: No duplicate citations
 severity: fatal
-rule: no_duplicate_citations
+rule:
+  kind: no_duplicate_citations
 basis:
   - ACT-004:s8
   - REG-003
+  - REG-006
 remedy: Use vjs next-citation to get unique citations.

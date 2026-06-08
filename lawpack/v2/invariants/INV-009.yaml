@@ -1,7 +1,8 @@
 id: INV-009
 title: Required proofs exist before permit closes
 severity: error
-rule: proofs_exist_before_close
+rule:
+  kind: proofs_exist_before_close
 basis:
   - ACT-003:s3
   - REG-004

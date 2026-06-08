@@ -1,0 +1,32 @@
+id: REG-LAWMAKING-001
+citation: "[2026] VJS-REG 9"
+title: Lawpack Amendment and Legislative Intake Regulation
+authority: ACT-001:s2
+status: in_force
+text: >
+  Defines how V2 law is proposed, validated, assented, cited, and entered into the lawpack.
+  All new legislation starts as draft. Only assented/adopted, cited, validated records bind.
+  Legislative amendment is append-only. The old authority remains visible.
+kernel_effect:
+  defines:
+    - legislative.intake_route
+    - legislative.draft_status
+    - legislative.assent_required
+    - legislative.citation_required
+    - legislative.validation_required
+    - legislative.append_only
+  when:
+    all:
+      - action.kind == legislative_draft
+  must:
+    - start_with_draft_status
+    - add_authority_basis
+    - validate_before_adoption
+  must_not:
+    - draft_becomes_binding_by_writing
+    - silently_edit_live_law
+  proof:
+    - proposal_record
+    - validation_report
+    - citation
+    - decision_log
