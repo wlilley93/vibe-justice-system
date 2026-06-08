@@ -1,0 +1,31 @@
+id: "2026-VJS-BOOT-012"
+citation: "[2026] VJS-CC-AGENT-UNIVERSE-V2 12"
+title: Permit enforcement hardening order
+court: county
+jurisdiction: agent-universe-v2
+status: binding
+issue: permit_enforcement
+holding: >
+  VJS V2 alpha must enforce permits at the staged-change and commit boundary
+  before further doctrinal or feature expansion.
+directives:
+  - id: D1
+    actor: lexby
+    must: wire_permit_gate_into_validate_staged
+  - id: D2
+    actor: lexby
+    must: load_permits_proofs_and_logs_in_status
+  - id: D3
+    actor: lexby
+    must: block_governed_staged_paths_without_matching_permit
+  - id: D4
+    actor: lexby
+    must: block_missing_before_commit_obligations
+  - id: D5
+    actor: lexby
+    must: add_hook_blocking_fixtures
+forbidden:
+  - treating_route_permits_as_advisory_only
+  - expanding_lawpack_doctrine_before_permit_enforcement
+runtime_summary: >
+  Make governed writes fail closed without a valid permit and required proof.

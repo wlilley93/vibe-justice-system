@@ -1,4 +1,3 @@
-[vjs]
 version = "2"
 jurisdiction_id = "agent-universe-v2"
 lawpack = "vjs-v2@0.1.0"
@@ -16,3 +15,22 @@ cache = ".vjs/cache"
 
 [paths.public]
 enabled = false
+
+[governance]
+permit_required = [
+  "crates/**",
+  "lawpack/v2/**",
+  "Cargo.toml",
+  "AGENTS.md",
+  "VJS.md",
+  "README.md"
+]
+
+permit_exempt = [
+  ".vjs/logs/**",
+  ".vjs/permits/**",
+  ".vjs/proofs/**",
+  ".vjs/cache/**",
+  ".vjs/private/**",
+  "target/**"
+]
