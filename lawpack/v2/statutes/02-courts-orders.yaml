@@ -1,92 +1,160 @@
-id: ACT-COURTS-ORDERS
+id: ACT-002
+citation: "[2026] VJS-ACT 2"
 title: Courts and Orders Act
 status: in_force
-rank: primary
+enacted_by: principal
+purpose: >
+  To establish the court structure for V2, define order binding, and set word limits
+  for court output. No Court of Appeal in V2 MVP.
 
 sections:
-  - id: ACT-COURTS-ORDERS:s1
-    title: County Court
-    rule: >
+  - id: ACT-002:s1
+    title: Courts of V2
+    text: >
+      V2 has three courts: County Court (repo-local), Privy Council (routing and constitutional
+      machinery), and Supreme Court (foundational doctrine). Court of Appeal is not carried
+      forward by default.
+    kernel_effect:
+      defines:
+        - court.county
+        - court.privy_council
+        - court.supreme_court
+      must_not:
+        - create_court_of_appeal_in_v2_mvp
+
+  - id: ACT-002:s2
+    title: County Court is default repo court
+    text: >
       The County Court is the default local court for repo-level operational decisions.
       Submissions max 500 words. Orders max 500 words. Opinions max 2,000 words.
     kernel_effect:
-      default_court: county
-      county_limits:
-        submission: 500
-        order: 500
-        opinion: 2000
+      defines:
+        - court.county.default
+        - court.county.submission_limit: "500"
+        - court.county.order_limit: "500"
+        - court.county.opinion_limit: "2000"
+      must:
+        - route_repo_local_questions_to_county_court
 
-  - id: ACT-COURTS-ORDERS:s2
-    title: Privy Council
-    rule: >
+  - id: ACT-002:s3
+    title: Privy Council handles routing and constitutional machinery
+    text: >
       The Privy Council handles jurisdiction, routing, constitutional machinery, public/private
       boundary, and local sovereignty. Submissions max 1,000 words. Orders max 1,000 words.
       Opinions max 5,000 words.
     kernel_effect:
-      privy_council_scope:
-        - jurisdiction
-        - routing
-        - constitutional_machinery
-        - public_private_boundary
-        - local_sovereignty
-      privy_limits:
-        submission: 1000
-        order: 1000
-        opinion: 5000
+      defines:
+        - court.privy_council.scope: "jurisdiction, routing, constitutional machinery, public/private boundary, local sovereignty"
+        - court.privy_council.submission_limit: "1000"
+        - court.privy_council.order_limit: "1000"
+        - court.privy_council.opinion_limit: "5000"
+      must:
+        - route_jurisdiction_questions_to_privy_council
+        - route_routing_questions_to_privy_council
+        - route_constitutional_questions_to_privy_council
+        - route_boundary_questions_to_privy_council
 
-  - id: ACT-COURTS-ORDERS:s3
-    title: Supreme Court
-    rule: >
-      The Supreme Court handles rare foundational doctrine. Operative orders max 1,500 words.
-      Opinions may be longer, but the runtime rule delta is mandatory and compact.
+  - id: ACT-002:s4
+    title: Supreme Court handles foundational doctrine
+    text: >
+      The Supreme Court handles rare foundational doctrine and constitutional settlement.
+      Operative orders max 1,500 words. Opinions may be longer, but the runtime rule delta
+      is mandatory and compact.
     kernel_effect:
-      supreme_scope:
-        - foundational_doctrine
-        - constitutional_settlement
-        - overruling_core_authority
-      supreme_limits:
-        order: 1500
+      defines:
+        - court.supreme_court.scope: "foundational doctrine, constitutional settlement"
+        - court.supreme_court.order_limit: "1500"
+      must:
+        - route_foundational_doctrine_to_supreme_court
+      must_not:
+        - use_supreme_court_for_routine_repo_questions
 
-  - id: ACT-COURTS-ORDERS:s4
-    title: No Court of Appeal in V2 MVP
-    rule: >
+  - id: ACT-002:s5
+    title: Court of Appeal not carried forward by default
+    text: >
       The Court of Appeal is not carried forward in V2 MVP. Appeals may be handled by the
       Privy Council or Supreme Court at the Principal's discretion.
     kernel_effect:
-      court_of_appeal: false
-      mvp_courts: [county, privy_council, supreme_court]
+      must_not:
+        - create_court_of_appeal
+      defines:
+        - court.appeal.deferred
+      may:
+        - principal_authorise_appeal_route
+      exceptions:
+        - principal_discretion
 
-  - id: ACT-COURTS-ORDERS:s5
+  - id: ACT-002:s6
+    title: Five court triggers
+    text: >
+      Court convenes only when: (1) no existing rule/order covers a material governed question,
+      (2) existing authority genuinely does not fit the facts, (3) existing authority is wrong or
+      outdated and needs variation/overruling, (4) user instruction conflicts with binding law,
+      (5) a breach of duty is discovered.
+    kernel_effect:
+      defines:
+        - court_trigger.first_impression
+        - court_trigger.distinction
+        - court_trigger.overruling
+        - court_trigger.conflict
+        - court_trigger.breach
+      must:
+        - check_existing_authority_before_court
+      must_not:
+        - convene_court_when_settled
+
+  - id: ACT-002:s7
     title: Orders bind; opinions explain
-    rule: >
+    text: >
       Court orders bind at runtime. Opinions explain the reasoning. The kernel applies
       orders directly. Opinions are for humans and appeal, not runtime resolution.
     kernel_effect:
-      orders_bind: true
-      opinions_explain: true
+      defines:
+        - order.bind_at_runtime
+        - opinion.explanatory_only
+      must:
+        - apply_order_directives
+      must_not:
+        - treat_opinion_as_runtime_authority
+      exceptions:
+        - opinion_expressly_incorporated_into_order
 
-  - id: ACT-COURTS-ORDERS:s6
-    title: Order format
-    rule: >
+  - id: ACT-002:s8
+    title: Order word limits
+    text: >
+      Orders must be short and operative. County orders max 500 words. Privy Council orders
+      max 1,000 words. Supreme Court orders max 1,500 words.
+    kernel_effect:
+      defines:
+        - order.limit.county: "500"
+        - order.limit.privy: "1000"
+        - order.limit.supreme: "1500"
+      must:
+        - enforce_order_word_limits
+
+  - id: ACT-002:s9
+    title: Correction, variation, and overruling
+    text: >
+      Orders may be corrected for clerical errors. Variation requires a new order.
+      Overruling requires a Supreme Court order.
+    kernel_effect:
+      defines:
+        - correction.allowed
+        - variation.requires_new_order
+        - overruling.requires_supreme_court
+      must:
+        - supreme_court_order_for_overruling
+
+  - id: ACT-002:s10
+    title: Order format requirements
+    text: >
       Every valid order must have: id, court, jurisdiction, status, issue, holding,
       directives, runtime_summary, and may have forbidden, exceptions, superseded list.
     kernel_effect:
-      order_required_fields:
-        - id
-        - court
-        - jurisdiction
-        - status
-        - issue
-        - holding
-        - directives
-        - runtime_summary
-
-  - id: ACT-COURTS-ORDERS:s7
-    title: Correction, variation, overruling
-    rule: >
-      Orders may be corrected for clerical errors. Variation requires a new order.
-      Overruling requires Supreme Court order.
-    kernel_effect:
-      correction: allowed
-      variation: requires_new_order
-      overruling: requires_supreme_court
+      defines:
+        - order.required_fields: "id, court, jurisdiction, status, issue, holding, directives, runtime_summary"
+      must:
+        - validate_order_format
+      must_not:
+        - accept_order_without_directives
+        - accept_order_without_runtime_summary

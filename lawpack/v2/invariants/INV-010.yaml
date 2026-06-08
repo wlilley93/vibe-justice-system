@@ -1,0 +1,10 @@
+id: INV-010
+title: Decision logs are short
+severity: error
+rule: logs_stay_short
+basis:
+  - ACT-003:s4
+  - ACT-004:s10
+  - REG-005
+  - REG-006
+remedy: Keep logs between 50 and 150 words.

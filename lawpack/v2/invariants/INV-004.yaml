@@ -1,0 +1,8 @@
+id: INV-004
+title: Orders have operative directives
+severity: fatal
+rule: orders_must_have_directives
+basis:
+  - ACT-002:s10
+  - REG-006
+remedy: Add directives and runtime_summary to the order.

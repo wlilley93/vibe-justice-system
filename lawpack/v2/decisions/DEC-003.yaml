@@ -1,0 +1,24 @@
+id: DEC-003
+citation: "[2026] VJS-DEC 3"
+title: No Court of Appeal in V2 MVP
+status: active
+scope:
+  action_kinds:
+    - court_filing
+  paths:
+    - lawpack/v2/**/02-courts-orders.yaml
+decision: >
+  V2 uses County Court, Privy Council, and Supreme Court only. Court of Appeal is deferred.
+basis:
+  - ACT-002:s1
+  - ACT-002:s5
+reason: >
+  Three courts are sufficient for V2 MVP. The Court of Appeal can be added later
+  if the volume of appeals justifies it.
+consequences:
+  must:
+    - use_county_privy_supreme
+  must_not:
+    - create_court_of_appeal
+review_triggers:
+  - appeal_volume_high

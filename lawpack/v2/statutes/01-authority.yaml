@@ -1,92 +1,163 @@
-id: ACT-CONSTITUTION
+id: ACT-001
+citation: "[2026] VJS-ACT 1"
 title: Constitution and Sources of Authority Act
 status: in_force
-rank: constitutional
+enacted_by: principal
+purpose: >
+  To establish the constitutional foundation of VJS V2, define sources of authority,
+  preserve V1 as archive, and set the kernel lawpack as the sole runtime authority surface.
 
 sections:
-  - id: ACT-CONSTITUTION:s1
-    title: V2 consolidation
-    rule: >
-      V2 is a consolidation of V1 learnings. The kernel lawpack is the sole runtime
-      authority surface. V1 archive material is historical and persuasive unless expressly
-      incorporated.
+  - id: ACT-001:s1
+    title: V2 exists as compact kernel-governed VJS
+    text: >
+      VJS V2 is a consolidation of settled V1 learnings. It is governed by a compact
+      lawpack loaded by a deterministic Rust kernel. The kernel returns bounded instructions.
+      V1 archive material is historical and persuasive unless expressly incorporated.
     kernel_effect:
-      archive_fallback: true
-      requires_incorporation: true
+      when:
+        all:
+          - vjs_v2_active == true
+      defines:
+        - vjs_v2.kernel_governed
+        - vjs_v2.compact_lawpack
+        - vjs_v1.archive_status
+      must_not:
+        - load_v1_archive_as_runtime_by_default
 
-  - id: ACT-CONSTITUTION:s2
-    title: Principal
-    rule: >
+  - id: ACT-001:s2
+    title: Principal is source of constitutional authority
+    text: >
       The Principal holds two offices: Sovereign (source of legitimacy) and Prime Minister
       (executive direction). The Principal may set objectives, give policy, approve migration,
       authorise external acts, and assent to legislation.
     kernel_effect:
-      principal_can_set_objectives: true
-      principal_can_assent: true
+      defines:
+        - principal.office.sovereign
+        - principal.office.prime_minister
+      must:
+        - record_principal_assent_for_base_law
+      may:
+        - principal_set_objectives
+        - principal_give_policy
+        - principal_approve_migration
+        - principal_authorise_external_acts
+        - principal_assent_legislation
 
-  - id: ACT-CONSTITUTION:s3
-    title: Local sovereignty
-    rule: >
-      Each repo is a local jurisdiction. Installed repos subscribe to the V2 lawpack by default
-      but may opt-out of specific regulations. Local sovereignty changes require Principal
-      assent or Privy Council order.
+  - id: ACT-001:s3
+    title: Sources of V2 law
+    text: >
+      The kernel resolves authority in this hierarchy: real-world law, Constitution,
+      primary Acts, kernel regulations, Supreme Court orders, Privy Council orders,
+      County Court orders, local decision logs, V1 archive (only if expressly incorporated).
     kernel_effect:
-      default_subscription: true
-      opt_out_requires_authority: true
+      defines:
+        - authority.source.real_world_law
+        - authority.source.constitution
+        - authority.source.primary_act
+        - authority.source.kernel_regulation
+        - authority.source.supreme_court_order
+        - authority.source.privy_council_order
+        - authority.source.county_court_order
+        - authority.source.local_decision_log
+        - authority.source.v1_archive_incorporated
+      must:
+        - resolve_authority_in_hierarchy
 
-  - id: ACT-CONSTITUTION:s4
-    title: Sources of law
-    rule: >
-      The kernel resolves authority in this order: real-world law, Constitution, primary Acts,
-      kernel regulations, Supreme Court orders, Privy Council orders, County Court orders,
-      local decision logs, V1 archive (if incorporated).
+  - id: ACT-001:s4
+    title: V1 archive is historical unless expressly incorporated
+    text: >
+      V1 is preserved as the historical VJS archive and Gazette. It is not live runtime
+      law unless a V2 statute, regulation, order, rule, spec, decision, or invariant
+      expressly incorporates it.
     kernel_effect:
-      authority_hierarchy: true
-      archive_incorporation_required: true
+      must_not:
+        - load_v1_archive_as_runtime_by_default
+        - treat_v1_judgments_as_binding_without_incorporation
+      defines:
+        - v1.archive.status
+      exceptions:
+        - expressly_incorporated_by_v2_act
+        - expressly_incorporated_by_v2_regulation
+        - expressly_incorporated_by_v2_order
 
-  - id: ACT-CONSTITUTION:s5
-    title: Lexby cannot be the source of legal force
-    rule: >
+  - id: ACT-001:s5
+    title: Kernel lawpack is the runtime authority surface
+    text: >
+      The kernel loads the lawpack and resolves authority deterministically. It does not
+      litigate, judge, or call models. It returns bounded instructions to the agent.
+    kernel_effect:
+      defines:
+        - kernel.lawpack.runtime_source
+        - kernel.deterministic
+        - kernel.bounded_output
+      must_not:
+        - kernel_call_llm
+        - kernel_use_vector_search
+        - kernel_render_pdf
+        - kernel_auto_publish
+        - kernel_replace_human_approval
+
+  - id: ACT-001:s6
+    title: Real-world law prevails
+    text: >
+      Real-world law still controls. Agents have delegated authority to refuse, stop, narrow,
+      or escalate unlawful or unauthorised instructions.
+    kernel_effect:
+      must:
+        - respect_real_world_law
+      may:
+        - agent_refuse_unlawful_instruction
+        - agent_stop_unsafe_action
+        - agent_narrow_scope
+        - agent_escalate_to_principal
+
+  - id: ACT-001:s7
+    title: Agent cannot create legal force by drafting
+    text: >
       Lexby may propose, argue, and draft, but adopted text derives force from the lawful
       organ, not counsel's draft. Proposed law must be marked draft. Binding law requires
       authorised adoption.
     kernel_effect:
-      emits_rule: AUTH-003
-      draft_requires_adoption: true
+      must_not:
+        - agent_self_authorise_law
+        - agent_draft_becomes_binding_by_fact_of_being_written
+      must:
+        - mark_proposed_law_as_draft
+        - require_authorised_adoption_for_binding_force
+      defines:
+        - agent.drafting.no_legal_force
 
-  - id: ACT-CONSTITUTION:s6
-    title: Real-world law supremacy
-    rule: >
-      Real-world law still controls. Agents have delegated authority to refuse, stop, narrow,
-      or escalate unlawful or unauthorised instructions.
-    kernel_effect:
-      real_world_supremacy: true
-      agent_may_refuse: true
-
-  - id: ACT-CONSTITUTION:s7
-    title: V1 archive status
-    rule: >
-      V1 is preserved as the historical VJS archive. It is not live runtime law unless a
-      V2 statute, rule, or order expressly incorporates it.
-    kernel_effect:
-      v1_is_archive: true
-      incorporation_required: true
-
-  - id: ACT-CONSTITUTION:s8
-    title: Kernel authority
-    rule: >
-      The kernel is the operating clerk. It does not litigate, judge, or model-call. It
-      resolves authority deterministically and returns bounded instructions.
-    kernel_effect:
-      kernel_is_clerk: true
-      no_model_calls: true
-
-  - id: ACT-CONSTITUTION:s9
-    title: Specs as first-class law
-    rule: >
+  - id: ACT-001:s8
+    title: Specs are first-class law objects
+    text: >
       A Spec is a compact, machine-checkable contract. It contains purpose, scope, decisions,
       invariants, obligations, and prohibited states. The kernel can answer whether a change
       is allowed under a spec.
     kernel_effect:
-      specs_first_class: true
-      requires_spec_evaluation: true
+      defines:
+        - spec.first_class_law
+        - spec.purpose
+        - spec.scope
+        - spec.decisions
+        - spec.invariants
+        - spec.obligations
+      must:
+        - evaluate_spec_on_governed_changes
+
+  - id: ACT-001:s9
+    title: Local sovereignty
+    text: >
+      Each repo is a local jurisdiction. Installed repos subscribe to the V2 lawpack by default
+      but may opt-out of specific regulations. Local sovereignty changes require Principal
+      assent or Privy Council order.
+    kernel_effect:
+      defines:
+        - local.jurisdiction
+        - local.subscription.default
+      may:
+        - opt_out_of_specific_regulation
+      must:
+        - principal_assent_for_local_sovereignty_change
+      exceptions:
+        - privy_council_order_authorises

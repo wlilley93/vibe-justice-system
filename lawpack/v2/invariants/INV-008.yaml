@@ -1,0 +1,9 @@
+id: INV-008
+title: Governed writes require permit
+severity: error
+rule: governed_writes_require_permit
+basis:
+  - ACT-003:s2
+  - REG-004
+  - REG-006
+remedy: Run vjs route before governed write.

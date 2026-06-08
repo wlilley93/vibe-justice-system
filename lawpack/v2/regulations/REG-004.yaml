@@ -1,0 +1,30 @@
+id: REG-004
+citation: "[2026] VJS-REG 4"
+title: Route, Permit and Proof Regulation
+authority: ACT-003:s2
+status: in_force
+text: >
+  Defines the lifecycle: route -> permit -> action -> proof -> log -> validate -> close.
+  Each step is mandatory for governed work.
+kernel_effect:
+  defines:
+    - lifecycle.route
+    - lifecycle.permit
+    - lifecycle.action
+    - lifecycle.proof
+    - lifecycle.log
+    - lifecycle.validate
+    - lifecycle.close
+  when:
+    all:
+      - action.is_governed == true
+  must:
+    - call_vjs_route
+    - receive_permit
+    - act_within_permit
+    - attach_proof
+    - write_log
+    - run_validate
+    - close_permit
+  must_not:
+    - bypass_lifecycle_step

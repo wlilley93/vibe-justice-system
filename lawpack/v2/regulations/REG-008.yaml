@@ -1,0 +1,19 @@
+id: REG-008
+citation: "[2026] VJS-REG 8"
+title: Gazette and Archive Regulation
+authority: ACT-001:s4
+status: in_force
+text: >
+  Defines the V1 repo as Gazette and archive. V2 runtime does not load V1 by default.
+  Gazette publishes human-readable material. Archive is not live law unless incorporated.
+kernel_effect:
+  defines:
+    - v1.gazette_archive
+    - v1.not_runtime_by_default
+    - gazette.human_readable
+    - gazette.deterministic
+    - gazette.pointer_only
+  must:
+    - publish_v1_as_archive
+  must_not:
+    - load_v1_as_runtime_without_incorporation

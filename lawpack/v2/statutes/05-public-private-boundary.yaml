@@ -1,62 +1,105 @@
-id: ACT-PUBLIC-PRIVATE
+id: ACT-005
+citation: "[2026] VJS-ACT 5"
 title: Public and Private Boundary Act
 status: in_force
-rank: primary
+enacted_by: principal
+purpose: >
+  To enforce the public/private boundary, ensure public records contain only system data,
+  and keep private operational facts local.
 
 sections:
-  - id: ACT-PUBLIC-PRIVATE:s1
-    title: System data only in public
-    rule: >
+  - id: ACT-005:s1
+    title: Public records contain system data only
+    text: >
       The public record holds only system data: rules, orders, procedure, abstract issues,
       redacted facts necessary to understand decisions, and source pointers. It must not
-      contain secrets, tokens, private repo paths, client facts, hostnames, logs, or
-      screenshots.
+      contain secrets, tokens, private repo paths, client facts, hostnames, logs, or screenshots.
     kernel_effect:
-      public_content: system_data_only
-      forbidden:
-        - secrets
-        - tokens
-        - private_repo_paths
-        - client_facts
-        - hostnames
-        - logs
-        - screenshots
-        - credentials
+      defines:
+        - public_content.system_data_only
+      must_not:
+        - publish_secrets
+        - publish_tokens
+        - publish_private_repo_paths
+        - publish_client_facts
+        - publish_hostnames
+        - publish_logs
+        - publish_screenshots
+        - publish_credentials
 
-  - id: ACT-PUBLIC-PRIVATE:s2
-    title: Private facts local
-    rule: >
+  - id: ACT-005:s2
+    title: Private facts stay local
+    text: >
       Private operational facts, evidence, screenshots, and unredacted records belong in
       the local private store (.vjs/private or configured path).
     kernel_effect:
-      private_store: local
-      default_path: .vjs/private
+      defines:
+        - private_store.local
+        - private_store.default_path: ".vjs/private"
+      must:
+        - route_private_facts_to_local_store
 
-  - id: ACT-PUBLIC-PRIVATE:s3
-    title: Redaction
-    rule: >
+  - id: ACT-005:s3
+    title: Redaction is the agent's duty
+    text: >
       Public records must be redacted before publication. Redaction is the agent's duty.
       The kernel scanner flags likely leaks. The agent must act on flags.
     kernel_effect:
-      redaction_duty: agent
-      scanner_flags: true
-      agent_must_act_on_flags: true
+      must:
+        - redact_before_publication
+        - act_on_scanner_flags
+      defines:
+        - redaction.duty: agent
 
-  - id: ACT-PUBLIC-PRIVATE:s4
-    title: Local evidence
-    rule: >
+  - id: ACT-005:s4
+    title: Local evidence by pointer
+    text: >
       Local evidence (screenshots, logs, operational notes) is private. It may be referenced
       by pointer in public records, but the pointer must not expose the private detail.
     kernel_effect:
-      evidence_is_private: true
-      pointers_allowed: true
-      pointer_must_not_expose: true
+      defines:
+        - evidence.is_private
+        - pointers.allowed
+        - pointer_must_not_expose
+      must:
+        - use_pointers_for_local_evidence
+      must_not:
+        - expose_private_detail_in_pointer
 
-  - id: ACT-PUBLIC-PRIVATE:s5
-    title: Community contribution
-    rule: >
+  - id: ACT-005:s5
+    title: Community contribution is limited
+    text: >
       Community contributions to the public record are limited to anonymised summaries and
       system data. Private facts from contributor repos must not enter the public record.
     kernel_effect:
-      community_contribution: anonymised_only
-      private_facts_blocked: true
+      defines:
+        - community_contribution.anonymised_only
+        - private_facts_blocked
+      must_not:
+        - publish_private_facts_from_contributor_repos
+
+  - id: ACT-005:s6
+    title: Gazette is archive, not runtime
+    text: >
+      The Gazette is a deterministic, lexical, pointer-only public reading room. It is not
+      itself the source of legal force. The committed lawpack remains authoritative.
+    kernel_effect:
+      defines:
+        - gazette.archive_only
+        - gazette.not_runtime_source
+      must_not:
+        - load_gazette_as_runtime_authority
+
+  - id: ACT-005:s7
+    title: Deterministic scanner
+    text: >
+      The public/private boundary is enforced by a deterministic scanner, not model
+      judgement. The scanner detects secrets, tokens, hostnames, emails, and private paths.
+    kernel_effect:
+      defines:
+        - scanner.deterministic
+        - scanner.conservative
+      must:
+        - run_boundary_scan_on_public_changes
+      must_not:
+        - use_llm_for_boundary_check
