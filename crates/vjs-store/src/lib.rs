@@ -1,11 +1,10 @@
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 
 use vjs_core::*;
 use vjs_core::types::*;
 use vjs_core::error::*;
-use vjs_core::spec::Permit;
+use vjs_core::spec::{Permit, Proof};
 
 pub struct Store;
 
@@ -159,6 +158,44 @@ impl Store {
         Ok(permits)
     }
 
+    pub fn write_proof(repo_root: &Path, proof: &Proof) -> Result<(), KernelError> {
+        let proofs_dir = repo_root.join(".vjs/proofs");
+        std::fs::create_dir_all(&proofs_dir)
+            .map_err(|e| KernelError::Io(e.to_string()))?;
+
+        let filename = format!("{}.yaml", proof.id.0);
+        let path = proofs_dir.join(&filename);
+        let content = serde_yaml::to_string(proof)
+            .map_err(|e| KernelError::Serialization(e.to_string()))?;
+        std::fs::write(&path, content)
+            .map_err(|e| KernelError::Io(e.to_string()))?;
+
+        Ok(())
+    }
+
+    pub fn read_proofs(repo_root: &Path) -> Result<Vec<Proof>, KernelError> {
+        let proofs_dir = repo_root.join(".vjs/proofs");
+        let mut proofs = Vec::new();
+
+        if !proofs_dir.exists() {
+            return Ok(proofs);
+        }
+
+        for entry in std::fs::read_dir(&proofs_dir)
+            .map_err(|e| KernelError::Io(e.to_string()))? {
+            let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
+            let path = entry.path();
+            if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
+                if let Ok(content) = std::fs::read_to_string(&path) {
+                    if let Ok(proof) = serde_yaml::from_str::<Proof>(&content) {
+                        proofs.push(proof);
+                    }
+                }
+            }
+        }
+        Ok(proofs)
+    }
+
     pub fn read_orders(repo_root: &Path) -> Result<Vec<Order>, KernelError> {
         let orders_dir = repo_root.join(".vjs/orders");
         let mut orders = Vec::new();
@@ -203,6 +240,18 @@ impl Store {
         Ok(())
     }
 
+    pub fn read_repo_config(repo_root: &Path) -> Result<Option<JurisdictionConfig>, KernelError> {
+        let config_path = repo_root.join(".vjs/config.toml");
+        if !config_path.exists() {
+            return Ok(None);
+        }
+        let content = std::fs::read_to_string(&config_path)
+            .map_err(|e| KernelError::Io(e.to_string()))?;
+        let config: JurisdictionConfig = toml::from_str(&content)
+            .map_err(|e| KernelError::Serialization(e.to_string()))?;
+        Ok(Some(config))
+    }
+
     pub fn read_lawpack_lock(repo_root: &Path) -> Result<Option<LawpackLock>, KernelError> {
         let lock_path = repo_root.join(".vjs/lawpack.lock");
         if !lock_path.exists() {
@@ -217,11 +266,37 @@ impl Store {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-struct JurisdictionConfig {
-    version: String,
-    jurisdiction_id: String,
-    lawpack: String,
-    paths: HashMap<String, String>,
+pub struct JurisdictionConfig {
+    pub version: String,
+    pub jurisdiction_id: String,
+    pub lawpack: String,
+    pub paths: PathsConfig,
+    pub governance: Option<GovernanceConfig>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct PathsConfig {
+    pub orders: String,
+    pub logs: String,
+    pub submissions: String,
+    pub specs: String,
+    pub decisions: String,
+    pub proofs: String,
+    pub permits: String,
+    pub private: String,
+    pub cache: String,
+    pub public: Option<PublicPathsConfig>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct PublicPathsConfig {
+    pub enabled: bool,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct GovernanceConfig {
+    pub permit_required: Vec<String>,
+    pub permit_exempt: Vec<String>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -245,18 +320,48 @@ pub struct Submission {
 }
 
 fn default_config() -> JurisdictionConfig {
-    let mut paths = HashMap::new();
-    paths.insert("orders".into(), ".vjs/orders".into());
-    paths.insert("logs".into(), ".vjs/logs".into());
-    paths.insert("submissions".into(), ".vjs/submissions".into());
-    paths.insert("cache".into(), ".vjs/cache".into());
-    paths.insert("private".into(), ".vjs/private".into());
-
     JurisdictionConfig {
         version: "2".into(),
         jurisdiction_id: "default".into(),
         lawpack: "vjs-v2@0.1.0".into(),
-        paths,
+        paths: default_paths(),
+        governance: Some(default_governance()),
+    }
+}
+
+fn default_paths() -> PathsConfig {
+    PathsConfig {
+        orders: ".vjs/orders".into(),
+        logs: ".vjs/logs".into(),
+        submissions: ".vjs/submissions".into(),
+        specs: "lawpack/v2/specs".into(),
+        decisions: "lawpack/v2/decisions".into(),
+        proofs: ".vjs/proofs".into(),
+        permits: ".vjs/permits".into(),
+        private: ".vjs/private".into(),
+        cache: ".vjs/cache".into(),
+        public: Some(PublicPathsConfig { enabled: false }),
+    }
+}
+
+fn default_governance() -> GovernanceConfig {
+    GovernanceConfig {
+        permit_required: vec![
+            "crates/**".into(),
+            "lawpack/v2/**".into(),
+            "Cargo.toml".into(),
+            "AGENTS.md".into(),
+            "VJS.md".into(),
+            "README.md".into(),
+        ],
+        permit_exempt: vec![
+            ".vjs/logs/**".into(),
+            ".vjs/permits/**".into(),
+            ".vjs/proofs/**".into(),
+            ".vjs/cache/**".into(),
+            ".vjs/private/**".into(),
+            "target/**".into(),
+        ],
     }
 }
 

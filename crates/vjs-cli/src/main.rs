@@ -57,18 +57,12 @@ enum Commands {
         limit: Option<usize>,
     },
     Log {
-        #[arg(long)]
-        kind: String,
-        #[arg(long)]
-        issue: String,
-        #[arg(long)]
-        decision: String,
-        #[arg(long)]
-        basis: Vec<String>,
-        #[arg(long)]
-        risk: String,
-        #[arg(long)]
-        why: String,
+        #[command(subcommand)]
+        subcmd: LogCommands,
+    },
+    Proof {
+        #[command(subcommand)]
+        subcmd: ProofCommands,
     },
     Validate {
         #[arg(long)]
@@ -129,6 +123,44 @@ enum PermitCommands {
     },
 }
 
+#[derive(Subcommand)]
+enum LogCommands {
+    Decision {
+        #[arg(long)]
+        kind: String,
+        #[arg(long)]
+        issue: String,
+        #[arg(long)]
+        decision: String,
+        #[arg(long)]
+        basis: Vec<String>,
+        #[arg(long)]
+        risk: String,
+        #[arg(long)]
+        why: String,
+    },
+    FromPermit {
+        #[arg(long)]
+        permit_id: String,
+        #[arg(long)]
+        decision: String,
+        #[arg(long)]
+        why: String,
+    },
+}
+
+#[derive(Subcommand)]
+enum ProofCommands {
+    Add {
+        #[arg(long)]
+        permit_id: String,
+        #[arg(long)]
+        kind: Option<String>,
+        #[arg(long)]
+        status: Option<String>,
+    },
+}
+
 fn main() {
     let cli = Cli::parse();
     let repo = cli.repo.unwrap_or_else(|| std::env::current_dir().unwrap());
@@ -140,9 +172,8 @@ fn main() {
             cmd_route(&repo, kind, issue, risk, intent, public, external, irreversible, json)
         }
         Commands::Lookup { issue, limit } => cmd_lookup(&repo, issue, limit, json),
-        Commands::Log { kind, issue, decision, basis, risk, why } => {
-            cmd_log(&repo, kind, issue, decision, basis, risk, why, json)
-        }
+        Commands::Log { subcmd } => cmd_log(&repo, subcmd, json),
+        Commands::Proof { subcmd } => cmd_proof(&repo, subcmd, json),
         Commands::Validate { staged, external, scope } => {
             cmd_validate(&repo, staged, external, scope, json)
         }
@@ -311,46 +342,122 @@ fn cmd_lookup(
 
 fn cmd_log(
     repo: &PathBuf,
-    kind: String,
-    issue: String,
-    decision: String,
-    basis: Vec<String>,
-    risk: String,
-    why: String,
+    subcmd: LogCommands,
     json: bool,
 ) -> Result<(), KernelError> {
-    let log = DecisionLog {
-        id: format!("LOG-{}", chrono::Utc::now().format("%Y-%m-%d-%H%M%S")),
-        time: chrono::Utc::now().to_rfc3339(),
-        actor: "lexby".into(),
-        kind,
-        issue,
-        decision,
-        basis,
-        risk: parse_risk_level(&risk),
-        reversibility: "easy".into(),
-        court_required: false,
-        why,
-    };
+    match subcmd {
+        LogCommands::Decision { kind, issue, decision, basis, risk, why } => {
+            let log = DecisionLog {
+                id: format!("LOG-{}", chrono::Utc::now().format("%Y-%m-%d-%H%M%S")),
+                time: chrono::Utc::now().to_rfc3339(),
+                actor: "lexby".into(),
+                kind,
+                issue,
+                decision,
+                basis,
+                risk: parse_risk_level(&risk),
+                reversibility: "easy".into(),
+                court_required: false,
+                why,
+            };
 
-    // Validate word count
-    let word_count = log.why.split_whitespace().count();
-    if word_count > 150 {
-        return Err(KernelError::WordLimitExceeded {
-            actual: word_count,
-            limit: 150,
-        });
+            let word_count = log.why.split_whitespace().count();
+            if word_count > 150 {
+                return Err(KernelError::WordLimitExceeded {
+                    actual: word_count,
+                    limit: 150,
+                });
+            }
+
+            Store::write_log(repo, &log)?;
+
+            if json {
+                println!("{}", serde_json::to_string_pretty(&log).unwrap());
+            } else {
+                println!("Decision log written: {}", log.id);
+            }
+            Ok(())
+        }
+        LogCommands::FromPermit { permit_id, decision, why } => {
+            let permits = Store::read_permits(repo)?;
+            let permit = permits.into_iter().find(|p| p.id.0 == permit_id)
+                .ok_or_else(|| KernelError::PermitNotFound(permit_id.clone()))?;
+
+            let log = DecisionLog {
+                id: format!("LOG-{}", chrono::Utc::now().format("%Y-%m-%d-%H%M%S")),
+                time: chrono::Utc::now().to_rfc3339(),
+                actor: "lexby".into(),
+                kind: "decision".into(),
+                issue: permit.route_id.0.clone(),
+                decision,
+                basis: vec![permit_id.clone()],
+                risk: RiskLevel::Low,
+                reversibility: "easy".into(),
+                court_required: false,
+                why,
+            };
+
+            let word_count = log.why.split_whitespace().count();
+            if word_count > 150 {
+                return Err(KernelError::WordLimitExceeded {
+                    actual: word_count,
+                    limit: 150,
+                });
+            }
+
+            Store::write_log(repo, &log)?;
+
+            if json {
+                println!("{}", serde_json::to_string_pretty(&log).unwrap());
+            } else {
+                println!("Decision log written: {} (from permit {})", log.id, permit_id);
+            }
+            Ok(())
+        }
     }
+}
 
-    Store::write_log(repo, &log)?;
+fn cmd_proof(
+    repo: &PathBuf,
+    subcmd: ProofCommands,
+    json: bool,
+) -> Result<(), KernelError> {
+    match subcmd {
+        ProofCommands::Add { permit_id, kind, status } => {
+            let proof_id = ProofId(format!("PROOF-{}", chrono::Utc::now().format("%Y%m%d-%H%M%S")));
+            let proof_status = match status.as_deref() {
+                Some("passed") => ProofStatus::Passed,
+                Some("failed") => ProofStatus::Failed,
+                _ => ProofStatus::Pending,
+            };
+            let proof_kind = match kind.as_deref() {
+                Some("decision_log") => ProofKind::DecisionLog,
+                Some("test_result") => ProofKind::TestResult,
+                Some("command_result") => ProofKind::CommandResult,
+                Some("public_private_scan") => ProofKind::PublicPrivateScan,
+                Some("validation_report") => ProofKind::ValidationReport,
+                _ => ProofKind::CommandResult,
+            };
 
-    if json {
-        println!("{}", serde_json::to_string_pretty(&log).unwrap());
-    } else {
-        println!("Decision log written: {}", log.id);
+            let proof = Proof {
+                id: proof_id,
+                permit_id: PermitId(permit_id),
+                kind: proof_kind,
+                status: proof_status,
+                digest: None,
+                captured_at: chrono::Utc::now().to_rfc3339(),
+            };
+
+            Store::write_proof(repo, &proof)?;
+
+            if json {
+                println!("{}", serde_json::to_string_pretty(&proof).unwrap());
+            } else {
+                println!("Proof written: {}", proof.id.0);
+            }
+            Ok(())
+        }
     }
-
-    Ok(())
 }
 
 fn cmd_validate(
@@ -420,6 +527,44 @@ fn cmd_validate(
                     path: None,
                     message: format!("{} invariants evaluated, all passed", invariant_report.findings.len()),
                     suggested_fix: None,
+                });
+            }
+
+            // Permit gate: governed staged paths require valid permit
+            let config = Store::read_repo_config(repo)?;
+            let (permit_required, permit_exempt) = if let Some(ref cfg) = config {
+                let req = cfg.governance.as_ref().map(|g| g.permit_required.clone()).unwrap_or_default();
+                let ex = cfg.governance.as_ref().map(|g| g.permit_exempt.clone()).unwrap_or_default();
+                (req, ex)
+            } else {
+                (Vec::new(), Vec::new())
+            };
+
+            let staged_paths: Vec<PathBuf> = changed.iter().map(PathBuf::from).collect();
+            let permits = Store::read_permits(repo)?;
+            let logs = Store::read_logs(repo)?;
+            let proofs = Store::read_proofs(repo)?;
+
+            let gate_result = PermitGate::evaluate(
+                &staged_paths,
+                &permits,
+                &logs,
+                &proofs,
+                &permit_required,
+                &permit_exempt,
+            );
+
+            if !gate_result.ok {
+                ok = false;
+            }
+
+            for finding in &gate_result.findings {
+                findings.push(ValidationFinding {
+                    severity: finding.severity.clone(),
+                    code: finding.code.clone(),
+                    path: finding.path.clone(),
+                    message: finding.message.clone(),
+                    suggested_fix: Some(finding.remedy.clone()),
                 });
             }
         }
@@ -556,6 +701,48 @@ fn cmd_local_ci(repo: &PathBuf, json: bool) -> Result<(), KernelError> {
         },
     });
     if !invariant_ok {
+        ok = false;
+    }
+
+    // Step 6: Permit gate
+    let config = Store::read_repo_config(repo)?;
+    let (permit_required, permit_exempt) = if let Some(ref cfg) = config {
+        let req = cfg.governance.as_ref().map(|g| g.permit_required.clone()).unwrap_or_default();
+        let ex = cfg.governance.as_ref().map(|g| g.permit_exempt.clone()).unwrap_or_default();
+        (req, ex)
+    } else {
+        (Vec::new(), Vec::new())
+    };
+
+    let staged_files = GitIntegration::read_staged_files(repo)?;
+    let staged_paths: Vec<PathBuf> = staged_files.iter().map(PathBuf::from).collect();
+    let permits = Store::read_permits(repo)?;
+    let logs = Store::read_logs(repo)?;
+    let proofs = Store::read_proofs(repo)?;
+
+    let gate_result = PermitGate::evaluate(
+        &staged_paths,
+        &permits,
+        &logs,
+        &proofs,
+        &permit_required,
+        &permit_exempt,
+    );
+
+    let permit_gate_ok = gate_result.ok;
+    steps.push(CiStep {
+        name: "permit_gate".into(),
+        passed: permit_gate_ok,
+        message: if permit_gate_ok {
+            format!("{} staged paths, permit gate passed", staged_paths.len())
+        } else {
+            let failures: Vec<_> = gate_result.findings.iter()
+                .filter(|f| matches!(f.severity, Severity::Fatal | Severity::Error))
+                .map(|f| f.code.clone()).collect();
+            format!("Permit gate failures: {}", failures.join(", "))
+        },
+    });
+    if !permit_gate_ok {
         ok = false;
     }
 
@@ -703,6 +890,21 @@ fn cmd_status(repo: &PathBuf, json: bool) -> Result<(), KernelError> {
         0
     };
 
+    let permits = if vjs_installed {
+        Store::read_permits(repo)?
+    } else {
+        Vec::new()
+    };
+
+    let proofs = if vjs_installed {
+        Store::read_proofs(repo)?.len()
+    } else {
+        0
+    };
+
+    let active_permits = permits.iter().filter(|p| matches!(p.status, PermitStatus::Active)).count();
+    let closed_permits = permits.iter().filter(|p| matches!(p.status, PermitStatus::Closed)).count();
+
     let status = StatusInfo {
         repo: repo.display().to_string(),
         git_repo: is_git,
@@ -711,6 +913,10 @@ fn cmd_status(repo: &PathBuf, json: bool) -> Result<(), KernelError> {
         lawpack: lawpack_info,
         logs_count: logs,
         orders_count: orders,
+        permits_count: permits.len(),
+        active_permits_count: active_permits,
+        closed_permits_count: closed_permits,
+        proofs_count: proofs,
     };
 
     if json {
@@ -725,6 +931,8 @@ fn cmd_status(repo: &PathBuf, json: bool) -> Result<(), KernelError> {
         }
         println!("Logs: {}", status.logs_count);
         println!("Orders: {}", status.orders_count);
+        println!("Permits: {} total, {} active, {} closed", status.permits_count, status.active_permits_count, status.closed_permits_count);
+        println!("Proofs: {}", status.proofs_count);
     }
 
     Ok(())
@@ -949,6 +1157,10 @@ struct StatusInfo {
     lawpack: Option<String>,
     logs_count: usize,
     orders_count: usize,
+    permits_count: usize,
+    active_permits_count: usize,
+    closed_permits_count: usize,
+    proofs_count: usize,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
