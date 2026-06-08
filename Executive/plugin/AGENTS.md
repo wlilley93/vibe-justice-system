@@ -14,6 +14,13 @@ retrieval, citation checks, graph checks, repository initialisation, judgment lo
 checkpointing, and aggregate deterministic validation. An adapter may call the same command, but an
 agent should not hand-roll a parallel filing, movement, or legal-record check unless the competent
 route records why the CLI is unavailable or insufficient.
+Where a governed action targets an external service or repository movement and a safe CLI exists,
+use that CLI route as well: `git` for repository state, `gh` for GitHub PR/check/review state,
+runtime CLIs for agent probes, and build/test CLIs for validation. Before a governed push, PR
+readiness step, merge, release, or publication, retrieve the relevant licence, warrant, or route
+evidence through the CLI where available, including `cdd release-warrant` for public VJS push
+authority. Non-CLI connectors or UI paths are exemption routes unless no CLI is available, safe,
+authorised, or capable for that act.
 For supported merge or public-release verification, run `cdd local-ci` locally. VJS compliance does
 not depend on GitHub Actions or hosted CI.
 
@@ -110,6 +117,7 @@ cdd law get "<citation|id>"
 cdd graph node "<node|citation>"
 cdd graph edges "<node|citation>"
 cdd lodge-judgment
+cdd release-warrant --remote-url <url> --remote-ref <ref> --local-sha <sha>
 ```
 
 If a command prints or requires a runtime-specific workflow invocation, run the equivalent in the

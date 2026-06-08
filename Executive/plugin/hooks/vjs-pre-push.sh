@@ -26,6 +26,9 @@
 #   AUTHORISED_LOCAL_SHA=<exact local sha being pushed>
 #
 # If an optional field is present it must match the attempted push.
+#
+# Agents can inspect the same authority evidence before pushing with:
+#   cdd release-warrant --remote-url <url> --remote-ref <ref> --local-sha <sha>
 set -euo pipefail
 
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
@@ -166,6 +169,8 @@ while read -r local_ref local_sha remote_ref remote_sha; do
     echo "Ref:    $local_ref ($local_sha) -> $remote_ref" >&2
     echo "" >&2
     echo "This is an irreversible outward act. Record the Founder checkpoint first, then retry." >&2
+    echo "Inspect the available licence/warrant evidence with:" >&2
+    echo "  cdd release-warrant --remote-url '$REMOTE_URL' --remote-ref '$remote_ref' --local-sha '$local_sha'" >&2
     echo "Accepted records:" >&2
     for record in "${AUTH_RECORDS[@]}"; do echo "  - $record" >&2; done
   fi

@@ -41,11 +41,20 @@ express amendment of CASE-LAW ss. 1, 2, 9, 10).
 |---|---|---|
 | 26 | Statutory Instruments (Framework) Act 2026 | in force (Royal Assent 2026-06-06) - amends Bills 14/16/13/15 to instantiate the SI route ([2026] REALM-PC 10, [2026] REALM-PC 11) and inserts enabling clauses into 9 parent Acts |
 | 27 | VJS (Constitution and Machinery) Act 2026 | in force (Royal Assent 2026-06-06) - names the realm VJS; mandates the four-branch layout + system-data-only + public-mechanics rules; renames MBWS -> Ministry of Business, Engineering and Skills and Defence/Security -> Ministry of Data Security (amending Bills 5, 21, 26); assigns the refactoring + security suites; confirms the Committee as SI maker; sets the judgments-publication rule |
+| 28 | CASE-LAW (Drafting Authority) (Amendment) Act 2026 | in force (Royal Assent 2026-06-06) - gives effect to [2026] REALM-SC 8 by confirming source-of-force discipline and Lexby's lack of law-making or adjudicative drafting authority |
+| 29 | Ministerial Policy Arm Act 2026 | in force (Royal Assent 2026-06-06) - codifies the ministry policy-arm route: ministries propose, the Standing Committee drafts, the Sovereign enacts, first-impression forks go to court |
+| 30 | Multi-Jurisdiction and Community Record Act 2026 | in force (Royal Assent 2026-06-07) - implements [2026] REALM-PC 17 on local subscription, local independence, optional community contribution, and canonical/fork tooling distinction |
+| 31 | Agent Loop (Harness and Determinism) Act 2026 | in force (Royal Assent 2026-06-08, conditional no-new-substantive-law assent) - consolidates scattered agent-loop law: preloop legal-evidence plan, cdd-first deterministic route where available, prehook court/subagent forecast, answer or act, posthook validity review, and Lexby self-referral question unless an exempt route is recorded |
 
 Bill 26 reads into the amended Acts (Bills 14, 16, 13, 15) and the nine enabling clauses; the principal Acts
 are read as amended (UK model), pending any future consolidation under the Court Rules and Practice
 Consolidation Act 2026 (Bill 24). Subordinate legislation made under the framework is registered in
 [`instruments/`](instruments/) and cited `[YEAR] REALM-SI N (under Bill NN)`.
+
+Bill 31 supplies the no-new-law agent-loop consolidation method for later cleanup: a source-equivalence
+table is required before an existing good-law source, Act provision, SI provision, practice text, policy route,
+hook route, CLI route, or register entry is marked superseded or retired. Older sources remain live unless
+equivalence is proved or a competent organ separately changes the law.
 
 ## Case-law-origin articles (the founding settlement, now codified by Act where noted)
 
