@@ -151,3 +151,7 @@ The following orders bind the V2 repo from inception:
 - ORDER-BOOT-010: The public/private boundary is enforced by deterministic scanner, not model judgement.
 
 Signed: Principal, 2026-06-08
+
+## 14. Royal Assent and founding (2026-06-09)
+
+The constitutional relay is complete. The Computer-First Realm Act 2026 (Bill 32; [2026] VJS-ACT 8), drafted by the Standing Committee on the V2 Kernel Team's void first draft and settled on [2026] REALM-PC 24 and [2026] REALM-SC 10, received **Royal Assent from the Sovereign Founder on 2026-06-09**. The Act is enacted and **stayed**: it commences as live V2 runtime law on satisfaction and recording of its Schedule 1 conditions. See `lawpack/v2/provenance/founding/COMMENCEMENT-V2-0001.md` and order `2026-VJS-COMMENCEMENT-001`. V2 is founded; full commencement has a recorded last mile (the entrenchment invariant, the verified protective-floor carry-forward, and a real founding-lock digest).

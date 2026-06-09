@@ -295,6 +295,7 @@ pub struct RawPredicate {
     pub field: Option<String>,
     pub max: Option<usize>,
     pub fields: Option<Vec<String>>,
+    pub allowed: Option<Vec<String>>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -336,6 +337,14 @@ pub enum PredicateExpr {
     McpLocalFirst,
     DirectoryRolesResolve,
     V1NotLoadedByDefault,
+    /// Affirmative, fail-closed allow-list enforcement of CASE-LAW s. 23(5)
+    /// ([2026] REALM-SC 10): a record that claims runtime force carries it ONLY
+    /// if it declares an `assent_source` resolving to one of `allowed` (e.g. a
+    /// specific Sovereign-assent event, or a standing-bounded route tracing to
+    /// specific assent). Absence, emptiness, an unrecognised form, or an
+    /// unresolved trace each cause rejection. This is NOT a deny-list: a record
+    /// that merely omits `assent_source` is rejected, never passed.
+    AssentSourceValid { allowed: Vec<String> },
 }
 
 impl RawPredicate {
@@ -458,6 +467,17 @@ impl RawPredicate {
             "mcp_local_first" => Ok(PredicateExpr::McpLocalFirst),
             "directory_roles_resolve" => Ok(PredicateExpr::DirectoryRolesResolve),
             "v1_not_loaded_by_default" => Ok(PredicateExpr::V1NotLoadedByDefault),
+            "assent_source_valid" => {
+                let allowed = self
+                    .allowed
+                    .as_ref()
+                    .ok_or("assent_source_valid requires allowed")?
+                    .clone();
+                if allowed.is_empty() {
+                    return Err("assent_source_valid requires a non-empty allowed list".to_string());
+                }
+                Ok(PredicateExpr::AssentSourceValid { allowed })
+            }
             other => Err(format!("Unknown predicate kind: {}", other)),
         }
     }
