@@ -39,9 +39,19 @@ pub fn resolve_authority(
 
 fn scope_matches(scope: &Scope, input: &RouteInput) -> bool {
     if let Some(ref jurisdictions) = scope.jurisdictions {
-        if let Some(ref input_j) = input.jurisdiction {
-            if !jurisdictions.contains(input_j) && !jurisdictions.iter().any(|j| j.0 == "*") {
-                return false;
+        let wildcard = jurisdictions.iter().any(|j| j.0 == "*");
+        match input.jurisdiction {
+            // A scope that names jurisdictions is a restriction; an input with
+            // no jurisdiction must not slip past it (only "*" lets it through).
+            Some(ref input_j) => {
+                if !jurisdictions.contains(input_j) && !wildcard {
+                    return false;
+                }
+            }
+            None => {
+                if !wildcard {
+                    return false;
+                }
             }
         }
     }
