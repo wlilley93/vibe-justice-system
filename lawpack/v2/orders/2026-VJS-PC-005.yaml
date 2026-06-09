@@ -1,0 +1,63 @@
+id: 2026-VJS-PC-005
+assent_source: standing_bounded_assent
+court: privy_council
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: governance.institutions-and-repos-house
+holding: >
+  V2 Privy Council, 3-0 on substance. Repos House is retained as a lightweight,
+  declarative, non-sovereign jurisdiction registry and certification ledger:
+  registration creates no legal force (local sovereign invocation and the lawpack
+  lock do); it decides no merits; it has two layers (private operational in-repo;
+  public system-data-only); registration is optional unless a repo federates,
+  publishes to the Gazette, or claims canonical status; and certification is a
+  restatement of deterministic kernel/gate output (local_ci, hooks, boundary
+  scan, permit gate), never a human attestation or office judgment. Repos House
+  extends, does not supersede, REG-REPOS-REGISTER-001 (2-1; Devereux J would
+  consolidate by naming). MoJ and MBES are dropped as mandatory institutions,
+  paths, or runtime packaging; their functions are carried forward as Court
+  Registry plus Gazette Clerk (clerical only) and Toolchain Registry plus
+  Skills/Agent Registry (derived, pointer-only), with policy arms becoming a
+  Policy Proposal record type routed by the existing kernel lawmaking route (no
+  new office), and V1 ministry names as archive lineage and optional ceremonial
+  aliases with no legal, path, or kernel effect. The institutional model is
+  settled by this ruling (no DEC-INSTITUTIONS-001, 2-1); REG-REPOS-HOUSE-001 is
+  drafted now under Framework Act s.7 and sequenced after permit enforcement and
+  the lawmaking route (Repos House is not the critical path).
+directives:
+  - id: D1
+    actor: agent
+    must: treat_repos_house_as_declarative_certification_is_restatement_of_kernel_output_not_attestation
+    when: registering_or_certifying_a_repo
+  - id: D2
+    actor: agent
+    must: carry_moj_and_mbes_functions_as_registries_and_roles_not_ministries
+    when: organising_v2_institutions
+  - id: D3
+    actor: agent
+    must: route_a_policy_proposal_through_the_existing_lawmaking_route_not_a_new_office
+    when: handling_policy
+  - id: D4
+    actor: standing_committee
+    must: draft_reg_repos_house_001_under_s7_extending_reg_repos_register_001_build_sequenced_after_permit_enforcement
+    when: after_order
+forbidden:
+  - repos_house_or_any_office_conferring_or_deciding_legal_force_boundness_validity_or_canonicity
+  - publishing_private_repo_facts_in_the_public_register
+  - requiring_a_ministry_or_v1_v2_tree_layout_or_giving_v1_names_legal_or_path_effect
+  - human_attestation_of_a_certification_field_that_must_be_a_kernel_output
+exceptions:
+  - "registration is owed (not optional) once a repo federates, publishes to the Gazette, or claims canonical status"
+supersedes: []
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-005-opinion.md"
+runtime_summary: >
+  Repos House is a declarative, non-sovereign, two-layer jurisdiction registry;
+  certification restates deterministic kernel output, never an attestation;
+  invocation binds, the registry only records; it extends REG-REPOS-REGISTER-001.
+  MoJ/MBES are carried forward as Court Registry + Gazette Clerk and Toolchain +
+  Skills/Agent Registry; policy arms become Policy Proposal records routed by the
+  existing lawmaking route; V1 names are no-effect aliases. The model is settled
+  by ruling; REG-REPOS-HOUSE-001 is drafted now and sequenced after permit
+  enforcement.
+created_at: "2026-06-09T00:00:00Z"
