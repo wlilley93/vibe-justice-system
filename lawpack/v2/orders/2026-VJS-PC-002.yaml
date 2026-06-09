@@ -1,0 +1,58 @@
+id: 2026-VJS-PC-002
+assent_source: standing_bounded_assent
+court: privy_council
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: governance.repository-topology
+holding: >
+  V2 Privy Council, 3-0. The canon consolidates onto the established public
+  repository as the one canonical line (T1): canon on main, the repository name
+  dropping the spent "v2" ordinal (Q6) with an inbound redirect; T2 and T3
+  rejected (T2 inverts canonicalisation and forfeits the public Gazette; T3
+  leaves two canonical lines and splits the single-Gazette graph, contrary to
+  s.16). The V1 Archive estate is anchored by an immutable signed tag, exposed
+  via a protected read-only v1 branch and a distinct published Archive
+  directory; a bare branch is too weak a vehicle for an estate. One Gazette on
+  the canonical line carries both estates including V1 archival law so the
+  citation graph resolves in one place; V1/REALM records carry machine-readable
+  estate markers (estate v1_archive, status archival_source_only, live_authority
+  false); a citation to a V1 source is a source edge, not an authority edge; V1
+  binds only by incorporation (s.8/s.9). The destination is settled now but the
+  physical migration is STAGED behind a governed, lock-preserving instrument and
+  halts and returns if path-continuity and invariant-scoping cannot be proven.
+directives:
+  - id: D1
+    actor: standing_committee
+    must: codify_topology_in_the_framework_act_and_raft_as_void_first_drafts
+    when: after_order
+  - id: D2
+    actor: agent
+    must: treat_v1_records_as_archival_source_only_with_estate_markers_and_source_edges
+    when: building_the_gazette_or_citing_v1
+  - id: D3
+    actor: agent
+    must: perform_any_repo_migration_only_as_a_governed_lock_preserving_staged_act
+    when: migrating
+forbidden:
+  - keeping_two_canonical_lines_or_splitting_the_single_gazette_graph
+  - resting_the_v1_archive_estate_on_a_bare_movable_branch
+  - a_mass_edit_or_blind_move_that_breaks_the_lock_or_fail_opens_a_path_scoped_invariant
+  - treating_a_v1_source_citation_as_an_authority_edge_or_v1_archival_law_as_live
+exceptions:
+  - "halt and re-refer (preferring two repos) if path-continuity and invariant-scoping cannot be proven at execution"
+  - "the actual move, push, branch protection, tag signing, and AGPL re-licence are the Principal's warranted acts; AGPL adoption is the copyright holder's prerogative recorded by the Act (the public repo is presently unlicensed)"
+supersedes: []
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-002-opinion.md"
+runtime_summary: >
+  Consolidate onto the established public repo as one canonical line (canon on
+  main; drop the "v2" name with a redirect). The V1 archive is an immutable-tag-
+  anchored, protected, read-only estate rendered as a distinct Archive directory,
+  not a bare branch. One Gazette carries both estates incl. V1 archival-source-
+  only law; the graph resolves in one place; V1 citations are source edges, not
+  authority edges; V1 binds only by incorporation. The destination is settled now;
+  the byte-move is staged behind a governed, lock-preserving instrument (no mass
+  edit; preserve paths or redirect; prove each fatal invariant still binds; fresh
+  lock under a commencement addendum, old lock pinned) and halts if continuity
+  cannot be proven. The Committee is directed to codify in the Framework Act + raft.
+created_at: "2026-06-09T00:00:00Z"
