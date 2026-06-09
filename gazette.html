@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The VJS Gazette - Law Reports</title>
-<meta name="description" content="The Realm Law Reports: the living canon and the honoured archive as readable cards.">
+<meta name="description" content="The Realm Law Reports: the register of the living canon and the honoured archive.">
 <link rel="alternate" type="application/atom+xml" title="The VJS Gazette" href="gazette.xml">
 <link rel="canonical" href="https://wlilley93.github.io/vibe-justice-system/gazette.html">
 <meta property="og:title" content="The VJS Gazette - Law Reports">
-<meta property="og:description" content="The Realm Law Reports: the living canon and the honoured archive as readable cards.">
+<meta property="og:description" content="The Realm Law Reports: the register of the living canon and the honoured archive.">
 <meta property="og:image" content="https://wlilley93.github.io/vibe-justice-system/assets/social-preview.png">
 <meta name="twitter:card" content="summary_large_image">
 <style>
@@ -27,56 +27,80 @@
   * { box-sizing:border-box; }
   body { margin:0; background:var(--cream); color:#15202b;
     font-family:'Iowan Old Style','Palatino Linotype','Times New Roman',serif; line-height:1.5; }
-  header { text-align:center; padding:2rem 1rem 1rem; border-bottom:2px solid var(--ink); }
-  .logo { display:block; width:min(300px,64vw); height:auto; margin:0 auto .7rem; }
-  header h1 { margin:.2rem 0; font-size:1.9rem; letter-spacing:.04em; color:var(--ink); }
-  header .sub { color:var(--muted); font-style:italic; font-size:.95rem; }
-  .wrap { max-width:980px; margin:0 auto; padding:1.2rem 1rem 4rem; }
-  #q { width:100%; padding:.8rem 1rem; font-size:1.1rem; border:1.5px solid var(--ink);
+
+  /* the compact header bar */
+  .bar { position:sticky; top:0; z-index:9; display:flex; align-items:center; gap:.8rem;
+    padding:.45rem .9rem; background:var(--paper); border-bottom:2px solid var(--ink); }
+  .bar img.mark { height:34px; width:auto; display:block; }
+  .bar .word { line-height:1.1; }
+  .bar .word b { display:block; font-size:.95rem; letter-spacing:.03em; color:var(--ink); }
+  .bar .word span { font-size:.64rem; color:var(--muted); font-style:italic; }
+  .bar nav { display:flex; gap:.9rem; margin-left:1rem; }
+  .bar nav a { color:var(--ink); text-decoration:none; font-size:.85rem; border-bottom:1px solid transparent; }
+  .bar nav a:hover { border-bottom-color:var(--ink); }
+  .bar .gh { margin-left:auto; display:flex; align-items:center; color:var(--ink); }
+  .bar .gh svg { width:22px; height:22px; display:block; }
+  .bar .gh:hover { opacity:.7; }
+
+  .wrap { max-width:980px; margin:0 auto; padding:1rem 1rem 4rem; }
+  #q { width:100%; padding:.7rem 1rem; font-size:1.05rem; border:1.5px solid var(--ink);
     border-radius:6px; background:#fff; font-family:inherit; }
-  .tabs { display:flex; flex-wrap:wrap; gap:.4rem; margin:1rem 0 .4rem; }
-  .tab { --tone:var(--ink); --tone-bg:var(--cream); padding:.35rem .8rem; border:1px solid var(--tone);
-    border-radius:999px; cursor:pointer; background:transparent; color:var(--tone); font:inherit; font-size:.85rem; }
-  .tab.active { background:var(--tone); color:var(--cream); }
-  .tab .n { color:inherit; opacity:.65; font-size:.75rem; }
-  .meta { color:var(--muted); font-size:.85rem; margin:.3rem 0 1rem; }
-  .start { border:1px solid var(--rule); border-radius:6px; background:var(--paper); padding:.85rem 1rem; margin:0 0 1rem; }
-  .start h2 { margin:0; color:var(--ink); font-size:1.05rem; }
-  .start p { margin:.2rem 0 .55rem; color:#33404f; }
-  .quick { display:flex; flex-wrap:wrap; gap:.45rem; margin:.45rem 0 0; }
-  .quick a { border:1px solid var(--rule); border-radius:4px; padding:.28rem .55rem; color:var(--ink);
-    text-decoration:none; background:#fff; font-size:.86rem; }
-  .quick a:hover { border-color:var(--ink); }
-  .tone-sc { --tone:var(--sc); --tone-bg:var(--sc-bg); }
-  .tone-ca { --tone:var(--ca); --tone-bg:var(--ca-bg); }
-  .tone-first { --tone:var(--first); --tone-bg:var(--first-bg); }
-  .tone-act { --tone:var(--act); --tone-bg:var(--act-bg); }
-  .tone-si { --tone:var(--si); --tone-bg:var(--si-bg); }
-  .tone-pc { --tone:var(--pc); --tone-bg:var(--pc-bg); }
-  .tone-submission { --tone:var(--submission); --tone-bg:var(--submission-bg); }
-  .tone-v1 { --tone:var(--v1); --tone-bg:var(--v1-bg); }
-  .tone-v2 { --tone:var(--v2); --tone-bg:var(--v2-bg); }
-  .card { --tone:var(--ink); --tone-bg:#fff; border:1px solid var(--rule); border-left:5px solid var(--tone);
-    border-radius:6px; padding:.8rem 1rem; margin:.7rem 0; background:var(--paper);
-    transition:border-color .12s ease, transform .12s ease; }
+  #q:focus { outline:none; box-shadow:0 0 0 3px rgba(26,39,68,.12); }
+
+  /* the filter rows: quiet pills, counts as small figures */
+  .tabs { display:flex; flex-wrap:wrap; gap:.35rem; margin:.6rem 0 0; align-items:center; }
+  .tabs .lbl { font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);
+    margin-right:.2rem; min-width:3.4rem; }
+  .tab { --tone:var(--ink); padding:.22rem .65rem; border:1px solid var(--rule);
+    border-radius:999px; cursor:pointer; background:var(--paper); color:var(--tone); font:inherit; font-size:.8rem; }
+  .tab:hover { border-color:var(--tone); }
+  .tab.active { background:var(--tone); border-color:var(--tone); color:var(--cream); }
+  .tab .n { opacity:.6; font-size:.7rem; margin-left:.2rem; }
+  .tone-sc.tab { --tone:var(--sc); } .tone-ca.tab { --tone:var(--ca); } .tone-first.tab { --tone:var(--first); }
+  .tone-act.tab { --tone:var(--act); } .tone-si.tab { --tone:var(--si); } .tone-pc.tab { --tone:var(--pc); }
+  .tone-submission.tab { --tone:var(--submission); }
+  .tone-v1.tab { --tone:var(--v1); } .tone-v2.tab { --tone:var(--v2); }
+  .meta { color:var(--muted); font-size:.82rem; margin:.5rem 0 .8rem; }
+
+  /* the register cards: the whole card opens the document */
+  .card { --tone:var(--ink); position:relative; border:1px solid var(--rule); border-left:5px solid var(--tone);
+    border-radius:6px; padding:.75rem 9rem .75rem 1rem; margin:.65rem 0; background:var(--paper);
+    cursor:pointer; transition:border-color .12s ease, transform .12s ease; }
+  .card:hover { border-color:var(--ink); transform:translateY(-1px); }
+  .card:focus-visible { outline:2px solid var(--ink); outline-offset:2px; }
   .card:target { outline:2px solid var(--ink); outline-offset:2px; }
+  .tone-sc.card { --tone:var(--sc); } .tone-ca.card { --tone:var(--ca); } .tone-first.card { --tone:var(--first); }
+  .tone-act.card { --tone:var(--act); } .tone-si.card { --tone:var(--si); } .tone-pc.card { --tone:var(--pc); }
+  .tone-submission.card { --tone:var(--submission); }
   .card .titleline { font-weight:bold; color:var(--ink); font-size:1.05rem; }
-  .card .court { color:var(--muted); font-size:.85rem; margin-top:.1rem; }
-  .card .ratio { margin:.4rem 0; }
-  .chip { display:inline-block; border:1px solid var(--tone); border-radius:4px; background:var(--tone-bg);
-    color:var(--tone); font-size:.68rem; font-style:normal; font-weight:normal; letter-spacing:.04em;
-    line-height:1.2; text-transform:uppercase; padding:.08rem .4rem; vertical-align:.08rem; margin-left:.4rem; }
-  .badge { display:inline-block; font-size:.7rem; text-transform:uppercase; letter-spacing:.06em;
-    padding:.05rem .45rem; border:1px solid var(--muted); color:var(--muted); border-radius:4px;
-    margin-left:.4rem; vertical-align:.14rem; }
-  .badge.good { color:#1a3a1a; border-color:#1a3a1a; }
-  .badge.bad { color:var(--accent); border-color:var(--accent); }
-  .card details { margin:.5rem 0 0; }
-  .card summary { cursor:pointer; color:var(--ink); font-size:.82rem; }
-  .card .points { margin:.45rem 0 .2rem; padding-left:1.25rem; font-size:.92rem; }
-  .card .points li { margin:.28rem 0; }
-  .card .links { margin-top:.45rem; }
-  .card .links a { color:var(--ink); margin-right:1rem; font-size:.85rem; }
+  .card .court { color:var(--muted); font-size:.84rem; margin-top:.12rem; }
+  .card .ratio { margin:.35rem 0 0; }
+  /* exactly two uniform chips, docked top right: the kind and the source */
+  .chips { position:absolute; top:.7rem; right:.7rem; display:flex; flex-direction:column; gap:.22rem; }
+  .chip { display:inline-block; width:7.6rem; text-align:center; border:1px solid var(--tone,var(--muted));
+    border-radius:4px; background:var(--tone-bg,#fff); color:var(--tone,var(--muted)); font-size:.62rem;
+    font-style:normal; font-weight:normal; letter-spacing:.05em; line-height:1.25; text-transform:uppercase;
+    padding:.12rem 0; margin:0; }
+  .chip.tone-sc { --tone:var(--sc); --tone-bg:var(--sc-bg); }
+  .chip.tone-ca { --tone:var(--ca); --tone-bg:var(--ca-bg); }
+  .chip.tone-first { --tone:var(--first); --tone-bg:var(--first-bg); }
+  .chip.tone-act { --tone:var(--act); --tone-bg:var(--act-bg); }
+  .chip.tone-si { --tone:var(--si); --tone-bg:var(--si-bg); }
+  .chip.tone-pc { --tone:var(--pc); --tone-bg:var(--pc-bg); }
+  .chip.tone-submission { --tone:var(--submission); --tone-bg:var(--submission-bg); }
+  .chip.tone-v1 { --tone:var(--v1); --tone-bg:var(--v1-bg); }
+  .chip.tone-v2 { --tone:var(--v2); --tone-bg:var(--v2-bg); }
+  .card details { margin:.45rem 0 0; }
+  .card summary { cursor:pointer; color:var(--muted); font-size:.8rem; user-select:none; }
+  .card summary:hover { color:var(--ink); }
+  .card .points { margin:.4rem 0 .2rem; padding-left:1.25rem; font-size:.92rem; }
+  .card .points li { margin:.26rem 0; }
+  .card .linbody { font-size:.8rem; color:var(--muted); padding:.25rem 0 .1rem; }
+  .card .linbody b { font-size:.64rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted);
+    display:block; margin-top:.3rem; }
+  .card .linbody button { font:inherit; font-size:.78rem; color:var(--ink); border:1px solid var(--rule);
+    border-radius:4px; background:#fff; padding:.08rem .4rem; margin:.12rem .22rem .12rem 0; cursor:pointer; }
+  .card .linbody button:hover { border-color:var(--ink); }
   .part { margin:1.6rem 0 .2rem; padding-bottom:.3rem; border-bottom:2px solid var(--ink);
     color:var(--ink); font-size:1.15rem; letter-spacing:.04em; }
   .part .n { color:var(--muted); font-size:.8rem; font-weight:normal; letter-spacing:0; }
@@ -84,14 +108,18 @@
     color:var(--muted); font-size:.8rem; font-style:italic; }
   @media print {
     body { background:#fff; }
-    #q, .tabs, .quick, #latest-wrap { display:none !important; }
+    .bar, #q, .tabs, .meta { display:none !important; }
     .card { background:#fff; border:none; border-left:3px solid #000; border-radius:0;
-      break-inside:avoid; padding:.4rem .8rem; }
-    .chip, .badge { background:#fff !important; }
-    .card .links a[href^="http"]::after { content:" (" attr(href) ")"; font-size:.7rem; color:#444; }
-    .card .links a:not([href^="http"]) { display:none; }
+      break-inside:avoid; padding:.4rem .8rem; cursor:auto; }
+    .chip { background:#fff !important; }
     footer { font-size:.7rem; }
     @page { margin:2cm; }
+  }
+  @media (max-width: 640px) {
+    .bar nav { gap:.55rem; }
+    .bar .word span { display:none; }
+    .card { padding-right:1rem; }
+    .chips { position:static; flex-direction:row; margin:.3rem 0 0; }
   }
 </style>
 </head>
@@ -104,43 +132,37 @@
     Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001).
   </div>
 </noscript>
-<header>
-  <img class="logo" src="assets/vibe-justice-system-logo.png" alt="Vibe Justice System">
-  <h1>The VJS Gazette</h1>
-  <div class="sub">The Realm Law Reports &amp; Gazette - the living canon and the honoured archive</div>
-</header>
+
+<div class="bar">
+  <img class="mark" src="assets/vjs-logo-mark.png" alt="">
+  <span class="word"><b>The VJS Gazette</b><span>the Realm Law Reports</span></span>
+  <nav>
+    <a href="index.html">Constellation</a>
+    <a href="gazette.xml">Feed</a>
+  </nav>
+  <a class="gh" href="https://github.com/wlilley93/vibe-justice-system" title="The canonical repository" aria-label="The canonical repository on GitHub">
+    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+  </a>
+</div>
+
 <div class="wrap">
-  <div class="start">
-    <h2>The record of the realm</h2>
-    <p>Live law is <strong>the living canon</strong> (the compact lawpack the kernel loads); the first
-       generation is preserved, read-only, as <strong>the honoured archive</strong>. Publication here is
-       constitutively inert: force comes from the lawpack and the Sovereign's assent, never from being listed.</p>
-    <div class="quick">
-      <a href="index.html">Explore the constellation &rarr;</a>
-      <a href="https://github.com/wlilley93/vibe-justice-system">The canonical repository</a>
-      <a href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/INDEX.md">The archive citator</a>
-    </div>
-  </div>
-  <div class="start" id="latest-wrap" style="display:none">
-    <h2>Latest in the Gazette <a style="font-size:.78rem;margin-left:.5rem" href="gazette.xml">Subscribe (Atom)</a></h2>
-    <div class="quick" id="latest"></div>
-  </div>
-  <input id="q" placeholder="Search the law&hellip;  (e.g. assent, permits, hooks, PC 5, REALM-SC 10)" autocomplete="off">
-  <div class="tabs" id="estate-tabs" aria-label="Filter by estate"></div>
-  <div class="tabs" id="class-tabs" aria-label="Filter by class"></div>
-  <div class="tabs" id="sort-tabs" aria-label="Sort order"></div>
+  <input id="q" placeholder="Search the law&hellip;  (e.g. assent, permits, hooks, PC 5, REALM-SC 10)" autocomplete="off"
+    aria-label="Search the law">
+  <div class="tabs" id="estate-tabs" role="group" aria-label="Filter by estate"></div>
+  <div class="tabs" id="class-tabs" role="group" aria-label="Filter by class"></div>
+  <div class="tabs" id="sort-tabs" role="group" aria-label="Sort order"></div>
   <div class="meta" id="meta" aria-live="polite"></div>
   <div id="list"></div>
 </div>
-<footer>Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001; [2026] REALM-SC 10).
-  Generated from the lawpack by <code>vjs gazette</code>.</footer>
+<footer id="foot"></footer>
 
 <script src="gazette-data.js"></script>
 <script>
+'use strict';
 const ITEMS = window.GAZETTE.items;
+const byId = new Map(ITEMS.map(d => [d.id, d]));
 
-// Presentation-only tone taxonomy (the MoJ colour-taxonomy request): colour is
-// an orientation aid, never a source of force, priority, or validity.
+// Presentation-only tone taxonomy: an orientation aid, never a source of force.
 function tone(d) {
   if (d.kind === 'statute' || d.kind === 'act') return 'act';
   if (d.kind === 'regulation' || d.kind === 'rule' || d.kind === 'instrument') return 'si';
@@ -151,100 +173,148 @@ function tone(d) {
     return 'first';
   }
   if (d.kind === 'decision') return 'first';
-  return 'submission'; // invariants, obligations, specs: the machinery
+  return 'submission';
 }
 const KIND_LABEL = { statute:'Act', act:'Act', regulation:'Regulation', rule:'Rule', instrument:'Instrument',
   order:'Order', judgment:'Judgment', decision:'Decision', invariant:'Invariant', obligation:'Obligation', spec:'Spec' };
-const COURT_LABEL = { sc:'Supreme Court', pc:'Privy Council', ca:'Court of Appeal', county:'County Court', first:'First Instance' };
+const SOURCE_LABEL = { sc:'Supreme Court', pc:'Privy Council', ca:'Court of Appeal', county:'County Court' };
+const ESTATE_NAME = { v2:'The living canon', v1:'The honoured archive' };
+const KIND_PART = { statute:'Acts', act:'Acts', regulation:'Instruments and regulations',
+  instrument:'Instruments and regulations', rule:'Instruments and regulations',
+  order:'Orders and judgments', judgment:'Orders and judgments', decision:'Decisions of record',
+  invariant:'Kernel machinery', obligation:'Kernel machinery', spec:'Kernel machinery' };
 const CLASS_TABS = [
   ['all','All law'], ['act','Acts'], ['si','Instruments'], ['sc','Supreme Court'],
   ['pc','Privy Council'], ['first','First instance'], ['submission','Machinery'],
 ];
 const ESTATE_TABS = [['all','Both estates'], ['v2','The living canon'], ['v1','The honoured archive']];
-const ESTATE_NAME = { v2:'The living canon', v1:'The honoured archive' };
-const ESTATE_CHIP = { v2:'Canon', v1:'Archive' };
+const SORT_TABS = [['newest','Newest first'], ['oldest','Oldest first'], ['kind','By kind'], ['timeline','Timeline']];
 const KIND_ORDER = { statute:0, act:0, regulation:1, instrument:1, rule:2, order:3, judgment:3,
   decision:4, invariant:5, obligation:6, spec:7 };
 
-const SORT_TABS = [['newest','Newest first'], ['oldest','Oldest first'], ['kind','By kind'], ['timeline','Timeline']];
 let estate = 'all', klass = 'all', query = '', sortMode = 'newest';
 
-function fmtDate(iso) {
-  if (!iso) return '';
-  const [y, m, d] = iso.split('-').map(Number);
-  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  return `${d} ${months[m - 1]} ${y}`;
-}
-
-function goodBad(status) {
-  const s = (status || '').toLowerCase();
-  if (/(void|per.incuriam|superseded|revoked|stayed)/.test(s)) return 'bad';
-  if (/(good|in.force|binding|active|assented)/.test(s)) return 'good';
-  return '';
-}
-// Escapes for BOTH element and attribute context (quotes included).
 function esc(t) {
   return String(t ?? '').replace(/[&<>"']/g, c =>
     ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
 }
-
+function fmtDate(iso) {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-').map(Number);
+  const M = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return `${d} ${M[m - 1]} ${y}`;
+}
 function matches(d) {
   if (estate !== 'all' && d.estate !== estate) return false;
   if (klass !== 'all' && tone(d) !== klass) return false;
   if (!query) return true;
-  const hay = [d.id, d.title, d.citation, d.summary, d.status, ...(d.points||[])].join(' ').toLowerCase();
+  const hay = [d.id, d.title, d.citation, d.summary, d.status, ...(d.points || [])].join(' ').toLowerCase();
   return query.toLowerCase().split(/\s+/).every(w => hay.includes(w));
 }
 
 function sorted(list) {
-  // The canon leads the archive in every mode (the parts of the Gazette);
-  // inside a part, the chosen order applies.
-  const byEstate = (a, b) => (a.estate === b.estate ? 0 : a.estate === 'v2' ? -1 : 1);
+  // The order's sort rules: the canon leads under newest; the archive leads
+  // under oldest (it is the older estate); timeline is estate-blind.
+  const canonFirst = (a, b) => (a.estate === b.estate ? 0 : a.estate === 'v2' ? -1 : 1);
+  const archiveFirst = (a, b) => (a.estate === b.estate ? 0 : a.estate === 'v1' ? -1 : 1);
   const byKind = (a, b) =>
     ((KIND_ORDER[a.kind] ?? 9) - (KIND_ORDER[b.kind] ?? 9)) ||
     a.id.localeCompare(b.id, undefined, { numeric: true });
   const byDateDesc = (a, b) => (b.date || '').localeCompare(a.date || '') || byKind(a, b);
   const byDateAsc = (a, b) => (a.date || '').localeCompare(b.date || '') || byKind(a, b);
   if (sortMode === 'timeline') return [...list].sort(byDateDesc);
-  const inner = sortMode === 'newest' ? byDateDesc : sortMode === 'oldest' ? byDateAsc : byKind;
-  return [...list].sort((a, b) => byEstate(a, b) || inner(a, b));
+  if (sortMode === 'oldest') return [...list].sort((a, b) => archiveFirst(a, b) || byDateAsc(a, b));
+  if (sortMode === 'kind') return [...list].sort((a, b) => byKind(a, b) || canonFirst(a, b) || byDateAsc(a, b));
+  return [...list].sort((a, b) => canonFirst(a, b) || byDateDesc(a, b));
+}
+function partOf(d) {
+  if (sortMode === 'timeline') return d.date || 'undated';
+  if (sortMode === 'kind') return KIND_PART[d.kind] || 'Other records';
+  return d.estate;
+}
+function partLabel(part, d) {
+  if (sortMode === 'timeline') return fmtDate(part) || part;
+  if (sortMode === 'kind') return part;
+  return ESTATE_NAME[d.estate];
 }
 
 function card(d) {
   const t = tone(d);
-  const courtLine = [d.citation, KIND_LABEL[d.kind] || d.kind, COURT_LABEL[d.court] || '', fmtDate(d.date)]
-    .filter(Boolean).map(esc).join(' &middot; ');
-  const gb = goodBad(d.status);
-  const points = (d.points || []).map(p => `<li>${esc(p)}</li>`).join('');
-  return `<div class="card tone-${t}" id="${esc(d.id)}">
-    <div class="titleline">${esc(d.title)}<span class="chip">${esc(KIND_LABEL[d.kind] || d.kind)}</span><span class="chip" style="--tone:var(--${d.estate === 'v1' ? 'v1' : 'v2'});--tone-bg:var(--${d.estate === 'v1' ? 'v1' : 'v2'}-bg)">${ESTATE_CHIP[d.estate]}</span>${d.status ? `<span class="badge ${gb}">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : ''}${d.assent_source ? `<span class="badge" title="The assent form this record declares">${esc(d.assent_source.replace(/_/g, ' '))}</span>` : ''}</div>
-    ${courtLine ? `<div class="court">${courtLine}</div>` : ''}
-    <div class="ratio">${esc(d.summary)}</div>
-    ${points ? `<details><summary>Main points</summary><ul class="points">${points}</ul></details>` : ''}
-    <div class="links">
-      <a href="${esc(d.url)}">Read the source</a>
-      <a href="index.html#${encodeURIComponent(d.id)}">Read in the constellation</a>
-      <a href="${esc(d.url.replace('/blob/', '/commits/'))}">History</a>
-    </div>
-  </div>`;
+  const sourceChip = d.court
+    ? `<span class="chip tone-${t}">${esc(SOURCE_LABEL[d.court] || d.court)}</span>`
+    : `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'The archive' : 'The canon'}</span>`;
+  const metaBits = [d.citation, fmtDate(d.date), (d.status || '').replace(/[_-]/g, ' '),
+    d.assent_source ? d.assent_source.replace(/_/g, ' ') : ''].filter(Boolean).map(esc).join(' &middot; ');
+
+  const el = document.createElement('div');
+  el.className = `card tone-${t}`;
+  el.id = d.id;
+  el.tabIndex = 0;
+  el.setAttribute('role', 'link');
+  el.setAttribute('aria-label', `Open ${d.title}`);
+  el.innerHTML = `
+    <div class="chips"><span class="chip tone-${t}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>${sourceChip}</div>
+    <div class="titleline">${esc(d.title)}</div>
+    ${metaBits ? `<div class="court">${metaBits}</div>` : ''}
+    <div class="ratio">${esc(d.summary)}</div>`;
+
+  if ((d.points || []).length) {
+    const det = document.createElement('details');
+    det.innerHTML = `<summary>Main points</summary><ul class="points">${d.points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>`;
+    det.addEventListener('click', e => e.stopPropagation());
+    el.appendChild(det);
+  }
+
+  // the lineage dropdown: what this rests on, and what rests on it
+  const get = ids => (ids || []).map(c => byId.get(c)).filter(Boolean);
+  const assoc = [
+    ['Derives force from', [...get(d.lineage), ...get(d.cites)]],
+    ['Relied on by', ITEMS.filter(x => (x.cites || []).includes(d.id) || (x.lineage || []).includes(d.id))],
+  ].filter(([, l]) => l.length);
+  if (assoc.length) {
+    const det = document.createElement('details');
+    det.innerHTML = `<summary>Lineage</summary>`;
+    const body = document.createElement('div');
+    body.className = 'linbody';
+    for (const [label, list] of assoc) {
+      const b = document.createElement('b');
+      b.textContent = label;
+      body.appendChild(b);
+      const line = document.createElement('div');
+      for (const other of list.slice(0, 10)) {
+        const btn = document.createElement('button');
+        btn.textContent = other.title.length > 38 ? other.title.slice(0, 36) + '…' : other.title;
+        btn.addEventListener('click', e => { e.stopPropagation(); location.href = other.doc || `law.html#${encodeURIComponent(other.id)}`; });
+        line.appendChild(btn);
+      }
+      body.appendChild(line);
+    }
+    det.appendChild(body);
+    det.addEventListener('click', e => e.stopPropagation());
+    el.appendChild(det);
+  }
+
+  const open = () => { location.href = d.doc || `law.html#${encodeURIComponent(d.id)}`; };
+  el.addEventListener('click', open);
+  el.addEventListener('keydown', e => { if (e.key === 'Enter') open(); });
+  return el;
 }
 
 function tabBar(el, defs, current, counter, onpick) {
-  // Build once, then update in place: rebuilding stole keyboard focus.
   if (!el.dataset.built) {
     el.dataset.built = '1';
-    el.setAttribute('role', 'group');
     for (const [key, label] of defs) {
       const b = document.createElement('button');
       b.className = 'tab';
       b.dataset.key = key;
       if (key !== 'all') b.classList.add('tone-' + key);
-      b.innerHTML = `${label} <span class="n"></span>`;
+      b.innerHTML = `${label}<span class="n"></span>`;
       b.onclick = () => onpick(key);
       el.appendChild(b);
     }
   }
   for (const b of el.children) {
+    if (!b.dataset.key) continue;
     const key = b.dataset.key;
     b.classList.toggle('active', key === current);
     b.setAttribute('aria-pressed', String(key === current));
@@ -255,41 +325,41 @@ function tabBar(el, defs, current, counter, onpick) {
 function render() {
   const shown = sorted(ITEMS.filter(matches));
   tabBar(document.getElementById('estate-tabs'), ESTATE_TABS, estate,
-    k => ITEMS.filter(d => k === 'all' || d.estate === k).length,
+    k => k === 'all' ? '' : ` ${ITEMS.filter(d => d.estate === k).length}`,
     k => { estate = k; render(); });
   tabBar(document.getElementById('class-tabs'), CLASS_TABS, klass,
-    k => ITEMS.filter(d => (k === 'all' || tone(d) === k) && (estate === 'all' || d.estate === estate)).length,
+    k => k === 'all' ? '' : ` ${ITEMS.filter(d => tone(d) === k && (estate === 'all' || d.estate === estate)).length}`,
     k => { klass = k; render(); });
-  tabBar(document.getElementById('sort-tabs'), SORT_TABS, sortMode,
-    () => '', k => { sortMode = k; render(); });
+  tabBar(document.getElementById('sort-tabs'), SORT_TABS, sortMode, () => '', k => { sortMode = k; render(); });
   document.getElementById('meta').textContent =
-    `${shown.length} of ${ITEMS.length} items shown. Colour and chips are orientation aids only; the committed law is the source.`;
-  // The list is structured in parts: by estate normally, by day in timeline.
-  let html = '', lastPart = null;
+    `${shown.length} of ${ITEMS.length} items. Click any item to open the document. Colour and chips are orientation aids only; the committed law is the source.`;
+
+  const list = document.getElementById('list');
+  list.innerHTML = '';
+  let lastPart = null;
   for (const d of shown) {
-    const part = sortMode === 'timeline' ? (d.date || 'undated') : d.estate;
+    const part = partOf(d);
     if (part !== lastPart) {
-      const label = sortMode === 'timeline' ? fmtDate(part) || part : ESTATE_NAME[d.estate];
-      const count = shown.filter(x => (sortMode === 'timeline' ? (x.date || 'undated') : x.estate) === part).length;
-      html += `<h2 class="part">${esc(label)} <span class="n">${count} items</span></h2>`;
+      const h = document.createElement('h2');
+      h.className = 'part';
+      const count = shown.filter(x => partOf(x) === part).length;
+      h.innerHTML = `${esc(partLabel(part, d))} <span class="n">${count} items</span>`;
+      list.appendChild(h);
       lastPart = part;
     }
-    html += card(d);
+    list.appendChild(card(d));
   }
-  document.getElementById('list').innerHTML = html;
 }
 
+document.getElementById('q').addEventListener('input', e => { query = e.target.value.trim(); render(); });
 window.addEventListener('beforeprint', () => document.querySelectorAll('details').forEach(d => d.setAttribute('open', '')));
 window.addEventListener('afterprint', () => document.querySelectorAll('details').forEach(d => d.removeAttribute('open')));
-document.getElementById('q').addEventListener('input', e => { query = e.target.value.trim(); render(); });
 render();
 
-// Latest in the Gazette: the six newest items of the record.
-{
-  const latest = [...ITEMS].sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, 6);
-  document.getElementById('latest').innerHTML = latest.map(d =>
-    `<a href="#${encodeURIComponent(d.id)}">${esc(d.date)} &middot; ${esc(d.title.length > 44 ? d.title.slice(0, 42) + '…' : d.title)}</a>`).join('');
-  document.getElementById('latest-wrap').style.display = '';
+// Deep link: #id scrolls to the card (old links keep working; the card opens the document on click).
+if (location.hash) {
+  const el = document.getElementById(decodeURIComponent(location.hash.slice(1)).split(':')[0]);
+  if (el) el.scrollIntoView({ block: 'center' });
 }
 
 // The provenance footer: bind the publication to the record. Inert, always.
@@ -297,19 +367,13 @@ render();
   const m = window.GAZETTE.meta || {}, lp = m.lawpack || {};
   const dig = (lp.digest || '').replace('sha256:', '').slice(0, 12);
   const commit = (m.source_commit || '').slice(0, 7);
-  document.querySelector('footer').innerHTML =
+  document.getElementById('foot').innerHTML =
     `Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001; [2026] REALM-SC 10):
      force comes from the lawpack and the Sovereign's assent, never from being listed here.<br>
      Generated ${esc((window.GAZETTE.generated_at || '').slice(0, 10))} from ${esc(lp.id || 'the lawpack')}` +
     (dig ? ` &middot; <span title="${esc(lp.digest)}">sha256:${esc(dig)}&hellip;</span>` : '') +
-    (commit ? ` &middot; from commit <a href="https://github.com/wlilley93/vibe-justice-system/commit/${esc(m.source_commit)}">${esc(commit)}</a>` : '') +
+    (commit ? ` &middot; from commit ${esc(commit)}` : '') +
     ` &middot; <a href="gazette-data.json">machine-readable data</a> &middot; <a href="gazette.xml">Atom feed</a>`;
-}
-
-// Deep link: #id scrolls to the item and opens its main points.
-if (location.hash) {
-  const el = document.getElementById(decodeURIComponent(location.hash.slice(1)));
-  if (el) { el.querySelector('details')?.setAttribute('open', ''); el.scrollIntoView({ block: 'center' }); }
 }
 </script>
 </body>
