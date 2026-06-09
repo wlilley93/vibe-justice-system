@@ -52,8 +52,9 @@
   #panel h2 { margin:.35rem 0 .2rem; font-size:1.35rem; line-height:1.25; color:var(--ink); }
   #panel .chips { margin:.3rem 0 .6rem; }
   .chip { display:inline-block; border:1px solid var(--tone,var(--muted)); border-radius:4px;
-    background:var(--tone-bg,#fff); color:var(--tone,var(--muted)); font-size:.68rem; letter-spacing:.04em;
-    line-height:1.2; text-transform:uppercase; padding:.08rem .4rem; margin:0 .3rem .25rem 0; }
+    background:var(--tone-bg,#fff); color:var(--tone,var(--muted)); font-size:.68rem; font-style:normal;
+    font-weight:normal; letter-spacing:.04em; line-height:1.2; text-transform:uppercase;
+    padding:.08rem .4rem; vertical-align:.08rem; margin:0 .3rem .25rem 0; }
   .chip.tone-sc { --tone:var(--sc); --tone-bg:var(--sc-bg); }
   .chip.tone-ca { --tone:var(--ca); --tone-bg:var(--ca-bg); }
   .chip.tone-first { --tone:var(--first); --tone-bg:var(--first-bg); }
@@ -230,7 +231,11 @@ document.querySelectorAll('#filters .tab').forEach(b => b.onclick = () => {
   Graph.graphData(buildData());
 });
 
-function esc(t) { const e = document.createElement('span'); e.textContent = t ?? ''; return e.innerHTML; }
+// Escapes for BOTH element and attribute context (quotes included).
+function esc(t) {
+  return String(t ?? '').replace(/[&<>"']/g, c =>
+    ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
 
 function openPanel(id) {
   const d = byId.get(id);
@@ -263,14 +268,26 @@ function openPanel(id) {
     `<a href="${esc(d.url)}">Read the source ${d.estate === 'v1' ? '(v1 branch)' : '(master)'}</a>` +
     `<a href="gazette.html#${encodeURIComponent(d.id)}">Open in the Gazette</a>`;
 
+  // Neighbour navigation is built with DOM nodes and listeners, never with
+  // ids interpolated into inline handlers (a quote in an id must stay data).
   const cites = (d.cites || []).map(c => byId.get(c)).filter(Boolean);
   const citedBy = ITEMS.filter(x => (x.cites || []).includes(id));
-  const neigh = [];
-  if (cites.length) neigh.push(`<h3>Relies on</h3><div class="neigh">${cites.map(n =>
-    `<span onclick="openPanel('${esc(n.id)}')">${esc(n.title)}</span>`).join('')}</div>`);
-  if (citedBy.length) neigh.push(`<h3>Relied on by</h3><div class="neigh">${citedBy.map(n =>
-    `<span onclick="openPanel('${esc(n.id)}')">${esc(n.title)}</span>`).join('')}</div>`);
-  document.getElementById('p-neigh-wrap').innerHTML = neigh.join('');
+  const wrap = document.getElementById('p-neigh-wrap');
+  wrap.innerHTML = '';
+  for (const [label, list] of [['Relies on', cites], ['Relied on by', citedBy]]) {
+    if (!list.length) continue;
+    const h = document.createElement('h3');
+    h.textContent = label;
+    const div = document.createElement('div');
+    div.className = 'neigh';
+    for (const n of list) {
+      const s = document.createElement('span');
+      s.textContent = n.title;
+      s.addEventListener('click', () => openPanel(n.id));
+      div.appendChild(s);
+    }
+    wrap.append(h, div);
+  }
 
   document.getElementById('panel').classList.add('open');
   history.replaceState(null, '', '#' + encodeURIComponent(id));

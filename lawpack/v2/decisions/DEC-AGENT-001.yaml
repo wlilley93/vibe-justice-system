@@ -1,4 +1,5 @@
 id: DEC-AGENT-001
+assent_source: sovereign_assent
 citation: "[2026] VJS-DEC 12"
 title: Agent lifecycle - route, permit, obligations, proof, log, validate
 status: active

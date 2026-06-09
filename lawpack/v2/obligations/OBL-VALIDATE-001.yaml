@@ -1,4 +1,5 @@
 id: OBL-VALIDATE-001
+assent_source: sovereign_assent
 title: Validation proof obligation for agent actions with conditions
 status: in_force
 kind: validation

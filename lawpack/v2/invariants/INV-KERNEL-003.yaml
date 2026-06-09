@@ -1,4 +1,5 @@
 id: INV-KERNEL-003
+assent_source: sovereign_assent
 title: Kernel changes require judicial review gates
 severity: error
 scope:

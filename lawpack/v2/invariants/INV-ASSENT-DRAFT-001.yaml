@@ -1,4 +1,5 @@
 id: INV-ASSENT-DRAFT-001
+assent_source: sovereign_assent
 title: Assent-source mandatory on all runtime-force records
 severity: fatal
 rule:
