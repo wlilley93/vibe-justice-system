@@ -1,6 +1,6 @@
 <div align="center">
 
-# The Vibe Justice System
+<img src="assets/vjs-header.png" alt="The Vibe Justice System" width="100%">
 
 *AI governance for your repo. The court is AI. Not legal advice.*
 
