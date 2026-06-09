@@ -137,7 +137,7 @@ fn the_atom_feed_is_complete_inert_and_dateworthy() {
 
 #[test]
 fn the_pages_are_archival_offline_and_self_hosted() {
-    for page in ["index.html", "gazette.html"] {
+    for page in ["index.html", "gazette.html", "law.html"] {
         let html = std::fs::read_to_string(repo_root().join(page)).unwrap();
         assert!(
             !html.contains("src=\"http") && !html.contains("unpkg"),
@@ -153,4 +153,43 @@ fn the_pages_are_archival_offline_and_self_hosted() {
         std::fs::metadata(&vendored).map(|m| m.len() > 50_000).unwrap_or(false),
         "vendored force-graph present and non-trivial"
     );
+}
+
+#[test]
+fn the_workplan_order_terms_hold_on_the_register() {
+    // One GitHub link per page: the header logo, nothing else
+    // ([2026] VJS-CC-AGENT-UNIVERSE-V2 13, forbidden list).
+    for page in ["index.html", "gazette.html", "law.html"] {
+        let html = std::fs::read_to_string(repo_root().join(page)).unwrap();
+        assert_eq!(
+            html.matches("github.com").count(),
+            1,
+            "{}: exactly one GitHub reference, the header logo",
+            page
+        );
+    }
+
+    // Every item opens as a document; the whole archive reads as PDFs the
+    // Gazette itself serves (D1, D2).
+    let d = data();
+    for item in d["items"].as_array().unwrap() {
+        let doc = item["doc"].as_str().unwrap_or_default();
+        assert_eq!(
+            doc,
+            format!("law.html#{}", item["id"].as_str().unwrap()),
+            "{}: the document URL routes to the item's own register entry",
+            item["id"]
+        );
+        if item["estate"] == "v1" {
+            let pdf = item["pdf"].as_str().unwrap_or_default();
+            assert!(!pdf.is_empty(), "{}: archive items read as PDFs", item["id"]);
+            assert!(
+                repo_root().join(pdf).exists(),
+                "{}: the carried PDF exists at {}",
+                item["id"],
+                pdf
+            );
+            assert!(!pdf.starts_with("http"), "{}: the Gazette serves its own PDFs", item["id"]);
+        }
+    }
 }
