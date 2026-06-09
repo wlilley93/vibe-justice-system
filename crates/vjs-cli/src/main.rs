@@ -63,6 +63,20 @@ enum Commands {
         #[arg(long)]
         tool: Option<String>,
     },
+    /// Local sovereign invocation (REG-INVOCATION-001): bind this repo as a VJS
+    /// jurisdiction by subscribing + locking the lawpack, recording the
+    /// invocation, and (with --install-hooks) activating the enforcement hooks.
+    Invoke {
+        #[arg(long)]
+        jurisdiction: String,
+        #[arg(long)]
+        principal: String,
+        #[arg(long)]
+        lawpack: Option<String>,
+        /// Set git core.hooksPath so the permit gate fires at commit time.
+        #[arg(long)]
+        install_hooks: bool,
+    },
     Lookup {
         #[arg(long)]
         issue: Option<String>,
@@ -189,6 +203,9 @@ fn main() {
             cmd_route(&repo, kind, issue, risk, intent, public, external, irreversible, gate, json)
         }
         Commands::Hook { event, paths, tool } => cmd_hook(&repo, event, paths, tool, json),
+        Commands::Invoke { jurisdiction, principal, lawpack, install_hooks } => {
+            cmd_invoke(&repo, jurisdiction, principal, lawpack, install_hooks, json)
+        }
         Commands::Lookup { issue, limit } => cmd_lookup(&repo, issue, limit, json),
         Commands::Log { subcmd } => cmd_log(&repo, subcmd, json),
         Commands::Proof { subcmd } => cmd_proof(&repo, subcmd, json),
@@ -369,6 +386,104 @@ fn cmd_hook(
     let code = decision.exit_code();
     if code != 0 {
         std::process::exit(code);
+    }
+    Ok(())
+}
+
+fn cmd_invoke(
+    repo: &PathBuf,
+    jurisdiction: String,
+    principal: String,
+    lawpack: Option<String>,
+    install_hooks: bool,
+    json: bool,
+) -> Result<(), KernelError> {
+    let io = |e: std::io::Error| KernelError::InvalidInput(format!("io: {}", e));
+    let lawpack = lawpack.unwrap_or_else(|| "vjs-v2@0.1.0".into());
+    let repo_code = jurisdiction.to_uppercase();
+    let vjs_dir = repo.join(".vjs");
+    std::fs::create_dir_all(vjs_dir.join("invocation")).map_err(io)?;
+
+    let digest = build_kernel_context(repo)?.lawpack_digest;
+    let now = chrono::Utc::now();
+    let stamp = now.format("%Y%m%d-%H%M%S").to_string();
+    let now_rfc = now.to_rfc3339();
+
+    // 1. config.toml - write only if absent (never clobber an existing config).
+    let config_path = vjs_dir.join("config.toml");
+    let config_written = if !config_path.exists() {
+        let config = format!(
+            "version = \"2\"\njurisdiction_id = \"{jur}\"\nrepo_code = \"{code}\"\nlawpack = \"{lp}\"\nprincipal = \"{prin}\"\n\n[paths]\norders = \".vjs/orders\"\nlogs = \".vjs/logs\"\nsubmissions = \".vjs/submissions\"\nproofs = \".vjs/proofs\"\npermits = \".vjs/permits\"\nprivate = \".vjs/private\"\n\n[paths.public]\nenabled = false\n\n[governance]\npermit_required = [\"src/**\", \"crates/**\", \"lawpack/**\", \"Cargo.toml\", \"package.json\", \"AGENTS.md\", \"VJS.md\", \"README.md\"]\npermit_exempt = [\".vjs/logs/**\", \".vjs/permits/**\", \".vjs/proofs/**\", \".vjs/cache/**\", \".vjs/private/**\", \"target/**\", \"node_modules/**\"]\n",
+            jur = jurisdiction, code = repo_code, lp = lawpack, prin = principal,
+        );
+        std::fs::write(&config_path, config).map_err(io)?;
+        true
+    } else {
+        false
+    };
+
+    // 2. lawpack.lock - pin the lawpack digest.
+    let lock = format!(
+        "lawpack = \"{lp}\"\ndigest = \"{dig}\"\nlocked_at = \"{ts}\"\nlocked_by = \"{prin}\"\n",
+        lp = lawpack, dig = digest, ts = now_rfc, prin = principal,
+    );
+    std::fs::write(vjs_dir.join("lawpack.lock"), lock).map_err(io)?;
+
+    // 3. the local sovereign invocation record (the constitutional act).
+    let inv = format!(
+        "id: INVOCATION-{stamp}\nkind: local_sovereign_invocation\nstatus: in_force\njurisdiction:\n  id: {jur}\n  repo_root: \".\"\n  repo_code: {code}\nprincipal:\n  name: \"{prin}\"\n  capacity: local_sovereign\nsubscription:\n  lawpack: {lp}\n  lawpack_lock: .vjs/lawpack.lock\n  mode: subscribed\n  v1_archive_import: none_unless_expressly_incorporated\nassent:\n  given: true\n  form: local_sovereign_act\n  statement: >\n    The Principal invokes this repository as a VJS V2 local jurisdiction,\n    subscribes it to the stated lawpack, and authorises the kernel, hooks,\n    permits, proofs, logs, and court route to govern repo work.\neffect:\n  - creates_local_jurisdiction\n  - creates_county_court_for_repo\n  - binds_agents_to_kernel_route\n  - requires_permits_for_governed_writes\n  - requires_logs_for_material_decisions\n  - installs_validation_hooks\n",
+        stamp = stamp, jur = jurisdiction, code = repo_code, prin = principal, lp = lawpack,
+    );
+    let inv_path = vjs_dir.join("invocation").join(format!("{}-local-sovereign-invocation.yaml", stamp));
+    std::fs::write(&inv_path, inv).map_err(io)?;
+
+    // 4. install enforcement hooks (the activation): git core.hooksPath + tiny
+    // extensionless wrappers git will run, made executable.
+    let mut hooks_installed = false;
+    if install_hooks {
+        let hooks_dir = vjs_dir.join("hooks");
+        std::fs::create_dir_all(&hooks_dir).map_err(io)?;
+        std::fs::write(hooks_dir.join("pre-commit"),
+            "#!/usr/bin/env bash\nexec vjs validate --staged\n").map_err(io)?;
+        std::fs::write(hooks_dir.join("pre-push"),
+            "#!/usr/bin/env bash\nexec vjs local-ci\n").map_err(io)?;
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            for h in ["pre-commit", "pre-push"] {
+                let p = hooks_dir.join(h);
+                if let Ok(meta) = std::fs::metadata(&p) {
+                    let mut perm = meta.permissions();
+                    perm.set_mode(0o755);
+                    let _ = std::fs::set_permissions(&p, perm);
+                }
+            }
+        }
+        let out = std::process::Command::new("git")
+            .args(["-C", &repo.to_string_lossy(), "config", "core.hooksPath", ".vjs/hooks"])
+            .output();
+        hooks_installed = out.map(|o| o.status.success()).unwrap_or(false);
+    }
+
+    if json {
+        println!("{}", serde_json::json!({
+            "jurisdiction": jurisdiction,
+            "repo_code": repo_code,
+            "lawpack": lawpack,
+            "lawpack_digest": digest,
+            "invocation": inv_path.to_string_lossy(),
+            "config_written": config_written,
+            "hooks_installed": hooks_installed,
+        }));
+    } else {
+        println!("Invoked '{}' as a VJS jurisdiction (repo_code {}).", jurisdiction, repo_code);
+        println!("  lawpack: {} ({}...)", lawpack, &digest[..digest.len().min(23)]);
+        println!("  invocation: {}", inv_path.display());
+        println!("  config written: {}", config_written);
+        println!("  hooks installed (core.hooksPath): {}", hooks_installed);
+        if !install_hooks {
+            println!("  (run with --install-hooks to activate commit-time enforcement)");
+        }
     }
     Ok(())
 }
