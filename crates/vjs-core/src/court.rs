@@ -14,6 +14,19 @@ pub fn detect_court_trigger(
         return Some(CourtTrigger::FirstImpression);
     }
 
+    // On-point silence: a load-bearing decision with no on-point binding authority
+    // is a first-impression matter regardless of how the risk was labelled. This
+    // is the duty to convene rather than improvise or route the fork to the
+    // Principal: a gap fails closed to a court, never to a default permit.
+    if authorities.authorities.is_empty()
+        && matches!(
+            input.action_kind,
+            ActionKind::ImplementationDecision | ActionKind::PublicRecordChange
+        )
+    {
+        return Some(CourtTrigger::FirstImpression);
+    }
+
     if input.user_instruction.is_some() {
         // Check for potential conflicts
     }

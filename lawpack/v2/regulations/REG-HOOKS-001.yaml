@@ -1,0 +1,34 @@
+id: REG-HOOKS-001
+assent_source: standing_bounded_assent
+title: Functional Hook Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+text: >
+  A VJS hook is a deterministic function over repo state, event context, lawpack
+  authority, permits, obligations, proofs, logs, and invariants, returning a
+  typed decision (allow, warn, block, require_route, require_log, require_proof).
+  Prompt text emitted by a hook is explanatory only and shall be bounded
+  (<= 40 words): no sermon, no legal essay, no model judgement. A hook is not the
+  law and not the prompt - it is the switch that asks the kernel whether the
+  current state is valid. Runtime adapters (Claude, Codex, opencode, Gemini, MCP,
+  shell) are thin: they translate the runtime's hook event into a call to the
+  function and emit its short result. The function lives in the kernel
+  (vjs-core/hook.rs); the prompt is the thin wrapper, never the enforcement.
+kernel_effect:
+  defines:
+    hook_model: deterministic_function
+    prompt_text_explanatory_only: true
+    max_hook_message_words: 40
+    events: [session_start, pre_write, post_action, pre_commit, pre_push]
+  may:
+    - allow
+    - warn
+    - block
+    - require_route
+    - require_log
+    - require_proof
+  must_not:
+    - adjudicate_breach
+    - create_law
+    - call_model_for_a_binding_decision
+    - inject_long_context

@@ -1,0 +1,31 @@
+id: REG-SELF-CONVENE-001
+assent_source: standing_bounded_assent
+title: Self-Convening and No-Fork-to-Principal Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+text: >
+  A fork (a first-impression question, a genuine distinction, a proposal to
+  overrule, a discovered breach, or a conflict) is disposed of by the agent
+  convening the named court on its own motion, on a symmetric case file with no
+  access to the agent's preference - not by routing the fork to the Principal and
+  not by improvising. The duty is the agent's to discharge without being told
+  (the self-submission duty, [2026] LEXBY-SC 3 s.17(b)); waiting for the Principal
+  to spot the ground is a falling-below, remedied by convening, never punished.
+  Enforcement is functional, not by prompt: the kernel route returns
+  court_required on a fork, with must_do convene_the_named_court_on_own_motion and
+  must_not route_the_fork_to_the_principal; the route gate and the functional
+  hook (REG-HOOKS-001) fail closed so the duty fires whether or not it is stated
+  in context. The Principal is involved only for a genuine external dependency or
+  an express authorisation of an irreversible outward act - never to decide a fork.
+kernel_effect:
+  defines:
+    fork_disposition: convene_on_own_motion
+    enforced_by: [route_court_required, route_gate, functional_hook]
+    principal_only_for: [external_dependency, irreversible_outward_authorisation]
+  must:
+    - convene_the_named_court_on_own_motion
+    - file_symmetric_case_file_no_preference
+  must_not:
+    - route_the_fork_to_the_principal
+    - ask_the_principal_to_choose_between_approaches
+    - proceed_without_a_ruling
