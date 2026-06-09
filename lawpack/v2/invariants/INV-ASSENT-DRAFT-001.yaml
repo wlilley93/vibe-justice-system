@@ -1,0 +1,19 @@
+id: INV-ASSENT-DRAFT-001
+title: No self-authorising law in V2
+status: draft
+assent_source: pending_v1_constitutional_route
+severity: fatal
+rule:
+  kind: not
+  item:
+    kind: field_equals
+    field: assent_source
+    value: self_authorised
+basis:
+  - V2-CHARTER-001
+  - V2-CONSTITUTION-001
+  - PENDING-V1-ASSENT
+remedy: >
+  Any authority without a valid assent_source must be rejected. Force awaits
+  V1 constitutional route: Privy Council -> Supreme Court if needed ->
+  Committee -> Sovereign assent -> Gazette -> V2 adoption.
