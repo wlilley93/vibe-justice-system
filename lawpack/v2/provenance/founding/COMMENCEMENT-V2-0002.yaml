@@ -1,0 +1,58 @@
+id: COMMENCEMENT-V2-0002
+kind: commencement_addendum
+supersedes: []
+amends: COMMENCEMENT-V2-0001
+status: archival_provenance
+title: Commencement addendum - Framework Act + raft lodged; fresh lawpack lock
+date: "2026-06-09"
+summary: >
+  Addendum to COMMENCEMENT-V2-0001 (which stays pinned and untouched). On the
+  Principal's direction "assent given, go" (2026-06-09), the assented Realm
+  Consolidation and Reconciliation Framework Act and the six subordinate
+  regulations made under its s.7 are lodged into the runtime lawpack, keeping the
+  lawpack/v2/ path prefix (per the Canonicalisation and Migration Regulation, so
+  the path-scoped invariants still bind). The AGPL-3.0 licence is adopted (s.22).
+  This addendum records the resulting fresh lawpack lock; the original lock is
+  preserved, never overwritten.
+
+lodged:
+  statutes:
+    - ACT-CONSOLIDATION-FRAMEWORK  # the Framework Act (in_force; assent digest below)
+  regulations:
+    - REG-MIGRATION-INCORPORATION-001
+    - REG-FEDERATION-COORDINATION-001
+    - REG-TRANSITION-CONTINUITY-001
+    - REG-CANONICALISATION-MIGRATION-001
+    - REG-GAZETTE-CONTINUITY-001
+    - REG-REPOS-REGISTER-001
+
+assent:
+  framework_act_text_digest: "sha256:90e843c1dbdcdb2e2c7026d1064a457cf7ea1dbfe80526eff96b1f7e03850470"
+  assented_by: principal
+  where: "where validly capable"
+  record: ".vjs/submissions/filed/2026-06-09-framework-act-assent.md"
+
+locks:
+  old_lock_pinned: "sha256:4d2639cc"   # COMMENCEMENT-V2-0001; immutable, not overwritten
+  fresh_lawpack_lock: "sha256:8d075f7dbefba5c500884f7f0e6f89b9442c73307bf25c08fd867220a801864f"
+  fresh_lock_method: "sha256 of LC_ALL=C-sorted `find lawpack/v2 -type f | xargs sha256sum`"
+  immutable_anchors_untouched:
+    - "bill-32 assented digest sha256:8e1d3f51"
+    - "old lawpack lock sha256:4d2639cc"
+    - "VJS-ACT / VJS-REG / REALM-* citation series"
+    - "all record ids"
+
+invariants_after_lodgement: "vjs local-ci PASS; vjs validate --staged OK (20 invariants, all pass); vjs eval all green"
+
+remaining_warranted_acts:
+  - "execute the staged canonicalisation merge onto the established public repo (main = canon, drop the v2 name, V1 archive estate) under a release warrant - the Principal's outward act"
+  - "vendor the full verbatim GNU AGPL-3.0 text into LICENSE on the canonical line"
+  - "each repository's mandatory subscription within 90 days (Repos Register and Subscription Regulation)"
+  - "resolve Schedule-3 items 2-6 (each carries a machine-checkable predicate)"
+  - "publish to the Gazette (warranted push)"
+
+note: >
+  Lodgement keeps the lawpack/v2/ path; the physical repo consolidation, push,
+  rename, tag, and AGPL full-text vendor remain the Principal's warranted, outward
+  acts under the Canonicalisation and Migration Regulation. Nothing here moves,
+  pushes, renames, or re-licenses the public repository.

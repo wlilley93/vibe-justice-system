@@ -1,0 +1,27 @@
+id: REG-MIGRATION-INCORPORATION-001
+assent_source: standing_bounded_assent
+title: Migration and Incorporation Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+text: >
+  Made under the Framework Act s.7 to operationalise the incorporation pipeline.
+  V1 law crosses only by an express incorporation record (v1_source,
+  v2_destination, operative_rule, kernel_effect, supersession_or_variation,
+  validity_of_original); recorded one row per crossing in the provenance-scoped
+  migration ledger; validated by a fail-closed incorporation-validity invariant
+  (missing element, rank-floor breach, missing ledger row, or protective-floor
+  weakening rejected). General law crosses centrally; repo-specific law uses the
+  continuity election. Cited V1/REALM sources are carried forward as archival
+  source (source edges), incorporated as live authority only by express
+  incorporation; a contested original validity is found by the V1 Court.
+kernel_effect:
+  defines:
+    incorporation_fields: [v1_source, v2_destination, operative_rule, kernel_effect, supersession_or_variation, validity_of_original]
+    migration_ledger_provenance_scoped: true
+    general_vs_repo_specific_by_declared_scope: true
+  must:
+    - record_each_crossing_in_the_migration_ledger
+  prohibits:
+    - v1_import_by_implication_or_in_bulk
+    - lower_rank_incorporates_higher_rank
+    - incorporation_weakening_the_protective_floor

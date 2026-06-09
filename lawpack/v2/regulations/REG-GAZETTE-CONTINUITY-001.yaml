@@ -1,0 +1,26 @@
+id: REG-GAZETTE-CONTINUITY-001
+assent_source: standing_bounded_assent
+title: Gazette-Continuity and Publication Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+text: >
+  Made under the Framework Act s.7, giving effect to ACT-COMPUTER-FIRST-REALM
+  s.16. One Gazette, two estates, built on the canonical line; publication is
+  constitutively inert (force from the lawpack and kernel-recognised status,
+  never from publication). Records are exported as a publication packet
+  (manifest, validated records, rendered views, redaction report, validation
+  report, lawpack digest); export fails unless the lawpack validates, the
+  public/private scan passes, statuses are valid, citations are unique, lineage
+  resolves, and the manifest includes the digest. Estate labelling is
+  operative-by-substance; V1/REALM records are carried forward as archival source
+  with typed lineage edges. Until a V2-controlled publication route exists, a
+  push to the V1-hosted Gazette repo follows the preserved V1 SI 7 / PC 19; this
+  is not silent V1 revival.
+kernel_effect:
+  defines:
+    single_gazette_two_estates: true
+    publication_constitutively_inert: true
+    publication_packet: [manifest, validated_records, rendered_views, redaction_report, validation_report, lawpack_digest]
+  prohibits:
+    - treating_a_gazette_entry_as_runtime_source
+    - publishing_private_facts

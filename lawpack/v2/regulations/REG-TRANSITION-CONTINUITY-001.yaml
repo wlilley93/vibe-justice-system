@@ -1,0 +1,22 @@
+id: REG-TRANSITION-CONTINUITY-001
+assent_source: standing_bounded_assent
+title: Transition-Court and Continuity Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+text: >
+  Made under the Framework Act s.7, giving effect to [2026] VJS-PC 1 and the
+  Judicature-Acts continuity model. The Privy Council is the transition court and
+  classifies each pending V1 matter as continued at its current point, reframed
+  where unworkable, or moot; default is continue-at-point, reframe/moot being
+  reasoned findings, never relitigation. The V1 Court acts only to perfect a
+  matter already fully heard in V1 (publication only, no new doctrine, importing
+  nothing). Perfected V1 orders and accrued rights are preserved and carried
+  forward; nothing is void or restarted by reason only of transfer.
+kernel_effect:
+  defines:
+    transition_court: privy_council
+    classify: [continue, reframe, moot]
+    v1_court_limb: already_heard_publication_only
+  prohibits:
+    - relitigation_by_reason_only_of_transfer
+    - reviving_v1_machinery_beyond_the_narrow_perfection_limb

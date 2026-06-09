@@ -83,4 +83,6 @@ This repo is governed by VJS V2. See `AGENTS.md` for the agent contract.
 
 ## License
 
-MIT
+GNU Affero General Public License v3.0 (AGPL-3.0). Adopted by the Sovereign
+Founder as copyright holder under the Realm Consolidation and Reconciliation
+Framework Act s.22 (2026-06-09), superseding the prior MIT notice. See `LICENSE`.
