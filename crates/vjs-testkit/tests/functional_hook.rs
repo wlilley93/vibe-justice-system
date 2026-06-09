@@ -119,3 +119,45 @@ fn repo_root() -> PathBuf {
     // lawpack-backed assertion would pass vacuously over an empty lawpack.
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
 }
+
+#[test]
+fn a_permitted_governed_write_passes_and_an_unpermitted_one_fails_closed() {
+    use vjs_core::hook::evaluate_with_permits;
+    use vjs_core::spec::Permit;
+    use vjs_core::types::*;
+
+    let permit = Permit {
+        id: PermitId("PERMIT-HOOK-TEST".into()),
+        route_id: RouteId("ROUTE-TEST".into()),
+        actor: "lexby".into(),
+        scope: Some(Scope {
+            paths: Some(vec!["crates/vjs-core/**".into()]),
+            jurisdictions: None,
+            action_kinds: None,
+            issue_tags: None,
+            records: None,
+        }),
+        obligations: Vec::new(),
+        expires_at: "2099-01-01T00:00:00+00:00".into(),
+        status: PermitStatus::Active,
+    };
+    let ctx = build_ctx();
+    let input = |p: &str| HookInput {
+        event: HookEvent::PreWrite,
+        repo_root: PathBuf::from("."),
+        actor: "lexby".into(),
+        paths: vec![PathBuf::from(p)],
+        tool: None,
+    };
+
+    let d = evaluate_with_permits(&input("crates/vjs-core/src/hook.rs"), &ctx, std::slice::from_ref(&permit));
+    assert!(matches!(d, HookDecision::Allow), "an in-scope active permit makes the write lawful");
+
+    let d = evaluate_with_permits(&input("crates/vjs-cli/src/main.rs"), &ctx, std::slice::from_ref(&permit));
+    assert_eq!(d.exit_code(), 2, "out-of-scope governed write fails closed");
+
+    let mut expired = permit.clone();
+    expired.expires_at = "2001-01-01T00:00:00+00:00".into();
+    let d = evaluate_with_permits(&input("crates/vjs-core/src/hook.rs"), &ctx, &[expired]);
+    assert_eq!(d.exit_code(), 2, "an expired permit excuses nothing at the hook either");
+}

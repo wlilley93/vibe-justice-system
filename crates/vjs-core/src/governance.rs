@@ -313,6 +313,17 @@ impl PermitGate {
         }
     }
 
+    /// A usable permit covers the path: Active, unexpired, in scope. This is
+    /// the question a pre-write hook asks before the work happens.
+    pub fn covers(path: &str, permits: &[Permit]) -> bool {
+        let now = chrono::Utc::now();
+        permits.iter().any(|p| {
+            matches!(p.status, PermitStatus::Active)
+                && !Self::permit_is_expired(p, now)
+                && Self::scope_covers(p, path)
+        })
+    }
+
     /// Prefer a usable (Active, unexpired) permit; otherwise return the first
     /// scope-covering permit so evaluate can report WHY it fails (expired,
     /// revoked, closed) instead of a bare PERMIT-MISSING.
