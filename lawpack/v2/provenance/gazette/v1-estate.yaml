@@ -1,7 +1,7 @@
 # The V1 archive estate as published in the Gazette (curated; the V1 corpus
 # is frozen on the immutable v1 branch, so this curation is stable).
-# Paths are relative to the v1 branch of wlilley93/vibe-justice-system and
-# were existence-verified against it on 2026-06-09.
+# Paths are relative to the v1 branch; pdf points at the carried copy under
+# archive/pdfs/ served by the Gazette itself.
 items:
 - id: REALM-SC-1
   title: '[2026] REALM-SC 1 - Tort recast and foundational settlement'
@@ -18,8 +18,9 @@ items:
   - Full court 9, unanimous, per Principal's leapfrog certificate
   - Rejection of jurisdiction-first gating by statutory silence
   path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-1.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/2026-realm-sc-1.pdf
 - id: REALM-SC-2
   title: '[2026] REALM-SC 2 - Proactive disclosure obligation'
   kind: judgment
@@ -33,9 +34,10 @@ items:
   - Majority 4:1; extends REALM-SC 1
   - Cites CASE-LAW ss. 3-7, 13
   path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-2.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites:
   - REALM-SC-1
+  pdf: archive/pdfs/2026-realm-sc-2.pdf
 - id: REALM-SC-3
   title: '[2026] REALM-SC 3 - Six procedural reforms'
   kind: judgment
@@ -51,9 +53,10 @@ items:
   - Deterministic pre-commit citation-integrity gate mandatory
   - VARIED 8:1; enacts CASE-LAW ss. 19-20
   path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-3.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites:
   - REALM-PC-1
+  pdf: archive/pdfs/2026-realm-sc-3.pdf
 - id: REALM-SC-4
   title: '[2026] REALM-SC 4 - Odd benches and bench constitution'
   kind: judgment
@@ -69,8 +72,9 @@ items:
   - 'Anti-cheat: only generic answer-key-free methodology in prompts'
   - Enacts CASE-LAW s. 18
   path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-4.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/2026-realm-sc-4.pdf
 - id: REALM-SC-5
   title: '[2026] REALM-SC 5 - Unitary court with domain divisions'
   kind: judgment
@@ -85,8 +89,9 @@ items:
   - Enacts CASE-LAW s. 21; affirmed by REALM-PC 8
   - From legacy benchmark (LEXBY-LEGACY-BENCHMARK-SC-DC 1)
   path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-5.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/2026-realm-sc-5.pdf
 - id: REALM-SC-6
   title: '[2026] REALM-SC 6 - Distributed County Courts, single apex'
   kind: judgment
@@ -101,8 +106,9 @@ items:
   - Enacts CASE-LAW s. 22
   - Distinguished by REALM-PC 14; from legacy benchmark
   path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-6.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/2026-realm-sc-6.pdf
 - id: REALM-SC-7
   title: '[2026] REALM-SC 7 - Pre-enactment precedent entry-by-entry review'
   kind: judgment
@@ -118,8 +124,9 @@ items:
   - VARIED 9:0; CC-ACMECO 1-11 saved, 12 remitted
   - Leapfrog per s.20; affirms REALM-SC 4
   path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-7.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/2026-realm-sc-7.pdf
 - id: REALM-SC-8
   title: '[2026] REALM-SC 8 - Lexby has no law-making authority'
   kind: judgment
@@ -134,9 +141,10 @@ items:
   - Adoption by proper organ is constitutive cure (spent on adoption)
   - Bills 1-27, REALM-SI 1, SC 1-7, CA 1, PC line STAND
   path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-8.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites:
   - REALM-PC-12
+  pdf: archive/pdfs/2026-realm-sc-8.pdf
 - id: REALM-SC-9
   title: '[2026] REALM-SC 9 - External law supremacy floor'
   kind: judgment
@@ -152,10 +160,11 @@ items:
   - Defensive security only within genuine lawful authority and scope
   - Affirms REALM-PC 18; clarifies REALM-PC 17
   path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-9.md
-  date: "2026-06-07"
+  date: '2026-06-07'
   cites:
   - REALM-PC-18
   - REALM-PC-17
+  pdf: archive/pdfs/2026-realm-sc-9.pdf
 - id: REALM-SC-10
   title: '[2026] REALM-SC 10 - V1-to-V2 migration handover minute'
   kind: judgment
@@ -171,7 +180,7 @@ items:
   - Royal Assent sole constitutive external gate
   - Derived source edge (not authority); back-filled per VJS-PC 3
   path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-10.md
-  date: "2026-06-09"
+  date: '2026-06-09'
   cites:
   - REALM-PC-24
   - REALM-SC-8
@@ -189,9 +198,10 @@ items:
   - Affirms REALM-PC 1
   - Full court appeal
   path: Judicature/.justice/judgments/court-of-appeal/2026-realm-ca-1.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites:
   - REALM-PC-1
+  pdf: archive/pdfs/2026-realm-ca-1.pdf
 - id: REALM-PC-1
   title: '[2026] REALM-PC 1 - Alpha release fitness test'
   kind: judgment
@@ -207,8 +217,9 @@ items:
   - Deterministic citation numbering necessary condition for v1
   - Cites CASE-LAW ss. 4, 5, 7, 8, 11(d), 14
   path: Judicature/.justice/judgments/privy-council/2026-realm-pc-1.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/2026-realm-pc-1.pdf
 - id: REALM-PC-4
   title: '[2026] REALM-PC 4 - Token-free retrieval index permitted'
   kind: judgment
@@ -224,8 +235,9 @@ items:
   - Until gate trips, s. 8 duty is monitor and report, not build
   - Extends REALM-PC 3; cites s. 1, 8, 11(c), 12, 15, 19(5)
   path: Judicature/.justice/judgments/privy-council/2026-realm-pc-4.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/2026-realm-pc-4.pdf
 - id: REALM-PC-12
   title: '[2026] REALM-PC 12 - Lexby drafting authority (foundational)'
   kind: judgment
@@ -241,10 +253,11 @@ items:
   - Adoption by proper organ (Committee+Assent or bench) cures void
   - 'SOURCE OF ARTEFACT''S FORCE test: function vs promulgation'
   path: Judicature/.justice/judgments/privy-council/2026-realm-pc-12.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites:
   - REALM-SC-4
   - REALM-SC-7
+  pdf: archive/pdfs/2026-realm-pc-12.pdf
 - id: REALM-PC-13
   title: '[2026] REALM-PC 13 - Agent security fork reference'
   kind: judgment
@@ -260,8 +273,9 @@ items:
   - MDS-held audited delegation with revocable root; single-key rejected
   - 'Reversible acts log: DECISION + PROVENANCE, not chain-of-thought'
   path: Judicature/.justice/judgments/privy-council/2026-realm-pc-13.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/2026-realm-pc-13.pdf
 - id: REALM-PC-14
   title: '[2026] REALM-PC 14 - County Court formation substance rule'
   kind: judgment
@@ -277,8 +291,9 @@ items:
   - Gate checks substance (actual data), not filename
   - Unanimous 3-0; distinguishes REALM-SC 6, 7
   path: Judicature/.justice/judgments/privy-council/2026-realm-pc-14.md
-  date: "2026-06-07"
+  date: '2026-06-07'
   cites: []
+  pdf: archive/pdfs/2026-realm-pc-14.pdf
 - id: REALM-PC-15
   title: '[2026] REALM-PC 15 - VJS super-repo constitutional classification'
   kind: judgment
@@ -294,10 +309,11 @@ items:
   - Central REALM-* series is substance, not label
   - Unanimous 3-0; declaratory; distinguishes REALM-PC 14, applies PC 11, 4
   path: Judicature/.justice/judgments/privy-council/2026-realm-pc-15.md
-  date: "2026-06-07"
+  date: '2026-06-07'
   cites:
   - REALM-PC-14
   - REALM-PC-11
+  pdf: archive/pdfs/2026-realm-pc-15.pdf
 - id: REALM-PC-17
   title: '[2026] REALM-PC 17 - Fork sovereignty and local independence'
   kind: judgment
@@ -313,8 +329,9 @@ items:
   - Public-push gate fails closed only for canonical remote
   - Installer docs must use local .justice/ paths by default
   path: Judicature/.justice/judgments/privy-council/2026-realm-pc-17.md
-  date: "2026-06-07"
+  date: '2026-06-07'
   cites: []
+  pdf: archive/pdfs/2026-realm-pc-17.pdf
 - id: REALM-PC-19
   title: '[2026] REALM-PC 19 - Superrepo changes require court order'
   kind: judgment
@@ -330,8 +347,9 @@ items:
   - Public entrypoint is VJS; development remains private
   - Applies REALM-PC 16, 17, 18 and REALM-SC 9
   path: Judicature/.justice/judgments/privy-council/2026-realm-pc-19.md
-  date: "2026-06-07"
+  date: '2026-06-07'
   cites: []
+  pdf: archive/pdfs/2026-realm-pc-19.pdf
 - id: REALM-PC-24
   title: '[2026] REALM-PC 24 - VJS V2 founding and continuity'
   kind: judgment
@@ -347,7 +365,7 @@ items:
   - One Gazette over two estates lawful only where publication constitutively inert
   - Founding and continuity limbs held arguable, foundational; leapfrogged to SC
   path: Judicature/.justice/judgments/privy-council/2026-realm-pc-24.md
-  date: "2026-06-09"
+  date: '2026-06-09'
   cites:
   - REALM-SC-8
   - REALM-PC-12
@@ -368,8 +386,9 @@ items:
   - Statute sits above founding case-law settlement
   - Foundational constitutional Act
   path: Legislature/legislature/bills/01-acts-of-union-2026.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/01-acts-of-union-2026.pdf
 - id: BILL-2
   title: '[2026] Legislature of the Realm Act'
   kind: act
@@ -385,8 +404,9 @@ items:
   - Cited by REALM-SC 8, REALM-PC 12
   - Core governance statute
   path: Legislature/legislature/bills/02-legislature-of-the-realm-act-2026.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/02-legislature-of-the-realm-act-2026.pdf
 - id: BILL-13
   title: '[2026] Enforcement, Sanctions and Compliance Act'
   kind: act
@@ -402,8 +422,9 @@ items:
   - Read with REALM-SI 1, 4, 5 for implementation
   - Enforcement receiver for statutory instruments
   path: Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/13-enforcement-sanctions-and-compliance-act-2026.pdf
 - id: BILL-14
   title: '[2026] Delegated Legislative Authority, Law Reform and Codification Act'
   kind: act
@@ -419,8 +440,9 @@ items:
   - Cited by REALM-PC 10, 11, 24
   - Non-delegable apex authority reserved
   path: Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/14-delegated-legislative-authority-law-reform-and-codification-act-2026.pdf
 - id: BILL-16
   title: '[2026] Neutral Citations and Law Reporting Act'
   kind: act
@@ -436,8 +458,9 @@ items:
   - Deterministic citation numbering engine (REALM-PC 1, SC 7)
   - Core to constitutional structure
   path: Legislature/legislature/bills/16-neutral-citations-and-law-reporting-act-2026.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/16-neutral-citations-and-law-reporting-act-2026.pdf
 - id: BILL-18
   title: '[2026] Autonomous Execution and Safety Act'
   kind: act
@@ -452,8 +475,9 @@ items:
   - Central to REALM-PC 13 security framework
   - Applied by REALM-SC 9 for agent authority limits
   path: Legislature/legislature/bills/18-autonomous-execution-and-safety-act-2026.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/18-autonomous-execution-and-safety-act-2026.pdf
 - id: BILL-20
   title: '[2026] Repositories and Records Certification Act'
   kind: act
@@ -469,8 +493,9 @@ items:
   - Core to data governance and system authenticity
   - Applied by REALM-PC 14, 16
   path: Legislature/legislature/bills/20-repositories-and-records-certification-act-2026.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/20-repositories-and-records-certification-act-2026.pdf
 - id: BILL-21
   title: '[2026] Security and Integrity Act'
   kind: act
@@ -486,8 +511,9 @@ items:
   - Establishes audit and delegation frameworks
   - Core to agent security ecosystem
   path: Legislature/legislature/bills/21-security-and-integrity-act-2026.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/21-security-and-integrity-act-2026.pdf
 - id: BILL-27
   title: '[2026] VJS Constitution and Machinery Act'
   kind: act
@@ -503,8 +529,9 @@ items:
   - Core to system governance and constitutional structure
   - s. 5A, 5B, 5C inserted by Bills 25-29
   path: Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md
-  date: "2026-06-06"
+  date: '2026-06-06'
   cites: []
+  pdf: archive/pdfs/27-vjs-constitution-and-machinery-act-2026.pdf
 - id: BILL-32
   title: '[2026] Computer-First Realm Act'
   kind: act
@@ -519,7 +546,7 @@ items:
   - Royal Assent reserved to Sovereign
   - Foundational for V2 founding
   path: Legislature/legislature/bills/32-computer-first-realm-act-2026.md
-  date: "2026-06-09"
+  date: '2026-06-09'
   cites:
   - BILL-14
 - id: SI-6
@@ -537,11 +564,12 @@ items:
   - Governs system-data-only record boundary enforcement
   - Under Bill 5 s. 18 (parent enabling power)
   path: Legislature/statutes/instruments/2026-realm-si-6-repositories-house.md
-  date: "2026-06-07"
+  date: '2026-06-07'
   cites:
   - BILL-5
   - BILL-14
   - REALM-PC-14
+  pdf: archive/pdfs/2026-realm-si-6-repositories-house.pdf
 - id: SI-7
   title: '[2026] REALM-SI 7 - Super-Repo Public Push and Post-Push Review'
   kind: instrument
@@ -557,12 +585,13 @@ items:
   - Implements REALM-PC 16 requirements
   - Under Bill 18, 20, 27, 29 (multi-parent)
   path: Legislature/statutes/instruments/2026-realm-si-7-super-repo-public-push-review.md
-  date: "2026-06-07"
+  date: '2026-06-07'
   cites:
   - BILL-18
   - BILL-20
   - BILL-27
   - REALM-PC-16
+  pdf: archive/pdfs/2026-realm-si-7-super-repo-public-push-review.pdf
 - id: SI-8
   title: '[2026] REALM-SI 8 - Agent Lawfulness Hooks'
   kind: instrument
@@ -578,7 +607,7 @@ items:
   - Read with Bills 13, 18, 21, 22, 27, 29
   - Amended by REALM-SI 10, 11
   path: Legislature/statutes/instruments/2026-realm-si-8-agent-lawfulness-hooks.md
-  date: "2026-06-07"
+  date: '2026-06-07'
   cites:
   - BILL-5
   - BILL-13
@@ -599,7 +628,7 @@ items:
   - Under Bill 5 s. 18 (parent authority MBES)
   - Read with Bills 7, 8, 16, 20, 22, 27, 29
   path: Legislature/statutes/instruments/2026-realm-si-9-gazette-graph-database.md
-  date: "2026-06-07"
+  date: '2026-06-07'
   cites:
   - BILL-5
   - BILL-7
@@ -621,7 +650,7 @@ items:
   - Under Bill 5 s. 18 (parent enabling power)
   - Coordinated with REALM-SI 11
   path: Legislature/statutes/instruments/2026-realm-si-10-agent-lawfulness-hooks-agent-agnostic-amendment.md
-  date: "2026-06-07"
+  date: '2026-06-07'
   cites:
   - BILL-5
   - BILL-13
@@ -642,7 +671,7 @@ items:
   - Under Bill 5 s. 18 (parent enabling power)
   - Completes agent lawfulness regime
   path: Legislature/statutes/instruments/2026-realm-si-11-agent-lawfulness-hooks-best-efforts-trigger-amendment.md
-  date: "2026-06-07"
+  date: '2026-06-07'
   cites:
   - BILL-5
   - BILL-13
