@@ -1,0 +1,12 @@
+id: LOG-2026-06-09-184741
+time: 2026-06-09T18:47:41.354658186+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260609-184726
+decision: 'Lawpack referential integrity is now machine-checked: vjs validate scans every lawpack YAML for cited ACT/DEC/INV/OBL/SPEC/REG ids and reports any that resolve to no defined object as DANGLING_REFERENCE warnings (20 today). A negated mention (PC-005''s ''no DEC-INSTITUTIONS-001'') is a statement, not a reference, and is excluded. The 20 genuinely missing objects are queued for enactment by the lawmaking route in the draft submission 2026-06-09-dangling-citations-omnibus, not silently authored by the engineer. Also fixed: the testkit ran from the package dir, so every lawpack-backed test loaded an EMPTY lawpack and passed vacuously; tests are now anchored on the crate manifest and exercise the real lawpack.'
+basis:
+- PERMIT-1781030846
+risk: low
+reversibility: easy
+court_required: false
+why: Review found 21 dangling citations and a vacuous test harness; the citator cannot be trusted while citations dangle, and the assent rules forbid curing them by ad hoc authoring. Warning severity keeps the remedy with the legislature.

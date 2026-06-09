@@ -385,6 +385,95 @@ impl LawpackValidator {
 
         Ok(ValidationReport { ok, findings })
     }
+
+    /// Referential integrity: every law-object id cited anywhere in the
+    /// lawpack must resolve to a defined object. Reported as warnings (the
+    /// drift is real but the remedy is lawmaking, not a blocked commit).
+    /// A negated mention ("no DEC-X") is a statement, not a reference.
+    pub fn check_referential_integrity(
+        lawpack_dir: &Path,
+        lawpack: &Lawpack,
+    ) -> Result<Vec<ValidationFinding>, KernelError> {
+        let mut defined = std::collections::HashSet::new();
+        for statute in &lawpack.statutes {
+            defined.insert(statute.id.0.clone());
+            for section in &statute.sections {
+                defined.insert(section.id.0.clone());
+            }
+        }
+        for regulation in &lawpack.regulations {
+            defined.insert(regulation.id.0.clone());
+        }
+        for rule in &lawpack.rules {
+            defined.insert(rule.id.0.clone());
+        }
+        for order in &lawpack.orders {
+            defined.insert(order.id.clone());
+        }
+        for spec in &lawpack.specs {
+            defined.insert(spec.id.0.clone());
+        }
+        for invariant in &lawpack.invariants {
+            defined.insert(invariant.id.0.clone());
+        }
+        for decision in &lawpack.decisions {
+            defined.insert(decision.id.0.clone());
+        }
+
+        let id_pattern = regex::Regex::new(
+            r"\b((?:ACT|DEC|INV|OBL|SPEC|REG)-[A-Z0-9][A-Za-z0-9-]*[A-Za-z0-9](?::s\d+)?)",
+        )
+        .map_err(|e| KernelError::InvalidInput(e.to_string()))?;
+
+        let mut dangling: std::collections::BTreeMap<String, Vec<String>> =
+            std::collections::BTreeMap::new();
+
+        for entry in WalkDir::new(lawpack_dir).into_iter().filter_map(|e| e.ok()) {
+            let path = entry.path();
+            if path.extension().and_then(|s| s.to_str()) != Some("yaml") {
+                continue;
+            }
+            let content = std::fs::read_to_string(path)
+                .map_err(|e| KernelError::Io(e.to_string()))?;
+            let rel = path
+                .strip_prefix(lawpack_dir)
+                .unwrap_or(path)
+                .to_string_lossy()
+                .to_string();
+            for line in content.lines() {
+                for m in id_pattern.find_iter(line) {
+                    let id = m.as_str();
+                    let negated = line[..m.start()].trim_end().ends_with("no");
+                    if negated || defined.contains(id) {
+                        continue;
+                    }
+                    dangling.entry(id.to_string()).or_default().push(rel.clone());
+                }
+            }
+        }
+
+        Ok(dangling
+            .into_iter()
+            .map(|(id, mut cited_in)| {
+                cited_in.sort();
+                cited_in.dedup();
+                ValidationFinding {
+                    severity: Severity::Warning,
+                    code: "DANGLING_REFERENCE".into(),
+                    path: None,
+                    message: format!(
+                        "'{}' is cited in [{}] but defined nowhere in the lawpack",
+                        id,
+                        cited_in.join(", ")
+                    ),
+                    suggested_fix: Some(
+                        "Author the missing object by the lawmaking route, or remove the citation"
+                            .into(),
+                    ),
+                }
+            })
+            .collect())
+    }
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
