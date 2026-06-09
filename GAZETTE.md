@@ -2,9 +2,9 @@
 
 One Gazette, two estates, on the one canonical line (per [2026] VJS-PC 2). Publication is constitutively inert: force comes from the lawpack and the Sovereign's assent, never from being listed here ([2026] REALM-SC 10; REG-GAZETTE-CONTINUITY-001).
 
-> **[Read the Gazette &rarr;](gazette.html)** - the Realm Law Reports: every item of both estates, searchable, filterable by estate and class, with the main points of each Act and case.
+> **[Explore the Gazette &rarr;](index.html)** - the law as a constellation: search, the browseable record, the full text of every canon instrument in the reading panel, citation and lineage edges, and the case dockets.
 >
-> A companion **[constellation view](gazette-graph.html)** renders the same record as a citation graph with a reading sidebar. Both are generated from the lawpack by `vjs gazette`; publication is constitutively inert.
+> The **[classic reading view](gazette.html)** renders the same record as Law Reports cards. Both are generated from the lawpack by `vjs gazette`; publication is constitutively inert.
 
 ---
 

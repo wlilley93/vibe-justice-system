@@ -1411,6 +1411,96 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     fn humanize(token: &str) -> String {
         token.replace('_', " ")
     }
+    fn yaml_to_json(v: &serde_yaml::Value) -> serde_json::Value {
+        serde_json::to_value(v).unwrap_or(serde_json::Value::Null)
+    }
+    /// Pick the whitelisted keys of a YAML mapping into a JSON object,
+    /// verbatim (parsed scalars keep their paragraph breaks; no summarising).
+    fn pick(v: &serde_yaml::Value, keys: &[&str]) -> serde_json::Value {
+        let mut obj = serde_json::Map::new();
+        for k in keys {
+            if let Some(x) = v.get(k) {
+                if !x.is_null() {
+                    obj.insert(k.to_string(), yaml_to_json(x));
+                }
+            }
+        }
+        serde_json::Value::Object(obj)
+    }
+    /// The full-text body of a law object, by kind. This is what the in-place
+    /// reader renders; only whitelisted fields leave the lawpack.
+    fn text_body(kind: &str, v: &serde_yaml::Value) -> serde_json::Value {
+        match kind {
+            "statute" => {
+                let mut body = pick(v, &["purpose"]);
+                let sections: Vec<serde_json::Value> = v
+                    .get("sections")
+                    .and_then(|x| x.as_sequence())
+                    .map(|secs| {
+                        secs.iter()
+                            .map(|sec| pick(sec, &["id", "title", "text", "commentary", "kernel_effect"]))
+                            .collect()
+                    })
+                    .unwrap_or_default();
+                body["sections"] = serde_json::Value::Array(sections);
+                body
+            }
+            "regulation" => pick(v, &["authority", "text", "kernel_effect"]),
+            "order" => pick(v, &[
+                "holding", "directives", "forbidden", "exceptions", "runtime_summary", "source_opinion",
+            ]),
+            "decision" => pick(v, &["decision", "reason", "basis", "consequences", "review_triggers", "scope"]),
+            "invariant" => pick(v, &["severity", "rule", "remedy", "basis"]),
+            "obligation" => pick(v, &["text", "kind", "due", "required", "basis"]),
+            "spec" => pick(v, &["purpose", "scope", "decisions", "invariants", "obligations", "review_triggers"]),
+            "rule" => pick(v, &["summary", "effect", "scope", "exceptions", "rank", "source"]),
+            _ => serde_json::Value::Null,
+        }
+    }
+    /// Every law id and neutral citation the text of a record actually
+    /// mentions: this is how a case interweaves by its subject. Negated
+    /// mentions ("no DEC-X") are statements, not references (the same rule
+    /// as the integrity checker).
+    fn textual_refs(content: &str) -> Vec<String> {
+        let mut out = Vec::new();
+        let id_re = regex::Regex::new(
+            r"\b((?:ACT|DEC|INV|OBL|SPEC|REG)-[A-Z0-9][A-Za-z0-9-]*[A-Za-z0-9](?::s\d+)?)",
+        )
+        .expect("static regex");
+        let cite_re = regex::Regex::new(r"\[(\d{4})\]\s+(VJS|REALM)-([A-Z]{2})\s+(\d+)")
+            .expect("static regex");
+        for line in content.lines() {
+            for m in id_re.find_iter(line) {
+                if !line[..m.start()].trim_end().ends_with("no") {
+                    out.push(m.as_str().to_string());
+                }
+            }
+            for c in cite_re.captures_iter(line) {
+                let (year, realm, court, n) = (&c[1], &c[2], &c[3], &c[4]);
+                out.push(match realm {
+                    // "[2026] VJS-PC 5" -> the order id "2026-VJS-PC-005"
+                    "VJS" => format!("{}-VJS-{}-{:0>3}", year, court, n),
+                    // "[2026] REALM-SC 10" -> the archive item id "REALM-SC-10"
+                    _ => format!("REALM-{}-{}", court, n),
+                });
+            }
+        }
+        out
+    }
+    /// "[2026] VJS-PC 5" from an id like "2026-VJS-PC-005"; None otherwise.
+    fn derive_order_citation(id: &str) -> Option<String> {
+        let parts: Vec<&str> = id.split('-').collect();
+        if parts.len() == 4
+            && parts[0].len() == 4
+            && parts[0].chars().all(|c| c.is_ascii_digit())
+            && parts[1] == "VJS"
+            && matches!(parts[2], "SC" | "PC" | "CC")
+        {
+            let n: u32 = parts[3].parse().ok()?;
+            return Some(format!("[{}] VJS-{} {}", parts[0], parts[2], n));
+        }
+        None
+    }
 
     // Editorial overlay: presentation copy only, never force.
     #[derive(serde::Deserialize, Default)]
@@ -1460,6 +1550,9 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     }
 
     let mut items: Vec<serde_json::Value> = Vec::new();
+    // Full-text bodies for the in-place reader, id -> kind-specific body.
+    let mut texts: std::collections::BTreeMap<String, serde_json::Value> =
+        std::collections::BTreeMap::new();
 
     let kinds = [
         ("statutes", "statute"),
@@ -1484,8 +1577,8 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             .collect();
         entries.sort();
         for path in entries {
-            let v: serde_yaml::Value =
-                serde_yaml::from_str(&std::fs::read_to_string(&path).map_err(io)?).map_err(ser)?;
+            let content = std::fs::read_to_string(&path).map_err(io)?;
+            let v: serde_yaml::Value = serde_yaml::from_str(&content).map_err(ser)?;
             let id = match s(&v, "id") {
                 Some(id) => id,
                 None => continue,
@@ -1579,7 +1672,9 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 _ => Vec::new(),
             };
 
-            // Mechanical citation edges from the law's own fields.
+            // Mechanical citation edges: the law's own fields, plus every id
+            // and neutral citation its text actually mentions (the subject
+            // linkage; a case connects to the legislation it construes).
             let mut cites: Vec<String> = str_list(&v, "basis");
             cites.extend(str_list(&v, "supersedes"));
             if let Some(a) = s(&v, "authority") {
@@ -1588,6 +1683,7 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             for key in ["decisions", "invariants", "obligations"] {
                 cites.extend(str_list(&v, key));
             }
+            cites.extend(textual_refs(&content));
 
             let ed = editorial.get(&id);
             let summary = ed.filter(|e| !e.summary.is_empty()).map(|e| e.summary.clone()).unwrap_or(mech_summary);
@@ -1608,12 +1704,33 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 .filter(|c| !c.is_empty())
                 .or_else(|| added_at.get(&rel).cloned())
                 .unwrap_or_default();
-            items.push(serde_json::json!({
+            let citation = if citation.is_empty() && kind == "order" {
+                derive_order_citation(&id).unwrap_or_default()
+            } else {
+                citation
+            };
+            let mut item = serde_json::json!({
                 "id": id, "title": title, "citation": citation, "kind": kind,
                 "court": court, "estate": "v2", "status": status, "date": date,
                 "summary": summary, "points": points, "cites": cites,
+                "supersedes": str_list(&v, "supersedes"),
+                "has_text": true,
                 "path": rel, "url": format!("{}{}", V2_BASE, rel),
-            }));
+            });
+            // A case's subject: the problem it was defined against.
+            if kind == "order" {
+                if let Some(issue) = s(&v, "issue").filter(|i| !i.is_empty()) {
+                    item["subject"] = serde_json::Value::String(humanize(&issue));
+                }
+                if let Some(op) = s(&v, "source_opinion").filter(|p| !p.is_empty()) {
+                    item["opinion"] = serde_json::json!({
+                        "path": op,
+                        "url": format!("{}{}", V2_BASE, op.trim_start_matches("./")),
+                    });
+                }
+            }
+            items.push(item);
+            texts.insert(items.last().unwrap()["id"].as_str().unwrap().to_string(), text_body(kind, &v));
         }
     }
 
@@ -1637,6 +1754,8 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                     "summary": s(it, "summary").unwrap_or_default(),
                     "points": str_list(it, "points"),
                     "cites": str_list(it, "cites"),
+                    "supersedes": [],
+                    "has_text": false,
                     "path": path,
                     "url": format!("{}{}", V1_BASE, path),
                 }));
@@ -1685,38 +1804,109 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
         .iter()
         .map(|i| i["id"].as_str().unwrap_or_default().to_string())
         .collect();
+    // The docket thread: successive cases on the same subject (the order's
+    // issue tag) chain chronologically. This is how cases interweave when
+    // they cite no legislation textually: by the problem they were defined
+    // against.
+    {
+        // Issue tags are unique per case but carry family structure:
+        // "governance.x" / "constitutional.x" are dotted dockets, and the
+        // "vjs-v2-*" tags are the boot-series docket. The family is the
+        // thread; the full issue stays on the item as its subject.
+        fn subject_family(issue: &str) -> String {
+            if let Some((fam, _)) = issue.split_once('.') {
+                return fam.to_string();
+            }
+            if issue.starts_with("vjs-v2") {
+                return "vjs-v2".into();
+            }
+            issue.to_string()
+        }
+        let mut by_subject: std::collections::BTreeMap<String, Vec<(String, String, usize)>> =
+            std::collections::BTreeMap::new();
+        for (idx, item) in items.iter().enumerate() {
+            if item["kind"] == "order" {
+                if let Some(subj) = item["subject"].as_str() {
+                    by_subject.entry(subject_family(subj)).or_default().push((
+                        item["date"].as_str().unwrap_or_default().to_string(),
+                        item["id"].as_str().unwrap_or_default().to_string(),
+                        idx,
+                    ));
+                }
+            }
+        }
+        for (_, mut chain) in by_subject {
+            chain.sort();
+            for w in chain.windows(2) {
+                let (prev_id, idx) = (&w[0].1, w[1].2);
+                items[idx]["thread"] = serde_json::json!([prev_id]);
+            }
+        }
+    }
+
+    let resolve = |list: &[String], own_id: &str, known: &std::collections::HashSet<String>| {
+        let mut out: Vec<String> = list
+            .iter()
+            .filter_map(|c| {
+                if known.contains(c) {
+                    Some(c.clone())
+                } else {
+                    let parent = c.split(':').next().unwrap_or(c);
+                    known.contains(parent).then(|| parent.to_string())
+                }
+            })
+            .filter(|c| c != own_id)
+            .collect();
+        out.sort();
+        out.dedup();
+        out
+    };
+
     let mut dropped = 0usize;
+    let mut superseded_by: std::collections::HashMap<String, Vec<String>> =
+        std::collections::HashMap::new();
     for item in &mut items {
         let own_id = item["id"].as_str().unwrap_or_default().to_string();
         let estate = item["estate"].as_str().unwrap_or_default().to_string();
         let kind = item["kind"].as_str().unwrap_or_default().to_string();
-        let mut resolved: Vec<String> = Vec::new();
-        if let Some(cites) = item["cites"].as_array_mut() {
-            let before = cites.len();
-            resolved = cites
-                .iter()
-                .filter_map(|c| {
-                    let c = c.as_str()?;
-                    if known.contains(c) {
-                        Some(c.to_string())
-                    } else {
-                        let parent = c.split(':').next().unwrap_or(c);
-                        known.contains(parent).then(|| parent.to_string())
-                    }
-                })
-                .filter(|c| *c != own_id)
-                .collect();
-            resolved.sort();
-            resolved.dedup();
-            dropped += before.saturating_sub(resolved.len());
-            *cites = resolved.iter().cloned().map(serde_json::Value::String).collect();
+
+        let raw_cites: Vec<String> = item["cites"]
+            .as_array()
+            .map(|a| a.iter().filter_map(|c| c.as_str().map(String::from)).collect())
+            .unwrap_or_default();
+        let resolved = resolve(&raw_cites, &own_id, &known);
+        dropped += raw_cites.len().saturating_sub(resolved.len());
+        item["cites"] = serde_json::Value::Array(
+            resolved.iter().cloned().map(serde_json::Value::String).collect(),
+        );
+
+        let raw_sup: Vec<String> = item["supersedes"]
+            .as_array()
+            .map(|a| a.iter().filter_map(|c| c.as_str().map(String::from)).collect())
+            .unwrap_or_default();
+        let sup = resolve(&raw_sup, &own_id, &known);
+        for target in &sup {
+            superseded_by.entry(target.clone()).or_default().push(own_id.clone());
         }
-        let anchor = lineage_anchor(&estate, &kind, &own_id).or_else(|| {
-            // A regulation normally hangs off its textual `authority`; if that
-            // failed to resolve it still holds force under the SI power.
-            (estate == "v2" && kind == "regulation" && resolved.is_empty())
-                .then_some("ACT-CONSOLIDATION-FRAMEWORK")
-        });
+        item["supersedes"] = serde_json::Value::Array(
+            sup.into_iter().map(serde_json::Value::String).collect(),
+        );
+
+        // A case interweaves by its SUBJECT: the legislation it construes
+        // (resolved citations) or the docket thread on its issue. The
+        // constitutional anchor is a last resort against orphaning only.
+        let case_like = kind == "order" || kind == "judgment";
+        let threaded = item["thread"].as_array().map(|a| !a.is_empty()).unwrap_or(false);
+        let anchor = if case_like && (!resolved.is_empty() || threaded) {
+            None
+        } else {
+            lineage_anchor(&estate, &kind, &own_id).or_else(|| {
+                // A regulation normally hangs off its textual `authority`; if
+                // that failed to resolve it still holds force under the SI power.
+                (estate == "v2" && kind == "regulation" && resolved.is_empty())
+                    .then_some("ACT-CONSOLIDATION-FRAMEWORK")
+            })
+        };
         let lineage: Vec<serde_json::Value> = anchor
             .filter(|a| known.contains(*a) && !resolved.contains(&a.to_string()))
             .map(|a| serde_json::Value::String(a.to_string()))
@@ -1724,29 +1914,50 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             .collect();
         item["lineage"] = serde_json::Value::Array(lineage);
     }
+    for item in &mut items {
+        let own_id = item["id"].as_str().unwrap_or_default();
+        let mut sb = superseded_by.get(own_id).cloned().unwrap_or_default();
+        sb.sort();
+        sb.dedup();
+        item["superseded_by"] =
+            serde_json::Value::Array(sb.into_iter().map(serde_json::Value::String).collect());
+    }
 
     let data = serde_json::json!({
         "generated_at": chrono::Utc::now().to_rfc3339(),
         "items": items,
     });
+    // A `</` inside law text would terminate the host <script> tag; emit the
+    // JSON escape `<\/` instead (identical parse, inert markup).
+    let guard = |s: String| s.replace("</", "<\\/");
     let out_path = out.unwrap_or_else(|| repo.join("gazette-data.js"));
     let body = format!(
         "// Generated by `vjs gazette`. Do not edit: regenerate from the lawpack.\nwindow.GAZETTE = {};\n",
-        serde_json::to_string_pretty(&data).expect("gazette data serializes")
+        guard(serde_json::to_string_pretty(&data).expect("gazette data serializes"))
     );
     std::fs::write(&out_path, body).map_err(io)?;
+
+    let text_path = out_path.with_file_name("gazette-text.js");
+    let text_body_js = format!(
+        "// Generated by `vjs gazette`. Full law text for the in-place reader.\nwindow.GAZETTE_TEXT = {};\n",
+        guard(serde_json::to_string(&texts).expect("gazette text serializes"))
+    );
+    std::fs::write(&text_path, &text_body_js).map_err(io)?;
 
     if json {
         println!(
             "{}",
             serde_json::json!({
                 "out": out_path.to_string_lossy(),
+                "text_out": text_path.to_string_lossy(),
+                "text_bytes": text_body_js.len(),
                 "items": known.len(),
                 "edges_dropped_to_non_items": dropped,
             })
         );
     } else {
         println!("Gazette data: {} items -> {}", known.len(), out_path.display());
+        println!("  full text: {} bodies ({} KB) -> {}", texts.len(), text_body_js.len() / 1024, text_path.display());
         println!("  citation edges to non-items dropped: {}", dropped);
     }
     Ok(())

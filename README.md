@@ -9,7 +9,7 @@
 ![vibes](https://img.shields.io/badge/vibes-litigated-purple?style=flat-square)
 ![community](https://img.shields.io/badge/community-open-green?style=flat-square)
 
-**Read the law:** [`The VJS Gazette`](https://wlilley93.github.io/vibe-justice-system/gazette.html) &middot; [`constellation view`](https://wlilley93.github.io/vibe-justice-system/gazette-graph.html)
+**Read the law:** [`The VJS Gazette`](https://wlilley93.github.io/vibe-justice-system/) &middot; [`classic reading view`](https://wlilley93.github.io/vibe-justice-system/gazette.html)
 
 Search the record, filter by estate and class, open the main points of any Act or case. The two estates - the living canon and the honoured archive - resolve in one place.
 
@@ -131,8 +131,8 @@ Natural language. No syntax. Lexby handles the filing.
 
 Everything resolves in one Gazette, two estates: **the living canon** and the read-only **honoured archive**.
 
-- **The Gazette:** [`gazette.html`](https://wlilley93.github.io/vibe-justice-system/gazette.html) - the Realm Law Reports: search, estate and class filters, the main points of every item.
-- **The constellation:** [`gazette-graph.html`](https://wlilley93.github.io/vibe-justice-system/gazette-graph.html) - the same record as a citation graph, with a reading sidebar.
+- **The Gazette:** [`the constellation`](https://wlilley93.github.io/vibe-justice-system/) - the law as an explorable graph: search, browseable list, full text in the reading panel, dockets and lineage.
+- **The classic view:** [`gazette.html`](https://wlilley93.github.io/vibe-justice-system/gazette.html) - the Realm Law Reports as cards: estate and class filters, the main points of every item.
 - **The index:** [`GAZETTE.md`](GAZETTE.md)
 - **The live law:** the compact lawpack under [`lawpack/`](lawpack/) and the court record under [`.vjs/submissions/filed/`](.vjs/submissions/filed/).
 - **The archive:** the first generation, preserved on the `v1` branch and the `v1-archive-2026-06-09` tag.
