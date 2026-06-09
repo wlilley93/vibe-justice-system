@@ -49,6 +49,10 @@ enum Commands {
         external: bool,
         #[arg(long)]
         irreversible: bool,
+        /// The governed paths this action covers. The issued permit is scoped to
+        /// exactly these paths (a permit with no paths excuses nothing).
+        #[arg(long = "path")]
+        paths: Vec<PathBuf>,
         /// Function-hook mode: exit non-zero (fail closed) when the kernel
         /// requires a court or blocks, so an executable hook can gate the action.
         #[arg(long)]
@@ -199,8 +203,8 @@ fn main() {
 
     let result = match cli.command {
         Commands::Init { lawpack } => cmd_init(&repo, lawpack),
-        Commands::Route { kind, issue, risk, intent, public, external, irreversible, gate } => {
-            cmd_route(&repo, kind, issue, risk, intent, public, external, irreversible, gate, json)
+        Commands::Route { kind, issue, risk, intent, public, external, irreversible, paths, gate } => {
+            cmd_route(&repo, kind, issue, risk, intent, public, external, irreversible, paths, gate, json)
         }
         Commands::Hook { event, paths, tool } => cmd_hook(&repo, event, paths, tool, json),
         Commands::Invoke { jurisdiction, principal, lawpack, install_hooks } => {
@@ -266,12 +270,14 @@ fn cmd_route(
     public: bool,
     external: bool,
     irreversible: bool,
+    paths: Vec<PathBuf>,
     gate: bool,
     json: bool,
 ) -> Result<(), KernelError> {
     let action_kind = parse_action_kind(&kind);
     let risk_level = parse_risk_level(risk.as_deref().unwrap_or("low"));
     let issue_tags = issue.map(|i| vec![IssueTag(i)]).unwrap_or_default();
+    let path_globs: Vec<String> = paths.iter().map(|p| p.to_string_lossy().to_string()).collect();
 
     let input = RouteInput {
         repo_root: Some(repo.clone()),
@@ -280,7 +286,7 @@ fn cmd_route(
         action_kind,
         issue_tags,
         intent,
-        affected_paths: Vec::new(),
+        affected_paths: paths.clone(),
         risk: risk_level,
         public_target: public,
         external_target: external,
@@ -297,7 +303,17 @@ fn cmd_route(
             id: permit_id.clone(),
             route_id: RouteId(format!("ROUTE-{}", chrono::Utc::now().format("%Y%m%d-%H%M%S"))),
             actor: "lexby".into(),
-            scope: None,
+            scope: if path_globs.is_empty() {
+                None
+            } else {
+                Some(Scope {
+                    paths: Some(path_globs.clone()),
+                    jurisdictions: None,
+                    action_kinds: None,
+                    issue_tags: None,
+                    records: None,
+                })
+            },
             obligations: decision.obligations.clone(),
             expires_at: (chrono::Utc::now() + chrono::Duration::hours(24)).to_rfc3339(),
             status: PermitStatus::Active,
