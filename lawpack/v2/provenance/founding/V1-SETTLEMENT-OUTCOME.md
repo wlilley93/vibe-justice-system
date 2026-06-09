@@ -1,7 +1,7 @@
 # V2 Founding Provenance: the settled outcome of the V1 constitutional route
 
 **id:** PROVENANCE-V2-FOUNDING-OUTCOME
-**status:** v1_route_settled; commencement_pending
+**status:** v1_route_settled; royal_assent_granted; commencement_pending (Gate B engineering)
 **recorded:** 2026-06-09
 **supersedes the status of:** the "pending" markers in `HANDOVER.md` (this record states the settled outcome; the HANDOVER remains a draft implementation brief, not authority)
 
@@ -14,7 +14,7 @@
 | Privy Council reference judgment | Defined the eight governing questions and the seventeen limits; referred up to the Supreme Court | **[2026] REALM-PC 24** |
 | Supreme Court settlement (full court of 9, DECLARATORY, unanimous 9-0) | Settled the migration; **enacted CASE-LAW s. 23(1)-(6)** [constitutional] (the Sovereign-assent floor and AI non-sovereignty); issued the express handover order | **[2026] REALM-SC 10** |
 | Standing Committee adoption | Adopted Bill 32 (the Computer-First Realm Act 2026) **4-0** at its second drafting round (after curing the Bill 27 s. 14(2) -> s. 15(2) entrenchment-citation defect); adoption is constitutive | Bill 32 (adopted) |
-| Royal Assent | Advance assent given ("assent is given to the final bill"); a standing conditional commitment under CASE-LAW s. 23(6) | **PENDING digest-pinned confirmation** |
+| Royal Assent | GRANTED 2026-06-09: positive, specific, digest-pinned assent (V1 record: Legislature/legislature/2026-06-09-royal-assent-bill-32.md); CASE-LAW s. 23 in force; Bill 32 enacted | done |
 
 **Adopted Bill 32 final-text digest (sha256):** `8e1d3f516cb2aca8e044d8c73bdc6ededa91a47ca86b729eece06f7eee6b9a0c`
 
@@ -28,7 +28,7 @@
 
 Per [2026] REALM-SC 10, commencement requires, and no commencement condition may be satisfiable by the V2 machinery alone:
 
-- **Gate A - the Sovereign's positive, specific, digest-pinned assent.** The advance assent ripens into operative Royal Assent only when the Sovereign positively and specifically confirms assent recorded against the digest `8e1d3f51...6b9a0c`. A bare non-dissent does not suffice for bringing the assent rule into force. **This is the one constitutive act that no agent may perform; it is for the Sovereign.**
+- **Gate A - the Sovereign's positive, specific, digest-pinned assent.** SATISFIED 2026-06-09: the Sovereign granted Royal Assent against the digest 8e1d3f51...6b9a0c; CASE-LAW s. 23 is in force and Bill 32 is enacted. The sealed adopted bytes (`bill-32-adopted-final-text.md`, this directory) reproduce the digest.
 - **Gate B - the V2 commencement engineering (authorised by the handover order).**
   1. Implement and prove the fail-closed Assent-Source Invariant (affirmative allow-list; rejects a missing-assent-field record and an unresolved-trace record).
   2. Expressly constitute each V2 court by a named constituting instrument fixing its odd bench (FI 1, CA 3, SC 5/9) and jurisdiction, before any V2 order issues.
