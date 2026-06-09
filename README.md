@@ -1,6 +1,6 @@
-# VJS V2
+# VJS - the Vibe Justice System
 
-The second generation of the Vibe Justice System.
+The canonical, computer-first Realm. (Developed as "V2"; the spent ordinal is dropped from the name per [2026] VJS-PC 2 / SC-1. The first generation is preserved as the read-only **V1 archive estate** on the `v1` branch and the immutable `v1-archive-2026-06-09` tag.)
 
 ## Status and known limitations
 
