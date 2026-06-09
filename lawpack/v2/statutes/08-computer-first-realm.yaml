@@ -1,19 +1,22 @@
 id: ACT-COMPUTER-FIRST-REALM
-citation: "[2026] VJS-ACT 8"
 title: Computer-First Realm Act 2026
-status: stayed
+status: in_force
 assent_source: sovereign_assent
 enacted_by: principal
 purpose: >
-  Founding constitutional Act of VJS V2. Received from V1 on Royal Assent
-  (2026-06-09) as the settlement of the constitutional relay: drafted by the
-  Standing Committee on the V2 Kernel Team's void first draft (REALM-SC 8),
-  settled on the Privy Council reference and ruling [2026] REALM-PC 24 and the
-  Supreme Court settlement [2026] REALM-SC 10, and assented by the Sovereign
-  Founder. The Act is ENACTED but STAYED: it commences as live runtime law only
-  when the Schedule 1 conditions are satisfied and recorded (see
-  COMMENCEMENT-V2-0001). This Act incorporates and supersedes V1 material only
-  as expressly stated; V1 is otherwise preserved as Gazette and Archive.
+  Founding constitutional Act of VJS V2; compact runtime (kernel) form of the
+  assented Act. The canonical ceremonial text is the digest-pinned sealed copy
+  at provenance/founding/bill-32-adopted-final-text.md
+  (sha256:8e1d3f516cb2aca8e044d8c73bdc6ededa91a47ca86b729eece06f7eee6b9a0c);
+  this record is its concordant compact form. Settled on [2026] REALM-PC 24 and
+  [2026] REALM-SC 10 (which enacted the CASE-LAW s.23 assent floor), drafted by
+  the Standing Committee on the V2 Kernel Team's void first draft (REALM-SC 8),
+  and assented by the Sovereign Founder on 2026-06-09. V2 COMMENCED 2026-06-09
+  (COMMENCEMENT-V2-0001). The Act's own VJS-ACT ordinal is minted deterministically
+  at commencement per its citation-scheme section; the earlier self-mint
+  "[2026] VJS-ACT 8" was void and is not used. This Act incorporates and
+  supersedes V1 material only as expressly stated; V1 is otherwise preserved as
+  Gazette and Archive.
 
 sections:
   - id: ACT-COMPUTER-FIRST-REALM:s2
@@ -36,15 +39,19 @@ sections:
   - id: ACT-COMPUTER-FIRST-REALM:s3
     title: Commencement
     text: >
-      This Act is enacted on Royal Assent as a declaratory instrument and has
-      no binding runtime force until it commences. It commences only when all
-      Schedule 1 conditions are satisfied and recorded; Royal Assent is the sole
-      constitutive gate.
+      Commencement is a strict external-then-compiled sequence: Royal Assent
+      under the V1 route is the sole, wholly antecedent and external
+      legitimating act; lawpack validation, entry and lock confirm form and
+      digest-fidelity only. No commencement condition is satisfiable by the V2
+      machinery alone. The Act commenced on 2026-06-09; the single commencement
+      record (COMMENCEMENT-V2-0001) pins the assent event, the assented-text
+      digest, the lawpack version, and the lock.
     kernel_effect:
       defines:
-        enacted: true
-        draft_not_binding_before_commencement: true
-        commencement_requires: schedule_1_all_satisfied_and_recorded
+        commenced: "2026-06-09"
+        royal_assent_antecedent_and_external: true
+        no_condition_satisfiable_by_v2_machinery_alone: true
+        commencement_record: COMMENCEMENT-V2-0001
         sole_constitutive_gate: royal_assent
 
   - id: ACT-COMPUTER-FIRST-REALM:s5
