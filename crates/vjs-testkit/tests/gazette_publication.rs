@@ -134,3 +134,23 @@ fn the_atom_feed_is_complete_inert_and_dateworthy() {
     assert_eq!(feed_updated, format!("{}T00:00:00Z", max_updated));
     assert!(!xml.contains(&d["generated_at"].as_str().unwrap()[..16]), "no generation timestamp in the feed");
 }
+
+#[test]
+fn the_pages_are_archival_offline_and_self_hosted() {
+    for page in ["index.html", "gazette.html"] {
+        let html = std::fs::read_to_string(repo_root().join(page)).unwrap();
+        assert!(
+            !html.contains("src=\"http") && !html.contains("unpkg"),
+            "{}: a record must not load script from a third party",
+            page
+        );
+        assert!(html.contains("<noscript"), "{}: noscript trust statement", page);
+        assert!(html.contains("application/atom+xml"), "{}: feed link", page);
+        assert!(html.contains("og:image"), "{}: social metadata", page);
+    }
+    let vendored = repo_root().join("assets/vendor/force-graph.min.js");
+    assert!(
+        std::fs::metadata(&vendored).map(|m| m.len() > 50_000).unwrap_or(false),
+        "vendored force-graph present and non-trivial"
+    );
+}
