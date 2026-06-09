@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The VJS Gazette</title>
+<style>
+  :root {
+    --cream:#fcf7f1; --paper:#fffdfa; --ink:#1a2744; --rule:#c8d0dc; --muted:#5b6472; --accent:#8b0000;
+    --sc:#8a5a00;  --sc-bg:#fff2bf;
+    --ca:#1d4f91;  --ca-bg:#e8f1ff;
+    --first:#3d7fbd; --first-bg:#eef7ff;
+    --act:#b42318; --act-bg:#fff0ec;
+    --si:#761919;  --si-bg:#fbe6e6;
+    --pc:#a31963;  --pc-bg:#fde7f3;
+    --submission:#4b5563; --submission-bg:#f3f4f6;
+    --v1:#7a5c1e;  --v1-bg:#f6eeda;
+    --v2:#1a5c46;  --v2-bg:#e9f5ef;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--cream); color:#15202b;
+    font-family:'Iowan Old Style','Palatino Linotype','Times New Roman',serif; line-height:1.5; }
+  header { text-align:center; padding:2rem 1rem 1rem; border-bottom:2px solid var(--ink); }
+  .logo { display:block; width:min(170px,42vw); height:auto; margin:0 auto .6rem; }
+  header h1 { margin:.2rem 0; font-size:1.9rem; letter-spacing:.04em; color:var(--ink); }
+  header .sub { color:var(--muted); font-style:italic; font-size:.95rem; }
+  .wrap { max-width:980px; margin:0 auto; padding:1.2rem 1rem 4rem; }
+  #q { width:100%; padding:.8rem 1rem; font-size:1.1rem; border:1.5px solid var(--ink);
+    border-radius:6px; background:#fff; font-family:inherit; }
+  .tabs { display:flex; flex-wrap:wrap; gap:.4rem; margin:1rem 0 .4rem; }
+  .tab { --tone:var(--ink); --tone-bg:var(--cream); padding:.35rem .8rem; border:1px solid var(--tone);
+    border-radius:999px; cursor:pointer; background:transparent; color:var(--tone); font:inherit; font-size:.85rem; }
+  .tab.active { background:var(--tone); color:var(--cream); }
+  .tab .n { color:inherit; opacity:.65; font-size:.75rem; }
+  .meta { color:var(--muted); font-size:.85rem; margin:.3rem 0 1rem; }
+  .start { border:1px solid var(--rule); border-radius:6px; background:var(--paper); padding:.85rem 1rem; margin:0 0 1rem; }
+  .start h2 { margin:0; color:var(--ink); font-size:1.05rem; }
+  .start p { margin:.2rem 0 .55rem; color:#33404f; }
+  .quick { display:flex; flex-wrap:wrap; gap:.45rem; margin:.45rem 0 0; }
+  .quick a { border:1px solid var(--rule); border-radius:4px; padding:.28rem .55rem; color:var(--ink);
+    text-decoration:none; background:#fff; font-size:.86rem; }
+  .quick a:hover { border-color:var(--ink); }
+  .tone-sc { --tone:var(--sc); --tone-bg:var(--sc-bg); }
+  .tone-ca { --tone:var(--ca); --tone-bg:var(--ca-bg); }
+  .tone-first { --tone:var(--first); --tone-bg:var(--first-bg); }
+  .tone-act { --tone:var(--act); --tone-bg:var(--act-bg); }
+  .tone-si { --tone:var(--si); --tone-bg:var(--si-bg); }
+  .tone-pc { --tone:var(--pc); --tone-bg:var(--pc-bg); }
+  .tone-submission { --tone:var(--submission); --tone-bg:var(--submission-bg); }
+  .tone-v1 { --tone:var(--v1); --tone-bg:var(--v1-bg); }
+  .tone-v2 { --tone:var(--v2); --tone-bg:var(--v2-bg); }
+  .card { --tone:var(--ink); --tone-bg:#fff; border:1px solid var(--rule); border-left:5px solid var(--tone);
+    border-radius:6px; padding:.8rem 1rem; margin:.7rem 0; background:var(--paper);
+    transition:border-color .12s ease, transform .12s ease; }
+  .card:target { outline:2px solid var(--ink); outline-offset:2px; }
+  .card .titleline { font-weight:bold; color:var(--ink); font-size:1.05rem; }
+  .card .court { color:var(--muted); font-size:.85rem; margin-top:.1rem; }
+  .card .ratio { margin:.4rem 0; }
+  .chip { display:inline-block; border:1px solid var(--tone); border-radius:4px; background:var(--tone-bg);
+    color:var(--tone); font-size:.68rem; font-style:normal; letter-spacing:.04em; line-height:1.2;
+    text-transform:uppercase; padding:.08rem .4rem; vertical-align:.14rem; margin-left:.4rem; font-weight:normal;
+    font-family:'Iowan Old Style','Palatino Linotype','Times New Roman',serif; }
+  .badge { display:inline-block; font-size:.7rem; text-transform:uppercase; letter-spacing:.06em;
+    padding:.05rem .45rem; border:1px solid var(--muted); color:var(--muted); border-radius:4px;
+    margin-left:.4rem; vertical-align:.14rem; }
+  .badge.good { color:#1a3a1a; border-color:#1a3a1a; }
+  .badge.bad { color:var(--accent); border-color:var(--accent); }
+  .card details { margin:.5rem 0 0; }
+  .card summary { cursor:pointer; color:var(--ink); font-size:.82rem; }
+  .card .points { margin:.45rem 0 .2rem; padding-left:1.25rem; font-size:.92rem; }
+  .card .points li { margin:.28rem 0; }
+  .card .links { margin-top:.45rem; }
+  .card .links a { color:var(--ink); margin-right:1rem; font-size:.85rem; }
+  footer { border-top:1px solid var(--rule); margin-top:2rem; padding:1.2rem 1rem; text-align:center;
+    color:var(--muted); font-size:.8rem; font-style:italic; }
+</style>
+</head>
+<body>
+<header>
+  <img class="logo" src="assets/vibe-justice-system-logo.png" alt="Vibe Justice System">
+  <h1>The VJS Gazette</h1>
+  <div class="sub">The Realm Law Reports &amp; Gazette - one Gazette, two estates, on the one canonical line</div>
+</header>
+<div class="wrap">
+  <div class="start">
+    <h2>The record of the realm</h2>
+    <p>Live law is the V2 canon (the compact lawpack the kernel loads); the honoured first generation
+       is preserved as the V1 archive estate. Publication here is constitutively inert: force comes from
+       the lawpack and the Sovereign's assent, never from being listed.</p>
+    <div class="quick">
+      <a href="gazette-graph.html">Explore as a constellation &rarr;</a>
+      <a href="https://github.com/wlilley93/vibe-justice-system">The canonical repository</a>
+      <a href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/INDEX.md">The V1 citator</a>
+    </div>
+  </div>
+  <input id="q" placeholder="Search the law&hellip;  (e.g. assent, permits, hooks, PC 5, REALM-SC 10)" autocomplete="off">
+  <div class="tabs" id="estate-tabs"></div>
+  <div class="tabs" id="class-tabs"></div>
+  <div class="meta" id="meta"></div>
+  <div id="list"></div>
+</div>
+<footer>Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001; [2026] REALM-SC 10).
+  Generated from the lawpack by <code>vjs gazette</code>.</footer>
+
+<script src="gazette-data.js"></script>
+<script>
+const ITEMS = window.GAZETTE.items;
+
+// Presentation-only tone taxonomy (the MoJ colour-taxonomy request): colour is
+// an orientation aid, never a source of force, priority, or validity.
+function tone(d) {
+  if (d.kind === 'statute' || d.kind === 'act') return 'act';
+  if (d.kind === 'regulation' || d.kind === 'rule' || d.kind === 'instrument') return 'si';
+  if (d.kind === 'order' || d.kind === 'judgment') {
+    if (d.court === 'sc') return 'sc';
+    if (d.court === 'pc') return 'pc';
+    if (d.court === 'ca') return 'ca';
+    return 'first';
+  }
+  if (d.kind === 'decision') return 'first';
+  return 'submission'; // invariants, obligations, specs: the machinery
+}
+const KIND_LABEL = { statute:'Act', act:'Act', regulation:'Regulation', rule:'Rule', instrument:'Instrument',
+  order:'Order', judgment:'Judgment', decision:'Decision', invariant:'Invariant', obligation:'Obligation', spec:'Spec' };
+const COURT_LABEL = { sc:'Supreme Court', pc:'Privy Council', ca:'Court of Appeal', county:'County Court', first:'First Instance' };
+const CLASS_TABS = [
+  ['all','All law'], ['act','Acts'], ['si','Instruments'], ['sc','Supreme Court'],
+  ['pc','Privy Council'], ['first','First instance'], ['submission','Machinery'],
+];
+const ESTATE_TABS = [['all','Both estates'], ['v2','Current estate (V2)'], ['v1','Archive estate (V1)']];
+const KIND_ORDER = { statute:0, act:0, regulation:1, instrument:1, rule:2, order:3, judgment:3,
+  decision:4, invariant:5, obligation:6, spec:7 };
+
+let estate = 'all', klass = 'all', query = '';
+
+function goodBad(status) {
+  const s = (status || '').toLowerCase();
+  if (/(void|per.incuriam|superseded|revoked|stayed)/.test(s)) return 'bad';
+  if (/(good|in.force|binding|active|assented)/.test(s)) return 'good';
+  return '';
+}
+function esc(t) { const e = document.createElement('span'); e.textContent = t ?? ''; return e.innerHTML; }
+
+function matches(d) {
+  if (estate !== 'all' && d.estate !== estate) return false;
+  if (klass !== 'all' && tone(d) !== klass) return false;
+  if (!query) return true;
+  const hay = [d.id, d.title, d.citation, d.summary, d.status, ...(d.points||[])].join(' ').toLowerCase();
+  return query.toLowerCase().split(/\s+/).every(w => hay.includes(w));
+}
+
+function sorted(list) {
+  return [...list].sort((a, b) =>
+    (a.estate === b.estate ? 0 : a.estate === 'v2' ? -1 : 1) ||
+    ((KIND_ORDER[a.kind] ?? 9) - (KIND_ORDER[b.kind] ?? 9)) ||
+    a.id.localeCompare(b.id, undefined, { numeric: true }));
+}
+
+function card(d) {
+  const t = tone(d);
+  const courtLine = [d.citation, KIND_LABEL[d.kind] || d.kind, COURT_LABEL[d.court] || '']
+    .filter(Boolean).join(' &middot; ');
+  const gb = goodBad(d.status);
+  const points = (d.points || []).map(p => `<li>${esc(p)}</li>`).join('');
+  return `<div class="card tone-${t}" id="${esc(d.id)}">
+    <div class="titleline">${esc(d.title)}<span class="chip">${esc(KIND_LABEL[d.kind] || d.kind)}</span><span class="chip ${d.estate === 'v1' ? 'tone-v1' : 'tone-v2'}" style="--tone:var(--${d.estate === 'v1' ? 'v1' : 'v2'});--tone-bg:var(--${d.estate === 'v1' ? 'v1' : 'v2'}-bg)">${d.estate === 'v1' ? 'V1 archive' : 'V2 current'}</span>${d.status ? `<span class="badge ${gb}">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : ''}</div>
+    ${courtLine ? `<div class="court">${courtLine}</div>` : ''}
+    <div class="ratio">${esc(d.summary)}</div>
+    ${points ? `<details><summary>Main points</summary><ul class="points">${points}</ul></details>` : ''}
+    <div class="links">
+      <a href="${esc(d.url)}">Read the source</a>
+      <a href="gazette-graph.html#${encodeURIComponent(d.id)}">View in the constellation</a>
+    </div>
+  </div>`;
+}
+
+function tabBar(el, defs, current, counter, onpick) {
+  el.innerHTML = '';
+  for (const [key, label] of defs) {
+    const b = document.createElement('button');
+    b.className = 'tab';
+    if (key !== 'all') b.classList.add('tone-' + key);
+    if (key === current) b.classList.add('active');
+    b.innerHTML = `${label} <span class="n">${counter(key)}</span>`;
+    b.onclick = () => onpick(key);
+    el.appendChild(b);
+  }
+}
+
+function render() {
+  const shown = sorted(ITEMS.filter(matches));
+  tabBar(document.getElementById('estate-tabs'), ESTATE_TABS, estate,
+    k => ITEMS.filter(d => k === 'all' || d.estate === k).length,
+    k => { estate = k; render(); });
+  tabBar(document.getElementById('class-tabs'), CLASS_TABS, klass,
+    k => ITEMS.filter(d => (k === 'all' || tone(d) === k) && (estate === 'all' || d.estate === estate)).length,
+    k => { klass = k; render(); });
+  document.getElementById('meta').textContent =
+    `${shown.length} of ${ITEMS.length} items shown. Colour and chips are orientation aids only; the committed law is the source.`;
+  document.getElementById('list').innerHTML = shown.map(card).join('');
+}
+
+document.getElementById('q').addEventListener('input', e => { query = e.target.value.trim(); render(); });
+render();
+
+// Deep link: #id scrolls to the item and opens its main points.
+if (location.hash) {
+  const el = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+  if (el) { el.querySelector('details')?.setAttribute('open', ''); el.scrollIntoView({ block: 'center' }); }
+}
+</script>
+</body>
+</html>

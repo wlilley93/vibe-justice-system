@@ -9,9 +9,9 @@
 ![vibes](https://img.shields.io/badge/vibes-litigated-purple?style=flat-square)
 ![community](https://img.shields.io/badge/community-open-green?style=flat-square)
 
-**Explore the law:** [`The VJS Gazette - living law as a graph`](https://wlilley93.github.io/vibe-justice-system/gazette-graph.html)
+**Read the law:** [`The VJS Gazette`](https://wlilley93.github.io/vibe-justice-system/gazette.html) &middot; [`constellation view`](https://wlilley93.github.io/vibe-justice-system/gazette-graph.html)
 
-Drag to explore the realm. Click a star to read the ruling. The two estates - the living canon and the honoured archive - resolve in one place.
+Search the record, filter by estate and class, open the main points of any Act or case. The two estates - the living canon and the honoured archive - resolve in one place.
 
 </div>
 
@@ -131,7 +131,8 @@ Natural language. No syntax. Lexby handles the filing.
 
 Everything resolves in one Gazette, two estates: the **living canon** and the read-only **V1 archive**.
 
-- **Explore it as a graph:** [`The VJS Gazette`](https://wlilley93.github.io/vibe-justice-system/gazette-graph.html)
+- **The Gazette:** [`gazette.html`](https://wlilley93.github.io/vibe-justice-system/gazette.html) - the Realm Law Reports: search, estate and class filters, the main points of every item.
+- **The constellation:** [`gazette-graph.html`](https://wlilley93.github.io/vibe-justice-system/gazette-graph.html) - the same record as a citation graph, with a reading sidebar.
 - **The index:** [`GAZETTE.md`](GAZETTE.md)
 - **The live law:** the compact lawpack under [`lawpack/`](lawpack/) and the court record under [`.vjs/submissions/filed/`](.vjs/submissions/filed/).
 - **The archive:** the first generation, preserved on the `v1` branch and the `v1-archive-2026-06-09` tag.
