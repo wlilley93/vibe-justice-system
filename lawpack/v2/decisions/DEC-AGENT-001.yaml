@@ -1,0 +1,54 @@
+id: DEC-AGENT-001
+citation: "[2026] VJS-DEC 12"
+title: Agent lifecycle - route, permit, obligations, proof, log, validate
+status: active
+scope:
+  action_kinds:
+    - implementation_decision
+    - public_record_change
+    - external_act
+    - security_sensitive_act
+decision: >
+  Agents performing load-bearing work (implementation decisions, public record
+  changes, external acts, security-sensitive acts) shall follow the
+  route-permit-obligations-proof-log-validate lifecycle. Briefly: route the
+  intended work through the kernel (vjs.route); obtain permit authority; bind
+  obligations (decision log, validation proof); execute with proof capture;
+  log the decision contemporaneously; validate before commit. Permits exist
+  only where the route permits the work. Obligations attach to the permit and
+  must discharge before closure. Logs and proofs are immutable record of
+  performance and justification. Validation confirms the work and its proof
+  satisfy law. The entire sequence is synchronous and deterministic.
+basis:
+  - ACT-001:s4
+  - ACT-003:s2
+  - ACT-004:s1
+reason: >
+  Load-bearing work affects real state - code, public facts, external systems,
+  security posture. Agents without a complete traceability chain cannot be
+  trusted. V1 discovered that long prompt instructions and untracked repairs
+  accreted error and opacity. V2 places the traceability chain in deterministic
+  kernel tools (route, permit, obligations, proof, logs, validation) so that
+  every material act is auditable, reversible, and defensible. The lifecycle
+  is compact because the kernel does the work, not the agent prose.
+consequences:
+  must:
+    - route_all_load_bearing_work_through_vjs_route
+    - obtain_permit_before_execution
+    - bind_decision_log_obligation
+    - bind_validation_obligation_where_required
+    - capture_proof_of_execution
+    - log_decision_contemporaneously
+    - validate_before_commit
+    - refuse_execution_without_permit
+  must_not:
+    - execute_load_bearing_work_without_routing
+    - bypass_permit_requirement
+    - omit_contemporaneous_decision_log
+    - omit_validation_proof_for_conditional_routes
+    - proceed_without_validation_before_commit
+review_triggers:
+  - permit_bypassed
+  - proof_missing
+  - log_missing
+  - proof_required

@@ -1,0 +1,43 @@
+id: DEC-ASSENT-DRAFT-001
+citation: "[2026] VJS-DEC 13"
+title: AI legislature competence bounds - delegated lawmaking conditions and assent_source semantics
+status: active
+scope:
+  action_kinds:
+    - legislative_draft
+    - implementation_decision
+  paths:
+    - lawpack/v2/specs/**
+    - lawpack/v2/**
+decision: >
+  Delegated lawmaking by AI agents is conditional on express Sovereign assent
+  and bounded by prohibited subjects. Every authority record (statute, regulation,
+  order, decision) must declare an assent_source field tracing to Sovereign assent
+  (sovereign_assent) or a standing-bounded route (standing_bounded_assent) with
+  explicit scope limit. An AI legislature cannot amend assent rules, expand its
+  own competence, authorise constitutional amendments, or adjudicate sovereign
+  prerogative. Prohibited subjects must be declared at commencement and cannot
+  be removed. Delegated lawmaking is valid only where a prior Sovereign act
+  grants specific conditional authority with stated prohibited subjects.
+basis:
+  - ACT-001:s8
+  - SPEC-ASSENT-DRAFT-001
+  - INV-ASSENT-SOURCE-001
+reason: >
+  The V1 constitutional route confirmed that AI-operated law machinery requires
+  hard boundaries: an affirmative assent_source, a published prohibited-subjects
+  list, and no silence-based authority. This decision anchors the kernel's
+  enforcement of those bounds.
+consequences:
+  must:
+    - declare_assent_source_on_every_authority
+    - trace_assent_to_sovereign_decision
+    - enumerate_prohibited_subjects_at_commencement
+  must_not:
+    - use_self_authorised_assent_source
+    - amend_assent_rules_via_delegated_lawmaking
+    - expand_ai_competence_without_sovereign_assent
+review_triggers:
+  - authority_basis_missing
+  - schema_changed
+  - draft_treated_as_binding

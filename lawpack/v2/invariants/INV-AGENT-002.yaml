@@ -1,0 +1,19 @@
+id: INV-AGENT-002
+title: Permit precedence, contemporaneous obligation log, post-execution validation
+severity: error
+rule:
+  kind: if
+  condition:
+    kind: path_changed
+    glob: "crates/**"
+  then:
+    kind: decision_log_exists
+basis:
+  - DEC-AGENT-001
+  - SPEC-AGENT-001
+remedy: >
+  Every change to crates/** must carry a contemporaneous decision log. When
+  crates/** is changed (as it is in this session), the decision log proof
+  must exist before commit. The permit binds the obligations; the log records
+  the performance; validation confirms the result. No permit-no log; no log
+  binding-failure; log failure-validation failure.

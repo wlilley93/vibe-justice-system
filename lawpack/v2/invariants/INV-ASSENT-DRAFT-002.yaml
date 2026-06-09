@@ -1,0 +1,21 @@
+id: INV-ASSENT-DRAFT-002
+title: Delegated lawmaking must declare and preserve prohibited_subjects
+severity: error
+rule:
+  kind: if
+  condition:
+    kind: file_modified
+    pattern: lawpack/v2/specs/SPEC-ASSENT-DRAFT-001.yaml
+  then:
+    kind: string_contains
+    value: prohibited
+basis:
+  - DEC-ASSENT-DRAFT-001
+  - SPEC-ASSENT-DRAFT-001
+remedy: >
+  Any change to the SPEC-ASSENT-DRAFT-001 spec file (which declares the
+  prohibited_subjects list for AI-operated lawmaking) must preserve the
+  string "prohibited" in the file. Removing or gutting the prohibited_subjects
+  declaration is forbidden as it would strip the competence bounds from delegated
+  lawmaking. If the spec requires amendment, the prohibited_subjects list must
+  remain explicit and evaluable by the kernel.

@@ -1,0 +1,51 @@
+id: DEC-KERNEL-002
+citation: "[2026] VJS-DEC 11"
+title: Kernel refactor and dependency constraints
+status: active
+scope:
+  paths:
+    - crates/vjs-core/**
+    - crates/vjs-lawpack/**
+    - Cargo.toml
+    - Cargo.lock
+  action_kinds:
+    - implementation_decision
+    - refactor
+    - dependency_change
+decision: >
+  Kernel refactors, dependency additions, network capability introductions,
+  model call introductions, and authority-ranking changes must be gated by
+  judicial review. A decision log capturing the rationale, impact analysis, and
+  determinism proof must exist before such changes are merged. Dependency
+  additions that introduce network clients (e.g. reqwest, hyper) are subject to
+  heightened scrutiny and must cite explicit judicial authorization.
+basis:
+  - ACT-001:s4
+  - ACT-004:s1
+  - DEC-KERNEL-001
+  - SPEC-KERNEL-001
+reason: >
+  The kernel is load-bearing. Changes to its core logic, its isolation
+  guarantees, or its dependency surface alter the entire system's trustworthiness.
+  Without a recorded decision - reviewable by humans and machines - the kernel drifts
+  away from its authoritative state. Gates ensure that model-related work,
+  network-related work, and refactors receive proportional scrutiny before
+  integration.
+consequences:
+  must:
+    - require_decision_log_before_kernel_refactor
+    - require_decision_log_before_dependency_add
+    - require_decision_log_before_network_capability
+    - require_decision_log_before_model_call
+    - require_decision_log_before_authority_ranking_change
+    - validate_determinism_before_merge
+  must_not:
+    - merge_kernel_changes_without_decision_log
+    - introduce_dependencies_without_rationale
+    - expand_kernel_capability_scope_without_review
+review_triggers:
+  - dependency_added
+  - network_capability_added
+  - model_call_added
+  - authority_ranking_changed
+  - schema_changed

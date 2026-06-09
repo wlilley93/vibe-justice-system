@@ -1,0 +1,31 @@
+id: INV-KERNEL-003
+title: Kernel changes require judicial review gates
+severity: error
+scope:
+  paths:
+    - crates/vjs-core/**
+    - crates/vjs-lawpack/**
+    - Cargo.toml
+    - Cargo.lock
+rule:
+  kind: if
+  condition:
+    kind: any
+    items:
+      - kind: path_changed
+        glob: "crates/vjs-core/**"
+      - kind: path_changed
+        glob: "crates/vjs-lawpack/**"
+      - kind: path_changed
+        glob: "Cargo.toml"
+  then:
+    kind: decision_log_exists
+basis:
+  - DEC-KERNEL-001
+  - DEC-KERNEL-002
+  - SPEC-KERNEL-001
+remedy: >
+  Record a decision log explaining the kernel refactor, dependency change,
+  network capability introduction, or authority-ranking change. Include impact
+  analysis, determinism proof, and review authorization before merging. Decision
+  logs must exist contemporaneously with the code change.

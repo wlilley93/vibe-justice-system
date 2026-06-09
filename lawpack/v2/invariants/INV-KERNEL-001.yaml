@@ -1,0 +1,16 @@
+id: INV-KERNEL-001
+title: Kernel determinism
+severity: fatal
+scope:
+  paths:
+    - crates/vjs-core/**
+    - crates/vjs-lawpack/**
+rule:
+  kind: core_no_model_calls
+basis:
+  - DEC-KERNEL-001
+  - SPEC-KERNEL-001
+remedy: >
+  Remove all model calls (calls to Claude, GPT, Gemini, or other LLM APIs) from
+  the kernel. The kernel must be deterministic. Model outputs are non-deterministic.
+  Model calls have no place in vjs-core or vjs-lawpack crates.

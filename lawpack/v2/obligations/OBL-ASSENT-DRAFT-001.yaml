@@ -1,0 +1,18 @@
+id: OBL-ASSENT-DRAFT-001
+title: Assent-source mandatory at commencement
+status: in_force
+kind: validation
+due: before_commit
+required: true
+text: >
+  Every law object (statute, regulation, order, decision, invariant, obligation)
+  that claims binding runtime force must declare and provide an assent_source
+  field before commencement. The absence of the field, an empty value, an
+  unrecognised form, or an unresolved trace shall cause the kernel to reject
+  the object with a validation failure. This obligation applies to all records
+  in lawpack/v2/** and binds every actor (human, AI, tool, engineer) who stages
+  a law object for commit.
+basis:
+  - DEC-ASSENT-DRAFT-001
+  - DEC-ASSENT-DRAFT-002
+  - INV-ASSENT-DRAFT-001

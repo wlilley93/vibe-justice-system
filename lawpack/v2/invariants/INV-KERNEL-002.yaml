@@ -1,0 +1,17 @@
+id: INV-KERNEL-002
+title: Kernel local-first and network-free
+severity: fatal
+scope:
+  paths:
+    - crates/vjs-core/**
+    - crates/vjs-lawpack/**
+rule:
+  kind: core_no_network
+basis:
+  - DEC-KERNEL-001
+  - SPEC-KERNEL-001
+remedy: >
+  Remove all network calls and external service dependencies from the kernel.
+  The kernel must be local-first: it evaluates law and governance using only
+  repo state, lawpack authority, permits, proofs, logs, and invariants. No
+  reqwest, no hyper, no external APIs, no runtime dependencies on network uptime.

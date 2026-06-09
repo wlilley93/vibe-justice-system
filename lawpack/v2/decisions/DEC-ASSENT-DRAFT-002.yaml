@@ -1,0 +1,42 @@
+id: DEC-ASSENT-DRAFT-002
+citation: "[2026] VJS-DEC 14"
+title: Assent lifecycle gates - from draft to Gazette entry and adoption
+status: active
+scope:
+  action_kinds:
+    - legislative_draft
+    - implementation_decision
+  paths:
+    - lawpack/v2/**
+    - .vjs/**
+decision: >
+  No law object acquires binding force by silence, default, or implied assent.
+  Every instrument must traverse the full lifecycle gate: draft status, Sovereign
+  assent grant recorded against the text, Gazette entry published, and (for V2)
+  lawpack adoption. The gate is atomic - commencement awaits all stages. A draft
+  spec may propose law; but force vests only on Sovereign assent, which must
+  name the instrument, date the decision, and declare scope. The kernel rejects
+  any authority lacking a recorded assent event and continues to report it as
+  DANGLING_REFERENCE until the assent is recorded and the Gazette published.
+basis:
+  - ACT-001:s4
+  - SPEC-ASSENT-DRAFT-001
+  - INV-ASSENT-SOURCE-001
+reason: >
+  Prevent law creep: authority without announcement. Draft specs are scaffolds
+  for deliberation. Once a Sovereign assents, the assent date and instrument
+  cite become the binding trace. The kernel's DANGLING_REFERENCE warning is law
+  working correctly until the gate is complete.
+consequences:
+  must:
+    - require_sovereign_assent_event_for_commencement
+    - record_assent_date_and_signatory_on_text
+    - publish_gazette_entry_before_adoption
+  must_not:
+    - assume_assent_by_silence
+    - commence_draft_as_law
+    - skip_assent_source_field
+review_triggers:
+  - sovereign_assent_granted
+  - gazette_entry_published
+  - v1_constitutional_route_complete

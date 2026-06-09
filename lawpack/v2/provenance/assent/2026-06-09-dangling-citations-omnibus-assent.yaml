@@ -1,0 +1,23 @@
+id: ASSENT-2026-06-09-OMNIBUS
+kind: sovereign_assent_event
+date: "2026-06-09"
+instrument: The Lawpack (Dangling Citations) Omnibus 2026
+instrument_text: .vjs/submissions/filed/2026-06-09-dangling-citations-omnibus.md
+instrument_digest: "sha256:bab4b4d88c66542b9cddefb622985856c3cfe4667e6c621e92b48bf5e6df27ae"
+sovereign: Will (the Principal, in the Sovereign capacity)
+form: >
+  Express assent given in session on 2026-06-09 ("assent given"), against the
+  omnibus draft as filed, whole and unamended: no item struck. The assent is
+  specific to the digest above; it commences every schedule item as enacted
+  V2 law with assent_source: sovereign_assent.
+effects:
+  - lodges: 5 decisions (DEC-KERNEL-001, DEC-KERNEL-002, DEC-AGENT-001, DEC-ASSENT-DRAFT-001, DEC-ASSENT-DRAFT-002)
+  - lodges: 8 invariants (INV-KERNEL-001..003, INV-AGENT-001..002, INV-ASSENT-DRAFT-001..002, INV-ENTRENCHED-GATE-001)
+  - lodges: 5 obligations and constitutes the obligations category (OBL-LOG-001, OBL-TEST-001, OBL-VALIDATE-001, OBL-ASSENT-DRAFT-001, OBL-ASSENT-DRAFT-002)
+  - inserts: ACT-COMPUTER-FIRST-REALM:s29 (the constituted courts; bench composition and continuity)
+  - lodges: REG-REPOS-HOUSE-001 (Repos House, certification, the two-layer registry)
+notes: >
+  The omnibus cured the 20 dangling citations the 2026-06-09 review found; the
+  kernel's DANGLING_REFERENCE check is the ongoing gate. The "assent-draft"
+  family keeps its historical ids (the ids the specs cite) while standing as
+  in-force law.

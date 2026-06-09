@@ -1,0 +1,13 @@
+id: INV-AGENT-001
+title: Agents cannot bypass the route-permit-obligations-proof-log-validate lifecycle
+severity: fatal
+rule:
+  kind: governed_writes_require_permit
+basis:
+  - DEC-AGENT-001
+  - SPEC-AGENT-001
+remedy: >
+  Reject all implementation decisions, public record changes, external acts,
+  and security-sensitive acts that lack a valid permit, contemporaneous
+  decision log, and proof of validation. Route the work through vjs.route;
+  bind obligations; capture proof; validate before closure.
