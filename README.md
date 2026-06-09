@@ -2,6 +2,10 @@
 
 The canonical, computer-first Realm. (Developed as "V2"; the spent ordinal is dropped from the name per [2026] VJS-PC 2 / SC-1. The first generation is preserved as the read-only **V1 archive estate** on the `v1` branch and the immutable `v1-archive-2026-06-09` tag.)
 
+## The Gazette
+
+One Gazette, two estates ([GAZETTE.md](GAZETTE.md)). **Current estate (latest):** [2026] VJS-PC 6 (the canon self-invokes; the Privy Council is its first-instance court), back through VJS-PC 1-5 and VJS-SC 1; primary law is the Realm Consolidation and Reconciliation Framework Act. **Archive estate (latest V1 authority):** [2026] REALM-SC 10 (the founding settlement; enacted the assent floor), above REALM-PC 24 - on the `v1` branch. Publication is constitutively inert; force comes from the lawpack and assent.
+
 ## Status and known limitations
 
 VJS V2 is founded, assented, and running as live local law, but it is early and not yet publicly released. Known limitations a reader should weigh before adopting it:

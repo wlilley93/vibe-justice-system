@@ -1,10 +1,10 @@
-id: INVOCATION-20260609-175048
+id: INVOCATION-20260609-175806
 kind: local_sovereign_invocation
 status: in_force
 jurisdiction:
-  id: agent-universe-v2
+  id: vjs
   repo_root: "."
-  repo_code: AGENT-UNIVERSE-V2
+  repo_code: VJS
 principal:
   name: "William Lilley"
   capacity: local_sovereign

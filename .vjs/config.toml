@@ -1,5 +1,6 @@
 version = "2"
-jurisdiction_id = "agent-universe-v2"
+jurisdiction_id = "vjs"
+repo_code = "VJS"
 lawpack = "vjs-v2@0.1.0"
 
 [paths]
