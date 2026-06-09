@@ -1433,6 +1433,32 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
         }
     };
 
+    // First-enacted dates from history: one pass over git log, oldest first,
+    // so the first add wins. (Orders carry created_at and prefer it.)
+    let mut added_at: std::collections::HashMap<String, String> = std::collections::HashMap::new();
+    if let Ok(out) = std::process::Command::new("git")
+        .args([
+            "-C",
+            &repo.to_string_lossy(),
+            "log",
+            "--reverse",
+            "--diff-filter=A",
+            "--name-only",
+            "--format=\u{1}%cI",
+        ])
+        .output()
+    {
+        let text = String::from_utf8_lossy(&out.stdout);
+        let mut current = String::new();
+        for line in text.lines() {
+            if let Some(ts) = line.strip_prefix('\u{1}') {
+                current = ts.split('T').next().unwrap_or("").to_string();
+            } else if !line.is_empty() && !current.is_empty() {
+                added_at.entry(line.to_string()).or_insert_with(|| current.clone());
+            }
+        }
+    }
+
     let mut items: Vec<serde_json::Value> = Vec::new();
 
     let kinds = [
@@ -1577,9 +1603,14 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             cites.retain(|c| *c != id);
 
             let rel = format!("lawpack/v2/{}/{}", dir, path.file_name().unwrap().to_string_lossy());
+            let date = s(&v, "created_at")
+                .map(|c| c.split('T').next().unwrap_or("").trim_matches('"').to_string())
+                .filter(|c| !c.is_empty())
+                .or_else(|| added_at.get(&rel).cloned())
+                .unwrap_or_default();
             items.push(serde_json::json!({
                 "id": id, "title": title, "citation": citation, "kind": kind,
-                "court": court, "estate": "v2", "status": status,
+                "court": court, "estate": "v2", "status": status, "date": date,
                 "summary": summary, "points": points, "cites": cites,
                 "path": rel, "url": format!("{}{}", V2_BASE, rel),
             }));
@@ -1602,6 +1633,7 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                     "court": s(it, "court").unwrap_or_default(),
                     "estate": "v1",
                     "status": s(it, "status").unwrap_or_default(),
+                    "date": s(it, "date").unwrap_or_default(),
                     "summary": s(it, "summary").unwrap_or_default(),
                     "points": str_list(it, "points"),
                     "cites": str_list(it, "cites"),

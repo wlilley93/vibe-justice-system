@@ -103,9 +103,14 @@ fn every_law_object_is_published_and_every_edge_resolves() {
         }
         assert!(!url.contains("/blob/main/"), "the remote has no main branch: {}", url);
 
-        // The reading surface is real: a title and at least a summary.
+        // The reading surface is real: a title, a summary, a date, a source.
         assert!(!item["title"].as_str().unwrap().is_empty());
         assert!(!item["summary"].as_str().unwrap().is_empty());
+        assert!(
+            !item["date"].as_str().unwrap_or_default().is_empty(),
+            "item '{}' has no date; the Gazette orders newest first",
+            item["id"]
+        );
     }
 
     for item in &items {
