@@ -72,9 +72,9 @@ fn every_law_object_is_published_and_every_edge_resolves() {
     // may never show a star floating free of the constitutional centre.
     let mut degree: std::collections::HashMap<String, usize> = HashMap::new();
     for item in &items {
-        // No edge to a non-item, citation or lineage.
-        for key in ["cites", "lineage"] {
-            for edge in item[key].as_array().unwrap() {
+        // No edge to a non-item: citation, lineage, or docket thread.
+        for key in ["cites", "lineage", "thread"] {
+            for edge in item[key].as_array().map(|a| a.as_slice()).unwrap_or(&[]) {
                 assert!(
                     ids.contains(edge.as_str().unwrap()),
                     "item '{}' has {} edge to non-item '{}'",

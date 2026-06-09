@@ -1,0 +1,134 @@
+//! The full-text artifact behind the in-place reader: every canon item has a
+//! body, no body exists without an item, the shapes are renderable, and no
+//! `</script` can terminate the host tag.
+
+use std::collections::HashSet;
+use std::path::PathBuf;
+
+fn repo_root() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
+}
+
+fn parse_js(name: &str) -> serde_json::Value {
+    let raw = std::fs::read_to_string(repo_root().join(name))
+        .unwrap_or_else(|_| panic!("{} exists at the repo root (run: vjs gazette)", name));
+    assert!(
+        !raw.to_lowercase().contains("</script"),
+        "{} must never contain a script terminator",
+        name
+    );
+    let start = raw.find('{').unwrap();
+    let end = raw.rfind('}').unwrap();
+    serde_json::from_str(&raw[start..=end].replace("<\\/", "</")).expect("valid JSON payload")
+}
+
+#[test]
+fn the_text_artifact_is_bijective_with_the_canon_and_renderable() {
+    let data = parse_js("gazette-data.js");
+    let texts = parse_js("gazette-text.js");
+    let bodies = texts.as_object().unwrap();
+
+    let canon_ids: HashSet<&str> = data["items"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter(|i| i["has_text"] == true)
+        .map(|i| i["id"].as_str().unwrap())
+        .collect();
+    let body_ids: HashSet<&str> = bodies.keys().map(|k| k.as_str()).collect();
+    assert_eq!(
+        canon_ids, body_ids,
+        "every has_text item has a body and no body lacks an item - rerun vjs gazette"
+    );
+
+    // has_text marks exactly the canon (the archive's text lives on the v1 branch).
+    for item in data["items"].as_array().unwrap() {
+        assert_eq!(
+            item["has_text"] == true,
+            item["estate"] == "v2",
+            "has_text must mark exactly the canon: {}",
+            item["id"]
+        );
+    }
+
+    // Kind-shape checks: the reader renders these fields.
+    for item in data["items"].as_array().unwrap() {
+        let id = item["id"].as_str().unwrap();
+        if item["estate"] != "v2" {
+            continue;
+        }
+        let body = &bodies[id];
+        let nonempty = |key: &str| {
+            assert!(
+                body[key].as_str().map(|s| !s.trim().is_empty()).unwrap_or(false),
+                "{} body field '{}' must be non-empty text",
+                id,
+                key
+            )
+        };
+        match item["kind"].as_str().unwrap() {
+            "statute" => {
+                let secs = body["sections"].as_array().unwrap();
+                assert!(!secs.is_empty(), "{} has sections", id);
+                for sec in secs {
+                    let sid = sec["id"].as_str().unwrap();
+                    assert!(sid.starts_with(&format!("{}:s", id)), "section id {}", sid);
+                    assert!(!sec["text"].as_str().unwrap_or("").trim().is_empty());
+                }
+            }
+            "regulation" | "obligation" => nonempty("text"),
+            "order" => {
+                nonempty("holding");
+                nonempty("runtime_summary");
+            }
+            "decision" => nonempty("decision"),
+            "invariant" => {
+                nonempty("remedy");
+                assert!(body["rule"].is_object(), "{} rule tree", id);
+            }
+            "spec" => nonempty("purpose"),
+            "rule" => nonempty("summary"),
+            _ => {}
+        }
+    }
+
+    // Size budget: a whole-YAML dump would blow past this.
+    let bytes = std::fs::metadata(repo_root().join("gazette-text.js")).unwrap().len();
+    assert!(bytes < 400_000, "gazette-text.js stays under 400 KB, got {}", bytes);
+}
+
+#[test]
+fn treatment_fields_resolve_and_reciprocate() {
+    let data = parse_js("gazette-data.js");
+    let items = data["items"].as_array().unwrap();
+    let ids: HashSet<&str> = items.iter().map(|i| i["id"].as_str().unwrap()).collect();
+
+    for item in items {
+        let id = item["id"].as_str().unwrap();
+        for key in ["supersedes", "superseded_by", "thread"] {
+            if let Some(arr) = item[key].as_array() {
+                for t in arr {
+                    assert!(ids.contains(t.as_str().unwrap()), "{} {} -> non-item", id, key);
+                }
+            }
+        }
+        // supersession reciprocity
+        if let Some(sup) = item["supersedes"].as_array() {
+            for t in sup {
+                let target = items.iter().find(|x| x["id"] == *t).unwrap();
+                assert!(
+                    target["superseded_by"].as_array().unwrap().iter().any(|b| b.as_str() == Some(id)),
+                    "{} supersedes {} but the reverse edge is missing",
+                    id,
+                    t
+                );
+            }
+        }
+        // opinions point at real committed files
+        if item["opinion"].is_object() {
+            let p = item["opinion"]["path"].as_str().unwrap();
+            assert!(repo_root().join(p).exists(), "opinion path missing: {}", p);
+            assert!(item["opinion"]["url"].as_str().unwrap().contains("/blob/master/"));
+        }
+    }
+}

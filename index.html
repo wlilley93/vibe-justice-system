@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The VJS Gazette</title>
+<style>
+  :root {
+    --cream:#fcf7f1; --paper:#fffdfa; --ink:#1a2744; --rule:#c8d0dc; --muted:#5b6472; --accent:#8b0000;
+    --sc:#8a5a00;  --sc-bg:#fff2bf;
+    --ca:#1d4f91;  --ca-bg:#e8f1ff;
+    --first:#3d7fbd; --first-bg:#eef7ff;
+    --act:#b42318; --act-bg:#fff0ec;
+    --si:#761919;  --si-bg:#fbe6e6;
+    --pc:#a31963;  --pc-bg:#fde7f3;
+    --submission:#4b5563; --submission-bg:#f3f4f6;
+    --v1:#7a5c1e;  --v1-bg:#f6eeda;
+    --v2:#1a5c46;  --v2-bg:#e9f5ef;
+    --thread:#6d28d9;
+  }
+  * { box-sizing:border-box; }
+  html,body { margin:0; height:100%; background:var(--cream); color:#15202b;
+    font-family:'Iowan Old Style','Palatino Linotype','Times New Roman',serif; line-height:1.5; overflow:hidden; }
+  #graph { position:fixed; inset:0; }
+  button { font:inherit; }
+
+  /* ---- top bar: logo + search ---- */
+  #topbar { position:fixed; top:0; left:0; right:0; z-index:8; display:flex; align-items:center;
+    gap:.9rem; padding:.55rem .9rem; pointer-events:none; }
+  #brand { display:flex; align-items:center; gap:.6rem; pointer-events:auto; text-decoration:none; color:var(--ink); }
+  #brand img { width:44px; height:auto; display:block; }
+  #brand .word { line-height:1.15; }
+  #brand .word b { display:block; font-size:1rem; letter-spacing:.03em; }
+  #brand .word span { font-size:.68rem; color:var(--muted); font-style:italic; }
+  #searchwrap { position:relative; pointer-events:auto; width:min(430px, 46vw); }
+  #q { width:100%; padding:.55rem .9rem; font-size:.95rem; border:1.5px solid var(--ink); border-radius:7px;
+    background:var(--paper); font-family:inherit; outline:none; }
+  #q:focus { box-shadow:0 0 0 3px rgba(26,39,68,.12); }
+  #hits { position:absolute; top:calc(100% + 4px); left:0; right:0; background:var(--paper);
+    border:1px solid var(--ink); border-radius:7px; overflow:hidden; display:none; max-height:50vh; overflow-y:auto; }
+  #hits .hit { display:flex; align-items:center; gap:.5rem; padding:.42rem .7rem; cursor:pointer; font-size:.86rem; }
+  #hits .hit .dot { width:8px; height:8px; border-radius:50%; flex:none; border:1.5px solid var(--ink); }
+  #hits .hit .cite { color:var(--muted); font-size:.74rem; margin-left:auto; white-space:nowrap; }
+  #hits .hit.active, #hits .hit:hover { background:var(--cream); }
+  #listToggle { pointer-events:auto; border:1px solid var(--ink); background:var(--paper); color:var(--ink);
+    border-radius:7px; padding:.5rem .8rem; cursor:pointer; font-size:.82rem; }
+
+  /* ---- the list sidebar ---- */
+  #list { position:fixed; top:58px; bottom:0; left:0; width:330px; z-index:7; background:var(--paper);
+    border-right:1.5px solid var(--ink); transform:translateX(-105%); transition:transform .2s ease;
+    display:flex; flex-direction:column; }
+  #list.open { transform:translateX(0); }
+  #list .lhead { padding:.55rem .8rem .45rem; border-bottom:1px solid var(--rule); display:flex;
+    align-items:baseline; gap:.5rem; }
+  #list .lhead b { font-size:.86rem; }
+  #list .lhead .n { color:var(--muted); font-size:.74rem; }
+  #list .lhead select { margin-left:auto; font:inherit; font-size:.76rem; border:1px solid var(--rule);
+    background:#fff; border-radius:4px; color:var(--ink); }
+  #rows { overflow-y:auto; flex:1; }
+  .row { position:relative; padding:.5rem 5.6rem .5rem .8rem; border-bottom:1px solid #eee6da; cursor:pointer; }
+  .row:hover { background:var(--cream); }
+  .row.active { background:var(--cream); box-shadow:inset 3px 0 0 var(--ink); }
+  .row .t { font-size:.88rem; color:var(--ink); }
+  .row .t.major { font-weight:bold; }
+  .row .m { display:flex; align-items:center; gap:.4rem; margin-top:.15rem; font-size:.7rem; color:var(--muted); }
+  .row .dot { width:8px; height:8px; border-radius:50%; flex:none; border:1.5px solid var(--ink); }
+  /* uniform chips, docked top right */
+  .row .chips { position:absolute; top:.5rem; right:.6rem; display:flex; flex-direction:column; gap:.18rem; }
+  .row .chips .chip { width:3.4rem; text-align:center; margin:0; font-size:.6rem; padding:.1rem 0; }
+  .row details.lin { margin-top:.25rem; }
+  .row details.lin summary { font-size:.68rem; color:var(--muted); cursor:pointer; user-select:none; }
+  .row details.lin summary:hover { color:var(--ink); }
+  .row .linbody { font-size:.72rem; color:var(--muted); padding:.2rem 0 .1rem; }
+  .row .linbody b { font-size:.62rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+  .row .linbody button { font:inherit; font-size:.72rem; color:var(--ink); border:1px solid var(--rule);
+    border-radius:4px; background:#fff; padding:.05rem .35rem; margin:.1rem .2rem .1rem 0; cursor:pointer; }
+  .row .linbody button:hover { border-color:var(--ink); }
+
+  /* chips: the same tone-on-tint pairs everywhere */
+  .chip { display:inline-block; border:1px solid var(--tone,var(--muted)); border-radius:4px;
+    background:var(--tone-bg,#fff); color:var(--tone,var(--muted)); font-size:.66rem; font-style:normal;
+    font-weight:normal; letter-spacing:.04em; line-height:1.2; text-transform:uppercase;
+    padding:.07rem .38rem; vertical-align:.08rem; margin:0 .28rem .22rem 0; }
+  .chip.tone-sc { --tone:var(--sc); --tone-bg:var(--sc-bg); }
+  .chip.tone-ca { --tone:var(--ca); --tone-bg:var(--ca-bg); }
+  .chip.tone-first { --tone:var(--first); --tone-bg:var(--first-bg); }
+  .chip.tone-act { --tone:var(--act); --tone-bg:var(--act-bg); }
+  .chip.tone-si { --tone:var(--si); --tone-bg:var(--si-bg); }
+  .chip.tone-pc { --tone:var(--pc); --tone-bg:var(--pc-bg); }
+  .chip.tone-submission { --tone:var(--submission); --tone-bg:var(--submission-bg); }
+  .chip.tone-v1 { --tone:var(--v1); --tone-bg:var(--v1-bg); }
+  .chip.tone-v2 { --tone:var(--v2); --tone-bg:var(--v2-bg); }
+  .chip.status { border-color:var(--muted); color:var(--muted); background:#fff; }
+
+  /* ---- legend (minimisable) ---- */
+  #legend { position:fixed; top:64px; right:14px; z-index:6; font-size:.74rem; color:var(--muted);
+    background:rgba(255,253,250,.94); border:1px solid var(--rule); border-radius:7px; max-width:280px; }
+  #legend summary { cursor:pointer; padding:.4rem .7rem; font-size:.76rem; color:var(--ink); user-select:none; }
+  #legend .body { padding:.2rem .7rem .6rem; }
+  #legend .row2 { margin:3px 0; text-align:right; }
+  #legend .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-left:6px;
+    vertical-align:middle; border:1.5px solid var(--ink); }
+  #legend .edge { display:inline-block; width:16px; height:2px; margin-left:6px; vertical-align:middle; }
+  .filterrow { display:flex; gap:.3rem; justify-content:flex-end; margin-top:.45rem; flex-wrap:wrap; }
+  .tab { --tone:var(--ink); padding:.15rem .55rem; border:1px solid var(--tone); border-radius:999px;
+    cursor:pointer; background:var(--paper); color:var(--tone); font-size:.72rem; }
+  .tab.active { background:var(--tone); color:var(--cream); }
+  .tone-v1.tab { --tone:var(--v1); } .tone-v2.tab { --tone:var(--v2); }
+  #legend label.slider { display:flex; align-items:center; gap:.5rem; margin-top:.5rem; justify-content:flex-end; }
+  #legend input[type=range] { width:120px; accent-color:var(--ink); }
+
+  /* ---- estate dock, bottom right ---- */
+  #estates { position:fixed; bottom:16px; right:14px; z-index:6; display:flex; gap:.3rem; }
+
+  /* ---- the object panel ---- */
+  #panel { position:fixed; top:0; right:0; height:100%; width:min(460px,94vw); z-index:9;
+    background:var(--paper); border-left:2px solid var(--ink);
+    transform:translateX(105%); transition:transform .22s ease; display:flex; flex-direction:column; }
+  #panel.open { transform:translateX(0); }
+  @media (prefers-reduced-motion: reduce) { #panel, #list { transition:none; } }
+  #panel .phead { padding:1rem 1.1rem .6rem; border-bottom:1px solid var(--rule); }
+  #panel .pbody { padding: .8rem 1.1rem 2rem; overflow-y:auto; flex:1; }
+  #panel .kicker { font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+  #panel h2 { margin:.3rem 0 .15rem; font-size:1.28rem; line-height:1.25; color:var(--ink); }
+  #panel .cite { color:var(--muted); font-size:.83rem; }
+  #panel .subject { color:var(--muted); font-size:.8rem; font-style:italic; margin-top:.15rem; }
+  #panel .summary { font-size:.95rem; margin:.6rem 0; }
+  #panel h3 { margin:1rem 0 .3rem; font-size:.74rem; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--muted); border-bottom:1px solid var(--rule); padding-bottom:.22rem; }
+  #panel h3 .n { letter-spacing:0; text-transform:none; }
+  #panel .points { margin:.35rem 0; padding-left:1.15rem; font-size:.9rem; }
+  #panel .points li { margin:.3rem 0; }
+  #panel .links a { display:block; color:var(--ink); text-decoration:none; font-size:.85rem;
+    padding:.42rem .65rem; margin:.35rem 0; border:1px solid var(--rule); border-radius:6px; background:#fff; }
+  #panel .links a:hover { border-color:var(--ink); }
+  #panel .neigh button { display:inline-block; color:var(--ink); cursor:pointer; font-size:.82rem;
+    border:1px solid var(--rule); border-radius:4px; background:#fff; padding:.12rem .45rem;
+    margin:.15rem .25rem .15rem 0; font-family:inherit; text-align:left; }
+  #panel .neigh button:hover { border-color:var(--ink); }
+  #panel .close { position:absolute; top:8px; right:12px; cursor:pointer; color:var(--muted);
+    font-size:1.5rem; line-height:1; background:none; border:none; }
+  #panel .close:hover { color:var(--ink); }
+  #trail { font-size:.72rem; color:var(--muted); margin-top:.3rem; }
+  #trail span { cursor:pointer; }
+  #trail span:hover { text-decoration:underline; color:var(--ink); }
+  /* full text rendering */
+  #ftext { font-size:.93rem; }
+  #ftext p { margin:.5rem 0; }
+  #ftext section { margin:.9rem 0; padding-left:.7rem; border-left:3px solid var(--rule); }
+  #ftext section h4 { margin:.2rem 0; font-size:.95rem; color:var(--ink); }
+  #ftext .commentary { color:var(--muted); font-size:.85rem; font-style:italic; }
+  #ftext .facts { background:#fff; border:1px solid var(--rule); border-radius:6px; padding:.5rem .7rem;
+    font-size:.82rem; margin:.5rem 0; }
+  #ftext .facts b { font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);
+    display:block; margin-top:.35rem; }
+  #ftext .facts b:first-child { margin-top:0; }
+  #ftext table { border-collapse:collapse; font-size:.82rem; margin:.5rem 0; width:100%; }
+  #ftext td, #ftext th { border:1px solid var(--rule); padding:.25rem .45rem; text-align:left; vertical-align:top; }
+  #ftext .pred { font-family:ui-monospace,Menlo,monospace; font-size:.78rem; background:#fff;
+    border:1px solid var(--rule); border-radius:6px; padding:.5rem .7rem; white-space:pre-wrap; }
+  a.lawref { color:var(--ink); text-decoration:underline; text-decoration-color:var(--rule); cursor:pointer; }
+  a.lawref:hover { text-decoration-color:var(--ink); }
+  .hint { position:fixed; bottom:16px; left:16px; z-index:5; font-size:.72rem; color:var(--muted);
+    pointer-events:none; font-style:italic; }
+
+  @media (max-width: 720px) {
+    #brand .word { display:none; }
+    #searchwrap { width:calc(100vw - 170px); }
+    #list { width:min(330px, 88vw); }
+    #legend { max-width:230px; }
+  }
+</style>
+</head>
+<body>
+<div id="graph"></div>
+
+<div id="topbar">
+  <a id="brand" href="gazette.html" title="The Gazette, classic reading view">
+    <img src="assets/vibe-justice-system-logo.png" alt="Vibe Justice System">
+    <span class="word"><b>The VJS Gazette</b><span>one Gazette, two estates</span></span>
+  </a>
+  <div id="searchwrap">
+    <input id="q" placeholder="Search the law&hellip;  (titles, citations, text)" autocomplete="off"
+      aria-label="Search the law">
+    <div id="hits"></div>
+  </div>
+  <button id="listToggle" aria-pressed="false">Browse the list</button>
+</div>
+
+<aside id="list" aria-label="The law, as a list">
+  <div class="lhead"><b>The record</b> <span class="n" id="lcount"></span>
+    <select id="lsort" aria-label="Sort order">
+      <option value="newest">Newest first</option>
+      <option value="kind">By kind</option>
+      <option value="cited">Most cited</option>
+    </select>
+  </div>
+  <div id="rows"></div>
+</aside>
+
+<details id="legend" open>
+  <summary>Legend &amp; controls</summary>
+  <div class="body">
+    <div class="row2">Acts<span class="dot" style="background:var(--act)"></span></div>
+    <div class="row2">Instruments &amp; regulations<span class="dot" style="background:var(--si)"></span></div>
+    <div class="row2">Supreme Court<span class="dot" style="background:var(--sc)"></span></div>
+    <div class="row2">Privy Council<span class="dot" style="background:var(--pc)"></span></div>
+    <div class="row2">First instance &amp; decisions<span class="dot" style="background:var(--first)"></span></div>
+    <div class="row2">Machinery<span class="dot" style="background:var(--submission)"></span></div>
+    <div class="row2">The honoured archive = paper, dashed ring<span class="dot" style="background:var(--paper);border-color:var(--v1);border-style:dashed"></span></div>
+    <div class="row2">citation<span class="edge" style="background:rgba(26,39,68,.55)"></span>
+      &nbsp;lineage<span class="edge" style="background:rgba(61,127,189,.65)"></span>
+      &nbsp;docket<span class="edge" style="background:var(--thread);opacity:.55"></span></div>
+    <div class="filterrow">
+      <button class="tab active" id="lineage-toggle" aria-pressed="true"
+        title="Derived authority lineage: the force a record holds from its enacting authority even when it never cites it">Lineage</button>
+      <button class="tab" id="machinery-toggle" aria-pressed="false"
+        title="Invariants, obligations, and specs: the kernel machinery, each bound to the statute book by its enacting law">Machinery</button>
+      <button class="tab active" id="labels-toggle" aria-pressed="true">Labels</button>
+    </div>
+    <label class="slider">Spread <input id="gravity" type="range" min="40" max="420" value="170"
+      aria-label="Node spread"></label>
+  </div>
+</details>
+
+<div id="estates" role="group" aria-label="Estate filter">
+  <button class="tab active" data-estate="all">Both estates</button>
+  <button class="tab tone-v2" data-estate="v2">Canon</button>
+  <button class="tab tone-v1" data-estate="v1">Archive</button>
+</div>
+
+<div class="hint">drag to explore &middot; scroll to zoom &middot; click a star to read &middot; press / to search</div>
+
+<aside id="panel" aria-label="Reading panel">
+  <button class="close" onclick="closePanel()" aria-label="Close">&times;</button>
+  <div class="phead">
+    <div class="kicker" id="p-kicker"></div>
+    <h2 id="p-title"></h2>
+    <div class="chips" id="p-chips"></div>
+    <div class="cite" id="p-cite"></div>
+    <div class="subject" id="p-subject"></div>
+    <div id="trail"></div>
+  </div>
+  <div class="pbody">
+    <div class="summary" id="p-summary"></div>
+    <div id="p-points-wrap"><h3>Main points</h3><ul class="points" id="p-points"></ul></div>
+    <div id="p-text-wrap"><h3>The text</h3><div id="ftext"></div></div>
+    <div id="p-neigh-wrap"></div>
+    <h3>Sources</h3>
+    <div class="links" id="p-links"></div>
+  </div>
+</aside>
+
+<script src="https://unpkg.com/force-graph"></script>
+<script src="gazette-data.js"></script>
+<script>
+'use strict';
+const ITEMS = window.GAZETTE.items;
+const byId = new Map(ITEMS.map(d => [d.id, d]));
+
+/* ---------- shared vocabulary (the chip taxonomy, presentation only) ---------- */
+const TONES = { sc:'#8a5a00', ca:'#1d4f91', first:'#3d7fbd', act:'#b42318', si:'#761919',
+  pc:'#a31963', submission:'#4b5563' };
+const TONE_BG = { sc:'#fff2bf', ca:'#e8f1ff', first:'#eef7ff', act:'#fff0ec', si:'#fbe6e6',
+  pc:'#fde7f3', submission:'#f3f4f6' };
+function tone(d) {
+  if (d.kind === 'statute' || d.kind === 'act') return 'act';
+  if (d.kind === 'regulation' || d.kind === 'rule' || d.kind === 'instrument') return 'si';
+  if (d.kind === 'order' || d.kind === 'judgment') {
+    if (d.court === 'sc') return 'sc';
+    if (d.court === 'pc') return 'pc';
+    if (d.court === 'ca') return 'ca';
+    return 'first';
+  }
+  if (d.kind === 'decision') return 'first';
+  return 'submission';
+}
+const KIND_LABEL = { statute:'Act', act:'Act', regulation:'Regulation', rule:'Rule', instrument:'Instrument',
+  order:'Order', judgment:'Judgment', decision:'Decision', invariant:'Invariant', obligation:'Obligation', spec:'Spec' };
+const COURT_LABEL = { sc:'Supreme Court', pc:'Privy Council', ca:'Court of Appeal', county:'County Court' };
+function esc(t) {
+  return String(t ?? '').replace(/[&<>"']/g, c =>
+    ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+function fmtDate(iso) {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-').map(Number);
+  const M = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return `${d} ${M[m - 1]} ${y}`;
+}
+
+/* gravity: how much law hangs off a node */
+const inbound = new Map();
+for (const d of ITEMS) for (const c of [...(d.cites || []), ...(d.lineage || []), ...(d.thread || [])])
+  inbound.set(c, (inbound.get(c) || 0) + 1);
+const major = d => d.kind === 'statute' || d.kind === 'act' || (inbound.get(d.id) || 0) >= 6;
+
+/* ---------- the citation linkifier (escape first, then link known ids) ---------- */
+const CITE_TO_ID = new Map();
+for (const d of ITEMS) {
+  if (d.citation) CITE_TO_ID.set(d.citation.replace(/\s+/g, ' ').trim(), d.id);
+}
+const ID_ALTERNATION = [...byId.keys()].sort((a, b) => b.length - a.length)
+  .map(id => id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+const ID_RE = new RegExp(`(^|[^\\w:-])(${ID_ALTERNATION})((?::s\\d+)?)(?![\\w-])`, 'g');
+const CITE_RE = /\[(\d{4})\]\s+(VJS|REALM)-([A-Z]{2})\s+(\d+)/g;
+function linkify(escaped) {
+  let out = escaped.replace(ID_RE, (m, pre, id, sec) =>
+    `${pre}<a class="lawref" data-id="${id}">${id}${sec}</a>`);
+  out = out.replace(CITE_RE, (m, year, realm, court, n) => {
+    const id = realm === 'VJS' ? `${year}-VJS-${court}-${String(n).padStart(3, '0')}` : `REALM-${court}-${n}`;
+    return byId.has(id) ? `<a class="lawref" data-id="${id}">${m}</a>` : m;
+  });
+  return out;
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('a.lawref');
+  if (a) { e.preventDefault(); openPanel(a.dataset.id); }
+});
+
+/* ---------- state ---------- */
+let estate = 'all', lineageOn = true, machineryOn = false, labelsOn = true;
+let query = '', selected = null, hovered = null, highlightIds = new Set();
+let trail = [];
+
+function visible(d) {
+  if (!machineryOn && tone(d) === 'submission') return false;
+  return estate === 'all' || d.estate === estate;
+}
+function matchesQuery(d) {
+  if (!query) return true;
+  const hay = [d.id, d.title, d.citation, d.summary, d.subject || '', ...(d.points || [])].join(' ').toLowerCase();
+  return query.toLowerCase().split(/\s+/).every(w => hay.includes(w));
+}
+
+function buildData() {
+  const nodes = ITEMS.filter(visible).map(d => ({ ...d }));
+  const ids = new Set(nodes.map(n => n.id));
+  const links = [];
+  for (const d of nodes) {
+    for (const c of d.cites || [])
+      if (ids.has(c)) links.push({ source: d.id, target: c, type: 'cite', archival: byId.get(c).estate === 'v1' });
+    if (lineageOn) {
+      for (const c of d.lineage || [])
+        if (ids.has(c)) links.push({ source: d.id, target: c, type: 'lineage', archival: byId.get(c).estate === 'v1' });
+      for (const c of d.thread || [])
+        if (ids.has(c)) links.push({ source: d.id, target: c, type: 'thread', archival: false });
+    }
+  }
+  return { nodes, links };
+}
+
+/* ---------- the graph ---------- */
+let labelRects = [];
+const Graph = ForceGraph()(document.getElementById('graph'))
+  .backgroundColor('#fcf7f1')
+  .nodeId('id')
+  .nodeVal(d => 2 + Math.min(10, (inbound.get(d.id) || 0) * 1.4))
+  .nodeLabel(() => '')
+  .onRenderFramePre(() => { labelRects = []; })
+  .linkColor(l => {
+    const sel = selected && (l.source.id === selected || l.target.id === selected);
+    const hov = hovered && (l.source.id === hovered || l.target.id === hovered);
+    const a = sel ? .65 : hov ? .5 : .22;
+    if (l.archival) return `rgba(122,92,30,${a + .1})`;
+    if (l.type === 'lineage') return `rgba(61,127,189,${a + .08})`;
+    if (l.type === 'thread') return `rgba(109,40,217,${a + .08})`;
+    return `rgba(26,39,68,${a})`;
+  })
+  .linkLineDash(l => l.archival ? [3, 3] : l.type === 'lineage' ? [1.5, 2.5] : l.type === 'thread' ? [4, 2] : null)
+  .linkWidth(l => (selected && (l.source.id === selected || l.target.id === selected)) ? 1.6 : .7)
+  .linkDirectionalParticles(l => (selected && (l.source.id === selected || l.target.id === selected)) ? 2 : 0)
+  .linkDirectionalParticleWidth(2)
+  .nodeCanvasObject((d, ctx, scale) => {
+    // Screen-compensated radius: stars shrink in world units as you zoom in,
+    // so close inspection shows structure, not blobs.
+    const base = Math.sqrt(2 + Math.min(10, (inbound.get(d.id) || 0) * 1.4)) * 2.4;
+    const r = base / Math.pow(Math.max(scale, .4), .55);
+    const t = tone(d);
+    const isSel = selected === d.id, isHov = hovered === d.id;
+    const dim = (query && !matchesQuery(d)) ||
+      (hovered && !isHov && !highlightIds.has(d.id) && !isSel && !neighbourOf(hovered, d.id));
+    ctx.globalAlpha = dim ? .13 : 1;
+
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, r, 0, 2 * Math.PI);
+    if (d.estate === 'v1') {
+      ctx.fillStyle = '#fffdfa';
+      ctx.fill();
+      ctx.setLineDash([2.5 / scale, 2 / scale]);
+      ctx.lineWidth = Math.max(1.4 / scale, .35);
+      ctx.strokeStyle = TONES[t];
+      ctx.stroke();
+      ctx.setLineDash([]);
+    } else {
+      ctx.fillStyle = TONES[t];
+      ctx.fill();
+      // a paper core keeps dense clusters readable
+      if (r > 3.4) {
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, r * .42, 0, 2 * Math.PI);
+        ctx.fillStyle = TONE_BG[t];
+        ctx.fill();
+      }
+    }
+
+    if (isHov && !isSel) {
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, r + 2.4 / scale, 0, 2 * Math.PI);
+      ctx.lineWidth = 1.1 / scale;
+      ctx.strokeStyle = 'rgba(26,39,68,.55)';
+      ctx.stroke();
+    }
+    if (isSel) {
+      // the selection halo: a slow-turning dashed ring, gently breathing
+      const tms = performance.now() / 1000;
+      const pulse = 1 + .08 * Math.sin(tms * 2.4);
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, (r + 3.2 / scale) * pulse, 0, 2 * Math.PI);
+      ctx.setLineDash([5 / scale, 4 / scale]);
+      ctx.lineDashOffset = -tms * 14 / scale;
+      ctx.lineWidth = .9 / scale;
+      ctx.strokeStyle = 'rgba(26,39,68,.6)';
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.lineDashOffset = 0;
+    }
+
+    // labels: collision-avoided, importance first (nodes are pre-sorted)
+    const showLabel = labelsOn && !dim &&
+      (isSel || isHov || scale > 2.2 || (scale > .55 && major(d)) || (scale > 1.5 && (inbound.get(d.id) || 0) >= 2));
+    if (showLabel) {
+      const fs = Math.max(2.8, 10.5 / scale);
+      ctx.font = `${major(d) || isSel ? 'bold ' : ''}${fs}px 'Iowan Old Style','Palatino Linotype',serif`;
+      const label = d.title.length > 42 ? d.title.slice(0, 40) + '…' : d.title;
+      const w = ctx.measureText(label).width;
+      const rect = { x: d.x - w / 2, y: d.y + r + 2 / scale, w, h: fs * 1.25 };
+      const clash = labelRects.some(o =>
+        rect.x < o.x + o.w && rect.x + rect.w > o.x && rect.y < o.y + o.h && rect.y + rect.h > o.y);
+      if (!clash || isSel || isHov) {
+        labelRects.push(rect);
+        ctx.globalAlpha = dim ? .2 : .95;
+        ctx.fillStyle = '#1a2744';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        ctx.fillText(label, d.x, rect.y);
+      }
+    }
+    ctx.globalAlpha = 1;
+  })
+  .nodePointerAreaPaint((d, colour, ctx, scale) => {
+    const base = Math.sqrt(2 + Math.min(10, (inbound.get(d.id) || 0) * 1.4)) * 2.4;
+    const r = base / Math.pow(Math.max(scale, .4), .55);
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, r + 3, 0, 2 * Math.PI);
+    ctx.fillStyle = colour;
+    ctx.fill();
+  })
+  .onNodeHover(d => {
+    hovered = d ? d.id : null;
+    document.getElementById('graph').style.cursor = d ? 'pointer' : null;
+  })
+  .onNodeClick(d => openPanel(d.id))
+  .onBackgroundClick(() => closePanel());
+
+function neighbourOf(id, other) {
+  const d = byId.get(id);
+  if (!d) return false;
+  if ((d.cites || []).includes(other) || (d.lineage || []).includes(other) || (d.thread || []).includes(other)) return true;
+  const o = byId.get(other);
+  return o && ((o.cites || []).includes(id) || (o.lineage || []).includes(id) || (o.thread || []).includes(id));
+}
+
+// importance-first draw order so collision-avoided labels favour major law
+function setData() {
+  const data = buildData();
+  data.nodes.sort((a, b) => (inbound.get(b.id) || 0) - (inbound.get(a.id) || 0));
+  Graph.graphData(data);
+}
+setData();
+
+// the spread control
+function applyGravity(v) {
+  Graph.d3Force('charge').strength(-v);
+  Graph.d3ReheatSimulation();
+}
+document.getElementById('gravity').addEventListener('input', e => applyGravity(+e.target.value));
+applyGravity(170);
+
+/* ---------- toggles, estates ---------- */
+function bindToggle(id, get, set) {
+  const el = document.getElementById(id);
+  el.onclick = () => {
+    set(!get());
+    el.classList.toggle('active', get());
+    el.setAttribute('aria-pressed', String(get()));
+    setData();
+  };
+}
+bindToggle('lineage-toggle', () => lineageOn, v => lineageOn = v);
+bindToggle('machinery-toggle', () => machineryOn, v => machineryOn = v);
+bindToggle('labels-toggle', () => labelsOn, v => labelsOn = v);
+document.querySelectorAll('[data-estate]').forEach(b => b.onclick = () => {
+  document.querySelectorAll('[data-estate]').forEach(x => x.classList.remove('active'));
+  b.classList.add('active');
+  estate = b.dataset.estate;
+  setData();
+  renderList();
+});
+
+/* ---------- the list sidebar ---------- */
+const listEl = document.getElementById('list');
+const listToggle = document.getElementById('listToggle');
+listToggle.onclick = () => {
+  const open = !listEl.classList.contains('open');
+  listEl.classList.toggle('open', open);
+  listToggle.setAttribute('aria-pressed', String(open));
+};
+let lsort = 'newest';
+document.getElementById('lsort').onchange = e => { lsort = e.target.value; renderList(); };
+function listSorted(arr) {
+  const byKind = (a, b) => a.kind.localeCompare(b.kind) || a.id.localeCompare(b.id, undefined, { numeric: true });
+  if (lsort === 'kind') return [...arr].sort((a, b) => (a.estate === b.estate ? 0 : a.estate === 'v2' ? -1 : 1) || byKind(a, b));
+  if (lsort === 'cited') return [...arr].sort((a, b) => (inbound.get(b.id) || 0) - (inbound.get(a.id) || 0));
+  return [...arr].sort((a, b) => (b.date || '').localeCompare(a.date || '') || byKind(a, b));
+}
+const KIND_ABBREV = { statute:'ACT', act:'ACT', regulation:'REG', rule:'RULE', instrument:'SI',
+  order:'ORDER', judgment:'CASE', decision:'DEC', invariant:'INV', obligation:'OBL', spec:'SPEC' };
+function renderList() {
+  const shown = listSorted(ITEMS.filter(d => visible(d) && matchesQuery(d)));
+  document.getElementById('lcount').textContent = `${shown.length} of ${ITEMS.length}`;
+  const rows = document.getElementById('rows');
+  rows.innerHTML = '';
+  for (const d of shown) {
+    const row = document.createElement('div');
+    row.className = 'row' + (selected === d.id ? ' active' : '');
+    row.dataset.id = d.id;
+    const t = tone(d);
+    const courtChip = d.court
+      ? `<span class="chip tone-${t}">${esc(d.court.toUpperCase())}</span>`
+      : `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'V1' : 'V2'}</span>`;
+    row.innerHTML = `<div class="t${major(d) ? ' major' : ''}">${esc(d.title)}</div>
+      <div class="chips"><span class="chip tone-${t}">${esc(KIND_ABBREV[d.kind] || d.kind)}</span>${courtChip}</div>
+      <div class="m"><span class="dot" style="background:${d.estate === 'v1' ? '#fffdfa' : TONES[t]};border-color:${TONES[t]}${d.estate === 'v1' ? ';border-style:dashed' : ''}"></span>
+      <span>${esc(d.citation || '')}</span>
+      <span style="margin-left:auto">${esc(d.date || '')}</span></div>`;
+
+    // the lineage disclosure: the object's associations, in place
+    const assoc = [
+      ['Derives force from', [...(d.lineage || []), ...(d.cites || [])]],
+      ['Relied on by', ITEMS.filter(x => (x.cites || []).includes(d.id) || (x.lineage || []).includes(d.id)).map(x => x.id)],
+    ].filter(([, l]) => l.length);
+    if (assoc.length) {
+      const det = document.createElement('details');
+      det.className = 'lin';
+      det.innerHTML = `<summary>lineage</summary>`;
+      const body = document.createElement('div');
+      body.className = 'linbody';
+      for (const [label, idsList] of assoc) {
+        const b = document.createElement('b');
+        b.textContent = label;
+        body.appendChild(b);
+        const line = document.createElement('div');
+        for (const cid of idsList.slice(0, 8)) {
+          const other = byId.get(cid);
+          if (!other) continue;
+          const btn = document.createElement('button');
+          btn.textContent = other.title.length > 30 ? other.title.slice(0, 28) + '…' : other.title;
+          btn.addEventListener('click', e => { e.stopPropagation(); openPanel(cid); });
+          line.appendChild(btn);
+        }
+        body.appendChild(line);
+      }
+      det.appendChild(body);
+      det.addEventListener('click', e => e.stopPropagation());
+      row.appendChild(det);
+    }
+
+    row.onclick = () => openPanel(d.id);
+    rows.appendChild(row);
+  }
+}
+renderList();
+
+/* ---------- search: grouped type-ahead ---------- */
+const qEl = document.getElementById('q'), hitsEl = document.getElementById('hits');
+let hitList = [], hitIdx = -1;
+function renderHits() {
+  if (!query) { hitsEl.style.display = 'none'; return; }
+  hitList = ITEMS.filter(matchesQuery)
+    .sort((a, b) => (inbound.get(b.id) || 0) - (inbound.get(a.id) || 0)).slice(0, 9);
+  hitsEl.innerHTML = '';
+  hitList.forEach((d, i) => {
+    const t = tone(d);
+    const div = document.createElement('div');
+    div.className = 'hit' + (i === hitIdx ? ' active' : '');
+    div.innerHTML = `<span class="dot" style="background:${d.estate === 'v1' ? '#fffdfa' : TONES[t]};border-color:${TONES[t]}"></span>
+      <span>${esc(d.title.length > 46 ? d.title.slice(0, 44) + '…' : d.title)}</span>
+      <span class="cite">${esc(d.citation || d.id)}</span>`;
+    div.onmousedown = e => { e.preventDefault(); pickHit(d.id); };
+    hitsEl.appendChild(div);
+  });
+  hitsEl.style.display = hitList.length ? 'block' : 'none';
+}
+function pickHit(id) {
+  hitsEl.style.display = 'none';
+  qEl.blur();
+  openPanel(id);
+}
+qEl.addEventListener('input', e => {
+  query = e.target.value.trim();
+  hitIdx = -1;
+  renderHits();
+  renderList();
+});
+qEl.addEventListener('keydown', e => {
+  if (e.key === 'ArrowDown') { hitIdx = Math.min(hitIdx + 1, hitList.length - 1); renderHits(); e.preventDefault(); }
+  else if (e.key === 'ArrowUp') { hitIdx = Math.max(hitIdx - 1, 0); renderHits(); e.preventDefault(); }
+  else if (e.key === 'Enter' && hitList.length) pickHit(hitList[Math.max(hitIdx, 0)].id);
+  else if (e.key === 'Escape') { hitsEl.style.display = 'none'; qEl.blur(); }
+});
+qEl.addEventListener('blur', () => setTimeout(() => hitsEl.style.display = 'none', 150));
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement !== qEl && !e.ctrlKey && !e.metaKey) {
+    e.preventDefault(); qEl.focus(); qEl.select();
+  }
+  if (e.key === 'Escape' && document.getElementById('panel').classList.contains('open')) closePanel();
+});
+
+/* ---------- full text: lazy load + kind renderers ---------- */
+let textPromise = null;
+function ensureText() {
+  if (window.GAZETTE_TEXT) return Promise.resolve();
+  if (!textPromise) textPromise = new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'gazette-text.js';
+    s.onload = () => res();
+    s.onerror = () => rej();
+    document.head.appendChild(s);
+  });
+  return textPromise;
+}
+function paras(text) {
+  return String(text || '').split(/\n+/).filter(Boolean)
+    .map(p => `<p>${linkify(esc(p))}</p>`).join('');
+}
+function factsPanel(obj, skip = []) {
+  if (!obj || typeof obj !== 'object') return '';
+  let out = '';
+  for (const [k, v] of Object.entries(obj)) {
+    if (skip.includes(k) || v == null) continue;
+    out += `<b>${esc(k.replace(/_/g, ' '))}</b>`;
+    if (Array.isArray(v)) out += v.map(x => `<div>${linkify(esc(typeof x === 'object' ? JSON.stringify(x) : String(x).replace(/_/g, ' ')))}</div>`).join('');
+    else if (typeof v === 'object') out += `<div>${esc(JSON.stringify(v, null, 1))}</div>`;
+    else out += `<div>${linkify(esc(String(v).replace(/_/g, ' ')))}</div>`;
+  }
+  return out ? `<div class="facts">${out}</div>` : '';
+}
+function predicate(rule, depth = 0) {
+  if (!rule || typeof rule !== 'object') return esc(String(rule ?? ''));
+  const pad = '  '.repeat(depth);
+  const kind = (rule.kind || '').toUpperCase();
+  const args = Object.entries(rule)
+    .filter(([k, v]) => !['kind', 'items', 'item', 'condition', 'then'].includes(k) && v != null)
+    .map(([k, v]) => `${k}: ${typeof v === 'object' ? JSON.stringify(v) : v}`).join(', ');
+  let out = `${pad}${kind}${args ? `(${args})` : ''}`;
+  if (rule.condition) out += `\n${pad}  WHEN\n${predicate(rule.condition, depth + 2)}`;
+  if (rule.then) out += `\n${pad}  THEN\n${predicate(rule.then, depth + 2)}`;
+  for (const it of rule.items || []) out += `\n${predicate(it, depth + 1)}`;
+  if (rule.item) out += `\n${predicate(rule.item, depth + 1)}`;
+  return out;
+}
+function renderText(d, body) {
+  if (!body) return '';
+  switch (d.kind) {
+    case 'statute': {
+      let out = body.purpose ? `<p><i>${linkify(esc(body.purpose))}</i></p>` : '';
+      for (const sec of body.sections || []) {
+        const n = (sec.id || '').split(':').pop();
+        out += `<section><h4>${esc(n)} - ${esc(sec.title || '')}</h4>${paras(sec.text)}
+          ${sec.commentary ? `<p class="commentary">${linkify(esc(sec.commentary))}</p>` : ''}
+          ${factsPanel(sec.kernel_effect)}</section>`;
+      }
+      return out;
+    }
+    case 'regulation':
+      return `${body.authority ? `<p class="commentary">Made under ${linkify(esc(body.authority))}</p>` : ''}
+        ${paras(body.text)}${factsPanel(body.kernel_effect)}`;
+    case 'order': {
+      let out = paras(body.holding);
+      const dirs = body.directives || [];
+      if (dirs.length) {
+        out += `<table><tr><th>directive</th><th>actor</th><th>must</th></tr>` + dirs.map(x =>
+          `<tr><td>${esc(x.id || '')}</td><td>${esc(x.actor || '')}</td><td>${linkify(esc(String(x.must || '').replace(/_/g, ' ')))}</td></tr>`).join('') + `</table>`;
+      }
+      if (body.forbidden?.length) out += `<div class="facts"><b>forbidden</b>${body.forbidden.map(f => `<div>${esc(String(f).replace(/_/g, ' '))}</div>`).join('')}</div>`;
+      if (body.runtime_summary) out += `<p class="commentary">${linkify(esc(body.runtime_summary))}</p>`;
+      return out;
+    }
+    case 'decision':
+      return `${paras(body.decision)}${body.reason ? `<h4>Reason</h4>${paras(body.reason)}` : ''}${factsPanel(body.consequences)}`;
+    case 'invariant':
+      return `${body.rule ? `<div class="pred">${predicate(body.rule)}</div>` : ''}${paras(body.remedy)}`;
+    case 'obligation':
+      return `${paras(body.text)}`;
+    case 'spec':
+      return `${paras(body.purpose)}${factsPanel({ decisions: body.decisions, invariants: body.invariants, obligations: body.obligations })}`;
+    case 'rule':
+      return `${paras(body.summary)}${factsPanel(body.effect)}`;
+    default:
+      return '';
+  }
+}
+
+/* ---------- the object panel ---------- */
+function chipsFor(d) {
+  const t = tone(d);
+  return [
+    `<span class="chip tone-${t}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>`,
+    d.court ? `<span class="chip tone-${t}">${esc(COURT_LABEL[d.court] || d.court)}</span>` : '',
+    `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'Archive' : 'Canon'}</span>`,
+    d.status ? `<span class="chip status">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : '',
+  ].join('');
+}
+function linkSection(wrap, label, list, count) {
+  if (!list.length) return;
+  const h = document.createElement('h3');
+  h.innerHTML = `${esc(label)} <span class="n">${count ?? list.length}</span>`;
+  const div = document.createElement('div');
+  div.className = 'neigh';
+  for (const n of list) {
+    const b = document.createElement('button');
+    b.textContent = n.title;
+    b.addEventListener('click', () => openPanel(n.id));
+    div.appendChild(b);
+  }
+  wrap.append(h, div);
+}
+function openPanel(id) {
+  const d = byId.get(id);
+  if (!d) return;
+  let rebuild = false;
+  if (!machineryOn && tone(d) === 'submission') {
+    machineryOn = true;
+    const mt = document.getElementById('machinery-toggle');
+    mt.classList.add('active'); mt.setAttribute('aria-pressed', 'true');
+    rebuild = true;
+  }
+  if (estate !== 'all' && d.estate !== estate) {
+    estate = 'all';
+    document.querySelectorAll('[data-estate]').forEach(x =>
+      x.classList.toggle('active', x.dataset.estate === 'all'));
+    rebuild = true;
+  }
+  if (rebuild) setData();
+
+  if (selected !== id) {
+    if (selected) {
+      trail.push(selected);
+      if (trail.length > 6) trail.shift();
+    }
+    selected = id;
+  }
+  highlightIds = new Set([
+    ...(d.cites || []), ...(d.lineage || []), ...(d.thread || []),
+    ...ITEMS.filter(x => (x.cites || []).includes(id) || (x.thread || []).includes(id)).map(x => x.id),
+  ]);
+
+  document.getElementById('p-kicker').textContent =
+    d.estate === 'v1' ? 'The honoured archive' : 'The living canon';
+  document.getElementById('p-title').textContent = d.title;
+  document.getElementById('p-chips').innerHTML = chipsFor(d);
+  document.getElementById('p-cite').textContent =
+    (d.citation || d.id) + (d.date ? ' · ' + fmtDate(d.date) : '');
+  document.getElementById('p-subject').textContent = d.subject ? `Subject: ${d.subject}` : '';
+  document.getElementById('p-summary').textContent = d.summary;
+
+  // the trail: where this exploration has been
+  const trailEl = document.getElementById('trail');
+  trailEl.innerHTML = trail.length ? 'Trail: ' + trail.map(t =>
+    `<span data-id="${esc(t)}">${esc(byId.get(t)?.title.slice(0, 26) || t)}</span>`).join(' &rsaquo; ') : '';
+  trailEl.querySelectorAll('span').forEach(s => s.onclick = () => openPanel(s.dataset.id));
+
+  const pts = d.points || [];
+  document.getElementById('p-points-wrap').style.display = pts.length ? '' : 'none';
+  document.getElementById('p-points').innerHTML = pts.map(p => `<li>${linkify(esc(p))}</li>`).join('');
+
+  // full text, lazily
+  const ftext = document.getElementById('ftext');
+  const tw = document.getElementById('p-text-wrap');
+  if (d.has_text) {
+    tw.style.display = '';
+    ftext.innerHTML = '<p class="commentary">Loading the text&hellip;</p>';
+    ensureText().then(() => {
+      if (selected !== id) return;
+      ftext.innerHTML = renderText(d, (window.GAZETTE_TEXT || {})[id]) ||
+        '<p class="commentary">No renderable text.</p>';
+    }).catch(() => {
+      ftext.innerHTML = `<p class="commentary">The text could not be loaded here; read it at the source below.</p>`;
+    });
+  } else {
+    tw.style.display = '';
+    ftext.innerHTML = `<p class="commentary">The full text of the archive lives on the immutable
+      <code>v1</code> branch; the main points above are the curated digest. Read it at the source below.</p>`;
+  }
+
+  // typed associations: the ontology around this object
+  const wrap = document.getElementById('p-neigh-wrap');
+  wrap.innerHTML = '';
+  const get = ids => (ids || []).map(c => byId.get(c)).filter(Boolean);
+  linkSection(wrap, 'Construes / relies on', get(d.cites));
+  linkSection(wrap, 'Derives force from', get(d.lineage));
+  const threadPrev = get(d.thread);
+  const threadNext = ITEMS.filter(x => (x.thread || []).includes(id));
+  linkSection(wrap, 'On the same docket', [...threadPrev, ...threadNext]);
+  linkSection(wrap, 'Supersedes', get(d.supersedes));
+  linkSection(wrap, 'Superseded by', get(d.superseded_by));
+  linkSection(wrap, 'Cited by', ITEMS.filter(x => (x.cites || []).includes(id)));
+  linkSection(wrap, 'Grounds (by lineage)', ITEMS.filter(x => (x.lineage || []).includes(id)).slice(0, 12),
+    ITEMS.filter(x => (x.lineage || []).includes(id)).length);
+
+  const links = [`<a href="${esc(d.url)}">Read the source ${d.estate === 'v1' ? '(archive branch)' : '(canon)'}</a>`];
+  if (d.opinion) links.push(`<a href="${esc(d.opinion.url)}">Read the opinion</a>`);
+  links.push(`<a href="${esc(d.url.replace('/blob/', '/commits/'))}">History</a>`);
+  links.push(`<a href="gazette.html#${encodeURIComponent(d.id)}">Open in the classic Gazette</a>`);
+  document.getElementById('p-links').innerHTML = links.join('');
+
+  document.getElementById('panel').classList.add('open');
+  history.replaceState(null, '', '#' + encodeURIComponent(id));
+  renderList();
+  const row = document.querySelector(`.row[data-id="${CSS.escape(id)}"]`);
+  if (row) row.scrollIntoView({ block: 'nearest' });
+
+  const node = Graph.graphData().nodes.find(n => n.id === id);
+  if (node && node.x != null) Graph.centerAt(node.x, node.y, 600);
+}
+function closePanel() {
+  selected = null;
+  highlightIds = new Set();
+  document.getElementById('panel').classList.remove('open');
+  history.replaceState(null, '', location.pathname);
+  renderList();
+}
+
+/* small screens start tidy */
+if (matchMedia('(max-width: 720px)').matches) document.getElementById('legend').open = false;
+else document.getElementById('list').classList.add('open'), listToggle.setAttribute('aria-pressed', 'true');
+
+if (location.hash) {
+  const id = decodeURIComponent(location.hash.slice(1)).split(':')[0];
+  setTimeout(() => openPanel(id), 700);
+}
+</script>
+</body>
+</html>
