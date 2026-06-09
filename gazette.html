@@ -82,9 +82,28 @@
   .part .n { color:var(--muted); font-size:.8rem; font-weight:normal; letter-spacing:0; }
   footer { border-top:1px solid var(--rule); margin-top:2rem; padding:1.2rem 1rem; text-align:center;
     color:var(--muted); font-size:.8rem; font-style:italic; }
+  @media print {
+    body { background:#fff; }
+    #q, .tabs, .quick, #latest-wrap { display:none !important; }
+    .card { background:#fff; border:none; border-left:3px solid #000; border-radius:0;
+      break-inside:avoid; padding:.4rem .8rem; }
+    .chip, .badge { background:#fff !important; }
+    .card .links a[href^="http"]::after { content:" (" attr(href) ")"; font-size:.7rem; color:#444; }
+    .card .links a:not([href^="http"]) { display:none; }
+    footer { font-size:.7rem; }
+    @page { margin:2cm; }
+  }
 </style>
 </head>
 <body>
+<noscript>
+  <div style="max-width:680px;margin:1rem auto;padding:1rem;border:1px solid #c8d0dc;border-radius:6px;background:#fffdfa">
+    <b>The Gazette renders with JavaScript; the record itself needs none.</b>
+    The canon is the lawpack under <code>lawpack/v2/</code>; machine-readable copies:
+    <a href="gazette-data.json">gazette-data.json</a> and <a href="gazette.xml">gazette.xml</a>.
+    Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001).
+  </div>
+</noscript>
 <header>
   <img class="logo" src="assets/vibe-justice-system-logo.png" alt="Vibe Justice System">
   <h1>The VJS Gazette</h1>
@@ -107,10 +126,10 @@
     <div class="quick" id="latest"></div>
   </div>
   <input id="q" placeholder="Search the law&hellip;  (e.g. assent, permits, hooks, PC 5, REALM-SC 10)" autocomplete="off">
-  <div class="tabs" id="estate-tabs"></div>
-  <div class="tabs" id="class-tabs"></div>
-  <div class="tabs" id="sort-tabs"></div>
-  <div class="meta" id="meta"></div>
+  <div class="tabs" id="estate-tabs" aria-label="Filter by estate"></div>
+  <div class="tabs" id="class-tabs" aria-label="Filter by class"></div>
+  <div class="tabs" id="sort-tabs" aria-label="Sort order"></div>
+  <div class="meta" id="meta" aria-live="polite"></div>
   <div id="list"></div>
 </div>
 <footer>Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001; [2026] REALM-SC 10).
@@ -211,15 +230,25 @@ function card(d) {
 }
 
 function tabBar(el, defs, current, counter, onpick) {
-  el.innerHTML = '';
-  for (const [key, label] of defs) {
-    const b = document.createElement('button');
-    b.className = 'tab';
-    if (key !== 'all') b.classList.add('tone-' + key);
-    if (key === current) b.classList.add('active');
-    b.innerHTML = `${label} <span class="n">${counter(key)}</span>`;
-    b.onclick = () => onpick(key);
-    el.appendChild(b);
+  // Build once, then update in place: rebuilding stole keyboard focus.
+  if (!el.dataset.built) {
+    el.dataset.built = '1';
+    el.setAttribute('role', 'group');
+    for (const [key, label] of defs) {
+      const b = document.createElement('button');
+      b.className = 'tab';
+      b.dataset.key = key;
+      if (key !== 'all') b.classList.add('tone-' + key);
+      b.innerHTML = `${label} <span class="n"></span>`;
+      b.onclick = () => onpick(key);
+      el.appendChild(b);
+    }
+  }
+  for (const b of el.children) {
+    const key = b.dataset.key;
+    b.classList.toggle('active', key === current);
+    b.setAttribute('aria-pressed', String(key === current));
+    b.querySelector('.n').textContent = counter(key);
   }
 }
 
@@ -250,6 +279,8 @@ function render() {
   document.getElementById('list').innerHTML = html;
 }
 
+window.addEventListener('beforeprint', () => document.querySelectorAll('details').forEach(d => d.setAttribute('open', '')));
+window.addEventListener('afterprint', () => document.querySelectorAll('details').forEach(d => d.removeAttribute('open')));
 document.getElementById('q').addEventListener('input', e => { query = e.target.value.trim(); render(); });
 render();
 

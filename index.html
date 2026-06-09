@@ -173,6 +173,11 @@
   #colophon { position:fixed; bottom:12px; left:16px; z-index:5; font-size:.68rem; color:var(--muted); }
   #colophon a { color:var(--muted); }
 
+  @media print {
+    #graph, #topbar, #legend, #estates, .hint, #colophon, #list { display:none !important; }
+    body::after { content:"The VJS Gazette prints from the Law Reports view: gazette.html"; display:block;
+      padding:2rem; font-size:1rem; }
+  }
   @media (max-width: 720px) {
     #brand .word { display:none; }
     #searchwrap { width:calc(100vw - 170px); }
@@ -182,6 +187,15 @@
 </style>
 </head>
 <body>
+<noscript>
+  <div style="max-width:680px;margin:3rem auto;padding:1rem;border:1px solid #c8d0dc;border-radius:6px;background:#fffdfa">
+    <b>The Gazette renders with JavaScript; the record itself needs none.</b>
+    The canon is the lawpack under <code>lawpack/v2/</code> on the canonical line; the archive citator is
+    <code>Judicature/.justice/INDEX.md</code> on the <code>v1</code> branch; machine-readable copies are published as
+    <a href="gazette-data.json">gazette-data.json</a> and <a href="gazette.xml">gazette.xml</a>.
+    Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001).
+  </div>
+</noscript>
 <div id="graph"></div>
 
 <div id="topbar">
@@ -242,7 +256,7 @@
 <div class="hint">drag to explore &middot; scroll to zoom &middot; click a star to read &middot; press / to search</div>
 <div id="colophon"></div>
 
-<aside id="panel" aria-label="Reading panel">
+<aside id="panel" role="dialog" aria-modal="false" aria-labelledby="p-title">
   <button class="close" onclick="closePanel()" aria-label="Close">&times;</button>
   <div class="phead">
     <div class="kicker" id="p-kicker"></div>
@@ -262,7 +276,7 @@
   </div>
 </aside>
 
-<script src="https://unpkg.com/force-graph"></script>
+<script src="assets/vendor/force-graph.min.js"></script>
 <script src="gazette-data.js"></script>
 <script>
 'use strict';
