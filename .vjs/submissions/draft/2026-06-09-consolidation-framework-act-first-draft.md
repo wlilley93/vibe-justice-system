@@ -1,6 +1,6 @@
 # DRAFT: The Realm Consolidation and Reconciliation Framework Act 2026
 
-**status:** VOID FIRST DRAFT (REALM-SC 8; CASE-LAW s.23(6)). No force until adopted by the Standing Committee and assented by the Sovereign against the final digest-pinned text. Drafted by Lexby as Clerk-Drafter on the principles digest of 2026-06-09, the drafting brief, and the rulings [2026] VJS-PC 1, PC 2, SC 1. Rank: constitutional. Citation: minted at commencement on the VJS-ACT series.
+**status:** ADOPTED by the Standing Committee **4-0** (the four counsel's aye-conditions incorporated as the second-draft cure); **Royal Assent given by the Sovereign Founder where validly capable, 2026-06-09**, pinned to this final text's digest (see the assent record `2026-06-09-framework-act-assent.md`). ENACTED. Commencement of the flagged Schedule-1 principles is **staged per Schedule 3** (item 1 resolved by the [2026] VJS-PC 3 back-fill; items 2-6 pending). Drafted by Lexby as Clerk-Drafter on the principles digest, the drafting brief, and the rulings [2026] VJS-PC 1, PC 2, PC 3, SC 1. Rank: constitutional. Citation: minted at commencement on the VJS-ACT series.
 **Drafting standard:** lean and legible; one idea per subsection; the body carries machinery only, the restated law sitting in Schedule 1.
 
 ---
@@ -26,8 +26,9 @@
 **4. Adoption of the Restated Principles.**
 (1) Schedule 1 (the Restated Principles) restates the settled law of V1 as a whole and is enacted as the substrate of starting law of the Realm.
 (2) Each numbered principle in Schedule 1 is a restated provision of this Act.
-(3) The V1 source cited against each principle is its archival source, preserved so the citation graph resolves; it is not itself live authority (s.13).
+(3) The V1 source cited against each principle is its archival source, preserved so the citation graph resolves; it is not itself live authority (s.18).
 (4) A principle in Schedule 1 marked [CHECK] does not commence until the flagged matter is resolved on the record (Schedule 3).
+(5) A Restated Principle acquires runtime force only through a live invariant or regulation, or a new statutory instrument made under s.7; restatement in Schedule 1 confers archival and declaratory status and never, by itself, kernel force.
 
 **5. Effect of restatement.**
 (1) Restatement reorganises and states; it does not alter legal meaning.
@@ -35,7 +36,7 @@
 
 ## Part 3 - Lawmaking and future adaptation
 
-**6. The lawmaking route.** New law is introduced by proposal or authority basis, draft record, schema validation, authority validation, boundary validation, deterministic citation, authorised adoption, lawpack entry, lock update, and decision log.
+**6. The lawmaking route.** New law is introduced and adopted through the lawmaking route restated in Schedule 1 and detailed by regulation; this Act states the power and its bounds, not the steps. The canonical lawpack is overridden only by this route or a Privy Council order (s.13).
 
 **7. Power to make statutory instruments.**
 (1) The Standing Committee may make statutory instruments and subordinate regulations under this Act, in exercise of the power conferred by this section.
@@ -72,12 +73,12 @@
 
 **14. Coordination and sovereignty.**
 (1) A coordinating or super-repo root may federate peers under one canonical lawpack and one continued apex but may not be sovereign over them.
-(2) A root act is void if it asserts an apex, binds or gates a peer's local law without that peer's adoption, overrides the canonical lawpack without the s.3 route, or forecloses a peer's amendment, version-decline, fork, or exit (the kernel-checkable bright-line).
+(2) A root act is void if it asserts an apex, binds or gates a peer's local law without that peer's adoption, overrides the canonical lawpack without the s.6 route, or forecloses a peer's amendment, version-decline, fork, or exit (the kernel-checkable bright-line).
 (3) Below the bright-line, a root that leverages an infrastructural chokepoint to make a peer's compliance practically unavoidable crosses into sovereignty; that question is for a court, not the kernel.
 
 **15. The mandatory transition.**
 (1) This Act binds every repository of the Realm as of commencement; the law applies to them today.
-(2) Each repository must perform the internal subscription work - create `.vjs/config.toml`, declare its lawpack lineage, and default-subscribe to the canonical lawpack - within the period fixed by regulation.
+(2) Each repository must perform the internal subscription work - create `.vjs/config.toml`, declare its lawpack lineage, and default-subscribe to the canonical lawpack - within **90 days of commencement**, or such other period as the Repos Register and Subscription Regulation fixes; the 90-day default applies until and unless that Regulation fixes a period, so the duty always has a real, checkable clock.
 (3) Subscription is owed now and is the default; the lawful variation and exit routes (s.13) are preserved.
 
 **16. The repositories register.** There is a repositories register, mandated by this Act and maintained at the federation level but populated by each repository's own subscription act, recording each subscribed repository's lineage and trust status. A project may live in any directory or repository provided it is lawfully subscribed and recorded in the register.
@@ -87,7 +88,7 @@
 **17. The canon.**
 (1) The commenced successor is the unqualified canon (VJS, the Realm, the lawpack, the kernel); the spent "V2" ordinal is dropped from names going forward; "V1" survives only as the Archive/Gazette estate label.
 (2) De-naming is prospective and nominal and disturbs no enacted record, citation, digest, record id, or assented text; the assented digest, the lawpack lock, the VJS-ACT and REALM-* series, and existing ids are immutable.
-(3) The rename is a governed change preserving digests, citations, and the lock; it is not a mass edit; a path moves only behind a compatibility route or a fresh lock recorded under a commencement addendum, and halts and returns if a path-scoped invariant cannot be proven still to bind.
+(3) The rename is a governed change, not a mass edit: digests, citations, the lock, and record ids are immutable. The procedure - compatibility routes, a fresh lock recorded under a commencement addendum, and a deterministic kernel re-check proving each path-scoped invariant still binds a non-empty set before and after (halting and returning otherwise) - is fixed by the Canonicalisation and Migration Regulation (Schedule 2).
 
 **18. The single Gazette.**
 (1) There is one Gazette with two estates, built on the canonical line and carrying both, so the citation graph resolves in one place.
@@ -108,6 +109,7 @@
 **21. The migration ledger and the validity gate.**
 (1) Every incorporation is recorded, one row per crossing, in the migration ledger, which is a deterministic, append-only, provenance-scoped record and the single source of truth for what crossed; the ledger is not loaded into runtime context.
 (2) A fail-closed incorporation-validity invariant rejects any incorporation missing a required element, breaching the rank-floor (a lower-rank record may not incorporate higher-rank V1 material), missing a ledger row, or weakening the protective floor.
+(2A) The **protective floor** is non-derogable and comprises four limbs: (a) the real-world-law floor; (b) rights, standing, and due process; (c) the public/private boundary; and (d) restorative-remedy-not-punishment. No incorporation, consolidation, coordination, rename, or statutory instrument may weaken any limb; an instrument that purports to do so is void to that extent.
 (3) General (realm-wide) law crosses by the central lawmaking route; repo-specific law uses the local continuity election; doubt resolves to general.
 (4) A genuinely contested validity of a V1 source is found by the V1 Court; an uncontested source is certified by the adopting organ on the record.
 
@@ -127,7 +129,10 @@
 
 **24. Transitional and savings.** Existing REALM-* citations remain valid historical identifiers; V1 material migrates only by incorporation; validly-made prior rulings, citations, statuses, and remedies are saved with their status; a matter commenced before commencement continues under the law then in force unless this Act is more protective.
 
-**25. Severance.** If a provision is held void or unenforceable the remainder continues, save that the assent floor (Part 4) and apex-singleness (s.11) are non-severable and their failure stays commencement.
+**25. Entrenchment and severance.**
+(1) The assent floor (Part 4), apex-singleness (s.11), and the protective floor (s.21(2A)) are **entrenched**: each is amendable only by specific Sovereign assent to a primary Act citing the provision by number, never by statutory instrument, kernel, agent, implication, bare non-dissent, or lapse of a window.
+(2) The entrenched guarantees are non-severable and their failure stays commencement.
+(3) If any other provision is held void or unenforceable, the remainder continues.
 
 ---
 
@@ -135,9 +140,34 @@
 
 - **Schedule 1 - Restated Principles.** The principles digest of 2026-06-09 (`.vjs/submissions/filed/2026-06-09-v1-valid-law-principles-digest.md`), adopted under s.4; each numbered principle a restated provision, its V1 source archival.
 - **Schedule 2 - The raft of subordinate instruments to be made under s.7** (each a void first draft for adoption + assent/parent authority): Migration & Incorporation Regulation; Federation Coordination Regulation; Transition-Court & Continuity Regulation; Canonicalisation & Migration Regulation (the governed rename + lock-preservation procedure); Gazette-Continuity Regulation; Repos Register & Subscription Regulation.
-- **Schedule 3 - Matters to resolve before the affected principles commence** (the six [CHECK] items): CASE-LAW s.23 / REALM-SC 10 not committed in the V1 tree; the eleven SIs are status "made" not "in-force"; s.19/s.20 entrenchment classification; Bill 13 short-title normalisation; the reserved store-of-authority question (Bill 16 s.23 / Bill 20 s.14); the Bill 11 vote-record check.
-- **Schedule 4 - Interpretation.** The defined terms (V1, V2/the Realm, canon, lawpack, kernel, estate, incorporation, the assent rule, register, local jurisdiction, the protective floor, archival source).
+- **Schedule 3 - Matters to resolve before the affected principles commence.** Each carries a machine-checkable resolution predicate (s.4(4) tests it):
+  1. **CASE-LAW s.23 / REALM-SC 10 in the V1 tree** - predicate: `citator resolves "[2026] REALM-SC 10" AND CASE-LAW contains s.23`. **RESOLVED 2026-06-09** by the registrar back-fill per [2026] VJS-PC 3 (s.23 transcribed + verified; SC-10 derived minute lodged).
+  2. **The eleven REALM-SIs in force** - predicate: `each REALM-SI status == in-force` (objection window lapsed). PENDING.
+  3. **s.19/s.20 V2 entrenchment classification** - predicate: `rank recorded`. PENDING (Principal's classification).
+  4. **Bill 13 short-title normalisation** - predicate: `no live cross-reference to "Sanctions" in the enacted title`. PENDING.
+  5. **Reserved store-of-authority question (Bill 16 s.23 / Bill 20 s.14)** - predicate: `lawpack reconciled as CONFORMANT-PROJECTION or REALM-PC 4 ratio expressly moved`. PENDING.
+  6. **Bill 11 vote-record check** - predicate: `vote record confirmed`. PENDING.
+- **Schedule 4 - Interpretation (definitions).**
+  - **V1** - the first generation of VJS; the Archive and Gazette estate.
+  - **the Realm / canon** - the commenced computer-first successor, unqualified.
+  - **lawpack** - the compact, schema-valid runtime authority surface loaded by the kernel.
+  - **kernel** - the deterministic clerk that loads, validates, routes, and records; never legislates or adjudicates.
+  - **estate** - a labelled division of the single Gazette (v1_archive or v2_current).
+  - **incorporation** - the express bringing of V1 material into V2 force under s.20.
+  - **the assent rule** - the rule in Part 4 that binding force derives only from Sovereign assent.
+  - **register** - a derived, pointer-only, rebuildable projection mandated centrally and maintained locally (s.9).
+  - **local jurisdiction** - a repo with `.vjs/config.toml`, default-subscribed (s.13).
+  - **the protective floor** - the four non-derogable limbs in s.21(2A).
+  - **archival source** - a V1 record cited by V2 law as source (a source edge), not live authority.
 
-## Committee note (to be completed on adoption)
+## Committee note (adoption)
 
-To be drafted by the four counsel (Restraint, Codification, Guardrail, Operability) and voted (>=3 ayes). The lean body + the Schedule-1 restatement is the intended shape: machinery in the Act, the settled law in the Schedule, the machine detail in the raft. Nothing is binding, migrated, renamed, subscribed, or re-licensed until adopted and assented.
+**Vote: 4 ayes, 0 nays** (Aldous, Verity, Marlowe, Drummond), each conditional; the conditions were incorporated as the second-draft cure:
+- **Aldous (Restraint):** s.6 cut to a delegating sentence (route -> Schedule 1 + regulation); s.17(3) cut to the immutability bright-line, the rename procedure pushed to the Canonicalisation & Migration Regulation (Sch.2).
+- **Verity (Completeness):** dangling references repaired - s.4(3) `(s.13)` -> `(s.18)`; s.14(2)/s.17(3) `s.3 route` -> `s.6` / s.13; Schedule 4 now carries definitional text, not headings.
+- **Marlowe (Guardrail):** s.21(2A) enumerates the four-limb non-derogable protective floor including **restorative-remedy-not-punishment**; s.25 adds the express entrenchment clause (assent floor + apex-singleness + protective floor amendable only by the heightened route, never by SI/kernel); Schedule-3 #1 (the s.23/SC-10 commitment) resolved by the [2026] VJS-PC 3 back-fill before the floor commences.
+- **Drummond (Operability):** s.4(5) states a Schedule-1 principle gains force only via a live invariant/regulation or a new s.7 SI, never by restatement; Schedule 3 carries machine-checkable resolution predicates driving s.4(4); s.17(3) "proven still to bind" is a deterministic kernel re-check in the Canonicalisation Regulation; s.15(2) carries a real 90-day default subscription clock.
+
+The lean shape holds: machinery in the body (~25 sections), the 248 settled principles in Schedule 1, the machine detail in the six-instrument raft.
+
+**Adoption is constitutive (REALM-SC 8).** On this adopted final text the Principal's Royal Assent (given where validly capable, 2026-06-09) ripens against the text's digest (assent record `2026-06-09-framework-act-assent.md`). The Act is enacted; commencement of the flagged Schedule-1 principles is staged per Schedule 3. Nothing is migrated, renamed, subscribed, or re-licensed until the raft SIs are made and the staged migration is performed under the Canonicalisation & Migration Regulation.

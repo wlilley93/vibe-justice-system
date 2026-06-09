@@ -1,0 +1,54 @@
+id: 2026-VJS-PC-003
+assent_source: standing_bounded_assent
+court: privy_council
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: governance.s23-sc10-location
+holding: >
+  V2 Privy Council, 3-0, on a hybrid split by instrument. CASE-LAW s.23 and
+  [2026] REALM-SC 10 are treated as good law and reproduced operatively in the
+  assented Bill 32 Part 12 + the V2 provenance, but absent from the V1 tree. The
+  record is made whole by back-filling into the V1 archival estate: a CASE-LAW
+  s.23 article by word-for-word transcription verified against the assented
+  digest sha256:8e1d3f51, any unverifiable wording left a cited gap; and a
+  [2026] REALM-SC 10 DERIVED MINUTE only (record_kind derived_minute,
+  native_judgment false) reproducing the disposition, handover order, result and
+  cited ratios - never an authored native judgment, which would fabricate the
+  founding record. Both carry estate markers (estate v1_archive, status
+  archival_source_only, live_authority false) and a lineage edge to the V2
+  provenance; a citation to either is a source edge, not an authority edge. The
+  write is the registrar's, as the Principal's warranted V1-estate act folded
+  into the governed staged consolidation; the kernel performs no part. The
+  Framework Act Schedule-3 stay lifts on digest-verified completion.
+directives:
+  - id: D1
+    actor: registrar
+    must: transcribe_case_law_s23_into_v1_verified_against_the_assented_digest
+    when: back_filling
+  - id: D2
+    actor: registrar
+    must: lodge_realm_sc10_as_a_marked_derived_minute_never_a_native_judgment
+    when: back_filling
+  - id: D3
+    actor: agent
+    must: mark_both_records_archival_source_only_with_a_lineage_edge_to_v2_provenance
+    when: back_filling
+  - id: D4
+    actor: agent
+    must: treat_the_back_filled_v1_records_as_carried_forward_archival_source_incorporated_as_live_authority_nowhere
+    when: citing_them
+forbidden:
+  - authoring_a_native_realm_sc10_judgment_or_inventing_s23_wording_not_in_the_pinned_source
+  - the_kernel_or_a_standing_bounded_route_authoring_its_own_founding_nodes
+  - treating_the_back_filled_records_as_live_authority_rather_than_archival_source
+exceptions:
+  - "halt and return if the s.23 text cannot be digest-verified word-for-word, or if anyone proposes to render SC-10 as a native judgment"
+supersedes: []
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-003-opinion.md"
+runtime_summary: >
+  s.23 is transcribed into V1 verified against the assented digest; REALM-SC 10
+  is a marked derived minute, never a native judgment; both archival-source-only
+  with a lineage edge; the registrar writes as the Principal's warranted act, the
+  kernel performs no part; nothing is fabricated; Schedule-3 lifts on completion.
+created_at: "2026-06-09T00:00:00Z"
