@@ -31,7 +31,8 @@
   #legend .row { margin:2px 0; }
   #legend .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-left:6px; vertical-align:middle; }
   #legend .ring { background:var(--paper) !important; box-shadow:inset 0 0 0 2px currentColor; }
-  #filters { display:flex; gap:.3rem; justify-content:flex-end; margin-top:.4rem; }
+  #legend .edge { display:inline-block; width:16px; height:2px; margin-left:6px; vertical-align:middle; }
+  .filterrow { display:flex; gap:.3rem; justify-content:flex-end; margin-top:.4rem; }
   .tab { --tone:var(--ink); padding:.15rem .55rem; border:1px solid var(--tone); border-radius:999px;
     cursor:pointer; background:transparent; color:var(--tone); font:inherit; font-size:.72rem; }
   .tab.active { background:var(--tone); color:var(--cream); }
@@ -87,9 +88,11 @@
 
 <div id="title" class="overlay">
   <h1>The constellation view</h1>
-  <p>A companion view of <a href="gazette.html">The VJS Gazette</a> - the law as a citation graph.
-     Solid stars are the V2 canon; ringed stars are the V1 archive. Authority flows along the edges;
-     an edge into the archive is a source edge, not an authority edge. Click a star to read it.</p>
+  <p>A companion view of <a href="gazette.html">The VJS Gazette</a> - the law as a constellation.
+     Solid stars are the living canon; ringed stars are the honoured archive. Ink edges are textual
+     citations; the faint blue descent is derived authority lineage - the force a record holds even
+     when it never quotes its source. An edge into the archive is a source edge, not an authority
+     edge. Click a star to read it.</p>
 </div>
 
 <div id="legend" class="overlay">
@@ -99,11 +102,16 @@
   <div class="row">Privy Council<span class="dot" style="background:var(--pc)"></span></div>
   <div class="row">First instance &amp; decisions<span class="dot" style="background:var(--first)"></span></div>
   <div class="row">Machinery (invariants, obligations, specs)<span class="dot" style="background:var(--submission)"></span></div>
-  <div class="row">V1 archive = ringed<span class="dot ring" style="color:var(--v1)"></span></div>
-  <div id="filters">
+  <div class="row">The honoured archive = ringed<span class="dot ring" style="color:var(--v1)"></span></div>
+  <div class="row">citation<span class="edge" style="background:rgba(26,39,68,.5)"></span>
+    &nbsp;lineage<span class="edge" style="background:rgba(61,127,189,.6)"></span></div>
+  <div class="filterrow">
     <button class="tab active" data-estate="all">Both estates</button>
-    <button class="tab tone-v2" data-estate="v2">V2</button>
-    <button class="tab tone-v1" data-estate="v1">V1</button>
+    <button class="tab tone-v2" data-estate="v2">Canon</button>
+    <button class="tab tone-v1" data-estate="v1">Archive</button>
+  </div>
+  <div class="filterrow">
+    <button class="tab active" id="lineage-toggle" title="Show derived authority lineage: the force a record holds from its enacting authority even when it never cites it textually">Authority lineage</button>
   </div>
 </div>
 
@@ -155,15 +163,20 @@ const COURT_LABEL = { sc:'Supreme Court', pc:'Privy Council', ca:'Court of Appea
 const inbound = new Map();
 for (const d of ITEMS) for (const c of d.cites || []) inbound.set(c, (inbound.get(c) || 0) + 1);
 
-let estate = 'all';
+let estate = 'all', lineageOn = true;
 function visible(d) { return estate === 'all' || d.estate === estate; }
 
 function buildData() {
   const nodes = ITEMS.filter(visible).map(d => ({ ...d }));
   const ids = new Set(nodes.map(n => n.id));
   const links = [];
-  for (const d of nodes) for (const c of d.cites || [])
-    if (ids.has(c)) links.push({ source: d.id, target: c, archival: byId.get(c).estate === 'v1' });
+  for (const d of nodes) {
+    for (const c of d.cites || [])
+      if (ids.has(c)) links.push({ source: d.id, target: c, lineage: false, archival: byId.get(c).estate === 'v1' });
+    if (lineageOn)
+      for (const c of d.lineage || [])
+        if (ids.has(c)) links.push({ source: d.id, target: c, lineage: true, archival: byId.get(c).estate === 'v1' });
+  }
   return { nodes, links };
 }
 
@@ -174,8 +187,8 @@ const Graph = ForceGraph()(document.getElementById('graph'))
   .nodeId('id')
   .nodeVal(d => 2 + Math.min(10, (inbound.get(d.id) || 0) * 1.4))
   .nodeLabel(d => `${d.title}${d.citation ? ' · ' + d.citation : ''}`)
-  .linkColor(l => l.archival ? 'rgba(122,92,30,.45)' : 'rgba(26,39,68,.28)')
-  .linkLineDash(l => l.archival ? [3, 3] : null)
+  .linkColor(l => l.archival ? 'rgba(122,92,30,.45)' : l.lineage ? 'rgba(61,127,189,.30)' : 'rgba(26,39,68,.28)')
+  .linkLineDash(l => l.archival ? [3, 3] : l.lineage ? [1.5, 2.5] : null)
   .linkWidth(l => (selected && (l.source.id === selected || l.target.id === selected)) ? 1.8 : .7)
   .linkDirectionalParticles(l => (selected && (l.source.id === selected || l.target.id === selected)) ? 2 : 0)
   .nodeCanvasObject((d, ctx, scale) => {
@@ -223,13 +236,18 @@ function matchesQuery(d) {
 }
 document.getElementById('q').addEventListener('input', e => { query = e.target.value.trim(); });
 
-document.querySelectorAll('#filters .tab').forEach(b => b.onclick = () => {
-  document.querySelectorAll('#filters .tab').forEach(x => x.classList.remove('active'));
+document.querySelectorAll('[data-estate]').forEach(b => b.onclick = () => {
+  document.querySelectorAll('[data-estate]').forEach(x => x.classList.remove('active'));
   b.classList.add('active');
   estate = b.dataset.estate;
   closePanel();
   Graph.graphData(buildData());
 });
+document.getElementById('lineage-toggle').onclick = function () {
+  lineageOn = !lineageOn;
+  this.classList.toggle('active', lineageOn);
+  Graph.graphData(buildData());
+};
 
 // Escapes for BOTH element and attribute context (quotes included).
 function esc(t) {
@@ -247,13 +265,13 @@ function openPanel(id) {
   ]);
 
   document.getElementById('p-kicker').textContent =
-    d.estate === 'v1' ? 'The V1 archive estate' : 'The V2 current estate';
+    d.estate === 'v1' ? 'The honoured archive' : 'The living canon';
   document.getElementById('p-title').textContent = d.title;
 
   const chips = [
     `<span class="chip tone-${tone(d)}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>`,
     d.court ? `<span class="chip tone-${tone(d)}">${esc(COURT_LABEL[d.court] || d.court)}</span>` : '',
-    `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'V1 archive' : 'V2 current'}</span>`,
+    `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'Archive' : 'Canon'}</span>`,
     d.status ? `<span class="chip status">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : '',
   ].join('');
   document.getElementById('p-chips').innerHTML = chips;
@@ -265,16 +283,17 @@ function openPanel(id) {
   document.getElementById('p-points').innerHTML = pts.map(p => `<li>${esc(p)}</li>`).join('');
 
   document.getElementById('p-links').innerHTML =
-    `<a href="${esc(d.url)}">Read the source ${d.estate === 'v1' ? '(v1 branch)' : '(master)'}</a>` +
+    `<a href="${esc(d.url)}">Read the source ${d.estate === 'v1' ? '(archive branch)' : '(canon)'}</a>` +
     `<a href="gazette.html#${encodeURIComponent(d.id)}">Open in the Gazette</a>`;
 
   // Neighbour navigation is built with DOM nodes and listeners, never with
   // ids interpolated into inline handlers (a quote in an id must stay data).
   const cites = (d.cites || []).map(c => byId.get(c)).filter(Boolean);
+  const lineage = (d.lineage || []).map(c => byId.get(c)).filter(Boolean);
   const citedBy = ITEMS.filter(x => (x.cites || []).includes(id));
   const wrap = document.getElementById('p-neigh-wrap');
   wrap.innerHTML = '';
-  for (const [label, list] of [['Relies on', cites], ['Relied on by', citedBy]]) {
+  for (const [label, list] of [['Relies on', cites], ['Derives force from', lineage], ['Relied on by', citedBy]]) {
     if (!list.length) continue;
     const h = document.createElement('h3');
     h.textContent = label;

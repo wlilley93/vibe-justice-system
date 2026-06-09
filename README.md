@@ -129,7 +129,7 @@ Natural language. No syntax. Lexby handles the filing.
 
 ## Read the law
 
-Everything resolves in one Gazette, two estates: the **living canon** and the read-only **V1 archive**.
+Everything resolves in one Gazette, two estates: **the living canon** and the read-only **honoured archive**.
 
 - **The Gazette:** [`gazette.html`](https://wlilley93.github.io/vibe-justice-system/gazette.html) - the Realm Law Reports: search, estate and class filters, the main points of every item.
 - **The constellation:** [`gazette-graph.html`](https://wlilley93.github.io/vibe-justice-system/gazette-graph.html) - the same record as a citation graph, with a reading sidebar.

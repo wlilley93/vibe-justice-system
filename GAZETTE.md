@@ -8,11 +8,11 @@ One Gazette, two estates, on the one canonical line (per [2026] VJS-PC 2). Publi
 
 ---
 
-## Current estate (the live canon)
+## The living canon (the current estate)
 
 The computer-first Realm. Live law is the compact lawpack under `lawpack/v2/`, loaded by the deterministic kernel.
 
-**Court jurisprudence (V2):**
+**Court jurisprudence of the canon:**
 - [2026] VJS-SC 1 - federation, extraction, canonicalisation (Supreme Court of nine).
 - [2026] VJS-PC 1 - transition and onboarding.
 - [2026] VJS-PC 2 - repository topology and the canonical line.
@@ -29,13 +29,13 @@ Opinions: `.vjs/submissions/filed/`. Binding orders: `lawpack/v2/orders/`.
 
 ---
 
-## Archive estate (V1, read-only)
+## The honoured archive (read-only)
 
-The first generation, preserved and honoured. On the protected `v1` branch and the immutable `v1-archive-2026-06-09` tag. It binds V2 only by express incorporation; a citation to it is a source edge, not an authority edge.
+The first generation, preserved and honoured. On the protected `v1` branch and the immutable `v1-archive-2026-06-09` tag. It binds the canon only by express incorporation; a citation to it is a source edge, not an authority edge.
 
-- **V1 citator:** `Judicature/.justice/INDEX.md` on the `v1` branch.
-- **Latest V1 authority:** [2026] REALM-SC 10 - the full-court founding settlement (enacted CASE-LAW s.23, the assent floor; back-filled per [2026] VJS-PC 3), above [2026] REALM-PC 24 and the REALM-SC / REALM-PC series.
+- **The archive citator:** `Judicature/.justice/INDEX.md` on the `v1` branch.
+- **Latest archive authority:** [2026] REALM-SC 10 - the full-court founding settlement (enacted CASE-LAW s.23, the assent floor; back-filled per [2026] VJS-PC 3), above [2026] REALM-PC 24 and the REALM-SC / REALM-PC series.
 
 ---
 
-*This index is the canonical Gazette landing for the one line. A V1 source resolves through the citation-map register (`lawpack/v2/provenance/citation-map/`).*
+*This index is the canonical Gazette landing for the one line. An archive source resolves through the citation-map register (`lawpack/v2/provenance/citation-map/`).*
