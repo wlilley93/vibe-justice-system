@@ -1,0 +1,12 @@
+id: LOG-2026-06-09-181226
+time: 2026-06-09T18:12:26.451256676+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260609-181226
+decision: README restored to V1 quality, ministries omitted
+basis:
+- PERMIT-1781028746
+risk: low
+reversibility: easy
+court_required: false
+why: 'Principal: return README to v1 quality, leave out legislature/executive.'

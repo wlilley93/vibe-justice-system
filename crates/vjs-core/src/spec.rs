@@ -407,17 +407,11 @@ fn evaluate_predicate(rule: &PredicateExpr, repo_state: &RepoState) -> bool {
     }
 }
 
+// One glob semantics for the whole kernel: the invariant evaluator must agree
+// with the permit gate on what a glob covers (this copy had its own weaker,
+// fail-open matching).
 fn glob_matches(glob: &str, path: &PathBuf) -> bool {
-    let path_str = path.to_string_lossy();
-    if glob.ends_with("/**") {
-        let prefix = &glob[..glob.len() - 3];
-        path_str.starts_with(prefix)
-    } else if glob.contains("*") {
-        let regex = glob.replace("*", ".*");
-        regex::Regex::new(&regex).map(|re| re.is_match(&path_str)).unwrap_or(false)
-    } else {
-        path_str == glob || path_str.starts_with(glob)
-    }
+    crate::governance::PathClassifier::glob_matches(glob, &path.to_string_lossy())
 }
 
 pub struct InvariantReport {
