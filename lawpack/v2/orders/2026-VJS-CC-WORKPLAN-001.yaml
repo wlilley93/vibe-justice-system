@@ -1,0 +1,66 @@
+id: "2026-VJS-CC-WORKPLAN-001"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-CC-AGENT-UNIVERSE-V2 13"
+title: Overnight Gazette work programme order
+court: county
+jurisdiction: agent-universe-v2
+status: binding
+issue: gazette_overnight_workplan
+holding: >
+  The Principal's presentation mandate is settled as a bounded overnight work
+  programme. Q1: the registrar may generate the 7 missing archive PDFs as
+  derived presentations, clearly marked as such, V1 sources untouched; if
+  generation fails, the rendered page suffices. Q2: the two-chip rule stands;
+  status, force and severity live in the full-page document view and in list
+  metadata text, never as a third chip. Q3: unattended scope covers
+  presentation work, gazette generation, tests, screenshots, gated commits,
+  pushes and Pages builds; the held instrument, any legislation, doctrine,
+  estate content and spending sit outside it. Q4: morning acceptance requires
+  green tests, live verification, filed screenshots, per-beat logs and the
+  mandate visibly satisfied.
+directives:
+  - id: D1
+    actor: lexby
+    must: open_the_document_full_page_on_any_list_item_click_pdf_for_archive_rendered_canon_page_for_v2
+  - id: D2
+    actor: lexby
+    must: generate_seven_missing_archive_pdfs_as_clearly_marked_derived_presentations_without_touching_v1_sources
+  - id: D3
+    actor: lexby
+    must: add_lineage_dropdown_to_each_register_listing
+  - id: D4
+    actor: lexby
+    must: render_exactly_two_uniform_tone_chips_kind_and_source_matching_node_colours
+  - id: D5
+    actor: lexby
+    must: relocate_status_force_and_severity_into_document_page_and_list_metadata_text
+  - id: D6
+    actor: lexby
+    must: install_compact_header_with_search_bar_cropped_logo_link_bar_and_single_github_logo
+  - id: D7
+    actor: lexby
+    must: remove_intro_box_quick_links_latest_strip_and_history_links_and_improve_filter_chips
+  - id: D8
+    actor: lexby
+    must: apply_sort_rules_archive_first_under_oldest_estate_under_newest_kind_headers_under_kind_sort
+  - id: D9
+    actor: lexby
+    must: route_permit_and_log_every_beat_committing_and_pushing_only_through_failing_closed_gates
+  - id: D10
+    actor: lexby
+    must: leave_all_workspace_tests_green_live_pages_verified_and_screenshots_filed_by_morning_review
+forbidden:
+  - commencing_the_held_realm_invariants_instrument_without_digest_pinned_sovereign_assent
+  - enacting_or_amending_any_legislation_statute_or_doctrine
+  - reintroducing_register_stripping_code
+  - altering_v1_archive_sources_or_estate_content_beyond_presentation
+  - any_github_link_other_than_the_single_header_logo
+  - spending_or_acting_outside_the_repo_and_its_pages_deployment
+  - bypassing_pre_commit_or_pre_push_gates_or_committing_without_a_permit
+supersedes: []
+source_opinion: null
+created_at: "2026-06-09T22:00:00Z"
+runtime_summary: >
+  Overnight run: execute the Principal's Gazette presentation mandate with
+  derived PDFs for the 7 gaps, two-chip rule, compact header, gated commits,
+  and morning acceptance on tests, live checks, screenshots and logs.

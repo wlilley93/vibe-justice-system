@@ -1788,6 +1788,7 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 "has_text": true,
                 "path": rel, "url": format!("{}{}", V2_BASE, rel),
             });
+            item["doc"] = serde_json::Value::String(format!("law.html#{}", item["id"].as_str().unwrap_or("")));
             if let Some(asrc) = s(&v, "assent_source").filter(|a| !a.is_empty()) {
                 item["assent_source"] = serde_json::Value::String(asrc);
             }
@@ -1834,6 +1835,8 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                     "supersedes": [],
                     "has_text": false,
                     "updated": s(it, "date").unwrap_or_default(),
+                    "pdf": s(it, "pdf").unwrap_or_default(),
+                    "doc": format!("law.html#{}", s(it, "id").unwrap_or_default()),
                     "path": path,
                     "url": format!("{}{}", V1_BASE, path),
                 }));

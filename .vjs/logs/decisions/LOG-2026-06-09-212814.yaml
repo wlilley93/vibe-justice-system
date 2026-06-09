@@ -1,0 +1,12 @@
+id: LOG-2026-06-09-212814
+time: 2026-06-09T21:28:14.749495635+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260609-212759
+decision: 'Lodged [2026] VJS-CC-AGENT-UNIVERSE-V2 13 (2026-VJS-CC-WORKPLAN-001), the County Court''s overnight work programme order, exactly as settled by the independent bench convened on the registrar''s own motion at the Principal''s direction. The order binds tonight''s run: D1-D10 (document-page click-through with archive PDFs and rendered canon documents, seven derived PDFs clearly marked, lineage dropdowns, the two-chip rule with status relocated to the document and metadata text, compact header with the single GitHub logo, sort rules, gated commits, morning acceptance) inside an explicit forbidden list led by: no commencement of the held Realm Invariants Instrument without the Sovereign''s digest-pinned assent, and no legislation or doctrine. A court order is a court act under standing bounded authority, not Sovereign legislation; the assent floor is respected, not repeated. The working tree already carries the 29 archive PDFs, generator doc and pdf fields, the cropped logo mark, and .nojekyll; they commit with this beat as the order''s groundwork.'
+basis:
+- PERMIT-1781040479
+risk: low
+reversibility: easy
+court_required: false
+why: The Principal directed a court-mandated plan for the overnight run; the bench settled it; the registrar executes it.
