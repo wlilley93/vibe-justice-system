@@ -481,13 +481,40 @@ pub fn close_permit(
 pub fn validate_obligations(
     permit_id: &PermitId,
     spec_set: &SpecSet,
+    logs: &[DecisionLog],
 ) -> Result<ObligationReport, KernelError> {
     if let Some(permit) = spec_set.permits.get(permit_id) {
+        let permit_proofs: Vec<&Proof> = spec_set
+            .proofs
+            .values()
+            .filter(|p| p.permit_id == *permit_id && p.status == ProofStatus::Passed)
+            .collect();
+
         let mut findings = Vec::new();
         for obligation in &permit.obligations {
+            // The same satisfaction rules the permit gate enforces at commit:
+            // a decision log must cite the permit; everything else is carried
+            // by a passed proof of the corresponding kind.
+            let satisfied = match obligation.kind {
+                ObligationKind::DecisionLog => logs.iter().any(|log| {
+                    log.id.contains(&permit_id.0)
+                        || log.basis.iter().any(|b| b == &permit_id.0)
+                        || log.issue.contains(&permit_id.0)
+                }),
+                ObligationKind::Proof => !permit_proofs.is_empty(),
+                ObligationKind::Validation => permit_proofs
+                    .iter()
+                    .any(|p| p.kind == ProofKind::ValidationReport),
+                ObligationKind::PublicPrivateScan => permit_proofs
+                    .iter()
+                    .any(|p| p.kind == ProofKind::PublicPrivateScan),
+                ObligationKind::Command => permit_proofs
+                    .iter()
+                    .any(|p| p.kind == ProofKind::CommandResult),
+            };
             findings.push(ObligationFinding {
                 obligation_id: obligation.id.clone(),
-                satisfied: false,
+                satisfied,
                 kind: obligation.kind.clone(),
             });
         }

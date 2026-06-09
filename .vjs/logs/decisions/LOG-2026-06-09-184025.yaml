@@ -1,0 +1,12 @@
+id: LOG-2026-06-09-184025
+time: 2026-06-09T18:40:25.193012561+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260609-184009
+decision: 'Routing layer correctness per BOOT-012 and DEC-006: an authority scope naming jurisdictions now rejects an input with no jurisdiction unless the scope carries the * wildcard (the None input previously slipped past the check); a court-required route no longer mints a permit id (CourtRequired must return with a ruling, not a permit; the two stray permits this minted were removed last beat); proof_exists predicates take a dedicated proof_kind raw field instead of misreading id; validate_obligations now reports real satisfaction against logs and passed proofs instead of hardcoding false.'
+basis:
+- PERMIT-1781030409
+risk: low
+reversibility: easy
+court_required: false
+why: Three fail-open defects and one dead function in the routing layer found in review; each now pinned by tests (8 new in authority_route_obligations.rs).

@@ -296,6 +296,9 @@ pub struct RawPredicate {
     pub max: Option<usize>,
     pub fields: Option<Vec<String>>,
     pub allowed: Option<Vec<String>>,
+    /// The proof kind a `proof_exists` predicate requires. `kind` is taken by
+    /// the predicate discriminator itself, so this gets its own field.
+    pub proof_kind: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -428,7 +431,7 @@ impl RawPredicate {
                 Ok(PredicateExpr::PermitExists { id: self.id.clone() })
             }
             "proof_exists" => {
-                Ok(PredicateExpr::ProofExists { kind: self.id.clone() })
+                Ok(PredicateExpr::ProofExists { kind: self.proof_kind.clone() })
             }
             "order_exists" => {
                 Ok(PredicateExpr::OrderExists { issue: self.issue.clone() })

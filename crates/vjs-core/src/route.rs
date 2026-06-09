@@ -33,7 +33,12 @@ pub fn route(
     let summary = build_summary(&input, &outcome, &court_trigger);
     let obligations = build_obligations(&input, &outcome, &authorities);
 
-    let permit_id = if outcome != RouteOutcome::Blocked {
+    // A permit exists only where the route actually allows the work. A matter
+    // sent to court must come back with a ruling, not walk off with a permit.
+    let permit_id = if matches!(
+        outcome,
+        RouteOutcome::Allowed | RouteOutcome::AllowedWithConditions
+    ) {
         Some(PermitId(format!("PERMIT-{}", chrono::Utc::now().timestamp())))
     } else {
         None
