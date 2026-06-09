@@ -4,7 +4,7 @@ The canonical, computer-first Realm. (Developed as "V2"; the spent ordinal is dr
 
 ## The Gazette
 
-One Gazette, two estates ([GAZETTE.md](GAZETTE.md)). **Current estate (latest):** [2026] VJS-PC 6 (the canon self-invokes; the Privy Council is its first-instance court), back through VJS-PC 1-5 and VJS-SC 1; primary law is the Realm Consolidation and Reconciliation Framework Act. **Archive estate (latest V1 authority):** [2026] REALM-SC 10 (the founding settlement; enacted the assent floor), above REALM-PC 24 - on the `v1` branch. Publication is constitutively inert; force comes from the lawpack and assent.
+One Gazette, two estates ([GAZETTE.md](GAZETTE.md)) - or **[explore the law as an interactive graph](gazette-graph.html)**. **Current estate (latest):** [2026] VJS-PC 6 (the canon self-invokes; the Privy Council is its first-instance court), back through VJS-PC 1-5 and VJS-SC 1; primary law is the Realm Consolidation and Reconciliation Framework Act. **Archive estate (latest V1 authority):** [2026] REALM-SC 10 (the founding settlement; enacted the assent floor), above REALM-PC 24 - on the `v1` branch. Publication is constitutively inert; force comes from the lawpack and assent.
 
 ## Status and known limitations
 

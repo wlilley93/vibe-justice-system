@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The VJS Gazette - Living Law Graph</title>
+<style>
+  :root { --bg:#05070f; --ink:#e7eefc; --dim:#7e8aa6; --v2:#5eead4; --v2c:#fcd34d; --v2r:#67e8f9; --v1:#fbbf24; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif; overflow:hidden; }
+  #graph { position:fixed; inset:0; }
+  .overlay { position:fixed; z-index:5; pointer-events:none; }
+  #title { top:18px; left:20px; max-width:min(46ch,72vw); }
+  #title h1 { margin:0; font-size:19px; letter-spacing:.5px; font-weight:650;
+    background:linear-gradient(90deg,var(--v2c),var(--v2r)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  #title p { margin:6px 0 0; font-size:12.5px; color:var(--dim); line-height:1.5; }
+  #legend { top:18px; right:20px; font-size:11.5px; color:var(--dim); text-align:right; }
+  #legend .row { margin:3px 0; }
+  #legend .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-left:7px; vertical-align:middle; box-shadow:0 0 8px currentColor; }
+  #search { position:fixed; bottom:20px; left:20px; z-index:6; }
+  #search input { background:rgba(14,20,38,.85); border:1px solid #243150; color:var(--ink);
+    padding:9px 13px; border-radius:9px; width:240px; font-size:13px; outline:none; backdrop-filter:blur(6px); }
+  #search input:focus { border-color:var(--v2); }
+  #panel { position:fixed; top:0; right:0; height:100%; width:min(380px,86vw); z-index:7;
+    background:linear-gradient(180deg,rgba(10,15,30,.97),rgba(6,9,18,.98)); border-left:1px solid #1c2740;
+    transform:translateX(105%); transition:transform .28s cubic-bezier(.4,0,.2,1); padding:24px 22px; overflow:auto; backdrop-filter:blur(10px); }
+  #panel.open { transform:translateX(0); }
+  #panel .kicker { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dim); }
+  #panel h2 { margin:8px 0 4px; font-size:20px; line-height:1.25; }
+  #panel .cite { font-family:ui-monospace,Menlo,monospace; font-size:12px; color:var(--v2r); margin-bottom:14px; }
+  #panel .meta { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+  #panel .tag { font-size:11px; padding:3px 9px; border-radius:20px; border:1px solid #243150; color:var(--dim); }
+  #panel .summary { font-size:14px; line-height:1.6; color:#cdd7ef; }
+  #panel .links { margin-top:18px; }
+  #panel .links a { display:block; color:var(--v2); text-decoration:none; font-size:13px; padding:9px 12px; margin:6px 0;
+    border:1px solid #1c2740; border-radius:9px; transition:.15s; }
+  #panel .links a:hover { background:rgba(94,234,212,.08); border-color:var(--v2); }
+  #panel .close { position:absolute; top:16px; right:18px; cursor:pointer; color:var(--dim); pointer-events:auto; font-size:22px; line-height:1; }
+  #panel .neigh { margin-top:18px; font-size:12px; color:var(--dim); }
+  #panel .neigh span { color:var(--v2r); cursor:pointer; }
+  #panel .neigh span:hover { text-decoration:underline; }
+  .hint { position:fixed; bottom:22px; right:20px; z-index:5; font-size:11px; color:var(--dim); pointer-events:none; }
+</style>
+</head>
+<body>
+<div id="graph"></div>
+<div id="title" class="overlay">
+  <h1>The VJS Gazette</h1>
+  <p>Living law as a constellation. The bright cluster is the V2 canon; the amber stars are the honoured V1 archive. Authority flows along the edges. Drag to explore, scroll to zoom, click a star to read it.</p>
+</div>
+<div id="legend" class="overlay">
+  <div class="row">V2 constitution<span class="dot" style="color:#fcd34d"></span></div>
+  <div class="row">V2 regulation / kernel<span class="dot" style="color:#5eead4"></span></div>
+  <div class="row">V2 court ruling<span class="dot" style="color:#67e8f9"></span></div>
+  <div class="row">V1 archive (source)<span class="dot" style="color:#fbbf24"></span></div>
+</div>
+<div id="search"><input id="q" placeholder="Search the law&hellip;  (e.g. assent, hooks, PC 6)" autocomplete="off" /></div>
+<div class="hint">force-directed - the law arranges itself</div>
+<div id="panel">
+  <div class="close" onclick="closePanel()">&times;</div>
+  <div class="kicker" id="p-kicker"></div>
+  <h2 id="p-title"></h2>
+  <div class="cite" id="p-cite"></div>
+  <div class="meta" id="p-meta"></div>
+  <div class="summary" id="p-summary"></div>
+  <div class="links" id="p-links"></div>
+  <div class="neigh" id="p-neigh"></div>
+</div>
+
+<script src="https://unpkg.com/force-graph"></script>
+<script>
+const BLOB = "https://github.com/wlilley93/vibe-justice-system/blob";
+const u2 = p => `${BLOB}/main/${p}`;
+const u1 = p => `${BLOB}/v1/${p}`;
+
+// Curated citation graph: the load-bearing nodes of the realm. estate v2|v1;
+// kind drives colour/size; src/tgt edges carry a type (founds, parents,
+// incorporates, source, effect, enforces).
+const N = [
+  // --- V2 current estate ---
+  {id:"FRAMEWORK", label:"Framework Act", cite:"Realm Consolidation & Reconciliation Act", estate:"v2", kind:"constitution", sum:"Restates V1 law as a whole; the SI power; the assent floor; parents the raft.", url:u2("lawpack/v2/statutes/09-consolidation-framework.yaml")},
+  {id:"CFR", label:"Computer-First Realm Act", cite:"[2026] VJS-ACT (Bill 32)", estate:"v2", kind:"constitution", sum:"Founds the computer-first realm; the lawpack is runtime law; the kernel is clerk, not court.", url:u2("lawpack/v2/statutes/08-computer-first-realm.yaml")},
+  {id:"S23", label:"CASE-LAW s.23 (assent floor)", cite:"the assent floor", estate:"v2", kind:"constitution", sum:"All law needs Sovereign assent; AI is non-sovereign and creates no force from its own output.", url:u1("Constitution/CASE-LAW.md")},
+  {id:"INVASSENT", label:"Assent-Source Invariant", cite:"INV-ASSENT-SOURCE-001", estate:"v2", kind:"invariant", sum:"Fail-closed allow-list: a record binds only with a valid assent source. No deny-list.", url:u2("lawpack/v2/invariants/INV-ASSENT-SOURCE-001.yaml")},
+  {id:"REG_MIG", label:"Migration & Incorporation", cite:"REG-MIGRATION-INCORPORATION-001", estate:"v2", kind:"regulation", sum:"Express incorporation + the provenance-scoped migration ledger; no bulk import.", url:u2("lawpack/v2/regulations/REG-MIGRATION-INCORPORATION-001.yaml")},
+  {id:"REG_FED", label:"Federation Coordination", cite:"REG-FEDERATION-COORDINATION-001", estate:"v2", kind:"regulation", sum:"A root may coordinate but not be sovereign; the kernel bright-line + the court's practical-subjection test.", url:u2("lawpack/v2/regulations/REG-FEDERATION-COORDINATION-001.yaml")},
+  {id:"REG_TRANS", label:"Transition & Continuity", cite:"REG-TRANSITION-CONTINUITY-001", estate:"v2", kind:"regulation", sum:"The PC as transition court; continue / reframe / moot; the narrow V1-Court limb.", url:u2("lawpack/v2/regulations/REG-TRANSITION-CONTINUITY-001.yaml")},
+  {id:"REG_CANON", label:"Canonicalisation & Migration", cite:"REG-CANONICALISATION-MIGRATION-001", estate:"v2", kind:"regulation", sum:"The staged, lock-preserving merge; immutable digests; halt-and-return.", url:u2("lawpack/v2/regulations/REG-CANONICALISATION-MIGRATION-001.yaml")},
+  {id:"REG_GAZ", label:"Gazette-Continuity", cite:"REG-GAZETTE-CONTINUITY-001", estate:"v2", kind:"regulation", sum:"One Gazette, two estates; publication is constitutively inert.", url:u2("lawpack/v2/regulations/REG-GAZETTE-CONTINUITY-001.yaml")},
+  {id:"REG_REPOS", label:"Repos Register & Subscription", cite:"REG-REPOS-REGISTER-001", estate:"v2", kind:"regulation", sum:"Mandatory transition-subscription; the repos register, maintained per-repo.", url:u2("lawpack/v2/regulations/REG-REPOS-REGISTER-001.yaml")},
+  {id:"REG_HOOKS", label:"Functional Hooks", cite:"REG-HOOKS-001", estate:"v2", kind:"regulation", sum:"A hook is a deterministic function returning a decision; prompt text is bounded, explanatory only.", url:u2("lawpack/v2/regulations/REG-HOOKS-001.yaml")},
+  {id:"REG_CONV", label:"Self-Convening", cite:"REG-SELF-CONVENE-001", estate:"v2", kind:"regulation", sum:"Convene on a fork on your own motion; never route the fork to the Principal.", url:u2("lawpack/v2/regulations/REG-SELF-CONVENE-001.yaml")},
+  {id:"REG_WARRANT", label:"Automated Release Warrant", cite:"REG-RELEASE-WARRANT-001", estate:"v2", kind:"regulation", sum:"A release warrant is an automated pre_push gate, not a Sovereign assent.", url:u2("lawpack/v2/regulations/REG-RELEASE-WARRANT-001.yaml")},
+  {id:"REG_INVOKE", label:"Local Sovereign Invocation", cite:"REG-INVOCATION-001", estate:"v2", kind:"regulation", sum:"A repo binds by invocation, not directory ancestry; the anchor is .vjs/config.toml.", url:u2("lawpack/v2/regulations/REG-INVOCATION-001.yaml")},
+  {id:"DEC_HARNESS", label:"Agent-Harness Doctrine", cite:"DEC-AGENT-HARNESS-001", estate:"v2", kind:"decision", sum:"Tools empower, evals measure, the kernel governs - don't ask the model to be lawful by prompt.", url:u2("lawpack/v2/decisions/DEC-AGENT-HARNESS-001.yaml")},
+  {id:"DEC_SILENCE", label:"No V1 Revival by Silence", cite:"DEC-V1-SILENCE-001", estate:"v2", kind:"decision", sum:"A gap in V2 law is a first-impression question, not a silent V1 import.", url:u2("lawpack/v2/decisions/DEC-V1-SILENCE-001.yaml")},
+  {id:"SC1", label:"VJS-SC 1", cite:"[2026] VJS-SC 1", estate:"v2", kind:"ruling", sum:"Federation, extraction, canonicalisation (Supreme Court of nine, 9-0).", url:u2(".vjs/submissions/filed/2026-VJS-SC-001-opinion.md")},
+  {id:"PC1", label:"VJS-PC 1", cite:"[2026] VJS-PC 1", estate:"v2", kind:"ruling", sum:"Transition and onboarding.", url:u2(".vjs/submissions/filed/2026-VJS-PC-001-opinion.md")},
+  {id:"PC2", label:"VJS-PC 2", cite:"[2026] VJS-PC 2", estate:"v2", kind:"ruling", sum:"Repository topology: one canonical line; V1 as a protected archive estate; staged migration.", url:u2(".vjs/submissions/filed/2026-VJS-PC-002-opinion.md")},
+  {id:"PC3", label:"VJS-PC 3", cite:"[2026] VJS-PC 3", estate:"v2", kind:"ruling", sum:"Back-fill s.23 by transcription; REALM-SC 10 as a derived minute, never fabricated.", url:u2(".vjs/submissions/filed/2026-VJS-PC-003-opinion.md")},
+  {id:"PC4", label:"VJS-PC 4", cite:"[2026] VJS-PC 4", estate:"v2", kind:"ruling", sum:"Cite by source: statute by section, case law by its case. CASE-LAW is a hybrid.", url:u2(".vjs/submissions/filed/2026-VJS-PC-004-opinion.md")},
+  {id:"PC5", label:"VJS-PC 5", cite:"[2026] VJS-PC 5", estate:"v2", kind:"ruling", sum:"Institutions as registries and roles, not ministries; Repos House is declarative.", url:u2(".vjs/submissions/filed/2026-VJS-PC-005-opinion.md")},
+  {id:"PC6", label:"VJS-PC 6", cite:"[2026] VJS-PC 6", estate:"v2", kind:"ruling", sum:"The canon self-invokes; the Privy Council is its first-instance court.", url:u2(".vjs/submissions/filed/2026-VJS-PC-006-opinion.md")},
+  // --- V1 archive estate ---
+  {id:"R_PC24", label:"REALM-PC 24", cite:"[2026] REALM-PC 24", estate:"v1", kind:"case", sum:"The competence limb; leapfrogged the founding question.", url:u1("Judicature/.justice/INDEX.md")},
+  {id:"R_SC10", label:"REALM-SC 10", cite:"[2026] REALM-SC 10", estate:"v1", kind:"case", sum:"The full-court founding settlement; enacted CASE-LAW s.23. Latest V1 authority.", url:u1("Judicature/.justice/judgments/supreme-court/2026-realm-sc-10.md")},
+  {id:"R_BILL32", label:"Bill 32 (assented)", cite:"Computer-First Realm Act 2026", estate:"v1", kind:"case", sum:"The assented Act text; Royal Assent the constitutive gate.", url:u1("Legislature/legislature/bills/32-computer-first-realm-act-2026.md")},
+  {id:"R_SC1", label:"REALM-SC 1", cite:"[2026] REALM-SC 1", estate:"v1", kind:"case", sum:"The duty of reasonable skill and care; restorative remedy.", url:u1("Constitution/CASE-LAW.md")},
+  {id:"R_SC8", label:"REALM-SC 8", cite:"[2026] REALM-SC 8", estate:"v1", kind:"case", sum:"AI holds no law-making force; adoption is constitutive (void-first-draft).", url:u1("Constitution/CASE-LAW.md")},
+  {id:"R_PC4", label:"REALM-PC 4", cite:"[2026] REALM-PC 4", estate:"v1", kind:"case", sum:"The committed corpus is the source of law; a derived index is never authority.", url:u1("Judicature/.justice/INDEX.md")},
+  {id:"R_SC6", label:"REALM-SC 6", cite:"[2026] REALM-SC 6", estate:"v1", kind:"case", sum:"Single central apex; never relaxed.", url:u1("Constitution/CASE-LAW.md")},
+  {id:"R_PC15", label:"REALM-PC 15", cite:"[2026] REALM-PC 15", estate:"v1", kind:"case", sum:"Super-repo = realm-as-state; the PC is its central first-instance court.", url:u1("Judicature/.justice/INDEX.md")},
+  {id:"R_PC17", label:"REALM-PC 17", cite:"[2026] REALM-PC 17", estate:"v1", kind:"case", sum:"Default subscription is not perpetual subjection; local sovereignty preserved.", url:u1("Judicature/.justice/INDEX.md")},
+  {id:"R_SI6", label:"REALM-SI 6", cite:"[2026] REALM-SI 6", estate:"v1", kind:"case", sum:"Repositories House: the registrar of repos (an MBES function).", url:u1("Legislature/statutes/instruments/2026-realm-si-6-repositories-house.md")},
+  {id:"R_SI7", label:"REALM-SI 7", cite:"[2026] REALM-SI 7", estate:"v1", kind:"case", sum:"The release warrant + post-push review.", url:u1("Legislature/statutes/instruments/2026-realm-si-7-super-repo-public-push-review.md")},
+];
+const L = [
+  ["R_PC24","R_SC10","founds"],["R_SC10","S23","founds"],["R_SC10","CFR","founds"],["R_BILL32","CFR","founds"],
+  ["CFR","FRAMEWORK","founds"],["S23","INVASSENT","enforces"],["CFR","INVASSENT","enforces"],
+  ["FRAMEWORK","REG_MIG","parents"],["FRAMEWORK","REG_FED","parents"],["FRAMEWORK","REG_TRANS","parents"],
+  ["FRAMEWORK","REG_CANON","parents"],["FRAMEWORK","REG_GAZ","parents"],["FRAMEWORK","REG_REPOS","parents"],
+  ["FRAMEWORK","REG_HOOKS","parents"],["FRAMEWORK","REG_CONV","parents"],["FRAMEWORK","REG_WARRANT","parents"],["FRAMEWORK","REG_INVOKE","parents"],
+  ["PC1","REG_TRANS","effect"],["PC2","REG_CANON","effect"],["PC2","REG_GAZ","effect"],
+  ["PC3","S23","effect"],["PC3","R_SC10","source"],["PC5","REG_REPOS","effect"],["PC5","R_SI6","incorporates"],
+  ["PC6","REG_INVOKE","effect"],["PC6","R_PC15","incorporates"],["SC1","R_SC6","incorporates"],["SC1","R_PC17","source"],
+  ["DEC_HARNESS","REG_HOOKS","effect"],["DEC_HARNESS","REG_CONV","effect"],["DEC_SILENCE","CFR","effect"],
+  ["REG_WARRANT","R_SI7","incorporates"],["REG_REPOS","R_SI6","source"],["REG_MIG","R_PC4","source"],
+  ["FRAMEWORK","R_SC8","source"],["REG_FED","R_PC17","source"],["PC4","S23","source"],
+  ["REG_GAZ","R_PC4","source"],["CFR","R_SC1","source"],["PC2","R_SC6","incorporates"],
+];
+
+const KCOL = { constitution:"#fcd34d", regulation:"#5eead4", ruling:"#67e8f9", decision:"#c4b5fd", invariant:"#a78bfa", case:"#fbbf24" };
+const KSIZE = { constitution:9, regulation:5, ruling:6, decision:4.5, invariant:4.5, case:6 };
+const ECOL = { founds:"rgba(252,211,77,.55)", parents:"rgba(94,234,212,.28)", incorporates:"rgba(251,191,36,.45)", source:"rgba(251,191,36,.22)", effect:"rgba(103,232,249,.30)", enforces:"rgba(167,139,250,.45)" };
+
+const nodes = N.map(n => ({...n, color:KCOL[n.kind], val:KSIZE[n.kind]}));
+const links = L.map(([source,target,type]) => ({source,target,type}));
+const byId = Object.fromEntries(nodes.map(n=>[n.id,n]));
+const adj = {}; nodes.forEach(n=>adj[n.id]=new Set());
+links.forEach(l=>{ adj[l.source].add(l.target); adj[l.target].add(l.source); });
+
+let hoverId = null, selId = null;
+const dim = c => c.replace(/[\d.]+\)$/, "0.06)").replace("#", "rgba-").length ? c : c;
+
+const G = ForceGraph()(document.getElementById("graph"))
+  .backgroundColor("#05070f")
+  .graphData({nodes, links})
+  .nodeRelSize(5)
+  .nodeVal("val")
+  .linkColor(l => {
+    const on = hoverId && (l.source.id===hoverId||l.target.id===hoverId);
+    if (hoverId && !on) return "rgba(120,140,180,.05)";
+    return ECOL[l.type] || "rgba(150,170,200,.2)";
+  })
+  .linkWidth(l => (hoverId && (l.source.id===hoverId||l.target.id===hoverId)) ? 2 : 0.6)
+  .linkDirectionalParticles(l => (l.type==="founds"||l.type==="incorporates") ? 2 : 0)
+  .linkDirectionalParticleWidth(2)
+  .linkDirectionalParticleSpeed(0.006)
+  .nodeCanvasObject((node, ctx, scale) => {
+    const r = Math.sqrt(node.val) * 2.4;
+    const active = !hoverId || node.id===hoverId || adj[hoverId].has(node.id);
+    const a = active ? 1 : 0.12;
+    // glow
+    const g = ctx.createRadialGradient(node.x,node.y,0,node.x,node.y,r*3.2);
+    g.addColorStop(0, hexA(node.color, .55*a)); g.addColorStop(1, hexA(node.color,0));
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(node.x,node.y,r*3.2,0,2*Math.PI); ctx.fill();
+    // core
+    ctx.beginPath(); ctx.arc(node.x,node.y,r,0,2*Math.PI);
+    ctx.fillStyle=hexA(node.color,a); ctx.fill();
+    if (node.id===selId){ ctx.lineWidth=1.6/scale; ctx.strokeStyle="#ffffff"; ctx.stroke(); }
+    // label
+    if (scale>1.4 || node.id===hoverId || node.id===selId || node.kind==="constitution"){
+      ctx.font=`${11/scale}px -apple-system,Inter,sans-serif`;
+      ctx.fillStyle=hexA("#dce6ff", active?0.9:0.15); ctx.textAlign="center"; ctx.textBaseline="top";
+      ctx.fillText(node.label, node.x, node.y + r + 2/scale);
+    }
+  })
+  .onNodeHover(node => { hoverId = node?node.id:null; document.body.style.cursor = node?"pointer":"default"; })
+  .onNodeClick(node => { openPanel(node); G.centerAt(node.x, node.y, 600); G.zoom(2.4, 600); })
+  .onBackgroundClick(closePanel);
+
+G.d3Force("charge").strength(-180);
+G.d3Force("link").distance(l => l.type==="parents"?45 : l.type==="founds"?60 : 70);
+
+function hexA(hex, a){
+  if(hex.startsWith("rgba")) return hex;
+  const h=hex.replace("#",""); const n=parseInt(h,16);
+  return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;
+}
+function openPanel(node){
+  selId = node.id;
+  document.getElementById("p-kicker").textContent = node.estate==="v2" ? "Current estate" : "V1 archive estate (source)";
+  document.getElementById("p-title").textContent = node.label;
+  document.getElementById("p-cite").textContent = node.cite;
+  document.getElementById("p-meta").innerHTML = [node.estate.toUpperCase(), node.kind].map(t=>`<span class="tag">${t}</span>`).join("");
+  document.getElementById("p-summary").textContent = node.sum;
+  document.getElementById("p-links").innerHTML = `<a href="${node.url}" target="_blank" rel="noopener">Open the source &rarr;</a>`;
+  const ns = [...adj[node.id]].map(id=>`<span onclick="openById('${id}')">${byId[id].label}</span>`).join(" &middot; ");
+  document.getElementById("p-neigh").innerHTML = ns ? "Connected: "+ns : "";
+  document.getElementById("panel").classList.add("open");
+}
+function openById(id){ const n=byId[id]; openPanel(n); G.centerAt(n.x,n.y,600); G.zoom(2.4,600); }
+function closePanel(){ selId=null; document.getElementById("panel").classList.remove("open"); }
+document.getElementById("q").addEventListener("input", e => {
+  const q = e.target.value.trim().toLowerCase();
+  hoverId = null;
+  if(!q){ G.nodeColor(n=>n.color); return; }
+  const hit = nodes.find(n => (n.label+" "+n.cite+" "+n.sum).toLowerCase().includes(q));
+  if(hit){ hoverId = hit.id; G.centerAt(hit.x,hit.y,500); G.zoom(2,500); }
+});
+window.openById = openById; window.closePanel = closePanel;
+setTimeout(()=>G.zoomToFit(600,80), 400);
+</script>
+</body>
+</html>
