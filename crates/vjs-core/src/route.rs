@@ -127,6 +127,13 @@ fn log_required(input: &RouteInput, outcome: &RouteOutcome) -> bool {
 
 fn build_must_do(input: &RouteInput, outcome: &RouteOutcome) -> Vec<String> {
     let mut must = Vec::new();
+    if *outcome == RouteOutcome::CourtRequired {
+        // The lawful disposition of a fork is to convene, on the agent's own
+        // motion, on a symmetric case file with no access to the agent's
+        // preference (LEXBY-SC 3 s.17(b); the forks-go-to-the-court rule).
+        must.push("convene_the_named_court_on_own_motion".into());
+        must.push("file_symmetric_case_file_no_preference".into());
+    }
     if log_required(input, outcome) {
         must.push("write_decision_log".into());
     }
@@ -139,8 +146,15 @@ fn build_must_do(input: &RouteInput, outcome: &RouteOutcome) -> Vec<String> {
     must
 }
 
-fn build_must_not_do(input: &RouteInput, _outcome: &RouteOutcome) -> Vec<String> {
+fn build_must_not_do(input: &RouteInput, outcome: &RouteOutcome) -> Vec<String> {
     let mut must_not = Vec::new();
+    if *outcome == RouteOutcome::CourtRequired {
+        // A first-impression/breach/conflict fork is the court's, not the
+        // Principal's: do not route it to the Principal, and do not improvise.
+        must_not.push("route_the_fork_to_the_principal".into());
+        must_not.push("ask_the_principal_to_choose_between_approaches".into());
+        must_not.push("proceed_without_a_ruling".into());
+    }
     if input.public_target {
         must_not.push("publish_private_facts".into());
     }

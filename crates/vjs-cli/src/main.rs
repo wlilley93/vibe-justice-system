@@ -49,6 +49,19 @@ enum Commands {
         external: bool,
         #[arg(long)]
         irreversible: bool,
+        /// Function-hook mode: exit non-zero (fail closed) when the kernel
+        /// requires a court or blocks, so an executable hook can gate the action.
+        #[arg(long)]
+        gate: bool,
+    },
+    /// Functional hook (REG-HOOKS-001): deterministic decision over repo state.
+    Hook {
+        #[arg(long)]
+        event: String,
+        #[arg(long = "path")]
+        paths: Vec<PathBuf>,
+        #[arg(long)]
+        tool: Option<String>,
     },
     Lookup {
         #[arg(long)]
@@ -172,9 +185,10 @@ fn main() {
 
     let result = match cli.command {
         Commands::Init { lawpack } => cmd_init(&repo, lawpack),
-        Commands::Route { kind, issue, risk, intent, public, external, irreversible } => {
-            cmd_route(&repo, kind, issue, risk, intent, public, external, irreversible, json)
+        Commands::Route { kind, issue, risk, intent, public, external, irreversible, gate } => {
+            cmd_route(&repo, kind, issue, risk, intent, public, external, irreversible, gate, json)
         }
+        Commands::Hook { event, paths, tool } => cmd_hook(&repo, event, paths, tool, json),
         Commands::Lookup { issue, limit } => cmd_lookup(&repo, issue, limit, json),
         Commands::Log { subcmd } => cmd_log(&repo, subcmd, json),
         Commands::Proof { subcmd } => cmd_proof(&repo, subcmd, json),
@@ -235,6 +249,7 @@ fn cmd_route(
     public: bool,
     external: bool,
     irreversible: bool,
+    gate: bool,
     json: bool,
 ) -> Result<(), KernelError> {
     let action_kind = parse_action_kind(&kind);
@@ -302,6 +317,59 @@ fn cmd_route(
         }
     }
 
+    // Function-hook mode: fail closed so an executable hook can gate the action.
+    if gate {
+        match decision.decision {
+            RouteOutcome::CourtRequired => {
+                eprintln!("BLOCK: court required - convene on own motion; do not route the fork to the Principal.");
+                std::process::exit(2);
+            }
+            RouteOutcome::Blocked => {
+                eprintln!("BLOCK: action blocked by the kernel.");
+                std::process::exit(2);
+            }
+            RouteOutcome::HumanApprovalRequired
+            | RouteOutcome::ReleaseWarrantRequired
+            | RouteOutcome::PrivateBoundaryRequired => {
+                eprintln!("BLOCK: a warrant/approval/boundary condition must be satisfied first.");
+                std::process::exit(3);
+            }
+            _ => {}
+        }
+    }
+
+    Ok(())
+}
+
+fn cmd_hook(
+    repo: &PathBuf,
+    event: String,
+    paths: Vec<PathBuf>,
+    tool: Option<String>,
+    json: bool,
+) -> Result<(), KernelError> {
+    let hook_event = vjs_core::hook::parse_event(&event)
+        .ok_or_else(|| KernelError::InvalidInput(format!("unknown hook event: {}", event)))?;
+    let input = vjs_core::hook::HookInput {
+        event: hook_event,
+        repo_root: repo.clone(),
+        actor: "lexby".into(),
+        paths,
+        tool,
+    };
+    let ctx = build_kernel_context(repo)?;
+    let decision = vjs_core::hook::evaluate(&input, &ctx);
+
+    if json {
+        println!("{}", serde_json::to_string_pretty(&decision).unwrap());
+    } else {
+        println!("[{}] {}", decision.code(), decision.message());
+    }
+
+    let code = decision.exit_code();
+    if code != 0 {
+        std::process::exit(code);
+    }
     Ok(())
 }
 
