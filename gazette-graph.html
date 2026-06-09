@@ -29,8 +29,8 @@
   #legend { top:16px; right:18px; font-size:.74rem; color:var(--muted); text-align:right;
     background:rgba(255,253,250,.88); border:1px solid var(--rule); border-radius:6px; padding:.5rem .65rem; }
   #legend .row { margin:2px 0; }
-  #legend .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-left:6px; vertical-align:middle; }
-  #legend .ring { background:var(--paper) !important; box-shadow:inset 0 0 0 2px currentColor; }
+  #legend .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-left:6px;
+    vertical-align:middle; border:1.5px solid var(--ink); }
   #legend .edge { display:inline-block; width:16px; height:2px; margin-left:6px; vertical-align:middle; }
   .filterrow { display:flex; gap:.3rem; justify-content:flex-end; margin-top:.4rem; }
   .tab { --tone:var(--ink); padding:.15rem .55rem; border:1px solid var(--tone); border-radius:999px;
@@ -96,13 +96,12 @@
 </div>
 
 <div id="legend" class="overlay">
-  <div class="row">Acts<span class="dot" style="background:var(--act)"></span></div>
-  <div class="row">Instruments &amp; regulations<span class="dot" style="background:var(--si)"></span></div>
-  <div class="row">Supreme Court<span class="dot" style="background:var(--sc)"></span></div>
-  <div class="row">Privy Council<span class="dot" style="background:var(--pc)"></span></div>
-  <div class="row">First instance &amp; decisions<span class="dot" style="background:var(--first)"></span></div>
-  <div class="row">Machinery (invariants, obligations, specs)<span class="dot" style="background:var(--submission)"></span></div>
-  <div class="row">The honoured archive = ringed<span class="dot ring" style="color:var(--v1)"></span></div>
+  <div class="row">Acts<span class="dot" style="background:var(--act-bg);border-color:var(--act)"></span></div>
+  <div class="row">Instruments &amp; regulations<span class="dot" style="background:var(--si-bg);border-color:var(--si)"></span></div>
+  <div class="row">Supreme Court<span class="dot" style="background:var(--sc-bg);border-color:var(--sc)"></span></div>
+  <div class="row">Privy Council<span class="dot" style="background:var(--pc-bg);border-color:var(--pc)"></span></div>
+  <div class="row">First instance &amp; decisions<span class="dot" style="background:var(--first-bg);border-color:var(--first)"></span></div>
+  <div class="row">The honoured archive = paper fill, dashed ring<span class="dot" style="background:var(--paper);border-color:var(--v1);border-style:dashed"></span></div>
   <div class="row">citation<span class="edge" style="background:rgba(26,39,68,.5)"></span>
     &nbsp;lineage<span class="edge" style="background:rgba(61,127,189,.6)"></span></div>
   <div class="filterrow">
@@ -112,6 +111,7 @@
   </div>
   <div class="filterrow">
     <button class="tab active" id="lineage-toggle" title="Show derived authority lineage: the force a record holds from its enacting authority even when it never cites it textually">Authority lineage</button>
+    <button class="tab" id="machinery-toggle" title="Show the kernel machinery: invariants, obligations, and specs, each bound to the statute book by its enacting law">Machinery</button>
   </div>
 </div>
 
@@ -143,6 +143,11 @@ const TONES = {
   sc:'#8a5a00', ca:'#1d4f91', first:'#3d7fbd', act:'#b42318', si:'#761919',
   pc:'#a31963', submission:'#4b5563',
 };
+// A star wears its chip: the same tone-on-tint pair as the Gazette chips.
+const TONE_BG = {
+  sc:'#fff2bf', ca:'#e8f1ff', first:'#eef7ff', act:'#fff0ec', si:'#fbe6e6',
+  pc:'#fde7f3', submission:'#f3f4f6',
+};
 function tone(d) {
   if (d.kind === 'statute' || d.kind === 'act') return 'act';
   if (d.kind === 'regulation' || d.kind === 'rule' || d.kind === 'instrument') return 'si';
@@ -163,8 +168,13 @@ const COURT_LABEL = { sc:'Supreme Court', pc:'Privy Council', ca:'Court of Appea
 const inbound = new Map();
 for (const d of ITEMS) for (const c of d.cites || []) inbound.set(c, (inbound.get(c) || 0) + 1);
 
-let estate = 'all', lineageOn = true;
-function visible(d) { return estate === 'all' || d.estate === estate; }
+// Machinery (invariants, obligations, specs) is enforcement detail bound to
+// the statute book by its enacting law; the constellation starts without it.
+let estate = 'all', lineageOn = true, machineryOn = false;
+function visible(d) {
+  if (!machineryOn && tone(d) === 'submission') return false;
+  return estate === 'all' || d.estate === estate;
+}
 
 function buildData() {
   const nodes = ITEMS.filter(visible).map(d => ({ ...d }));
@@ -193,21 +203,25 @@ const Graph = ForceGraph()(document.getElementById('graph'))
   .linkDirectionalParticles(l => (selected && (l.source.id === selected || l.target.id === selected)) ? 2 : 0)
   .nodeCanvasObject((d, ctx, scale) => {
     const r = Math.sqrt(2 + Math.min(10, (inbound.get(d.id) || 0) * 1.4)) * 2.2;
-    const colour = TONES[tone(d)];
+    const t = tone(d);
     const dim = query && !matchesQuery(d);
     ctx.globalAlpha = dim ? .14 : 1;
     ctx.beginPath();
     ctx.arc(d.x, d.y, r, 0, 2 * Math.PI);
-    if (d.estate === 'v1') {            // the archive: a ringed star
+    // Chip-styled stars: tone ring on the chip's tint. The canon wears the
+    // tint; the archive keeps a paper fill and a dashed ring.
+    if (d.estate === 'v1') {
       ctx.fillStyle = '#fffdfa';
       ctx.fill();
-      ctx.lineWidth = 1.8;
-      ctx.strokeStyle = colour;
-      ctx.stroke();
-    } else {                            // the canon: a solid star
-      ctx.fillStyle = colour;
+      ctx.setLineDash([2, 1.6]);
+    } else {
+      ctx.fillStyle = TONE_BG[t];
       ctx.fill();
     }
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = TONES[t];
+    ctx.stroke();
+    ctx.setLineDash([]);
     if (selected === d.id || highlightIds.has(d.id)) {
       ctx.beginPath();
       ctx.arc(d.x, d.y, r + 2.5, 0, 2 * Math.PI);
@@ -248,6 +262,11 @@ document.getElementById('lineage-toggle').onclick = function () {
   this.classList.toggle('active', lineageOn);
   Graph.graphData(buildData());
 };
+document.getElementById('machinery-toggle').onclick = function () {
+  machineryOn = !machineryOn;
+  this.classList.toggle('active', machineryOn);
+  Graph.graphData(buildData());
+};
 
 // Escapes for BOTH element and attribute context (quotes included).
 function esc(t) {
@@ -258,6 +277,20 @@ function esc(t) {
 function openPanel(id) {
   const d = byId.get(id);
   if (!d) return;
+  // Reading wins over filters: reveal what the reader asked for.
+  let rebuild = false;
+  if (!machineryOn && tone(d) === 'submission') {
+    machineryOn = true;
+    document.getElementById('machinery-toggle').classList.add('active');
+    rebuild = true;
+  }
+  if (estate !== 'all' && d.estate !== estate) {
+    estate = 'all';
+    document.querySelectorAll('[data-estate]').forEach(x =>
+      x.classList.toggle('active', x.dataset.estate === 'all'));
+    rebuild = true;
+  }
+  if (rebuild) Graph.graphData(buildData());
   selected = id;
   highlightIds = new Set([
     ...(d.cites || []),
@@ -275,7 +308,14 @@ function openPanel(id) {
     d.status ? `<span class="chip status">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : '',
   ].join('');
   document.getElementById('p-chips').innerHTML = chips;
-  document.getElementById('p-cite').textContent = d.citation || d.id;
+  const fmtDate = iso => {
+    if (!iso) return '';
+    const [y, m, day] = iso.split('-').map(Number);
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    return `${day} ${months[m - 1]} ${y}`;
+  };
+  document.getElementById('p-cite').textContent =
+    (d.citation || d.id) + (d.date ? ' · ' + fmtDate(d.date) : '');
   document.getElementById('p-summary').textContent = d.summary;
 
   const pts = d.points || [];

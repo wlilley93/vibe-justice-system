@@ -21,7 +21,7 @@
   body { margin:0; background:var(--cream); color:#15202b;
     font-family:'Iowan Old Style','Palatino Linotype','Times New Roman',serif; line-height:1.5; }
   header { text-align:center; padding:2rem 1rem 1rem; border-bottom:2px solid var(--ink); }
-  .logo { display:block; width:min(170px,42vw); height:auto; margin:0 auto .6rem; }
+  .logo { display:block; width:min(300px,64vw); height:auto; margin:0 auto .7rem; }
   header h1 { margin:.2rem 0; font-size:1.9rem; letter-spacing:.04em; color:var(--ink); }
   header .sub { color:var(--muted); font-style:italic; font-size:.95rem; }
   .wrap { max-width:980px; margin:0 auto; padding:1.2rem 1rem 4rem; }
@@ -98,6 +98,7 @@
   <input id="q" placeholder="Search the law&hellip;  (e.g. assent, permits, hooks, PC 5, REALM-SC 10)" autocomplete="off">
   <div class="tabs" id="estate-tabs"></div>
   <div class="tabs" id="class-tabs"></div>
+  <div class="tabs" id="sort-tabs"></div>
   <div class="meta" id="meta"></div>
   <div id="list"></div>
 </div>
@@ -135,7 +136,15 @@ const ESTATE_CHIP = { v2:'Canon', v1:'Archive' };
 const KIND_ORDER = { statute:0, act:0, regulation:1, instrument:1, rule:2, order:3, judgment:3,
   decision:4, invariant:5, obligation:6, spec:7 };
 
-let estate = 'all', klass = 'all', query = '';
+const SORT_TABS = [['newest','Newest first'], ['oldest','Oldest first'], ['kind','By kind']];
+let estate = 'all', klass = 'all', query = '', sortMode = 'newest';
+
+function fmtDate(iso) {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-').map(Number);
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return `${d} ${months[m - 1]} ${y}`;
+}
 
 function goodBad(status) {
   const s = (status || '').toLowerCase();
@@ -158,15 +167,21 @@ function matches(d) {
 }
 
 function sorted(list) {
-  return [...list].sort((a, b) =>
-    (a.estate === b.estate ? 0 : a.estate === 'v2' ? -1 : 1) ||
+  // The canon leads the archive in every mode (the parts of the Gazette);
+  // inside a part, the chosen order applies.
+  const byEstate = (a, b) => (a.estate === b.estate ? 0 : a.estate === 'v2' ? -1 : 1);
+  const byKind = (a, b) =>
     ((KIND_ORDER[a.kind] ?? 9) - (KIND_ORDER[b.kind] ?? 9)) ||
-    a.id.localeCompare(b.id, undefined, { numeric: true }));
+    a.id.localeCompare(b.id, undefined, { numeric: true });
+  const byDateDesc = (a, b) => (b.date || '').localeCompare(a.date || '') || byKind(a, b);
+  const byDateAsc = (a, b) => (a.date || '').localeCompare(b.date || '') || byKind(a, b);
+  const inner = sortMode === 'newest' ? byDateDesc : sortMode === 'oldest' ? byDateAsc : byKind;
+  return [...list].sort((a, b) => byEstate(a, b) || inner(a, b));
 }
 
 function card(d) {
   const t = tone(d);
-  const courtLine = [d.citation, KIND_LABEL[d.kind] || d.kind, COURT_LABEL[d.court] || '']
+  const courtLine = [d.citation, KIND_LABEL[d.kind] || d.kind, COURT_LABEL[d.court] || '', fmtDate(d.date)]
     .filter(Boolean).map(esc).join(' &middot; ');
   const gb = goodBad(d.status);
   const points = (d.points || []).map(p => `<li>${esc(p)}</li>`).join('');
@@ -203,6 +218,8 @@ function render() {
   tabBar(document.getElementById('class-tabs'), CLASS_TABS, klass,
     k => ITEMS.filter(d => (k === 'all' || tone(d) === k) && (estate === 'all' || d.estate === estate)).length,
     k => { klass = k; render(); });
+  tabBar(document.getElementById('sort-tabs'), SORT_TABS, sortMode,
+    () => '', k => { sortMode = k; render(); });
   document.getElementById('meta').textContent =
     `${shown.length} of ${ITEMS.length} items shown. Colour and chips are orientation aids only; the committed law is the source.`;
   // One Gazette, two estates: the list is structured in parts.
