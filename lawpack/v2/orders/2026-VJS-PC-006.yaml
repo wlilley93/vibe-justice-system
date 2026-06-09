@@ -1,0 +1,54 @@
+id: 2026-VJS-PC-006
+assent_source: standing_bounded_assent
+court: privy_council
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: governance.superrepo-self-invocation
+holding: >
+  V2 Privy Council, 3-0. The canon super-repo (the realm-as-state) must
+  self-invoke under REG-INVOCATION-001: binding flows from the kernel-readable
+  invocation anchor (.vjs/config.toml + the locked lawpack digest + the recorded
+  local_sovereign_invocation), never from authoring the law - authorship is no
+  exemption (no-one above the law). Its self-subscription to its own lawpack is a
+  coherent digest snapshot, not circular. The invocation already lodged is
+  substantively good but incomplete, the enforcement hooks not yet installed; it
+  must be perfected by installing them (REG-INVOCATION-001 makes the hook install
+  a must). The Privy Council is the realm-as-state's first-instance / County-Court
+  analogue for realm-level matters: this order incorporates the ratio of [2026]
+  REALM-PC 15 (an archival V1 source, inert in V2 until incorporated) with a
+  mandatory kernel effect to that end. First-instance is not apex: a realm-level
+  PC decision remains appealable upward to the Court of Appeal and the Supreme
+  Court by permission to appeal; no new tier, seat, apex, or citation series is
+  created and the single apex is undisturbed. Settled by ruling and this order; no
+  legislation and no kernel change.
+directives:
+  - id: D1
+    actor: agent
+    must: perfect_the_canon_self_invocation_by_installing_the_enforcement_hooks
+    when: after_order
+  - id: D2
+    actor: agent
+    must: treat_the_privy_council_as_the_realm_as_state_first_instance_for_realm_level_matters
+    when: routing_a_realm_level_matter
+  - id: D3
+    actor: agent
+    must: keep_a_realm_level_pc_first_instance_decision_appealable_upward_to_the_ca_and_sc
+    when: a_realm_level_pc_decision_is_challenged
+forbidden:
+  - exempting_the_canon_from_its_own_law_by_reason_of_authorship
+  - treating_the_pc_first_instance_seat_as_a_new_apex_or_relaxing_the_single_apex
+  - binding_the_canon_by_directory_ancestry_instead_of_invocation
+incorporates:
+  - source: "[2026] REALM-PC 15"
+    rule: "the super-repo is the realm-as-state and the Privy Council is its central first-instance court"
+    kernel_effect: pc_is_realm_as_state_first_instance_appealable_upward
+supersedes: []
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-006-opinion.md"
+runtime_summary: >
+  The canon self-invokes like any jurisdiction (binding by invocation, not
+  authorship); its lodged invocation must be perfected by installing the hooks.
+  The Privy Council is the realm-as-state's first-instance court (incorporating
+  REALM-PC 15 with a mandatory effect), appealable upward to the CA and SC; no new
+  apex. Ruling + order; no legislation.
+created_at: "2026-06-09T00:00:00Z"
