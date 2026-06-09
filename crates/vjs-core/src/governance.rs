@@ -271,10 +271,12 @@ impl PermitGate {
                 if let Some(ref paths) = scope.paths {
                     paths.iter().any(|glob| PathClassifier::glob_matches(glob, &path_str))
                 } else {
-                    true // no path scope means all paths
+                    false // a permit with a scope but no paths covers nothing
                 }
             } else {
-                true // no scope means all paths
+                false // a permit with no scope covers nothing - it must name the
+                      // paths it excuses, or it would blanket-cover every governed
+                      // write (the permit-scoping rule). A route now scopes its permit.
             };
 
             scope_covers
