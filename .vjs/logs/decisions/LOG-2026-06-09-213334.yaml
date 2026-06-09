@@ -1,0 +1,12 @@
+id: LOG-2026-06-09-213334
+time: 2026-06-09T21:33:34.563418256+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260609-213320
+decision: 'WORKPLAN-001 D1, D2, D5 delivered. law.html is the one document URL for the whole record: under the new compact Gazette bar (cropped mark, wordmark, Register/Constellation/Feed links, the single GitHub logo), an archive item opens as its actual PDF embedded full-height with title, two uniform tone chips, and metadata above it; a canon item renders as a full-page law document (lead purpose, anchored sections with kernel-effect facts panels, directive tables, predicate blocks, linkified citations, association sections) with status, force, severity, and assent prominent in the document head per the order''s Q2 settlement. The seven archive records V1 never rendered (REALM-SC-10, REALM-PC-24, BILL-32, SI-8..11) now have Gazette-derived PDFs generated from their frozen v1-branch sources, each carrying a face marker naming itself a derived presentation with the source of record unchanged: the archive stands at full 36-of-36 PDF parity, all served by the Gazette itself, never GitHub.'
+basis:
+- PERMIT-1781040800
+risk: low
+reversibility: easy
+court_required: false
+why: The order's D1 requires document-first click-through, D2 permits marked derived PDFs, D5 relocates status into the document. 58 tests green; both modes screenshot-verified.

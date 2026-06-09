@@ -1,7 +1,8 @@
 # The V1 archive estate as published in the Gazette (curated; the V1 corpus
 # is frozen on the immutable v1 branch, so this curation is stable).
 # Paths are relative to the v1 branch; pdf points at the carried copy under
-# archive/pdfs/ served by the Gazette itself.
+# archive/pdfs/ (-derived.pdf files are Gazette-rendered presentations of
+# the frozen sources, clearly marked as such on their face).
 items:
 - id: REALM-SC-1
   title: '[2026] REALM-SC 1 - Tort recast and foundational settlement'
@@ -184,6 +185,7 @@ items:
   cites:
   - REALM-PC-24
   - REALM-SC-8
+  pdf: archive/pdfs/2026-realm-sc-10-derived.pdf
 - id: REALM-CA-1
   title: '[2026] REALM-CA 1 - s.8/s.5 sequencing dismissed'
   kind: judgment
@@ -371,6 +373,7 @@ items:
   - REALM-PC-12
   - REALM-SC-5
   - REALM-SC-6
+  pdf: archive/pdfs/2026-realm-pc-24-derived.pdf
 - id: BILL-1
   title: '[2026] Acts of Union'
   kind: act
@@ -549,6 +552,7 @@ items:
   date: '2026-06-09'
   cites:
   - BILL-14
+  pdf: archive/pdfs/32-computer-first-realm-act-2026-derived.pdf
 - id: SI-6
   title: '[2026] REALM-SI 6 - Repositories House Instrument'
   kind: instrument
@@ -613,6 +617,7 @@ items:
   - BILL-13
   - BILL-18
   - REALM-SC-9
+  pdf: archive/pdfs/2026-realm-si-8-agent-lawfulness-hooks-derived.pdf
 - id: SI-9
   title: '[2026] REALM-SI 9 - Gazette Graph Database'
   kind: instrument
@@ -635,6 +640,7 @@ items:
   - BILL-8
   - BILL-16
   - BILL-20
+  pdf: archive/pdfs/2026-realm-si-9-gazette-graph-database-derived.pdf
 - id: SI-10
   title: '[2026] REALM-SI 10 - Agent Lawfulness Hooks (Agent-Agnostic Amendment)'
   kind: instrument
@@ -656,6 +662,7 @@ items:
   - BILL-13
   - BILL-18
   - BILL-21
+  pdf: archive/pdfs/2026-realm-si-10-agent-lawfulness-hooks-agent-agnostic-amendment-derived.pdf
 - id: SI-11
   title: '[2026] REALM-SI 11 - Agent Lawfulness Hooks (Best-Efforts Trigger Amendment)'
   kind: instrument
@@ -677,3 +684,4 @@ items:
   - BILL-13
   - BILL-18
   - BILL-21
+  pdf: archive/pdfs/2026-realm-si-11-agent-lawfulness-hooks-best-efforts-trigger-amendment-derived.pdf

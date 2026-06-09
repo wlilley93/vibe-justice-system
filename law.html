@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The VJS Gazette - Document</title>
+<meta name="description" content="A document of the record: read the law of the realm in full.">
+<link rel="alternate" type="application/atom+xml" title="The VJS Gazette" href="gazette.xml">
+<link rel="canonical" href="https://wlilley93.github.io/vibe-justice-system/law.html">
+<meta property="og:title" content="The VJS Gazette - Document">
+<meta property="og:description" content="A document of the record: read the law of the realm in full.">
+<meta property="og:image" content="https://wlilley93.github.io/vibe-justice-system/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root {
+    --cream:#fcf7f1; --paper:#fffdfa; --ink:#1a2744; --rule:#c8d0dc; --muted:#5b6472; --accent:#8b0000;
+    --sc:#8a5a00;  --sc-bg:#fff2bf;
+    --ca:#1d4f91;  --ca-bg:#e8f1ff;
+    --first:#3d7fbd; --first-bg:#eef7ff;
+    --act:#b42318; --act-bg:#fff0ec;
+    --si:#761919;  --si-bg:#fbe6e6;
+    --pc:#a31963;  --pc-bg:#fde7f3;
+    --submission:#4b5563; --submission-bg:#f3f4f6;
+    --v1:#7a5c1e;  --v1-bg:#f6eeda;
+    --v2:#1a5c46;  --v2-bg:#e9f5ef;
+  }
+  * { box-sizing:border-box; }
+  html, body { margin:0; min-height:100%; background:var(--cream); color:#15202b;
+    font-family:'Iowan Old Style','Palatino Linotype','Times New Roman',serif; line-height:1.55; }
+
+  /* the compact header bar */
+  .bar { position:sticky; top:0; z-index:9; display:flex; align-items:center; gap:.8rem;
+    padding:.45rem .9rem; background:var(--paper); border-bottom:2px solid var(--ink); }
+  .bar img.mark { height:34px; width:auto; display:block; }
+  .bar .word { line-height:1.1; }
+  .bar .word b { display:block; font-size:.95rem; letter-spacing:.03em; color:var(--ink); }
+  .bar .word span { font-size:.64rem; color:var(--muted); font-style:italic; }
+  .bar nav { display:flex; gap:.9rem; margin-left:1rem; }
+  .bar nav a { color:var(--ink); text-decoration:none; font-size:.85rem; border-bottom:1px solid transparent; }
+  .bar nav a:hover { border-bottom-color:var(--ink); }
+  .bar .gh { margin-left:auto; display:flex; align-items:center; color:var(--ink); }
+  .bar .gh svg { width:22px; height:22px; display:block; }
+  .bar .gh:hover { opacity:.7; }
+
+  /* chips: the same tone-on-tint pairs as everywhere */
+  .chip { display:inline-block; width:7.2rem; text-align:center; border:1px solid var(--tone,var(--muted));
+    border-radius:4px; background:var(--tone-bg,#fff); color:var(--tone,var(--muted)); font-size:.66rem;
+    font-style:normal; font-weight:normal; letter-spacing:.04em; line-height:1.2; text-transform:uppercase;
+    padding:.1rem 0; margin:0 .3rem .25rem 0; vertical-align:.08rem; }
+  .chip.tone-sc { --tone:var(--sc); --tone-bg:var(--sc-bg); }
+  .chip.tone-ca { --tone:var(--ca); --tone-bg:var(--ca-bg); }
+  .chip.tone-first { --tone:var(--first); --tone-bg:var(--first-bg); }
+  .chip.tone-act { --tone:var(--act); --tone-bg:var(--act-bg); }
+  .chip.tone-si { --tone:var(--si); --tone-bg:var(--si-bg); }
+  .chip.tone-pc { --tone:var(--pc); --tone-bg:var(--pc-bg); }
+  .chip.tone-submission { --tone:var(--submission); --tone-bg:var(--submission-bg); }
+  .chip.tone-v1 { --tone:var(--v1); --tone-bg:var(--v1-bg); }
+  .chip.tone-v2 { --tone:var(--v2); --tone-bg:var(--v2-bg); }
+
+  /* the document */
+  main { max-width:50rem; margin:0 auto; padding:1.4rem 1.2rem 4rem; }
+  .kicker { font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+  h1 { margin:.25rem 0 .35rem; font-size:1.85rem; line-height:1.2; color:var(--ink); }
+  .docmeta { color:var(--muted); font-size:.88rem; margin:.2rem 0 .1rem; }
+  .docmeta b { color:var(--ink); font-weight:normal; }
+  .statusline { font-size:.88rem; margin:.2rem 0 1rem; color:var(--ink); }
+  .statusline .force { text-transform:uppercase; letter-spacing:.06em; font-size:.76rem;
+    border:1px solid var(--ink); border-radius:4px; padding:.06rem .45rem; margin-right:.5rem; }
+  .statusline .force.bad { color:var(--accent); border-color:var(--accent); }
+  .lead { font-size:1.04rem; font-style:italic; color:#33404f; border-left:3px solid var(--rule);
+    padding-left:.8rem; margin:1rem 0; }
+  .derived { background:var(--v1-bg); border:1px solid var(--v1); border-radius:6px; color:#5b4a1e;
+    font-size:.82rem; padding:.45rem .7rem; margin:.8rem 0; }
+  article { font-size:1rem; }
+  article p { margin:.6rem 0; }
+  article section { margin:1.2rem 0; padding-left:.9rem; border-left:3px solid var(--rule); }
+  article section:target, article section.flash { border-left-color:var(--ink); }
+  article section h3 { margin:.2rem 0 .3rem; font-size:1.08rem; color:var(--ink); }
+  .commentary { color:var(--muted); font-size:.88rem; font-style:italic; }
+  .facts { background:var(--paper); border:1px solid var(--rule); border-radius:6px; padding:.6rem .8rem;
+    font-size:.84rem; margin:.6rem 0; }
+  .facts b { font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);
+    display:block; margin-top:.4rem; }
+  .facts b:first-child { margin-top:0; }
+  article table { border-collapse:collapse; font-size:.86rem; margin:.6rem 0; width:100%; background:var(--paper); }
+  article td, article th { border:1px solid var(--rule); padding:.3rem .5rem; text-align:left; vertical-align:top; }
+  article th { font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .pred { font-family:ui-monospace,Menlo,monospace; font-size:.8rem; background:var(--paper);
+    border:1px solid var(--rule); border-radius:6px; padding:.6rem .8rem; white-space:pre-wrap; }
+  a.lawref { color:var(--ink); text-decoration:underline; text-decoration-color:var(--rule); cursor:pointer; }
+  a.lawref:hover { text-decoration-color:var(--ink); }
+  h2.sect { margin:1.6rem 0 .4rem; font-size:.78rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--muted); border-bottom:1px solid var(--rule); padding-bottom:.25rem; }
+  .neigh button { display:inline-block; color:var(--ink); cursor:pointer; font-size:.85rem; font-family:inherit;
+    border:1px solid var(--rule); border-radius:4px; background:var(--paper); padding:.15rem .5rem;
+    margin:.15rem .3rem .15rem 0; text-align:left; }
+  .neigh button:hover { border-color:var(--ink); }
+  .points { margin:.4rem 0; padding-left:1.25rem; }
+  .points li { margin:.3rem 0; }
+
+  /* the pdf mode */
+  .pdfhead { max-width:62rem; margin:0 auto; padding:.7rem 1.2rem .4rem; }
+  .pdfhead h1 { font-size:1.25rem; margin:.1rem 0; }
+  .pdfwrap { height:calc(100vh - 132px); max-width:62rem; margin:0 auto; padding:0 1.2rem 1rem; }
+  .pdfwrap embed { width:100%; height:100%; border:1.5px solid var(--ink); border-radius:6px; background:#fff; }
+
+  footer { border-top:1px solid var(--rule); margin-top:2rem; padding:1rem; text-align:center;
+    color:var(--muted); font-size:.78rem; font-style:italic; }
+
+  @media print {
+    .bar, footer, .neigh, h2.sect.assoc { display:none !important; }
+    body { background:#fff; }
+    .facts, .pred, article table { background:#fff; }
+    main { max-width:none; padding:0; }
+    a.lawref { text-decoration:none; color:#000; }
+    @page { margin:2cm; }
+  }
+</style>
+</head>
+<body>
+<noscript>
+  <div style="max-width:680px;margin:2rem auto;padding:1rem;border:1px solid #c8d0dc;border-radius:6px;background:#fffdfa">
+    <b>This document view renders with JavaScript; the record itself needs none.</b>
+    The canon is the lawpack under <code>lawpack/v2/</code>; machine-readable copies:
+    <a href="gazette-data.json">gazette-data.json</a> and <a href="gazette.xml">gazette.xml</a>.
+    Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001).
+  </div>
+</noscript>
+
+<div class="bar">
+  <img class="mark" src="assets/vjs-logo-mark.png" alt="">
+  <span class="word"><b>The VJS Gazette</b><span>the record of the realm</span></span>
+  <nav>
+    <a href="gazette.html">Register</a>
+    <a href="index.html">Constellation</a>
+    <a href="gazette.xml">Feed</a>
+  </nav>
+  <a class="gh" href="https://github.com/wlilley93/vibe-justice-system" title="The canonical repository" aria-label="The canonical repository on GitHub">
+    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+  </a>
+</div>
+
+<div id="page"></div>
+
+<footer id="colophon"></footer>
+
+<script src="gazette-data.js"></script>
+<script>
+'use strict';
+const ITEMS = window.GAZETTE.items;
+const byId = new Map(ITEMS.map(d => [d.id, d]));
+
+const TONES = { sc:'#8a5a00', ca:'#1d4f91', first:'#3d7fbd', act:'#b42318', si:'#761919',
+  pc:'#a31963', submission:'#4b5563' };
+function tone(d) {
+  if (d.kind === 'statute' || d.kind === 'act') return 'act';
+  if (d.kind === 'regulation' || d.kind === 'rule' || d.kind === 'instrument') return 'si';
+  if (d.kind === 'order' || d.kind === 'judgment') {
+    if (d.court === 'sc') return 'sc';
+    if (d.court === 'pc') return 'pc';
+    if (d.court === 'ca') return 'ca';
+    return 'first';
+  }
+  if (d.kind === 'decision') return 'first';
+  return 'submission';
+}
+const KIND_LABEL = { statute:'Act', act:'Act', regulation:'Regulation', rule:'Rule', instrument:'Instrument',
+  order:'Order', judgment:'Judgment', decision:'Decision', invariant:'Invariant', obligation:'Obligation', spec:'Spec' };
+const SOURCE_LABEL = { sc:'Supreme Court', pc:'Privy Council', ca:'Court of Appeal', county:'County Court' };
+function esc(t) {
+  return String(t ?? '').replace(/[&<>"']/g, c =>
+    ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+function fmtDate(iso) {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-').map(Number);
+  const M = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return `${d} ${M[m - 1]} ${y}`;
+}
+function goodBad(status) {
+  return /(void|per.incuriam|superseded|revoked|stayed)/.test((status || '').toLowerCase()) ? ' bad' : '';
+}
+
+/* citation linkification (same grammar as the explorer) */
+const ID_ALTERNATION = [...byId.keys()].sort((a, b) => b.length - a.length)
+  .map(id => id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+const ID_RE = new RegExp(`(^|[^\\w:-])(${ID_ALTERNATION})((?::s\\d+)?)(?![\\w-])`, 'g');
+const CITE_RE = /\[(\d{4})\]\s+(VJS|REALM)-([A-Z]{2})\s+(\d+)/g;
+function linkify(escaped) {
+  let out = escaped.replace(ID_RE, (m, pre, id, sec) =>
+    `${pre}<a class="lawref" href="law.html#${encodeURIComponent(id)}" data-id="${id}">${id}${sec}</a>`);
+  out = out.replace(CITE_RE, (m, year, realm, court, n) => {
+    const id = realm === 'VJS' ? `${year}-VJS-${court}-${String(n).padStart(3, '0')}` : `REALM-${court}-${n}`;
+    return byId.has(id) ? `<a class="lawref" href="law.html#${encodeURIComponent(id)}" data-id="${id}">${m}</a>` : m;
+  });
+  return out;
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('a.lawref');
+  if (a && a.dataset.id) { e.preventDefault(); location.hash = encodeURIComponent(a.dataset.id); }
+});
+
+/* the full text, lazily */
+let textPromise = null;
+function ensureText() {
+  if (window.GAZETTE_TEXT) return Promise.resolve();
+  if (!textPromise) textPromise = new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'gazette-text.js';
+    s.onload = res;
+    s.onerror = rej;
+    document.head.appendChild(s);
+  });
+  return textPromise;
+}
+function paras(text) {
+  return String(text || '').split(/\n+/).filter(Boolean).map(p => `<p>${linkify(esc(p))}</p>`).join('');
+}
+function factsPanel(obj, skip = []) {
+  if (!obj || typeof obj !== 'object') return '';
+  let out = '';
+  for (const [k, v] of Object.entries(obj)) {
+    if (skip.includes(k) || v == null) continue;
+    out += `<b>${esc(k.replace(/_/g, ' '))}</b>`;
+    if (Array.isArray(v)) out += v.map(x => `<div>${linkify(esc(typeof x === 'object' ? JSON.stringify(x) : String(x).replace(/_/g, ' ')))}</div>`).join('');
+    else if (typeof v === 'object') out += `<div>${esc(JSON.stringify(v, null, 1))}</div>`;
+    else out += `<div>${linkify(esc(String(v).replace(/_/g, ' ')))}</div>`;
+  }
+  return out ? `<div class="facts">${out}</div>` : '';
+}
+function predicate(rule, depth = 0) {
+  if (!rule || typeof rule !== 'object') return esc(String(rule ?? ''));
+  const pad = '  '.repeat(depth);
+  const kind = (rule.kind || '').toUpperCase();
+  const args = Object.entries(rule)
+    .filter(([k, v]) => !['kind', 'items', 'item', 'condition', 'then'].includes(k) && v != null)
+    .map(([k, v]) => `${k}: ${typeof v === 'object' ? JSON.stringify(v) : v}`).join(', ');
+  let out = `${pad}${kind}${args ? `(${args})` : ''}`;
+  if (rule.condition) out += `\n${pad}  WHEN\n${predicate(rule.condition, depth + 2)}`;
+  if (rule.then) out += `\n${pad}  THEN\n${predicate(rule.then, depth + 2)}`;
+  for (const it of rule.items || []) out += `\n${predicate(it, depth + 1)}`;
+  if (rule.item) out += `\n${predicate(rule.item, depth + 1)}`;
+  return out;
+}
+function renderBody(d, body) {
+  if (!body) return '';
+  switch (d.kind) {
+    case 'statute': {
+      let out = body.purpose ? `<div class="lead">${linkify(esc(body.purpose))}</div>` : '';
+      for (const sec of body.sections || []) {
+        const n = (sec.id || '').split(':').pop();
+        out += `<section id="sec:${esc(sec.id || '')}"><h3>${esc(n)} - ${esc(sec.title || '')}</h3>${paras(sec.text)}
+          ${sec.commentary ? `<p class="commentary">${linkify(esc(sec.commentary))}</p>` : ''}
+          ${factsPanel(sec.kernel_effect)}</section>`;
+      }
+      return out;
+    }
+    case 'regulation':
+      return `${body.authority ? `<p class="commentary">Made under ${linkify(esc(body.authority))}</p>` : ''}
+        ${paras(body.text)}${factsPanel(body.kernel_effect)}`;
+    case 'order': {
+      let out = paras(body.holding);
+      const dirs = body.directives || [];
+      if (dirs.length) {
+        out += `<table><tr><th>directive</th><th>actor</th><th>must</th></tr>` + dirs.map(x =>
+          `<tr><td>${esc(x.id || '')}</td><td>${esc(x.actor || '')}</td><td>${linkify(esc(String(x.must || '').replace(/_/g, ' ')))}</td></tr>`).join('') + `</table>`;
+      }
+      if (body.forbidden?.length) out += `<div class="facts"><b>forbidden</b>${body.forbidden.map(f => `<div>${esc(String(f).replace(/_/g, ' '))}</div>`).join('')}</div>`;
+      if (body.runtime_summary) out += `<p class="commentary">${linkify(esc(body.runtime_summary))}</p>`;
+      return out;
+    }
+    case 'decision':
+      return `${paras(body.decision)}${body.reason ? `<h2 class="sect">Reason</h2>${paras(body.reason)}` : ''}${factsPanel(body.consequences)}`;
+    case 'invariant':
+      return `${body.rule ? `<div class="pred">${predicate(body.rule)}</div>` : ''}${paras(body.remedy)}`;
+    case 'obligation':
+      return paras(body.text);
+    case 'spec':
+      return `${paras(body.purpose)}${factsPanel({ decisions: body.decisions, invariants: body.invariants, obligations: body.obligations })}`;
+    case 'rule':
+      return `${paras(body.summary)}${factsPanel(body.effect)}`;
+    default:
+      return '';
+  }
+}
+
+function chipsFor(d) {
+  const t = tone(d);
+  const source = d.court
+    ? `<span class="chip tone-${t}">${esc(SOURCE_LABEL[d.court] || d.court)}</span>`
+    : `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'The archive' : 'The canon'}</span>`;
+  return `<span class="chip tone-${t}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>${source}`;
+}
+function statusLine(d) {
+  const bits = [];
+  if (d.status) bits.push(`<span class="force${goodBad(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>`);
+  if (d.assent_source) bits.push(`assent: ${esc(d.assent_source.replace(/_/g, ' '))}`);
+  if (d.subject) bits.push(`subject: ${esc(d.subject)}`);
+  return bits.length ? `<div class="statusline">${bits.join(' &middot; ')}</div>` : '';
+}
+function assocSection(title, list) {
+  if (!list.length) return '';
+  return `<h2 class="sect assoc">${esc(title)}</h2><div class="neigh">${list.map(n =>
+    `<button data-go="${esc(n.id)}">${esc(n.title)}</button>`).join('')}</div>`;
+}
+
+const DERIVED = new URLSearchParams(location.search).has('derived');
+
+function render() {
+  const id = decodeURIComponent(location.hash.slice(1)).split(':')[0];
+  const d = byId.get(id);
+  const page = document.getElementById('page');
+  document.title = d ? `${d.title} - The VJS Gazette` : 'The VJS Gazette - Document';
+  if (!d) {
+    page.innerHTML = `<main><h1>Not in the register</h1>
+      <p>No document carries that identifier. <a class="lawref" href="gazette.html">Return to the register.</a></p></main>`;
+    return;
+  }
+
+  // the archive reads as its PDF, under the Gazette's chrome
+  if (d.pdf && !DERIVED) {
+    page.innerHTML = `<div class="pdfhead">
+        <div class="kicker">${d.estate === 'v1' ? 'The honoured archive' : 'The living canon'}</div>
+        <h1>${esc(d.title)}</h1>
+        <div>${chipsFor(d)}</div>
+        <div class="docmeta">${esc(d.citation || d.id)} &middot; ${esc(fmtDate(d.date))}${d.status ? ` &middot; ${esc(d.status.replace(/[_-]/g, ' '))}` : ''}</div>
+      </div>
+      <div class="pdfwrap"><embed src="${esc(d.pdf)}" type="application/pdf"
+        title="${esc(d.title)}"></div>
+      <p style="text-align:center;font-size:.8rem;color:var(--muted)">If the document does not display,
+        <a href="${esc(d.pdf)}">open the PDF directly</a>.</p>`;
+    return;
+  }
+
+  // the rendered document
+  const head = `<div class="kicker">${d.estate === 'v1' ? 'The honoured archive' : 'The living canon'}</div>
+    <h1>${esc(d.title)}</h1>
+    <div>${chipsFor(d)}</div>
+    <div class="docmeta"><b>${esc(d.citation || d.id)}</b> &middot; ${esc(fmtDate(d.date))}</div>
+    ${statusLine(d)}
+    ${DERIVED ? `<div class="derived">Derived presentation rendered by the Gazette on ${esc(fmtDate(new Date().toISOString().slice(0, 10)))}; the source of record is unchanged on the immutable v1 branch.</div>` : ''}
+    ${d.summary ? `<div class="lead">${linkify(esc(d.summary))}</div>` : ''}`;
+
+  const get = ids => (ids || []).map(c => byId.get(c)).filter(Boolean);
+  const assoc =
+    assocSection('Construes / relies on', get(d.cites)) +
+    assocSection('Derives force from', get(d.lineage)) +
+    assocSection('On the same docket', [...get(d.thread), ...ITEMS.filter(x => (x.thread || []).includes(d.id))]) +
+    assocSection('Supersedes', get(d.supersedes)) +
+    assocSection('Superseded by', get(d.superseded_by)) +
+    assocSection('Cited by', ITEMS.filter(x => (x.cites || []).includes(d.id)));
+
+  if (d.has_text) {
+    page.innerHTML = `<main>${head}<article><p class="commentary">Loading the text&hellip;</p></article></main>`;
+    ensureText().then(() => {
+      const current = decodeURIComponent(location.hash.slice(1)).split(':')[0];
+      if (current !== id) return;
+      const body = renderBody(d, (window.GAZETTE_TEXT || {})[id]) || '<p class="commentary">No renderable text.</p>';
+      page.innerHTML = `<main>${head}<article>${body}</article>${assoc}</main>`;
+      const want = decodeURIComponent(location.hash.slice(1));
+      if (want.includes(':')) {
+        const el = document.getElementById('sec:' + want);
+        if (el) { el.classList.add('flash'); el.scrollIntoView({ block: 'start' }); }
+      }
+      wireAssoc();
+    }).catch(() => {
+      page.innerHTML = `<main>${head}<article><p class="commentary">The text could not be loaded.</p></article>${assoc}</main>`;
+      wireAssoc();
+    });
+  } else {
+    const pts = (d.points || []).map(p => `<li>${linkify(esc(p))}</li>`).join('');
+    page.innerHTML = `<main>${head}
+      <article>${pts ? `<h2 class="sect">Main points</h2><ul class="points">${pts}</ul>` : ''}
+      <p class="commentary">The full text of this archive record lives on the immutable v1 branch;
+      this page presents the Gazette's curated digest.</p></article>${assoc}</main>`;
+    wireAssoc();
+  }
+}
+function wireAssoc() {
+  document.querySelectorAll('.neigh button').forEach(b =>
+    b.addEventListener('click', () => { location.hash = encodeURIComponent(b.dataset.go); }));
+}
+
+window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
+render();
+
+{
+  const m = window.GAZETTE.meta || {}, lp = m.lawpack || {};
+  document.getElementById('colophon').innerHTML =
+    `Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001): force comes from the lawpack and the
+     Sovereign's assent, never from publication. Generated ${esc((window.GAZETTE.generated_at || '').slice(0, 10))}
+     from ${esc(lp.id || 'the lawpack')} &middot; <a href="gazette-data.json">data</a> &middot; <a href="gazette.xml">feed</a>`;
+}
+</script>
+</body>
+</html>

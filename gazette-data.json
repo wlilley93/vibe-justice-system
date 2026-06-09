@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-09T21:27:50.255784356+00:00",
+  "generated_at": "2026-06-09T21:32:45.844617833+00:00",
   "items": [
     {
       "assent_source": "sovereign_assent",
@@ -3562,7 +3562,7 @@
       "kind": "judgment",
       "lineage": [],
       "path": "Judicature/.justice/judgments/supreme-court/2026-realm-sc-10.md",
-      "pdf": "",
+      "pdf": "archive/pdfs/2026-realm-sc-10-derived.pdf",
       "points": [
         "Settled V1-to-V2 migration; continuity construction; apex preserved",
         "Enacted CASE-LAW s. 23(1)-(6): Sovereign-assent floor and AI non-sovereignty",
@@ -3866,7 +3866,7 @@
       "kind": "judgment",
       "lineage": [],
       "path": "Judicature/.justice/judgments/privy-council/2026-realm-pc-24.md",
-      "pdf": "",
+      "pdf": "archive/pdfs/2026-realm-pc-24-derived.pdf",
       "points": [
         "Competence limb on all fours with REALM-SC 8/PC 12 (Bill 14 s. 9 agent)",
         "Founding lawful only if runs wholly through V1 organs (Committee draft + Assent)",
@@ -4166,7 +4166,7 @@
         "BILL-1"
       ],
       "path": "Legislature/legislature/bills/32-computer-first-realm-act-2026.md",
-      "pdf": "",
+      "pdf": "archive/pdfs/32-computer-first-realm-act-2026-derived.pdf",
       "points": [
         "Establishes V2 as computer-first successor to V1 on continuity",
         "Cited by REALM-SC 10 (V1-to-V2 migration minute)",
@@ -4265,7 +4265,7 @@
         "BILL-14"
       ],
       "path": "Legislature/statutes/instruments/2026-realm-si-8-agent-lawfulness-hooks.md",
-      "pdf": "",
+      "pdf": "archive/pdfs/2026-realm-si-8-agent-lawfulness-hooks-derived.pdf",
       "points": [
         "Agent lawfulness verification hooks (fail-closed by default)",
         "Public-law process for hook triggering and escalation",
@@ -4298,7 +4298,7 @@
         "BILL-14"
       ],
       "path": "Legislature/statutes/instruments/2026-realm-si-9-gazette-graph-database.md",
-      "pdf": "",
+      "pdf": "archive/pdfs/2026-realm-si-9-gazette-graph-database-derived.pdf",
       "points": [
         "Graph database for Gazette law reporting (Bill 16)",
         "Enables Gazette publication and legal graph queries",
@@ -4332,7 +4332,7 @@
         "BILL-14"
       ],
       "path": "Legislature/statutes/instruments/2026-realm-si-10-agent-lawfulness-hooks-agent-agnostic-amendment.md",
-      "pdf": "",
+      "pdf": "archive/pdfs/2026-realm-si-10-agent-lawfulness-hooks-agent-agnostic-amendment-derived.pdf",
       "points": [
         "Amends REALM-SI 8 to require agent-agnostic hook contract",
         "Enables delegable-workflow adapters across diverse agents",
@@ -4366,7 +4366,7 @@
         "BILL-14"
       ],
       "path": "Legislature/statutes/instruments/2026-realm-si-11-agent-lawfulness-hooks-best-efforts-trigger-amendment.md",
-      "pdf": "",
+      "pdf": "archive/pdfs/2026-realm-si-11-agent-lawfulness-hooks-best-efforts-trigger-amendment-derived.pdf",
       "points": [
         "Amends REALM-SI 8 and REALM-SI 10",
         "Requires best-efforts hook triggering (not perfect detection)",
@@ -4394,6 +4394,6 @@
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "000577c032ff645c13225adef1c55ce29afa63f6"
+    "source_commit": "5cc125c78f21a12142623d0c593d5b80477a19ce"
   }
 }
