@@ -2106,6 +2106,48 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     let feed_path = out_path.with_file_name("gazette.xml");
     std::fs::write(&feed_path, xml).map_err(io)?;
 
+    // JSON-LD: each register item as schema.org Legislation, injected
+    // idempotently between the marker tags in gazette.html. The
+    // legislationLegalForce property is deliberately omitted: asserting
+    // force from the publication surface would cut against inertness.
+    let gazette_page = out_path.with_file_name("gazette.html");
+    if let Ok(html) = std::fs::read_to_string(&gazette_page) {
+        const START: &str = "<script type=\"application/ld+json\" id=\"gazette-jsonld\">";
+        const END: &str = "</script>";
+        if let Some(s_idx) = html.find(START) {
+            if let Some(e_off) = html[s_idx + START.len()..].find(END) {
+                let mut graph = vec![serde_json::json!({
+                    "@type": "Periodical",
+                    "name": "The VJS Gazette",
+                    "url": SITE_BASE,
+                })];
+                for i in &items {
+                    let id = i["id"].as_str().unwrap_or_default();
+                    let citation = i["citation"].as_str().unwrap_or_default();
+                    graph.push(serde_json::json!({
+                        "@type": "Legislation",
+                        "name": i["title"],
+                        "legislationIdentifier": if citation.is_empty() { id } else { citation },
+                        "legislationDate": i["date"],
+                        "legislationType": i["kind"],
+                        "url": format!("{}law.html#{}", SITE_BASE, id),
+                        "isPartOf": { "@type": "Periodical", "name": "The VJS Gazette" },
+                    }));
+                }
+                let ld = serde_json::json!({ "@context": "https://schema.org", "@graph": graph });
+                let body = guard(serde_json::to_string(&ld).expect("jsonld serializes"));
+                let new_html = format!(
+                    "{}{}\n{}\n{}",
+                    &html[..s_idx],
+                    START,
+                    body,
+                    &html[s_idx + START.len() + e_off..]
+                );
+                std::fs::write(&gazette_page, new_html).map_err(io)?;
+            }
+        }
+    }
+
     if json {
         println!(
             "{}",
