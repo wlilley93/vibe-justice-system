@@ -1,0 +1,12 @@
+id: LOG-2026-06-09-175029
+time: 2026-06-09T17:50:29.517952428+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260609-175029
+decision: Hooks call the V2 kernel by absolute path
+basis:
+- PERMIT-1781027429
+risk: low
+reversibility: easy
+court_required: false
+why: PATH vjs resolved to the V1 cdd tool; the hook must invoke the V2 binary that installed it.

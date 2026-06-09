@@ -459,10 +459,16 @@ fn cmd_invoke(
     if install_hooks {
         let hooks_dir = vjs_dir.join("hooks");
         std::fs::create_dir_all(&hooks_dir).map_err(io)?;
+        // Call the V2 kernel by its absolute path (the binary running this
+        // invoke), so the hook never depends on PATH `vjs` resolving to the
+        // wrong tool (e.g. a V1 CLI).
+        let exe = std::env::current_exe()
+            .map(|p| p.to_string_lossy().to_string())
+            .unwrap_or_else(|_| "vjs".into());
         std::fs::write(hooks_dir.join("pre-commit"),
-            "#!/usr/bin/env bash\nexec vjs validate --staged\n").map_err(io)?;
+            format!("#!/usr/bin/env bash\nexec \"{}\" validate --staged\n", exe)).map_err(io)?;
         std::fs::write(hooks_dir.join("pre-push"),
-            "#!/usr/bin/env bash\nexec vjs local-ci\n").map_err(io)?;
+            format!("#!/usr/bin/env bash\nexec \"{}\" local-ci\n", exe)).map_err(io)?;
         #[cfg(unix)]
         {
             use std::os::unix::fs::PermissionsExt;

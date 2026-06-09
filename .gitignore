@@ -26,3 +26,7 @@ __pycache__/
 # VJS
 .vjs/cache/
 .vjs/private/
+
+# vjs invoke --install-hooks entrypoints (local activation, regenerated per clone)
+.vjs/hooks/pre-commit
+.vjs/hooks/pre-push
