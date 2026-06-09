@@ -153,7 +153,29 @@ pub fn evaluate_invariants(
     let mut findings = Vec::new();
 
     for invariant in invariants {
-        let result = evaluate_predicate(&invariant.rule, repo_state);
+        // Honor the declared scope: an invariant scoped to a set of paths only
+        // applies when the staged change touches one of them. A scoped invariant
+        // with no in-scope change is vacuously satisfied. (Without this gate the
+        // rule would run against every staged file regardless of its declared
+        // scope, which is both incorrect and the source of cross-record false
+        // positives.) Unscoped invariants always evaluate.
+        let in_scope = match &invariant.scope {
+            Some(scope) => match &scope.paths {
+                Some(paths) if !paths.is_empty() => paths.iter().any(|glob| {
+                    repo_state
+                        .changed_paths
+                        .iter()
+                        .any(|p| glob_matches(glob, p))
+                }),
+                _ => true,
+            },
+            None => true,
+        };
+        let result = if in_scope {
+            evaluate_predicate(&invariant.rule, repo_state)
+        } else {
+            true
+        };
         findings.push(InvariantFinding {
             invariant_id: invariant.id.clone(),
             title: invariant.title.clone(),
@@ -223,6 +245,18 @@ fn evaluate_predicate(rule: &PredicateExpr, repo_state: &RepoState) -> bool {
         PredicateExpr::WordCountLte { field: _, max: _ } => {
             // Simplified: always true for now
             true
+        }
+        PredicateExpr::FileWordsLte { glob, max } => {
+            // Deterministic: every file in scope (matched by glob, among the
+            // changed/loaded contents) must hold no more than `max` whitespace
+            // separated words. This is the real enforcement behind the
+            // "hooks stay short" law - a state check, not a prompt instruction.
+            repo_state.file_contents.iter().all(|(path, content)| {
+                if !glob_matches(glob, path) {
+                    return true;
+                }
+                content.split_whitespace().count() <= *max
+            })
         }
         PredicateExpr::CitationUnique => {
             // Simplified: always true for now
@@ -302,7 +336,28 @@ fn evaluate_predicate(rule: &PredicateExpr, repo_state: &RepoState) -> bool {
             true
         }
         PredicateExpr::V1NotLoadedByDefault => {
-            true
+            // Deterministic: a runtime authority record (statute, regulation,
+            // rule, or order) must not drag V1 in as binding law on a V2
+            // silence. A staged file under those dirs that cites a V1 central
+            // authority (REALM-SC/PC/CA/SI) is a violation UNLESS it carries an
+            // express incorporation clause. V1 stays persuasive archive; it
+            // binds V2 only by incorporation. Other files (provenance, docs,
+            // decisions citing V1 as evidence) are out of scope and pass.
+            const V1_MARKERS: [&str; 4] = ["REALM-SC", "REALM-PC", "REALM-CA", "REALM-SI"];
+            repo_state.file_contents.iter().all(|(path, content)| {
+                let p = path.to_string_lossy();
+                let is_runtime_authority = p.contains("lawpack/v2/statutes/")
+                    || p.contains("lawpack/v2/regulations/")
+                    || p.contains("lawpack/v2/rules/")
+                    || p.contains("lawpack/v2/orders/");
+                if !is_runtime_authority {
+                    return true;
+                }
+                if content.contains("incorporat") {
+                    return true;
+                }
+                !V1_MARKERS.iter().any(|m| content.contains(m))
+            })
         }
     }
 }

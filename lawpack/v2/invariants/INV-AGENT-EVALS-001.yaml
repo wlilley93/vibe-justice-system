@@ -1,0 +1,32 @@
+id: INV-AGENT-EVALS-001
+title: Agent harness changes require eval coverage
+severity: warning
+scope:
+  paths:
+    - crates/vjs-mcp/**
+    - .vjs/hooks/**
+    - AGENTS.md
+    - VJS.md
+rule:
+  kind: if
+  condition:
+    kind: any
+    items:
+      - kind: path_changed
+        glob: "crates/vjs-mcp/**"
+      - kind: path_changed
+        glob: ".vjs/hooks/**"
+      - kind: path_changed
+        glob: "AGENTS.md"
+      - kind: path_changed
+        glob: "VJS.md"
+  then:
+    kind: path_changed
+    glob: "crates/vjs-testkit/**"
+basis:
+  - ACT-004:s1
+  - DEC-AGENT-HARNESS-001
+remedy: >
+  Add or update an eval fixture in crates/vjs-testkit that proves the intended
+  behaviour and guards against regression, then run `vjs eval agent-harness`.
+  Measure prompt and harness changes; do not rely on review-by-vibes.

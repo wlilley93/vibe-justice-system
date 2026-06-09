@@ -1,0 +1,34 @@
+id: SPEC-AGENT-HARNESS-001
+citation: "[2026] VJS-SPEC 2"
+title: VJS agent harness and prompting spec
+purpose: >
+  Ensure VJS agents are governed by compact prompts, kernel tools, deterministic
+  evals, and repair loops rather than long lawfulness prose. Prompts guide;
+  tools empower; evals measure; the kernel governs. Complex governed work splits
+  into generate, evaluate, and repair.
+scope:
+  paths:
+    - AGENTS.md
+    - VJS.md
+    - .vjs/hooks/**
+    - crates/vjs-mcp/**
+    - crates/vjs-cli/**
+    - crates/vjs-testkit/**
+  action_kinds:
+    - implementation_decision
+owner: principal
+status: active
+decisions:
+  - DEC-AGENT-HARNESS-001
+invariants:
+  - INV-HOOKS-SHORT-001
+  - INV-PROMPT-PATCH-001
+  - INV-AGENT-EVALS-001
+obligations:
+  - prompt_changes_require_eval
+  - agent_harness_changes_require_golden_tests
+  - governed_tool_changes_require_validate_fixture
+review_triggers:
+  - prompt_patched_without_eval
+  - hook_exceeded_word_limit
+  - agent_harness_changed_without_eval

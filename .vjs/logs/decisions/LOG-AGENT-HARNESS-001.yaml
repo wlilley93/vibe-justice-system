@@ -1,0 +1,29 @@
+id: LOG-AGENT-HARNESS-001
+time: "2026-06-09T00:00:00Z"
+actor: lexby
+kind: implementation_decision
+issue: agent_harness
+decision: >
+  Adopt the agent-harness doctrine in the V2 lawpack and kernel: short hooks,
+  recorded prompt patches, eval coverage, and the V1-silence rule, enforced by
+  deterministic invariants and a new vjs eval command.
+basis:
+  - DEC-AGENT-HARNESS-001
+  - DEC-V1-SILENCE-001
+  - ACT-003:s2
+  - ACT-004:s1
+  - 2026-VJS-BOOT-009
+risk: low
+reversibility: reversible
+court_required: false
+why: >
+  The talk's lesson maps onto the V1 to V2 difference: prompts guide, tools
+  empower, evals measure, the kernel governs. Rather than encode lawfulness in
+  prose, this change adds deterministic checks. INV-HOOKS-SHORT-001 caps hooks
+  at 40 words via a real file_words_lte predicate; INV-PROMPT-PATCH-001 requires
+  a recorded rationale when prompts or tool descriptions change; INV-AGENT-EVALS
+  requires eval coverage; INV-NO-V1-GAP-FILLER stops a runtime record importing
+  V1 by silence, backed by a real v1_not_loaded_by_default predicate. The MCP
+  tool descriptions are now action-oriented capability statements. vjs eval runs
+  deterministic suites so prompt and harness changes are measured, not vibed.
+  This records the rationale that INV-PROMPT-PATCH-001 itself requires.

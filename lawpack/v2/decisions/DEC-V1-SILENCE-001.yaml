@@ -1,0 +1,40 @@
+id: DEC-V1-SILENCE-001
+citation: "[2026] VJS-DEC 9"
+title: V2 silence is a V2 question, not a V1 revival
+status: active
+scope:
+  action_kinds:
+    - implementation_decision
+    - legislative_draft
+  paths:
+    - lawpack/v2/**
+decision: >
+  A silence, gap, or omission in V2 law does not automatically import V1 as
+  binding precedent. Where no V2 authority covers an issue it is a V2
+  first-impression question. V1 may be consulted and cited as archive,
+  historical authority, persuasive reasoning, and migration evidence, but it
+  binds V2 only by express incorporation through a valid V2 record.
+basis:
+  - ACT-001:s4
+  - 2026-VJS-BOOT-002
+  - DEC-001
+reason: >
+  If V1 filled every V2 silence, V2 would never truly supersede it: each gap
+  would pull back the V1 Acts, SIs, court hierarchy, and long machinery, and the
+  kernel would have to search the whole V1 archive to know what binds,
+  recreating the context problem V2 was built to solve. V1 discovered the
+  doctrine; V2 compiles it. V1 may advise V2, but may not rule V2 by silence.
+  Transitional: until V2 lawfully commences, V1 still governs the founding route
+  itself (Bill 32, the courts, Sovereign assent); this decision governs V2
+  runtime self-governance, not the migration route.
+consequences:
+  must:
+    - treat_v2_silence_as_first_impression
+    - permit_v1_citation_as_persuasive_evidence
+    - require_express_incorporation_for_v1_binding_force
+    - route_silent_gaps_to_v2_court_or_lawmaking
+  must_not:
+    - treat_v1_as_binding_gap_filler
+    - add_v1_authority_to_runtime_graph_without_incorporation
+review_triggers:
+  - v1_archive_requested_as_runtime

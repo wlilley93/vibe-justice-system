@@ -1,0 +1,44 @@
+id: DEC-AGENT-HARNESS-001
+citation: "[2026] VJS-DEC 8"
+title: Prompts do not create governance capability
+status: active
+scope:
+  action_kinds:
+    - implementation_decision
+  paths:
+    - AGENTS.md
+    - VJS.md
+    - .vjs/hooks/**
+    - crates/vjs-mcp/**
+    - crates/vjs-cli/**
+    - crates/vjs-testkit/**
+decision: >
+  VJS agents are not made lawful by long prompt instruction. Lawfulness
+  capability is provided by kernel tools, deterministic validation, permits,
+  proofs, logs, and repair loops. Hooks stay short; governed work routes through
+  vjs.route and is validated before commit; failure modes are targeted with
+  evals, not patched with untracked prompt prose.
+basis:
+  - ACT-003:s2
+  - ACT-004:s1
+  - 2026-VJS-BOOT-009
+reason: >
+  Prompt instructions can improve behaviour but do not reliably add capability.
+  V1 taught this the hard way: long hooks accreted patches and bloat. V2 puts
+  capability in tools and deterministic checks, and measures behaviour with
+  evals. Prompts guide; tools empower; evals measure; the kernel governs.
+consequences:
+  must:
+    - keep_hooks_short
+    - route_governed_work_through_vjs_route
+    - validate_before_commit
+    - cover_prompt_and_harness_changes_with_evals
+    - split_complex_work_into_generate_evaluate_repair
+  must_not:
+    - encode_full_law_in_prompts
+    - rely_on_role_prose_as_enforcement
+    - patch_failures_with_untracked_prompt_text
+review_triggers:
+  - prompt_patched_without_eval
+  - hook_exceeded_word_limit
+  - agent_harness_changed_without_eval
