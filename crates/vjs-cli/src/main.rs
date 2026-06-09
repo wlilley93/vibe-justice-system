@@ -130,6 +130,15 @@ enum Commands {
         /// Suite to run: agent-harness | prompts | route | all
         suite: Option<String>,
     },
+    /// Publish the Gazette data: both estates (the V2 canon from the lawpack,
+    /// the V1 archive from provenance) as one machine-readable file consumed
+    /// by gazette.html and gazette-graph.html. Publication is constitutively
+    /// inert (REG-GAZETTE-CONTINUITY-001).
+    Gazette {
+        /// Output path (default: <repo>/gazette-data.js)
+        #[arg(long)]
+        out: Option<PathBuf>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -226,6 +235,7 @@ fn main() {
         Commands::MigrateV1 { v1_path, out } => cmd_migrate_v1(&v1_path, out, json),
         Commands::Permit { subcmd } => cmd_permit(&repo, subcmd, json),
         Commands::Eval { suite } => cmd_eval(&repo, suite, json),
+        Commands::Gazette { out } => cmd_gazette(&repo, out, json),
     };
 
     if let Err(e) = result {
@@ -1364,6 +1374,300 @@ fn build_kernel_context(repo: &Path) -> Result<KernelContext, KernelError> {
         limits: ContextLimits::default(),
         lawpack_digest: digest,
     })
+}
+
+/// Publish the Gazette data file: every law object of the V2 canon (walked
+/// from the lawpack so nothing is hand-curated out of the record) plus the
+/// curated V1 archive estate, with editorial summaries and citation edges
+/// overlaid where the provenance file carries them. Edges to ids that do not
+/// resolve to an item are dropped, so the graph can never link to a non-item.
+fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), KernelError> {
+    const V2_BASE: &str = "https://github.com/wlilley93/vibe-justice-system/blob/master/";
+    const V1_BASE: &str = "https://github.com/wlilley93/vibe-justice-system/blob/v1/";
+
+    let lawpack_dir = repo.join("lawpack/v2");
+    // The Gazette publishes only a loadable canon.
+    let _ = LawpackLoader::load(&lawpack_dir)?;
+
+    let io = |e: std::io::Error| KernelError::Io(e.to_string());
+    let ser = |e: serde_yaml::Error| KernelError::Serialization(e.to_string());
+
+    fn s(v: &serde_yaml::Value, key: &str) -> Option<String> {
+        v.get(key).and_then(|x| x.as_str()).map(|x| x.trim().to_string())
+    }
+    fn str_list(v: &serde_yaml::Value, key: &str) -> Vec<String> {
+        v.get(key)
+            .and_then(|x| x.as_sequence())
+            .map(|seq| seq.iter().filter_map(|i| i.as_str().map(|s| s.to_string())).collect())
+            .unwrap_or_default()
+    }
+    fn first_sentence(text: &str) -> String {
+        let collapsed = text.split_whitespace().collect::<Vec<_>>().join(" ");
+        match collapsed.find(". ") {
+            Some(i) => collapsed[..i + 1].to_string(),
+            None => collapsed,
+        }
+    }
+    fn humanize(token: &str) -> String {
+        token.replace('_', " ")
+    }
+
+    // Editorial overlay: presentation copy only, never force.
+    #[derive(serde::Deserialize, Default)]
+    struct Editorial {
+        #[serde(default)]
+        summary: String,
+        #[serde(default)]
+        points: Vec<String>,
+        #[serde(default)]
+        cites: Vec<String>,
+    }
+    let editorial: std::collections::HashMap<String, Editorial> = {
+        let p = lawpack_dir.join("provenance/gazette/editorial.yaml");
+        if p.exists() {
+            let v: serde_yaml::Value =
+                serde_yaml::from_str(&std::fs::read_to_string(&p).map_err(io)?).map_err(ser)?;
+            serde_yaml::from_value(v.get("items").cloned().unwrap_or_default()).map_err(ser)?
+        } else {
+            Default::default()
+        }
+    };
+
+    let mut items: Vec<serde_json::Value> = Vec::new();
+
+    let kinds = [
+        ("statutes", "statute"),
+        ("regulations", "regulation"),
+        ("rules", "rule"),
+        ("orders", "order"),
+        ("specs", "spec"),
+        ("invariants", "invariant"),
+        ("decisions", "decision"),
+        ("obligations", "obligation"),
+    ];
+    for (dir, kind) in kinds {
+        let d = lawpack_dir.join(dir);
+        if !d.exists() {
+            continue;
+        }
+        let mut entries: Vec<_> = std::fs::read_dir(&d)
+            .map_err(io)?
+            .filter_map(|e| e.ok())
+            .map(|e| e.path())
+            .filter(|p| p.extension().and_then(|x| x.to_str()) == Some("yaml"))
+            .collect();
+        entries.sort();
+        for path in entries {
+            let v: serde_yaml::Value =
+                serde_yaml::from_str(&std::fs::read_to_string(&path).map_err(io)?).map_err(ser)?;
+            let id = match s(&v, "id") {
+                Some(id) => id,
+                None => continue,
+            };
+            let title = s(&v, "title").unwrap_or_else(|| id.clone());
+            let citation = s(&v, "citation").unwrap_or_default();
+            let status = s(&v, "status")
+                .or_else(|| s(&v, "severity").map(|sev| format!("severity {}", sev)))
+                .unwrap_or_default();
+            let court = match kind {
+                "order" => match s(&v, "court").unwrap_or_default().as_str() {
+                    "supreme_court" => "sc",
+                    "privy_council" => "pc",
+                    "county" => "county",
+                    _ => "",
+                },
+                _ => "",
+            }
+            .to_string();
+
+            // Mechanical fallbacks straight from the law text.
+            let summary_field = match kind {
+                "statute" | "spec" => "purpose",
+                "regulation" | "obligation" => "text",
+                "order" => "runtime_summary",
+                "decision" => "decision",
+                "invariant" => "remedy",
+                "rule" => "summary",
+                _ => "",
+            };
+            let mech_summary = s(&v, summary_field)
+                .map(|t| first_sentence(&t))
+                .unwrap_or_else(|| title.clone());
+            let mech_points: Vec<String> = match kind {
+                "statute" => v
+                    .get("sections")
+                    .and_then(|x| x.as_sequence())
+                    .map(|secs| {
+                        secs.iter()
+                            .filter_map(|sec| {
+                                let sid = sec.get("id")?.as_str()?;
+                                let stitle = sec.get("title")?.as_str()?;
+                                let n = sid.rsplit(':').next().unwrap_or(sid);
+                                Some(format!("{} - {}", n, stitle))
+                            })
+                            .collect()
+                    })
+                    .unwrap_or_default(),
+                "order" => v
+                    .get("directives")
+                    .and_then(|x| x.as_sequence())
+                    .map(|ds| {
+                        ds.iter()
+                            .filter_map(|d| d.get("must")?.as_str().map(humanize))
+                            .collect()
+                    })
+                    .unwrap_or_default(),
+                "decision" => v
+                    .get("consequences")
+                    .map(|c| str_list(c, "must").iter().map(|m| humanize(m)).collect())
+                    .unwrap_or_default(),
+                "regulation" => v
+                    .get("kernel_effect")
+                    .map(|k| {
+                        let mut p: Vec<String> =
+                            str_list(k, "must").iter().map(|m| humanize(m)).collect();
+                        p.extend(str_list(k, "must_not").iter().map(|m| format!("never {}", humanize(m))));
+                        p.extend(str_list(k, "prohibits").iter().map(|m| format!("prohibits {}", humanize(m))));
+                        p
+                    })
+                    .unwrap_or_default(),
+                "obligation" => {
+                    let mut p = Vec::new();
+                    if let Some(k) = s(&v, "kind") {
+                        p.push(format!("performed by a {}", humanize(&k)));
+                    }
+                    if let Some(d) = s(&v, "due") {
+                        p.push(format!("due {}", humanize(&d)));
+                    }
+                    p
+                }
+                "spec" => {
+                    let mut p = Vec::new();
+                    for key in ["decisions", "invariants", "obligations"] {
+                        for r in str_list(&v, key) {
+                            p.push(format!("carried by {}", r));
+                        }
+                    }
+                    p
+                }
+                _ => Vec::new(),
+            };
+
+            // Mechanical citation edges from the law's own fields.
+            let mut cites: Vec<String> = str_list(&v, "basis");
+            cites.extend(str_list(&v, "supersedes"));
+            if let Some(a) = s(&v, "authority") {
+                cites.push(a);
+            }
+            for key in ["decisions", "invariants", "obligations"] {
+                cites.extend(str_list(&v, key));
+            }
+
+            let ed = editorial.get(&id);
+            let summary = ed.filter(|e| !e.summary.is_empty()).map(|e| e.summary.clone()).unwrap_or(mech_summary);
+            let points = ed
+                .filter(|e| !e.points.is_empty())
+                .map(|e| e.points.clone())
+                .unwrap_or(mech_points);
+            if let Some(e) = ed {
+                cites.extend(e.cites.clone());
+            }
+            cites.sort();
+            cites.dedup();
+            cites.retain(|c| *c != id);
+
+            let rel = format!("lawpack/v2/{}/{}", dir, path.file_name().unwrap().to_string_lossy());
+            items.push(serde_json::json!({
+                "id": id, "title": title, "citation": citation, "kind": kind,
+                "court": court, "estate": "v2", "status": status,
+                "summary": summary, "points": points, "cites": cites,
+                "path": rel, "url": format!("{}{}", V2_BASE, rel),
+            }));
+        }
+    }
+
+    // The V1 archive estate: curated, frozen, existence-verified provenance.
+    let v1_path = lawpack_dir.join("provenance/gazette/v1-estate.yaml");
+    if v1_path.exists() {
+        let v: serde_yaml::Value =
+            serde_yaml::from_str(&std::fs::read_to_string(&v1_path).map_err(io)?).map_err(ser)?;
+        if let Some(seq) = v.get("items").and_then(|x| x.as_sequence()) {
+            for it in seq {
+                let path = s(it, "path").unwrap_or_default();
+                items.push(serde_json::json!({
+                    "id": s(it, "id").unwrap_or_default(),
+                    "title": s(it, "title").unwrap_or_default(),
+                    "citation": s(it, "citation").unwrap_or_default(),
+                    "kind": s(it, "kind").unwrap_or_default(),
+                    "court": s(it, "court").unwrap_or_default(),
+                    "estate": "v1",
+                    "status": s(it, "status").unwrap_or_default(),
+                    "summary": s(it, "summary").unwrap_or_default(),
+                    "points": str_list(it, "points"),
+                    "cites": str_list(it, "cites"),
+                    "path": path,
+                    "url": format!("{}{}", V1_BASE, path),
+                }));
+            }
+        }
+    }
+
+    // An edge may only point at an item: a section cite collapses to its
+    // parent act's item; anything else unresolved is dropped.
+    let known: std::collections::HashSet<String> = items
+        .iter()
+        .map(|i| i["id"].as_str().unwrap_or_default().to_string())
+        .collect();
+    let mut dropped = 0usize;
+    for item in &mut items {
+        let own_id = item["id"].as_str().unwrap_or_default().to_string();
+        if let Some(cites) = item["cites"].as_array_mut() {
+            let before = cites.len();
+            let mut resolved: Vec<String> = cites
+                .iter()
+                .filter_map(|c| {
+                    let c = c.as_str()?;
+                    if known.contains(c) {
+                        Some(c.to_string())
+                    } else {
+                        let parent = c.split(':').next().unwrap_or(c);
+                        known.contains(parent).then(|| parent.to_string())
+                    }
+                })
+                .filter(|c| *c != own_id)
+                .collect();
+            resolved.sort();
+            resolved.dedup();
+            dropped += before.saturating_sub(resolved.len());
+            *cites = resolved.into_iter().map(serde_json::Value::String).collect();
+        }
+    }
+
+    let data = serde_json::json!({
+        "generated_at": chrono::Utc::now().to_rfc3339(),
+        "items": items,
+    });
+    let out_path = out.unwrap_or_else(|| repo.join("gazette-data.js"));
+    let body = format!(
+        "// Generated by `vjs gazette`. Do not edit: regenerate from the lawpack.\nwindow.GAZETTE = {};\n",
+        serde_json::to_string_pretty(&data).expect("gazette data serializes")
+    );
+    std::fs::write(&out_path, body).map_err(io)?;
+
+    if json {
+        println!(
+            "{}",
+            serde_json::json!({
+                "out": out_path.to_string_lossy(),
+                "items": known.len(),
+                "edges_dropped_to_non_items": dropped,
+            })
+        );
+    } else {
+        println!("Gazette data: {} items -> {}", known.len(), out_path.display());
+        println!("  citation edges to non-items dropped: {}", dropped);
+    }
+    Ok(())
 }
 
 fn load_lawpack(repo: &Path) -> Result<Lawpack, KernelError> {

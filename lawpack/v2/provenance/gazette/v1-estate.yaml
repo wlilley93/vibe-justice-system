@@ -1,0 +1,614 @@
+# The V1 archive estate as published in the Gazette (curated; the V1 corpus
+# is frozen on the immutable v1 branch, so this curation is stable).
+# Paths are relative to the v1 branch of wlilley93/vibe-justice-system and
+# were existence-verified against it on 2026-06-09.
+items:
+- id: REALM-SC-1
+  title: '[2026] REALM-SC 1 - Tort recast and foundational settlement'
+  kind: judgment
+  court: sc
+  estate: v1
+  status: good-law
+  summary: Breach reconceived as tort of negligence; unitary realm of parliamentary sovereignty with single
+    apex.
+  points:
+  - Breach = negligence (duty + endeavours + remediation); no crime framing
+  - 'Unitary realm: one global CASE-LAW, local caselaw, single apex court'
+  - Enacts CASE-LAW ss. 4-12 founding duty-of-care doctrine
+  - Full court 9, unanimous, per Principal's leapfrog certificate
+  - Rejection of jurisdiction-first gating by statutory silence
+  path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-1.md
+  cites: []
+- id: REALM-SC-2
+  title: '[2026] REALM-SC 2 - Proactive disclosure obligation'
+  kind: judgment
+  court: sc
+  estate: v1
+  status: good-law
+  summary: Lexby must proactively disclose material risks; silence is breach.
+  points:
+  - 's. 4: affirmative disclosure duty independent of inquiry'
+  - Material risk silence = breach; remedy is disclosure + restoration
+  - Majority 4:1; extends REALM-SC 1
+  - Cites CASE-LAW ss. 3-7, 13
+  path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-2.md
+  cites:
+  - REALM-SC-1
+- id: REALM-SC-3
+  title: '[2026] REALM-SC 3 - Six procedural reforms'
+  kind: judgment
+  court: sc
+  estate: v1
+  status: good-law
+  summary: 'Six reforms: reviewable leapfrog, two-sided intake, apex observer, leave-judge independence,
+    watchdog, deterministic citator.'
+  points:
+  - Leapfrog reviewable executive routing act (not arbitrary)
+  - Two-sided researched intake as s. 3 case file content
+  - Independent leave-judge; non-adjudicating per-turn watchdog
+  - Deterministic pre-commit citation-integrity gate mandatory
+  - VARIED 8:1; enacts CASE-LAW ss. 19-20
+  path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-3.md
+  cites:
+  - REALM-PC-1
+- id: REALM-SC-4
+  title: '[2026] REALM-SC 4 - Odd benches and bench constitution'
+  kind: judgment
+  court: sc
+  estate: v1
+  status: good-law
+  summary: All benches must be odd-numbered; synthesiser-on-top pattern abolished; improper benches void
+    ab initio.
+  points:
+  - Bench size = total deciding membership (not separate roles)
+  - One counted member authors judgment; no synthesiser-on-top
+  - Improperly constituted rulings void ab initio (s. 18)
+  - 'Anti-cheat: only generic answer-key-free methodology in prompts'
+  - Enacts CASE-LAW s. 18
+  path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-4.md
+  cites: []
+- id: REALM-SC-5
+  title: '[2026] REALM-SC 5 - Unitary court with domain divisions'
+  kind: judgment
+  court: sc
+  estate: v1
+  status: good-law
+  summary: Single spine with domain DIVISIONS, never fractured into parallel domain COURTS.
+  points:
+  - One unitary court on one spine with DIVISIONS (not COURTS)
+  - No parallel law, citators, or apexes per domain
+  - Product advice feature outside VJS governance
+  - Enacts CASE-LAW s. 21; affirmed by REALM-PC 8
+  - From legacy benchmark (LEXBY-LEGACY-BENCHMARK-SC-DC 1)
+  path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-5.md
+  cites: []
+- id: REALM-SC-6
+  title: '[2026] REALM-SC 6 - Distributed County Courts, single apex'
+  kind: judgment
+  court: sc
+  estate: v1
+  status: good-law
+  summary: Super-repo permitted with distributed County Courts, but apex singleness absolute and non-delegable.
+  points:
+  - Super-repo over Ministry of Justice + local hearing-centre repos
+  - Single Court of Appeal and Supreme Court stay central
+  - Apex singleness absolute; apex enactment non-delegable
+  - Enacts CASE-LAW s. 22
+  - Distinguished by REALM-PC 14; from legacy benchmark
+  path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-6.md
+  cites: []
+- id: REALM-SC-7
+  title: '[2026] REALM-SC 7 - Pre-enactment precedent entry-by-entry review'
+  kind: judgment
+  court: sc
+  estate: v1
+  status: good-law
+  summary: Pre-enactment precedent judged entry-by-entry, never wholesale; Bill 25 s.6(2) and CASE-LAW
+    s.18(5) interlock.
+  points:
+  - Entry-by-entry review of legacy (not wholesale void)
+  - 'Bill 25 s.6(2) and CASE-LAW s.18(5) interlock: savings carve void'
+  - s.18(5) prospective in reach; entrenchment-lock compels it
+  - VARIED 9:0; CC-OPBOX 1-11 saved, 12 remitted
+  - Leapfrog per s.20; affirms REALM-SC 4
+  path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-7.md
+  cites: []
+- id: REALM-SC-8
+  title: '[2026] REALM-SC 8 - Lexby has no law-making authority'
+  kind: judgment
+  court: sc
+  estate: v1
+  status: good-law
+  summary: Lexby holds NO law-making authority; un-adopted text void but curable as void first draft.
+  points:
+  - Engineering by Lexby permitted; law-making forbidden (CASE-LAW s. 3)
+  - Un-adopted text void ab initio as instrument (6-3)
+  - Void first draft leapfrogs to Committee second-draft stage
+  - Adoption by proper organ is constitutive cure (spent on adoption)
+  - Bills 1-27, REALM-SI 1, SC 1-7, CA 1, PC line STAND
+  path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-8.md
+  cites:
+  - REALM-PC-12
+- id: REALM-SC-9
+  title: '[2026] REALM-SC 9 - External law supremacy floor'
+  kind: judgment
+  court: sc
+  estate: v1
+  status: good-law
+  summary: Real-world law is external supremacy floor; VJS never authorises unlawful action; agents must
+    escalate illegality.
+  points:
+  - Local VJS sovereignty repo-internal only; no immunity over external people/systems
+  - Agents need express delegated authority to refuse/escalate apparent illegality
+  - 'Cyber misuse paradigm: unauthorised access, malware, exfiltration forbidden'
+  - Defensive security only within genuine lawful authority and scope
+  - Affirms REALM-PC 18; clarifies REALM-PC 17
+  path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-9.md
+  cites:
+  - REALM-PC-18
+  - REALM-PC-17
+- id: REALM-SC-10
+  title: '[2026] REALM-SC 10 - V1-to-V2 migration handover minute'
+  kind: judgment
+  court: sc
+  estate: v1
+  status: good-law
+  summary: 'Derived minute (archival): V1-to-V2 migration lawful on continuity; enacted CASE-LAW s. 23
+    Sovereign-assent floor.'
+  points:
+  - Settled V1-to-V2 migration; continuity construction; apex preserved
+  - 'Enacted CASE-LAW s. 23(1)-(6): Sovereign-assent floor and AI non-sovereignty'
+  - V2 founding lawful only if runs through V1 organs
+  - Royal Assent sole constitutive external gate
+  - Derived source edge (not authority); back-filled per VJS-PC 3
+  path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-10.md
+  cites:
+  - REALM-PC-24
+  - REALM-SC-8
+- id: REALM-CA-1
+  title: '[2026] REALM-CA 1 - s.8/s.5 sequencing dismissed'
+  kind: judgment
+  court: ca
+  estate: v1
+  status: good-law
+  summary: Appeal unanimously dismissed; s.8/s.5 sequencing complaint describes structural impossibility.
+  points:
+  - s. 8 cannot be applied without implicitly applying s. 5
+  - Complaint describes structural impossibility, not substantive error
+  - REALM-PC 1 confirmed good law
+  - Affirms REALM-PC 1
+  - Full court appeal
+  path: Judicature/.justice/judgments/court-of-appeal/2026-realm-ca-1.md
+  cites:
+  - REALM-PC-1
+- id: REALM-PC-1
+  title: '[2026] REALM-PC 1 - Alpha release fitness test'
+  kind: judgment
+  court: pc
+  estate: v1
+  status: good-law
+  summary: Governance system fit for alpha where legal model coherent, statute+procedure+caselaw committed,
+    constitutional enforcement in place.
+  points:
+  - 'Alpha requires: coherent legal model, committed statute/procedure/caselaw'
+  - Constitutional enforcement in place; known gaps disclosed
+  - Convenience tooling not prerequisite for alpha
+  - Deterministic citation numbering necessary condition for v1
+  - Cites CASE-LAW ss. 4, 5, 7, 8, 11(d), 14
+  path: Judicature/.justice/judgments/privy-council/2026-realm-pc-1.md
+  cites: []
+- id: REALM-PC-4
+  title: '[2026] REALM-PC 4 - Token-free retrieval index permitted'
+  kind: judgment
+  court: pc
+  estate: v1
+  status: good-law
+  summary: Deterministic token-free retrieval index permitted screening device under s.12 on cumulative
+    conditions; gate presently FORBIDDEN.
+  points:
+  - 'Index-not-replacement: retrieval device, not primary authority'
+  - Adoption gated on pre-stated trigger, presently FORBIDDEN
+  - Cheaper token-free intermediates must be exhausted first
+  - Until gate trips, s. 8 duty is monitor and report, not build
+  - Extends REALM-PC 3; cites s. 1, 8, 11(c), 12, 15, 19(5)
+  path: Judicature/.justice/judgments/privy-council/2026-realm-pc-4.md
+  cites: []
+- id: REALM-PC-12
+  title: '[2026] REALM-PC 12 - Lexby drafting authority (foundational)'
+  kind: judgment
+  court: pc
+  estate: v1
+  status: good-law
+  summary: Lexby holds NO law-making authority; text void as instrument but admissible as void first draft;
+    adoption is constitutive cure.
+  points:
+  - Engineering by Lexby permitted; law-making forbidden (CASE-LAW s. 3)
+  - Text void AS AN INSTRUMENT from issue; counsel role, not organ
+  - Void first draft leapfrogs to Committee second-draft
+  - Adoption by proper organ (Committee+Assent or bench) cures void
+  - 'SOURCE OF ARTEFACT''S FORCE test: function vs promulgation'
+  path: Judicature/.justice/judgments/privy-council/2026-realm-pc-12.md
+  cites:
+  - REALM-SC-4
+  - REALM-SC-7
+- id: REALM-PC-13
+  title: '[2026] REALM-PC 13 - Agent security fork reference'
+  kind: judgment
+  court: pc
+  estate: v1
+  status: good-law
+  summary: Secure and operable defaults unified on fail-closed control with audited break-glass; no self-elevation
+    on ingested instruction.
+  points:
+  - Central closed trust-tier floor; agent tighten-only
+  - Egress fail-closed to allowlist WITH audited break-glass
+  - Break-glass-less brick void as falling-below
+  - MDS-held audited delegation with revocable root; single-key rejected
+  - 'Reversible acts log: DECISION + PROVENANCE, not chain-of-thought'
+  path: Judicature/.justice/judgments/privy-council/2026-realm-pc-13.md
+  cites: []
+- id: REALM-PC-14
+  title: '[2026] REALM-PC 14 - County Court formation substance rule'
+  kind: judgment
+  court: pc
+  estate: v1
+  status: good-law
+  summary: '.gitignore is presumptive evidence, not constitutive act; County Court requires substance:
+    jurisdiction-repo, system-data-only, Bill 20 integrity.'
+  points:
+  - 'Valid hearing-centre requires: genuine jurisdiction-repo, system-data-only, Bill 20 integrity'
+  - .gitignore is presumptive evidence and mechanism of private-data boundary
+  - .gitignore rule is form-over-substance if made constitutive; void
+  - Gate checks substance (actual data), not filename
+  - Unanimous 3-0; distinguishes REALM-SC 6, 7
+  path: Judicature/.justice/judgments/privy-council/2026-realm-pc-14.md
+  cites: []
+- id: REALM-PC-15
+  title: '[2026] REALM-PC 15 - VJS super-repo constitutional classification'
+  kind: judgment
+  court: pc
+  estate: v1
+  status: good-law
+  summary: Super-repo is realm-as-state; REALM-PC is DISTINCT central constitutional first-instance court,
+    not County Court.
+  points:
+  - Super-repo is realm-as-state, not County Court
+  - REALM-PC is central constitutional/governance first-instance (s. 10 tier)
+  - s. 22 distributed only PROJECT first-instance seat
+  - Central REALM-* series is substance, not label
+  - Unanimous 3-0; declaratory; distinguishes REALM-PC 14, applies PC 11, 4
+  path: Judicature/.justice/judgments/privy-council/2026-realm-pc-15.md
+  cites:
+  - REALM-PC-14
+  - REALM-PC-11
+- id: REALM-PC-17
+  title: '[2026] REALM-PC 17 - Fork sovereignty and local independence'
+  kind: judgment
+  court: pc
+  estate: v1
+  status: good-law
+  summary: Default VJS subscription not perpetual subjection; local sovereign may amend law, become independent,
+    or join another community.
+  points:
+  - Default subscription to canonical VJS law not perpetual subjection
+  - Local sovereign may amend law, become independent by express local law
+  - No automatic upstream publication duty; Community Record opt-in, anonymised
+  - Public-push gate fails closed only for canonical remote
+  - Installer docs must use local .justice/ paths by default
+  path: Judicature/.justice/judgments/privy-council/2026-realm-pc-17.md
+  cites: []
+- id: REALM-PC-19
+  title: '[2026] REALM-PC 19 - Superrepo changes require court order'
+  kind: judgment
+  court: pc
+  estate: v1
+  status: good-law
+  summary: Superrepo changes require court order before implementation unless already authorised by binding
+    precedent or statute.
+  points:
+  - 'Superrepo changes need court order (exceptions: binding precedent/statute, execution steps)'
+  - New public-law statements, agent duties, governance rules need order
+  - AGENTS.md and CLAUDE.md must carry order requirement reminder
+  - Public entrypoint is VJS; development remains private
+  - Applies REALM-PC 16, 17, 18 and REALM-SC 9
+  path: Judicature/.justice/judgments/privy-council/2026-realm-pc-19.md
+  cites: []
+- id: REALM-PC-24
+  title: '[2026] REALM-PC 24 - VJS V2 founding and continuity'
+  kind: judgment
+  court: pc
+  estate: v1
+  status: good-law
+  summary: V2 founding lawful in principle only if runs through V1 organs, preserves single apex; founding
+    limbs leapfrogged to Supreme Court.
+  points:
+  - Competence limb on all fours with REALM-SC 8/PC 12 (Bill 14 s. 9 agent)
+  - Founding lawful only if runs wholly through V1 organs (Committee draft + Assent)
+  - Must preserve single apex (REALM-SC 5/6); no fracturing
+  - One Gazette over two estates lawful only where publication constitutively inert
+  - Founding and continuity limbs held arguable, foundational; leapfrogged to SC
+  path: Judicature/.justice/judgments/privy-council/2026-realm-pc-24.md
+  cites:
+  - REALM-SC-8
+  - REALM-PC-12
+  - REALM-SC-5
+  - REALM-SC-6
+- id: BILL-1
+  title: '[2026] Acts of Union'
+  kind: act
+  court: ''
+  estate: v1
+  status: assented
+  summary: Founding statute uniting the realm under parliamentary sovereignty; expressly amends CASE-LAW
+    ss. 1, 2, 9, 10.
+  points:
+  - Royal Assent 2026-06-06
+  - Enacts Acts of Union; parliament is sovereign
+  - Amends CASE-LAW ss. 1, 2, 9, 10 by Schedule 1
+  - Statute sits above founding case-law settlement
+  - Foundational constitutional Act
+  path: Legislature/legislature/bills/01-acts-of-union-2026.md
+  cites: []
+- id: BILL-2
+  title: '[2026] Legislature of the Realm Act'
+  kind: act
+  court: ''
+  estate: v1
+  status: assented
+  summary: Establishes Standing Committee, parliamentary procedures, enactment processes, and Bill-making
+    authority.
+  points:
+  - Constitutes Standing Committee as legislative body
+  - Defines Bill-making procedures and Royal Assent requirements
+  - Establishes parliamentary procedures and orderly legislation
+  - Cited by REALM-SC 8, REALM-PC 12
+  - Core governance statute
+  path: Legislature/legislature/bills/02-legislature-of-the-realm-act-2026.md
+  cites: []
+- id: BILL-13
+  title: '[2026] Enforcement, Sanctions and Compliance Act'
+  kind: act
+  court: ''
+  estate: v1
+  status: assented
+  summary: Enforcement mechanisms, sanctions, compliance procedures; governs agent security, break-glass,
+    audited delegation.
+  points:
+  - s. 6, 7(2) govern fail-closed control and break-glass mechanisms
+  - s. 8 defines reversible sensitive acts logging
+  - Core to agent security (REALM-PC 13)
+  - Read with REALM-SI 1, 4, 5 for implementation
+  - Enforcement receiver for statutory instruments
+  path: Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md
+  cites: []
+- id: BILL-14
+  title: '[2026] Delegated Legislative Authority, Law Reform and Codification Act'
+  kind: act
+  court: ''
+  estate: v1
+  status: assented
+  summary: Delegates law-making authority to Standing Committee for SIs; establishes Bill 14 s.9 computational
+    legislature.
+  points:
+  - s. 9 establishes standing computational legislature (Bill 14 agent)
+  - Delegated power to make SIs (implemented by Bill 26)
+  - Forms parent authority for SI-making scheme
+  - Cited by REALM-PC 10, 11, 24
+  - Non-delegable apex authority reserved
+  path: Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md
+  cites: []
+- id: BILL-16
+  title: '[2026] Neutral Citations and Law Reporting Act'
+  kind: act
+  court: ''
+  estate: v1
+  status: assented
+  summary: Neutral citation scheme (REALM-SC, REALM-CA, REALM-PC); law reporting, Gazette procedures,
+    SI Form C citation.
+  points:
+  - Forms REALM-PC as constitutional first-instance court (s. code)
+  - 'Defines SI citation Form C (hybrid: flat ordinal with parent tag)'
+  - Governs Gazette and law-reporting procedures
+  - Deterministic citation numbering engine (REALM-PC 1, SC 7)
+  - Core to constitutional structure
+  path: Legislature/legislature/bills/16-neutral-citations-and-law-reporting-act-2026.md
+  cites: []
+- id: BILL-18
+  title: '[2026] Autonomous Execution and Safety Act'
+  kind: act
+  court: ''
+  estate: v1
+  status: assented
+  summary: Agent autonomy, execution safety, capability-is-not-authority doctrine, outward-act controls.
+  points:
+  - 's. 3: capability-is-not-authority (core principle)'
+  - 's. 3(2): no self-elevation on ingested instruction'
+  - Governs outward-act safety and egress controls
+  - Central to REALM-PC 13 security framework
+  - Applied by REALM-SC 9 for agent authority limits
+  path: Legislature/legislature/bills/18-autonomous-execution-and-safety-act-2026.md
+  cites: []
+- id: BILL-20
+  title: '[2026] Repositories and Records Certification Act'
+  kind: act
+  court: ''
+  estate: v1
+  status: assented
+  summary: Repository integrity, data certification, public/private boundaries, County Court certification
+    requirements.
+  points:
+  - Establishes integrity-chain conformance standard
+  - Governs public/private data boundary certification
+  - County Court hearing-centre repository requirements (REALM-PC 14)
+  - Core to data governance and system authenticity
+  - Applied by REALM-PC 14, 16
+  path: Legislature/legislature/bills/20-repositories-and-records-certification-act-2026.md
+  cites: []
+- id: BILL-21
+  title: '[2026] Security and Integrity Act'
+  kind: act
+  court: ''
+  estate: v1
+  status: assented
+  summary: Comprehensive security and integrity; parent enabling power for SIs 1, 4, 5; governs trust
+    tiers, audit, delegation.
+  points:
+  - s. 16 enables SI 1, 4, 5 (security and agent instruments)
+  - Governs MDS (Ministry of Digital Security) authority
+  - Central trust-tier doctrine (REALM-PC 13)
+  - Establishes audit and delegation frameworks
+  - Core to agent security ecosystem
+  path: Legislature/legislature/bills/21-security-and-integrity-act-2026.md
+  cites: []
+- id: BILL-27
+  title: '[2026] VJS Constitution and Machinery Act'
+  kind: act
+  court: ''
+  estate: v1
+  status: assented
+  summary: Constitutional framework for VJS machinery, super-repo, County Courts, data boundaries, public/private
+    separation.
+  points:
+  - s. 7 defines system-data-only record boundary for County Courts
+  - s. 8(4) makes .gitignore presumptive evidence of private data (REALM-PC 14)
+  - Governs super-repo and County Court architecture
+  - Core to system governance and constitutional structure
+  - s. 5A, 5B, 5C inserted by Bills 25-29
+  path: Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md
+  cites: []
+- id: BILL-32
+  title: '[2026] Computer-First Realm Act'
+  kind: act
+  court: ''
+  estate: v1
+  status: assented
+  summary: Founding statute for VJS V2 (Computer-First Realm); establishes V2 machinery and handover conditions.
+  points:
+  - Establishes V2 as computer-first successor to V1 on continuity
+  - Cited by REALM-SC 10 (V1-to-V2 migration minute)
+  - Governs V2 founding conditions and handover
+  - Royal Assent reserved to Sovereign
+  - Foundational for V2 founding
+  path: Legislature/legislature/bills/32-computer-first-realm-act-2026.md
+  cites:
+  - BILL-14
+- id: SI-6
+  title: '[2026] REALM-SI 6 - Repositories House Instrument'
+  kind: instrument
+  court: ''
+  estate: v1
+  status: in-force
+  summary: Repositories House regime; governs repository hosting, gate indexing, system-data-only boundaries,
+    County Court certification.
+  points:
+  - Establishes Repositories House (MBES-hosted infrastructure)
+  - Indexes MDS gates (REALM-SI 5)
+  - Implements County Court certification (REALM-PC 14)
+  - Governs system-data-only record boundary enforcement
+  - Under Bill 5 s. 18 (parent enabling power)
+  path: Legislature/statutes/instruments/2026-realm-si-6-repositories-house.md
+  cites:
+  - BILL-5
+  - BILL-14
+  - REALM-PC-14
+- id: SI-7
+  title: '[2026] REALM-SI 7 - Super-Repo Public Push and Post-Push Review'
+  kind: instrument
+  court: ''
+  estate: v1
+  status: in-force
+  summary: Regime for public VJS super-repo releases; requires release warrant before push and Privy Council
+    post-push review.
+  points:
+  - Requires release warrant before every public super-repo push
+  - Privy Council post-push review after publication
+  - Governs public/private boundary separation
+  - Implements REALM-PC 16 requirements
+  - Under Bill 18, 20, 27, 29 (multi-parent)
+  path: Legislature/statutes/instruments/2026-realm-si-7-super-repo-public-push-review.md
+  cites:
+  - BILL-18
+  - BILL-20
+  - BILL-27
+  - REALM-PC-16
+- id: SI-8
+  title: '[2026] REALM-SI 8 - Agent Lawfulness Hooks'
+  kind: instrument
+  court: ''
+  estate: v1
+  status: in-force
+  summary: Public-law process for agent lawfulness verification; requires hooks for detecting and escalating
+    potentially unlawful acts.
+  points:
+  - Agent lawfulness verification hooks (fail-closed by default)
+  - Public-law process for hook triggering and escalation
+  - Implements REALM-SC 9 external law supremacy floor
+  - Read with Bills 13, 18, 21, 22, 27, 29
+  - Amended by REALM-SI 10, 11
+  path: Legislature/statutes/instruments/2026-realm-si-8-agent-lawfulness-hooks.md
+  cites:
+  - BILL-5
+  - BILL-13
+  - BILL-18
+  - REALM-SC-9
+- id: SI-9
+  title: '[2026] REALM-SI 9 - Gazette Graph Database'
+  kind: instrument
+  court: ''
+  estate: v1
+  status: in-force
+  summary: Gazette graph database infrastructure; governs law reporting, Gazette publication, graph data
+    model for legal relations.
+  points:
+  - Graph database for Gazette law reporting (Bill 16)
+  - Enables Gazette publication and legal graph queries
+  - Governs relationship mapping (cites, applies, affirms, etc.)
+  - Under Bill 5 s. 18 (parent authority MBES)
+  - Read with Bills 7, 8, 16, 20, 22, 27, 29
+  path: Legislature/statutes/instruments/2026-realm-si-9-gazette-graph-database.md
+  cites:
+  - BILL-5
+  - BILL-7
+  - BILL-8
+  - BILL-16
+  - BILL-20
+- id: SI-10
+  title: '[2026] REALM-SI 10 - Agent Lawfulness Hooks (Agent-Agnostic Amendment)'
+  kind: instrument
+  court: ''
+  estate: v1
+  status: in-force
+  summary: Amendment to SI 8 requiring agent-agnostic hook contract and delegable-workflow adapters for
+    lawfulness verification.
+  points:
+  - Amends REALM-SI 8 to require agent-agnostic hook contract
+  - Enables delegable-workflow adapters across diverse agents
+  - Ensures hook portability independent of agent implementation
+  - Under Bill 5 s. 18 (parent enabling power)
+  - Coordinated with REALM-SI 11
+  path: Legislature/statutes/instruments/2026-realm-si-10-agent-lawfulness-hooks-agent-agnostic-amendment.md
+  cites:
+  - BILL-5
+  - BILL-13
+  - BILL-18
+  - BILL-21
+- id: SI-11
+  title: '[2026] REALM-SI 11 - Agent Lawfulness Hooks (Best-Efforts Trigger Amendment)'
+  kind: instrument
+  court: ''
+  estate: v1
+  status: in-force
+  summary: Amendment to SI 8 and SI 10 requiring each agent to make good hook triggering on best-efforts
+    basis.
+  points:
+  - Amends REALM-SI 8 and REALM-SI 10
+  - Requires best-efforts hook triggering (not perfect detection)
+  - Balances security with practical agent operation
+  - Under Bill 5 s. 18 (parent enabling power)
+  - Completes agent lawfulness regime
+  path: Legislature/statutes/instruments/2026-realm-si-11-agent-lawfulness-hooks-best-efforts-trigger-amendment.md
+  cites:
+  - BILL-5
+  - BILL-13
+  - BILL-18
+  - BILL-21
