@@ -268,3 +268,43 @@ sections:
         - publication_creates_runtime_force
         - publication_treated_as_v1_enactment
         - publication_treated_as_v1_incorporation
+
+  - id: ACT-COMPUTER-FIRST-REALM:s29
+    title: The constituted courts; bench composition and continuity
+    text: >
+      Upon satisfaction of the commencement conditions, the V2 courts are
+      expressly constituted by a binding court-constitution order issued under
+      the authority of this Act and ACT-002:s1. Each constituted court shall sit
+      with the bench composition fixed by its constituting instrument: the County
+      Court as a single judge, the Privy Council as an odd bench of 3, and the
+      Supreme Court as an odd bench of 5, expandable to an odd bench of 9 for
+      constitutional or foundational questions as the single central apex. The
+      Court of Appeal tier persists in law under CASE-LAW s. 10 and may be
+      administratively non-convened in the V2 MVP; once constituted or when an
+      appeal arises, it shall sit as an odd bench of 3. No V2 court may issue a
+      binding order until so constituted; until a bench is constituted, the matter
+      remains under V1 jurisdiction. No even-numbered deciding bench is
+      permissible. The singleness of the central apex may never be relaxed.
+    kernel_effect:
+      defines:
+        courts_expressly_constituted_on_commencement: true
+        bench_compositions:
+          county_court: 1
+          privy_council: 3
+          supreme_court: 5
+          supreme_court_expanded: 9
+          court_of_appeal: 3
+        central_apex_single: true
+        apex_expandable_only_for:
+          - constitutional_questions
+          - foundational_questions
+        court_of_appeal_tier_persists: true
+        court_of_appeal_may_be_administratively_non_convened: true
+      must:
+        - express_constitution_by_binding_order_required
+        - odd_bench_required
+        - apex_singleness_non_relaxable
+      must_not:
+        - court_order_before_constitution
+        - even_numbered_bench
+        - relaxing_apex_singleness

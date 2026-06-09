@@ -1,0 +1,19 @@
+id: OBL-ASSENT-DRAFT-002
+title: Delegated lawmaking validates every change against prohibited_subjects
+status: in_force
+kind: validation
+due: before_commit
+required: true
+text: >
+  Any AI-operated lawmaking machinery, delegated authority system, or automated
+  law-authoring tool must evaluate every proposed change against the
+  prohibited_subjects list published in the competence grant (recorded in
+  SPEC-ASSENT-DRAFT-001 or the grant instrument). The validation must occur
+  before staging or committing. Prohibited subjects include constitutional
+  amendments, assent rule self-amendment, competence expansion, and sovereign
+  prerogative delegation. Removal of any item from the prohibited list is itself
+  prohibited and must be rejected with explicit reason.
+basis:
+  - DEC-ASSENT-DRAFT-001
+  - SPEC-ASSENT-DRAFT-001
+  - INV-ASSENT-DRAFT-002

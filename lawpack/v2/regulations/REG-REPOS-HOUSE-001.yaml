@@ -1,0 +1,62 @@
+id: REG-REPOS-HOUSE-001
+assent_source: sovereign_assent
+title: Repos House, Certification, and the Two-Layer Registry Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+text: >
+  Made under the Consolidation Framework Act s.7, this Regulation establishes
+  Repos House as a non-sovereign, two-layer declarative registry and
+  certification ledger for V2 repositories. Repos House comprises two layers:
+  (1) the Court Registry and Gazette Clerk (clerical, managing repo registration
+  and Gazette publication), and (2) the Toolchain Registry and Skills/Agent
+  Registry (derived, pointer-only, derived from kernel toolchain and skill
+  inventories). Registration creates no legal force; invocation-binding semantics
+  apply: the local repository's invocation of a rule binds; Repos House records
+  only. Certification is a deterministic restatement of kernel output
+  (deterministic hooks, local CI, boundary scans, permit gates), never an
+  attestation, human judgment, or office determination. V1 ministry names (MoJ,
+  MBES) are carried forward as archive lineage and optional ceremonial aliases
+  with no legal, path, or kernel effect. Policy proposals are routed through the
+  existing V2 lawmaking route, not through a new policy office. Repos House
+  extends, does not supersede, REG-REPOS-REGISTER-001.
+kernel_effect:
+  defines:
+    repos_house_model: non_sovereign_declarative_registry
+    repos_house_layers:
+      - layer: court_registry_and_gazette_clerk
+        scope: clerical
+        functions:
+          - repo_registration
+          - gazette_publication
+      - layer: toolchain_registry_and_skills_agent_registry
+        scope: derived_pointer_only
+        rebuildable: true
+    registration_force: no_legal_force_created
+    invocation_binding_semantics: true
+    certification_model: deterministic_kernel_restatement_not_attestation
+    certification_source:
+      - deterministic_hooks
+      - local_ci_output
+      - boundary_scan_output
+      - permit_gate_output
+    v1_ministry_names_treatment:
+      - archive_lineage_preserved: true
+      - ceremonial_aliases_allowed: true
+      - legal_effect_none: true
+      - path_effect_none: true
+      - kernel_effect_none: true
+    policy_proposals:
+      routing: existing_v2_lawmaking_route
+      new_office_required: false
+    extends: REG-REPOS-REGISTER-001
+  must:
+    - record_certification_as_kernel_restatement_not_attestation
+    - route_policy_proposals_through_lawmaking_route
+    - preserve_v1_ministry_names_as_archive_lineage_only
+    - maintain_two_layer_structure
+  must_not:
+    - repos_house_creates_legal_force
+    - human_attestation_replaces_kernel_output_certification
+    - v1_ministry_names_have_legal_effect
+    - policy_office_outside_lawmaking_route
+    - superseding_repos_register_001

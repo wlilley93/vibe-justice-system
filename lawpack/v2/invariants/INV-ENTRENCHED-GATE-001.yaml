@@ -1,0 +1,22 @@
+id: INV-ENTRENCHED-GATE-001
+title: Section 14 entrenchment gate preservation
+severity: fatal
+rule:
+  kind: if
+  condition:
+    kind: file_modified
+    pattern: lawpack/v2/statutes/08-computer-first-realm.yaml
+  then:
+    kind: string_contains
+    # One raw line of s14's text: a YAML folded scalar splits the full clause
+    # across raw lines, and the kernel scans raw bytes, not the parsed scalar.
+    value: "This section is entrenched: amendable only by a"
+basis:
+  - ACT-COMPUTER-FIRST-REALM:s14
+remedy: >
+  Section 14 is entrenched against machine amendment. Any modification to
+  statute 08 that alters or removes the entrenchment clause violates the
+  constitutional gate. The phrase 'entrenched: amendable only by a
+  Sovereign-assented constitutional Act citing it by number' must remain
+  present and unmodified in s14's text field. To amend s14 requires a new
+  sovereign-assented constitutional Act citing s14 explicitly by section number.

@@ -1,0 +1,18 @@
+id: OBL-LOG-001
+title: Decision log obligation for governed actions
+status: in_force
+kind: decision_log
+due: before_commit
+required: true
+text: >
+  Every agent action on load-bearing work (implementation decisions, public
+  record changes, external acts, security-sensitive acts) shall carry a
+  contemporaneous decision log recording the intent, authorization route,
+  permit id, decision rationale, and proof of validation. The log is the
+  immutable record of performance and justification. The kernel mints this
+  obligation at route time (crates/vjs-core/src/route.rs); this instrument
+  elevates the code artifact to law, binding the agent to create and attach
+  the log before commit.
+basis:
+  - DEC-AGENT-001
+  - SPEC-AGENT-001

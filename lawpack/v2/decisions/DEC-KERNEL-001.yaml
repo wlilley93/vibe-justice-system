@@ -1,0 +1,45 @@
+id: DEC-KERNEL-001
+citation: "[2026] VJS-DEC 10"
+title: Kernel determinism mandate
+status: active
+scope:
+  paths:
+    - crates/vjs-core/**
+    - crates/vjs-lawpack/**
+  action_kinds:
+    - implementation_decision
+    - dependency_change
+    - refactor
+decision: >
+  The kernel must be deterministic, local-first, and independent of model
+  judgement. Kernel outcomes must depend only on repo state, lawpack authority,
+  permits, proofs, logs, and invariants - never on model calls, network requests,
+  randomness, datetime, or environment variables that affect law validation or
+  enforcement.
+basis:
+  - ACT-001:s2
+  - ACT-004:s1
+  - SPEC-KERNEL-001
+reason: >
+  The kernel is the source of governance truth. If it is non-deterministic, no
+  agent, court, or human reviewer can know what the law actually is. Model
+  judgement is uncertain and unreliable; law is not. Local-first execution means
+  no dependency on network uptime, API availability, or third-party service
+  changes. The kernel must be auditable, predictable, and executable without
+  external calls.
+consequences:
+  must:
+    - isolate_kernel_from_model_calls
+    - isolate_kernel_from_network
+    - make_kernel_deterministic
+    - audit_kernel_dependency_graph
+  must_not:
+    - introduce_model_calls_to_kernel
+    - introduce_network_capability_to_kernel
+    - add_randomness_or_datetime_to_law_logic
+    - permit_environment_variable_influence_on_law
+review_triggers:
+  - model_call_added
+  - network_capability_added
+  - kernel_model_capability_required
+  - kernel_external_capability_required

@@ -109,6 +109,22 @@ impl LawpackLoader {
             }
         }
 
+        let mut obligations = Vec::new();
+        let obligations_dir = lawpack_dir.join("obligations");
+        if obligations_dir.exists() {
+            for entry in WalkDir::new(&obligations_dir).max_depth(1) {
+                let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
+                let path = entry.path();
+                if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
+                    let content = std::fs::read_to_string(path)
+                        .map_err(|e| KernelError::Io(e.to_string()))?;
+                    let obligation: LawpackObligation = serde_yaml::from_str(&content)
+                        .map_err(|e| KernelError::Serialization(e.to_string()))?;
+                    obligations.push(obligation);
+                }
+            }
+        }
+
         let decisions_dir = lawpack_dir.join("decisions");
         if decisions_dir.exists() {
             for entry in WalkDir::new(&decisions_dir).max_depth(1) {
@@ -132,6 +148,7 @@ impl LawpackLoader {
             specs,
             invariants,
             decisions,
+            obligations,
         })
     }
 }
@@ -144,6 +161,23 @@ pub struct Lawpack {
     pub specs: Vec<Spec>,
     pub invariants: Vec<Invariant>,
     pub decisions: Vec<Decision>,
+    pub obligations: Vec<LawpackObligation>,
+}
+
+/// An obligation instrument: a standing duty enacted into the lawpack
+/// (distinct from the runtime `Obligation` a route mints onto a permit).
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct LawpackObligation {
+    pub id: String,
+    pub title: String,
+    pub status: String,
+    pub kind: String,
+    pub due: String,
+    #[serde(default)]
+    pub required: bool,
+    pub text: String,
+    #[serde(default)]
+    pub basis: Vec<String>,
 }
 
 impl Lawpack {
@@ -415,6 +449,9 @@ impl LawpackValidator {
         }
         for decision in &lawpack.decisions {
             defined.insert(decision.id.0.clone());
+        }
+        for obligation in &lawpack.obligations {
+            defined.insert(obligation.id.clone());
         }
 
         let id_pattern = regex::Regex::new(

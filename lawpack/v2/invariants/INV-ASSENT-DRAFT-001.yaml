@@ -1,0 +1,17 @@
+id: INV-ASSENT-DRAFT-001
+title: Assent-source mandatory on all runtime-force records
+severity: fatal
+rule:
+  kind: assent_source_valid
+  allowed:
+    - sovereign_assent
+    - standing_bounded_assent
+basis:
+  - DEC-ASSENT-DRAFT-001
+  - INV-ASSENT-SOURCE-001
+remedy: >
+  Every statute, regulation, order, and decision file must carry an assent_source
+  field with a value of either sovereign_assent or standing_bounded_assent,
+  tracing to a recorded Sovereign assent event. The kernel evaluator assent_source_valid
+  permits only these two values and rejects self_authorised, inferred, or empty
+  fields. Add the field with the correct assent_source before committing.

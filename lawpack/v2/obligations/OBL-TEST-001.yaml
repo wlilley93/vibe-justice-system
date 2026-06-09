@@ -1,0 +1,16 @@
+id: OBL-TEST-001
+title: Kernel refactors and dependency changes pass determinism tests before merge
+status: in_force
+kind: proof
+due: before_commit
+required: true
+text: >
+  Kernel refactors, dependency additions, network capability introductions, and
+  model call removals must be covered by determinism tests before merge. A proof
+  that vjs eval kernel-determinism passes entirely is required. Test results must
+  be attached to the commit and must be reproducible by re-running the test suite
+  against the merge commit.
+basis:
+  - DEC-KERNEL-001
+  - DEC-KERNEL-002
+  - SPEC-KERNEL-001

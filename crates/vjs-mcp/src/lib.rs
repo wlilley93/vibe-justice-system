@@ -153,6 +153,7 @@ fn load_lawpack(repo: &std::path::Path) -> Result<Lawpack, KernelError> {
             specs: Vec::new(),
             invariants: Vec::new(),
             decisions: Vec::new(),
+            obligations: Vec::new(),
         })
     }
 }
