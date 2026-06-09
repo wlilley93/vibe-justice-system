@@ -1,0 +1,12 @@
+id: LOG-2026-06-09-214414
+time: 2026-06-09T21:44:14.117287140+00:00
+actor: lexby
+kind: public_record_change
+issue: post-push-review
+decision: 'Post-push review closing [2026] VJS-CC-AGENT-UNIVERSE-V2 13: the overnight delivery (b3a4f76) is live and verified. Pages rebuilt; law.html, the register, the constellation, and the archive PDFs all serve 200, the PDFs with true application/pdf content type so judgments render in the browser as documents; the carried and the derived copies both checked; the work programme order itself stands in the live register (142 items: 106 canon, 36 archive at full PDF parity). Every directive D1 to D10 is delivered and test-held; the review-confirmed two-chip violation was cured before the push; the forbidden list was honoured throughout, the Realm Invariants Instrument remaining a void draft awaiting the Sovereign''s digest-pinned assent. Morning acceptance materials: four local screenshots and one live screenshot under /tmp/vjs-morning-review, per-beat decision logs, and a 59-test green suite.'
+basis:
+- 2026-VJS-CC-WORKPLAN-001
+risk: low
+reversibility: easy
+court_required: false
+why: D10 requires green tests, live verification, filed screenshots, and per-beat logs by morning review; all four hold.
