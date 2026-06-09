@@ -1,18 +1,12 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use std::collections::HashMap;
 
 use vjs_core::*;
-use vjs_core::types::*;
-use vjs_core::error::*;
-use vjs_core::route::*;
-use vjs_core::spec::*;
 use vjs_lawpack::*;
 
 /// VJS MCP Server
 /// Thin JSON-RPC adapter over the deterministic kernel
 /// Exposes only 6 tools: route, lookup, validate, log, file, status
-
 pub struct McpServer {
     pub repo_root: std::path::PathBuf,
 }
@@ -60,8 +54,8 @@ impl McpServer {
         let ctx = build_context(&self.repo_root)?;
         let decision = route(input, &ctx)?;
 
-        Ok(serde_json::to_value(decision)
-            .map_err(|e| KernelError::Serialization(e.to_string()))?)
+        serde_json::to_value(decision)
+            .map_err(|e| KernelError::Serialization(e.to_string()))
     }
 
     fn handle_lookup(&self, params: Option<Value>) -> Result<Value, KernelError> {
@@ -89,8 +83,8 @@ impl McpServer {
         };
 
         let authorities = resolve_authority(&input, &ctx.authority_graph)?;
-        Ok(serde_json::to_value(authorities)
-            .map_err(|e| KernelError::Serialization(e.to_string()))?)
+        serde_json::to_value(authorities)
+            .map_err(|e| KernelError::Serialization(e.to_string()))
     }
 
     fn handle_validate(&self, params: Option<Value>) -> Result<Value, KernelError> {
@@ -98,8 +92,8 @@ impl McpServer {
         let lawpack = load_lawpack(&self.repo_root)?;
         let report = LawpackValidator::validate(&lawpack)?;
 
-        Ok(serde_json::to_value(report)
-            .map_err(|e| KernelError::Serialization(e.to_string()))?)
+        serde_json::to_value(report)
+            .map_err(|e| KernelError::Serialization(e.to_string()))
     }
 
     fn handle_log(&self, params: Option<Value>) -> Result<Value, KernelError> {
@@ -109,8 +103,8 @@ impl McpServer {
 
         vjs_store::Store::write_log(&self.repo_root, &log)?;
 
-        Ok(serde_json::to_value(log)
-            .map_err(|e| KernelError::Serialization(e.to_string()))?)
+        serde_json::to_value(log)
+            .map_err(|e| KernelError::Serialization(e.to_string()))
     }
 
     fn handle_file(&self, params: Option<Value>) -> Result<Value, KernelError> {
@@ -120,8 +114,8 @@ impl McpServer {
 
         vjs_store::Store::write_submission(&self.repo_root, &submission)?;
 
-        Ok(serde_json::to_value(submission)
-            .map_err(|e| KernelError::Serialization(e.to_string()))?)
+        serde_json::to_value(submission)
+            .map_err(|e| KernelError::Serialization(e.to_string()))
     }
 
     fn handle_status(&self, _params: Option<Value>) -> Result<Value, KernelError> {
@@ -134,7 +128,7 @@ impl McpServer {
     }
 }
 
-fn build_context(repo: &std::path::PathBuf) -> Result<KernelContext, KernelError> {
+fn build_context(repo: &std::path::Path) -> Result<KernelContext, KernelError> {
     let lawpack = load_lawpack(repo)?;
     let graph = lawpack.build_authority_graph()?;
     let digest = compute_digest(repo)?;
@@ -146,7 +140,7 @@ fn build_context(repo: &std::path::PathBuf) -> Result<KernelContext, KernelError
     })
 }
 
-fn load_lawpack(repo: &std::path::PathBuf) -> Result<Lawpack, KernelError> {
+fn load_lawpack(repo: &std::path::Path) -> Result<Lawpack, KernelError> {
     let lawpack_dir = repo.join("lawpack/v2");
     if lawpack_dir.exists() {
         LawpackLoader::load(&lawpack_dir)
@@ -163,7 +157,7 @@ fn load_lawpack(repo: &std::path::PathBuf) -> Result<Lawpack, KernelError> {
     }
 }
 
-fn compute_digest(repo: &std::path::PathBuf) -> Result<String, KernelError> {
+fn compute_digest(repo: &std::path::Path) -> Result<String, KernelError> {
     use sha2::Digest;
     let mut hasher = sha2::Sha256::new();
     let manifest = repo.join("lawpack/v2/manifest.toml");

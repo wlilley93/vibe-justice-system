@@ -7,7 +7,7 @@
 //! vibe.
 
 use std::collections::HashMap;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use crate::route::route;
 use crate::spec::{evaluate_invariants, Invariant, RepoState};
@@ -231,7 +231,7 @@ pub fn run_agent_harness_suite(invariants: &[Invariant]) -> EvalReport {
 
 /// Prompts suite: scan the on-disk hooks and confirm each stays a short state
 /// check rather than a wall of law.
-pub fn run_prompts_suite(repo_root: &PathBuf) -> EvalReport {
+pub fn run_prompts_suite(repo_root: &Path) -> EvalReport {
     let mut results = Vec::new();
     let max = 40usize;
     let hooks = repo_root.join(".vjs/hooks");
@@ -400,7 +400,7 @@ pub fn run_suite(
     name: &str,
     invariants: &[Invariant],
     ctx: Option<&KernelContext>,
-    repo_root: &PathBuf,
+    repo_root: &Path,
 ) -> Vec<EvalReport> {
     match name {
         "agent-harness" => vec![run_agent_harness_suite(invariants)],

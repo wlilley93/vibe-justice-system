@@ -3,13 +3,12 @@
 //! permit, the proof_exists predicate carries its own proof_kind field, and
 //! validate_obligations reports real satisfaction instead of hardcoded false.
 
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use vjs_core::*;
 use vjs_core::spec::{validate_obligations, Permit, Proof, SpecSet};
-use vjs_core::types::*;
 use vjs_lawpack::*;
 
-fn build_kernel_context(repo: &PathBuf) -> Result<KernelContext, vjs_core::error::KernelError> {
+fn build_kernel_context(repo: &Path) -> Result<KernelContext, vjs_core::error::KernelError> {
     let lawpack = LawpackLoader::load(&repo.join("lawpack/v2"))?;
     let graph = lawpack.build_authority_graph()?;
     Ok(KernelContext {

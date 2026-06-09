@@ -1,6 +1,5 @@
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
-use crate::error::*;
 use crate::types::*;
 use crate::spec::*;
 
@@ -16,7 +15,7 @@ pub enum PathClassification {
 
 impl PathClassifier {
     pub fn classify(
-        path: &PathBuf,
+        path: &Path,
         permit_required: &[String],
         permit_exempt: &[String],
     ) -> PathClassification {
@@ -318,7 +317,7 @@ impl PermitGate {
     /// scope-covering permit so evaluate can report WHY it fails (expired,
     /// revoked, closed) instead of a bare PERMIT-MISSING.
     fn find_matching_permit(
-        path: &PathBuf,
+        path: &Path,
         permits: &[Permit],
     ) -> Option<Permit> {
         let now = chrono::Utc::now();

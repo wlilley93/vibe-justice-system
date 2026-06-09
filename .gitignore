@@ -1,6 +1,5 @@
-# Rust
+# Rust (the workspace ships binaries, so Cargo.lock is committed)
 /target/
-/Cargo.lock
 **/*.rs.bk
 
 # Node
@@ -30,3 +29,6 @@ __pycache__/
 # vjs invoke --install-hooks entrypoints (local activation, regenerated per clone)
 .vjs/hooks/pre-commit
 .vjs/hooks/pre-push
+
+# stray build artifacts
+*.rlib

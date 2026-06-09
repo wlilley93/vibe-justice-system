@@ -1,9 +1,7 @@
 use std::path::Path;
 use std::process::Command;
-use regex::Regex;
 
 use vjs_core::*;
-use vjs_core::error::*;
 
 pub struct GitIntegration;
 
@@ -146,12 +144,11 @@ fi
         // the link points. Replace the link with a regular file.
         for name in ["pre-commit", "pre-push"] {
             let p = hooks_dir.join(name);
-            if let Ok(meta) = std::fs::symlink_metadata(&p) {
-                if meta.file_type().is_symlink() {
+            if let Ok(meta) = std::fs::symlink_metadata(&p)
+                && meta.file_type().is_symlink() {
                     std::fs::remove_file(&p)
                         .map_err(|e| KernelError::Io(e.to_string()))?;
                 }
-            }
         }
 
         let pre_commit = hooks_dir.join("pre-commit");

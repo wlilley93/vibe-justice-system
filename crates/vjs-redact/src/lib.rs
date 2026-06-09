@@ -1,10 +1,7 @@
 use regex::Regex;
-use std::collections::HashSet;
 use std::path::Path;
 
 use vjs_core::*;
-use vjs_core::error::*;
-use vjs_core::court::*;
 
 pub struct RedactScanner;
 
@@ -81,12 +78,11 @@ impl RedactScanner {
             .filter_map(|e| e.ok())
         {
             let path = entry.path();
-            if path.is_file() {
-                if let Ok(content) = std::fs::read_to_string(path) {
+            if path.is_file()
+                && let Ok(content) = std::fs::read_to_string(path) {
                     let file_findings = Self::scan_file(path, &content);
                     findings.extend(file_findings);
                 }
-            }
         }
 
         Ok(findings)
