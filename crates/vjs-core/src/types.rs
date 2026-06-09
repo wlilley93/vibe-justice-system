@@ -269,6 +269,10 @@ pub enum Trigger {
     AuthorityBasisMissing,
     DraftTreatedAsBinding,
     MarkdownProposedAsCanonical,
+    V1ConstitutionalRouteComplete,
+    SupremeCourtSettlementReceived,
+    SovereignAssentGranted,
+    GazetteEntryPublished,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

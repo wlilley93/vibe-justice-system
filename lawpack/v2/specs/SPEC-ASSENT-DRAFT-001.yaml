@@ -1,0 +1,119 @@
+id: SPEC-ASSENT-DRAFT-001
+status: draft
+title: Sovereign assent and AI legislature competence (draft implementation brief)
+assent_source: pending_v1_constitutional_route
+owner: v2-kernel-team
+purpose: >
+  Draft scaffold for the assent field system that V2 will implement once the V1
+  constitutional route settles the question: "May AI draft, deliberate, propose,
+  consolidate, and operate delegated lawmaking machinery, and if so, under what
+  bounded assent conditions?"
+
+  This spec is NOT binding. It exists only as implementation guidance for V2
+  kernel development. No authority derives from this draft. Force awaits:
+  - Privy Council reference (V1)
+  - Supreme Court settlement if required (V1)
+  - Committee second draft (V1)
+  - Sovereign assent (V1)
+  - Gazette entry (V1)
+  - V2 lawpack adoption and commencement (V2)
+
+scope:
+  paths:
+    - lawpack/v2/specs/**
+  records:
+    - SPEC-ASSENT-DRAFT-001
+  action_kinds:
+    - legislative_draft
+    - implementation_decision
+
+decisions:
+  - DEC-ASSENT-DRAFT-001
+  - DEC-ASSENT-DRAFT-002
+
+invariants:
+  - INV-ASSENT-DRAFT-001
+  - INV-ASSENT-DRAFT-002
+
+obligations:
+  - OBL-ASSENT-DRAFT-001
+  - OBL-ASSENT-DRAFT-002
+
+review_triggers:
+  - v1_constitutional_route_complete
+  - supreme_court_settlement_received
+  - sovereign_assent_granted
+  - gazette_entry_published
+
+commentary: |
+  ## Proposed field structure (draft)
+
+  ### 1. assent_source on every authority
+
+  Every statute, regulation, order, and decision in the lawpack must declare:
+
+  assent_source:
+    kind: specific_assent | standing_bounded_assent
+    instrument: "Royal Assent Act 2026" | "Computer-First Realm Act" | etc.
+    date: "2026-06-08"
+    signatory: "Sovereign" | "Committee" | "Court" | "Delegated Body"
+    scope_limit: "V2 lawpack only" | "kernel regulations only" | etc.
+
+  ### 2. Delegated lawmaking record
+
+  Any AI-operated lawmaking machinery must declare:
+
+  delegated_lawmaking:
+    maker: "lexby" | "v2-kernel" | "mcp-server"
+    scope:
+      - "kernel_effect fields"
+      - "invariant predicates"
+      - "lawpack schema"
+    prohibited_subjects:
+      - "constitutional amendments"
+      - "assent rule itself"
+      - "competence expansion"
+      - "sovereign prerogative"
+    required_form:
+      - "text + kernel_effect"
+      - "validate-invariant-prove"
+      - "yaml with tagged predicates"
+    validation_route:
+      - "vjs validate"
+      - "vjs local-ci"
+      - "invariant evaluation"
+    review_or_veto_route:
+      - "court filing"
+      - "appeal to Supreme Court"
+      - "Sovereign disallowance"
+    commencement_conditions:
+      - "v1 constitutional route complete"
+      - "supreme_court_settlement if required"
+      - "sovereign_assent_granted"
+      - "gazette_entry_published"
+      - "v2_lawpack_adopted"
+
+  ### 3. Validation rules (draft)
+
+  The kernel must reject:
+  - Any authority without an assent_source field
+  - assent_source.kind == self_authorised
+  - Any delegated lawmaking record that omits prohibited_subjects
+  - Any change to prohibited_subjects that removes "assent rule" or "competence expansion"
+  - Any implied assent (e.g., "assumed by silence", "inferred from use")
+
+  ### 4. Lifecycle
+
+  V1 constitutional route
+    -> Privy Council reference
+      -> Supreme Court settlement (if required)
+        -> Committee second draft
+          -> Sovereign assent
+            -> Gazette entry
+              -> V2 lawpack adoption
+                -> V2 commencement
+                  -> Binding force
+
+  ### 5. Current status
+
+  This spec is at step 0 (draft scaffold only). No force. No authority. No assent.

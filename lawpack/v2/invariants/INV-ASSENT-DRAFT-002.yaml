@@ -1,0 +1,28 @@
+id: INV-ASSENT-DRAFT-002
+title: Delegated lawmaking must declare prohibited subjects
+status: draft
+assent_source: pending_v1_constitutional_route
+severity: error
+rule:
+  kind: if
+  condition:
+    kind: field_equals
+    field: kind
+    value: delegated_lawmaking
+  then:
+    kind: required_fields
+    fields:
+      - prohibited_subjects
+      - scope
+      - maker
+      - validation_route
+      - review_or_veto_route
+      - commencement_conditions
+basis:
+  - V2-CHARTER-001
+  - V2-CONSTITUTION-001
+  - PENDING-V1-ASSENT
+remedy: >
+  Any delegated lawmaking record must declare its bounds, prohibited subjects,
+  review route, and commencement conditions. The assent rule itself and competence
+  expansion must be in prohibited_subjects. Force awaits V1 constitutional route.
