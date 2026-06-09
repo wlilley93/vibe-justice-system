@@ -1,4 +1,5 @@
 id: INV-AGENT-001
+assent_source: sovereign_assent
 title: Agents cannot bypass the route-permit-obligations-proof-log-validate lifecycle
 severity: fatal
 rule:

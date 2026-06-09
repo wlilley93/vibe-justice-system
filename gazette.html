@@ -57,9 +57,8 @@
   .card .court { color:var(--muted); font-size:.85rem; margin-top:.1rem; }
   .card .ratio { margin:.4rem 0; }
   .chip { display:inline-block; border:1px solid var(--tone); border-radius:4px; background:var(--tone-bg);
-    color:var(--tone); font-size:.68rem; font-style:normal; letter-spacing:.04em; line-height:1.2;
-    text-transform:uppercase; padding:.08rem .4rem; vertical-align:.14rem; margin-left:.4rem; font-weight:normal;
-    font-family:'Iowan Old Style','Palatino Linotype','Times New Roman',serif; }
+    color:var(--tone); font-size:.68rem; font-style:normal; font-weight:normal; letter-spacing:.04em;
+    line-height:1.2; text-transform:uppercase; padding:.08rem .4rem; vertical-align:.08rem; margin-left:.4rem; }
   .badge { display:inline-block; font-size:.7rem; text-transform:uppercase; letter-spacing:.06em;
     padding:.05rem .45rem; border:1px solid var(--muted); color:var(--muted); border-radius:4px;
     margin-left:.4rem; vertical-align:.14rem; }
@@ -139,7 +138,11 @@ function goodBad(status) {
   if (/(good|in.force|binding|active|assented)/.test(s)) return 'good';
   return '';
 }
-function esc(t) { const e = document.createElement('span'); e.textContent = t ?? ''; return e.innerHTML; }
+// Escapes for BOTH element and attribute context (quotes included).
+function esc(t) {
+  return String(t ?? '').replace(/[&<>"']/g, c =>
+    ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
 
 function matches(d) {
   if (estate !== 'all' && d.estate !== estate) return false;
@@ -159,7 +162,7 @@ function sorted(list) {
 function card(d) {
   const t = tone(d);
   const courtLine = [d.citation, KIND_LABEL[d.kind] || d.kind, COURT_LABEL[d.court] || '']
-    .filter(Boolean).join(' &middot; ');
+    .filter(Boolean).map(esc).join(' &middot; ');
   const gb = goodBad(d.status);
   const points = (d.points || []).map(p => `<li>${esc(p)}</li>`).join('');
   return `<div class="card tone-${t}" id="${esc(d.id)}">

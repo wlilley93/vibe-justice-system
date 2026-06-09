@@ -1,4 +1,5 @@
 id: OBL-TEST-001
+assent_source: sovereign_assent
 title: Kernel refactors and dependency changes pass determinism tests before merge
 status: in_force
 kind: proof
