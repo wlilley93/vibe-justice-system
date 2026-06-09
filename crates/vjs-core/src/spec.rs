@@ -353,7 +353,20 @@ fn evaluate_predicate(rule: &PredicateExpr, repo_state: &RepoState) -> bool {
                 if !is_runtime_authority {
                     return true;
                 }
-                if content.contains("incorporat") {
+                // A V1 authority binds V2 only by one of the two lawful routes
+                // the Act recognises: express incorporation (s.8) or
+                // constitutional carry-forward in continuity (s.19(4), e.g. the
+                // court hierarchy). Either marker, present in the same runtime
+                // record, satisfies the rule; a bare V1 citation with neither is
+                // an unincorporated import and a violation.
+                const CARRY_MARKERS: [&str; 5] = [
+                    "incorporat",
+                    "carried forward",
+                    "carried into",
+                    "carry-forward",
+                    "carries forward",
+                ];
+                if CARRY_MARKERS.iter().any(|m| content.contains(m)) {
                     return true;
                 }
                 !V1_MARKERS.iter().any(|m| content.contains(m))
