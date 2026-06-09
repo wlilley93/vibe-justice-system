@@ -70,6 +70,9 @@
   .card .points li { margin:.28rem 0; }
   .card .links { margin-top:.45rem; }
   .card .links a { color:var(--ink); margin-right:1rem; font-size:.85rem; }
+  .part { margin:1.6rem 0 .2rem; padding-bottom:.3rem; border-bottom:2px solid var(--ink);
+    color:var(--ink); font-size:1.15rem; letter-spacing:.04em; }
+  .part .n { color:var(--muted); font-size:.8rem; font-weight:normal; letter-spacing:0; }
   footer { border-top:1px solid var(--rule); margin-top:2rem; padding:1.2rem 1rem; text-align:center;
     color:var(--muted); font-size:.8rem; font-style:italic; }
 </style>
@@ -83,13 +86,13 @@
 <div class="wrap">
   <div class="start">
     <h2>The record of the realm</h2>
-    <p>Live law is the V2 canon (the compact lawpack the kernel loads); the honoured first generation
-       is preserved as the V1 archive estate. Publication here is constitutively inert: force comes from
-       the lawpack and the Sovereign's assent, never from being listed.</p>
+    <p>Live law is <strong>the living canon</strong> (the compact lawpack the kernel loads); the first
+       generation is preserved, read-only, as <strong>the honoured archive</strong>. Publication here is
+       constitutively inert: force comes from the lawpack and the Sovereign's assent, never from being listed.</p>
     <div class="quick">
       <a href="gazette-graph.html">Explore as a constellation &rarr;</a>
       <a href="https://github.com/wlilley93/vibe-justice-system">The canonical repository</a>
-      <a href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/INDEX.md">The V1 citator</a>
+      <a href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/INDEX.md">The archive citator</a>
     </div>
   </div>
   <input id="q" placeholder="Search the law&hellip;  (e.g. assent, permits, hooks, PC 5, REALM-SC 10)" autocomplete="off">
@@ -126,7 +129,9 @@ const CLASS_TABS = [
   ['all','All law'], ['act','Acts'], ['si','Instruments'], ['sc','Supreme Court'],
   ['pc','Privy Council'], ['first','First instance'], ['submission','Machinery'],
 ];
-const ESTATE_TABS = [['all','Both estates'], ['v2','Current estate (V2)'], ['v1','Archive estate (V1)']];
+const ESTATE_TABS = [['all','Both estates'], ['v2','The living canon'], ['v1','The honoured archive']];
+const ESTATE_NAME = { v2:'The living canon', v1:'The honoured archive' };
+const ESTATE_CHIP = { v2:'Canon', v1:'Archive' };
 const KIND_ORDER = { statute:0, act:0, regulation:1, instrument:1, rule:2, order:3, judgment:3,
   decision:4, invariant:5, obligation:6, spec:7 };
 
@@ -166,7 +171,7 @@ function card(d) {
   const gb = goodBad(d.status);
   const points = (d.points || []).map(p => `<li>${esc(p)}</li>`).join('');
   return `<div class="card tone-${t}" id="${esc(d.id)}">
-    <div class="titleline">${esc(d.title)}<span class="chip">${esc(KIND_LABEL[d.kind] || d.kind)}</span><span class="chip ${d.estate === 'v1' ? 'tone-v1' : 'tone-v2'}" style="--tone:var(--${d.estate === 'v1' ? 'v1' : 'v2'});--tone-bg:var(--${d.estate === 'v1' ? 'v1' : 'v2'}-bg)">${d.estate === 'v1' ? 'V1 archive' : 'V2 current'}</span>${d.status ? `<span class="badge ${gb}">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : ''}</div>
+    <div class="titleline">${esc(d.title)}<span class="chip">${esc(KIND_LABEL[d.kind] || d.kind)}</span><span class="chip" style="--tone:var(--${d.estate === 'v1' ? 'v1' : 'v2'});--tone-bg:var(--${d.estate === 'v1' ? 'v1' : 'v2'}-bg)">${ESTATE_CHIP[d.estate]}</span>${d.status ? `<span class="badge ${gb}">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : ''}</div>
     ${courtLine ? `<div class="court">${courtLine}</div>` : ''}
     <div class="ratio">${esc(d.summary)}</div>
     ${points ? `<details><summary>Main points</summary><ul class="points">${points}</ul></details>` : ''}
@@ -200,7 +205,17 @@ function render() {
     k => { klass = k; render(); });
   document.getElementById('meta').textContent =
     `${shown.length} of ${ITEMS.length} items shown. Colour and chips are orientation aids only; the committed law is the source.`;
-  document.getElementById('list').innerHTML = shown.map(card).join('');
+  // One Gazette, two estates: the list is structured in parts.
+  let html = '', lastEstate = null;
+  for (const d of shown) {
+    if (d.estate !== lastEstate) {
+      const count = shown.filter(x => x.estate === d.estate).length;
+      html += `<h2 class="part">${ESTATE_NAME[d.estate]} <span class="n">${count} items</span></h2>`;
+      lastEstate = d.estate;
+    }
+    html += card(d);
+  }
+  document.getElementById('list').innerHTML = html;
 }
 
 document.getElementById('q').addEventListener('input', e => { query = e.target.value.trim(); render(); });

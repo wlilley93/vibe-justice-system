@@ -1612,6 +1612,41 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
         }
     }
 
+    // Authority lineage: the force chain, derived from the enacted structure
+    // rather than textual citation. A record that never quotes the founding
+    // act still holds its force through it; the Gazette shows that descent.
+    // Per-kind anchors (skipped when the anchor is the item itself):
+    //   canon:   statute -> the founding act (which itself traces to the
+    //            assented Bill 32 in the archive); regulation -> its parent
+    //            act (the textual `authority` already carries this); rule,
+    //            decision, invariant, obligation, spec -> the Constitution
+    //            and Sources of Authority Act (which constitutes those
+    //            categories); order -> the courts-constitution order.
+    //   archive: act -> the Acts of Union; instrument -> the SI-delegation
+    //            act; judgment -> the courts/citations act.
+    const FOUNDING_ACT: &str = "ACT-COMPUTER-FIRST-REALM";
+    const SOURCES_ACT: &str = "ACT-001";
+    const COURTS_ORDER: &str = "2026-VJS-COURTS-CONSTITUTION-001";
+    const V1_UNION: &str = "BILL-1";
+    const V1_SI_ACT: &str = "BILL-14";
+    const V1_COURTS_ACT: &str = "BILL-16";
+    const V1_FOUNDING_BILL: &str = "BILL-32";
+    fn lineage_anchor(estate: &str, kind: &str, id: &str) -> Option<&'static str> {
+        let anchor = match (estate, kind) {
+            ("v2", "statute") => {
+                if id == FOUNDING_ACT { V1_FOUNDING_BILL } else { FOUNDING_ACT }
+            }
+            ("v2", "regulation") => "", // its authority field already names the parent
+            ("v2", "order") => COURTS_ORDER,
+            ("v2", _) => SOURCES_ACT,
+            ("v1", "act") => V1_UNION,
+            ("v1", "instrument") => V1_SI_ACT,
+            ("v1", "judgment") => V1_COURTS_ACT,
+            _ => "",
+        };
+        (!anchor.is_empty() && anchor != id).then_some(anchor)
+    }
+
     // An edge may only point at an item: a section cite collapses to its
     // parent act's item; anything else unresolved is dropped.
     let known: std::collections::HashSet<String> = items
@@ -1621,9 +1656,12 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     let mut dropped = 0usize;
     for item in &mut items {
         let own_id = item["id"].as_str().unwrap_or_default().to_string();
+        let estate = item["estate"].as_str().unwrap_or_default().to_string();
+        let kind = item["kind"].as_str().unwrap_or_default().to_string();
+        let mut resolved: Vec<String> = Vec::new();
         if let Some(cites) = item["cites"].as_array_mut() {
             let before = cites.len();
-            let mut resolved: Vec<String> = cites
+            resolved = cites
                 .iter()
                 .filter_map(|c| {
                     let c = c.as_str()?;
@@ -1639,8 +1677,20 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             resolved.sort();
             resolved.dedup();
             dropped += before.saturating_sub(resolved.len());
-            *cites = resolved.into_iter().map(serde_json::Value::String).collect();
+            *cites = resolved.iter().cloned().map(serde_json::Value::String).collect();
         }
+        let anchor = lineage_anchor(&estate, &kind, &own_id).or_else(|| {
+            // A regulation normally hangs off its textual `authority`; if that
+            // failed to resolve it still holds force under the SI power.
+            (estate == "v2" && kind == "regulation" && resolved.is_empty())
+                .then_some("ACT-CONSOLIDATION-FRAMEWORK")
+        });
+        let lineage: Vec<serde_json::Value> = anchor
+            .filter(|a| known.contains(*a) && !resolved.contains(&a.to_string()))
+            .map(|a| serde_json::Value::String(a.to_string()))
+            .into_iter()
+            .collect();
+        item["lineage"] = serde_json::Value::Array(lineage);
     }
 
     let data = serde_json::json!({

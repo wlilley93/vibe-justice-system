@@ -3,7 +3,7 @@
 //! path exists, and both estates are present. If law changes without
 //! `vjs gazette` being re-run, this fails and says so.
 
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use std::path::PathBuf;
 
 fn repo_root() -> PathBuf {
@@ -68,15 +68,23 @@ fn every_law_object_is_published_and_every_edge_resolves() {
         }
     }
 
+    // Degree over citations plus derived authority lineage: the constellation
+    // may never show a star floating free of the constitutional centre.
+    let mut degree: std::collections::HashMap<String, usize> = HashMap::new();
     for item in &items {
-        // No edge to a non-item.
-        for cite in item["cites"].as_array().unwrap() {
-            assert!(
-                ids.contains(cite.as_str().unwrap()),
-                "item '{}' cites non-item '{}'",
-                item["id"],
-                cite
-            );
+        // No edge to a non-item, citation or lineage.
+        for key in ["cites", "lineage"] {
+            for edge in item[key].as_array().unwrap() {
+                assert!(
+                    ids.contains(edge.as_str().unwrap()),
+                    "item '{}' has {} edge to non-item '{}'",
+                    item["id"],
+                    key,
+                    edge
+                );
+                *degree.entry(item["id"].as_str().unwrap().to_string()).or_default() += 1;
+                *degree.entry(edge.as_str().unwrap().to_string()).or_default() += 1;
+            }
         }
         // Every V2 source path exists; every URL is branch-correct (the public
         // repo has master and v1 branches; /blob/main/ 404s).
@@ -98,5 +106,13 @@ fn every_law_object_is_published_and_every_edge_resolves() {
         // The reading surface is real: a title and at least a summary.
         assert!(!item["title"].as_str().unwrap().is_empty());
         assert!(!item["summary"].as_str().unwrap().is_empty());
+    }
+
+    for item in &items {
+        assert!(
+            degree.get(item["id"].as_str().unwrap()).copied().unwrap_or(0) > 0,
+            "item '{}' is an orphan star: no citation or lineage edge touches it",
+            item["id"]
+        );
     }
 }

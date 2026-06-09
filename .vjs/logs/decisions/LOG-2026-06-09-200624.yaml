@@ -1,0 +1,12 @@
+id: LOG-2026-06-09-200624
+time: 2026-06-09T20:06:24.468175556+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260609-200606
+decision: 'The estates are named in the record''s own language, not version ordinals: THE LIVING CANON (current estate) and THE HONOURED ARCHIVE (read-only). The names follow existing canonical usage (README and GAZETTE.md already spoke of the living canon and the honoured archive), so this is applied usage, a decisive call, not new doctrine; v1/v2 remain only as internal data keys, git branch names, and historical proper nouns. Applied across gazette.html (tabs, chips, blurb, new estate part-headers structuring the list), gazette-graph.html (kicker, legend, filters, copy), README, GAZETTE.md. Second: the constellation now carries DERIVED AUTHORITY LINEAGE, default on with a toggle: vjs gazette emits per-item lineage edges from the enacted structure (statutes assent under the Computer-First Realm Act, itself grounded in the assented Bill 32; regulations hang off their authority act with the Framework Act SI power as fallback; orders issue from the courts-constitution order; decisions, invariants, obligations, specs are constituted by the Constitution and Sources of Authority Act; archive acts trace to the Acts of Union, instruments to the delegation act, judgments to the citations and courts act). Lineage renders as a faint blue dotted descent, distinct from ink citations and amber archival source edges, and the sidebar gains a Derives-force-from section. Zero orphan stars (313 edges; the test now fails on any disconnected item).'
+basis:
+- PERMIT-1781035566
+risk: low
+reversibility: easy
+court_required: false
+why: The Principal directed better names than v1/v2 and lineage visibility for records that hold force without textually citing the founding act. Lineage is presentation of the enacted force chain, an orientation aid, never a source of force.
