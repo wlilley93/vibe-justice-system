@@ -1,0 +1,1562 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>The VJS Gazette</title>
+  <subtitle>The record of the realm: the living canon and the honoured archive</subtitle>
+  <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette</id>
+  <updated>2026-06-09T00:00:00Z</updated>
+  <link rel="self" href="https://wlilley93.github.io/vibe-justice-system/gazette.xml"/>
+  <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/"/>
+  <author><name>Vibe Justice System</name></author>
+  <rights>Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001): force comes from the lawpack and the Sovereign's assent, never from publication or syndication.</rights>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-001</id>
+    <title>Governance (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-BOOT-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-001.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">V2 runtime uses orders, rules, and logs as authority; V1 archive not runtime context unless incorporated.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-002</id>
+    <title>Archive (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-BOOT-002"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-002.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">V1 archive is historical and persuasive; not live runtime law unless expressly incorporated.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-003</id>
+    <title>Court structure (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-BOOT-003"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-003.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Court of Appeal not carried forward in V2 MVP; appeals handled by Privy Council or Supreme Court.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-004</id>
+    <title>Logs (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-BOOT-004"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-004.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Material implementation decisions require 50-150 word decision logs.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-005</id>
+    <title>Mcp (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-BOOT-005"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-005.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">MCP adapter exposes only 6 tools; local-first; no release tools or direct file writes.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-006</id>
+    <title>Kernel determinism (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-BOOT-006"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-006.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Kernel must remain deterministic, model-free, and network-free.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-007</id>
+    <title>Invariants (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-BOOT-007"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-007.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Invariants are deterministic, typed, evaluated mechanically using fixed predicate registry.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-008</id>
+    <title>Specs (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-BOOT-008"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-008.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Specs are first-class law objects with purpose, scope, decisions, invariants, obligations, and review triggers.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-009</id>
+    <title>Permits (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-BOOT-009"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-009.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Permits required for governed writes; hooks enforce lifecycle (permit check, pre-commit validation), not the law itself.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-010</id>
+    <title>Boundary (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-BOOT-010"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-010.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Public/private boundary enforced by deterministic scanner, not model judgment.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-011</id>
+    <title>Alpha hardening (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-BOOT-011"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-011.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">V2 alpha must harden predicate evaluation, repo scanning, invariant validation, permits, hooks before adding courts, Gazette, migration.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-012</id>
+    <title>Permit enforcement hardening order</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-BOOT-012"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-012.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">V2 alpha must enforce permits at staged-change and commit boundary before further expansion.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-COURTS-CONSTITUTION-001</id>
+    <title>Court constitution (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-COURTS-CONSTITUTION-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-COURTS-CONSTITUTION-001.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">V2 courts expressly constituted with odd benches; County 1, Privy Council 3, Supreme Court 5/9; Court of Appeal persists but non-convened.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-001</id>
+    <title>Transition and onboarding (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-001.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">3-0 Privy Council ruling on V1-&gt;V2 transitional-continuity doctrine, pending matter classification, and local onboarding.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-002</id>
+    <title>Repository topology (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-002"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-002.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">3-0 Privy Council ruling consolidating onto established public repo as one canonical line with two-estate Gazette.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-003</id>
+    <title>S23 sc10 location (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-003"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-003.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">3-0 Privy Council ruling on back-filling s.23 and SC-10 into V1 archival estate with proper estate marking.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-004</id>
+    <title>Foundational law citation (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-004"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-004.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">3-0 Privy Council ruling on citation convention: cite statute by instrument+section, case law by its case (neutral citation).</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-005</id>
+    <title>Institutions and repos house (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-005"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-005.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">3-0 Privy Council ruling on Repos House as declarative registry and institutional model.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-006</id>
+    <title>Superrepo self invocation (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-006"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-006.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">3-0 Privy Council ruling that canon super-repo self-invokes under REG-INVOCATION-001; Privy Council is realm first-instance court.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-001</id>
+    <title>Federation extraction canonicalisation (the order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-001.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">9-0 Supreme Court ruling on federation test, V1 incorporation, canonicalisation governance, and constitutional directives.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-001</id>
+    <title>Constitution and Sources of Authority Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/01-authority.yaml"/>
+    <category term="statute"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Establishes V2 constitutional foundation, sources of authority hierarchy, and kernel as runtime authority surface.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-002</id>
+    <title>Courts and Orders Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-002"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/02-courts-orders.yaml"/>
+    <category term="statute"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Establishes three-court structure (County, Privy Council, Supreme), order binding rules, and word limits.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-003</id>
+    <title>Agent Duties and Route Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-003"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/03-agent-duties.yaml"/>
+    <category term="statute"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Defines agent duties, kernel routing for governed work, and permit-obligation-proof-log lifecycle.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-004</id>
+    <title>Records, Logs, Specs and Invariants Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-004"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/04-records-logs-citations.yaml"/>
+    <category term="statute"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Defines typed records, invariants as deterministic checks, and citation/supersession rules.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-005</id>
+    <title>Public and Private Boundary Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-005"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/05-public-private-boundary.yaml"/>
+    <category term="statute"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Enforces public/private boundary, keeps public records system-data-only, and localizes private operational facts.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-006</id>
+    <title>External Acts and Release Authority Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-006"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/06-external-acts.yaml"/>
+    <category term="statute"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Governs external acts, public releases, destructive operations, and requires human checkpoints for irreversible actions.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-007</id>
+    <title>Federation and Local Sovereignty Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-007"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/07-federation.yaml"/>
+    <category term="statute"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Establishes local jurisdiction on VJS installation, default subscription to lawpack, and local variation rules.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-COMPUTER-FIRST-REALM</id>
+    <title>Computer-First Realm Act 2026</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-COMPUTER-FIRST-REALM"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/08-computer-first-realm.yaml"/>
+    <category term="statute"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Founding constitutional Act declaring V2 a computer-first legal system with kernel-governed compact lawpack.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-CONSOLIDATION-FRAMEWORK</id>
+    <title>Realm Consolidation and Reconciliation Framework Act 2026</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-CONSOLIDATION-FRAMEWORK"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/09-consolidation-framework.yaml"/>
+    <category term="statute"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Consolidating constitutional Act restating V1 law, establishing subordinate regulation power, and protecting core principles.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:AGENT-LOOKUP-001</id>
+    <title>Memory is not authority</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#AGENT-LOOKUP-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/rules/AGENT-LOOKUP-001.yaml"/>
+    <category term="rule"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Retrieve current authority from kernel before governed load-bearing work; memory is not source of law.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:AGENT-LOOKUP-002</id>
+    <title>Kernel-first lifecycle</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#AGENT-LOOKUP-002"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/rules/AGENT-LOOKUP-002.yaml"/>
+    <category term="rule"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Agent must follow full route-permit-proof-log-validate lifecycle for implementation decisions and public changes.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:BILL-32</id>
+    <title>[2026] Computer-First Realm Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#BILL-32"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/32-computer-first-realm-act-2026.md"/>
+    <category term="act"/>
+    <category term="archive"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Founding statute for VJS V2 (Computer-First Realm); establishes V2 machinery and handover conditions.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DATA-PRIVATE-001</id>
+    <title>Private facts stay local</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DATA-PRIVATE-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/rules/DATA-PRIVATE-001.yaml"/>
+    <category term="rule"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Public records must not contain private facts, secrets, tokens, or unredacted evidence.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-AGENT-001</id>
+    <title>Agent lifecycle - route, permit, obligations, proof, log, validate</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-AGENT-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-AGENT-001.yaml"/>
+    <category term="decision"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Agents performing load-bearing work (implementation decisions, public record changes, external acts, security-sensitive acts) shall follow the route-permit-obligations-proof-log-validate lifecycle.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-AGENT-HARNESS-001</id>
+    <title>Prompts do not create governance capability</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-AGENT-HARNESS-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-AGENT-HARNESS-001.yaml"/>
+    <category term="decision"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Agents are governed by kernel tools, deterministic validation, permits, proofs, logs, evals; not long prompts.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-ASSENT-DRAFT-001</id>
+    <title>AI legislature competence bounds - delegated lawmaking conditions and assent_source semantics</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-ASSENT-DRAFT-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-ASSENT-DRAFT-001.yaml"/>
+    <category term="decision"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Delegated lawmaking by AI agents is conditional on express Sovereign assent and bounded by prohibited subjects.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-ASSENT-DRAFT-002</id>
+    <title>Assent lifecycle gates - from draft to Gazette entry and adoption</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-ASSENT-DRAFT-002"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-ASSENT-DRAFT-002.yaml"/>
+    <category term="decision"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">No law object acquires binding force by silence, default, or implied assent.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-KERNEL-001</id>
+    <title>Kernel determinism mandate</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-KERNEL-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-KERNEL-001.yaml"/>
+    <category term="decision"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">The kernel must be deterministic, local-first, and independent of model judgement.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-KERNEL-002</id>
+    <title>Kernel refactor and dependency constraints</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-KERNEL-002"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-KERNEL-002.yaml"/>
+    <category term="decision"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Kernel refactors, dependency additions, network capability introductions, model call introductions, and authority-ranking changes must be gated by judicial review.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-V1-SILENCE-001</id>
+    <title>V2 silence is a V2 question, not a V1 revival</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-V1-SILENCE-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-V1-SILENCE-001.yaml"/>
+    <category term="decision"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">V2 gap does not auto-import V1 as binding; gaps are V2 first-impression questions; V1 may be consulted.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-AGENT-001</id>
+    <title>Agents cannot bypass the route-permit-obligations-proof-log-validate lifecycle</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-AGENT-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-AGENT-001.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Reject all implementation decisions, public record changes, external acts, and security-sensitive acts that lack a valid permit, contemporaneous decision log, and proof of validation.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-AGENT-002</id>
+    <title>Permit precedence, contemporaneous obligation log, post-execution validation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-AGENT-002"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-AGENT-002.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Every change to crates/** must carry a contemporaneous decision log.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-AGENT-EVALS-001</id>
+    <title>Agent harness changes require eval coverage</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-AGENT-EVALS-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-AGENT-EVALS-001.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Agent harness, hook, or prompt changes trigger requirement for evaluation fixture coverage.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-ASSENT-DRAFT-001</id>
+    <title>Assent-source mandatory on all runtime-force records</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-ASSENT-DRAFT-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-ASSENT-DRAFT-001.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Every statute, regulation, order, and decision file must carry an assent_source field with a value of either sovereign_assent or standing_bounded_assent, tracing to a recorded Sovereign assent event.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-ASSENT-DRAFT-002</id>
+    <title>Delegated lawmaking must declare and preserve prohibited_subjects</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-ASSENT-DRAFT-002"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-ASSENT-DRAFT-002.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Any change to the SPEC-ASSENT-DRAFT-001 spec file (which declares the prohibited_subjects list for AI-operated lawmaking) must preserve the string &quot;prohibited&quot; in the file.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-ASSENT-SOURCE-001</id>
+    <title>Assent-Source Invariant - all runtime authority must trace to Sovereign assent</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-ASSENT-SOURCE-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-ASSENT-SOURCE-001.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Every record claiming binding force must declare valid assent_source (sovereign or standing_bounded); fail-closed allow-list.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-ENTRENCHED-GATE-001</id>
+    <title>Section 14 entrenchment gate preservation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-ENTRENCHED-GATE-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-ENTRENCHED-GATE-001.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Section 14 is entrenched against machine amendment.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-HOOKS-SHORT-001</id>
+    <title>VJS hooks stay short state checks</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-HOOKS-SHORT-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-HOOKS-SHORT-001.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Hooks must stay under 40 words; long hooks are fatal severity.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-KERNEL-001</id>
+    <title>Kernel determinism</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-KERNEL-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-KERNEL-001.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Remove all model calls (calls to Claude, GPT, Gemini, or other LLM APIs) from the kernel.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-KERNEL-002</id>
+    <title>Kernel local-first and network-free</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-KERNEL-002"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-KERNEL-002.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Remove all network calls and external service dependencies from the kernel.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-KERNEL-003</id>
+    <title>Kernel changes require judicial review gates</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-KERNEL-003"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-KERNEL-003.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Record a decision log explaining the kernel refactor, dependency change, network capability introduction, or authority-ranking change.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-NO-V1-GAP-FILLER</id>
+    <title>V2 silence does not import V1 as binding law</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-NO-V1-GAP-FILLER"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-NO-V1-GAP-FILLER.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">V1 archive must not be loaded as gap-filler for V2 silence; silence is fatal if V1 auto-imported.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-PROMPT-PATCH-001</id>
+    <title>Prompt patches require a recorded rationale</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-PROMPT-PATCH-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-PROMPT-PATCH-001.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Prompt or agent harness changes must have a decision log explaining the rationale.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:KERNEL-DEPENDENCY-002</id>
+    <title>Kernel dependency policy</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#KERNEL-DEPENDENCY-002"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/rules/KERNEL-DEPENDENCY-002.yaml"/>
+    <category term="rule"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Kernel code must stay auditable and deterministic; extra crates require explicit safety or correctness reason.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:OBL-ASSENT-DRAFT-001</id>
+    <title>Assent-source mandatory at commencement</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#OBL-ASSENT-DRAFT-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/obligations/OBL-ASSENT-DRAFT-001.yaml"/>
+    <category term="obligation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Every law object (statute, regulation, order, decision, invariant, obligation) that claims binding runtime force must declare and provide an assent_source field before commencement.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:OBL-ASSENT-DRAFT-002</id>
+    <title>Delegated lawmaking validates every change against prohibited_subjects</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#OBL-ASSENT-DRAFT-002"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/obligations/OBL-ASSENT-DRAFT-002.yaml"/>
+    <category term="obligation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Any AI-operated lawmaking machinery, delegated authority system, or automated law-authoring tool must evaluate every proposed change against the prohibited_subjects list published in the competence grant (recorded in SPEC-ASSENT-DRAFT-001 or the grant instrument).</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:OBL-LOG-001</id>
+    <title>Decision log obligation for governed actions</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#OBL-LOG-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/obligations/OBL-LOG-001.yaml"/>
+    <category term="obligation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Every agent action on load-bearing work (implementation decisions, public record changes, external acts, security-sensitive acts) shall carry a contemporaneous decision log recording the intent, authorization route, permit id, decision rationale, and proof of validation.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:OBL-TEST-001</id>
+    <title>Kernel refactors and dependency changes pass determinism tests before merge</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#OBL-TEST-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/obligations/OBL-TEST-001.yaml"/>
+    <category term="obligation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Kernel refactors, dependency additions, network capability introductions, and model call removals must be covered by determinism tests before merge.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:OBL-VALIDATE-001</id>
+    <title>Validation proof obligation for agent actions with conditions</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#OBL-VALIDATE-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/obligations/OBL-VALIDATE-001.yaml"/>
+    <category term="obligation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Agent actions that route as AllowedWithConditions shall carry validation proof (vjs validate output) before commit, confirming that the work and its decision log satisfy all lawpack invariants.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-PC-24</id>
+    <title>[2026] REALM-PC 24 - VJS V2 founding and continuity</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-PC-24"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-24.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">V2 founding lawful in principle only if runs through V1 organs, preserves single apex; founding limbs leapfrogged to Supreme Court.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-SC-10</id>
+    <title>[2026] REALM-SC 10 - V1-to-V2 migration handover minute</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-SC-10"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-10.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Derived minute (archival): V1-to-V2 migration lawful on continuity; enacted CASE-LAW s. 23 Sovereign-assent floor.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-001</id>
+    <title>Lawpack Manifest Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Defines lawpack manifest fields, versioning, digest, lockfile, and schema validation.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-002</id>
+    <title>Directory Roles Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-002"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-002.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Defines configurable directory roles for VJS records with one fixed anchor: .vjs/config.toml.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-003</id>
+    <title>Citation and ID Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-003"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-003.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Defines citation formats for VJS records: VJS-ACT, VJS-REG, VJS-SC, VJS-PC, VJS-CC, LOG, SPEC, INV, DEC, PERMIT, PROOF.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-004</id>
+    <title>Route, Permit and Proof Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-004"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-004.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Defines lifecycle for governed work: route -&gt; permit -&gt; action -&gt; proof -&gt; log -&gt; validate -&gt; close.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-005</id>
+    <title>Word Limit Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-005"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-005.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Defines word limits for court output and decision records to keep authority compact.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-006</id>
+    <title>Default Invariant Suite Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-006"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-006.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Bootstraps the default deterministic invariant suite for V2 kernel evaluation.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-007</id>
+    <title>MCP Safety Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-007"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-007.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Defines MCP safety requirements: local-first, explicit repo root, limited write tools, audit log, human confirmation.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-008</id>
+    <title>Gazette and Archive Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-008"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-008.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Defines V1 as Gazette and archive; V2 runtime does not load V1 by default unless incorporated.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-CANONICALISATION-MIGRATION-001</id>
+    <title>Canonicalisation and Migration Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-CANONICALISATION-MIGRATION-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-CANONICALISATION-MIGRATION-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Makes canonicalisation a governed, lock-preserving migration; immutable digests, citations, IDs; no mass edits.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-FEDERATION-COORDINATION-001</id>
+    <title>Federation Coordination Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-FEDERATION-COORDINATION-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-FEDERATION-COORDINATION-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Defines coordination vs sovereignty test; default subscription lawful because revocable; no binding without adoption.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-GAZETTE-CONTINUITY-001</id>
+    <title>Gazette-Continuity and Publication Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-GAZETTE-CONTINUITY-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-GAZETTE-CONTINUITY-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">One Gazette with two estates; publication is constitutively inert; force from lawpack and kernel status, not publication.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-HOOKS-001</id>
+    <title>Functional Hook Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-HOOKS-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-HOOKS-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Hooks are deterministic functions returning typed decisions (allow, warn, block, require_route, require_log, require_proof).</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-INVOCATION-001</id>
+    <title>Local Sovereign Invocation Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-INVOCATION-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-INVOCATION-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Repository becomes VJS jurisdiction by local sovereign invocation, not directory ancestry; binding by invocation + lock + hooks.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-LAWMAKING-001</id>
+    <title>Lawpack Amendment and Legislative Intake Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-LAWMAKING-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-LAWMAKING-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Defines legislative intake: proposal, validation, adoption, citation, lawpack entry; all new law starts as draft.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-MIGRATION-INCORPORATION-001</id>
+    <title>Migration and Incorporation Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-MIGRATION-INCORPORATION-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-MIGRATION-INCORPORATION-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Operationalizes incorporation pipeline; V1 law crosses only by express incorporation record with validity finding.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-RELEASE-WARRANT-001</id>
+    <title>Automated Release Warrant Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-RELEASE-WARRANT-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-RELEASE-WARRANT-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Release warrant is deterministic pre-push gate checking remote/ref/SHA, boundary scan, and authorising instrument.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-REPOS-HOUSE-001</id>
+    <title>Repos House, Certification, and the Two-Layer Registry Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-REPOS-HOUSE-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-REPOS-HOUSE-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Made under the Consolidation Framework Act s.7, this Regulation establishes Repos House as a non-sovereign, two-layer declarative registry and certification ledger for V2 repositories.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-REPOS-REGISTER-001</id>
+    <title>Repos Register and Subscription Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-REPOS-REGISTER-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-REPOS-REGISTER-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Mandatory transition-subscription: repos create .vjs/config.toml, declare lineage, default-subscribe within 90 days.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-SELF-CONVENE-001</id>
+    <title>Self-Convening and No-Fork-to-Principal Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-SELF-CONVENE-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-SELF-CONVENE-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Agent must self-convene court for forks on symmetric case file; never route fork to Principal for decision.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-TRANSITION-CONTINUITY-001</id>
+    <title>Transition-Court and Continuity Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-TRANSITION-CONTINUITY-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-TRANSITION-CONTINUITY-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Privy Council is transition court classifying pending V1 matters as continued, reframed, or moot; V1 Court perfects only.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:SPEC-AGENT-HARNESS-001</id>
+    <title>VJS agent harness and prompting spec</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#SPEC-AGENT-HARNESS-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/specs/SPEC-AGENT-HARNESS-001.yaml"/>
+    <category term="spec"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Ensures agents governed by compact prompts, kernel tools, deterministic evals, and repair loops.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:SPEC-ASSENT-DRAFT-001</id>
+    <title>Sovereign assent and AI legislature competence (draft implementation brief)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#SPEC-ASSENT-DRAFT-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/specs/SPEC-ASSENT-DRAFT-001.yaml"/>
+    <category term="spec"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary type="text">Draft scaffold for assent field system pending V1 constitutional route settlement; not binding.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-001</id>
+    <title>V1 is archive, not runtime</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-001.yaml"/>
+    <category term="decision"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">V1 preserved as Gazette and archive; V2 runtime uses compact lawpack; only expressly migrated V1 binds.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-002</id>
+    <title>Orders bind, opinions explain</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-002"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-002.yaml"/>
+    <category term="decision"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">Kernel applies orders and rule atoms; opinions explain but do not bind unless incorporated.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-003</id>
+    <title>No Court of Appeal in V2 MVP</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-003"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-003.yaml"/>
+    <category term="decision"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">V2 uses County Court, Privy Council, and Supreme Court only; Court of Appeal deferred.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-004</id>
+    <title>Kernel first, MCP second</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-004"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-004.yaml"/>
+    <category term="decision"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">Rust kernel is authoritative runtime machinery; MCP is adapter; kernel must not depend on MCP.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-005</id>
+    <title>Configurable directories</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-005"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-005.yaml"/>
+    <category term="decision"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">VJS binds records by schema, ID, and configured role, not by ceremonial path.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-006</id>
+    <title>No semantic authority matching</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-006"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-006.yaml"/>
+    <category term="decision"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">Binding authority resolved by tags, jurisdiction, rank, status, scope, supersession; not cosine similarity.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-007</id>
+    <title>Legislation is YAML-first</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-007"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-007.yaml"/>
+    <category term="decision"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">V2 legislation is canonical as schema-validated YAML; Markdown is rendered explanation only.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-001</id>
+    <title>Lawpack validates</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-001.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">Lawpack must validate before proceeding; validation failure is fatal.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-002</id>
+    <title>No duplicate IDs</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-002"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-002.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">All record IDs must be unique; duplicates are fatal.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-003</id>
+    <title>No duplicate citations</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-003"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-003.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">All citations must be unique; duplicates are fatal.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-004</id>
+    <title>Orders have operative directives</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-004"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-004.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">Every order must have directives and runtime summary; absence is fatal.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-005</id>
+    <title>Public records contain no private facts</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-005"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-005.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">Public records must not contain private facts, secrets, or unredacted evidence.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-006</id>
+    <title>vjs-core has no model calls</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-006"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-006.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">Core kernel code must not contain model calls, LLM interactions, or semantic search.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-007</id>
+    <title>vjs-core has no network calls</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-007"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-007.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">Core kernel code must not contain network clients or direct network calls.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-008</id>
+    <title>Governed writes require permit</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-008"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-008.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">Governed writes must have matching valid permit; absence is error severity.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-009</id>
+    <title>Required proofs exist before permit closes</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-009"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-009.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">Permits cannot close without required proofs; absence is error severity.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-010</id>
+    <title>Decision logs are short</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-010"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-010.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">Decision logs must be 50-150 words; overlong or too-short logs are error severity.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-011</id>
+    <title>MCP is local-first</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-011"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-011.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">MCP server must bind to local interface only; network exposure is error severity.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-012</id>
+    <title>Directory roles resolve inside repo</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-012"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-012.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">Configured directory paths must resolve within the repo; escapes are error severity.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-013</id>
+    <title>V1 archive not loaded by default</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-013"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-013.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">V1 archive must not be loaded as runtime authority by default; default loading is error severity.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-LAWMAKING-001</id>
+    <title>New law requires authority basis</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-LAWMAKING-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-LAWMAKING-001.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">New law records must have authority, status, and kernel_effect fields; missing is fatal.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:INV-LAWMAKING-002</id>
+    <title>Draft law is not binding</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#INV-LAWMAKING-002"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/invariants/INV-LAWMAKING-002.yaml"/>
+    <category term="invariant"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">Records with status=draft must not be included in runtime authority graph; draft binding is fatal.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:SPEC-AGENT-001</id>
+    <title>Agent lifecycle spec</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#SPEC-AGENT-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/specs/SPEC-AGENT-001.yaml"/>
+    <category term="spec"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">Agent must follow route-permit-obligations-proof-log-validate lifecycle for all governed load-bearing work.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:SPEC-KERNEL-001</id>
+    <title>VJS kernel determinism spec</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#SPEC-KERNEL-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/specs/SPEC-KERNEL-001.yaml"/>
+    <category term="spec"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">Ensures core kernel remains deterministic, local-first, and independent of model judgment.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:SPEC-LAWMAKING-001</id>
+    <title>Lawpack amendment spec</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#SPEC-LAWMAKING-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/specs/SPEC-LAWMAKING-001.yaml"/>
+    <category term="spec"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-08T00:00:00Z</updated>
+    <summary type="text">Ensures new legislation enters V2 through proposal, validation, adoption, citation, lawpack entry, and decision log.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-PC-14</id>
+    <title>[2026] REALM-PC 14 - County Court formation substance rule</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-PC-14"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-14.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-07T00:00:00Z</published>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <summary type="text">.gitignore is presumptive evidence, not constitutive act; County Court requires substance: jurisdiction-repo, system-data-only, Bill 20 integrity.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-PC-15</id>
+    <title>[2026] REALM-PC 15 - VJS super-repo constitutional classification</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-PC-15"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-15.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-07T00:00:00Z</published>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <summary type="text">Super-repo is realm-as-state; REALM-PC is DISTINCT central constitutional first-instance court, not County Court.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-PC-17</id>
+    <title>[2026] REALM-PC 17 - Fork sovereignty and local independence</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-PC-17"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-17.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-07T00:00:00Z</published>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <summary type="text">Default VJS subscription not perpetual subjection; local sovereign may amend law, become independent, or join another community.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-PC-19</id>
+    <title>[2026] REALM-PC 19 - Superrepo changes require court order</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-PC-19"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-19.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-07T00:00:00Z</published>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <summary type="text">Superrepo changes require court order before implementation unless already authorised by binding precedent or statute.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-SC-9</id>
+    <title>[2026] REALM-SC 9 - External law supremacy floor</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-SC-9"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-9.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-07T00:00:00Z</published>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <summary type="text">Real-world law is external supremacy floor; VJS never authorises unlawful action; agents must escalate illegality.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:SI-10</id>
+    <title>[2026] REALM-SI 10 - Agent Lawfulness Hooks (Agent-Agnostic Amendment)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#SI-10"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/statutes/instruments/2026-realm-si-10-agent-lawfulness-hooks-agent-agnostic-amendment.md"/>
+    <category term="instrument"/>
+    <category term="archive"/>
+    <published>2026-06-07T00:00:00Z</published>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <summary type="text">Amendment to SI 8 requiring agent-agnostic hook contract and delegable-workflow adapters for lawfulness verification.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:SI-11</id>
+    <title>[2026] REALM-SI 11 - Agent Lawfulness Hooks (Best-Efforts Trigger Amendment)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#SI-11"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/statutes/instruments/2026-realm-si-11-agent-lawfulness-hooks-best-efforts-trigger-amendment.md"/>
+    <category term="instrument"/>
+    <category term="archive"/>
+    <published>2026-06-07T00:00:00Z</published>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <summary type="text">Amendment to SI 8 and SI 10 requiring each agent to make good hook triggering on best-efforts basis.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:SI-6</id>
+    <title>[2026] REALM-SI 6 - Repositories House Instrument</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#SI-6"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/statutes/instruments/2026-realm-si-6-repositories-house.md"/>
+    <category term="instrument"/>
+    <category term="archive"/>
+    <published>2026-06-07T00:00:00Z</published>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <summary type="text">Repositories House regime; governs repository hosting, gate indexing, system-data-only boundaries, County Court certification.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:SI-7</id>
+    <title>[2026] REALM-SI 7 - Super-Repo Public Push and Post-Push Review</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#SI-7"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/statutes/instruments/2026-realm-si-7-super-repo-public-push-review.md"/>
+    <category term="instrument"/>
+    <category term="archive"/>
+    <published>2026-06-07T00:00:00Z</published>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <summary type="text">Regime for public VJS super-repo releases; requires release warrant before push and Privy Council post-push review.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:SI-8</id>
+    <title>[2026] REALM-SI 8 - Agent Lawfulness Hooks</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#SI-8"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/statutes/instruments/2026-realm-si-8-agent-lawfulness-hooks.md"/>
+    <category term="instrument"/>
+    <category term="archive"/>
+    <published>2026-06-07T00:00:00Z</published>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <summary type="text">Public-law process for agent lawfulness verification; requires hooks for detecting and escalating potentially unlawful acts.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:SI-9</id>
+    <title>[2026] REALM-SI 9 - Gazette Graph Database</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#SI-9"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/statutes/instruments/2026-realm-si-9-gazette-graph-database.md"/>
+    <category term="instrument"/>
+    <category term="archive"/>
+    <published>2026-06-07T00:00:00Z</published>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <summary type="text">Gazette graph database infrastructure; governs law reporting, Gazette publication, graph data model for legal relations.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:BILL-1</id>
+    <title>[2026] Acts of Union</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#BILL-1"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/01-acts-of-union-2026.md"/>
+    <category term="act"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Founding statute uniting the realm under parliamentary sovereignty; expressly amends CASE-LAW ss. 1, 2, 9, 10.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:BILL-13</id>
+    <title>[2026] Enforcement, Sanctions and Compliance Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#BILL-13"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md"/>
+    <category term="act"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Enforcement mechanisms, sanctions, compliance procedures; governs agent security, break-glass, audited delegation.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:BILL-14</id>
+    <title>[2026] Delegated Legislative Authority, Law Reform and Codification Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#BILL-14"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"/>
+    <category term="act"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Delegates law-making authority to Standing Committee for SIs; establishes Bill 14 s.9 computational legislature.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:BILL-16</id>
+    <title>[2026] Neutral Citations and Law Reporting Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#BILL-16"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/16-neutral-citations-and-law-reporting-act-2026.md"/>
+    <category term="act"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Neutral citation scheme (REALM-SC, REALM-CA, REALM-PC); law reporting, Gazette procedures, SI Form C citation.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:BILL-18</id>
+    <title>[2026] Autonomous Execution and Safety Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#BILL-18"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/18-autonomous-execution-and-safety-act-2026.md"/>
+    <category term="act"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Agent autonomy, execution safety, capability-is-not-authority doctrine, outward-act controls.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:BILL-2</id>
+    <title>[2026] Legislature of the Realm Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#BILL-2"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/02-legislature-of-the-realm-act-2026.md"/>
+    <category term="act"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Establishes Standing Committee, parliamentary procedures, enactment processes, and Bill-making authority.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:BILL-20</id>
+    <title>[2026] Repositories and Records Certification Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#BILL-20"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/20-repositories-and-records-certification-act-2026.md"/>
+    <category term="act"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Repository integrity, data certification, public/private boundaries, County Court certification requirements.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:BILL-21</id>
+    <title>[2026] Security and Integrity Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#BILL-21"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/21-security-and-integrity-act-2026.md"/>
+    <category term="act"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Comprehensive security and integrity; parent enabling power for SIs 1, 4, 5; governs trust tiers, audit, delegation.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:BILL-27</id>
+    <title>[2026] VJS Constitution and Machinery Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#BILL-27"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"/>
+    <category term="act"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Constitutional framework for VJS machinery, super-repo, County Courts, data boundaries, public/private separation.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-CA-1</id>
+    <title>[2026] REALM-CA 1 - s.8/s.5 sequencing dismissed</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-CA-1"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/court-of-appeal/2026-realm-ca-1.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Appeal unanimously dismissed; s.8/s.5 sequencing complaint describes structural impossibility.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-PC-1</id>
+    <title>[2026] REALM-PC 1 - Alpha release fitness test</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-PC-1"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-1.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Governance system fit for alpha where legal model coherent, statute+procedure+caselaw committed, constitutional enforcement in place.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-PC-12</id>
+    <title>[2026] REALM-PC 12 - Lexby drafting authority (foundational)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-PC-12"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-12.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Lexby holds NO law-making authority; text void as instrument but admissible as void first draft; adoption is constitutive cure.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-PC-13</id>
+    <title>[2026] REALM-PC 13 - Agent security fork reference</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-PC-13"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-13.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Secure and operable defaults unified on fail-closed control with audited break-glass; no self-elevation on ingested instruction.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-PC-4</id>
+    <title>[2026] REALM-PC 4 - Token-free retrieval index permitted</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-PC-4"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-4.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Deterministic token-free retrieval index permitted screening device under s.12 on cumulative conditions; gate presently FORBIDDEN.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-SC-1</id>
+    <title>[2026] REALM-SC 1 - Tort recast and foundational settlement</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-SC-1"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-1.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Breach reconceived as tort of negligence; unitary realm of parliamentary sovereignty with single apex.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-SC-2</id>
+    <title>[2026] REALM-SC 2 - Proactive disclosure obligation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-SC-2"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-2.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Lexby must proactively disclose material risks; silence is breach.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-SC-3</id>
+    <title>[2026] REALM-SC 3 - Six procedural reforms</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-SC-3"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-3.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Six reforms: reviewable leapfrog, two-sided intake, apex observer, leave-judge independence, watchdog, deterministic citator.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-SC-4</id>
+    <title>[2026] REALM-SC 4 - Odd benches and bench constitution</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-SC-4"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-4.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">All benches must be odd-numbered; synthesiser-on-top pattern abolished; improper benches void ab initio.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-SC-5</id>
+    <title>[2026] REALM-SC 5 - Unitary court with domain divisions</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-SC-5"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-5.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Single spine with domain DIVISIONS, never fractured into parallel domain COURTS.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-SC-6</id>
+    <title>[2026] REALM-SC 6 - Distributed County Courts, single apex</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-SC-6"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-6.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Super-repo permitted with distributed County Courts, but apex singleness absolute and non-delegable.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-SC-7</id>
+    <title>[2026] REALM-SC 7 - Pre-enactment precedent entry-by-entry review</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-SC-7"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-7.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Pre-enactment precedent judged entry-by-entry, never wholesale; Bill 25 s.6(2) and CASE-LAW s.18(5) interlock.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-SC-8</id>
+    <title>[2026] REALM-SC 8 - Lexby has no law-making authority</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-SC-8"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-8.md"/>
+    <category term="judgment"/>
+    <category term="archive"/>
+    <published>2026-06-06T00:00:00Z</published>
+    <updated>2026-06-06T00:00:00Z</updated>
+    <summary type="text">Lexby holds NO law-making authority; un-adopted text void but curable as void first draft.</summary>
+  </entry>
+</feed>

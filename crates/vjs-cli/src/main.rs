@@ -1384,6 +1384,8 @@ fn build_kernel_context(repo: &Path) -> Result<KernelContext, KernelError> {
 fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), KernelError> {
     const V2_BASE: &str = "https://github.com/wlilley93/vibe-justice-system/blob/master/";
     const V1_BASE: &str = "https://github.com/wlilley93/vibe-justice-system/blob/v1/";
+    const SITE_BASE: &str = "https://wlilley93.github.io/vibe-justice-system/";
+    const FEED_TAG: &str = "tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette";
 
     let lawpack_dir = repo.join("lawpack/v2");
     // The Gazette publishes only a loadable canon.
@@ -1523,31 +1525,47 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
         }
     };
 
-    // First-enacted dates from history: one pass over git log, oldest first,
-    // so the first add wins. (Orders carry created_at and prefer it.)
-    let mut added_at: std::collections::HashMap<String, String> = std::collections::HashMap::new();
-    if let Ok(out) = std::process::Command::new("git")
-        .args([
-            "-C",
-            &repo.to_string_lossy(),
-            "log",
-            "--reverse",
-            "--diff-filter=A",
-            "--name-only",
-            "--format=\u{1}%cI",
-        ])
-        .output()
-    {
-        let text = String::from_utf8_lossy(&out.stdout);
-        let mut current = String::new();
-        for line in text.lines() {
-            if let Some(ts) = line.strip_prefix('\u{1}') {
-                current = ts.split('T').next().unwrap_or("").to_string();
-            } else if !line.is_empty() && !current.is_empty() {
-                added_at.entry(line.to_string()).or_insert_with(|| current.clone());
+    // Dates from history, two single passes over git log: oldest-first with
+    // --diff-filter=A gives first-enacted; newest-first gives last-amended.
+    // (Orders carry created_at and prefer it for the enactment date.)
+    fn git_dates(repo: &Path, extra: &[&str]) -> std::collections::HashMap<String, String> {
+        let mut map = std::collections::HashMap::new();
+        let mut args = vec!["-C".to_string(), repo.to_string_lossy().to_string(), "log".to_string()];
+        args.extend(extra.iter().map(|a| a.to_string()));
+        args.extend(["--name-only".to_string(), "--format=\u{1}%cI".to_string()]);
+        if let Ok(out) = std::process::Command::new("git").args(&args).output() {
+            let text = String::from_utf8_lossy(&out.stdout);
+            let mut current = String::new();
+            for line in text.lines() {
+                if let Some(ts) = line.strip_prefix('\u{1}') {
+                    current = ts.split('T').next().unwrap_or("").to_string();
+                } else if !line.is_empty() && !current.is_empty() {
+                    map.entry(line.to_string()).or_insert_with(|| current.clone());
+                }
+            }
+        }
+        map
+    }
+    let added_at = git_dates(repo, &["--reverse", "--diff-filter=A"]);
+    let updated_at = git_dates(repo, &[]);
+
+    // Publication provenance: bind the artifact to the record it was
+    // generated from. The on-disk lock keys (lawpack/digest/locked_at) do not
+    // match Store::read_lawpack_lock's struct, so parse leniently here.
+    let mut lock_meta: std::collections::HashMap<String, String> = Default::default();
+    if let Ok(lock) = std::fs::read_to_string(repo.join(".vjs/lawpack.lock")) {
+        for line in lock.lines() {
+            if let Some((k, v)) = line.split_once('=') {
+                lock_meta.insert(k.trim().to_string(), v.trim().trim_matches('"').to_string());
             }
         }
     }
+    let source_commit = std::process::Command::new("git")
+        .args(["-C", &repo.to_string_lossy(), "rev-parse", "HEAD"])
+        .output()
+        .ok()
+        .map(|o| String::from_utf8_lossy(&o.stdout).trim().to_string())
+        .unwrap_or_default();
 
     let mut items: Vec<serde_json::Value> = Vec::new();
     // Full-text bodies for the in-place reader, id -> kind-specific body.
@@ -1731,6 +1749,12 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 "has_text": true,
                 "path": rel, "url": format!("{}{}", V2_BASE, rel),
             });
+            if let Some(asrc) = s(&v, "assent_source").filter(|a| !a.is_empty()) {
+                item["assent_source"] = serde_json::Value::String(asrc);
+            }
+            item["updated"] = serde_json::Value::String(
+                updated_at.get(&rel).cloned().unwrap_or_else(|| date.clone()),
+            );
             // A case's subject: the problem it was defined against.
             if kind == "order" {
                 if let Some(issue) = s(&v, "issue").filter(|i| !i.is_empty()) {
@@ -1770,6 +1794,7 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                     "cites": str_list(it, "cites"),
                     "supersedes": [],
                     "has_text": false,
+                    "updated": s(it, "date").unwrap_or_default(),
                     "path": path,
                     "url": format!("{}{}", V1_BASE, path),
                 }));
@@ -1937,8 +1962,18 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             serde_json::Value::Array(sb.into_iter().map(serde_json::Value::String).collect());
     }
 
+    let v2_count = items.iter().filter(|i| i["estate"] == "v2").count();
     let data = serde_json::json!({
         "generated_at": chrono::Utc::now().to_rfc3339(),
+        "meta": {
+            "lawpack": {
+                "id": lock_meta.get("lawpack"),
+                "digest": lock_meta.get("digest"),
+                "locked_at": lock_meta.get("locked_at"),
+            },
+            "source_commit": source_commit,
+            "counts": { "total": items.len(), "canon": v2_count, "archive": items.len() - v2_count },
+        },
         "items": items,
     });
     // A `</` inside law text would terminate the host <script> tag; emit the
@@ -1958,11 +1993,84 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     );
     std::fs::write(&text_path, &text_body_js).map_err(io)?;
 
+    // Plain JSON for tooling, beside the JS.
+    let json_path = out_path.with_extension("json");
+    std::fs::write(
+        &json_path,
+        serde_json::to_string_pretty(&data).expect("gazette data serializes"),
+    )
+    .map_err(io)?;
+
+    // The Atom feed: the Gazette as a periodical of record. Deterministic on
+    // unchanged law: entry ids are the lawpack's own ids, entry dates come
+    // from enactment and amendment history, and the feed's updated is the max
+    // entry updated, never the generation time.
+    fn xml_esc(t: &str) -> String {
+        t.replace('&', "&amp;").replace('<', "&lt;").replace('>', "&gt;")
+            .replace('"', "&quot;").replace('\'', "&apos;")
+    }
+    let mut feed_items: Vec<&serde_json::Value> = items.iter().collect();
+    feed_items.sort_by(|a, b| {
+        b["updated"].as_str().cmp(&a["updated"].as_str())
+            .then(a["id"].as_str().cmp(&b["id"].as_str()))
+    });
+    let feed_updated = feed_items
+        .iter()
+        .filter_map(|i| i["updated"].as_str())
+        .max()
+        .unwrap_or("2026-06-09");
+    let mut xml = String::new();
+    xml.push_str("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
+    xml.push_str("<feed xmlns=\"http://www.w3.org/2005/Atom\">\n");
+    xml.push_str("  <title>The VJS Gazette</title>\n");
+    xml.push_str("  <subtitle>The record of the realm: the living canon and the honoured archive</subtitle>\n");
+    xml.push_str(&format!("  <id>{}</id>\n", FEED_TAG));
+    xml.push_str(&format!("  <updated>{}T00:00:00Z</updated>\n", feed_updated));
+    xml.push_str(&format!("  <link rel=\"self\" href=\"{}gazette.xml\"/>\n", SITE_BASE));
+    xml.push_str(&format!("  <link rel=\"alternate\" href=\"{}\"/>\n", SITE_BASE));
+    xml.push_str("  <author><name>Vibe Justice System</name></author>\n");
+    xml.push_str("  <rights>Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001): force comes from the lawpack and the Sovereign's assent, never from publication or syndication.</rights>\n");
+    for i in &feed_items {
+        let id = i["id"].as_str().unwrap_or_default();
+        xml.push_str("  <entry>\n");
+        xml.push_str(&format!("    <id>{}:{}</id>\n", FEED_TAG, xml_esc(id)));
+        xml.push_str(&format!("    <title>{}</title>\n", xml_esc(i["title"].as_str().unwrap_or(id))));
+        xml.push_str(&format!(
+            "    <link rel=\"alternate\" href=\"{}#{}\"/>\n",
+            SITE_BASE,
+            xml_esc(id)
+        ));
+        xml.push_str(&format!("    <link rel=\"via\" href=\"{}\"/>\n", xml_esc(i["url"].as_str().unwrap_or(""))));
+        xml.push_str(&format!("    <category term=\"{}\"/>\n", xml_esc(i["kind"].as_str().unwrap_or(""))));
+        xml.push_str(&format!(
+            "    <category term=\"{}\"/>\n",
+            if i["estate"] == "v1" { "archive" } else { "canon" }
+        ));
+        xml.push_str(&format!(
+            "    <published>{}T00:00:00Z</published>\n",
+            i["date"].as_str().unwrap_or("2026-06-09")
+        ));
+        xml.push_str(&format!(
+            "    <updated>{}T00:00:00Z</updated>\n",
+            i["updated"].as_str().unwrap_or("2026-06-09")
+        ));
+        xml.push_str(&format!(
+            "    <summary type=\"text\">{}</summary>\n",
+            xml_esc(i["summary"].as_str().unwrap_or(""))
+        ));
+        xml.push_str("  </entry>\n");
+    }
+    xml.push_str("</feed>\n");
+    let feed_path = out_path.with_file_name("gazette.xml");
+    std::fs::write(&feed_path, xml).map_err(io)?;
+
     if json {
         println!(
             "{}",
             serde_json::json!({
                 "out": out_path.to_string_lossy(),
+                "json_out": json_path.to_string_lossy(),
+                "feed_out": feed_path.to_string_lossy(),
                 "text_out": text_path.to_string_lossy(),
                 "text_bytes": text_body_js.len(),
                 "items": known.len(),
