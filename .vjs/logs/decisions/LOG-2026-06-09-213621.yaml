@@ -1,0 +1,12 @@
+id: LOG-2026-06-09-213621
+time: 2026-06-09T21:36:21.616794897+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260609-213621
+decision: 'WORKPLAN-001 D3, D4, D6, D7, D8 delivered on the register. gazette.html now opens the document on a click anywhere in an item (law.html, which serves the archive''s PDF or the canon''s rendered page); every card carries exactly two uniform fixed-width tone chips docked top right, the kind and the source (Supreme Court gold, Privy Council pink, Acts red, the same tones as the constellation''s nodes); status, force, severity, and assent live as metadata text under the title per the order''s Q2; each listing has a Lineage dropdown (derives force from, relied on by, each entry opening its document); the masthead is a compact sticky bar with the cropped mark, Constellation and Feed links, and the single GitHub logo, the only GitHub link on any page; the intro box, quick links, Latest strip, and all source and history links are gone; the filter pills are quieter with counts and keep keyboard focus; the sort rules are the order''s: archive leads under oldest, canon leads under newest, kind sort renders kind part headers, timeline is estate blind. The constellation''s topbar gains the same single GitHub logo and its panel now offers Open the document and the opinion served by the Gazette itself.'
+basis:
+- PERMIT-1781040981
+risk: low
+reversibility: easy
+court_required: false
+why: Directives D3, D4, D6, D7, D8 of [2026] VJS-CC-AGENT-UNIVERSE-V2 13; verified by screenshot and a 58-test green suite.
