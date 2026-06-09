@@ -1583,7 +1583,21 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 Some(id) => id,
                 None => continue,
             };
-            let title = s(&v, "title").unwrap_or_else(|| id.clone());
+            // Name first, always: an untitled order is headed by the name of
+            // its subject (the issue it was defined against), never its raw id.
+            let title = s(&v, "title").or_else(|| {
+                s(&v, "issue").map(|issue| {
+                    let last = issue.rsplit('.').next().unwrap_or(&issue);
+                    let stem = last.trim_start_matches("vjs-v2-").replace(['-', '_'], " ");
+                    let mut cs = stem.chars();
+                    match cs.next() {
+                        Some(f) => format!("{}{} (the order)", f.to_uppercase(), cs.as_str()),
+                        None => issue.clone(),
+                    }
+                })
+            })
+            .filter(|t| !t.trim().is_empty())
+            .unwrap_or_else(|| id.clone());
             let citation = s(&v, "citation").unwrap_or_default();
             let status = s(&v, "status")
                 .or_else(|| s(&v, "severity").map(|sev| format!("severity {}", sev)))
