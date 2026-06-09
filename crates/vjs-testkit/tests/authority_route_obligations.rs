@@ -40,7 +40,7 @@ fn route_input(risk: RiskLevel, jurisdiction: Option<&str>) -> RouteInput {
 
 #[test]
 fn a_court_required_route_walks_away_without_a_permit() {
-    let repo = PathBuf::from(".");
+    let repo = repo_root();
     let ctx = build_kernel_context(&repo).unwrap();
     // Critical risk plus an issue tag no authority is on point for forces the
     // FirstImpression trigger and a court_required outcome.
@@ -56,7 +56,7 @@ fn a_court_required_route_walks_away_without_a_permit() {
 
 #[test]
 fn an_allowed_route_mints_a_permit() {
-    let repo = PathBuf::from(".");
+    let repo = repo_root();
     let ctx = build_kernel_context(&repo).unwrap();
     let decision = route(route_input(RiskLevel::Low, Some("default")), &ctx).unwrap();
     assert!(!decision.court_required);
@@ -264,4 +264,11 @@ fn a_failed_proof_does_not_satisfy_a_proof_obligation() {
 
     let report = validate_obligations(&permit_id, &specs, &[]).unwrap();
     assert!(!report.findings[0].satisfied, "a failed proof is not performance");
+}
+
+fn repo_root() -> PathBuf {
+    // Anchor on the crate manifest: cargo runs integration tests from the
+    // package dir, where "./lawpack/v2" resolves to nothing and every
+    // lawpack-backed assertion would pass vacuously over an empty lawpack.
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
 }

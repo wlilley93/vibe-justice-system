@@ -708,6 +708,23 @@ fn cmd_validate(
         suggested_fix: f.suggested_fix,
     }));
 
+    // Referential integrity over the raw lawpack files: a citation of a law
+    // object that exists nowhere is drift the citator cannot be trusted under.
+    let lawpack_dir = repo.join("lawpack/v2");
+    if lawpack_dir.exists() {
+        findings.extend(
+            LawpackValidator::check_referential_integrity(&lawpack_dir, &lawpack)?
+                .into_iter()
+                .map(|f| ValidationFinding {
+                    severity: f.severity,
+                    code: f.code,
+                    path: f.path,
+                    message: f.message,
+                    suggested_fix: f.suggested_fix,
+                }),
+        );
+    }
+
     if staged {
         let changed = GitIntegration::read_staged_files(repo)?;
         if changed.is_empty() {

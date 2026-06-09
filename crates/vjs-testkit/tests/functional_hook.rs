@@ -9,7 +9,7 @@ use vjs_core::{ContextLimits, KernelContext};
 use vjs_lawpack::LawpackLoader;
 
 fn build_ctx() -> KernelContext {
-    let repo = PathBuf::from(".");
+    let repo = repo_root();
     let lawpack = LawpackLoader::load(&repo.join("lawpack/v2")).unwrap();
     let graph = lawpack.build_authority_graph().unwrap();
     KernelContext {
@@ -111,4 +111,11 @@ fn parse_event_accepts_canonical_and_hyphenated_forms() {
     assert!(matches!(parse_event("pre-commit"), Some(HookEvent::PreCommit)));
     assert!(matches!(parse_event("session_start"), Some(HookEvent::SessionStart)));
     assert!(parse_event("nonsense").is_none());
+}
+
+fn repo_root() -> PathBuf {
+    // Anchor on the crate manifest: cargo runs integration tests from the
+    // package dir, where "./lawpack/v2" resolves to nothing and every
+    // lawpack-backed assertion would pass vacuously over an empty lawpack.
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
 }

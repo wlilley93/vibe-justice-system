@@ -6,7 +6,7 @@ use vjs_lawpack::*;
 
 #[test]
 fn test_local_ci_on_v2_repo() {
-    let repo = PathBuf::from(".");
+    let repo = repo_root();
     let lawpack = LawpackLoader::load(&repo.join("lawpack/v2")).unwrap();
     let report = LawpackValidator::validate(&lawpack).unwrap();
     assert!(report.ok, "Lawpack validation should pass");
@@ -14,7 +14,7 @@ fn test_local_ci_on_v2_repo() {
 
 #[test]
 fn test_route_basic() {
-    let repo = PathBuf::from(".");
+    let repo = repo_root();
     let ctx = build_kernel_context(&repo).unwrap();
     let input = RouteInput {
         repo_root: Some(repo.clone()),
@@ -36,7 +36,7 @@ fn test_route_basic() {
 
 #[test]
 fn test_invariant_evaluation() {
-    let repo = PathBuf::from(".");
+    let repo = repo_root();
     let lawpack = LawpackLoader::load(&repo.join("lawpack/v2")).unwrap();
     let repo_state = RepoScanner::build_repo_state(&repo).unwrap();
     let report = evaluate_invariants(&repo_state, &lawpack.invariants).unwrap();
@@ -48,7 +48,7 @@ fn test_invariant_evaluation() {
 
 #[test]
 fn test_validate_command() {
-    let repo = PathBuf::from(".");
+    let repo = repo_root();
     let lawpack = LawpackLoader::load(&repo.join("lawpack/v2")).unwrap();
     let report = LawpackValidator::validate(&lawpack).unwrap();
     assert!(report.ok);
@@ -57,7 +57,7 @@ fn test_validate_command() {
 
 #[test]
 fn test_citation_uniqueness() {
-    let repo = PathBuf::from(".");
+    let repo = repo_root();
     let lawpack = LawpackLoader::load(&repo.join("lawpack/v2")).unwrap();
     let mut seen = std::collections::HashSet::new();
     for order in &lawpack.orders {
@@ -86,4 +86,11 @@ fn compute_digest(repo: &PathBuf) -> Result<String, vjs_core::error::KernelError
         hasher.update(&content);
     }
     Ok(format!("sha256:{}", hex::encode(hasher.finalize())))
+}
+
+fn repo_root() -> PathBuf {
+    // Anchor on the crate manifest: cargo runs integration tests from the
+    // package dir, where "./lawpack/v2" resolves to nothing and every
+    // lawpack-backed assertion would pass vacuously over an empty lawpack.
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
 }
