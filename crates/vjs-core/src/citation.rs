@@ -22,6 +22,12 @@ pub struct CitationRegistry {
     pub citations: HashMap<Citation, AuthorityId>,
 }
 
+impl Default for CitationRegistry {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl CitationRegistry {
     pub fn new() -> Self {
         Self {

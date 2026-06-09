@@ -56,17 +56,15 @@ fn scope_matches(scope: &Scope, input: &RouteInput) -> bool {
         }
     }
 
-    if let Some(ref action_kinds) = scope.action_kinds {
-        if !action_kinds.contains(&input.action_kind) {
+    if let Some(ref action_kinds) = scope.action_kinds
+        && !action_kinds.contains(&input.action_kind) {
             return false;
         }
-    }
 
-    if let Some(ref issue_tags) = scope.issue_tags {
-        if !input.issue_tags.iter().any(|it| issue_tags.contains(it)) {
+    if let Some(ref issue_tags) = scope.issue_tags
+        && !input.issue_tags.iter().any(|it| issue_tags.contains(it)) {
             return false;
         }
-    }
 
     true
 }

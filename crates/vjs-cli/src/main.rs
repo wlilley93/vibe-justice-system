@@ -1,14 +1,9 @@
 use clap::{Parser, Subcommand};
 use chrono::Datelike;
 use serde::{Deserialize, Serialize};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use vjs_core::*;
-use vjs_core::types::*;
-use vjs_core::error::*;
-use vjs_core::route::*;
-use vjs_core::spec::*;
-use vjs_core::citation::*;
 use vjs_lawpack::*;
 use vjs_store::*;
 use vjs_git::*;
@@ -244,9 +239,9 @@ fn main() {
     }
 }
 
-fn cmd_init(repo: &PathBuf, lawpack: Option<String>) -> Result<(), KernelError> {
+fn cmd_init(repo: &Path, lawpack: Option<String>) -> Result<(), KernelError> {
     let git_root = GitIntegration::find_repo_root(repo)?;
-    let target = git_root.as_ref().unwrap_or(repo);
+    let target = git_root.as_deref().unwrap_or(repo);
 
     Store::init_repo(target)?;
     GitIntegration::install_hooks(target)?;
@@ -266,8 +261,9 @@ fn cmd_init(repo: &PathBuf, lawpack: Option<String>) -> Result<(), KernelError> 
     Ok(())
 }
 
+#[allow(clippy::too_many_arguments)]
 fn cmd_route(
-    repo: &PathBuf,
+    repo: &Path,
     kind: String,
     issue: Option<String>,
     risk: Option<String>,
@@ -285,7 +281,7 @@ fn cmd_route(
     let path_globs: Vec<String> = paths.iter().map(|p| p.to_string_lossy().to_string()).collect();
 
     let input = RouteInput {
-        repo_root: Some(repo.clone()),
+        repo_root: Some(repo.to_path_buf()),
         jurisdiction: Some(JurisdictionId("default".into())),
         actor: "lexby".into(),
         action_kind,
@@ -380,7 +376,7 @@ fn cmd_route(
 }
 
 fn cmd_hook(
-    repo: &PathBuf,
+    repo: &Path,
     event: String,
     paths: Vec<PathBuf>,
     tool: Option<String>,
@@ -390,7 +386,7 @@ fn cmd_hook(
         .ok_or_else(|| KernelError::InvalidInput(format!("unknown hook event: {}", event)))?;
     let input = vjs_core::hook::HookInput {
         event: hook_event,
-        repo_root: repo.clone(),
+        repo_root: repo.to_path_buf(),
         actor: "lexby".into(),
         paths,
         tool,
@@ -412,7 +408,7 @@ fn cmd_hook(
 }
 
 fn cmd_invoke(
-    repo: &PathBuf,
+    repo: &Path,
     jurisdiction: String,
     principal: String,
     lawpack: Option<String>,
@@ -525,7 +521,7 @@ fn cmd_invoke(
 }
 
 fn cmd_lookup(
-    repo: &PathBuf,
+    repo: &Path,
     issue: Option<String>,
     limit: Option<usize>,
     json: bool,
@@ -534,7 +530,7 @@ fn cmd_lookup(
     let issue_tags = issue.map(|i| vec![IssueTag(i)]).unwrap_or_default();
 
     let input = RouteInput {
-        repo_root: Some(repo.clone()),
+        repo_root: Some(repo.to_path_buf()),
         jurisdiction: Some(JurisdictionId("default".into())),
         actor: "lexby".into(),
         action_kind: ActionKind::ImplementationDecision,
@@ -565,7 +561,7 @@ fn cmd_lookup(
 }
 
 fn cmd_log(
-    repo: &PathBuf,
+    repo: &Path,
     subcmd: LogCommands,
     json: bool,
 ) -> Result<(), KernelError> {
@@ -642,7 +638,7 @@ fn cmd_log(
 }
 
 fn cmd_proof(
-    repo: &PathBuf,
+    repo: &Path,
     subcmd: ProofCommands,
     json: bool,
 ) -> Result<(), KernelError> {
@@ -685,7 +681,7 @@ fn cmd_proof(
 }
 
 fn cmd_validate(
-    repo: &PathBuf,
+    repo: &Path,
     staged: bool,
     external: bool,
     _scope: Option<String>,
@@ -811,8 +807,8 @@ fn cmd_validate(
         }
     }
 
-    if external {
-        if GitIntegration::is_public_remote(repo)? {
+    if external
+        && GitIntegration::is_public_remote(repo)? {
             findings.push(ValidationFinding {
                 severity: Severity::Warning,
                 code: "PUBLIC_REMOTE".into(),
@@ -821,7 +817,6 @@ fn cmd_validate(
                 suggested_fix: Some("Run vjs release-warrant check".into()),
             });
         }
-    }
 
     // Boundary scan
     let vjs_dir = repo.join(".vjs");
@@ -861,7 +856,7 @@ fn cmd_validate(
     Ok(())
 }
 
-fn cmd_local_ci(repo: &PathBuf, json: bool) -> Result<(), KernelError> {
+fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
     let mut ok = true;
     let mut steps = Vec::new();
 
@@ -1005,7 +1000,7 @@ fn cmd_local_ci(repo: &PathBuf, json: bool) -> Result<(), KernelError> {
     Ok(())
 }
 
-fn cmd_order(repo: &PathBuf, subcmd: OrderCommands, json: bool) -> Result<(), KernelError> {
+fn cmd_order(repo: &Path, subcmd: OrderCommands, json: bool) -> Result<(), KernelError> {
     match subcmd {
         OrderCommands::Validate { path } => {
             let content = std::fs::read_to_string(&path)
@@ -1061,7 +1056,7 @@ fn cmd_order(repo: &PathBuf, subcmd: OrderCommands, json: bool) -> Result<(), Ke
 }
 
 fn cmd_file(
-    repo: &PathBuf,
+    repo: &Path,
     court: String,
     question: String,
     facts_file: Option<PathBuf>,
@@ -1104,11 +1099,11 @@ fn cmd_file(
     Ok(())
 }
 
-fn cmd_status(repo: &PathBuf, json: bool) -> Result<(), KernelError> {
+fn cmd_status(repo: &Path, json: bool) -> Result<(), KernelError> {
     let git_root = GitIntegration::find_repo_root(repo)?;
     let is_git = git_root.is_some();
     let is_public = if is_git {
-        GitIntegration::is_public_remote(&git_root.as_ref().unwrap_or(repo)).unwrap_or(false)
+        GitIntegration::is_public_remote(git_root.as_deref().unwrap_or(repo)).unwrap_or(false)
     } else {
         false
     };
@@ -1209,7 +1204,7 @@ fn cmd_next_citation(series: String, year: Option<i32>, json: bool) -> Result<()
     Ok(())
 }
 
-fn cmd_migrate_v1(_v1_path: &PathBuf, out: Option<PathBuf>, json: bool) -> Result<(), KernelError> {
+fn cmd_migrate_v1(_v1_path: &Path, out: Option<PathBuf>, json: bool) -> Result<(), KernelError> {
     let output = out.unwrap_or_else(|| PathBuf::from("migration/draft-ledger.yaml"));
     std::fs::create_dir_all(output.parent().unwrap_or(&PathBuf::from(".")))
         .map_err(|e| KernelError::Io(e.to_string()))?;
@@ -1319,7 +1314,7 @@ fn parse_risk_level(s: &str) -> RiskLevel {
     }
 }
 
-fn cmd_eval(repo: &PathBuf, suite: Option<String>, json: bool) -> Result<(), KernelError> {
+fn cmd_eval(repo: &Path, suite: Option<String>, json: bool) -> Result<(), KernelError> {
     let suite = suite.unwrap_or_else(|| "all".into());
     let lawpack = load_lawpack(repo)?;
     // The route suite needs a kernel context; build it best-effort.
@@ -1359,7 +1354,7 @@ fn cmd_eval(repo: &PathBuf, suite: Option<String>, json: bool) -> Result<(), Ker
     Ok(())
 }
 
-fn build_kernel_context(repo: &PathBuf) -> Result<KernelContext, KernelError> {
+fn build_kernel_context(repo: &Path) -> Result<KernelContext, KernelError> {
     let lawpack = load_lawpack(repo)?;
     let graph = lawpack.build_authority_graph()?;
     let digest = compute_digest(repo)?;
@@ -1371,7 +1366,7 @@ fn build_kernel_context(repo: &PathBuf) -> Result<KernelContext, KernelError> {
     })
 }
 
-fn load_lawpack(repo: &PathBuf) -> Result<Lawpack, KernelError> {
+fn load_lawpack(repo: &Path) -> Result<Lawpack, KernelError> {
     let lawpack_dir = repo.join("lawpack/v2");
     if lawpack_dir.exists() {
         LawpackLoader::load(&lawpack_dir)
@@ -1389,7 +1384,7 @@ fn load_lawpack(repo: &PathBuf) -> Result<Lawpack, KernelError> {
     }
 }
 
-fn compute_digest(repo: &PathBuf) -> Result<String, KernelError> {
+fn compute_digest(repo: &Path) -> Result<String, KernelError> {
     use sha2::Digest;
     let mut hasher = sha2::Sha256::new();
     let manifest = repo.join("lawpack/v2/manifest.toml");
@@ -1483,15 +1478,7 @@ enum MigrationStatus {
     Duplicate,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
-struct LawpackLock {
-    lawpack_id: String,
-    lawpack_version: String,
-    digest: String,
-    generated_at: String,
-}
-
-fn cmd_permit(repo: &PathBuf, subcmd: PermitCommands, json: bool) -> Result<(), KernelError> {
+fn cmd_permit(repo: &Path, subcmd: PermitCommands, json: bool) -> Result<(), KernelError> {
     match subcmd {
         PermitCommands::List => {
             let permits = Store::read_permits(repo)?;

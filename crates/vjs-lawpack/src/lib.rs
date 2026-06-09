@@ -1,11 +1,8 @@
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 use walkdir::WalkDir;
 
 use vjs_core::*;
-use vjs_core::types::*;
-use vjs_core::error::*;
 use vjs_core::spec::InvariantRaw;
 
 pub struct LawpackLoader;
@@ -106,7 +103,7 @@ impl LawpackLoader {
                     let raw: InvariantRaw = serde_yaml::from_str(&content)
                         .map_err(|e| KernelError::Serialization(e.to_string()))?;
                     let invariant = raw.to_invariant()
-                        .map_err(|e| KernelError::Serialization(e))?;
+                        .map_err(KernelError::Serialization)?;
                     invariants.push(invariant);
                 }
             }

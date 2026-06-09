@@ -1,7 +1,6 @@
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use vjs_core::*;
-use vjs_core::types::*;
 use vjs_lawpack::*;
 
 #[test]
@@ -65,7 +64,7 @@ fn test_citation_uniqueness() {
     }
 }
 
-fn build_kernel_context(repo: &PathBuf) -> Result<KernelContext, vjs_core::error::KernelError> {
+fn build_kernel_context(repo: &Path) -> Result<KernelContext, vjs_core::error::KernelError> {
     let lawpack = LawpackLoader::load(&repo.join("lawpack/v2"))?;
     let graph = lawpack.build_authority_graph()?;
     let digest = compute_digest(repo)?;
@@ -76,7 +75,7 @@ fn build_kernel_context(repo: &PathBuf) -> Result<KernelContext, vjs_core::error
     })
 }
 
-fn compute_digest(repo: &PathBuf) -> Result<String, vjs_core::error::KernelError> {
+fn compute_digest(repo: &Path) -> Result<String, vjs_core::error::KernelError> {
     use sha2::Digest;
     let mut hasher = sha2::Sha256::new();
     let manifest = repo.join("lawpack/v2/manifest.toml");

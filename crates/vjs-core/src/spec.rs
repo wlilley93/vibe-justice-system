@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use crate::types::*;
 use crate::error::*;
@@ -107,6 +107,12 @@ pub struct SpecSet {
     pub permits: HashMap<PermitId, Permit>,
     pub proofs: HashMap<ProofId, Proof>,
     pub sessions: HashMap<SessionId, Session>,
+}
+
+impl Default for SpecSet {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl SpecSet {
@@ -410,7 +416,7 @@ fn evaluate_predicate(rule: &PredicateExpr, repo_state: &RepoState) -> bool {
 // One glob semantics for the whole kernel: the invariant evaluator must agree
 // with the permit gate on what a glob covers (this copy had its own weaker,
 // fail-open matching).
-fn glob_matches(glob: &str, path: &PathBuf) -> bool {
+fn glob_matches(glob: &str, path: &Path) -> bool {
     crate::governance::PathClassifier::glob_matches(glob, &path.to_string_lossy())
 }
 
