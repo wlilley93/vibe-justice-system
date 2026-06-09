@@ -1,0 +1,66 @@
+id: 2026-VJS-PC-001
+assent_source: standing_bounded_assent
+court: privy_council
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: constitutional.transition-and-onboarding
+holding: >
+  On the Principal's reference: the V2 Privy Council (3 seats, unanimous) takes
+  jurisdiction over the V1->V2 transitional-continuity doctrine and the project-
+  onboarding mechanism, declines the non-justiciable migration policy as the
+  local Principal's, and leapfrogs the constructive apex/federation question to
+  the V2 Supreme Court. The Judicature-Acts-1873 continuity model is adopted as
+  varied: a transfer carries the estate forward and never restarts it (concordant
+  with REALM-SC 7, carried as persuasive archive); perfected V1 orders and
+  accrued rights are preserved; the "perfect by old machinery" limb is bounded by
+  s.9 to already-heard matters and Gazette publication only, creating no new V1
+  doctrine; pending matters are classified by a V2 transition court and then
+  continued at their current point, reframed where unworkable, or closed where
+  moot. Onboarding is the local Principal's ordinary ACT-007 act; V1 local
+  precedent is carried forward only by express incorporation (s.8/s.9) or a
+  recorded, revocable, local-scope continuity election (s.4).
+directives:
+  - id: D1
+    actor: agent
+    must: classify_each_pending_v1_matter_then_continue_reframe_or_close
+    when: pending_v1_matter
+  - id: D2
+    actor: agent
+    must: preserve_perfected_v1_orders_and_accrued_rights
+    when: always
+  - id: D3
+    actor: agent
+    must: confine_perfection_by_old_machinery_to_already_heard_matters_publication_only
+    when: perfecting_a_v1_matter
+  - id: D4
+    actor: local_principal
+    must: onboard_by_local_installation_carrying_v1_precedent_only_by_incorporation_or_recorded_continuity_election
+    when: onboarding_a_project
+  - id: D5
+    actor: standing_committee
+    must: draft_REG_TRANSITION_CONTINUITY_001_through_the_lawmaking_route_with_the_mandatory_amendments
+    when: after_order
+forbidden:
+  - treating_a_pending_matter_as_void_restarted_or_relitigated_by_reason_only_of_transfer
+  - creating_new_v1_doctrine_under_the_perfection_limb
+  - a_continuity_election_binding_a_peer_repo_or_varying_canonical_law_without_s3
+  - a_federation_or_super_repo_root_standing_up_a_second_apex
+exceptions:
+  - "fresh V2 framing or closure of a pending matter where continuation is unworkable or the matter is moot (a found disposition on the record, not relitigation)"
+  - "central order required only to vary the canonical lawpack (ACT-007 s.3) or to fork with divergent lineage (s.6)"
+supersedes: []
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-001-opinion.md"
+runtime_summary: >
+  V2 Privy Council, 3-0. Transfer carries pending V1 matters forward at their
+  current state; it never restarts them. Perfected orders and accrued rights are
+  preserved. Already-heard matters may be perfected in V1 form for Gazette
+  publication only (no force, no new doctrine, s.9/s.16). Pending matters are
+  classified then continued, reframed, or closed. Onboarding is the local
+  Principal's ACT-007 act; V1 local precedent is carried forward by express
+  incorporation or a recorded, revocable, local-scope continuity election. The
+  super-repo survives as an ACT-007 federation under one continued apex; no root
+  may stand up a second apex; the constructive limb is leapfrogged to the Supreme
+  Court. REG-TRANSITION-CONTINUITY-001 is directed through the lawmaking route as
+  a void first draft with the s.9 and local-scope guardrails.
+created_at: "2026-06-09T00:00:00Z"
