@@ -1,0 +1,38 @@
+id: REG-INVOCATION-001
+assent_source: standing_bounded_assent
+title: Local Sovereign Invocation Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+text: >
+  A repository becomes a VJS jurisdiction by local sovereign invocation, NOT by
+  directory ancestry: the parent directory does not matter and no repo need live
+  under another repo's tree or under any ministry path. The binding act is the
+  Principal's local sovereign invocation plus a mechanical install - subscribe to
+  a named lawpack, write .vjs/lawpack.lock pinning its digest, install the
+  enforcement hooks, and record a local_sovereign_invocation under
+  .vjs/invocation/. The sole anchor is .vjs/config.toml; all other paths are
+  resolved by role, not by a fixed Judicature/Legislature/Executive or MBES
+  layout. Invocation creates a local jurisdiction and a local County Court (the
+  [YEAR] VJS-CC-<repo> N series), binds agents to the kernel route, and requires
+  permits for governed writes and logs for material decisions. V1 archive law
+  (the Repositories House, [2026] REALM-SI 6, is carried forward as archival
+  source) binds the repo only by express incorporation. Gazette registration is
+  opt-in via a redacted registration packet; a private repo stays private by
+  default. The verb `vjs invoke` performs the invocation; `vjs init` only
+  scaffolds files.
+kernel_effect:
+  defines:
+    binding_by: local_sovereign_invocation_not_ancestry
+    anchor: ".vjs/config.toml"
+    parent_directory_irrelevant: true
+    no_ministry_or_v1_v2_tree_required: true
+    local_court_series: "[YEAR] VJS-CC-<repo> N"
+    gazette_registration: opt_in_redacted_packet
+    verbs: { invoke: makes_the_local_sovereign_declaration, init: scaffolds_files }
+  must:
+    - subscribe_to_a_named_lawpack_and_lock_its_digest
+    - install_enforcement_hooks
+    - record_a_local_sovereign_invocation
+  must_not:
+    - bind_a_repo_by_directory_ancestry
+    - require_a_ministry_or_v1_v2_tree_layout
