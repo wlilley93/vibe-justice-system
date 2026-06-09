@@ -40,27 +40,57 @@ impl PathClassifier {
     }
 
     pub fn glob_matches(glob: &str, path: &str) -> bool {
-        if glob.ends_with("/**") {
-            let prefix = &glob[..glob.len() - 3];
-            path.starts_with(prefix) || path == prefix
+        if let Some(prefix) = glob.strip_suffix("/**") {
+            // Boundary-aware: "crates/**" covers crates and crates/..., never
+            // crates-evil/... (a bare starts_with let sibling dirs through).
+            path == prefix || path.starts_with(&format!("{}/", prefix))
         } else if glob.contains("/**/") {
             let parts: Vec<&str> = glob.split("/**/").collect();
             if parts.len() == 2 {
                 let (prefix, suffix) = (parts[0], parts[1]);
-                path.starts_with(prefix) && path.ends_with(suffix)
+                // "a/**/b" matches a/b and a/x/y/b, with both edges on a
+                // path-separator boundary so "a2/b" and "a/xb" stay out.
+                (path == format!("{}/{}", prefix, suffix))
+                    || (path.starts_with(&format!("{}/", prefix))
+                        && path.ends_with(&format!("/{}", suffix)))
             } else {
                 false
             }
-        } else if glob.contains("*") {
-            let regex = glob
-                .replace("**", ".*")
-                .replace("*", "[^/]*");
-            regex::Regex::new(&format!("^{}$", regex))
+        } else if glob.contains('*') {
+            regex::Regex::new(&Self::glob_to_regex(glob))
                 .map(|re| re.is_match(path))
                 .unwrap_or(false)
         } else {
-            path == glob || path.starts_with(glob)
+            // A literal glob names exactly one path. starts_with here let
+            // "Cargo.toml.bak" ride on a permit scoped to "Cargo.toml"; a
+            // directory scope must be written as "dir/**".
+            path == glob
         }
+    }
+
+    fn glob_to_regex(glob: &str) -> String {
+        let mut re = String::from("^");
+        let mut chars = glob.chars().peekable();
+        while let Some(c) = chars.next() {
+            match c {
+                '*' => {
+                    if chars.peek() == Some(&'*') {
+                        chars.next();
+                        re.push_str(".*");
+                    } else {
+                        re.push_str("[^/]*");
+                    }
+                }
+                '?' => re.push_str("[^/]"),
+                c if r"\.+()[]{}^$|".contains(c) => {
+                    re.push('\\');
+                    re.push(c);
+                }
+                c => re.push(c),
+            }
+        }
+        re.push('$');
+        re
     }
 }
 
@@ -143,7 +173,10 @@ impl PermitGate {
                 }
                 Some(permit) => {
                     // Check permit status
-                    if matches!(permit.status, PermitStatus::Expired) {
+                    if matches!(permit.status, PermitStatus::Expired)
+                        || (matches!(permit.status, PermitStatus::Active)
+                            && Self::permit_is_expired(&permit, chrono::Utc::now()))
+                    {
                         ok = false;
                         findings.push(PermitGateFinding {
                             severity: Severity::Fatal,
@@ -167,10 +200,27 @@ impl PermitGate {
                             ),
                             remedy: "Run vjs route again to obtain a new permit.".into(),
                         });
+                    } else if matches!(permit.status, PermitStatus::Closed) {
+                        // A closed permit's work is done. Letting it cover NEW
+                        // staged changes would also skip its obligations, which
+                        // are only checked while Active - a bypass, not a grace.
+                        ok = false;
+                        findings.push(PermitGateFinding {
+                            severity: Severity::Fatal,
+                            code: "PERMIT-CLOSED".into(),
+                            path: Some(path.clone()),
+                            message: format!(
+                                "Matching permit '{}' is closed and does not excuse new staged changes.",
+                                permit.id.0
+                            ),
+                            remedy: "Run vjs route again to obtain a new permit for this work.".into(),
+                        });
                     }
 
-                    // Check obligations due before commit (only for active permits)
-                    if matches!(permit.status, PermitStatus::Active) {
+                    // Check obligations due before commit (only for usable permits)
+                    if matches!(permit.status, PermitStatus::Active)
+                        && !Self::permit_is_expired(&permit, chrono::Utc::now())
+                    {
                         for obligation in &permit.obligations {
                             if matches!(obligation.due, ObligationDue::BeforeCommit) && obligation.required {
                                 match obligation.kind {
@@ -242,6 +292,31 @@ impl PermitGate {
         PermitGateResult { ok, findings }
     }
 
+    /// Fail closed: an unparseable expiry never excuses a write.
+    fn permit_is_expired(permit: &Permit, now: chrono::DateTime<chrono::Utc>) -> bool {
+        match chrono::DateTime::parse_from_rfc3339(&permit.expires_at) {
+            Ok(expiry) => now >= expiry.with_timezone(&chrono::Utc),
+            Err(_) => true,
+        }
+    }
+
+    fn scope_covers(permit: &Permit, path_str: &str) -> bool {
+        if let Some(ref scope) = permit.scope {
+            if let Some(ref paths) = scope.paths {
+                paths.iter().any(|glob| PathClassifier::glob_matches(glob, path_str))
+            } else {
+                false // a permit with a scope but no paths covers nothing
+            }
+        } else {
+            false // a permit with no scope covers nothing - it must name the
+                  // paths it excuses, or it would blanket-cover every governed
+                  // write (the permit-scoping rule). A route now scopes its permit.
+        }
+    }
+
+    /// Prefer a usable (Active, unexpired) permit; otherwise return the first
+    /// scope-covering permit so evaluate can report WHY it fails (expired,
+    /// revoked, closed) instead of a bare PERMIT-MISSING.
     fn find_matching_permit(
         path: &PathBuf,
         permits: &[Permit],
@@ -249,37 +324,15 @@ impl PermitGate {
         let now = chrono::Utc::now();
         let path_str = path.to_string_lossy();
 
-        permits.iter().find(|permit| {
-            // Status must be Active or Closed
-            let status_ok = matches!(permit.status, PermitStatus::Active | PermitStatus::Closed);
-            if !status_ok {
-                return false;
-            }
+        let covering: Vec<&Permit> = permits
+            .iter()
+            .filter(|p| Self::scope_covers(p, &path_str))
+            .collect();
 
-            // Not expired
-            let not_expired = if let Ok(expiry) = chrono::DateTime::parse_from_rfc3339(&permit.expires_at) {
-                now < expiry.with_timezone(&chrono::Utc)
-            } else {
-                true // if we can't parse, assume not expired
-            };
-            if !not_expired {
-                return false;
-            }
-
-            // Scope covers path
-            let scope_covers = if let Some(ref scope) = permit.scope {
-                if let Some(ref paths) = scope.paths {
-                    paths.iter().any(|glob| PathClassifier::glob_matches(glob, &path_str))
-                } else {
-                    false // a permit with a scope but no paths covers nothing
-                }
-            } else {
-                false // a permit with no scope covers nothing - it must name the
-                      // paths it excuses, or it would blanket-cover every governed
-                      // write (the permit-scoping rule). A route now scopes its permit.
-            };
-
-            scope_covers
-        }).cloned()
+        covering
+            .iter()
+            .find(|p| matches!(p.status, PermitStatus::Active) && !Self::permit_is_expired(p, now))
+            .or_else(|| covering.first())
+            .map(|p| (*p).clone())
     }
 }
