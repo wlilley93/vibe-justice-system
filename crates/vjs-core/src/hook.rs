@@ -95,7 +95,42 @@ fn is_governed(path: &Path) -> bool {
 }
 
 /// The deterministic hook function. Same logic for every runtime adapter.
-pub fn evaluate(input: &HookInput, _ctx: &KernelContext) -> HookDecision {
+/// Without permit state it is the conservative form: a governed write
+/// requires a route (the permit-aware form is `evaluate_with_permits`).
+pub fn evaluate(input: &HookInput, ctx: &KernelContext) -> HookDecision {
+    evaluate_with_permits(input, ctx, &[])
+}
+
+/// The permit-aware hook: a governed write under an active, unexpired,
+/// in-scope permit is lawful and passes silently; an unpermitted governed
+/// write fails closed with the route as the remedy. Without a governance
+/// config the component fallback defines the governed surface.
+pub fn evaluate_with_permits(
+    input: &HookInput,
+    ctx: &KernelContext,
+    permits: &[crate::spec::Permit],
+) -> HookDecision {
+    evaluate_governed(input, ctx, permits, &[], &[])
+}
+
+/// The fully configured form: ONE definition of the governed surface, the
+/// jurisdiction's own permit_required/permit_exempt lists, classified by the
+/// same PathClassifier the commit gate uses.
+pub fn evaluate_governed(
+    input: &HookInput,
+    _ctx: &KernelContext,
+    permits: &[crate::spec::Permit],
+    permit_required: &[String],
+    permit_exempt: &[String],
+) -> HookDecision {
+    let governed = |p: &PathBuf| -> bool {
+        if permit_required.is_empty() {
+            is_governed(p)
+        } else {
+            crate::governance::PathClassifier::classify(p, permit_required, permit_exempt)
+                == crate::governance::PathClassification::Governed
+        }
+    };
     match input.event {
         HookEvent::SessionStart => HookDecision::Warn(Finding {
             code: "VJS_ACTIVE".into(),
@@ -103,10 +138,24 @@ pub fn evaluate(input: &HookInput, _ctx: &KernelContext) -> HookDecision {
             next: Some("vjs route".into()),
         }),
         HookEvent::PreWrite => {
-            if input.paths.iter().any(|p| is_governed(p)) {
+            let uncovered: Vec<&PathBuf> = input
+                .paths
+                .iter()
+                .filter(|p| {
+                    governed(p)
+                        && !crate::governance::PermitGate::covers(&p.to_string_lossy(), permits)
+                })
+                .collect();
+            if let Some(first) = uncovered.first() {
                 HookDecision::RequireRoute(Finding {
                     code: "PERMIT_MISSING".into(),
-                    message: "Governed write needs an active permit. Run vjs route for this action.".into(),
+                    message: format!(
+                        "Governed write to {} has no active permit. Run vjs route for this action.",
+                        first
+                            .file_name()
+                            .map(|f| f.to_string_lossy().to_string())
+                            .unwrap_or_else(|| first.to_string_lossy().to_string())
+                    ),
                     next: Some("vjs route".into()),
                 })
             } else {

@@ -61,6 +61,10 @@ enum Commands {
         paths: Vec<PathBuf>,
         #[arg(long)]
         tool: Option<String>,
+        /// Read a Claude Code hook payload from stdin and take the written
+        /// file path from it (tool_input.file_path / notebook_path).
+        #[arg(long)]
+        stdin_json: bool,
     },
     /// Local sovereign invocation (REG-INVOCATION-001): bind this repo as a VJS
     /// jurisdiction by subscribing + locking the lawpack, recording the
@@ -215,7 +219,9 @@ fn main() {
         Commands::Route { kind, issue, risk, intent, public, external, irreversible, paths, gate } => {
             cmd_route(&repo, kind, issue, risk, intent, public, external, irreversible, paths, gate, json)
         }
-        Commands::Hook { event, paths, tool } => cmd_hook(&repo, event, paths, tool, json),
+        Commands::Hook { event, paths, tool, stdin_json } => {
+            cmd_hook(&repo, event, paths, tool, stdin_json, json)
+        }
         Commands::Invoke { jurisdiction, principal, lawpack, install_hooks } => {
             cmd_invoke(&repo, jurisdiction, principal, lawpack, install_hooks, json)
         }
@@ -388,12 +394,35 @@ fn cmd_route(
 fn cmd_hook(
     repo: &Path,
     event: String,
-    paths: Vec<PathBuf>,
+    mut paths: Vec<PathBuf>,
     tool: Option<String>,
+    stdin_json: bool,
     json: bool,
 ) -> Result<(), KernelError> {
     let hook_event = vjs_core::hook::parse_event(&event)
         .ok_or_else(|| KernelError::InvalidInput(format!("unknown hook event: {}", event)))?;
+    if stdin_json {
+        // The agent-harness payload: extract the written path, relativise it
+        // to this jurisdiction; payloads without one (or outside it) pass.
+        let mut buf = String::new();
+        use std::io::Read;
+        let _ = std::io::stdin().read_to_string(&mut buf);
+        let payload: serde_json::Value = serde_json::from_str(&buf).unwrap_or_default();
+        let file = payload["tool_input"]["file_path"]
+            .as_str()
+            .or_else(|| payload["tool_input"]["notebook_path"].as_str())
+            .map(PathBuf::from);
+        match file {
+            Some(f) => {
+                let abs = if f.is_absolute() { f } else { repo.join(f) };
+                match abs.strip_prefix(repo) {
+                    Ok(rel) => paths.push(rel.to_path_buf()),
+                    Err(_) => return Ok(()), // outside this jurisdiction
+                }
+            }
+            None => return Ok(()),
+        }
+    }
     let input = vjs_core::hook::HookInput {
         event: hook_event,
         repo_root: repo.to_path_buf(),
@@ -402,7 +431,17 @@ fn cmd_hook(
         tool,
     };
     let ctx = build_kernel_context(repo)?;
-    let decision = vjs_core::hook::evaluate(&input, &ctx);
+    // Permit-aware: a governed write under an active in-scope permit passes;
+    // an unpermitted one fails closed with the route as the remedy.
+    let permits = Store::read_permits(repo).unwrap_or_default();
+    let gov = Store::read_repo_config(repo)
+        .ok()
+        .flatten()
+        .and_then(|c| c.governance);
+    let (required, exempt) = gov
+        .map(|g| (g.permit_required, g.permit_exempt))
+        .unwrap_or_default();
+    let decision = vjs_core::hook::evaluate_governed(&input, &ctx, &permits, &required, &exempt);
 
     if json {
         println!("{}", serde_json::to_string_pretty(&decision).unwrap());
