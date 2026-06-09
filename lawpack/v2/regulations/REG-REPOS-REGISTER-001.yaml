@@ -1,0 +1,27 @@
+id: REG-REPOS-REGISTER-001
+assent_source: standing_bounded_assent
+title: Repos Register and Subscription Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+text: >
+  Made under the Framework Act s.7, s.15-16, giving effect to the mandatory
+  transition-subscription and the repos register (the V1 Repositories House,
+  REALM-SI 6, is carried forward as archival source, incorporated as live
+  authority only by express incorporation). Each repository must,
+  within 90 days of commencement (or the period this Regulation later fixes),
+  create .vjs/config.toml, declare its lawpack lineage, default-subscribe, and
+  record its row in the repos register. The register schema (repo,
+  lawpack_lineage, trust_status, subscribed_at) is mandated centrally and
+  maintained per-repo; it is a derived, pointer-only, rebuildable projection,
+  never a source of law. Local sovereignty (amend, pin/decline, fork, exit) is
+  preserved; the mandate is to subscribe, not to surrender sovereignty.
+kernel_effect:
+  defines:
+    subscription_period_days: 90
+    register_schema: [repo, lawpack_lineage, trust_status, subscribed_at]
+    register_derived_pointer_only: true
+    local_sovereignty_preserved: true
+  must:
+    - perform_subscription_within_the_period
+  prohibits:
+    - treating_the_register_as_a_source_of_law

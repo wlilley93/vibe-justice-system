@@ -1,0 +1,22 @@
+id: REG-FEDERATION-COORDINATION-001
+assent_source: standing_bounded_assent
+title: Federation Coordination Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+text: >
+  Made under the Framework Act s.7, giving effect to the coordination/sovereignty
+  test ([2026] VJS-SC 1). A coordinating or super-repo root may federate peers
+  under one canonical lawpack and one continued apex but may not be sovereign.
+  The kernel-checkable bright-line and the court-applied practical-subjection
+  standard are stated below. Default subscription is lawful coordination because
+  genuinely revocable. The V1/REALM authorities (REALM-SC 6, REALM-PC 15, 17)
+  are carried forward as archival source, not live authority.
+kernel_effect:
+  defines:
+    practical_subjection_is_court_not_kernel: true
+    default_subscription_lawful_because_revocable: true
+  prohibits:
+    - a_root_asserting_an_apex_or_final_court_function
+    - binding_or_gating_a_peer_local_law_without_adoption
+    - overriding_canonical_without_the_s6_route
+    - foreclosing_a_peer_amend_pin_fork_or_exit

@@ -1,0 +1,153 @@
+id: ACT-CONSOLIDATION-FRAMEWORK
+assent_source: sovereign_assent
+title: Realm Consolidation and Reconciliation Framework Act 2026
+status: in_force
+enacted_by: principal
+purpose: >
+  The consolidating constitutional Act of the Realm, adopted by the Standing
+  Committee 4-0 and assented by the Sovereign Founder (2026-06-09), pinned to the
+  adopted-text digest sha256:90e843c1dbdcdb2e2c7026d1064a457cf7ea1dbfe80526eff96b1f7e03850470
+  (assent record .vjs/submissions/filed/2026-06-09-framework-act-assent.md). It
+  restates the settled V1 law as a whole in Schedule 1 (the principles digest,
+  archival/declaratory), carries forward the settled doctrine, frames all future
+  lawmaking, and parents the raft of subordinate regulations through s.7. Its
+  VJS-ACT ordinal is minted deterministically at commencement; no self-mint is
+  used. The earlier draft lived at .vjs/submissions/draft/2026-06-09-consolidation-framework-act-first-draft.md.
+
+sections:
+  - id: ACT-CONSOLIDATION-FRAMEWORK:s4
+    title: Adoption of the Restated Principles
+    text: >
+      Schedule 1 (the V1 valid-law principles digest) is adopted as the substrate
+      of starting law, archival and declaratory; a restated principle acquires
+      runtime force only through a live invariant or regulation or a new s.7
+      statutory instrument, never by restatement alone. The V1 source cited
+      against each principle is carried forward as archival source (a source
+      edge), not live authority.
+    kernel_effect:
+      defines:
+        schedule_1_adopted: true
+        restatement_is_archival_declaratory: true
+        force_only_via_invariant_regulation_or_si: true
+      prohibits:
+        - runtime_force_by_restatement_alone
+
+  - id: ACT-CONSOLIDATION-FRAMEWORK:s7
+    title: Power to make statutory instruments
+    text: >
+      The Standing Committee may make statutory instruments and subordinate
+      regulations under this Act. An instrument so made is subordinate law,
+      strictly below this Act and the Acts of Union; it may not amend, disapply,
+      or expand this Act, the constitution, any primary Act, or the assent rule
+      (anti-Henry-VIII, Bill 14 s.12-13). Primary law requires Sovereign assent;
+      subordinate law requires this parent authority.
+    kernel_effect:
+      defines:
+        si_power: standing_bounded
+        primary_requires_sovereign_assent: true
+        subordinate_requires_parent_authority: true
+      prohibits:
+        - si_amending_the_act_or_the_assent_rule
+
+  - id: ACT-CONSOLIDATION-FRAMEWORK:s10
+    title: The assent floor
+    text: >
+      Royal Assent is the sole constitutive gate for a primary or constitutional
+      Act, non-automatable, non-presumable, non-delegable. The computational
+      legislature may draft only; it is not sovereign, may not expand competence,
+      amend the assent rule, or create force from its output. A record carries
+      binding runtime force only on a valid assent source (the Assent-Source
+      Invariant, fail-closed allow-list).
+    kernel_effect:
+      defines:
+        constitutive_gate: royal_assent
+        enforced_by: INV-ASSENT-SOURCE-001
+      prohibits:
+        - legislature_self_extension
+        - legislature_amends_assent_rule
+
+  - id: ACT-CONSOLIDATION-FRAMEWORK:s11
+    title: Courts in continuity; the transition court
+    text: >
+      The three-tier hierarchy and the single apex are carried forward into the
+      Realm in continuity (County 1, Privy 3, Supreme 5/9; Court of Appeal
+      persists, convened on need). The Privy Council is the transition court
+      classifying pending V1 matters (continue, reframe, or moot); the V1 Court
+      acts only to perfect already-heard V1 matters (publication only).
+    kernel_effect:
+      defines:
+        courts_carried_forward_in_continuity: true
+        single_apex: true
+        transition_court: privy_council
+
+  - id: ACT-CONSOLIDATION-FRAMEWORK:s15
+    title: Mandatory transition-subscription
+    text: >
+      This Act binds every repository of the Realm as of commencement. Each
+      repository must perform the internal subscription work (create
+      .vjs/config.toml, declare lawpack lineage, default-subscribe) within 90
+      days of commencement or such period as the Repos Register and Subscription
+      Regulation fixes. Subscription is the default and is owed now; the local
+      sovereign's amend, pin/decline, fork, and exit routes are preserved.
+    kernel_effect:
+      defines:
+        binds_all_repos_at_commencement: true
+        subscription_default_period_days: 90
+        local_sovereignty_preserved: true
+
+  - id: ACT-CONSOLIDATION-FRAMEWORK:s20
+    title: Incorporation of further V1 law; the migration ledger
+    text: >
+      V1 law not in Schedule 1 has live force only by an express incorporation
+      record stating the v1_source, v2_destination, operative rule, kernel
+      effect, supersession or variation, and a validity-of-original finding;
+      nothing crosses by silence. Every incorporation is recorded one row per
+      crossing in the migration ledger (provenance-scoped, the single source of
+      truth, not loaded into runtime context). A fail-closed
+      incorporation-validity invariant rejects a missing element, a rank-floor
+      breach, a missing ledger row, or any weakening of the protective floor.
+    kernel_effect:
+      defines:
+        incorporation_required: true
+        migration_ledger_provenance_scoped: true
+      prohibits:
+        - v1_import_by_implication
+        - lower_rank_incorporates_higher_rank
+
+  - id: ACT-CONSOLIDATION-FRAMEWORK:s21
+    title: The protective floor
+    text: >
+      The protective floor is non-derogable and comprises four limbs: the
+      real-world-law floor; rights, standing, and due process; the public/private
+      boundary; and restorative-remedy-not-punishment. No incorporation,
+      consolidation, coordination, rename, or statutory instrument may weaken any
+      limb; an instrument that purports to do so is void to that extent.
+    kernel_effect:
+      defines:
+        protective_floor_limbs:
+          - real_world_law_floor
+          - rights_standing_due_process
+          - public_private_boundary
+          - restorative_remedy_not_punishment
+        non_derogable: true
+      prohibits:
+        - weakening_any_protective_floor_limb
+
+  - id: ACT-CONSOLIDATION-FRAMEWORK:s25
+    title: Entrenchment and severance
+    text: >
+      The assent floor (s.10), apex-singleness (s.11), and the protective floor
+      (s.21) are entrenched: amendable only by specific Sovereign assent to a
+      primary Act citing the provision by number, never by statutory instrument,
+      kernel, agent, implication, bare non-dissent, or lapse of a window. The
+      entrenched guarantees are non-severable; any other provision held void
+      leaves the remainder in force.
+    kernel_effect:
+      defines:
+        entrenched:
+          - assent_floor_s10
+          - apex_singleness_s11
+          - protective_floor_s21
+        amendable_only_by: sovereign_assented_constitutional_act_citing_section
+      prohibits:
+        - amending_an_entrenched_guarantee_by_si_or_kernel

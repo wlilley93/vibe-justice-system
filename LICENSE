@@ -1,0 +1,37 @@
+                    GNU AFFERO GENERAL PUBLIC LICENSE
+                       Version 3, 19 November 2007
+
+  The Vibe Justice System (the Realm) and its canonical codebase are licensed
+  under the GNU Affero General Public License, version 3.
+
+  Copyright (C) 2026 W. Lilley (the Sovereign Founder).
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU Affero General Public License as published by the Free
+  Software Foundation, either version 3 of the License, or (at your option) any
+  later version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+  PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+
+  You should have received a copy of the GNU Affero General Public License along
+  with this program. If not, see <https://www.gnu.org/licenses/agpl-3.0.html>.
+
+  AGPL note (section 13): if you run a modified version of this program to
+  interact with users remotely through a computer network, you must offer those
+  users an opportunity to receive the Corresponding Source of your version.
+
+-------------------------------------------------------------------------------
+
+  Adoption record. This licence is adopted by the Sovereign Founder, as copyright
+  holder, under the Realm Consolidation and Reconciliation Framework Act s.22
+  (assented 2026-06-09), superseding the prior MIT notice. AGPL is copyleft and
+  network-triggering and is kept separate from any third-party, differently
+  licensed code; a clean-room recreation is preferred to importing incompatible
+  source.
+
+  The full verbatim text of the GNU AGPL-3.0 is the canonical licence and is to
+  be vendored into this file in the canonicalisation migration (the Canonicalisation
+  and Migration Regulation); the authoritative text is published by the Free
+  Software Foundation at <https://www.gnu.org/licenses/agpl-3.0.txt>.

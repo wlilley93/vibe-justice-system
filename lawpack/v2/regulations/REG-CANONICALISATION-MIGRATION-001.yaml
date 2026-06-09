@@ -1,0 +1,30 @@
+id: REG-CANONICALISATION-MIGRATION-001
+assent_source: standing_bounded_assent
+title: Canonicalisation and Migration Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+text: >
+  Made under the Framework Act s.7, giving effect to [2026] VJS-PC 2 and SC-1 Q6.
+  The canon is unqualified; "V1" is the Archive/Gazette estate label, carried
+  forward only as archival source, incorporated as live authority nowhere save by
+  express incorporation. De-naming is prospective and non-disturbing.
+  The staged consolidation onto one canonical line is a governed, lock-preserving
+  migration, never a mass edit: the assented digests, the lawpack lock, the
+  VJS-ACT/VJS-REG/REALM-* series, and record ids are immutable; paths are
+  retained or redirected, never sed-renamed; each fatal invariant must be proven
+  to still bind before and after; a fresh lock is recorded under a commencement
+  addendum (the old lock pinned); halt-and-return if scoping cannot be proven.
+  The actual move, push, branch-protection, tag-signing, and AGPL re-licence are
+  the Principal's warranted acts under a release warrant ([2026] REALM-SI 7).
+kernel_effect:
+  defines:
+    canon_unqualified: true
+    v1_is_estate_label: true
+    migration_is_governed_lock_preserving: true
+    immutable: [assented_digests, lawpack_lock, citation_series, record_ids]
+  must:
+    - prove_each_fatal_invariant_still_binds_before_and_after
+    - record_a_fresh_lock_under_a_commencement_addendum
+  prohibits:
+    - unstaged_mass_edit_or_blind_move
+    - retro_editing_any_digest_citation_or_id
