@@ -4,6 +4,14 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The VJS Gazette</title>
+<meta name="description" content="The record of the realm: the living canon and the honoured archive, explorable as a constellation.">
+<link rel="alternate" type="application/atom+xml" title="The VJS Gazette" href="gazette.xml">
+<link rel="canonical" href="https://wlilley93.github.io/vibe-justice-system/">
+<meta property="og:title" content="The VJS Gazette">
+<meta property="og:description" content="The record of the realm: the living canon and the honoured archive, explorable as a constellation.">
+<meta property="og:url" content="https://wlilley93.github.io/vibe-justice-system/">
+<meta property="og:image" content="https://wlilley93.github.io/vibe-justice-system/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root {
     --cream:#fcf7f1; --paper:#fffdfa; --ink:#1a2744; --rule:#c8d0dc; --muted:#5b6472; --accent:#8b0000;
@@ -160,8 +168,10 @@
     border:1px solid var(--rule); border-radius:6px; padding:.5rem .7rem; white-space:pre-wrap; }
   a.lawref { color:var(--ink); text-decoration:underline; text-decoration-color:var(--rule); cursor:pointer; }
   a.lawref:hover { text-decoration-color:var(--ink); }
-  .hint { position:fixed; bottom:16px; left:16px; z-index:5; font-size:.72rem; color:var(--muted);
+  .hint { position:fixed; bottom:34px; left:16px; z-index:5; font-size:.72rem; color:var(--muted);
     pointer-events:none; font-style:italic; }
+  #colophon { position:fixed; bottom:12px; left:16px; z-index:5; font-size:.68rem; color:var(--muted); }
+  #colophon a { color:var(--muted); }
 
   @media (max-width: 720px) {
     #brand .word { display:none; }
@@ -177,7 +187,7 @@
 <div id="topbar">
   <a id="brand" href="gazette.html" title="The Gazette, classic reading view">
     <img src="assets/vibe-justice-system-logo.png" alt="Vibe Justice System">
-    <span class="word"><b>The VJS Gazette</b><span>one Gazette, two estates</span></span>
+    <span class="word"><b>The VJS Gazette</b><span>the record of the realm</span></span>
   </a>
   <div id="searchwrap">
     <input id="q" placeholder="Search the law&hellip;  (titles, citations, text)" autocomplete="off"
@@ -230,6 +240,7 @@
 </div>
 
 <div class="hint">drag to explore &middot; scroll to zoom &middot; click a star to read &middot; press / to search</div>
+<div id="colophon"></div>
 
 <aside id="panel" aria-label="Reading panel">
   <button class="close" onclick="closePanel()" aria-label="Close">&times;</button>
@@ -439,7 +450,17 @@ const Graph = ForceGraph()(document.getElementById('graph'))
         rect.x < o.x + o.w && rect.x + rect.w > o.x && rect.y < o.y + o.h && rect.y + rect.h > o.y);
       if (!clash || isSel || isHov) {
         labelRects.push(rect);
-        ctx.globalAlpha = dim ? .2 : .95;
+        // the label wears a chip: a translucent tinted plate above the lines
+        const padX = 3.5 / scale, padY = 1.6 / scale, rr = 2.5 / scale;
+        ctx.globalAlpha = dim ? .2 : .88;
+        ctx.beginPath();
+        ctx.roundRect(rect.x - padX, rect.y - padY, rect.w + padX * 2, rect.h + padY, rr);
+        ctx.fillStyle = TONE_BG[t];
+        ctx.fill();
+        ctx.lineWidth = .7 / scale;
+        ctx.strokeStyle = TONES[t];
+        ctx.stroke();
+        ctx.globalAlpha = dim ? .25 : 1;
         ctx.fillStyle = '#1a2744';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
@@ -538,7 +559,7 @@ function renderList() {
     const t = tone(d);
     const courtChip = d.court
       ? `<span class="chip tone-${t}">${esc(d.court.toUpperCase())}</span>`
-      : `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'V1' : 'V2'}</span>`;
+      : `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'ARCHIVE' : 'CANON'}</span>`;
     row.innerHTML = `<div class="t${major(d) ? ' major' : ''}">${esc(d.title)}</div>
       <div class="chips"><span class="chip tone-${t}">${esc(KIND_ABBREV[d.kind] || d.kind)}</span>${courtChip}</div>
       <div class="m"><span class="dot" style="background:${d.estate === 'v1' ? '#fffdfa' : TONES[t]};border-color:${TONES[t]}${d.estate === 'v1' ? ';border-style:dashed' : ''}"></span>
@@ -720,6 +741,7 @@ function chipsFor(d) {
     d.court ? `<span class="chip tone-${t}">${esc(COURT_LABEL[d.court] || d.court)}</span>` : '',
     `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'Archive' : 'Canon'}</span>`,
     d.status ? `<span class="chip status">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : '',
+    d.assent_source ? `<span class="chip status" title="The assent form this record declares; absence of the field is itself meaningful (fail-closed)">${esc(d.assent_source.replace(/_/g, ' '))}</span>` : '',
   ].join('');
 }
 function linkSection(wrap, label, list, count) {
@@ -840,6 +862,19 @@ function closePanel() {
   document.getElementById('panel').classList.remove('open');
   history.replaceState(null, '', location.pathname);
   renderList();
+}
+
+// The colophon: bind the publication to the record. Inert, always.
+{
+  const m = window.GAZETTE.meta || {};
+  const lp = m.lawpack || {};
+  const dig = (lp.digest || '').replace('sha256:', '').slice(0, 12);
+  const commit = (m.source_commit || '').slice(0, 7);
+  document.getElementById('colophon').innerHTML =
+    `Publication is constitutively inert &middot; generated ${esc((window.GAZETTE.generated_at || '').slice(0, 10))}` +
+    ` from ${esc(lp.id || 'the lawpack')}${dig ? ` &middot; <span title="${esc(lp.digest)}">sha256:${esc(dig)}&hellip;</span>` : ''}` +
+    (commit ? ` &middot; <a href="https://github.com/wlilley93/vibe-justice-system/commit/${esc(m.source_commit)}">${esc(commit)}</a>` : '') +
+    ` &middot; <a href="gazette-data.json">data</a> &middot; <a href="gazette.xml">feed</a>`;
 }
 
 /* small screens start tidy */

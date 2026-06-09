@@ -3,7 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The VJS Gazette</title>
+<title>The VJS Gazette - Law Reports</title>
+<meta name="description" content="The Realm Law Reports: the living canon and the honoured archive as readable cards.">
+<link rel="alternate" type="application/atom+xml" title="The VJS Gazette" href="gazette.xml">
+<link rel="canonical" href="https://wlilley93.github.io/vibe-justice-system/gazette.html">
+<meta property="og:title" content="The VJS Gazette - Law Reports">
+<meta property="og:description" content="The Realm Law Reports: the living canon and the honoured archive as readable cards.">
+<meta property="og:image" content="https://wlilley93.github.io/vibe-justice-system/assets/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root {
     --cream:#fcf7f1; --paper:#fffdfa; --ink:#1a2744; --rule:#c8d0dc; --muted:#5b6472; --accent:#8b0000;
@@ -81,7 +88,7 @@
 <header>
   <img class="logo" src="assets/vibe-justice-system-logo.png" alt="Vibe Justice System">
   <h1>The VJS Gazette</h1>
-  <div class="sub">The Realm Law Reports &amp; Gazette - one Gazette, two estates, on the one canonical line</div>
+  <div class="sub">The Realm Law Reports &amp; Gazette - the living canon and the honoured archive</div>
 </header>
 <div class="wrap">
   <div class="start">
@@ -94,6 +101,10 @@
       <a href="https://github.com/wlilley93/vibe-justice-system">The canonical repository</a>
       <a href="https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/INDEX.md">The archive citator</a>
     </div>
+  </div>
+  <div class="start" id="latest-wrap" style="display:none">
+    <h2>Latest in the Gazette <a style="font-size:.78rem;margin-left:.5rem" href="gazette.xml">Subscribe (Atom)</a></h2>
+    <div class="quick" id="latest"></div>
   </div>
   <input id="q" placeholder="Search the law&hellip;  (e.g. assent, permits, hooks, PC 5, REALM-SC 10)" autocomplete="off">
   <div class="tabs" id="estate-tabs"></div>
@@ -136,7 +147,7 @@ const ESTATE_CHIP = { v2:'Canon', v1:'Archive' };
 const KIND_ORDER = { statute:0, act:0, regulation:1, instrument:1, rule:2, order:3, judgment:3,
   decision:4, invariant:5, obligation:6, spec:7 };
 
-const SORT_TABS = [['newest','Newest first'], ['oldest','Oldest first'], ['kind','By kind']];
+const SORT_TABS = [['newest','Newest first'], ['oldest','Oldest first'], ['kind','By kind'], ['timeline','Timeline']];
 let estate = 'all', klass = 'all', query = '', sortMode = 'newest';
 
 function fmtDate(iso) {
@@ -175,6 +186,7 @@ function sorted(list) {
     a.id.localeCompare(b.id, undefined, { numeric: true });
   const byDateDesc = (a, b) => (b.date || '').localeCompare(a.date || '') || byKind(a, b);
   const byDateAsc = (a, b) => (a.date || '').localeCompare(b.date || '') || byKind(a, b);
+  if (sortMode === 'timeline') return [...list].sort(byDateDesc);
   const inner = sortMode === 'newest' ? byDateDesc : sortMode === 'oldest' ? byDateAsc : byKind;
   return [...list].sort((a, b) => byEstate(a, b) || inner(a, b));
 }
@@ -186,13 +198,14 @@ function card(d) {
   const gb = goodBad(d.status);
   const points = (d.points || []).map(p => `<li>${esc(p)}</li>`).join('');
   return `<div class="card tone-${t}" id="${esc(d.id)}">
-    <div class="titleline">${esc(d.title)}<span class="chip">${esc(KIND_LABEL[d.kind] || d.kind)}</span><span class="chip" style="--tone:var(--${d.estate === 'v1' ? 'v1' : 'v2'});--tone-bg:var(--${d.estate === 'v1' ? 'v1' : 'v2'}-bg)">${ESTATE_CHIP[d.estate]}</span>${d.status ? `<span class="badge ${gb}">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : ''}</div>
+    <div class="titleline">${esc(d.title)}<span class="chip">${esc(KIND_LABEL[d.kind] || d.kind)}</span><span class="chip" style="--tone:var(--${d.estate === 'v1' ? 'v1' : 'v2'});--tone-bg:var(--${d.estate === 'v1' ? 'v1' : 'v2'}-bg)">${ESTATE_CHIP[d.estate]}</span>${d.status ? `<span class="badge ${gb}">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : ''}${d.assent_source ? `<span class="badge" title="The assent form this record declares">${esc(d.assent_source.replace(/_/g, ' '))}</span>` : ''}</div>
     ${courtLine ? `<div class="court">${courtLine}</div>` : ''}
     <div class="ratio">${esc(d.summary)}</div>
     ${points ? `<details><summary>Main points</summary><ul class="points">${points}</ul></details>` : ''}
     <div class="links">
       <a href="${esc(d.url)}">Read the source</a>
       <a href="index.html#${encodeURIComponent(d.id)}">Read in the constellation</a>
+      <a href="${esc(d.url.replace('/blob/', '/commits/'))}">History</a>
     </div>
   </div>`;
 }
@@ -222,13 +235,15 @@ function render() {
     () => '', k => { sortMode = k; render(); });
   document.getElementById('meta').textContent =
     `${shown.length} of ${ITEMS.length} items shown. Colour and chips are orientation aids only; the committed law is the source.`;
-  // One Gazette, two estates: the list is structured in parts.
-  let html = '', lastEstate = null;
+  // The list is structured in parts: by estate normally, by day in timeline.
+  let html = '', lastPart = null;
   for (const d of shown) {
-    if (d.estate !== lastEstate) {
-      const count = shown.filter(x => x.estate === d.estate).length;
-      html += `<h2 class="part">${ESTATE_NAME[d.estate]} <span class="n">${count} items</span></h2>`;
-      lastEstate = d.estate;
+    const part = sortMode === 'timeline' ? (d.date || 'undated') : d.estate;
+    if (part !== lastPart) {
+      const label = sortMode === 'timeline' ? fmtDate(part) || part : ESTATE_NAME[d.estate];
+      const count = shown.filter(x => (sortMode === 'timeline' ? (x.date || 'undated') : x.estate) === part).length;
+      html += `<h2 class="part">${esc(label)} <span class="n">${count} items</span></h2>`;
+      lastPart = part;
     }
     html += card(d);
   }
@@ -237,6 +252,28 @@ function render() {
 
 document.getElementById('q').addEventListener('input', e => { query = e.target.value.trim(); render(); });
 render();
+
+// Latest in the Gazette: the six newest items of the record.
+{
+  const latest = [...ITEMS].sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, 6);
+  document.getElementById('latest').innerHTML = latest.map(d =>
+    `<a href="#${encodeURIComponent(d.id)}">${esc(d.date)} &middot; ${esc(d.title.length > 44 ? d.title.slice(0, 42) + '…' : d.title)}</a>`).join('');
+  document.getElementById('latest-wrap').style.display = '';
+}
+
+// The provenance footer: bind the publication to the record. Inert, always.
+{
+  const m = window.GAZETTE.meta || {}, lp = m.lawpack || {};
+  const dig = (lp.digest || '').replace('sha256:', '').slice(0, 12);
+  const commit = (m.source_commit || '').slice(0, 7);
+  document.querySelector('footer').innerHTML =
+    `Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001; [2026] REALM-SC 10):
+     force comes from the lawpack and the Sovereign's assent, never from being listed here.<br>
+     Generated ${esc((window.GAZETTE.generated_at || '').slice(0, 10))} from ${esc(lp.id || 'the lawpack')}` +
+    (dig ? ` &middot; <span title="${esc(lp.digest)}">sha256:${esc(dig)}&hellip;</span>` : '') +
+    (commit ? ` &middot; from commit <a href="https://github.com/wlilley93/vibe-justice-system/commit/${esc(m.source_commit)}">${esc(commit)}</a>` : '') +
+    ` &middot; <a href="gazette-data.json">machine-readable data</a> &middot; <a href="gazette.xml">Atom feed</a>`;
+}
 
 // Deep link: #id scrolls to the item and opens its main points.
 if (location.hash) {
