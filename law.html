@@ -106,6 +106,21 @@
 
   footer { border-top:1px solid var(--rule); margin-top:2rem; padding:1rem; text-align:center;
     color:var(--muted); font-size:.78rem; font-style:italic; }
+  .toc { background:var(--paper); border:1px solid var(--rule); border-radius:6px; padding:.5rem .8rem;
+    font-size:.84rem; margin:.8rem 0; columns:2; column-gap:1.4rem; }
+  .toc a { display:block; color:var(--ink); text-decoration:none; padding:.1rem 0; }
+  .toc a:hover { text-decoration:underline; }
+  .copycite { font:inherit; font-size:.74rem; color:var(--muted); border:1px solid var(--rule);
+    border-radius:4px; background:var(--paper); cursor:pointer; padding:.08rem .5rem; margin-left:.5rem; }
+  .copycite:hover { border-color:var(--ink); color:var(--ink); }
+  .pilcrow { color:var(--rule); text-decoration:none; margin-left:.35rem; cursor:pointer; font-size:.9rem; }
+  article section:hover .pilcrow { color:var(--muted); }
+  .pilcrow:hover { color:var(--ink) !important; }
+  .docnav { display:flex; justify-content:space-between; gap:1rem; margin:1.8rem 0 0; }
+  .docnav a { color:var(--ink); text-decoration:none; font-size:.86rem; border:1px solid var(--rule);
+    border-radius:6px; background:var(--paper); padding:.4rem .7rem; max-width:46%; }
+  .docnav a:hover { border-color:var(--ink); }
+  .docnav .spacer { flex:1; }
 
   @media print {
     .bar, footer, .neigh, h2.sect.assoc { display:none !important; }
@@ -247,9 +262,15 @@ function renderBody(d, body) {
   switch (d.kind) {
     case 'statute': {
       let out = body.purpose ? `<div class="lead">${linkify(esc(body.purpose))}</div>` : '';
-      for (const sec of body.sections || []) {
+      const secs = body.sections || [];
+      if (secs.length >= 4) {
+        out += `<nav class="toc">` + secs.map(sec =>
+          `<a href="#${encodeURIComponent(sec.id || '')}">${esc((sec.id || '').split(':').pop())} - ${esc(sec.title || '')}</a>`).join('') + `</nav>`;
+      }
+      for (const sec of secs) {
         const n = (sec.id || '').split(':').pop();
-        out += `<section id="sec:${esc(sec.id || '')}"><h3>${esc(n)} - ${esc(sec.title || '')}</h3>${paras(sec.text)}
+        out += `<section id="sec:${esc(sec.id || '')}"><h3>${esc(n)} - ${esc(sec.title || '')}
+          <a class="pilcrow" data-sec="${esc(sec.id || '')}" title="Copy a citation to this section">&para;</a></h3>${paras(sec.text)}
           ${sec.commentary ? `<p class="commentary">${linkify(esc(sec.commentary))}</p>` : ''}
           ${factsPanel(sec.kernel_effect)}</section>`;
       }
@@ -306,6 +327,47 @@ function assocSection(title, list) {
 
 const DERIVED = new URLSearchParams(location.search).has('derived');
 
+function copyText(text, btn) {
+  const done = () => {
+    if (!btn) return;
+    const was = btn.textContent;
+    btn.textContent = 'Copied';
+    setTimeout(() => { btn.textContent = was; }, 1200);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, done);
+  else {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    ta.remove();
+    done();
+  }
+}
+function citeFor(d, sec) {
+  const unit = sec ? `, ${sec.split(':').pop()}` : '';
+  return `${d.title}${unit} (${d.citation || d.id}) - https://wlilley93.github.io/vibe-justice-system/law.html#${encodeURIComponent(sec || d.id)}`;
+}
+// the register's reading order, for previous/next navigation
+const KIND_ORDER = { statute:0, act:0, regulation:1, instrument:1, rule:2, order:3, judgment:3,
+  decision:4, invariant:5, obligation:6, spec:7 };
+const REGISTER = [...ITEMS].sort((a, b) =>
+  (a.estate === b.estate ? 0 : a.estate === 'v2' ? -1 : 1) ||
+  (b.date || '').localeCompare(a.date || '') ||
+  ((KIND_ORDER[a.kind] ?? 9) - (KIND_ORDER[b.kind] ?? 9)) ||
+  a.id.localeCompare(b.id, undefined, { numeric: true }));
+function docNav(d) {
+  const i = REGISTER.findIndex(x => x.id === d.id);
+  const prev = REGISTER[i - 1], next = REGISTER[i + 1];
+  if (!prev && !next) return '';
+  const short = t => esc(t.length > 44 ? t.slice(0, 42) + '…' : t);
+  return `<div class="docnav">
+    ${prev ? `<a href="law.html#${encodeURIComponent(prev.id)}">&larr; ${short(prev.title)}</a>` : '<span class="spacer"></span>'}
+    ${next ? `<a href="law.html#${encodeURIComponent(next.id)}" style="text-align:right">${short(next.title)} &rarr;</a>` : '<span class="spacer"></span>'}
+  </div>`;
+}
+
 function render() {
   const id = decodeURIComponent(location.hash.slice(1)).split(':')[0];
   const d = byId.get(id);
@@ -336,7 +398,8 @@ function render() {
   const head = `<div class="kicker">${d.estate === 'v1' ? 'The honoured archive' : 'The living canon'}</div>
     <h1>${esc(d.title)}</h1>
     <div>${chipsFor(d)}</div>
-    <div class="docmeta"><b>${esc(d.citation || d.id)}</b> &middot; ${esc(fmtDate(d.date))}</div>
+    <div class="docmeta"><b>${esc(d.citation || d.id)}</b> &middot; ${esc(fmtDate(d.date))}
+      <button class="copycite" data-cite>Copy citation</button></div>
     ${statusLine(d)}
     ${DERIVED ? `<div class="derived">Derived presentation rendered by the Gazette on ${esc(fmtDate(new Date().toISOString().slice(0, 10)))}; the source of record is unchanged on the immutable v1 branch.</div>` : ''}
     ${d.summary ? `<div class="lead">${linkify(esc(d.summary))}</div>` : ''}`;
@@ -356,7 +419,7 @@ function render() {
       const current = decodeURIComponent(location.hash.slice(1)).split(':')[0];
       if (current !== id) return;
       const body = renderBody(d, (window.GAZETTE_TEXT || {})[id]) || '<p class="commentary">No renderable text.</p>';
-      page.innerHTML = `<main>${head}<article>${body}</article>${assoc}</main>`;
+      page.innerHTML = `<main>${head}<article>${body}</article>${assoc}${docNav(d)}</main>`;
       const want = decodeURIComponent(location.hash.slice(1));
       if (want.includes(':')) {
         const el = document.getElementById('sec:' + want);
@@ -372,13 +435,34 @@ function render() {
     page.innerHTML = `<main>${head}
       <article>${pts ? `<h2 class="sect">Main points</h2><ul class="points">${pts}</ul>` : ''}
       <p class="commentary">The full text of this archive record lives on the immutable v1 branch;
-      this page presents the Gazette's curated digest.</p></article>${assoc}</main>`;
+      this page presents the Gazette's curated digest.</p></article>${assoc}${docNav(d)}</main>`;
     wireAssoc();
   }
 }
 function wireAssoc() {
   document.querySelectorAll('.neigh button').forEach(b =>
     b.addEventListener('click', () => { location.hash = encodeURIComponent(b.dataset.go); }));
+  const id = decodeURIComponent(location.hash.slice(1)).split(':')[0];
+  const d = byId.get(id);
+  if (!d) return;
+  document.querySelectorAll('[data-cite]').forEach(b =>
+    b.addEventListener('click', () => copyText(citeFor(d), b)));
+  document.querySelectorAll('.pilcrow').forEach(a =>
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      history.replaceState(null, '', '#' + encodeURIComponent(a.dataset.sec));
+      copyText(citeFor(d, a.dataset.sec), null);
+      const sec = document.getElementById('sec:' + a.dataset.sec);
+      if (sec) sec.classList.add('flash');
+    }));
+  document.querySelectorAll('.toc a').forEach(a =>
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const sec = decodeURIComponent(a.getAttribute('href').slice(1));
+      const el = document.getElementById('sec:' + sec);
+      if (el) { el.classList.add('flash'); el.scrollIntoView({ block: 'start' }); }
+      history.replaceState(null, '', '#' + encodeURIComponent(sec));
+    }));
 }
 
 window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });

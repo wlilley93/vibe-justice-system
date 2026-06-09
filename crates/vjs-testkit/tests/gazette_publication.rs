@@ -193,3 +193,21 @@ fn the_workplan_order_terms_hold_on_the_register() {
         }
     }
 }
+
+#[test]
+fn the_jsonld_graph_mirrors_the_register() {
+    let html = std::fs::read_to_string(repo_root().join("gazette.html")).unwrap();
+    let start_tag = r#"<script type="application/ld+json" id="gazette-jsonld">"#;
+    let s = html.find(start_tag).expect("jsonld marker present") + start_tag.len();
+    let e = s + html[s..].find("</script>").expect("jsonld closes");
+    let ld: serde_json::Value =
+        serde_json::from_str(&html[s..e].replace("<\\/", "</")).expect("jsonld parses");
+    let graph = ld["@graph"].as_array().unwrap();
+    let items = data()["items"].as_array().unwrap().len();
+    assert_eq!(graph.len(), items + 1, "one Periodical plus one Legislation per item");
+    assert!(graph.iter().skip(1).all(|n| n["@type"] == "Legislation"));
+    assert!(
+        !html[s..e].contains("legislationLegalForce"),
+        "force is never asserted from the publication surface"
+    );
+}

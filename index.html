@@ -902,6 +902,14 @@ else document.getElementById('list').classList.add('open'), listToggle.setAttrib
 if (location.hash) {
   const id = decodeURIComponent(location.hash.slice(1)).split(':')[0];
   setTimeout(() => openPanel(id), 700);
+} else {
+  // a composed first paint: settle briefly, then frame the whole record
+  let framed = false;
+  Graph.onEngineStop(() => {
+    if (framed) return;
+    framed = true;
+    Graph.zoomToFit(500, 70);
+  });
 }
 </script>
 </body>
