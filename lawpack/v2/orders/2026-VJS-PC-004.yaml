@@ -1,0 +1,57 @@
+id: 2026-VJS-PC-004
+assent_source: standing_bounded_assent
+court: privy_council
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: governance.foundational-law-citation
+holding: >
+  V2 Privy Council, 3-0, hybrid. The binding convention: cite by source - a
+  statute or instrument by its enacting instrument and section, and case law by
+  its case (neutral citation), never by a pseudo-section, its binding content
+  being its ratio. V1's CASE-LAW is a hybrid: the P articles (s.1,2,3,9,10,13,14,
+  23) are genuine Sovereign-enacted constitutional statute (properly sectioned),
+  and the SC articles (s.4-8, s.11, s.18-22) are case law whose true address is
+  the case in their source column. Re-cutting the entrenched, section-keyed,
+  immutable-digest V1 document is rejected (non-disturbance); it stays as-is in
+  the archive. The split is carried prospectively at the restatement step so a
+  future generation inherits a clean separation. The entrenched section-keyed
+  amendment procedure and entrenchment list bind only the P/constitutional
+  statute and are untouched. Re-citing the live V2 corpus (digest, Framework Act,
+  Doctrine, filed-opinion source tags) is a governed, meaning-preserving clerical
+  pass needing no fresh adoption; the case-to-section mapping is lodged as a
+  register; the principle-20 citation gate is extended to fail closed on a
+  pseudo-section over a court-made article.
+directives:
+  - id: D1
+    actor: agent
+    must: cite_statute_by_instrument_and_section_and_case_law_by_its_case_neutral_citation
+    when: citing_any_authority
+  - id: D2
+    actor: registrar
+    must: re_cite_the_live_v2_corpus_by_a_governed_meaning_preserving_clerical_pass_off_the_source_column
+    when: conforming_citations
+  - id: D3
+    actor: agent
+    must: lodge_the_case_to_section_mapping_as_a_resolvable_register
+    when: re_citing
+  - id: D4
+    actor: agent
+    must: extend_the_principle_20_gate_to_fail_closed_on_a_pseudo_section_over_a_court_made_article
+    when: validating
+forbidden:
+  - re_cutting_or_re_sectioning_the_entrenched_v1_case_law_document
+  - citing_case_law_by_a_pseudo_section_instead_of_its_case
+  - changing_any_legal_meaning_in_the_clerical_re_citation_pass
+exceptions:
+  - "the P/constitutional articles (s.1,2,3,9,10,13,14,23) are genuine statute and keep their sections; the entrenched amendment procedure and entrenchment list are untouched"
+supersedes: []
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-004-opinion.md"
+runtime_summary: >
+  Cite by source: statute by instrument+section, case law by its case (neutral
+  citation), never a pseudo-section. V1 CASE-LAW is a hybrid (P=statute,
+  SC=case law); it stays intact in the archive, the split carried forward at the
+  restatement step. Re-citing the live corpus is a governed clerical pass (no
+  adoption); the case-to-section mapping is lodged as a register; the principle-20
+  gate fails closed on a pseudo-section over a court-made article.
+created_at: "2026-06-09T00:00:00Z"
