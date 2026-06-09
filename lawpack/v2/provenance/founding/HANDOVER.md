@@ -8,6 +8,8 @@
 
 **IMPORTANT: This document is a draft implementation brief for V2. It is NOT live authority. It is NOT a V2 lawpack record. No YAML record in this document has binding runtime force. The constitutional legitimacy of V2, the handover from V1, the Sovereign-assent rule for AI-made law, and all foundational doctrine must be settled through the V1 constitutional route (Privy Council, Supreme Court, Committee, Sovereign assent) BEFORE any of this material becomes binding V2 law. V2 receives the settled result as founding provenance and compact lawpack records only after V1 completes its route. Treating this document as authority before V1 settlement would constitute AI self-authorising law, which is precisely the problem this migration is designed to prevent.**
 
+> **UPDATE 2026-06-09 - the V1 route is now SETTLED.** The settled outcome is recorded in `V1-SETTLEMENT-OUTCOME.md` (this directory): Privy Council [2026] REALM-PC 24, Supreme Court [2026] REALM-SC 10 (enacting CASE-LAW s. 23(1)-(6), the Sovereign-assent floor, plus the express handover order), and Standing Committee adoption of Bill 32 by 4-0. Two commencement gates remain: (A) the Sovereign's positive, specific assent recorded against the adopted-bill digest `8e1d3f51...6b9a0c` (a constitutive act no agent may perform), and (B) the V2 commencement engineering (the fail-closed Assent-Source Invariant proven, and each V2 court expressly constituted). The "pending" markers below are superseded by that record. This brief stays a draft until both gates are satisfied.
+
 ---
 
 ## The constitutional relay
