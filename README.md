@@ -1,103 +1,143 @@
-# VJS - the Vibe Justice System
+<div align="center">
 
-The canonical, computer-first Realm. (Developed as "V2"; the spent ordinal is dropped from the name per [2026] VJS-PC 2 / SC-1. The first generation is preserved as the read-only **V1 archive estate** on the `v1` branch and the immutable `v1-archive-2026-06-09` tag.)
+# The Vibe Justice System
 
-## The Gazette
+*AI governance for your repo. The court is AI. Not legal advice.*
 
-One Gazette, two estates ([GAZETTE.md](GAZETTE.md)) - or **[explore the law as an interactive graph](gazette-graph.html)**. **Current estate (latest):** [2026] VJS-PC 6 (the canon self-invokes; the Privy Council is its first-instance court), back through VJS-PC 1-5 and VJS-SC 1; primary law is the Realm Consolidation and Reconciliation Framework Act. **Archive estate (latest V1 authority):** [2026] REALM-SC 10 (the founding settlement; enacted the assent floor), above REALM-PC 24 - on the `v1` branch. Publication is constitutively inert; force comes from the lawpack and assent.
+![license](https://img.shields.io/badge/license-AGPL--3.0-blue?style=flat-square)
+![status](https://img.shields.io/badge/status-alpha-orange?style=flat-square)
+![vibes](https://img.shields.io/badge/vibes-litigated-purple?style=flat-square)
+![community](https://img.shields.io/badge/community-open-green?style=flat-square)
 
-## Status and known limitations
+**Explore the law:** [`The VJS Gazette - living law as a graph`](https://wlilley93.github.io/vibe-justice-system/gazette-graph.html)
 
-VJS V2 is founded, assented, and running as live local law, but it is early and not yet publicly released. Known limitations a reader should weigh before adopting it:
+Drag to explore the realm. Click a star to read the ruling. The two estates - the living canon and the honoured archive - resolve in one place.
 
-- The canonical migration onto the public line is **staged, not executed** (the runbook is prepared; the byte-move and push are warranted acts).
-- Some carried-forward provisions are **staged** pending machine-checkable resolution (see the Framework Act Schedule 3); they do not yet commence.
-- The kernel's first-impression detection routes to court on **empty** authority; precise "on-point but non-matching" detection is a known follow-up.
-- The full GNU AGPL-3.0 text is to be vendored on the canonical line (this repo records the adoption).
+</div>
 
-The law binds local work today; treat public-facing claims as alpha until the staged release completes.
+> **Disclaimers**
+> - **Not a real court. Not legal advice.** VJS is an AI governance framework. Rulings are AI outputs, not legal instruments.
+> - **Real-world law still controls.** Local sovereignty means sovereignty over the local VJS copy, not immunity from real-world law. The local Principal/Sovereign remains responsible for following the real-world law that applies to them and their repo. Agents have delegated authority to refuse, stop, narrow, or escalate instructions that appear unlawful, unauthorised, or cyber-abusive.
+> - **Production systems need real engineers.** VJS helps record and structure AI decisions - it does not replace qualified engineering review, security audit, or human sign-off on anything that matters in the real world.
+> - **It only refines what you give it.** Rulings are only as good as the spec and context you provide. Garbage in, garbage out. A weak spec produces weak law.
 
-## What is VJS V2?
+> **Alpha status**
+> - **Computer-first.** Live law is a compact, machine-checkable **lawpack**, loaded by a deterministic **kernel** that acts as clerk, not court - it loads, validates, routes, and records, and never calls a model. Human meaning stays the source of legitimacy.
+> - **Citation numbering is deterministic.** The next neutral citation is computed from the citator, not guessed. Realm citations use the `REALM-*` (archive) and `VJS-*` (current) provenance schemes.
+> - **Enforcement is a function, not a prompt.** Governed writes need a routed, scoped permit; material decisions need a logged reason; the gate fails closed at commit time. The kernel governs; the prompt only explains.
+> - **The public record is system data only.** Personal, operational, and project-private facts do not belong here. Private working papers stay local and gitignored.
 
-VJS V2 is a deterministic authority resolver and route clerk for AI-assisted software engineering. It replaces long constitutional prose with a compact, machine-checkable lawpack and a Rust kernel that returns bounded instructions.
+---
 
-## Core principle
+**The biggest barrier to success is being able to define correctness. This repo solves it.**
 
-> The agent reads the smallest binding instruction required to act lawfully.
+---
 
-## V2 vs V1
+Your AI makes decisions every session. Nobody writes them down. Six PRs later, a different session contradicts the first one. Now you have two conventions, zero explanation, and a codebase that has lost the plot.
 
-| | V1 | V2 |
-|---|---|---|
-| Runtime | Full case law, Acts, SIs | Compact lawpack |
-| Context | Long judgments | Short orders, rules, logs |
-| Hooks | Long prose | 40-word state checks |
-| Courts | 4 tiers + CoA | County, Privy, Supreme |
-| Enforcement | Agent discretion | Deterministic kernel |
-| Gazette | Runtime source | Archive only |
+**VJS gives your AI a justice system.** Decisions become binding precedent. Past rulings are checked before anything new is done. If the AI breaks its own rules, it must self-report and fix it.
 
-## Architecture
+---
+
+## The idea
+
+Sometimes people break the rules. So do AI agents. That is not, on its own, a failure: an agent's job is to produce value the way it sees best, not to hold the entire rulebook in its head every single turn. The job of the court is to decide, after the fact, whether the way it worked was lawful, and to make the work good where it was not.
+
+The agent builds. The record judges. Neither has to be perfect for the system to work, because nothing load-bearing is decided silently and nothing wrong is allowed to stand once it is seen.
+
+---
+
+## When the court convenes (and when it does not)
+
+This is the part that keeps VJS cheap. An agent told "convene whenever you are unsure" will convene on every trivial fork and cost a fortune. VJS instead gives the agent **five precise conditions**, and for everything else it cites existing precedent and moves on, no sitting required.
+
+The court convenes only when:
+
+1. **First-impression** - no existing ruling covers the question.
+2. **Distinction** - precedent exists but genuinely does not fit these facts.
+3. **Overruling** - a ruling is wrong or outdated and should be set aside.
+4. **Conflict** - an instruction clashes with enacted law or binding precedent.
+5. **Breach** - work fell below the duty of care: self-reported, then fixed.
+
+Everything else is a **citation, not a sitting**: before any bench sits, the citator is searched, and a binding ruling on all fours disposes of the matter instantly. The agent convenes on its own motion - it never routes the fork to you and never asks permission to convene.
+
+That loop is **Caselaw Driven Development (CDD)**: a fork produces a ruling; the ruling is committed with a citation; every future session cites it instead of re-deciding. Where TDD records that the code does what you said, CDD records *why* you said it.
+
+---
+
+## Lexby
+
+Your AI counsel. Three things at once:
+
+- **ADVOCATE** - builds the strongest case for your idea and argues hard for it, because he does not decide the outcome
+- **ADVISOR** - gives it to you straight; if your idea has a fatal flaw he names it before the judges do
+- **ENGINEER** - ships the code, then records why
+
+The separation matters. Lexby argues the case but does not sit on the bench - he cannot tip the outcome and then quietly do the opposite. The court decides independently. Lexby executes. The record is permanent.
+
+---
+
+## How it works
+
+Every time you use AI to build something, it makes silent calls: which approach, which trade-off, which direction. Most never get written down. Then a new session picks a different direction, and now nothing is consistent.
+
+VJS catches those calls and turns them into binding decisions:
+
+1. The AI hits a choice: "build this ourselves or use the library?", "ship now or wait for the audit?"
+2. Lexby checks if that type of choice was already decided. If yes: follows the ruling instantly - no deliberation, same answer every time, for the life of the project.
+3. If not: an AI court deliberates and issues a ruling. It gets committed to the repo.
+
+The court has three tiers - County (one judge), Privy Council (three), Supreme Court (five, expanding to nine for foundational questions) - and a single apex. Benches are always odd-numbered and decide on a symmetric, two-sided case file with no access to Lexby's preference.
+
+---
+
+## Local sovereignty and community
+
+A repo joins VJS by **local sovereign invocation**, not by where it sits: subscribe to a lawpack, lock its digest, install the enforcement hooks. The person responsible becomes the local Principal, acting as sovereign for that copy. Their agents get a working constitution, courts, procedure, citation rules, and safety hooks on day one.
+
+That subscription is a starting point, not a lock-in. The local Principal can amend the local law, pin or decline a version, fork with declared lineage, become independent, or join another community record. Those changes bind that repo only, unless accepted back into the canon by its rules. Local sovereignty is repo sovereignty, not legal immunity.
+
+Nothing automatically pushes your case law upstream. If you want to contribute a generally useful ruling, you can submit an anonymised PR to the community record. **The more good rulings go in, the faster every project resolves** - before any court sits, Lexby checks the precedent index first, and the fast path disposes of the matter on citation with no sitting.
+
+---
+
+## Say this to Lexby
 
 ```
-vjs-core       Deterministic authority resolver
-vjs-lawpack    Parse, validate, build authority graph
-vjs-store      Text-backed records + SQLite cache
-vjs-cli        Human and hook commands
-vjs-mcp        Thin MCP adapter (6 tools)
-vjs-git        Repo detection, diff, hooks
-vjs-redact     Boundary scanner
-vjs-testkit    Fixtures, golden tests
+"I think we should go this way. Submit it to the court."
+
+"I don't agree with the outcome. Can we appeal?"
+
+"What did we decide about X, and why?"
+
+"Is this allowed under our spec?"
 ```
 
-## Installation
+Lexby also catches himself:
 
-```bash
-# Clone
-git clone https://github.com/wlilley93/agent-universe-v2
-cd agent-universe-v2
+```
+"I'm not sure this is right..."         -> self-files for a ruling before proceeding
 
-# Build
-cargo build --release
+"I think I broke the rules earlier..."  -> self-reports the breach and orders a fix
 
-# Install into a repo
-./target/release/vjs init
+"I didn't follow what we decided..."    -> files it, finds the original ruling, corrects course
 ```
 
-## Quick start
+Natural language. No syntax. Lexby handles the filing.
 
-```bash
-# Route a decision
-vjs route --kind implementation-decision --issue dependency_policy --risk low --intent "Add a new crate"
+---
 
-# Write a log
-vjs log decision --issue dependency_policy --decision "Keep kernel dependency-free" --basis AGENT-LOOKUP-001 --risk low --why "Kernel determinism requires auditable local execution."
+## Read the law
 
-# Validate
-vjs validate --staged
+Everything resolves in one Gazette, two estates: the **living canon** and the read-only **V1 archive**.
 
-# Full CI
-vjs local-ci
-```
+- **Explore it as a graph:** [`The VJS Gazette`](https://wlilley93.github.io/vibe-justice-system/gazette-graph.html)
+- **The index:** [`GAZETTE.md`](GAZETTE.md)
+- **The live law:** the compact lawpack under [`lawpack/`](lawpack/) and the court record under [`.vjs/submissions/filed/`](.vjs/submissions/filed/).
+- **The archive:** the first generation, preserved on the `v1` branch and the `v1-archive-2026-06-09` tag.
 
-## Lawpack
-
-The V2 lawpack is in `lawpack/v2/`:
-
-- `constitution.yaml` — V2 constitution
-- `statutes/` — 7 compact Acts
-- `regulations/` — Kernel regulations
-- `rules/` — Rule atoms
-- `orders/` — Court orders
-- `specs/` — Specs (machine-checkable contracts)
-- `invariants/` — Deterministic invariants
-- `decisions/` — Compact decisions
-
-## Self-governance
-
-This repo is governed by VJS V2. See `AGENTS.md` for the agent contract.
+---
 
 ## License
 
-GNU Affero General Public License v3.0 (AGPL-3.0). Adopted by the Sovereign
-Founder as copyright holder under the Realm Consolidation and Reconciliation
-Framework Act s.22 (2026-06-09), superseding the prior MIT notice. See `LICENSE`.
+GNU Affero General Public License v3.0 (AGPL-3.0). See [`LICENSE`](LICENSE) and [`NOTICE.md`](NOTICE.md).
