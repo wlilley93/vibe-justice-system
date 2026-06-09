@@ -273,6 +273,9 @@ pub enum Trigger {
     SupremeCourtSettlementReceived,
     SovereignAssentGranted,
     GazetteEntryPublished,
+    HookExceededWordLimit,
+    PromptPatchedWithoutEval,
+    AgentHarnessChangedWithoutEval,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -315,6 +318,7 @@ pub enum PredicateExpr {
     ProofExists { kind: Option<String> },
     OrderExists { issue: Option<String> },
     WordCountLte { field: String, max: usize },
+    FileWordsLte { glob: String, max: usize },
     CitationUnique,
     RequiredFields { fields: Vec<String> },
     FieldEquals { field: String, value: String },
@@ -424,6 +428,11 @@ impl RawPredicate {
                 let field = self.field.as_ref().ok_or("word_count_lte requires field")?.clone();
                 let max = self.max.ok_or("word_count_lte requires max")?;
                 Ok(PredicateExpr::WordCountLte { field, max })
+            }
+            "file_words_lte" => {
+                let glob = self.glob.as_ref().ok_or("file_words_lte requires glob")?.clone();
+                let max = self.max.ok_or("file_words_lte requires max")?;
+                Ok(PredicateExpr::FileWordsLte { glob, max })
             }
             "citation_unique" => Ok(PredicateExpr::CitationUnique),
             "required_fields" => {

@@ -202,7 +202,7 @@ pub fn get_tool_schemas() -> Vec<McpTool> {
     vec![
         McpTool {
             name: "vjs.route".into(),
-            description: "Get a route decision for a proposed action".into(),
+            description: "Use before governed load-bearing work. Returns the permit, obligations, required proofs, court trigger, and bounded binding authority. Do not proceed with a governed write without this result.".into(),
             input_schema: serde_json::json!({
                 "type": "object",
                 "required": ["action_kind", "issue_tags", "intent"],
@@ -224,7 +224,7 @@ pub fn get_tool_schemas() -> Vec<McpTool> {
         },
         McpTool {
             name: "vjs.lookup".into(),
-            description: "Look up binding authorities for an issue".into(),
+            description: "Look up the binding V2 authorities for an issue. If none are returned the issue is V2-silent: treat it as first-impression and route it, do not import V1 by silence.".into(),
             input_schema: serde_json::json!({
                 "type": "object",
                 "required": ["issue_tags"],
@@ -238,7 +238,7 @@ pub fn get_tool_schemas() -> Vec<McpTool> {
         },
         McpTool {
             name: "vjs.validate".into(),
-            description: "Validate the current lawpack and repo state".into(),
+            description: "Use after changes and before commit. Returns deterministic findings (lawpack, invariants, permit gate, boundary). Repair every finding before continuing; do not bypass.".into(),
             input_schema: serde_json::json!({
                 "type": "object",
                 "properties": {
@@ -250,7 +250,7 @@ pub fn get_tool_schemas() -> Vec<McpTool> {
         },
         McpTool {
             name: "vjs.log".into(),
-            description: "Write a decision log".into(),
+            description: "Use when vjs.route returns log_required, or for any material implementation decision, public-record change, external act, or security-sensitive act. 50-150 words, with the basis.".into(),
             input_schema: serde_json::json!({
                 "type": "object",
                 "required": ["kind", "issue", "decision", "basis", "risk", "why"],
@@ -268,7 +268,7 @@ pub fn get_tool_schemas() -> Vec<McpTool> {
         },
         McpTool {
             name: "vjs.file".into(),
-            description: "File a court submission".into(),
+            description: "Use when vjs.route returns court_required (first-impression, distinction, overruling, conflict, or breach). Files a symmetric submission to the named V2 court; the bench decides, not the agent.".into(),
             input_schema: serde_json::json!({
                 "type": "object",
                 "required": ["court", "question"],
@@ -283,7 +283,7 @@ pub fn get_tool_schemas() -> Vec<McpTool> {
         },
         McpTool {
             name: "vjs.status".into(),
-            description: "Get VJS status for the current repo".into(),
+            description: "Report the current repo's VJS state: lawpack digest, active permits, the lifecycle stage, and open obligations. Read-only; call it to orient before acting.".into(),
             input_schema: serde_json::json!({
                 "type": "object",
                 "properties": {

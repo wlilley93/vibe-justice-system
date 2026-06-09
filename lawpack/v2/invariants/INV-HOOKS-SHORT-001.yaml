@@ -1,0 +1,18 @@
+id: INV-HOOKS-SHORT-001
+title: VJS hooks stay short state checks
+severity: fatal
+scope:
+  paths:
+    - .vjs/hooks/**
+rule:
+  kind: file_words_lte
+  glob: ".vjs/hooks/**"
+  max: 40
+basis:
+  - ACT-003:s2
+  - 2026-VJS-BOOT-009
+  - DEC-AGENT-HARNESS-001
+remedy: >
+  Move legal reasoning into kernel rules, route decisions, invariants, or eval
+  fixtures. A hook may only point to the missing permit, proof, log, or
+  validation failure. Keep each hook under 40 words.

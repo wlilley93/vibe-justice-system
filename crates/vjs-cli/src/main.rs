@@ -100,6 +100,10 @@ enum Commands {
         #[command(subcommand)]
         subcmd: PermitCommands,
     },
+    Eval {
+        /// Suite to run: agent-harness | prompts | route | all
+        suite: Option<String>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -186,6 +190,7 @@ fn main() {
         Commands::NextCitation { series, year } => cmd_next_citation(series, year, json),
         Commands::MigrateV1 { v1_path, out } => cmd_migrate_v1(&v1_path, out, json),
         Commands::Permit { subcmd } => cmd_permit(&repo, subcmd, json),
+        Commands::Eval { suite } => cmd_eval(&repo, suite, json),
     };
 
     if let Err(e) = result {
@@ -1076,6 +1081,46 @@ fn parse_risk_level(s: &str) -> RiskLevel {
         "critical" => RiskLevel::Critical,
         _ => RiskLevel::Low,
     }
+}
+
+fn cmd_eval(repo: &PathBuf, suite: Option<String>, json: bool) -> Result<(), KernelError> {
+    let suite = suite.unwrap_or_else(|| "all".into());
+    let lawpack = load_lawpack(repo)?;
+    // The route suite needs a kernel context; build it best-effort.
+    let ctx = build_kernel_context(repo).ok();
+    let reports = vjs_core::evals::run_suite(&suite, &lawpack.invariants, ctx.as_ref(), repo);
+
+    let total_failed: usize = reports.iter().map(|r| r.failed).sum();
+    let total_passed: usize = reports.iter().map(|r| r.passed).sum();
+
+    if json {
+        println!("{}", serde_json::to_string_pretty(&reports).unwrap());
+    } else if reports.is_empty() {
+        println!("No eval suite matched '{}'. Try: agent-harness | prompts | route | all", suite);
+    } else {
+        for report in &reports {
+            println!(
+                "suite {}: {} passed, {} failed",
+                report.suite, report.passed, report.failed
+            );
+            for c in &report.results {
+                let mark = if c.passed { "PASS" } else { "FAIL" };
+                println!("  [{}] {} - {}", mark, c.case, c.description);
+                if !c.passed {
+                    println!("        expected {}, got {}", c.expected, c.actual);
+                    if let Some(fix) = &c.fix {
+                        println!("        fix: {}", fix);
+                    }
+                }
+            }
+        }
+        println!("TOTAL: {} passed, {} failed", total_passed, total_failed);
+    }
+
+    if total_failed > 0 {
+        std::process::exit(1);
+    }
+    Ok(())
 }
 
 fn build_kernel_context(repo: &PathBuf) -> Result<KernelContext, KernelError> {

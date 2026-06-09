@@ -1,0 +1,20 @@
+id: INV-NO-V1-GAP-FILLER
+title: V2 silence does not import V1 as binding law
+severity: fatal
+scope:
+  paths:
+    - lawpack/v2/statutes/**
+    - lawpack/v2/regulations/**
+    - lawpack/v2/rules/**
+    - lawpack/v2/orders/**
+rule:
+  kind: v1_not_loaded_by_default
+basis:
+  - ACT-001:s4
+  - 2026-VJS-BOOT-002
+  - DEC-V1-SILENCE-001
+remedy: >
+  A gap in V2 law is a V2 first-impression question, not a V1 import. Cite V1 as
+  persuasive archive and migration evidence, and route to a V2 court or
+  lawmaking route. A V1 authority binds V2 only when a runtime record carries an
+  express incorporation clause.

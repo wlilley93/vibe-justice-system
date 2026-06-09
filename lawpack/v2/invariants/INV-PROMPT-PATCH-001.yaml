@@ -1,0 +1,29 @@
+id: INV-PROMPT-PATCH-001
+title: Prompt patches require a recorded rationale
+severity: error
+scope:
+  paths:
+    - AGENTS.md
+    - VJS.md
+    - crates/vjs-mcp/**
+rule:
+  kind: if
+  condition:
+    kind: any
+    items:
+      - kind: path_changed
+        glob: "AGENTS.md"
+      - kind: path_changed
+        glob: "VJS.md"
+      - kind: path_changed
+        glob: "crates/vjs-mcp/**"
+  then:
+    kind: decision_log_exists
+basis:
+  - ACT-003:s4
+  - DEC-AGENT-HARNESS-001
+remedy: >
+  Record why the prompt or tool-description change exists (a decision log
+  capturing the failure mode and an eval case) before relying on it. Tools and
+  evals add capability; prompt prose does not. Untracked "never do X" patches
+  become tomorrow's bugs.

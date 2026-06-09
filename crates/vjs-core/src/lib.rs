@@ -6,6 +6,7 @@ pub mod authority;
 pub mod citation;
 pub mod court;
 pub mod error;
+pub mod evals;
 pub mod governance;
 pub mod repo;
 pub mod route;

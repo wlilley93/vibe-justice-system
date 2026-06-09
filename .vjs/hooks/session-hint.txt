@@ -1,0 +1,1 @@
+VJS V2 active. Before governed load-bearing work, call vjs.route. Act within the permit, attach proof, write the decision log, then run vjs validate before commit. Hooks point to the lifecycle; they do not explain the law.
