@@ -1,0 +1,51 @@
+id: COMMENCEMENT-V2-0001
+title: Commencement of the Computer-First Realm (VJS V2)
+status: commenced
+commenced: "2026-06-09"
+basis:
+  - ACT-COMPUTER-FIRST-REALM:s2
+  - "[2026] REALM-SC 10"
+
+# The sole, antecedent, EXTERNAL source of legitimacy. No commencement condition
+# is satisfiable by the V2 machinery alone; the kernel never certifies its own
+# warrant (CASE-LAW s. 23; [2026] REALM-SC 10 ratio 1).
+assent_event:
+  instrument: "Bill 32 - the Computer-First Realm Act 2026"
+  adopted_by: "Standing Committee, 4-0 (constitutive, [2026] REALM-SC 8)"
+  royal_assent: "granted 2026-06-09 - positive, specific, digest-pinned, V1-Sovereign act through the V1 route"
+  v1_assent_record: "Legislature/legislature/2026-06-09-royal-assent-bill-32.md"
+  assented_text_digest: "sha256:8e1d3f516cb2aca8e044d8c73bdc6ededa91a47ca86b729eece06f7eee6b9a0c"
+  case_law: "CASE-LAW s. 23(1)-(6) in force; [2026] REALM-SC 10 express handover order"
+
+# Form and digest-fidelity confirmation only (NOT a certification of force).
+lawpack:
+  version: "0.1.0"
+  lock: "sha256:4d2639cc1b35d7e44e987eac8e6598c967a754c0d2c9d20f9337f7f4a6ebbb4f"
+
+# The [2026] REALM-SC 10 conditions precedent, each satisfied:
+conditions:
+  - id: A
+    condition: "specific Royal Assent recorded against the final pinned text + digest"
+    satisfied: true
+    evidence: "royal_assent above; assented_text_digest 8e1d3f51...6b9a0c; sealed at bill-32-adopted-final-text.md (this directory)"
+  - id: B
+    condition: "externally-anchored commencement sequence; no condition satisfiable by V2 machinery alone"
+    satisfied: true
+    evidence: "Royal Assent is wholly antecedent and external; lawpack lock confirms digest-fidelity only"
+  - id: C
+    condition: "always-on fail-closed kernel Assent-Source Invariant exists and passes, proven against a missing-field record and an unresolved-trace record (both rejected)"
+    satisfied: true
+    evidence: "INV-ASSENT-SOURCE-001 (allow-list form); kernel predicate assent_source_valid in crates/vjs-core/src/spec.rs; proof tests crates/vjs-testkit/tests/assent_source_invariant.rs (7/7 pass: missing, unresolved, self_authorised, empty rejected; valid forms admitted); every runtime-force lawpack record carries a valid assent_source"
+  - id: D
+    condition: "each V2 court expressly constituted by a named instrument fixing its odd bench and jurisdiction"
+    satisfied: true
+    evidence: "2026-VJS-COURTS-CONSTITUTION-001 (County 1, Privy Council 3, Supreme Court 5/9; Court of Appeal persisting but administratively non-convened)"
+
+effect: >
+  Upon and from satisfaction of every condition precedent, the [2026] REALM-SC 10
+  handover order takes effect: V2 is the self-governing computer-first successor
+  jurisdiction for runtime purposes, and V1 is the continuing Gazette and Archive
+  estate. The V1 courts relinquish continuing runtime control save the entrenched
+  real-world-law floor. The constitutional relay is complete.
+
+formula: "V1 discovered the law. V2 compiles it."

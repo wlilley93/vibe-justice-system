@@ -10,6 +10,7 @@ scope:
 rule:
   kind: v1_not_loaded_by_default
 basis:
+  - ACT-COMPUTER-FIRST-REALM:s9
   - ACT-001:s4
   - 2026-VJS-BOOT-002
   - DEC-V1-SILENCE-001

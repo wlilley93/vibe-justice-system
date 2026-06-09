@@ -1,0 +1,34 @@
+id: INV-ASSENT-SOURCE-001
+title: Assent-Source Invariant - all runtime authority must trace to Sovereign assent
+status: binding
+assent_source: sovereign_assent
+basis:
+  - ACT-COMPUTER-FIRST-REALM:s23
+  - "[2026] REALM-SC 10"
+severity: fatal
+rule:
+  kind: assent_source_valid
+  allowed:
+    - sovereign_assent
+    - standing_bounded_assent
+remedy: >
+  CASE-LAW s. 23(5) ([2026] REALM-SC 10): a record that claims binding runtime
+  force carries it only if it declares an assent_source resolving to a specific
+  Sovereign-assent event (sovereign_assent) or a standing-bounded route tracing
+  to specific Sovereign assent (standing_bounded_assent). Absence of the field,
+  an empty value, an unrecognised form, or an unresolved trace each cause
+  rejection. This is an affirmative allow-list that fails closed; the
+  not-equal-to-self_authorised deny-list form is void as fail-open (s. 23(5)).
+  Declare a valid, traceable assent_source.
+supersedes:
+  - INV-ASSENT-DRAFT-001
+  - INV-ASSENT-DRAFT-002
+provenance:
+  enacted_by: "[2026] REALM-SC 10 (CASE-LAW s. 23(5)); Royal Assent to Bill 32, 2026-06-09"
+  note: >
+    Promoted from the draft scaffold to a settled record on completion of the V1
+    constitutional route. Replaces the draft deny-list form, which the Supreme
+    Court held void as fail-open. The kernel evaluator for the `assent_source_valid`
+    rule kind is in crates/vjs-core/src/spec.rs; proof tests in
+    crates/vjs-testkit/tests/assent_source_invariant.rs (missing field and
+    unresolved trace both rejected; valid forms admitted).

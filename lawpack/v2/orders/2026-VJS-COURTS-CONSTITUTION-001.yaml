@@ -1,0 +1,48 @@
+id: 2026-VJS-COURTS-CONSTITUTION-001
+court: supreme_court
+jurisdiction: default
+repo_code: VJS
+status: binding
+assent_source: sovereign_assent
+issue: constitutional.court-constitution
+holding: >
+  Giving effect to the express handover order of [2026] REALM-SC 10 and CASE-LAW
+  s. 10 and s. 22(2) as carried into V2: each V2 court that may issue an order is
+  expressly constituted by this named instrument, fixing its odd deciding bench
+  and its jurisdiction. No V2 court may issue an order until so constituted; until
+  a given bench is constituted, jurisdiction over its matters remains with V1.
+basis:
+  - ACT-002:s1
+  - ACT-COMPUTER-FIRST-REALM:s29
+  - "[2026] REALM-SC 10"
+directives:
+  - id: D1
+    actor: county_court
+    must: "sit as a single judge (odd bench of 1) over repo-local operational matters"
+    when: constituted
+  - id: D2
+    actor: privy_council
+    must: "sit as an odd bench of 3 over constitutional, jurisdiction, routing, and public/private-boundary matters at the realm level (constitutional first instance)"
+    when: constituted
+  - id: D3
+    actor: supreme_court
+    must: "sit as an odd bench of 5, expandable to 9 for constitutional or foundational questions, as the single central apex (s. 22(2))"
+    when: constituted
+  - id: D4
+    actor: court_of_appeal
+    must: "persist in law as a tier (s. 10) but remain administratively non-convened in the V2 MVP; it is NOT abolished, and may be convened on an odd bench of 3 if and when an appeal arises; abolition would require express amendment of s. 10 citing it by number"
+    when: appeal_arises
+forbidden:
+  - "any V2 court issuing an order before it is constituted by this instrument"
+  - "any even-numbered deciding bench"
+  - "abolishing the Court of Appeal tier without express amendment of s. 10 by number"
+  - "relaxing the singleness of the central apex (s. 22(2))"
+exceptions:
+  - "the entrenched real-world-law floor ([2026] REALM-SC 9; REALM-PC 18) remains under the canonical apex's supervision and is non-derogable"
+supersedes: []
+runtime_summary: >
+  V2 courts constituted with odd benches: County 1, Privy Council 3, Supreme Court
+  5 (9 for constitutional/foundational); Court of Appeal persists but is
+  administratively non-convened in the MVP. Gives effect to the [2026] REALM-SC 10
+  handover order; force from the migration Royal Assent.
+created_at: "2026-06-09"

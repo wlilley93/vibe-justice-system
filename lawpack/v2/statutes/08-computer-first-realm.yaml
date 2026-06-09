@@ -1,0 +1,263 @@
+id: ACT-COMPUTER-FIRST-REALM
+citation: "[2026] VJS-ACT 8"
+title: Computer-First Realm Act 2026
+status: stayed
+assent_source: sovereign_assent
+enacted_by: principal
+purpose: >
+  Founding constitutional Act of VJS V2. Received from V1 on Royal Assent
+  (2026-06-09) as the settlement of the constitutional relay: drafted by the
+  Standing Committee on the V2 Kernel Team's void first draft (REALM-SC 8),
+  settled on the Privy Council reference and ruling [2026] REALM-PC 24 and the
+  Supreme Court settlement [2026] REALM-SC 10, and assented by the Sovereign
+  Founder. The Act is ENACTED but STAYED: it commences as live runtime law only
+  when the Schedule 1 conditions are satisfied and recorded (see
+  COMMENCEMENT-V2-0001). This Act incorporates and supersedes V1 material only
+  as expressly stated; V1 is otherwise preserved as Gazette and Archive.
+
+sections:
+  - id: ACT-COMPUTER-FIRST-REALM:s2
+    title: Constitutional status and the constitutional relay
+    text: >
+      The force of this Act comes from the constitutive act of the Realm's
+      organs (the Committee's drafting and the Sovereign's Royal Assent on a
+      Supreme Court settlement), never from the self-assertion of V2 or any
+      agent. The agent-originated text was a void first draft cured by Assent.
+    kernel_effect:
+      defines:
+        force_source: organ_constitutive_act
+        v2_does_not_self_authorise: true
+        void_first_draft_cured_by_assent: true
+        settled_on:
+          - "[2026] REALM-PC 24"
+          - "[2026] REALM-SC 10"
+          - "[2026] REALM-SC 8"
+
+  - id: ACT-COMPUTER-FIRST-REALM:s3
+    title: Commencement
+    text: >
+      This Act is enacted on Royal Assent as a declaratory instrument and has
+      no binding runtime force until it commences. It commences only when all
+      Schedule 1 conditions are satisfied and recorded; Royal Assent is the sole
+      constitutive gate.
+    kernel_effect:
+      defines:
+        enacted: true
+        draft_not_binding_before_commencement: true
+        commencement_requires: schedule_1_all_satisfied_and_recorded
+        sole_constitutive_gate: royal_assent
+
+  - id: ACT-COMPUTER-FIRST-REALM:s5
+    title: Declaration of the computer-first Realm; form and concordance
+    text: >
+      VJS V2 is a computer-first legal system; its live law is compact,
+      schema-valid, machine-checkable records operated by the kernel. A record
+      with no kernel effect is excluded from the runtime authority graph. A
+      material discrepancy between a section's ceremonial text and its kernel
+      effect is a validation defect routed for correction; the kernel must not
+      silently choose.
+    kernel_effect:
+      defines:
+        declares_computer_first_realm: true
+        canonical_runtime_surface: lawpack
+        no_kernel_effect_excludes_from_graph: true
+        requires_concordance: true
+        discrepancy_policy: validation_defect
+        kernel_must_not_silently_choose: true
+
+  - id: ACT-COMPUTER-FIRST-REALM:s6
+    title: Supersession of V1 as live runtime law
+    text: >
+      The V1 legal system is superseded as the live governing law of VJS. No V1
+      authority binds V2 merely by existing in the archive; no V1 rule is
+      imported by implication. Supersession is consolidation, not repudiation,
+      and operates entry-by-entry (REALM-SC 7).
+    kernel_effect:
+      defines:
+        supersedes_v1_live_law: true
+        v1_not_runtime_authority_by_default: true
+        consolidation_not_repudiation: true
+      prohibits:
+        - v1_import_by_implication
+
+  - id: ACT-COMPUTER-FIRST-REALM:s7
+    title: Preservation of V1 as Gazette and Archive
+    text: >
+      V1 is preserved as the VJS Gazette, Archive, historical record, doctrinal
+      record and migration evidence, citable as archive authority, and honoured
+      as the record that discovered the V2 settlement. It is not loaded as
+      ordinary live agent context.
+    kernel_effect:
+      defines:
+        preserve_v1_archive: true
+        v1_not_loaded_as_default_context: true
+
+  - id: ACT-COMPUTER-FIRST-REALM:s8
+    title: V1 incorporation rule
+    text: >
+      V1 material has live V2 force only if expressly incorporated by a valid V2
+      record stating the v1_source, v2_destination, operative rule, kernel
+      effect, and supersession or variation. A general reference or a citation
+      for history is not incorporation.
+    kernel_effect:
+      defines:
+        incorporation_required: true
+      prohibits:
+        - general_reference_treated_as_incorporation
+
+  - id: ACT-COMPUTER-FIRST-REALM:s9
+    title: No V1 revival by silence
+    text: >
+      Silence, a gap, or an omission in V2 law does not revive V1 as binding
+      law. Where V2 contains no applicable authority, the matter is a V2
+      first-impression question. V1 may be consulted as archive, historical
+      authority, persuasive reasoning, or migration evidence, but binds V2 only
+      by express incorporation. This section is given continuing deterministic
+      effect by INV-NO-V1-GAP-FILLER.
+    kernel_effect:
+      defines:
+        v2_silence_does_not_revive_v1: true
+        v2_silence_route: first_impression
+        v1_archive_may_be_consulted: true
+        incorporation_required_for_v1_force: true
+        enforced_by: INV-NO-V1-GAP-FILLER
+      prohibits:
+        - treating_v1_as_binding_gap_filler
+
+  - id: ACT-COMPUTER-FIRST-REALM:s10
+    title: The V2 authority hierarchy
+    text: >
+      The hierarchy is: real-world-law warning boundary; V2 Constitution; V2
+      constitutional Acts; V2 primary Acts; Kernel Regulations; Supreme Court
+      Orders; Privy Council Orders; County Court repo Orders; local decision
+      logs; incorporated V1 archive material. Lower cannot contradict higher; a
+      local log cannot amend law.
+    kernel_effect:
+      defines:
+        authority_hierarchy:
+          - real_world_law_warning_boundary
+          - v2_constitution
+          - v2_constitutional_acts
+          - v2_primary_acts
+          - kernel_regulations
+          - supreme_court_orders
+          - privy_council_orders
+          - county_court_repo_orders
+          - local_decision_logs
+          - incorporated_v1_archive_material
+      prohibits:
+        - lower_contradicts_higher
+        - local_log_amends_law
+
+  - id: ACT-COMPUTER-FIRST-REALM:s11
+    title: The kernel as deterministic clerk
+    text: >
+      The kernel may load the lawpack, validate, resolve authority, route,
+      identify court triggers, evaluate invariants, record permits and proofs,
+      validate logs, and report boundary findings. It is clerk, not court. The
+      governing test for engineering versus law is the source of the artefact's
+      force (function versus promulgation) (REALM-SC 8).
+    kernel_effect:
+      defines:
+        kernel_is_clerk: true
+        governing_test: source_of_artefacts_force
+      prohibits:
+        - kernel_legislates
+        - kernel_adjudicates_as_court
+        - kernel_creates_force_by_computation
+        - kernel_calls_model
+        - kernel_uses_semantic_similarity_for_authority
+        - kernel_treats_archive_as_live_without_incorporation
+
+  - id: ACT-COMPUTER-FIRST-REALM:s14
+    title: The constitutive gate, entrenched against the machine
+    commentary: constitutional
+    text: >
+      The sole constitutive gate for a V2 primary or constitutional Act is the
+      Sovereign's Royal Assent, which is non-automatable, non-presumable and
+      non-delegable. The computational legislature may propose, draft, codify,
+      consolidate and revise only; it is not sovereign, may not expand its own
+      competence, may not amend the assent rule, and may not create force from
+      its own output. This section is entrenched: amendable only by a
+      Sovereign-assented constitutional Act citing it by number; any record
+      purporting otherwise is void ab initio and a fatal validation defect.
+    kernel_effect:
+      defines:
+        constitutive_gate: royal_assent
+        assent_non_automatable: true
+        assent_non_presumable: true
+        assent_non_delegable: true
+        legislature_not_sovereign: true
+        entrenched_against_machine: true
+        amendable_only_by: sovereign_assented_constitutional_act_citing_s14
+        enforced_by: INV-ENTRENCHED-GATE-001
+      prohibits:
+        - legislature_self_extension
+        - legislature_amends_assent_rule
+        - legislature_creates_force_from_output
+        - kernel_or_agent_amends_entrenched_gate
+
+  - id: ACT-COMPUTER-FIRST-REALM:s15
+    title: Apex-singleness and judicial independence
+    commentary: constitutional
+    text: >
+      V2's judicature is the same one judiciary carried forward in continuity
+      (REALM-SC 5, REALM-SC 6); V2 stands up no second or parallel apex.
+      Apex-singleness may never be relaxed. Lexby acts as advocate, advisor,
+      engineer and registrar only, never as the bench, and never judges a cause
+      in which it is advocate. The kernel is clerk, not court. Entrenched as in
+      s.14.
+    kernel_effect:
+      defines:
+        single_apex_continuity: true
+        apex_singleness_non_relaxable: true
+        entrenched_against_machine: true
+      prohibits:
+        - second_or_parallel_apex
+        - lexby_sits_as_bench
+        - lexby_judges_own_cause
+        - kernel_constitutes_or_counts_bench
+
+  - id: ACT-COMPUTER-FIRST-REALM:s23
+    title: Assent-source rule
+    text: >
+      A record claims binding V2 runtime force only if it declares an
+      assent_source resolving to a specific Sovereign-assent event
+      (sovereign_assent) or a standing-bounded route tracing to specific
+      Sovereign assent (standing_bounded_assent). Absence, emptiness, an
+      unrecognised form, or an unresolved trace each cause rejection. This is an
+      affirmative allow-list that fails closed; the not-equal-to-self_authorised
+      deny-list form is void as fail-open (CASE-LAW s.23(5); [2026] REALM-SC 10).
+      This section is given continuing deterministic effect by
+      INV-ASSENT-SOURCE-001.
+    kernel_effect:
+      defines:
+        assent_source_required: true
+        allowed_assent_sources:
+          - sovereign_assent
+          - standing_bounded_assent
+        fail_closed: true
+        enforced_by: INV-ASSENT-SOURCE-001
+      prohibits:
+        - deny_list_assent_form
+        - binding_force_without_traceable_assent_source
+
+  - id: ACT-COMPUTER-FIRST-REALM:s16
+    title: The single Gazette, two estates; the force-source rule
+    text: >
+      One VJS Gazette continues across V1 and V2 with two estates (V1 Archive,
+      V2 Current). Publication does not create runtime force; V2's force derives
+      from the lawpack and kernel-recognised status, never from publication. The
+      estate boundary is operative by substance, not caption. Publication is not
+      V1 enactment and not incorporation into V1.
+    kernel_effect:
+      defines:
+        single_gazette: true
+        estates:
+          - v1_archive
+          - v2_current
+        estate_boundary_operative_by_substance: true
+      prohibits:
+        - publication_creates_runtime_force
+        - publication_treated_as_v1_enactment
+        - publication_treated_as_v1_incorporation

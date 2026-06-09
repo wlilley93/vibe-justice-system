@@ -359,6 +359,38 @@ fn evaluate_predicate(rule: &PredicateExpr, repo_state: &RepoState) -> bool {
                 !V1_MARKERS.iter().any(|m| content.contains(m))
             })
         }
+        PredicateExpr::AssentSourceValid { allowed } => {
+            // CASE-LAW s. 23(5) ([2026] REALM-SC 10): a record that claims binding
+            // runtime force carries it ONLY if it declares an `assent_source` whose
+            // value resolves to one of the allowed forms (a specific Sovereign-assent
+            // event, or a standing-bounded route tracing to specific assent).
+            //
+            // This is an AFFIRMATIVE ALLOW-LIST that FAILS CLOSED: absence of the
+            // field, an empty value, an unrecognised form, or an unresolved trace each
+            // cause rejection. It is NOT a deny-list: a record that merely omits the
+            // field is rejected, never passed (the not-equal-to-self_authorised form is
+            // void as fail-open, s. 23(5)). Deterministic: no model call, no similarity
+            // search.
+            repo_state.file_contents.iter().all(|(path, content)| {
+                let p = path.to_string_lossy();
+                let claims_runtime_force = p.contains("lawpack/v2/statutes/")
+                    || p.contains("lawpack/v2/regulations/")
+                    || p.contains("lawpack/v2/rules/")
+                    || p.contains("lawpack/v2/orders/");
+                if !claims_runtime_force {
+                    return true;
+                }
+                content.lines().any(|line| {
+                    match line.trim().strip_prefix("assent_source:") {
+                        Some(rest) => {
+                            let v = rest.trim().trim_matches('"').trim_matches('\'');
+                            allowed.iter().any(|a| a == v)
+                        }
+                        None => false,
+                    }
+                })
+            })
+        }
     }
 }
 

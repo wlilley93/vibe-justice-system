@@ -1,7 +1,7 @@
 # V2 Founding Provenance: the settled outcome of the V1 constitutional route
 
 **id:** PROVENANCE-V2-FOUNDING-OUTCOME
-**status:** v1_route_settled; royal_assent_granted; commencement_pending (Gate B engineering)
+**status:** COMMENCED 2026-06-09 - V2 is the live computer-first runtime jurisdiction
 **recorded:** 2026-06-09
 **supersedes the status of:** the "pending" markers in `HANDOVER.md` (this record states the settled outcome; the HANDOVER remains a draft implementation brief, not authority)
 
@@ -24,14 +24,14 @@
 2. **The express handover order ([2026] REALM-SC 10).** On satisfaction of the conditions precedent, V2 becomes the self-governing computer-first successor jurisdiction for runtime purposes; V1 remains the Gazette and Archive estate; the V1 courts relinquish continuing runtime control, save the entrenched real-world-law floor. Until each V2 court is expressly constituted, jurisdiction over its matters remains with V1 (no phantom forum).
 3. **The deterministic enforcement rule (CASE-LAW s. 23(5)).** The V2 kernel must reject, by an always-on, fail-closed, model-free, affirmative allow-list invariant, any record claiming runtime force without a valid traceable assent source. The existing DRAFT records `SPEC-ASSENT-DRAFT-001`, `INV-ASSENT-DRAFT-001`, and `INV-ASSENT-DRAFT-002` are now backed by settled V1 law and the handover order; they are to be promoted to settled lawpack records as part of commencement, in the affirmative allow-list form the Court mandated.
 
-## The two remaining gates to a live V2 (commencement)
+## Both gates satisfied - V2 COMMENCED 2026-06-09
 
 Per [2026] REALM-SC 10, commencement requires, and no commencement condition may be satisfiable by the V2 machinery alone:
 
 - **Gate A - the Sovereign's positive, specific, digest-pinned assent.** SATISFIED 2026-06-09: the Sovereign granted Royal Assent against the digest 8e1d3f51...6b9a0c; CASE-LAW s. 23 is in force and Bill 32 is enacted. The sealed adopted bytes (`bill-32-adopted-final-text.md`, this directory) reproduce the digest.
-- **Gate B - the V2 commencement engineering (authorised by the handover order).**
-  1. Implement and prove the fail-closed Assent-Source Invariant (affirmative allow-list; rejects a missing-assent-field record and an unresolved-trace record).
-  2. Expressly constitute each V2 court by a named constituting instrument fixing its odd bench (FI 1, CA 3, SC 5/9) and jurisdiction, before any V2 order issues.
-  3. Validate, enter, and lock the V2 lawpack as the compiled carrier of the assented settlement, producing a single commencement record naming the assent event, the pinned digest, the lawpack version, and the lock.
+- **Gate B - the V2 commencement engineering.** SATISFIED 2026-06-09:
+  1. The fail-closed Assent-Source Invariant is implemented (kernel predicate `assent_source_valid`, `crates/vjs-core/src/spec.rs`), recorded (`INV-ASSENT-SOURCE-001`, allow-list form superseding the void draft), and PROVEN (`crates/vjs-testkit/tests/assent_source_invariant.rs`, 7/7: missing-field and unresolved-trace rejected; valid forms admitted). Every runtime-force lawpack record carries a valid `assent_source`, so the invariant passes over the whole pack.
+  2. The V2 courts are expressly constituted (`2026-VJS-COURTS-CONSTITUTION-001`: County 1, Privy Council 3, Supreme Court 5/9; Court of Appeal persisting, administratively non-convened).
+  3. The V2 lawpack (v0.1.0) is validated and locked at sha256 4d2639cc...bb4f; the commencement record `COMMENCEMENT-V2-0001` names the external assent event, the pinned bill digest, the lawpack version, and the lock.
 
-When Gate A and Gate B are both satisfied, V2 commences and the constitutional relay is complete: **V1 discovered the law; V2 compiles it.**
+Both gates are satisfied. **V2 has commenced (COMMENCEMENT-V2-0001, 2026-06-09): it is the live computer-first runtime jurisdiction; V1 is the Gazette and Archive estate. The constitutional relay is complete: V1 discovered the law; V2 compiles it.**
