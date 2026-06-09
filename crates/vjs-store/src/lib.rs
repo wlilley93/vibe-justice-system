@@ -59,6 +59,20 @@ impl Store {
         let path = logs_dir.join(&filename);
         let content = serde_yaml::to_string(log)
             .map_err(|e| KernelError::Serialization(e.to_string()))?;
+
+        // Decision logs are part of the public record; the boundary scan runs
+        // BEFORE the bytes hit disk, not post-hoc in validate. Fail closed:
+        // secrets and private facts belong in .vjs/private, not the record.
+        let findings = vjs_redact::RedactScanner::scan_file(&path, &content);
+        if !vjs_redact::RedactScanner::check_public_safe(&findings) {
+            let kinds: Vec<String> = findings.iter().map(|f| f.message.clone()).collect();
+            return Err(KernelError::InvalidInput(format!(
+                "decision log '{}' fails the public/private boundary scan ({}); keep secrets and private facts out of the record or use .vjs/private",
+                log.id,
+                kinds.join("; ")
+            )));
+        }
+
         std::fs::write(&path, content)
             .map_err(|e| KernelError::Io(e.to_string()))?;
 
@@ -186,11 +200,14 @@ impl Store {
             let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
             let path = entry.path();
             if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
-                if let Ok(content) = std::fs::read_to_string(&path) {
-                    if let Ok(proof) = serde_yaml::from_str::<Proof>(&content) {
-                        proofs.push(proof);
-                    }
-                }
+                // Same contract as read_permits/read_logs: a corrupt proof is
+                // an error, not a silent absence (a vanished proof would read
+                // as an unmet obligation, or worse, mask a tampered record).
+                let content = std::fs::read_to_string(&path)
+                    .map_err(|e| KernelError::Io(format!("{}: {}", path.display(), e)))?;
+                let proof: Proof = serde_yaml::from_str(&content)
+                    .map_err(|e| KernelError::Serialization(format!("{}: {}", path.display(), e)))?;
+                proofs.push(proof);
             }
         }
         Ok(proofs)
