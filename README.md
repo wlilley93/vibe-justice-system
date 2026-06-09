@@ -2,6 +2,17 @@
 
 The second generation of the Vibe Justice System.
 
+## Status and known limitations
+
+VJS V2 is founded, assented, and running as live local law, but it is early and not yet publicly released. Known limitations a reader should weigh before adopting it:
+
+- The canonical migration onto the public line is **staged, not executed** (the runbook is prepared; the byte-move and push are warranted acts).
+- Some carried-forward provisions are **staged** pending machine-checkable resolution (see the Framework Act Schedule 3); they do not yet commence.
+- The kernel's first-impression detection routes to court on **empty** authority; precise "on-point but non-matching" detection is a known follow-up.
+- The full GNU AGPL-3.0 text is to be vendored on the canonical line (this repo records the adoption).
+
+The law binds local work today; treat public-facing claims as alpha until the staged release completes.
+
 ## What is VJS V2?
 
 VJS V2 is a deterministic authority resolver and route clerk for AI-assisted software engineering. It replaces long constitutional prose with a compact, machine-checkable lawpack and a Rust kernel that returns bounded instructions.

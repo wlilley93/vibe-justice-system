@@ -4,6 +4,8 @@
 
 > Drafting note: this is the lean form the Principal directed - one sentence per principle. The Committee restates these as numbered Schedule-1 items; the machinery is in the Act body (see the Framework Act first draft). The 6 [CHECK] flags at the end require Committee/Principal resolution before adoption.
 
+> Citation resolution ([2026] VJS-PC 4): a `CASE-LAW s.X` tag below resolves to its true source via `lawpack/v2/provenance/citation-map/case-law-section-to-source.md` - a Supreme-Court (SC) article by its case (neutral citation), a Sovereign-enacted (P/constitutional) article by its instrument and section. New drafting cites case law by its case, never a pseudo-section.
+
 ---
 
 ## 1. Constitution, sovereignty & supremacy
