@@ -1,0 +1,74 @@
+id: 2026-VJS-SC-001
+assent_source: standing_bounded_assent
+court: supreme_court
+jurisdiction: default
+repo_code: VJS
+status: binding
+issue: constitutional.federation-extraction-canonicalisation
+holding: >
+  Supreme Court, full court of nine, 9-0 on disposition (reasoned division on the
+  mechanism of Q3). Within the entrenched single apex (s.15, not re-opened; REALM-SC
+  6, REALM-PC 15 carried forward as persuasive archive): (Q3) a coordinating or
+  super-repo root may federate peers under one canonical lawpack and one continued
+  apex but may never be sovereign; the lawful-coordination test is a kernel-checkable
+  bright-line (no apex; no binding/gating a peer's law without adoption, s.4; no
+  canonical override without s.3; no foreclosing amend/pin/fork/exit, s.6/s.7,
+  REALM-PC 17) plus a court-applied practical-subjection standard that is NOT a kernel
+  gate (s.11); default subscription (s.2) is lawful because genuinely revocable.
+  (Q4) Holes take one mechanism each: the Privy Council is the transition court and
+  hears the Gazette reference; the V1 Court acts only to perfect already-heard V1
+  matters (publication-only, no force, s.16) and to find validity on a genuinely
+  contested V1 source; the Court of Appeal persists (no hole, D4); citation-minting
+  and the directed regulations go to the lawmaking route. (Q5) Valid general V1 law
+  crosses only by the central lawmaking route as an express, entry-by-entry,
+  rank-matched, fail-closed incorporation recorded in the migration ledger (Charter
+  s.11); repo-specific law uses the [2026] VJS-PC 1 continuity election; no
+  incorporation may weaken the protective floor. (Q6) The "V2" ordinal is spent on
+  commencement; the canon is unqualified and "V1" survives only as the estate label;
+  de-naming is prospective and strictly non-disturbing (assented digest 8e1d3f51,
+  lawpack lock 4d2639cc, citations and IDs immutable); the rename is governed, never
+  a mass edit. The Court rules the principles and directs the Standing Committee to
+  codify them (REALM-SC 8 method).
+directives:
+  - id: D1
+    actor: standing_committee
+    must: draft_the_five_instrument_legislative_programme_as_void_first_drafts_for_assent
+    when: after_order
+  - id: D2
+    actor: privy_council
+    must: sit_as_the_transition_court_classifying_pending_v1_matters_and_hear_the_gazette_reference
+    when: pending_matter_or_gazette_reference
+  - id: D3
+    actor: agent
+    must: incorporate_general_v1_law_only_by_express_entry_by_entry_rank_matched_fail_closed_record_in_the_migration_ledger
+    when: extracting_general_v1_law
+  - id: D4
+    actor: agent
+    must: treat_canonicalisation_as_prospective_and_non_disturbing_with_a_governed_rename
+    when: canonicalising
+forbidden:
+  - a_federation_root_asserting_an_apex_or_binding_a_peer_without_adoption_or_foreclosing_exit
+  - delegating_the_practical_subjection_question_to_the_kernel_as_a_gate
+  - incorporating_v1_law_by_implication_or_in_bulk_or_below_rank_or_weakening_the_protective_floor
+  - retro_editing_any_assented_text_digest_citation_or_record_id_to_drop_v2
+  - an_unstaged_mass_edit_that_breaks_the_lawpack_lock_or_un_scopes_path_scoped_invariants
+exceptions:
+  - "the V1 Court perfects an already-fully-heard V1 matter (publication-only, no new doctrine, imports nothing) and finds validity on a genuinely contested V1 source"
+  - "tying OPTIONAL shared services to terms is lawful coordination; tying the baseline subscription to forfeiture of sovereignty is not"
+supersedes: []
+source_opinion: ".vjs/submissions/filed/2026-VJS-SC-001-opinion.md"
+runtime_summary: >
+  SC of nine, 9-0. A federation root coordinates lawfully only while infrastructural,
+  adoption-based, canonical-respecting and exit-preserving (bright-line, kernel-checked);
+  practical subjection is a court standard, not a kernel gate; default subscription is
+  lawful because revocable. The PC is the transition court; the V1 Court acts only to
+  perfect already-heard matters and find contested validity; the Court of Appeal
+  persists. General V1 law crosses only by an express, entry-by-entry, rank-matched,
+  fail-closed incorporation recorded in the migration ledger; repo-specific law uses the
+  VJS-PC 1 continuity election; the protective floor may not be weakened. The "V2"
+  ordinal is spent; the canon is unqualified, "V1" the estate label; de-naming is
+  prospective, non-disturbing, governed - never a mass edit (the lawpack lock and
+  path-scoped invariants forbid it). The Committee is directed to codify the five
+  instruments; all are void first drafts until assented (s.14, s.23). Single apex
+  (s.15) entrenched and not re-opened.
+created_at: "2026-06-09T00:00:00Z"
