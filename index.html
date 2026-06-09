@@ -752,14 +752,12 @@ function renderText(d, body) {
 
 /* ---------- the object panel ---------- */
 function chipsFor(d) {
+  // The order's two-chip rule (D4): the kind and the source, nothing else.
   const t = tone(d);
-  return [
-    `<span class="chip tone-${t}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>`,
-    d.court ? `<span class="chip tone-${t}">${esc(COURT_LABEL[d.court] || d.court)}</span>` : '',
-    `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'Archive' : 'Canon'}</span>`,
-    d.status ? `<span class="chip status">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : '',
-    d.assent_source ? `<span class="chip status" title="The assent form this record declares; absence of the field is itself meaningful (fail-closed)">${esc(d.assent_source.replace(/_/g, ' '))}</span>` : '',
-  ].join('');
+  const source = d.court
+    ? `<span class="chip tone-${t}">${esc(COURT_LABEL[d.court] || d.court)}</span>`
+    : `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'Archive' : 'Canon'}</span>`;
+  return `<span class="chip tone-${t}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>${source}`;
 }
 function linkSection(wrap, label, list, count) {
   if (!list.length) return;
@@ -809,8 +807,12 @@ function openPanel(id) {
     d.estate === 'v1' ? 'The honoured archive' : 'The living canon';
   document.getElementById('p-title').textContent = d.title;
   document.getElementById('p-chips').innerHTML = chipsFor(d);
-  document.getElementById('p-cite').textContent =
-    (d.citation || d.id) + (d.date ? ' · ' + fmtDate(d.date) : '');
+  document.getElementById('p-cite').textContent = [
+    d.citation || d.id,
+    fmtDate(d.date),
+    (d.status || '').replace(/[_-]/g, ' '),
+    d.assent_source ? 'assent: ' + d.assent_source.replace(/_/g, ' ') : '',
+  ].filter(Boolean).join(' · ');
   document.getElementById('p-subject').textContent = d.subject ? `Subject: ${d.subject}` : '';
   document.getElementById('p-summary').textContent = d.summary;
 
