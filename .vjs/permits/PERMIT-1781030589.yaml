@@ -1,0 +1,29 @@
+id: PERMIT-1781030589
+route_id: ROUTE-20260609-184309
+actor: lexby
+scope:
+  paths:
+  - crates/vjs-cli/src/main.rs
+  - crates/vjs-store/src/lib.rs
+  - crates/vjs-store/Cargo.toml
+  - crates/vjs-git/src/lib.rs
+  - crates/vjs-core/src/hook.rs
+  - crates/vjs-testkit/tests/functional_hook.rs
+  - crates/vjs-testkit/tests/store_boundary.rs
+  jurisdictions: null
+  action_kinds: null
+  issue_tags: null
+  records: null
+obligations:
+- id: OBL-LOG-001
+  kind: decision_log
+  required: true
+  due: before_commit
+  description: Write a decision log for this material implementation decision
+- id: OBL-VALIDATE-001
+  kind: validation
+  required: true
+  due: before_commit
+  description: Run vjs validate before commit
+expires_at: 2026-06-10T18:43:09.639300288+00:00
+status: active

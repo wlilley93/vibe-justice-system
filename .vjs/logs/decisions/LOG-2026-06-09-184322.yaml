@@ -1,0 +1,12 @@
+id: LOG-2026-06-09-184322
+time: 2026-06-09T18:43:22.270650476+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260609-184309
+decision: 'Store and CLI hardening: write_log now runs the public/private boundary scan BEFORE the decision log hits disk and fails closed (the redaction module existed but was only consulted post-hoc in validate); vjs permit close persists its proof via the store with a content digest instead of printing and dropping it, and rewrites only the permit it changed; read_proofs raises on a corrupt proof instead of silently skipping it; vjs invoke creates config.toml atomically (create_new) so a concurrent config is never clobbered; hook install refuses to write through a symlinked git hook; the governed-surface check matches whole path components so lawpack-2, my-crates and .vjs_backup look-alikes are not governed and absolute paths are.'
+basis:
+- PERMIT-1781030589
+risk: low
+reversibility: easy
+court_required: false
+why: Review found the boundary scan bypassed on the main write path, a proof that was never persisted, and three fail-open or unsafe file behaviours; six new tests pin them.

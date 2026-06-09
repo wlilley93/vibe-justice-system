@@ -198,7 +198,12 @@ enum ProofCommands {
 
 fn main() {
     let cli = Cli::parse();
-    let repo = cli.repo.unwrap_or_else(|| std::env::current_dir().unwrap());
+    let repo = cli.repo.unwrap_or_else(|| {
+        std::env::current_dir().unwrap_or_else(|e| {
+            eprintln!("Error: cannot determine current directory: {} (pass --repo)", e);
+            std::process::exit(1);
+        })
+    });
     let json = cli.json;
 
     let result = match cli.command {
@@ -426,16 +431,25 @@ fn cmd_invoke(
     let now_rfc = now.to_rfc3339();
 
     // 1. config.toml - write only if absent (never clobber an existing config).
+    // create_new makes the existence check and the write one atomic act, so a
+    // config that appears between check and write survives untouched.
     let config_path = vjs_dir.join("config.toml");
-    let config_written = if !config_path.exists() {
-        let config = format!(
-            "version = \"2\"\njurisdiction_id = \"{jur}\"\nrepo_code = \"{code}\"\nlawpack = \"{lp}\"\nprincipal = \"{prin}\"\n\n[paths]\norders = \".vjs/orders\"\nlogs = \".vjs/logs\"\nsubmissions = \".vjs/submissions\"\nproofs = \".vjs/proofs\"\npermits = \".vjs/permits\"\nprivate = \".vjs/private\"\n\n[paths.public]\nenabled = false\n\n[governance]\npermit_required = [\"src/**\", \"crates/**\", \"lawpack/**\", \"Cargo.toml\", \"package.json\", \"AGENTS.md\", \"VJS.md\", \"README.md\"]\npermit_exempt = [\".vjs/logs/**\", \".vjs/permits/**\", \".vjs/proofs/**\", \".vjs/cache/**\", \".vjs/private/**\", \"target/**\", \"node_modules/**\"]\n",
-            jur = jurisdiction, code = repo_code, lp = lawpack, prin = principal,
-        );
-        std::fs::write(&config_path, config).map_err(io)?;
-        true
-    } else {
-        false
+    let config = format!(
+        "version = \"2\"\njurisdiction_id = \"{jur}\"\nrepo_code = \"{code}\"\nlawpack = \"{lp}\"\nprincipal = \"{prin}\"\n\n[paths]\norders = \".vjs/orders\"\nlogs = \".vjs/logs\"\nsubmissions = \".vjs/submissions\"\nproofs = \".vjs/proofs\"\npermits = \".vjs/permits\"\nprivate = \".vjs/private\"\n\n[paths.public]\nenabled = false\n\n[governance]\npermit_required = [\"src/**\", \"crates/**\", \"lawpack/**\", \"Cargo.toml\", \"package.json\", \"AGENTS.md\", \"VJS.md\", \"README.md\"]\npermit_exempt = [\".vjs/logs/**\", \".vjs/permits/**\", \".vjs/proofs/**\", \".vjs/cache/**\", \".vjs/private/**\", \"target/**\", \"node_modules/**\"]\n",
+        jur = jurisdiction, code = repo_code, lp = lawpack, prin = principal,
+    );
+    let config_written = match std::fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(&config_path)
+    {
+        Ok(mut f) => {
+            use std::io::Write;
+            f.write_all(config.as_bytes()).map_err(io)?;
+            true
+        }
+        Err(e) if e.kind() == std::io::ErrorKind::AlreadyExists => false,
+        Err(e) => return Err(io(e)),
     };
 
     // 2. lawpack.lock - pin the lawpack digest.
@@ -1479,36 +1493,30 @@ fn cmd_permit(repo: &PathBuf, subcmd: PermitCommands, json: bool) -> Result<(), 
         }
         PermitCommands::Close { id, proof } => {
             let mut permits = Store::read_permits(repo)?;
-            let mut found = false;
-            for permit in &mut permits {
-                if permit.id.0 == id {
-                    permit.status = PermitStatus::Closed;
-                    found = true;
-                    if let Some(proof_content) = proof {
-                        let proof_id = ProofId(format!("PROOF-{}", chrono::Utc::now().format("%Y%m%d-%H%M%S")));
-                        let proof = Proof {
-                            id: proof_id,
-                            permit_id: permit.id.clone(),
-                            kind: ProofKind::DecisionLog,
-                            status: ProofStatus::Passed,
-                            digest: None,
-                            captured_at: chrono::Utc::now().to_rfc3339(),
-                        };
-                        // Store proof separately? For now, just print it
-                        if json {
-                            println!("{}", serde_json::to_string_pretty(&proof).unwrap());
-                        }
-                    }
-                    break;
+            let permit = permits
+                .iter_mut()
+                .find(|p| p.id.0 == id)
+                .ok_or(KernelError::PermitNotFound(id.clone()))?;
+            permit.status = PermitStatus::Closed;
+
+            if let Some(proof_content) = proof {
+                use sha2::Digest;
+                let digest = format!("sha256:{}", hex::encode(sha2::Sha256::digest(proof_content.as_bytes())));
+                let proof = Proof {
+                    id: ProofId(format!("PROOF-{}", chrono::Utc::now().format("%Y%m%d-%H%M%S"))),
+                    permit_id: permit.id.clone(),
+                    kind: ProofKind::DecisionLog,
+                    status: ProofStatus::Passed,
+                    digest: Some(digest),
+                    captured_at: chrono::Utc::now().to_rfc3339(),
+                };
+                Store::write_proof(repo, &proof)?;
+                if json {
+                    println!("{}", serde_json::to_string_pretty(&proof).unwrap());
                 }
             }
-            if !found {
-                return Err(KernelError::PermitNotFound(id));
-            }
-            // Write back all permits
-            for permit in permits {
-                Store::write_permit(repo, &permit)?;
-            }
+
+            Store::write_permit(repo, permit)?;
             if json {
                 println!("{{ \"ok\": true, \"permit_id\": \"{}\" }}", id);
             } else {

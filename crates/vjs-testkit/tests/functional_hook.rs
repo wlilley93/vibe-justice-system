@@ -66,7 +66,36 @@ fn every_hook_message_is_bounded_and_carries_no_sermon() {
 #[test]
 fn session_start_is_a_non_blocking_reminder() {
     let d = hook(HookEvent::SessionStart, vec![]);
+    assert!(
+        matches!(d, HookDecision::Warn(_)),
+        "the session reminder is a Warn, not a silent Allow"
+    );
     assert_eq!(d.exit_code(), 0, "the session reminder must not block");
+}
+
+#[test]
+fn post_action_requires_a_log_and_pre_commit_requires_proof() {
+    let d = hook(HookEvent::PostAction, vec![]);
+    assert!(matches!(d, HookDecision::RequireLog(_)));
+    assert_eq!(d.exit_code(), 1);
+
+    let d = hook(HookEvent::PreCommit, vec![]);
+    assert!(matches!(d, HookDecision::RequireProof(_)));
+    assert_eq!(d.exit_code(), 1);
+}
+
+#[test]
+fn governed_surface_is_matched_on_path_components_not_substrings() {
+    // Look-alike directories outside the governed surface stay ungoverned.
+    for p in ["lawpack-2/x.yaml", "my-crates/lib.rs", ".vjs_backup/state.json", "a/lawpack_archive/f.txt"] {
+        let d = hook(HookEvent::PreWrite, vec![p]);
+        assert!(matches!(d, HookDecision::Allow), "{} must not count as governed", p);
+    }
+    // Governed components match wherever they sit, including absolute paths.
+    for p in ["crates/vjs-core/src/lib.rs", "/abs/repo/crates/vjs-core/src/lib.rs", ".vjs/config.toml"] {
+        let d = hook(HookEvent::PreWrite, vec![p]);
+        assert!(matches!(d, HookDecision::RequireRoute(_)), "{} must count as governed", p);
+    }
 }
 
 #[test]

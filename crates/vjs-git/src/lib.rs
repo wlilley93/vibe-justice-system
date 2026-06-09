@@ -142,6 +142,18 @@ fi
             return Ok(());
         }
 
+        // Never write through a symlinked hook: the write would land wherever
+        // the link points. Replace the link with a regular file.
+        for name in ["pre-commit", "pre-push"] {
+            let p = hooks_dir.join(name);
+            if let Ok(meta) = std::fs::symlink_metadata(&p) {
+                if meta.file_type().is_symlink() {
+                    std::fs::remove_file(&p)
+                        .map_err(|e| KernelError::Io(e.to_string()))?;
+                }
+            }
+        }
+
         let pre_commit = hooks_dir.join("pre-commit");
         std::fs::write(&pre_commit, Self::pre_commit_hook())
             .map_err(|e| KernelError::Io(e.to_string()))?;

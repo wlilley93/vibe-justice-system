@@ -83,9 +83,15 @@ impl HookDecision {
 }
 
 /// A governed surface: lawpack records, kernel crates, and the .vjs store.
+/// Matched on whole path components (relative or absolute), so "lawpack-2/",
+/// ".vjs_backup/" and "my-crates/" substrings never count as governed.
 fn is_governed(path: &Path) -> bool {
-    let p = path.to_string_lossy();
-    p.contains("lawpack/") || p.contains("crates/") || p.contains(".vjs/")
+    path.components().any(|c| {
+        matches!(
+            c.as_os_str().to_str(),
+            Some("lawpack") | Some("crates") | Some(".vjs")
+        )
+    })
 }
 
 /// The deterministic hook function. Same logic for every runtime adapter.
