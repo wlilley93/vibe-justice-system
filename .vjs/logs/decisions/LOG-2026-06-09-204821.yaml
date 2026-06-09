@@ -1,0 +1,12 @@
+id: LOG-2026-06-09-204821
+time: 2026-06-09T20:48:21.784115808+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260609-204807
+decision: 'Untitled orders are now headed by the name of their subject, derived from the issue tag (Institutions and repos house (the order); Court constitution (the order)), with the raw file id only as the last fallback. The neutral citation stays on the secondary line. This also answers the Principal''s BOOT question in the record: BOOT is the bootstrap series file id minted at founding; the canonical name of those orders is their neutral citation, and the Gazette now never leads with a raw id.'
+basis:
+- PERMIT-1781038087
+risk: low
+reversibility: easy
+court_required: false
+why: 'Name first, always: the act/case name is the header (Sovereign directive); raw series ids are identifiers, not names.'
