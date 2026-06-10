@@ -6,6 +6,9 @@ court: privy_council
 jurisdiction: agent-universe-v2
 status: binding
 issue: federation_embedded_corporate_jurisdiction
+question: >
+  Whether an embedded corporate jurisdiction may vendor the canonical V2 lawpack under ACT-007
+  without fresh sovereign assent or divergent-lineage fork status?
 holding: >
   An embedded corporate jurisdiction (Vibe Policy System) that vendors the canonical V2 lawpack
   pinned by sha256 read-only, subscribes under ACT-007, adopts the canon as its own internal

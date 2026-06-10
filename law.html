@@ -120,6 +120,11 @@
   article section:target, article section.flash { border-left-color:var(--ink); }
   article section h3 { margin:.2rem 0 .3rem; font-size:1.08rem; color:var(--ink); }
   .commentary { color:var(--muted); font-size:.88rem; font-style:italic; }
+  .qbox { border-left:3px solid var(--ink); background:var(--paper); border-radius:0 6px 6px 0;
+          padding:.55rem .9rem .65rem; margin:0 0 1.1rem; }
+  .qbox .qlabel { font-size:.66rem; letter-spacing:.09em; text-transform:uppercase; color:var(--muted);
+          font-weight:700; margin-bottom:.25rem; }
+  .qbox p { margin:.2rem 0 0; font-size:1.02rem; line-height:1.5; }
   .facts { background:var(--paper); border:1px solid var(--rule); border-radius:6px; padding:.6rem .8rem;
     font-size:.84rem; margin:.6rem 0; }
   .facts b { font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);
@@ -487,6 +492,12 @@ function displayTitle(d) {
       && !d.title.startsWith(cite) && !d.title.startsWith('[')) return `${cite} - ${d.title}`;
   return d.title;
 }
+// the question before the court, shown up top on any court case
+function questionBox(d) {
+  return (d.question && (d.kind === 'order' || d.kind === 'judgment'))
+    ? `<div class="qbox"><div class="qlabel">The question before the court</div><p>${linkify(esc(d.question))}</p></div>`
+    : '';
+}
 const KIND_ABBREV = { statute:'ACT', act:'ACT', regulation:'REG', rule:'RULE', instrument:'SI',
   order:'ORDER', judgment:'CASE', decision:'DEC', invariant:'INV', obligation:'OBL', spec:'SPEC' };
 function assocSection(title, list) {
@@ -567,6 +578,7 @@ function render() {
         <h1>${esc(displayTitle(d))}</h1>
         <div>${chipsFor(d)}${statusChipFor(d)}</div>
         <div class="docmeta">${esc(d.citation || d.id)} &middot; ${esc(fmtDate(d.date))}</div>
+        ${questionBox(d)}
       </div>
       ${secondary.length ? `<div class="pdftools"><span class="lbl">Also:</span>${secondary.join('')}</div>` : ''}
       <div class="pdfwrap"><embed src="${esc(d.pdf)}" type="application/pdf"
@@ -584,6 +596,7 @@ function render() {
       <button class="copycite" data-cite>Copy citation</button></div>
     ${statusLine(d)}
     <hr class="headrule">
+    ${questionBox(d)}
     ${DERIVED ? `<div class="derived">Derived presentation rendered by the Gazette on ${esc(fmtDate(new Date().toISOString().slice(0, 10)))}; the source of record is unchanged on the immutable v1 branch.</div>` : ''}
     ${d.summary ? `<div class="lead">${linkify(esc(d.summary))}</div>` : ''}`;
 

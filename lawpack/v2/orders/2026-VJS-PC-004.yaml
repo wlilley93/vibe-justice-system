@@ -5,6 +5,9 @@ jurisdiction: default
 repo_code: VJS
 status: binding
 issue: governance.foundational-law-citation
+question: >
+  Whether to establish a foundational citation convention separating statutory sections from
+  case law neutral citations within hybrid constitutional instruments?
 holding: >
   V2 Privy Council, 3-0, hybrid. The binding convention: cite by source - a
   statute or instrument by its enacting instrument and section, and case law by

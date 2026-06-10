@@ -5,6 +5,9 @@ jurisdiction: default
 repo_code: VJS
 status: binding
 issue: constitutional.federation-extraction-canonicalisation
+question: >
+  Under what conditions may a federation root coordinate peer repositories under a canonical
+  lawpack while preserving their sovereignty and exit rights?
 holding: >
   Supreme Court, full court of nine, 9-0 on disposition (reasoned division on the
   mechanism of Q3). Within the entrenched single apex (s.15, not re-opened; REALM-SC

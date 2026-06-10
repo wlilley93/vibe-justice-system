@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-10T20:22:47.438286599+00:00",
+  "generated_at": "2026-06-10T20:39:27.184440578+00:00",
   "items": [
     {
       "assent_source": "sovereign_assent",
@@ -23,6 +23,7 @@
         "Kernel loads lawpack deterministically without model calls, litigation, or self-legislation",
         "Specs are first-class law objects with purpose, scope, decisions, invariants, and obligations"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Establishes V2 constitutional foundation, sources of authority hierarchy, and kernel as runtime authority surface.",
       "superseded_by": [],
@@ -54,6 +55,7 @@
         "Five court triggers: no existing authority, genuine distinction, overruling needed, instruction conflict, breach discovered",
         "Orders must be short, operative, and contain id, court, jurisdiction, status, issue, holding, directives, and runtime summary"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Establishes three-court structure (County, Privy Council, Supreme), order binding rules, and word limits.",
       "superseded_by": [],
@@ -85,6 +87,7 @@
         "Material decisions, public record changes, external acts require 50-150 word decision logs",
         "Kernel must not contain model calls, vector search, network clients, or depend on model judgment"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Defines agent duties, kernel routing for governed work, and permit-obligation-proof-log lifecycle.",
       "superseded_by": [],
@@ -116,6 +119,7 @@
         "Decisions are short (60 word max for decision, 120 for reason); permits expire after 2 hours and require proof to close",
         "Citations are deterministic and unique; collisions are fatal; supersession must be explicit; records are short (route max 300 words)"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Defines typed records, invariants as deterministic checks, and citation/supersession rules.",
       "superseded_by": [],
@@ -147,6 +151,7 @@
         "Local evidence referenced by pointer in public records without exposing private detail",
         "Gazette is deterministic pointer-only archive, not runtime source; public/private boundary enforced by deterministic scanner, not model judgment"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Enforces public/private boundary, keeps public records system-data-only, and localizes private operational facts.",
       "superseded_by": [],
@@ -178,6 +183,7 @@
         "Destructive actions (deletion, reset, rebase, force-push) require explicit human approval and permit with human approval",
         "External services are outside kernel; kernel may advise but cannot control; agent uses explicit credentials and authority"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Governs external acts, public releases, destructive operations, and requires human checkpoints for irreversible actions.",
       "superseded_by": [],
@@ -209,6 +215,7 @@
         "Local orders, decisions, conventions apply only locally; do not bind other repos unless adopted by those repos",
         "Forks inherit lawpack lineage; must declare it in .vjs/config.toml; divergence requires Privy Council order or Principal assent"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Establishes local jurisdiction on VJS installation, default subscription to lawpack, and local variation rules.",
       "superseded_by": [],
@@ -245,6 +252,7 @@
         "Authority hierarchy: real-world law, Constitution, primary Acts, regulations, Supreme Court orders, Privy Council orders, County orders, logs, incorporated V1",
         "Entrenched provisions (s.14, s.15, s.21) amendable only by Sovereign-assented constitutional Act citing section; agent cannot amend"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Founding constitutional Act declaring V2 a computer-first legal system with kernel-governed compact lawpack.",
       "superseded_by": [],
@@ -276,6 +284,7 @@
         "Protective floor non-derogable: real-world-law floor, rights/standing/due process, public/private boundary, restorative remedy",
         "Assent floor, apex-singleness, protective floor entrenched; amendable only by specific Sovereign assent citing provision"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Consolidating constitutional Act restating V1 law, establishing subordinate regulation power, and protecting core principles.",
       "superseded_by": [],
@@ -305,6 +314,7 @@
         "Manifest must be validated on load; lawpack digest must be checked",
         "Lawpack cannot be loaded without valid manifest"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Defines lawpack manifest fields, versioning, digest, lockfile, and schema validation.",
       "superseded_by": [],
@@ -334,6 +344,7 @@
         "Configurable roles: orders_root, logs_root, submissions_root, specs_root, decisions_root, proofs_root, permits_root, private_root, cache_root",
         "Records resolved by role not path; no ministry-style path requirements"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Defines configurable directory roles for VJS records with one fixed anchor: .vjs/config.toml.",
       "superseded_by": [],
@@ -363,6 +374,7 @@
         "Citations generated deterministically; collisions checked and prevented",
         "Duplicate citations not allowed"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Defines citation formats for VJS records: VJS-ACT, VJS-REG, VJS-SC, VJS-PC, VJS-CC, LOG, SPEC, INV, DEC, PERMIT, PROOF.",
       "superseded_by": [],
@@ -392,6 +404,7 @@
         "Permit required before governed action; proofs required before closing",
         "Decision log and validation required; lifecycle steps cannot be bypassed"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Defines lifecycle for governed work: route -> permit -> action -> proof -> log -> validate -> close.",
       "superseded_by": [],
@@ -422,6 +435,7 @@
         "Supreme Court order 1500 words; decision log 150; route output 300; authority summary 120",
         "Word limits enforced; overlong records rejected"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Defines word limits for court output and decision records to keep authority compact.",
       "superseded_by": [],
@@ -451,6 +465,7 @@
         "Invariants are evaluated deterministically",
         "Invariant evaluation cannot be bypassed"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Bootstraps the default deterministic invariant suite for V2 kernel evaluation.",
       "superseded_by": [],
@@ -480,6 +495,7 @@
         "Write tools limited; audit log required; human confirmation for sensitive acts",
         "No release tool or direct file write exposure; all MCP input validated"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Defines MCP safety requirements: local-first, explicit repo root, limited write tools, audit log, human confirmation.",
       "superseded_by": [],
@@ -509,6 +525,7 @@
         "V1 publication is archive, not live law unless incorporated via express mechanism",
         "Archive not loaded as runtime without incorporation"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Defines V1 as Gazette and archive; V2 runtime does not load V1 by default unless incorporated.",
       "superseded_by": [],
@@ -539,6 +556,7 @@
         "Staging is mandatory: prove each fatal invariant still binds before/after; fresh lock under commencement addendum with old lock pinned",
         "No unstaged mass edits; paths retained or redirected; locks immutable; citations and IDs immutable"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Makes canonicalisation a governed, lock-preserving migration; immutable digests, citations, IDs; no mass edits.",
       "superseded_by": [],
@@ -571,6 +589,7 @@
         "never permit an uncertified or divergent pack to bear the certification mark",
         "never treat certification as a human attestation rather than deterministic kernel output"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "This Regulation governs the certification mark and the naming of certified packs, under the Repos House regime (REG-REPOS-HOUSE-001) and the lineage of the V1 Repositories and Records Certification Act (BILL-20, carried forward only as archival lineage, not as binding V2 law).",
       "superseded_by": [],
@@ -601,6 +620,7 @@
         "never alter bench sizes jurisdiction or the assent rule",
         "never invalidate a legacy ruling for want of the structured fields"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "A ruling of a constituted V2 court must be auditable: every order issued from this Regulation's commencement records the bench that decided it (the counted seats) and the case_file_digest, the sha256 of the symmetric case file the court decided, so the ruling is traceable to exactly what was before it.",
       "superseded_by": [],
@@ -633,6 +653,7 @@
         "never perform governed work without an active permit",
         "never route a fork or a reversible call to the principal"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "This Regulation codifies the day-to-day operating model for an agent doing development or knowledge work in a jurisdiction that has adopted this lawpack, so an adopter governs ordinary work without re-deriving it.",
       "superseded_by": [],
@@ -664,6 +685,7 @@
         "Practical subjection is court standard, not kernel gate",
         "Default subscription lawful because genuinely revocable"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Defines coordination vs sovereignty test; default subscription lawful because revocable; no binding without adoption.",
       "superseded_by": [],
@@ -695,6 +717,7 @@
         "Publication requires lawpack validation, boundary scan, valid statuses, unique citations, lineage resolution, manifest includes digest",
         "Export fails closed on validation failure, boundary hit, or missing elements"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "One Gazette with two estates; publication is constitutively inert; force from lawpack and kernel status, not publication.",
       "superseded_by": [],
@@ -724,6 +747,7 @@
         "Hook returns decision: allow, warn, block, require_route, require_log, require_proof; events: session_start, pre_write, post_action, pre_commit, pre_push",
         "Function lives in kernel; prompt is thin wrapper; no adjudication, law creation, or model judgment in hooks"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Hooks are deterministic functions returning typed decisions (allow, warn, block, require_route, require_log, require_proof).",
       "superseded_by": [],
@@ -754,6 +778,7 @@
         "Anchor is .vjs/config.toml; paths resolved by role; creates local County Court [YEAR] VJS-CC-<repo> N series",
         "Gazette registration opt-in; private repos stay private by default; no ministry layout required"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Repository becomes VJS jurisdiction by local sovereign invocation, not directory ancestry; binding by invocation + lock + hooks.",
       "superseded_by": [],
@@ -789,6 +814,7 @@
         "never bump a pinned digest without the subscribers deliberate assent",
         "never place kernel checking logic inside a hook"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "The kernel adopts SPEC-KERNEL-002 (the embeddable jurisdiction-neutral kernel spec) alongside SPEC-KERNEL-001 (determinism).",
       "superseded_by": [],
@@ -819,6 +845,7 @@
         "Legislative amendment is append-only; old authority remains visible",
         "Proposal record, validation report, citation, decision log required as proof"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Defines legislative intake: proposal, validation, adoption, citation, lawpack entry; all new law starts as draft.",
       "superseded_by": [],
@@ -849,6 +876,7 @@
         "General law crosses centrally; repo-specific uses continuity election",
         "Protective floor breach rejects incorporation; rank-floor breach rejects"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Operationalizes incorporation pipeline; V1 law crosses only by express incorporation record with validity finding.",
       "superseded_by": [],
@@ -880,6 +908,7 @@
         "never alter force or severity of scheduled records by consolidation",
         "Schedules: 14 decisions, 28 invariants, 5 obligations, 4 rules, 6 specs"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "The kernel machinery of the realm, namely its invariants, obligations, agent rules, specifications, and decisions of record, is consolidated under this single instrument.",
       "superseded_by": [],
@@ -911,6 +940,7 @@
         "Warrant fails closed: remote/ref/SHA mismatch, boundary scan hit, or law-change without authorising instrument blocks push",
         "Privy Council post-push review follows every public push"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Release warrant is deterministic pre-push gate checking remote/ref/SHA, boundary scan, and authorising instrument.",
       "superseded_by": [],
@@ -947,6 +977,7 @@
         "never policy office outside lawmaking route",
         "never superseding repos register 001"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Made under the Consolidation Framework Act s.7, this Regulation establishes Repos House as a non-sovereign, two-layer declarative registry and certification ledger for V2 repositories.",
       "superseded_by": [],
@@ -977,6 +1008,7 @@
         "Register is derived, pointer-only, rebuildable projection, never source of law",
         "Local sovereignty (amend, pin/decline, fork, exit) preserved; mandate is to subscribe, not surrender"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Mandatory transition-subscription: repos create .vjs/config.toml, declare lineage, default-subscribe within 90 days.",
       "superseded_by": [],
@@ -1008,6 +1040,7 @@
         "Enforced by kernel route returning court_required with must_do convene and must_not route_to_principal",
         "Principal involved only for external dependency or irreversible outward act authorisation"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Agent must self-convene court for forks on symmetric case file; never route fork to Principal for decision.",
       "superseded_by": [],
@@ -1039,6 +1072,7 @@
         "V1 Court acts only to perfect matter already fully heard in V1 (publication only, no new doctrine)",
         "Perfected V1 orders and accrued rights preserved; nothing void by reason of transfer alone"
       ],
+      "question": "",
       "status": "in_force",
       "summary": "Privy Council is transition court classifying pending V1 matters as continued, reframed, or moot; V1 Court perfects only.",
       "superseded_by": [],
@@ -1069,6 +1103,7 @@
         "V1 archive not used as runtime unless expressly incorporated",
         "Agent must use orders, rules, logs for governed work"
       ],
+      "question": "What constitutes runtime law governing V2 agents in their load-bearing acts?",
       "status": "binding",
       "subject": "vjs-v2-governance",
       "summary": "V2 runtime uses orders, rules, and logs as authority; V1 archive not runtime context unless incorporated.",
@@ -1098,6 +1133,7 @@
         "Check incorporation before citing V1 archive",
         "No default loading of V1 as runtime"
       ],
+      "question": "Whether the V1 archive constitutes binding runtime law absent express incorporation by V2 statute, rule, or order?",
       "status": "binding",
       "subject": "vjs-v2-archive",
       "summary": "V1 archive is historical and persuasive; not live runtime law unless expressly incorporated.",
@@ -1130,6 +1166,7 @@
         "Court of Appeal deferred; not created in MVP",
         "Principal may authorize appeal routes"
       ],
+      "question": "Whether to establish a Court of Appeal in the V2 MVP architecture?",
       "status": "binding",
       "subject": "vjs-v2-court-structure",
       "summary": "Court of Appeal not carried forward in V2 MVP; appeals handled by Privy Council or Supreme Court.",
@@ -1162,6 +1199,7 @@
         "Logs must be 50-150 words",
         "Logs cannot be skipped for material decisions"
       ],
+      "question": "Should written decision logs be mandatory for material implementation decisions?",
       "status": "binding",
       "subject": "vjs-v2-logs",
       "summary": "Material implementation decisions require 50-150 word decision logs.",
@@ -1194,6 +1232,7 @@
         "No arbitrary file writes, no release tools, no direct push actions",
         "MCP kept thin and local-first"
       ],
+      "question": "Whether the MCP adapter should be constrained to thin, local-first design with restricted tool exposure?",
       "status": "binding",
       "subject": "vjs-v2-mcp",
       "summary": "MCP adapter exposes only 6 tools; local-first; no release tools or direct file writes.",
@@ -1226,6 +1265,7 @@
         "Model interaction belongs in vjs-mcp or external adapters",
         "Kernel determinism is foundational to all governance"
       ],
+      "question": "Whether vjs-core kernel must remain deterministic, model-free, and network-free?",
       "status": "binding",
       "subject": "vjs-v2-kernel-determinism",
       "summary": "Kernel must remain deterministic, model-free, and network-free.",
@@ -1258,6 +1298,7 @@
         "No LLM checks, no cosine similarity, no free-form scripts",
         "Use predicate DSL for defining invariants"
       ],
+      "question": "Whether invariants in vjs-v2 should be evaluated through deterministic, typed mechanical predicates rather than heuristic methods?",
       "status": "binding",
       "subject": "vjs-v2-invariants",
       "summary": "Invariants are deterministic, typed, evaluated mechanically using fixed predicate registry.",
@@ -1290,6 +1331,7 @@
         "Specs link to decisions, invariants, obligations, and review triggers",
         "Specs not prose-only; must be executable and linkable"
       ],
+      "question": "Whether specifications are first-class law objects with enforceable purpose, scope, decisions, and invariants?",
       "status": "binding",
       "subject": "vjs-v2-specs",
       "summary": "Specs are first-class law objects with purpose, scope, decisions, invariants, obligations, and review triggers.",
@@ -1323,6 +1365,7 @@
         "Hooks do not explain law; legal reasoning belongs in rules and evals",
         "Hooks enforce lifecycle transitions, not substantive doctrine"
       ],
+      "question": "Whether permits must govern all writes to the codebase with hook-based enforcement of the permit lifecycle?",
       "status": "binding",
       "subject": "vjs-v2-permits",
       "summary": "Permits required for governed writes; hooks enforce lifecycle (permit check, pre-commit validation), not the law itself.",
@@ -1355,6 +1398,7 @@
         "Deterministic scanner detects secrets, tokens, hostnames, emails, private paths",
         "No LLM-based boundary checks; no agent discretion without deterministic basis"
       ],
+      "question": "Whether the public/private boundary should be enforced by deterministic scanner rather than model judgment?",
       "status": "binding",
       "subject": "vjs-v2-boundary",
       "summary": "Public/private boundary enforced by deterministic scanner, not model judgment.",
@@ -1387,6 +1431,7 @@
         "No doctrine expansion, Gazette, Court of Appeal, semantic search, PDF rendering until spine hardened",
         "Alpha priorities: core validation, permits, hooks, tests before feature expansion"
       ],
+      "question": "Whether VJS V2 alpha must harden its deterministic spine before expanding doctrine, courts, and migration features?",
       "status": "binding",
       "subject": "vjs-v2-alpha-hardening",
       "summary": "V2 alpha must harden predicate evaluation, repo scanning, invariant validation, permits, hooks before adding courts, Gazette, migration.",
@@ -1422,6 +1467,7 @@
         "Add hook blocking fixtures to test enforcement",
         "No doctrine expansion before permit enforcement is real"
       ],
+      "question": "Whether to enforce route permits at the staged-change and commit boundary before further doctrinal expansion?",
       "status": "binding",
       "subject": "permit enforcement",
       "summary": "V2 alpha must enforce permits at staged-change and commit boundary before further expansion.",
@@ -1459,6 +1505,7 @@
         "treat reg court record 001 as additive and prospective only",
         "route any change to bench size who sits tier jurisdiction or the assent rule to primary law or the reserved court"
       ],
+      "question": "Whether the order-schema extension and REG-COURT-RECORD-001 constitute valid court machinery within operational competence?",
       "status": "binding",
       "subject": "court machinery vs constitution",
       "summary": "Order-schema court-record fields and REG-COURT-RECORD-001 are court machinery, valid under s.7: optional, prospective, recording-only, touching no bench size, jurisdiction, or assent rule.",
@@ -1489,6 +1536,7 @@
         "correct the two route eval cases to tag each input with a governing authority substring so they test the real allowed with conditions path",
         "preserve dec 006 no semantic matching the kernel routing is not amended"
       ],
+      "question": "Whether DEC-006's literal substring rule requires authority-tagged inputs when routing significant acts to CourtRequired?",
       "status": "binding",
       "subject": "route eval divergence",
       "summary": "Kernel routing is correct under DEC-006; the eval used tags matching no authority.",
@@ -1527,6 +1575,7 @@
         "route permit and log every beat committing and pushing only through failing closed gates",
         "leave all workspace tests green live pages verified and screenshots filed by morning review"
       ],
+      "question": "Whether to establish a bounded overnight work programme executing the Principal's Gazette presentation mandate with derived PDFs and gated commits?",
       "status": "binding",
       "subject": "gazette overnight workplan",
       "summary": "Overnight run: execute the Principal's Gazette presentation mandate with derived PDFs for the 7 gaps, two-chip rule, compact header, gated commits, and morning acceptance on tests, live checks, screenshots and logs.",
@@ -1564,6 +1613,7 @@
         "Court of Appeal persists as tier but administratively non-convened in MVP; may be convened if appeal arises (not abolished)",
         "Gives effect to REALM-SC 10 handover order; force from migration Sovereign Assent"
       ],
+      "question": "Should V2 courts be constituted with odd-numbered benches and express jurisdictional limits under the Realm handover order?",
       "status": "binding",
       "subject": "constitutional.court-constitution",
       "summary": "V2 courts expressly constituted with odd benches; County 1, Privy Council 3, Supreme Court 5/9; Court of Appeal persists but non-convened.",
@@ -1602,6 +1652,7 @@
         "Super-repo survives as federation under one continued apex; no root may assert second apex",
         "REG-TRANSITION-CONTINUITY-001 directed through lawmaking route with s.9 and local-scope guardrails"
       ],
+      "question": "Whether the V1-to-V2 transfer carries pending matters forward at their current state and permits perfection of old doctrine for publication only?",
       "status": "binding",
       "subject": "constitutional.transition-and-onboarding",
       "summary": "3-0 Privy Council ruling on V1->V2 transitional-continuity doctrine, pending matter classification, and local onboarding.",
@@ -1642,6 +1693,7 @@
         "Physical migration staged behind governed lock-preserving instrument; halts if path-continuity and invariant-scoping cannot be proven",
         "Committee directed to codify topology in Framework Act and raft"
       ],
+      "question": "Should the canon consolidate onto the established public repository as a single canonical line with the V1 archive as an immutable archival estate?",
       "status": "binding",
       "subject": "governance.repository-topology",
       "summary": "3-0 Privy Council ruling consolidating onto established public repo as one canonical line with two-estate Gazette.",
@@ -1679,6 +1731,7 @@
         "Nothing fabricated; Schedule-3 stay lifts on digest-verified completion",
         "Back-filled records treated as carried-forward archival source, not live authority"
       ],
+      "question": "Whether section 23 case-law and REALM-SC 10 may be back-filled into the V1 archival estate as verified transcription and derived minute only, carrying no live authority?",
       "status": "binding",
       "subject": "governance.s23-sc10-location",
       "summary": "3-0 Privy Council ruling on back-filling s.23 and SC-10 into V1 archival estate with proper estate marking.",
@@ -1717,6 +1770,7 @@
         "Principle-20 citation gate extended to fail closed on pseudo-section over court-made article",
         "Re-cutting entrenched section-keyed immutable-digest document rejected (non-disturbance)"
       ],
+      "question": "Whether to establish a foundational citation convention separating statutory sections from case law neutral citations within hybrid constitutional instruments?",
       "status": "binding",
       "subject": "governance.foundational-law-citation",
       "summary": "3-0 Privy Council ruling on citation convention: cite statute by instrument+section, case law by its case (neutral citation).",
@@ -1758,6 +1812,7 @@
         "Policy proposals routed through existing lawmaking route, no new office",
         "REG-REPOS-HOUSE-001 drafted under Framework Act s.7, sequenced after permit enforcement"
       ],
+      "question": "What is the constitutional status and role of Repos House as a jurisdiction registry and certification authority?",
       "status": "binding",
       "subject": "governance.institutions-and-repos-house",
       "summary": "3-0 Privy Council ruling on Repos House as declarative registry and institutional model.",
@@ -1799,6 +1854,7 @@
         "First-instance is not apex; single apex undisturbed; no new tier, seat, apex, or citation series created",
         "Settled by ruling and order; no legislation and no kernel change"
       ],
+      "question": "Whether the canon super-repo must self-invoke under REG-INVOCATION-001 and the Privy Council is the realm's first-instance court?",
       "status": "binding",
       "subject": "governance.superrepo-self-invocation",
       "summary": "3-0 Privy Council ruling that canon super-repo self-invokes under REG-INVOCATION-001; Privy Council is realm first-instance court.",
@@ -1841,6 +1897,7 @@
         "register legislation and case law only in the gazette carrying the schedules in full within the instruments entry",
         "keep kernel loading and enforcement of every scheduled record unchanged in force severity and effect"
       ],
+      "question": "Whether the Sovereign's immediate reply \"go\" to the digest-pinned presentment constitutes express assent to the Realm Invariants and Machinery Instrument 2026?",
       "status": "binding",
       "subject": "assent construction",
       "summary": "Assent found 2-1: the Sovereign's \"go\", in immediate answer to the sole digest-pinned presentment, commences the Realm Invariants Instrument.",
@@ -1878,6 +1935,7 @@
         "route to primary law or the supreme court any measure that makes a record field constitutive of validity",
         "record this appeal affirming 2026 vjs cc order schema 001 and confirm reg court record 001 stands in force"
       ],
+      "question": "Whether a measure constitutes a constitutional amendment or falls within the court machinery power depends on whether it alters who sits, bench size, jurisdiction, or assent rules?",
       "status": "binding",
       "subject": "court machinery vs constitution dividing line",
       "summary": "Appeal dismissed 3-0; County Court affirmed.",
@@ -1919,6 +1977,7 @@
         "extend the principle 20 gate to fail closed on any case law s x citation to a court made sc sourced article in all records",
         "record this order as v2 caselaw with a citator row"
       ],
+      "question": "Whether CASE-LAW, an untouched V1 document, may be cited as live binding V2 authority?",
       "status": "binding",
       "subject": "case law is v1",
       "summary": "CASE-LAW (V1) cannot be cited as live binding V2 authority.",
@@ -1960,6 +2019,7 @@
         "route vps to a fresh privy council order under act 007 s6 the moment it amends the canon issues binding canon meaning rulings treats referral up as advisory or adds canon contradicting law because it has then become a divergent lineage fork",
         "self file a breach and make the work good on discovery that vps has impersonated realm authority constituted a parallel apex or served a stale copy as authority"
       ],
+      "question": "Whether an embedded corporate jurisdiction may vendor the canonical V2 lawpack under ACT-007 without fresh sovereign assent or divergent-lineage fork status?",
       "status": "binding",
       "subject": "federation embedded corporate jurisdiction",
       "summary": "Embedded corporate jurisdiction lawful under ACT-007 without fresh assent or divergent-lineage fork, on six carried charter conditions; the kernel spec is machinery upstream.",
@@ -1997,6 +2057,7 @@
         "Standing Committee directed to codify five instruments as void first drafts pending assent",
         "Privy Council is transition court; V1 Court perfects already-heard matters only; Court of Appeal persists"
       ],
+      "question": "Under what conditions may a federation root coordinate peer repositories under a canonical lawpack while preserving their sovereignty and exit rights?",
       "status": "binding",
       "subject": "constitutional.federation-extraction-canonicalisation",
       "summary": "9-0 Supreme Court ruling on federation test, V1 incorporation, canonicalisation governance, and constitutional directives.",
@@ -2033,6 +2094,7 @@
         "Full court 9, unanimous, per Principal's leapfrog certificate",
         "Rejection of jurisdiction-first gating by statutory silence"
       ],
+      "question": "Whether breach of fiduciary duty should be reconceived as the tort of negligence rather than a crime?",
       "status": "good-law",
       "summary": "Breach reconceived as tort of negligence; unitary realm of parliamentary sovereignty with single apex.",
       "superseded_by": [],
@@ -2064,6 +2126,7 @@
         "Majority 4:1; extends REALM-SC 1",
         "Cites CASE-LAW ss. 3-7, 13"
       ],
+      "question": "Must Lexby proactively disclose material risks without waiting for inquiry, or may silence on risks avoid breach?",
       "status": "good-law",
       "summary": "Lexby must proactively disclose material risks; silence is breach.",
       "superseded_by": [],
@@ -2096,6 +2159,7 @@
         "Deterministic pre-commit citation-integrity gate mandatory",
         "VARIED 8:1; enacts CASE-LAW ss. 19-20"
       ],
+      "question": "Should the Supreme Court mandate six procedural reforms - reviewable leapfrog routing, two-sided case intake, independent leave-judges, and deterministic citation integrity gates - to safeguard procedural fairness and system reliability?",
       "status": "good-law",
       "summary": "Six reforms: reviewable leapfrog, two-sided intake, apex observer, leave-judge independence, watchdog, deterministic citator.",
       "superseded_by": [],
@@ -2128,6 +2192,7 @@
         "Anti-cheat: only generic answer-key-free methodology in prompts",
         "Enacts CASE-LAW s. 18"
       ],
+      "question": "Whether benches deciding cases must be constituted with odd-numbered membership and whether rulings by improperly constituted benches are void?",
       "status": "good-law",
       "summary": "All benches must be odd-numbered; synthesiser-on-top pattern abolished; improper benches void ab initio.",
       "superseded_by": [],
@@ -2160,6 +2225,7 @@
         "Enacts CASE-LAW s. 21; affirmed by REALM-PC 8",
         "From legacy benchmark (LEXBY-LEGACY-BENCHMARK-SC-DC 1)"
       ],
+      "question": "Whether the court may be divided into separate domain-specific courts with parallel citators and apex authorities or must remain a single unitary court on one spine with domain divisions only?",
       "status": "good-law",
       "summary": "Single spine with domain DIVISIONS, never fractured into parallel domain COURTS.",
       "superseded_by": [],
@@ -2192,6 +2258,7 @@
         "Enacts CASE-LAW s. 22",
         "Distinguished by REALM-PC 14; from legacy benchmark"
       ],
+      "question": "May the realm be administered as a super-repo over a Ministry of Justice and operational jurisdiction-repos with local hearing-centres?",
       "status": "good-law",
       "summary": "Super-repo permitted with distributed County Courts, but apex singleness absolute and non-delegable.",
       "superseded_by": [],
@@ -2224,6 +2291,7 @@
         "VARIED 9:0; the first-instance series saved entry-by-entry, the last remitted",
         "Leapfrog per s.20; affirms REALM-SC 4"
       ],
+      "question": "Should pre-enactment precedent be void wholesale or reviewed entry-by-entry under the entrenchment lock?",
       "status": "good-law",
       "summary": "Pre-enactment precedent judged entry-by-entry, never wholesale; Bill 25 s.6(2) and CASE-LAW s.18(5) interlock.",
       "superseded_by": [],
@@ -2256,6 +2324,7 @@
         "Adoption by proper organ is constitutive cure (spent on adoption)",
         "Bills 1-27, REALM-SI 1, SC 1-7, CA 1, PC line STAND"
       ],
+      "question": "Does Lexby hold independent law-making authority, or is un-adopted text void pending formal adoption by proper constitutional organs?",
       "status": "good-law",
       "summary": "Lexby holds NO law-making authority; un-adopted text void but curable as void first draft.",
       "superseded_by": [],
@@ -2288,6 +2357,7 @@
         "Defensive security only within genuine lawful authority and scope",
         "Affirms REALM-PC 18; clarifies REALM-PC 17"
       ],
+      "question": "Does VJS law create immunity from external law, or must agents escalate apparent illegality under delegated authority?",
       "status": "good-law",
       "summary": "Real-world law is external supremacy floor; VJS never authorises unlawful action; agents must escalate illegality.",
       "superseded_by": [],
@@ -2321,6 +2391,7 @@
         "Sovereign Assent sole constitutive external gate",
         "Derived source edge (not authority); back-filled per VJS-PC 3"
       ],
+      "question": "Whether the V1-to-V2 migration on the continuity construction is constitutionally lawful and what conditions it must satisfy?",
       "status": "good-law",
       "summary": "The full-court founding settlement: V1-to-V2 migration on the continuity construction; enacted CASE-LAW s.23, the Sovereign-assent floor and AI non-sovereignty.",
       "superseded_by": [],
@@ -2353,6 +2424,7 @@
         "Affirms REALM-PC 1",
         "Full court appeal"
       ],
+      "question": "Whether the statutory sequencing of section 8 before section 5 describes a remediable substantive error or an inherent structural impossibility?",
       "status": "good-law",
       "summary": "Appeal unanimously dismissed; s.8/s.5 sequencing complaint describes structural impossibility.",
       "superseded_by": [],
@@ -2385,6 +2457,7 @@
         "Deterministic citation numbering necessary condition for v1",
         "Cites CASE-LAW ss. 4, 5, 7, 8, 11(d), 14"
       ],
+      "question": "Whether the governance system is fit for alpha release with coherent legal model, committed statute and procedure, and constitutional enforcement in place?",
       "status": "good-law",
       "summary": "Governance system fit for alpha where legal model coherent, statute+procedure+caselaw committed, constitutional enforcement in place.",
       "superseded_by": [],
@@ -2417,6 +2490,7 @@
         "Until gate trips, s. 8 duty is monitor and report, not build",
         "Extends REALM-PC 3; cites s. 1, 8, 11(c), 12, 15, 19(5)"
       ],
+      "question": "Whether a deterministic token-free retrieval index may be adopted as a screening device under section 12?",
       "status": "good-law",
       "summary": "Deterministic token-free retrieval index permitted screening device under s.12 on cumulative conditions; gate presently FORBIDDEN.",
       "superseded_by": [],
@@ -2450,6 +2524,7 @@
         "Adoption by proper organ (Committee+Assent or bench) cures void",
         "SOURCE OF ARTEFACT'S FORCE test: function vs promulgation"
       ],
+      "question": "Whether text drafted by Lexby holds legal force as an instrument or void first draft requiring adoption?",
       "status": "good-law",
       "summary": "Lexby holds NO law-making authority; text void as instrument but admissible as void first draft; adoption is constitutive cure.",
       "superseded_by": [],
@@ -2482,6 +2557,7 @@
         "MDS-held audited delegation with revocable root; single-key rejected",
         "Reversible acts log: DECISION + PROVENANCE, not chain-of-thought"
       ],
+      "question": "Whether audited break-glass can reconcile fail-closed security defaults with agent operability without choosing between them?",
       "status": "good-law",
       "summary": "Secure and operable defaults unified on fail-closed control with audited break-glass; no self-elevation on ingested instruction.",
       "superseded_by": [],
@@ -2514,6 +2590,7 @@
         "Gate checks substance (actual data), not filename",
         "Unanimous 3-0; distinguishes REALM-SC 6, 7"
       ],
+      "question": "Whether County Court validity depends on .gitignore presence or substantive jurisdiction-repo and system-data integrity?",
       "status": "good-law",
       "summary": ".gitignore is presumptive evidence, not constitutive act; County Court requires substance: jurisdiction-repo, system-data-only, Bill 20 integrity.",
       "superseded_by": [],
@@ -2546,6 +2623,7 @@
         "Central REALM-* series is substance, not label",
         "Unanimous 3-0; declaratory; distinguishes REALM-PC 14, applies PC 11, 4"
       ],
+      "question": "Whether the VJS super-repo is a County Court or a distinct central constitutional first-instance court?",
       "status": "good-law",
       "summary": "Super-repo is realm-as-state; REALM-PC is DISTINCT central constitutional first-instance court, not County Court.",
       "superseded_by": [],
@@ -2578,6 +2656,7 @@
         "Public-push gate fails closed only for canonical remote",
         "Installer docs must use local .justice/ paths by default"
       ],
+      "question": "Whether default VJS subscription constitutes perpetual subjection or permits local sovereign amendment and independence?",
       "status": "good-law",
       "summary": "Default VJS subscription not perpetual subjection; local sovereign may amend law, become independent, or join another community.",
       "superseded_by": [],
@@ -2610,6 +2689,7 @@
         "Public entrypoint is VJS; development remains private",
         "Applies REALM-PC 16, 17, 18 and REALM-SC 9"
       ],
+      "question": "Whether superrepo changes implementing new governance rules require court order before implementation?",
       "status": "good-law",
       "summary": "Superrepo changes require court order before implementation unless already authorised by binding precedent or statute.",
       "superseded_by": [],
@@ -2645,6 +2725,7 @@
         "One Gazette over two estates lawful only where publication constitutively inert",
         "Founding and continuity limbs held arguable, foundational; leapfrogged to SC"
       ],
+      "question": "May V2 be lawfully founded through V1 organs while preserving a single apex under one Gazette covering both estates?",
       "status": "good-law",
       "summary": "V2 founding lawful in principle only if runs through V1 organs, preserves single apex; founding limbs leapfrogged to Supreme Court.",
       "superseded_by": [],
@@ -2675,6 +2756,7 @@
         "Statute sits above founding case-law settlement",
         "Foundational constitutional Act"
       ],
+      "question": "",
       "status": "assented",
       "summary": "Founding statute uniting the realm under parliamentary sovereignty; expressly amends CASE-LAW ss. 1, 2, 9, 10.",
       "superseded_by": [],
@@ -2707,6 +2789,7 @@
         "Cited by REALM-SC 8, REALM-PC 12",
         "Core governance statute"
       ],
+      "question": "",
       "status": "assented",
       "summary": "Establishes Standing Committee, parliamentary procedures, enactment processes, and Bill-making authority.",
       "superseded_by": [],
@@ -2739,6 +2822,7 @@
         "Read with REALM-SI 1, 4, 5 for implementation",
         "Enforcement receiver for statutory instruments"
       ],
+      "question": "",
       "status": "assented",
       "summary": "Enforcement mechanisms, sanctions, compliance procedures; governs agent security, break-glass, audited delegation.",
       "superseded_by": [],
@@ -2771,6 +2855,7 @@
         "Cited by REALM-PC 10, 11, 24",
         "Non-delegable apex authority reserved"
       ],
+      "question": "",
       "status": "assented",
       "summary": "Delegates law-making authority to Standing Committee for SIs; establishes Bill 14 s.9 computational legislature.",
       "superseded_by": [],
@@ -2803,6 +2888,7 @@
         "Deterministic citation numbering engine (REALM-PC 1, SC 7)",
         "Core to constitutional structure"
       ],
+      "question": "",
       "status": "assented",
       "summary": "Neutral citation scheme (REALM-SC, REALM-CA, REALM-PC); law reporting, Gazette procedures, SI Form C citation.",
       "superseded_by": [],
@@ -2835,6 +2921,7 @@
         "Central to REALM-PC 13 security framework",
         "Applied by REALM-SC 9 for agent authority limits"
       ],
+      "question": "",
       "status": "assented",
       "summary": "Agent autonomy, execution safety, capability-is-not-authority doctrine, outward-act controls.",
       "superseded_by": [],
@@ -2867,6 +2954,7 @@
         "Core to data governance and system authenticity",
         "Applied by REALM-PC 14, 16"
       ],
+      "question": "",
       "status": "assented",
       "summary": "Repository integrity, data certification, public/private boundaries, County Court certification requirements.",
       "superseded_by": [],
@@ -2899,6 +2987,7 @@
         "Establishes audit and delegation frameworks",
         "Core to agent security ecosystem"
       ],
+      "question": "",
       "status": "assented",
       "summary": "Comprehensive security and integrity; parent enabling power for SIs 1, 4, 5; governs trust tiers, audit, delegation.",
       "superseded_by": [],
@@ -2931,6 +3020,7 @@
         "Core to system governance and constitutional structure",
         "s. 5A, 5B, 5C inserted by Bills 25-29"
       ],
+      "question": "",
       "status": "assented",
       "summary": "Constitutional framework for VJS machinery, super-repo, County Courts, data boundaries, public/private separation.",
       "superseded_by": [],
@@ -2965,6 +3055,7 @@
         "Sovereign Assent reserved to Sovereign",
         "Foundational for V2 founding"
       ],
+      "question": "",
       "status": "assented",
       "summary": "Founding statute for VJS V2 (Computer-First Realm); establishes V2 machinery and handover conditions.",
       "superseded_by": [],
@@ -2998,6 +3089,7 @@
         "Governs system-data-only record boundary enforcement",
         "Under Bill 5 s. 18 (parent enabling power)"
       ],
+      "question": "",
       "status": "in-force",
       "summary": "Repositories House regime; governs repository hosting, gate indexing, system-data-only boundaries, County Court certification.",
       "superseded_by": [],
@@ -3034,6 +3126,7 @@
         "Implements REALM-PC 16 requirements",
         "Under Bill 18, 20, 27, 29 (multi-parent)"
       ],
+      "question": "",
       "status": "in-force",
       "summary": "Regime for public VJS super-repo releases; requires release warrant before push and Privy Council post-push review.",
       "superseded_by": [],
@@ -3070,6 +3163,7 @@
         "Read with Bills 13, 18, 21, 22, 27, 29",
         "Amended by REALM-SI 10, 11"
       ],
+      "question": "",
       "status": "in-force",
       "summary": "Public-law process for agent lawfulness verification; requires hooks for detecting and escalating potentially unlawful acts.",
       "superseded_by": [],
@@ -3105,6 +3199,7 @@
         "Under Bill 5 s. 18 (parent authority MBES)",
         "Read with Bills 7, 8, 16, 20, 22, 27, 29"
       ],
+      "question": "",
       "status": "in-force",
       "summary": "Gazette graph database infrastructure; governs law reporting, Gazette publication, graph data model for legal relations.",
       "superseded_by": [],
@@ -3141,6 +3236,7 @@
         "Under Bill 5 s. 18 (parent enabling power)",
         "Coordinated with REALM-SI 11"
       ],
+      "question": "",
       "status": "in-force",
       "summary": "Amendment to SI 8 requiring agent-agnostic hook contract and delegable-workflow adapters for lawfulness verification.",
       "superseded_by": [],
@@ -3177,6 +3273,7 @@
         "Under Bill 5 s. 18 (parent enabling power)",
         "Completes agent lawfulness regime"
       ],
+      "question": "",
       "status": "in-force",
       "summary": "Amendment to SI 8 and SI 10 requiring each agent to make good hook triggering on best-efforts basis.",
       "superseded_by": [],
@@ -3216,6 +3313,7 @@
         "Condition 6 (7:2) - External-law floor / non-impersonation: the client must not wear the appearance of a regulated real-world legal authority it does not hold (grounded in REALM-SC 9); a floor of substance, not a script of UI wording.",
         "Ownership of the renderer is not ownership of the law; the vendor controls when canonical law is displayed, never what it is."
       ],
+      "question": "Is an embeddable governance client rendering canonical law from a central server a lawful presentation-layer division or a forbidden parallel court?",
       "status": "good-law",
       "summary": "Full court (leapfrog): an embeddable, corporate-re-skinned client that renders the same canonical governance from a central server of law is a lawful presentation DIVISION over the one spine, not a forbidden parallel COURT, only on six cumulative conditions. Re-naming canonical governance is permitted; re-housing substantive law, citator, bench, or apex inside the product is forbidden. Public-only record: the confidential client matter is withheld; persuasive in V2, not binding unless incorporated.",
       "superseded_by": [],
@@ -3237,6 +3335,6 @@
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "ef7248e16349f1418a461d55f957408ec3420f60"
+    "source_commit": "264d05d3ea30cbb6fe4042c62b3954bc2f663113"
   }
 }

@@ -6,6 +6,9 @@ court: county
 jurisdiction: agent-universe-v2
 status: binding
 issue: gazette_overnight_workplan
+question: >
+  Whether to establish a bounded overnight work programme executing the Principal's Gazette
+  presentation mandate with derived PDFs and gated commits?
 holding: >
   The Principal's presentation mandate is settled as a bounded overnight work
   programme. Q1: the registrar may generate the 7 missing archive PDFs as

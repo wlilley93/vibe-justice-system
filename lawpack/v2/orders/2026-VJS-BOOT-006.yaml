@@ -5,6 +5,8 @@ jurisdiction: default
 repo_code: VJS
 status: binding
 issue: vjs-v2-kernel-determinism
+question: >
+  Whether vjs-core kernel must remain deterministic, model-free, and network-free?
 holding: Kernel must remain deterministic, model-free, and network-free.
 directives:
   - id: D1

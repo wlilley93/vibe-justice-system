@@ -6,6 +6,9 @@ court: privy_council
 jurisdiction: agent-universe-v2
 status: binding
 issue: court_machinery_vs_constitution_dividing_line
+question: >
+  Whether a measure constitutes a constitutional amendment or falls within the court machinery
+  power depends on whether it alters who sits, bench size, jurisdiction, or assent rules?
 holding: >
   Appeal dismissed; County Court AFFIRMED, 3-0. The dividing line is the
   constitutive-operation test. A measure touches the court CONSTITUTION only if it

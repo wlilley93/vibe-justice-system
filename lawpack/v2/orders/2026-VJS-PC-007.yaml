@@ -6,6 +6,9 @@ court: privy_council
 jurisdiction: agent-universe-v2
 status: binding
 issue: assent_construction
+question: >
+  Whether the Sovereign's immediate reply "go" to the digest-pinned presentment constitutes
+  express assent to the Realm Invariants and Machinery Instrument 2026?
 holding: >
   Assent found, 2-1. The Sovereign's entire and immediate reply "go", given in
   answer to a digest-pinned presentment stating that the draft alone remained

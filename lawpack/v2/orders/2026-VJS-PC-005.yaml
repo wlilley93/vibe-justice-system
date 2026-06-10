@@ -5,6 +5,9 @@ jurisdiction: default
 repo_code: VJS
 status: binding
 issue: governance.institutions-and-repos-house
+question: >
+  What is the constitutional status and role of Repos House as a jurisdiction registry and
+  certification authority?
 holding: >
   V2 Privy Council, 3-0 on substance. Repos House is retained as a lightweight,
   declarative, non-sovereign jurisdiction registry and certification ledger:

@@ -6,6 +6,9 @@ court: county
 jurisdiction: agent-universe-v2
 status: binding
 issue: court_machinery_vs_constitution
+question: >
+  Whether the order-schema extension and REG-COURT-RECORD-001 constitute valid court machinery
+  within operational competence?
 holding: >
   Operational limb disposed: the order-schema extension and REG-COURT-RECORD-001
   are court MACHINERY, within operational and subordinate (s.7) competence. The

@@ -5,6 +5,8 @@ jurisdiction: default
 repo_code: VJS
 status: binding
 issue: vjs-v2-court-structure
+question: >
+  Whether to establish a Court of Appeal in the V2 MVP architecture?
 holding: No Court of Appeal in V2 MVP.
 directives:
   - id: D1
