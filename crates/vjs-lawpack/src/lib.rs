@@ -300,6 +300,71 @@ pub struct Condition {
     pub all: Option<Vec<String>>,
 }
 
+/// Every authority id the lawpack defines (statutes + their sections,
+/// regulations, rules, orders, specs, invariants, decisions, obligations).
+pub fn defined_ids(lawpack: &Lawpack) -> std::collections::HashSet<String> {
+    let mut defined = std::collections::HashSet::new();
+    for statute in &lawpack.statutes {
+        defined.insert(statute.id.0.clone());
+        for section in &statute.sections {
+            defined.insert(section.id.0.clone());
+        }
+    }
+    for regulation in &lawpack.regulations {
+        defined.insert(regulation.id.0.clone());
+    }
+    for rule in &lawpack.rules {
+        defined.insert(rule.id.0.clone());
+    }
+    for order in &lawpack.orders {
+        defined.insert(order.id.clone());
+    }
+    for spec in &lawpack.specs {
+        defined.insert(spec.id.0.clone());
+    }
+    for invariant in &lawpack.invariants {
+        defined.insert(invariant.id.0.clone());
+    }
+    for decision in &lawpack.decisions {
+        defined.insert(decision.id.0.clone());
+    }
+    for obligation in &lawpack.obligations {
+        defined.insert(obligation.id.clone());
+    }
+    defined
+}
+
+/// Build the whole-lawpack facts the staged invariant evaluator needs. Reuses
+/// the validator's findings (so a check change in one place changes both) and
+/// reads the repo's `.vjs/config.toml` for the directory-roles and MCP checks.
+pub fn lawpack_facts(repo_root: &Path, lawpack: &Lawpack) -> LawpackFacts {
+    let report = LawpackValidator::validate(lawpack)
+        .unwrap_or(ValidationReport { ok: false, findings: Vec::new() });
+    let duplicate_ids = report.findings.iter().any(|f| f.code == "DUPLICATE_ID");
+    let duplicate_citations = report.findings.iter().any(|f| f.code == "CITATION_COLLISION");
+    let config = std::fs::read_to_string(repo_root.join(".vjs/config.toml")).unwrap_or_default();
+    // Every quoted path value under the roles config must stay inside the repo
+    // (no `..` escape, no absolute path outside the tree).
+    let directory_roles_resolve = config
+        .lines()
+        .filter(|l| l.contains('=') && l.contains('"'))
+        .filter_map(|l| l.split_once('='))
+        .map(|(_k, v)| v.trim().trim_matches('"').to_string())
+        .filter(|v| !v.is_empty())
+        .all(|v| !v.contains("..") && !Path::new(&v).is_absolute());
+    // MCP is local-first unless the config declares a public/non-loopback bind.
+    let mcp_local_first =
+        !config.contains("0.0.0.0") && !config.to_lowercase().contains("bind_public");
+    LawpackFacts {
+        validates: report.ok,
+        duplicate_ids,
+        duplicate_citations,
+        all_ids: defined_ids(lawpack),
+        mcp_local_first,
+        directory_roles_resolve,
+    }
+}
+
 pub struct LawpackValidator;
 
 impl LawpackValidator {
@@ -425,34 +490,7 @@ impl LawpackValidator {
         lawpack_dir: &Path,
         lawpack: &Lawpack,
     ) -> Result<Vec<ValidationFinding>, KernelError> {
-        let mut defined = std::collections::HashSet::new();
-        for statute in &lawpack.statutes {
-            defined.insert(statute.id.0.clone());
-            for section in &statute.sections {
-                defined.insert(section.id.0.clone());
-            }
-        }
-        for regulation in &lawpack.regulations {
-            defined.insert(regulation.id.0.clone());
-        }
-        for rule in &lawpack.rules {
-            defined.insert(rule.id.0.clone());
-        }
-        for order in &lawpack.orders {
-            defined.insert(order.id.clone());
-        }
-        for spec in &lawpack.specs {
-            defined.insert(spec.id.0.clone());
-        }
-        for invariant in &lawpack.invariants {
-            defined.insert(invariant.id.0.clone());
-        }
-        for decision in &lawpack.decisions {
-            defined.insert(decision.id.0.clone());
-        }
-        for obligation in &lawpack.obligations {
-            defined.insert(obligation.id.clone());
-        }
+        let defined = defined_ids(lawpack);
 
         let id_pattern = regex::Regex::new(
             r"\b((?:ACT|DEC|INV|OBL|SPEC|REG)-[A-Z0-9][A-Za-z0-9-]*[A-Za-z0-9](?::s\d+)?)",

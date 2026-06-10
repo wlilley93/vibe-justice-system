@@ -790,7 +790,8 @@ fn cmd_validate(
             });
             // Build repo state and evaluate invariants
             let repo_state = RepoScanner::build_repo_state(repo)?;
-            let invariant_report = evaluate_invariants(&repo_state, &lawpack.invariants)?;
+            let facts = vjs_lawpack::lawpack_facts(repo, &lawpack);
+            let invariant_report = evaluate_invariants(&repo_state, &lawpack.invariants, &facts)?;
             let mut invariant_failures = false;
             for finding in &invariant_report.findings {
                 if !finding.passed {
@@ -973,7 +974,8 @@ fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
 
     // Step 5: Invariant evaluation
     let repo_state = RepoScanner::build_repo_state(repo)?;
-    let invariant_report = evaluate_invariants(&repo_state, &lawpack.invariants)?;
+    let facts = vjs_lawpack::lawpack_facts(repo, &lawpack);
+    let invariant_report = evaluate_invariants(&repo_state, &lawpack.invariants, &facts)?;
     let invariant_ok = invariant_report.findings.iter().all(|f| f.passed);
     steps.push(CiStep {
         name: "invariant_eval".into(),
@@ -1956,12 +1958,11 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 // A record with no native V1 PDF renders as a webpage from its
                 // frozen source markdown, in the Gazette's own document style.
                 let mut archive_text = false;
-                if let Some(src) = s(it, "source_md").filter(|x| !x.is_empty()) {
-                    if let Ok(md) = std::fs::read_to_string(repo.join(&src)) {
+                if let Some(src) = s(it, "source_md").filter(|x| !x.is_empty())
+                    && let Ok(md) = std::fs::read_to_string(repo.join(&src)) {
                         texts.insert(v1_id.clone(), serde_json::json!({ "archive_md": md }));
                         archive_text = true;
                     }
-                }
                 let v1_id_for_doc = v1_id.clone();
                 items.push(serde_json::json!({
                     "id": v1_id,

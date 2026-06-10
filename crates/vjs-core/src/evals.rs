@@ -102,7 +102,10 @@ fn find<'a>(invariants: &'a [Invariant], id: &str) -> Option<&'a Invariant> {
 }
 
 fn passes(inv: &Invariant, state: &RepoState) -> bool {
-    let report = evaluate_invariants(state, std::slice::from_ref(inv)).expect("eval");
+    // These eval fixtures exercise the staged/content predicates on synthetic
+    // repo state; the whole-lawpack facts are permissive here by default.
+    let report = evaluate_invariants(state, std::slice::from_ref(inv), &crate::spec::LawpackFacts::default())
+        .expect("eval");
     report.findings.first().map(|f| f.passed).unwrap_or(false)
 }
 
