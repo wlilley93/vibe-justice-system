@@ -52,6 +52,10 @@
   #hits .hit.active, #hits .hit:hover { background:var(--cream); }
   #listToggle { pointer-events:auto; border:1px solid var(--ink); background:var(--paper); color:var(--ink);
     border-radius:7px; padding:.5rem .8rem; cursor:pointer; font-size:.82rem; }
+  #spreadctl { pointer-events:auto; display:flex; align-items:center; gap:.4rem; background:var(--paper);
+    border:1px solid var(--ink); border-radius:7px; padding:.35rem .7rem; font-size:.78rem; color:var(--muted); }
+  #spreadctl input[type=range] { width:108px; accent-color:var(--ink); }
+  @media (max-width: 720px) { #spreadctl { display:none; } }
   #focusbar { position:fixed; left:50%; bottom:18px; transform:translateX(-50%) translateY(8px); z-index:9;
     display:none; opacity:0; transition:opacity .15s ease, transform .15s ease;
     border:1px solid var(--ink); background:var(--ink); color:var(--cream); border-radius:999px;
@@ -138,7 +142,7 @@
     cursor:pointer; background:var(--paper); color:var(--tone); font-size:.72rem; }
   .tab.active { background:var(--tone); color:var(--cream); }
   .tone-v1.tab { --tone:var(--v1); } .tone-v2.tab { --tone:var(--v2); }
-  #legend label.slider { display:flex; align-items:center; gap:.5rem; margin-top:.5rem; justify-content:flex-end; }
+  #legend label.slider { display:flex; align-items:center; gap:.5rem; margin-top:.5rem; justify-content:flex-start; }
   #legend input[type=range] { width:120px; accent-color:var(--ink); }
 
   /* ---- estate dock, bottom right ---- */
@@ -153,7 +157,14 @@
   #panel .phead { padding:1rem 1.1rem .6rem; border-bottom:1px solid var(--rule); }
   #panel .pbody { padding: .8rem 1.1rem 2rem; overflow-y:auto; flex:1; }
   #panel .kicker { font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
-  #panel h2 { margin:.3rem 0 .15rem; font-size:1.28rem; line-height:1.25; color:var(--ink); }
+  #panel h2 { margin:.3rem 0 .15rem; font-size:1.28rem; line-height:1.25; color:var(--ink); flex:1; }
+  #panel .titlerow { display:flex; align-items:flex-start; gap:.5rem; }
+  #panel .openicon { flex:none; margin-top:.4rem; color:var(--muted); border:1px solid var(--rule);
+    border-radius:6px; padding:.2rem; background:#fff; display:flex; }
+  #panel .openicon:hover { color:var(--ink); border-color:var(--ink); }
+  #panel #p-recenter { font:inherit; font-size:.74rem; color:var(--muted); background:none; border:1px solid var(--rule);
+    border-radius:999px; padding:.1rem .55rem; margin-top:.4rem; cursor:pointer; }
+  #panel #p-recenter:hover { color:var(--ink); border-color:var(--ink); }
   #panel .cite { color:var(--muted); font-size:.83rem; }
   #panel .subject { color:var(--muted); font-size:.8rem; font-style:italic; margin-top:.15rem; }
   #panel .summary { font-size:.95rem; margin:.6rem 0; }
@@ -173,10 +184,10 @@
     font-size:1.5rem; line-height:1; background:none; border:none; }
   #panel .close:hover { color:var(--ink); }
   #panel .pbody { padding-bottom:1rem; }
-  .pcta { flex:none; display:block; text-align:center; margin:0; padding:.8rem 1rem;
-    background:var(--ink); color:var(--cream); text-decoration:none; font-size:.95rem; letter-spacing:.02em;
-    border-top:1px solid var(--ink); }
-  .pcta:hover { background:#243254; }
+  .pcta { flex:none; display:block; width:100%; text-align:center; margin:0; padding:1rem;
+    background:#000; color:#fff; text-decoration:none; font-size:1.02rem; font-weight:bold; letter-spacing:.03em;
+    border:none; }
+  .pcta:hover { background:#1a1a1a; }
   #trail { font-size:.72rem; color:var(--muted); margin-top:.3rem; }
   #trail span { cursor:pointer; }
   #trail span:hover { text-decoration:underline; color:var(--ink); }
@@ -246,6 +257,8 @@
     <div id="hits"></div>
   </div>
   <button id="listToggle" aria-pressed="false">Browse the list</button>
+  <label id="spreadctl" title="How far the map spreads"><span>Spread</span>
+    <input id="gravity" type="range" min="60" max="800" value="300" step="10" aria-label="Node spread"></label>
   <a class="gh" href="https://github.com/wlilley93/vibe-justice-system" title="The canonical repository" aria-label="The canonical repository on GitHub" style="pointer-events:auto;display:flex;align-items:center;color:var(--ink)">
     <svg viewBox="0 0 16 16" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
   </a>
@@ -279,8 +292,6 @@
         title="Derived authority lineage: the force a record holds from its enacting authority even when it never cites it">Lineage</button>
       <button class="tab active" id="labels-toggle" aria-pressed="true">Labels</button>
     </div>
-    <label class="slider">Spread <input id="gravity" type="range" min="40" max="420" value="170"
-      aria-label="Node spread"></label>
   </div>
 </details>
 
@@ -297,10 +308,20 @@
   <button class="close" onclick="closePanel()" aria-label="Close">&times;</button>
   <div class="phead">
     <div class="kicker" id="p-kicker"></div>
-    <h2 id="p-title"></h2>
+    <div class="titlerow">
+      <h2 id="p-title"></h2>
+      <a id="p-open" class="openicon" href="#" title="Open the full record" aria-label="Open the full record">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M14 4h6v6"></path><path d="M20 4l-9 9"></path>
+          <path d="M19 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6"></path>
+        </svg>
+      </a>
+    </div>
     <div class="chips" id="p-chips"></div>
     <div class="cite" id="p-cite"></div>
     <div class="subject" id="p-subject"></div>
+    <button id="p-recenter" onclick="recentreHere()" title="Centre the map on this record">&#9678; Re-centre here</button>
     <div id="trail"></div>
   </div>
   <div class="pbody">
@@ -401,7 +422,7 @@ function linkify(escaped) {
 }
 document.addEventListener('click', e => {
   const a = e.target.closest('a.lawref');
-  if (a) { e.preventDefault(); openPanel(a.dataset.id); }
+  if (a) { e.preventDefault(); openPanel(a.dataset.id, { recenter: true }); }
 });
 
 /* ---------- state ---------- */
@@ -465,7 +486,7 @@ const Graph = ForceGraph()(document.getElementById('graph'))
   .nodeCanvasObject((d, ctx, scale) => {
     // Screen-compensated radius: stars shrink in world units as you zoom in,
     // so close inspection shows structure, not blobs.
-    const base = Math.sqrt(2 + Math.min(10, (inbound.get(d.id) || 0) * 1.4)) * 2.4;
+    const base = Math.sqrt(2.4 + Math.min(12, (inbound.get(d.id) || 0) * 1.6)) * 3.0;
     const r = base / Math.pow(Math.max(scale, .4), .55);
     const t = tone(d);
     const isSel = selected === d.id, isHov = hovered === d.id;
@@ -486,10 +507,14 @@ const Graph = ForceGraph()(document.getElementById('graph'))
     } else {
       ctx.fillStyle = TONES[t];
       ctx.fill();
-      // a paper core keeps dense clusters readable
-      if (r > 3.4) {
+      // a crisp darker rim defines the node against the page
+      ctx.lineWidth = Math.max(1.1 / scale, .3);
+      ctx.strokeStyle = 'rgba(20,30,50,.55)';
+      ctx.stroke();
+      // a small paper core keeps the largest hubs readable, without washing out colour
+      if (r > 6) {
         ctx.beginPath();
-        ctx.arc(d.x, d.y, r * .42, 0, 2 * Math.PI);
+        ctx.arc(d.x, d.y, r * .3, 0, 2 * Math.PI);
         ctx.fillStyle = TONE_BG[t];
         ctx.fill();
       }
@@ -617,7 +642,7 @@ function applyGravity(v) {
   Graph.d3ReheatSimulation();
 }
 document.getElementById('gravity').addEventListener('input', e => applyGravity(+e.target.value));
-applyGravity(170);
+applyGravity(300);
 
 /* ---------- toggles, estates ---------- */
 function bindToggle(id, get, set) {
@@ -704,7 +729,7 @@ function renderList() {
           if (!other) continue;
           const btn = document.createElement('button');
           btn.textContent = other.title.length > 30 ? other.title.slice(0, 28) + '…' : other.title;
-          btn.addEventListener('click', e => { e.stopPropagation(); openPanel(cid); });
+          btn.addEventListener('click', e => { e.stopPropagation(); openPanel(cid, { recenter: true }); });
           line.appendChild(btn);
         }
         body.appendChild(line);
@@ -714,7 +739,7 @@ function renderList() {
       row.appendChild(det);
     }
 
-    row.onclick = () => openPanel(d.id);
+    row.onclick = () => openPanel(d.id, { recenter: true });
     row.addEventListener('mouseenter', () => {
       const r = row.getBoundingClientRect();
       showHoverCard(d, r.right + 10, r.top);
@@ -777,7 +802,7 @@ function renderHits() {
 function pickHit(id) {
   hitsEl.style.display = 'none';
   qEl.blur();
-  openPanel(id);
+  openPanel(id, { recenter: true });
 }
 qEl.addEventListener('input', e => {
   query = e.target.value.trim();
@@ -915,12 +940,12 @@ function linkSection(wrap, label, list, count) {
   for (const n of list) {
     const b = document.createElement('button');
     b.textContent = n.title;
-    b.addEventListener('click', () => openPanel(n.id));
+    b.addEventListener('click', () => openPanel(n.id, { recenter: true }));
     div.appendChild(b);
   }
   wrap.append(h, div);
 }
-function openPanel(id) {
+function openPanel(id, opts = {}) {
   const d = byId.get(id);
   if (!d) return;
   if (estate !== 'all' && d.estate !== estate) {
@@ -928,8 +953,11 @@ function openPanel(id) {
     document.querySelectorAll('[data-estate]').forEach(x =>
       x.classList.toggle('active', x.dataset.estate === 'all'));
   }
-  // focus the map on this node and its citations - the local map
-  if (focusId !== id) {
+  // Focus the local map only on a deliberate move (entering focus from the
+  // whole map, or an explicit re-centre / list / link). A graph node click
+  // while already focused just inspects - the map stays put.
+  const recenter = opts.recenter || focusId === null;
+  if (recenter && focusId !== id) {
     focusId = id;
     setData(true);
     document.getElementById('focusbar').classList.add('show');
@@ -974,7 +1002,7 @@ function openPanel(id) {
   const trailEl = document.getElementById('trail');
   trailEl.innerHTML = trail.length ? 'Trail: ' + trail.map(t =>
     `<span data-id="${esc(t)}">${esc(byId.get(t)?.title.slice(0, 26) || t)}</span>`).join(' &rsaquo; ') : '';
-  trailEl.querySelectorAll('span').forEach(s => s.onclick = () => openPanel(s.dataset.id));
+  trailEl.querySelectorAll('span').forEach(sp => sp.onclick = () => openPanel(sp.dataset.id, { recenter: true }));
 
   const pts = d.points || [];
   document.getElementById('p-points-wrap').style.display = pts.length ? '' : 'none';
@@ -1021,8 +1049,10 @@ function openPanel(id) {
   document.getElementById('p-links').innerHTML = links.join('');
 
   const cta = document.getElementById('p-cta');
-  cta.href = d.doc || ('law.html#' + encodeURIComponent(d.id));
-  cta.textContent = (d.pdf ? 'Open the record (PDF)' : 'Open the record') + ' \u2192';
+  const docHref = d.doc || ('law.html#' + encodeURIComponent(d.id));
+  cta.href = docHref;
+  cta.textContent = d.pdf ? 'Open Record (PDF)' : 'Open Record';
+  document.getElementById('p-open').href = docHref;
   document.getElementById('panel').classList.add('open');
   history.replaceState(null, '', '#' + encodeURIComponent(id));
   renderList();
@@ -1040,6 +1070,7 @@ function closePanel() {
   clearFocus();
   renderList();
 }
+function recentreHere() { if (selected) openPanel(selected, { recenter: true }); }
 function clearFocus() {
   if (!focusId) return;
   focusId = null;
