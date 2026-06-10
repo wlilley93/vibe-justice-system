@@ -1,0 +1,12 @@
+id: LOG-2026-06-10-124721
+time: 2026-06-10T12:47:21.079890348+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260610-124629
+decision: 'Terminology conforming on the Principal''s direction: every ''Royal Assent'' in the living canon now reads ''Sovereign Assent''. The realm''s enacted term has always been the Sovereign-assent floor (CASE-LAW s.23; assent_source: sovereign_assent); ''Royal'' was a V1-inherited label, and the Principal (who holds the office but is not a monarch) has directed it dropped. Changed across the constitutional statutes, the release-warrant and assent records, the courts-constitution order, the assent invariant and spec, and all gazette editorial and estate summaries; force, severity, and meaning are untouched (validation OK). The honoured archive is preserved faithful: the frozen V1 bill text (BILL-32, the V1 Computer-First Realm Act) still reads ''Royal Assent'' as the first generation wrote it, and is not rewritten; the Gazette''s data layer carries zero ''Royal'' and speaks in the realm''s current terms.'
+basis:
+- PERMIT-1781095589
+risk: low
+reversibility: easy
+court_required: false
+why: 'Principal: do not use ''Royal'' anywhere; conform the canon''s voice while honouring the archive''s own words.'

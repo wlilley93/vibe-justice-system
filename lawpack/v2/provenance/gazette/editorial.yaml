@@ -100,7 +100,7 @@ items:
     points:
     - Force derives from constitutive organ acts (Sovereign assent), not self-assertion; V2 silence does
       not revive V1
-    - Commencement requires Royal Assent (external, non-automatable, non-delegable); V2 commenced 2026-06-09
+    - Commencement requires Sovereign Assent (external, non-automatable, non-delegable); V2 commenced 2026-06-09
     - V2 is computer-first runtime with compact lawpack; record without kernel effect excluded from authority
       graph
     - 'Authority hierarchy: real-world law, Constitution, primary Acts, regulations, Supreme Court orders,
@@ -116,7 +116,7 @@ items:
       or statutory instrument, not restatement alone
     - Standing Committee may make subordinate regulations under Act; cannot amend the Act, constitution,
       primary Acts, or assent rule (anti-Henry VIII)
-    - Royal Assent is sole constitutive gate for primary/constitutional Acts; computational legislature
+    - Sovereign Assent is sole constitutive gate for primary/constitutional Acts; computational legislature
       may draft only, not expand competence
     - 'Protective floor non-derogable: real-world-law floor, rights/standing/due process, public/private
       boundary, restorative remedy'
@@ -864,13 +864,13 @@ items:
       as single central apex
     - Court of Appeal persists as tier but administratively non-convened in MVP; may be convened if appeal
       arises (not abolished)
-    - Gives effect to REALM-SC 10 handover order; force from migration Royal Assent
+    - Gives effect to REALM-SC 10 handover order; force from migration Sovereign Assent
     cites: []
   COMMENCEMENT-V2-0001:
-    summary: 'Sole external constitutive event: Royal Assent to Bill 32 on 2026-06-09; conditions precedent
+    summary: 'Sole external constitutive event: Sovereign Assent to Bill 32 on 2026-06-09; conditions precedent
       satisfied; V2 commenced.'
     points:
-    - 'Royal Assent: wholly antecedent external act through V1 route; sole constitutive gate; non-automatable,
+    - 'Sovereign Assent: wholly antecedent external act through V1 route; sole constitutive gate; non-automatable,
       non-presumable, non-delegable'
     - 'Assented text digest: sha256:8e1d3f516cb2aca8e044d8c73bdc6ededa91a47ca86b729eece06f7eee6b9a0c;
       sealed in bill-32-adopted-final-text.md'
@@ -881,7 +881,7 @@ items:
     cites:
     - ACT-COMPUTER-FIRST-REALM
   COMMENCEMENT-V2-0002:
-    summary: Framework Act and six subordinate regulations lodged after Royal Assent (2026-06-09); assented
+    summary: Framework Act and six subordinate regulations lodged after Sovereign Assent (2026-06-09); assented
       digests recorded; fresh lawpack lock.
     points:
     - 'Framework Act lodged with digest: sha256:90e843c1dbdcdb2e2c7026d1064a457cf7ea1dbfe80526eff96b1f7e03850470'

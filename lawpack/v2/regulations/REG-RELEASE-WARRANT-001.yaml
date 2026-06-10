@@ -8,7 +8,7 @@ text: >
   push, incorporating [2026] REALM-SI 7 as a V2 functional gate: it matches the
   target remote, ref, and SHA, runs the public/private boundary scan, and
   identifies the authorising instrument for any law-changing push. It is the
-  pre_push function hook (REG-HOOKS-001), NOT a Sovereign assent. Royal Assent is
+  pre_push function hook (REG-HOOKS-001), NOT a Sovereign assent. Sovereign Assent is
   the constitutive gate for LAW only and is not required again to publish law that
   is already assented. The only human element in a push is the Bill 14 / Bill 18
   irreversible-outward-act checkpoint, which may be a standing authorisation
