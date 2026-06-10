@@ -182,11 +182,17 @@
   .assoc-row .t { color:var(--ink); font-size:.92rem; }
   .assoc-row .c { margin-left:auto; color:var(--muted); font-size:.76rem; white-space:nowrap; }
 
+  .pdftools { display:flex; gap:.6rem; align-items:center; max-width:62rem; margin:0 auto .2rem; padding:.3rem 1.2rem 0; }
+  .pdftools a { font-size:.8rem; color:var(--ink); border:1px solid var(--rule); border-radius:6px;
+    background:var(--paper); padding:.22rem .6rem; text-decoration:none; }
+  .pdftools a:hover { border-color:var(--ink); }
+  .pdftools .lbl { font-size:.72rem; color:var(--muted); margin-right:.1rem; }
   @media print {
-    .bar, footer, .neigh, h2.sect.assoc { display:none !important; }
+    .bar, footer, .neigh, h2.sect.assoc, .docnav, .copycite, .pilcrow, .backbtn,
+    .pdftools { display:none !important; }
     body { background:#fff; }
     .facts, .pred, article table { background:#fff; }
-    main { max-width:none; padding:0; }
+    main, main.wide { max-width:none; padding:0; }
     a.lawref { text-decoration:none; color:#000; }
     @page { margin:2cm; }
   }
@@ -482,6 +488,7 @@ function assocSection(title, list) {
 }
 
 const DERIVED = new URLSearchParams(location.search).has('derived');
+const AS_PAGE = new URLSearchParams(location.search).has('page');
 
 function goBack() { if (history.length > 1) history.back(); else location.href = 'gazette.html'; }
 function copyText(text, btn) {
@@ -536,14 +543,19 @@ function render() {
     return;
   }
 
-  // the archive reads as its PDF, under the Gazette's chrome
-  if (d.pdf && !DERIVED) {
+  // a record with a PDF reads as its PDF, under the Gazette's chrome; court
+  // orders carry the machine YAML and the rendered page alongside as secondary
+  if (d.pdf && !DERIVED && !AS_PAGE) {
+    const secondary = [];
+    if (d.has_text) secondary.push(`<a href="law.html?page#${encodeURIComponent(d.id)}">Read as a page</a>`);
+    if (d.estate === 'v2' && d.path) secondary.push(`<a href="${esc(d.path)}">Machine record (YAML)</a>`);
     page.innerHTML = `<div class="pdfhead">
         <div class="kicker">${d.estate === 'v1' ? 'The honoured archive' : 'The living canon'}</div>
         <h1>${esc(d.title)}</h1>
         <div>${chipsFor(d)}</div>
         <div class="docmeta">${esc(d.citation || d.id)} &middot; ${esc(fmtDate(d.date))}${d.status ? ` &middot; <span class="tl ${statusKind(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : ''}</div>
       </div>
+      ${secondary.length ? `<div class="pdftools"><span class="lbl">Also:</span>${secondary.join('')}</div>` : ''}
       <div class="pdfwrap"><embed src="${esc(d.pdf)}" type="application/pdf"
         title="${esc(d.title)}"></div>
       <p style="text-align:center;font-size:.8rem;color:var(--muted)">If the document does not display,

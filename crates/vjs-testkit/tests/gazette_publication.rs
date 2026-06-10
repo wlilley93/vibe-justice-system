@@ -156,6 +156,25 @@ fn the_pages_are_archival_offline_and_self_hosted() {
 }
 
 #[test]
+fn court_orders_carry_a_pdf_and_the_machine_record() {
+    // The Principal's direction: court orders render as PDF, with the machine
+    // YAML standing alongside on the site.
+    let d = data();
+    for item in d["items"].as_array().unwrap() {
+        if item["kind"] != "order" {
+            continue;
+        }
+        let id = item["id"].as_str().unwrap();
+        let pdf = item["pdf"].as_str().unwrap_or_default();
+        assert_eq!(pdf, format!("pdfs/orders/{}.pdf", id), "{}: order renders as its PDF", id);
+        assert!(repo_root().join(pdf).exists(), "{}: the order PDF exists at {}", id, pdf);
+        // the machine YAML the page links as secondary is a real committed file
+        let path = item["path"].as_str().unwrap_or_default();
+        assert!(repo_root().join(path).exists(), "{}: the machine record exists at {}", id, path);
+    }
+}
+
+#[test]
 fn the_workplan_order_terms_hold_on_the_register() {
     // One GitHub link per page: the header logo, nothing else
     // ([2026] VJS-CC-AGENT-UNIVERSE-V2 13, forbidden list).

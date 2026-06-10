@@ -1878,6 +1878,16 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 "path": rel, "url": format!("{}{}", V2_BASE, rel),
             });
             item["doc"] = serde_json::Value::String(format!("law.html#{}", item["id"].as_str().unwrap_or("")));
+            // Court orders render as PDF (the machine YAML stands alongside as
+            // the secondary on the page). The PDF is a rendering of this very
+            // record, carried under pdfs/orders/.
+            if kind == "order" {
+                let id = item["id"].as_str().unwrap_or("");
+                let pdf_rel = format!("pdfs/orders/{}.pdf", id);
+                if repo.join(&pdf_rel).exists() {
+                    item["pdf"] = serde_json::Value::String(pdf_rel);
+                }
+            }
             if let Some(asrc) = s(&v, "assent_source").filter(|a| !a.is_empty()) {
                 item["assent_source"] = serde_json::Value::String(asrc);
             }

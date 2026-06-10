@@ -9,6 +9,17 @@
   <author><name>Vibe Justice System</name></author>
   <rights>Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001): force comes from the lawpack and the Sovereign's assent, never from publication or syndication.</rights>
   <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-COURTS-CONSTITUTION-001</id>
+    <title>Court Constitution (The Order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-COURTS-CONSTITUTION-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-COURTS-CONSTITUTION-001.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-10T00:00:00Z</updated>
+    <summary type="text">V2 courts expressly constituted with odd benches; County 1, Privy Council 3, Supreme Court 5/9; Court of Appeal persists but non-convened.</summary>
+  </entry>
+  <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-007</id>
     <title>Assent Construction for the Realm Invariants and Machinery Instrument 2026</title>
     <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-007"/>
@@ -20,6 +31,28 @@
     <summary type="text">Assent found 2-1: the Sovereign&apos;s &quot;go&quot;, in immediate answer to the sole digest-pinned presentment, commences the Realm Invariants Instrument.</summary>
   </entry>
   <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-COMPUTER-FIRST-REALM</id>
+    <title>Computer-First Realm Act 2026</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-COMPUTER-FIRST-REALM"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/08-computer-first-realm.yaml"/>
+    <category term="statute"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-10T00:00:00Z</updated>
+    <summary type="text">Founding constitutional Act declaring V2 a computer-first legal system with kernel-governed compact lawpack.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-CONSOLIDATION-FRAMEWORK</id>
+    <title>Realm Consolidation and Reconciliation Framework Act 2026</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-CONSOLIDATION-FRAMEWORK"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/09-consolidation-framework.yaml"/>
+    <category term="statute"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-10T00:00:00Z</updated>
+    <summary type="text">Consolidating constitutional Act restating V1 law, establishing subordinate regulation power, and protecting core principles.</summary>
+  </entry>
+  <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-REALM-INVARIANTS-001</id>
     <title>Realm Invariants and Machinery Instrument 2026</title>
     <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-REALM-INVARIANTS-001"/>
@@ -29,6 +62,17 @@
     <published>2026-06-10T00:00:00Z</published>
     <updated>2026-06-10T00:00:00Z</updated>
     <summary type="text">The kernel machinery of the realm, namely its invariants, obligations, agent rules, specifications, and decisions of record, is consolidated under this single instrument.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-RELEASE-WARRANT-001</id>
+    <title>Automated Release Warrant Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-RELEASE-WARRANT-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-RELEASE-WARRANT-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-10T00:00:00Z</updated>
+    <summary type="text">Release warrant is deterministic pre-push gate checking remote/ref/SHA, boundary scan, and authorising instrument.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-001</id>
@@ -172,17 +216,6 @@
     <published>2026-06-09T00:00:00Z</published>
     <updated>2026-06-09T00:00:00Z</updated>
     <summary type="text">Overnight run: execute the Principal&apos;s Gazette presentation mandate with derived PDFs for the 7 gaps, two-chip rule, compact header, gated commits, and morning acceptance on tests, live checks, screenshots and logs.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-COURTS-CONSTITUTION-001</id>
-    <title>Court Constitution (The Order)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-COURTS-CONSTITUTION-001"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-COURTS-CONSTITUTION-001.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-06-09T00:00:00Z</updated>
-    <summary type="text">V2 courts expressly constituted with odd benches; County 1, Privy Council 3, Supreme Court 5/9; Court of Appeal persists but non-convened.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-001</id>
@@ -337,28 +370,6 @@
     <published>2026-06-08T00:00:00Z</published>
     <updated>2026-06-09T00:00:00Z</updated>
     <summary type="text">Establishes local jurisdiction on VJS installation, default subscription to lawpack, and local variation rules.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-COMPUTER-FIRST-REALM</id>
-    <title>Computer-First Realm Act 2026</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-COMPUTER-FIRST-REALM"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/08-computer-first-realm.yaml"/>
-    <category term="statute"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-06-09T00:00:00Z</updated>
-    <summary type="text">Founding constitutional Act declaring V2 a computer-first legal system with kernel-governed compact lawpack.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-CONSOLIDATION-FRAMEWORK</id>
-    <title>Realm Consolidation and Reconciliation Framework Act 2026</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-CONSOLIDATION-FRAMEWORK"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/09-consolidation-framework.yaml"/>
-    <category term="statute"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-06-09T00:00:00Z</updated>
-    <summary type="text">Consolidating constitutional Act restating V1 law, establishing subordinate regulation power, and protecting core principles.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:BILL-32</id>
@@ -557,17 +568,6 @@
     <published>2026-06-09T00:00:00Z</published>
     <updated>2026-06-09T00:00:00Z</updated>
     <summary type="text">Operationalizes incorporation pipeline; V1 law crosses only by express incorporation record with validity finding.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-RELEASE-WARRANT-001</id>
-    <title>Automated Release Warrant Regulation</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-RELEASE-WARRANT-001"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-RELEASE-WARRANT-001.yaml"/>
-    <category term="regulation"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-06-09T00:00:00Z</updated>
-    <summary type="text">Release warrant is deterministic pre-push gate checking remote/ref/SHA, boundary scan, and authorising instrument.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-REPOS-HOUSE-001</id>
