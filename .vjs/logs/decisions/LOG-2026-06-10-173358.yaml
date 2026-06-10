@@ -1,0 +1,12 @@
+id: LOG-2026-06-10-173358
+time: 2026-06-10T17:33:58.897469404+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260610-173358
+decision: 'Fixed the register ordering. It was newest-first on DATE only (day granularity): items carried only a YYYY-MM-DD date (the git first-commit day), and same-day records fell back to a kind/id tiebreak, so the 25-plus records that all landed on 2026-06-10 were not in true chronological order. The generator already fetched the full committer timestamp (git %cI) but truncated it. Now it keeps the full timestamp and emits a sortable ''ts'' per item: the record''s declared created_at when it has one (the orders and regulations carry full timestamps), else the git commit time, else the day at midnight. The register (gazette.html) and the constellation list (index.html) sort newest-first on ts, so same-day records keep true newest-first (PC 9 17:30, PC 8 15:00, the CC order 14:00, the regulations 13:40, the instrument 10:20, PC 7 10:15, then the day-granular archive). The display date stays day-granular, and the Atom feed''s updated stays day-granular so the deterministic feed test holds. 71 tests, 0 clippy warnings.'
+basis:
+- PERMIT-1781112838
+risk: low
+reversibility: easy
+court_required: false
+why: The Principal asked whether the ordering uses time as well; it did not, and same-day records were mis-ordered; now sorted on the full timestamp, from git where the record does not declare one.

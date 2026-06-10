@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-10T17:17:24.422551309+00:00",
+  "generated_at": "2026-06-10T17:33:21.626349132+00:00",
   "items": [
     {
       "assent_source": "sovereign_assent",
@@ -28,6 +28,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Constitution and Sources of Authority Act",
+      "ts": "2026-06-08T23:11:27Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/01-authority.yaml"
     },
@@ -58,6 +59,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Courts and Orders Act",
+      "ts": "2026-06-08T23:11:27Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/02-courts-orders.yaml"
     },
@@ -88,6 +90,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Agent Duties and Route Act",
+      "ts": "2026-06-08T23:11:27Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/03-agent-duties.yaml"
     },
@@ -118,6 +121,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Records, Logs, Specs and Invariants Act",
+      "ts": "2026-06-08T23:11:27Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/04-records-logs-citations.yaml"
     },
@@ -148,6 +152,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Public and Private Boundary Act",
+      "ts": "2026-06-08T23:11:27Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/05-public-private-boundary.yaml"
     },
@@ -178,6 +183,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "External Acts and Release Authority Act",
+      "ts": "2026-06-08T23:11:27Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/06-external-acts.yaml"
     },
@@ -208,6 +214,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Federation and Local Sovereignty Act",
+      "ts": "2026-06-08T23:11:27Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/07-federation.yaml"
     },
@@ -243,6 +250,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Computer-First Realm Act 2026",
+      "ts": "2026-06-09T08:48:20Z",
       "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/08-computer-first-realm.yaml"
     },
@@ -273,6 +281,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Realm Consolidation and Reconciliation Framework Act 2026",
+      "ts": "2026-06-09T14:50:25Z",
       "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/09-consolidation-framework.yaml"
     },
@@ -301,6 +310,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Lawpack Manifest Regulation",
+      "ts": "2026-06-08T23:20:41Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-001.yaml"
     },
@@ -329,6 +339,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Directory Roles Regulation",
+      "ts": "2026-06-08T23:20:41Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-002.yaml"
     },
@@ -357,6 +368,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Citation and ID Regulation",
+      "ts": "2026-06-08T23:20:41Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-003.yaml"
     },
@@ -385,6 +397,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Route, Permit and Proof Regulation",
+      "ts": "2026-06-08T23:20:41Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-004.yaml"
     },
@@ -414,6 +427,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Word Limit Regulation",
+      "ts": "2026-06-08T23:20:41Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-005.yaml"
     },
@@ -442,6 +456,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Default Invariant Suite Regulation",
+      "ts": "2026-06-08T23:20:41Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-006.yaml"
     },
@@ -470,6 +485,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "MCP Safety Regulation",
+      "ts": "2026-06-08T23:20:41Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-007.yaml"
     },
@@ -498,6 +514,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Gazette and Archive Regulation",
+      "ts": "2026-06-08T23:20:41Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-008.yaml"
     },
@@ -527,6 +544,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Canonicalisation and Migration Regulation",
+      "ts": "2026-06-09T14:50:25Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-CANONICALISATION-MIGRATION-001.yaml"
     },
@@ -556,6 +574,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Court Record and Convening Regulation",
+      "ts": "2026-06-10T13:40:00Z",
       "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-COURT-RECORD-001.yaml"
     },
@@ -587,6 +606,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Development and Knowledge-Work Conduct Regulation",
+      "ts": "2026-06-10T13:40:00Z",
       "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-DEV-CONDUCT-001.yaml"
     },
@@ -617,6 +637,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Federation Coordination Regulation",
+      "ts": "2026-06-09T14:50:25Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-FEDERATION-COORDINATION-001.yaml"
     },
@@ -647,6 +668,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Gazette-Continuity and Publication Regulation",
+      "ts": "2026-06-09T14:50:25Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-GAZETTE-CONTINUITY-001.yaml"
     },
@@ -675,6 +697,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Functional Hook Regulation",
+      "ts": "2026-06-09T15:15:38Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-HOOKS-001.yaml"
     },
@@ -704,6 +727,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Local Sovereign Invocation Regulation",
+      "ts": "2026-06-09T15:22:23Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-INVOCATION-001.yaml"
     },
@@ -733,6 +757,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Lawpack Amendment and Legislative Intake Regulation",
+      "ts": "2026-06-08T23:40:06Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-LAWMAKING-001.yaml"
     },
@@ -762,6 +787,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Migration and Incorporation Regulation",
+      "ts": "2026-06-09T14:50:25Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-MIGRATION-INCORPORATION-001.yaml"
     },
@@ -792,6 +818,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Realm Invariants and Machinery Instrument 2026",
+      "ts": "2026-06-10T10:20:00Z",
       "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-REALM-INVARIANTS-001.yaml"
     },
@@ -822,6 +849,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Automated Release Warrant Regulation",
+      "ts": "2026-06-09T15:22:23Z",
       "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-RELEASE-WARRANT-001.yaml"
     },
@@ -857,6 +885,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Repos House, Certification, and the Two-Layer Registry Regulation",
+      "ts": "2026-06-09T19:10:56Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-REPOS-HOUSE-001.yaml"
     },
@@ -886,6 +915,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Repos Register and Subscription Regulation",
+      "ts": "2026-06-09T14:50:25Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-REPOS-REGISTER-001.yaml"
     },
@@ -916,6 +946,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Self-Convening and No-Fork-to-Principal Regulation",
+      "ts": "2026-06-09T15:15:38Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-SELF-CONVENE-001.yaml"
     },
@@ -946,6 +977,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Transition-Court and Continuity Regulation",
+      "ts": "2026-06-09T14:50:25Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-TRANSITION-CONTINUITY-001.yaml"
     },
@@ -976,6 +1008,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Governance (The Order)",
+      "ts": "2026-06-08T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-001.yaml"
     },
@@ -1007,6 +1040,7 @@
         "2026-VJS-BOOT-001"
       ],
       "title": "Archive (The Order)",
+      "ts": "2026-06-08T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-002.yaml"
     },
@@ -1038,6 +1072,7 @@
         "2026-VJS-BOOT-002"
       ],
       "title": "Court Structure (The Order)",
+      "ts": "2026-06-08T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-003.yaml"
     },
@@ -1069,6 +1104,7 @@
         "2026-VJS-BOOT-003"
       ],
       "title": "Logs (The Order)",
+      "ts": "2026-06-08T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-004.yaml"
     },
@@ -1100,6 +1136,7 @@
         "2026-VJS-BOOT-004"
       ],
       "title": "Mcp (The Order)",
+      "ts": "2026-06-08T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-005.yaml"
     },
@@ -1131,6 +1168,7 @@
         "2026-VJS-BOOT-005"
       ],
       "title": "Kernel Determinism (The Order)",
+      "ts": "2026-06-08T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-006.yaml"
     },
@@ -1162,6 +1200,7 @@
         "2026-VJS-BOOT-006"
       ],
       "title": "Invariants (The Order)",
+      "ts": "2026-06-08T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-007.yaml"
     },
@@ -1193,6 +1232,7 @@
         "2026-VJS-BOOT-007"
       ],
       "title": "Specs (The Order)",
+      "ts": "2026-06-08T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-008.yaml"
     },
@@ -1225,6 +1265,7 @@
         "2026-VJS-BOOT-008"
       ],
       "title": "Permits (The Order)",
+      "ts": "2026-06-08T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-009.yaml"
     },
@@ -1256,6 +1297,7 @@
         "2026-VJS-BOOT-009"
       ],
       "title": "Boundary (The Order)",
+      "ts": "2026-06-08T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-010.yaml"
     },
@@ -1287,6 +1329,7 @@
         "2026-VJS-BOOT-010"
       ],
       "title": "Alpha Hardening (The Order)",
+      "ts": "2026-06-08T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-011.yaml"
     },
@@ -1318,6 +1361,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Permit Enforcement Hardening Order",
+      "ts": "2026-06-08T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-012.yaml"
     },
@@ -1354,6 +1398,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Order-schema Court-record Extension and REG-COURT-RECORD-001 Machinery Order",
+      "ts": "2026-06-10T14:00:00Z",
       "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-ORDER-SCHEMA-001.yaml"
     },
@@ -1391,6 +1436,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Overnight Gazette Work Programme Order",
+      "ts": "2026-06-09T22:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-WORKPLAN-001.yaml"
     },
@@ -1427,6 +1473,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Court Constitution (The Order)",
+      "ts": "2026-06-09T08:48:20Z",
       "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-COURTS-CONSTITUTION-001.yaml"
     },
@@ -1467,6 +1514,7 @@
         "2026-VJS-COURTS-CONSTITUTION-001"
       ],
       "title": "Transition and Onboarding (The Order)",
+      "ts": "2026-06-09T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-001.yaml"
     },
@@ -1503,6 +1551,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Repository Topology (The Order)",
+      "ts": "2026-06-09T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-002.yaml"
     },
@@ -1542,6 +1591,7 @@
         "2026-VJS-PC-002"
       ],
       "title": "S23 sc10 Location (The Order)",
+      "ts": "2026-06-09T00:00:00Z",
       "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-003.yaml"
     },
@@ -1579,6 +1629,7 @@
         "2026-VJS-PC-003"
       ],
       "title": "Foundational Law Citation (The Order)",
+      "ts": "2026-06-09T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-004.yaml"
     },
@@ -1619,6 +1670,7 @@
         "2026-VJS-PC-004"
       ],
       "title": "Institutions and Repos House (The Order)",
+      "ts": "2026-06-09T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-005.yaml"
     },
@@ -1659,6 +1711,7 @@
         "2026-VJS-PC-005"
       ],
       "title": "Superrepo Self Invocation (The Order)",
+      "ts": "2026-06-09T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-006.yaml"
     },
@@ -1697,6 +1750,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Assent Construction for the Realm Invariants and Machinery Instrument 2026",
+      "ts": "2026-06-10T10:15:00Z",
       "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-007.yaml"
     },
@@ -1733,6 +1787,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "The Court Machinery Versus Court Constitution Dividing Line",
+      "ts": "2026-06-10T15:00:00Z",
       "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-008.yaml"
     },
@@ -1773,6 +1828,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "CASE-LAW Is V1; It May Not Be Cited as Binding V2 Authority",
+      "ts": "2026-06-10T17:30:00Z",
       "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-009.yaml"
     },
@@ -1812,6 +1868,7 @@
         "2026-VJS-PC-001"
       ],
       "title": "Federation Extraction Canonicalisation (The Order)",
+      "ts": "2026-06-09T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-001.yaml"
     },
@@ -1843,6 +1900,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-SC 1 - Tort Recast and Foundational Settlement",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-1.md"
     },
@@ -1873,6 +1931,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-SC 2 - Proactive Disclosure Obligation",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-2.md"
     },
@@ -1904,6 +1963,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-SC 3 - Six Procedural Reforms",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-3.md"
     },
@@ -1935,6 +1995,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-SC 4 - Odd Benches and Bench Constitution",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-4.md"
     },
@@ -1966,6 +2027,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-SC 5 - Unitary Court With Domain Divisions",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-5.md"
     },
@@ -1997,6 +2059,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-SC 6 - Distributed County Courts, Single Apex",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-6.md"
     },
@@ -2028,6 +2091,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-SC 7 - Pre-enactment Precedent Entry-by-entry Review",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-7.md"
     },
@@ -2059,6 +2123,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-SC 8 - Lexby Has No Law-making Authority",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-8.md"
     },
@@ -2090,6 +2155,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-SC 9 - External Law Supremacy Floor",
+      "ts": "2026-06-07T00:00:00Z",
       "updated": "2026-06-07",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-9.md"
     },
@@ -2122,6 +2188,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-SC 10 - The Founding Settlement",
+      "ts": "2026-06-09T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/supreme-court/2026-realm-sc-10.md"
     },
@@ -2153,6 +2220,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-CA 1 - s.8/s.5 Sequencing Dismissed",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/court-of-appeal/2026-realm-ca-1.md"
     },
@@ -2184,6 +2252,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-PC 1 - Alpha Release Fitness Test",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-1.md"
     },
@@ -2215,6 +2284,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-PC 4 - Token-free Retrieval Index Permitted",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-4.md"
     },
@@ -2247,6 +2317,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-PC 12 - Lexby Drafting Authority (Foundational)",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-12.md"
     },
@@ -2278,6 +2349,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-PC 13 - Agent Security Fork Reference",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-13.md"
     },
@@ -2309,6 +2381,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-PC 14 - County Court Formation Substance Rule",
+      "ts": "2026-06-07T00:00:00Z",
       "updated": "2026-06-07",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-14.md"
     },
@@ -2340,6 +2413,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-PC 15 - VJS Super-repo Constitutional Classification",
+      "ts": "2026-06-07T00:00:00Z",
       "updated": "2026-06-07",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-15.md"
     },
@@ -2371,6 +2445,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-PC 17 - Fork Sovereignty and Local Independence",
+      "ts": "2026-06-07T00:00:00Z",
       "updated": "2026-06-07",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-17.md"
     },
@@ -2402,6 +2477,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-PC 19 - Superrepo Changes Require Court Order",
+      "ts": "2026-06-07T00:00:00Z",
       "updated": "2026-06-07",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-19.md"
     },
@@ -2436,6 +2512,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-PC 24 - VJS V2 Founding and Continuity",
+      "ts": "2026-06-09T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Judicature/.justice/judgments/privy-council/2026-realm-pc-24.md"
     },
@@ -2465,6 +2542,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] Acts of Union",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/01-acts-of-union-2026.md"
     },
@@ -2496,6 +2574,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] Legislature of the Realm Act",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/02-legislature-of-the-realm-act-2026.md"
     },
@@ -2527,6 +2606,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] Enforcement, Sanctions and Compliance Act",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/13-enforcement-sanctions-and-compliance-act-2026.md"
     },
@@ -2558,6 +2638,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] Delegated Legislative Authority, Law Reform and Codification Act",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/14-delegated-legislative-authority-law-reform-and-codification-act-2026.md"
     },
@@ -2589,6 +2670,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] Neutral Citations and Law Reporting Act",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/16-neutral-citations-and-law-reporting-act-2026.md"
     },
@@ -2620,6 +2702,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] Autonomous Execution and Safety Act",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/18-autonomous-execution-and-safety-act-2026.md"
     },
@@ -2651,6 +2734,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] Repositories and Records Certification Act",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/20-repositories-and-records-certification-act-2026.md"
     },
@@ -2682,6 +2766,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] Security and Integrity Act",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/21-security-and-integrity-act-2026.md"
     },
@@ -2713,6 +2798,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] VJS Constitution and Machinery Act",
+      "ts": "2026-06-06T00:00:00Z",
       "updated": "2026-06-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/27-vjs-constitution-and-machinery-act-2026.md"
     },
@@ -2746,6 +2832,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] Computer-First Realm Act",
+      "ts": "2026-06-09T00:00:00Z",
       "updated": "2026-06-09",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/legislature/bills/32-computer-first-realm-act-2026.md"
     },
@@ -2778,6 +2865,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-SI 6 - Repositories House Instrument",
+      "ts": "2026-06-07T00:00:00Z",
       "updated": "2026-06-07",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/statutes/instruments/2026-realm-si-6-repositories-house.md"
     },
@@ -2813,6 +2901,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-SI 7 - Super-Repo Public Push and Post-Push Review",
+      "ts": "2026-06-07T00:00:00Z",
       "updated": "2026-06-07",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/statutes/instruments/2026-realm-si-7-super-repo-public-push-review.md"
     },
@@ -2848,6 +2937,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-SI 8 - Agent Lawfulness Hooks",
+      "ts": "2026-06-07T00:00:00Z",
       "updated": "2026-06-07",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/statutes/instruments/2026-realm-si-8-agent-lawfulness-hooks.md"
     },
@@ -2882,6 +2972,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-SI 9 - Gazette Graph Database",
+      "ts": "2026-06-07T00:00:00Z",
       "updated": "2026-06-07",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/statutes/instruments/2026-realm-si-9-gazette-graph-database.md"
     },
@@ -2917,6 +3008,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-SI 10 - Agent Lawfulness Hooks (Agent-Agnostic Amendment)",
+      "ts": "2026-06-07T00:00:00Z",
       "updated": "2026-06-07",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/statutes/instruments/2026-realm-si-10-agent-lawfulness-hooks-agent-agnostic-amendment.md"
     },
@@ -2952,6 +3044,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "[2026] REALM-SI 11 - Agent Lawfulness Hooks (Best-Efforts Trigger Amendment)",
+      "ts": "2026-06-07T00:00:00Z",
       "updated": "2026-06-07",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/v1/Legislature/statutes/instruments/2026-realm-si-11-agent-lawfulness-hooks-best-efforts-trigger-amendment.md"
     },
@@ -2990,6 +3083,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "The Server-of-Law and the Embeddable Governance Client",
+      "ts": "2026-06-10T00:00:00Z",
       "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/agent-universe/blob/master/Judicature/.justice/judgments/supreme-court/2026-realm-sc-11.md"
     }
@@ -3005,6 +3099,6 @@
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "1a33be46f47c887c2ee481aca7247a89d5fbc0af"
+    "source_commit": "e7e70d42e226984edeff2350f9a9806a1fe64c46"
   }
 }
