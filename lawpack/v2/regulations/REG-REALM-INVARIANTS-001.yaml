@@ -1,0 +1,36 @@
+id: REG-REALM-INVARIANTS-001
+assent_source: sovereign_assent
+title: Realm Invariants and Machinery Instrument 2026
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+created_at: "2026-06-10T10:20:00Z"
+text: >
+  The kernel machinery of the realm, namely its invariants, obligations,
+  agent rules, and specifications, is consolidated under this single
+  instrument. The machinery is maintained as the working schedules of this
+  instrument: the machine-checkable records under lawpack/v2/invariants,
+  lawpack/v2/obligations, lawpack/v2/rules, and lawpack/v2/specs. The
+  schedules carry force as part of this instrument and are loaded and
+  enforced by the kernel directly. They may be amended from time to time by
+  the established lawmaking route (route, permit, decision log, validation)
+  without separate registration in the Gazette: the Gazette registers this
+  instrument alone, and the schedules are read within it. This consolidation
+  is registration practice only; it does not alter the force, severity, or
+  effect of any scheduled record, each of which continues to trace its
+  authority to the Act or assent event that enacted it.
+kernel_effect:
+  defines:
+    gazette_registers: legislation_and_case_law_only
+    machinery_scheduled_under: REG-REALM-INVARIANTS-001
+    schedules:
+      - lawpack/v2/invariants
+      - lawpack/v2/obligations
+      - lawpack/v2/rules
+      - lawpack/v2/specs
+    schedule_amendment_route: route_permit_log_validate
+  must:
+    - load_and_enforce_schedules_directly
+    - read_schedules_within_this_instrument_in_the_gazette
+  must_not:
+    - register_scheduled_machinery_as_separate_gazette_items
+    - alter_force_or_severity_of_scheduled_records_by_consolidation

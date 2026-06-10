@@ -1674,6 +1674,12 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     // Full-text bodies for the in-place reader, id -> kind-specific body.
     let mut texts: std::collections::BTreeMap<String, serde_json::Value> =
         std::collections::BTreeMap::new();
+    // The Gazette registers legislation and case law only; the kernel
+    // machinery is scheduled under REG-REALM-INVARIANTS-001 and read within
+    // it (the instrument's own terms, assented per [2026] VJS-PC 7).
+    const MACHINERY_INSTRUMENT: &str = "REG-REALM-INVARIANTS-001";
+    const MACHINERY: [&str; 4] = ["invariant", "obligation", "rule", "spec"];
+    let mut schedules: Vec<serde_json::Value> = Vec::new();
 
     let kinds = [
         ("statutes", "statute"),
@@ -1852,6 +1858,14 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             } else {
                 citation
             };
+            if MACHINERY.contains(&kind) {
+                schedules.push(serde_json::json!({
+                    "id": id, "kind": kind, "title": title,
+                    "status": status, "summary": summary, "points": points,
+                    "path": rel,
+                }));
+                continue;
+            }
             let mut item = serde_json::json!({
                 "id": id, "title": title, "citation": citation, "kind": kind,
                 "court": court, "estate": "v2", "status": status, "date": date,
@@ -1881,6 +1895,32 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             }
             items.push(item);
             texts.insert(items.last().unwrap()["id"].as_str().unwrap().to_string(), text_body(kind, &v));
+        }
+    }
+
+    // The consolidating instrument carries its schedules in full, grouped by
+    // kind in schedule order ([2026] VJS-PC 7 D5).
+    schedules.sort_by(|a, b| {
+        let ord = |k: &str| MACHINERY.iter().position(|m| *m == k).unwrap_or(9);
+        ord(a["kind"].as_str().unwrap_or(""))
+            .cmp(&ord(b["kind"].as_str().unwrap_or("")))
+            .then(a["id"].as_str().cmp(&b["id"].as_str()))
+    });
+    if let Some(body) = texts.get_mut(MACHINERY_INSTRUMENT) {
+        let mut counts: std::collections::BTreeMap<String, usize> = Default::default();
+        for sch in &schedules {
+            *counts.entry(sch["kind"].as_str().unwrap_or("").to_string()).or_default() += 1;
+        }
+        body["schedules"] = serde_json::Value::Array(schedules.clone());
+        if let Some(item) = items.iter_mut().find(|i| i["id"] == MACHINERY_INSTRUMENT) {
+            let line = counts
+                .iter()
+                .map(|(k, n)| format!("{} {}s", n, k))
+                .collect::<Vec<_>>()
+                .join(", ");
+            if let Some(pts) = item["points"].as_array_mut() {
+                pts.push(serde_json::Value::String(format!("Schedules: {}", line)));
+            }
         }
     }
 

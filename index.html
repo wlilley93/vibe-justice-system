@@ -233,7 +233,6 @@
     <div class="row2">Supreme Court<span class="dot" style="background:var(--sc)"></span></div>
     <div class="row2">Privy Council<span class="dot" style="background:var(--pc)"></span></div>
     <div class="row2">First instance &amp; decisions<span class="dot" style="background:var(--first)"></span></div>
-    <div class="row2">Machinery<span class="dot" style="background:var(--submission)"></span></div>
     <div class="row2">The honoured archive = paper, dashed ring<span class="dot" style="background:var(--paper);border-color:var(--v1);border-style:dashed"></span></div>
     <div class="row2">citation<span class="edge" style="background:rgba(26,39,68,.55)"></span>
       &nbsp;lineage<span class="edge" style="background:rgba(61,127,189,.65)"></span>
@@ -241,8 +240,6 @@
     <div class="filterrow">
       <button class="tab active" id="lineage-toggle" aria-pressed="true"
         title="Derived authority lineage: the force a record holds from its enacting authority even when it never cites it">Lineage</button>
-      <button class="tab" id="machinery-toggle" aria-pressed="false"
-        title="Invariants, obligations, and specs: the kernel machinery, each bound to the statute book by its enacting law">Machinery</button>
       <button class="tab active" id="labels-toggle" aria-pressed="true">Labels</button>
     </div>
     <label class="slider">Spread <input id="gravity" type="range" min="40" max="420" value="170"
@@ -347,12 +344,11 @@ document.addEventListener('click', e => {
 });
 
 /* ---------- state ---------- */
-let estate = 'all', lineageOn = true, machineryOn = false, labelsOn = true;
+let estate = 'all', lineageOn = true, labelsOn = true;
 let query = '', selected = null, hovered = null, highlightIds = new Set();
 let trail = [];
 
 function visible(d) {
-  if (!machineryOn && tone(d) === 'submission') return false;
   return estate === 'all' || d.estate === estate;
 }
 function matchesQuery(d) {
@@ -536,7 +532,6 @@ function bindToggle(id, get, set) {
   };
 }
 bindToggle('lineage-toggle', () => lineageOn, v => lineageOn = v);
-bindToggle('machinery-toggle', () => machineryOn, v => machineryOn = v);
 bindToggle('labels-toggle', () => labelsOn, v => labelsOn = v);
 document.querySelectorAll('[data-estate]').forEach(b => b.onclick = () => {
   document.querySelectorAll('[data-estate]').forEach(x => x.classList.remove('active'));
@@ -788,12 +783,6 @@ function openPanel(id) {
   const d = byId.get(id);
   if (!d) return;
   let rebuild = false;
-  if (!machineryOn && tone(d) === 'submission') {
-    machineryOn = true;
-    const mt = document.getElementById('machinery-toggle');
-    mt.classList.add('active'); mt.setAttribute('aria-pressed', 'true');
-    rebuild = true;
-  }
   if (estate !== 'all' && d.estate !== estate) {
     estate = 'all';
     document.querySelectorAll('[data-estate]').forEach(x =>

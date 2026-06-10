@@ -37,12 +37,24 @@ fn every_law_object_is_published_and_every_edge_resolves() {
         );
     }
 
-    // Every lawpack object is an item: the Gazette is the whole record,
-    // not a curation (stale data after lawmaking fails here - rerun vjs gazette).
+    // Every lawpack object is published: legislation and case law as register
+    // items; the kernel machinery as schedules read within the Realm
+    // Invariants Instrument (REG-REALM-INVARIANTS-001, [2026] VJS-PC 7).
+    // Nothing is curated out of the record either way.
+    let text_raw = std::fs::read_to_string(repo_root().join("gazette-text.js")).unwrap();
+    let tstart = text_raw.find('{').unwrap();
+    let tend = text_raw.rfind('}').unwrap();
+    let texts: serde_json::Value =
+        serde_json::from_str(&text_raw[tstart..=tend].replace("<\\/", "</")).unwrap();
+    let scheduled: HashSet<String> = texts["REG-REALM-INVARIANTS-001"]["schedules"]
+        .as_array()
+        .map(|a| a.iter().map(|s| s["id"].as_str().unwrap().to_string()).collect())
+        .unwrap_or_default();
+
     let lawpack = repo_root().join("lawpack/v2");
-    for dir in [
-        "statutes", "regulations", "rules", "orders", "specs", "invariants", "decisions",
-        "obligations",
+    for (dir, machinery) in [
+        ("statutes", false), ("regulations", false), ("rules", true), ("orders", false),
+        ("specs", true), ("invariants", true), ("decisions", false), ("obligations", true),
     ] {
         let d = lawpack.join(dir);
         if !d.exists() {
@@ -59,12 +71,22 @@ fn every_law_object_is_published_and_every_edge_resolves() {
                 .find_map(|l| l.strip_prefix("id: "))
                 .map(|s| s.trim().trim_matches('"').to_string())
                 .unwrap_or_default();
-            assert!(
-                ids.contains(&id),
-                "law object '{}' ({}) is not published in gazette-data.js - rerun vjs gazette",
-                id,
-                p.display()
-            );
+            if machinery {
+                assert!(
+                    scheduled.contains(&id),
+                    "machinery '{}' ({}) is not carried in the instrument's schedules - rerun vjs gazette",
+                    id,
+                    p.display()
+                );
+                assert!(!ids.contains(&id), "machinery '{}' must not be a separate register item", id);
+            } else {
+                assert!(
+                    ids.contains(&id),
+                    "law object '{}' ({}) is not published in gazette-data.js - rerun vjs gazette",
+                    id,
+                    p.display()
+                );
+            }
         }
     }
 
