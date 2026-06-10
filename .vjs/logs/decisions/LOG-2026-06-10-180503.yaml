@@ -1,0 +1,12 @@
+id: LOG-2026-06-10-180503
+time: 2026-06-10T18:05:03.995551865+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260610-180503
+decision: 'Authored the upstream canon machinery the corporate sibling (Vibe Policy System) pins and cites, all subordinate law under the SI power with no fresh Sovereign assent. SPEC-KERNEL-002 (Embeddable jurisdiction-neutral kernel spec): one binary, two postures - the server-of-law the Realm runs behind the Gazette, and the embedded client a subscriber carries with a digest-pinned copy of the canon; it extends SPEC-KERNEL-001 (determinism) and fixes what the trusted computing base owns (the append-only hash-chained signed store; deterministic ID/citation issuance; the citator state machine; route and delegation as a pure replayable function with time and external facts as signed inputs; digest-pinned fail-closed load; the conformance runner; the lineage graph) and what it must never do (deliberate, draft, or judge merits). It is machinery under [2026] VJS-PC 8 and lives upstream per [2026] VJS-PC 10 D4. REG-KERNEL-001 adopts it (the binary is its enforcement; hooks are thin; every denial names its instrument). REG-CERTIFICATION-MARK-001 makes certification deterministic kernel output - a signed attestation that a pack release conforms to a pinned canon digest - so the open canon may be forked under licence but an uncertified or divergent thing may not be called certified; the mark protects integrity, the licence governs copying. 71 tests green, validation OK.'
+basis:
+- PERMIT-1781114703
+risk: low
+reversibility: easy
+court_required: false
+why: PC-10 directs the embeddable kernel spec to live upstream as machinery; the certification mark and naming back the corporate registry; all under the SI power, no fresh assent.

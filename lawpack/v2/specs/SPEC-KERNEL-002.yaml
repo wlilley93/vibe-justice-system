@@ -1,0 +1,84 @@
+id: SPEC-KERNEL-002
+title: Embeddable jurisdiction-neutral kernel spec
+scope:
+  paths:
+    - crates/vjs-core/**
+    - crates/vjs-lawpack/**
+    - crates/vjs-store/**
+    - crates/vjs-cli/**
+  action_kinds:
+    - implementation_decision
+    - dependency_change
+    - refactor
+  records:
+    - kernel
+owner: principal
+status: active
+
+purpose: >
+  Specify the kernel as a jurisdiction-neutral binary that serves two postures
+  from one implementation: the server-of-law (the Realm runs it behind the
+  Gazette) and the embedded client (a subscriber carries it with a digest-pinned
+  copy of the canon). It extends SPEC-KERNEL-001 (determinism, local-first,
+  model-free): that spec governs HOW the kernel computes; this one governs WHAT
+  the trusted computing base owns and the contract every caller relies on. It is
+  machinery under [2026] VJS-PC 8 (it alters no bench, tier, jurisdiction, or
+  assent rule) and lives upstream in the canon per [2026] VJS-PC 10 D4.
+
+mandate: >
+  The kernel OWNS, and is the only smart enforcement point for: the append-only,
+  content-addressed, hash-chained record store; signature creation and
+  verification; schema validation; deterministic ID and citation issuance; the
+  citator treatment state machine; route and delegation evaluation as a PURE
+  function (decision-class + role + evidence + clock -> allow | docket | deny),
+  with time and external facts entering as SIGNED inputs so any verdict is
+  replayable bit-for-bit; expiry clocks; quorum, composition, and model-pin
+  checks; digest-pinned subscription with fail-closed load (the kernel loads only
+  law that hashes to the pinned digest and refuses otherwise); the conformance
+  runner; and the lineage query engine. The kernel MUST NEVER deliberate, draft,
+  or judge merits: the bench is probabilistic, the machinery is deterministic.
+
+contract:
+  event_abi: >
+    Every hook is a thin shell that passes a typed event to the kernel and exits
+    on its verdict; the hook holds no logic, so there is one enforcement path to
+    audit. The ABI is versioned and frozen per kernel major.
+  error_with_citation: >
+    Every denial names the instrument that caused it (for example,
+    "DENY: POL-006 s.2, no valid change approval"). The kernel does not say no; it
+    says no and cites the law.
+  digest_pin: >
+    The embedded posture loads only law matching the pinned sha256 in
+    .vjs/lawpack.lock and fails closed; a pin bumps only on the subscriber's own
+    deliberate assent (the six conditions of [2026] VJS-PC 10).
+  lineage_graph: >
+    One content-addressed graph over the whole corpus (v1 archive, v2 canon, and
+    any subscriber pack): nodes are instruments, edges are typed (parent, cites,
+    supersedes, overrules, absorbs, referral). It resurrects the idea of the V1
+    Gazette Graph Database (REALM-SI 9, carried forward only as archival
+    inspiration, not as binding law) with the hard rule: index everything, merge
+    nothing; estates are write-isolated and no canon object may depend on a
+    subscriber object.
+  conformance: >
+    A set of golden vectors (the conformance scenarios) doubles as the kernel
+    test vectors; the suite is a condition of every kernel release.
+
+decisions:
+  - DEC-KERNEL-001
+  - DEC-KERNEL-002
+
+invariants:
+  - INV-KERNEL-001
+  - INV-KERNEL-002
+  - INV-KERNEL-003
+  - INV-013
+
+obligations:
+  - OBL-LOG-001
+  - OBL-TEST-001
+
+review_triggers:
+  - dependency_added
+  - schema_changed
+  - kernel_external_capability_required
+  - kernel_model_capability_required

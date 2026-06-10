@@ -1,0 +1,37 @@
+id: REG-KERNEL-001
+assent_source: standing_bounded_assent
+title: Embeddable Kernel Adoption Regulation
+authority: ACT-004:s3
+status: in_force
+created_at: "2026-06-10T18:20:00Z"
+text: >
+  The kernel adopts SPEC-KERNEL-002 (the embeddable jurisdiction-neutral kernel
+  spec) alongside SPEC-KERNEL-001 (determinism). One binary serves both postures:
+  the server-of-law, which the Realm runs behind the Gazette, and the embedded
+  client, which a subscriber carries with a digest-pinned copy of the canon. The
+  spec is machinery under [2026] VJS-PC 8 and lives upstream per [2026] VJS-PC 10
+  D4; this Regulation makes it the adopted design, the binary its enforcement.
+  The kernel is the only smart enforcement point: hooks are thin shells that pass
+  a typed event and exit on the verdict (REG-HOOKS-001 in spirit). Every denial
+  cites the instrument that caused it. The embedded posture loads only law that
+  hashes to the pinned digest in .vjs/lawpack.lock and fails closed; a pin bumps
+  only on the subscriber's own deliberate assent on the six conditions of
+  [2026] VJS-PC 10. The kernel never deliberates, drafts, or judges merits: the
+  bench is probabilistic, the machinery deterministic. This Regulation is
+  additive machinery; it amends no statute, no bench, no tier, and no assent rule.
+kernel_effect:
+  defines:
+    adopts_spec: SPEC-KERNEL-002
+    alongside: SPEC-KERNEL-001
+    postures: { server_of_law: realm_behind_the_gazette, embedded_client: subscriber_with_digest_pinned_canon }
+    only_smart_enforcement_point: true
+    error_with_citation: every_denial_names_the_instrument
+    embedded_load: digest_pinned_fail_closed
+  must:
+    - keep_hooks_thin_and_route_every_check_through_the_kernel
+    - load_only_law_that_hashes_to_the_pinned_digest_in_the_embedded_posture
+    - name_the_instrument_that_caused_every_denial
+  must_not:
+    - let_the_kernel_deliberate_draft_or_judge_merits
+    - bump_a_pinned_digest_without_the_subscribers_deliberate_assent
+    - place_kernel_checking_logic_inside_a_hook
