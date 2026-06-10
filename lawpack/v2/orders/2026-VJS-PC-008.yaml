@@ -1,0 +1,57 @@
+id: "2026-VJS-PC-008"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-PC 8"
+title: The court machinery versus court constitution dividing line
+court: privy_council
+jurisdiction: agent-universe-v2
+status: binding
+issue: court_machinery_vs_constitution_dividing_line
+holding: >
+  Appeal dismissed; County Court AFFIRMED, 3-0. The dividing line is the
+  constitutive-operation test. A measure touches the court CONSTITUTION only if it
+  alters who sits, the bench size or parity, the jurisdiction or tier of a court,
+  or the assent rule (2026-VJS-COURTS-CONSTITUTION-001; Framework Act s.10, s.25).
+  Everything else, including how a court records what it did, is MACHINERY within
+  the s.7 statutory-instrument power. The schema fields are optional,
+  serde-default, prospective, and validity-neutral: no field is a precondition of
+  a valid ruling, the 22 legacy orders load unchanged, and force still flows from
+  the deciding bench. Recording is not constituting. REG-COURT-RECORD-001 changes
+  no bench, jurisdiction, or assent source, so s.7 reaches it.
+directives:
+  - id: D1
+    actor: lexby
+    must: apply_the_constitutive_operation_test_constitution_only_if_it_alters_who_sits_bench_size_or_parity_jurisdiction_tier_or_the_assent_rule_else_machinery
+  - id: D2
+    actor: lexby
+    must: treat_court_record_schema_and_recording_duties_as_machinery_within_s7_when_optional_prospective_and_validity_neutral
+  - id: D3
+    actor: lexby
+    must: hold_a_schema_field_machinery_only_while_serde_default_and_no_field_is_a_precondition_of_a_valid_or_loadable_ruling
+  - id: D4
+    actor: lexby
+    must: route_to_primary_law_or_the_supreme_court_any_measure_that_makes_a_record_field_constitutive_of_validity
+  - id: D5
+    actor: lexby
+    must: record_this_appeal_affirming_2026_vjs_cc_order_schema_001_and_confirm_reg_court_record_001_stands_in_force
+forbidden:
+  - reclassifying_an_optional_prospective_recording_duty_as_a_constitutional_amendment
+  - making_any_court_record_field_a_precondition_of_a_valid_or_loadable_order_by_statutory_instrument
+  - altering_bench_size_parity_jurisdiction_tier_or_the_assent_rule_through_a_statutory_instrument
+  - invalidating_a_legacy_ruling_for_want_of_the_structured_fields
+  - treating_the_form_of_a_courts_output_as_constitutive_of_what_the_court_is
+supersedes: []
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-008-opinion.md"
+created_at: "2026-06-10T15:00:00Z"
+bench:
+  - Marchmont
+  - Tindale
+  - Rowanne
+vote: "3-0"
+convened_at: "2026-06-10T15:00:00Z"
+case_file_digest: "sha256:ef75c15bd569a142839c4520944f6cff25e2b169fc83f149846c9587110e7ba2"
+appeal_of: "2026-VJS-CC-ORDER-SCHEMA-001"
+appealable: true
+runtime_summary: >
+  Appeal dismissed 3-0; County Court affirmed. The dividing line is the
+  constitutive-operation test: constitution is who sits, bench size or parity,
+  jurisdiction, the assent rule; all else is machinery within s.7.

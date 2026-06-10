@@ -1,0 +1,43 @@
+id: SUBMISSION-2026-06-10-order-schema
+court_requested: county
+jurisdiction: agent-universe-v2
+question: >
+  Is extending the canonical order schema with optional structured court-record
+  fields (bench, case_file_digest, convened_at, vote, appeal_of, appealable, and
+  the promoted citation and assent_source) and enacting REG-COURT-RECORD-001 a
+  matter of court MACHINERY, within operational and subordinate (statutory
+  instrument) competence; or does it TOUCH the courts constitution
+  (2026-VJS-COURTS-CONSTITUTION-001) such that it is reserved to primary law or
+  a higher court?
+facts: >
+  Symmetric case file; the registrar's preference is not before the court.
+  FACTS: (1) The kernel's Order type was given new fields, all optional and
+  serde-default, recording the deciding bench and the sha256 of the symmetric
+  case file, plus convening time, vote, and appeal links; the existing 22 orders
+  load unchanged. (2) REG-COURT-RECORD-001 was made under ACT-CONSOLIDATION-
+  FRAMEWORK s.7 (the statutory-instrument power, standing bounded assent),
+  requiring future orders to record bench and case_file_digest, expressly
+  additive and prospective. (3) The courts constitution
+  (2026-VJS-COURTS-CONSTITUTION-001) fixes who sits, the bench sizes (County 1,
+  Privy Council 3, Supreme Court 5 expandable to 9), the tiers, and the
+  jurisdiction of each; s.7 forbids a statutory instrument amending the Act, the
+  constitution, any primary Act, or the assent rule (anti-Henry-VIII).
+  FOR MACHINERY: the change adds a recording duty and a data shape; it alters no
+  bench size, no jurisdiction, no who-sits, and not the assent rule; recording
+  what a court did is administration of the court, not its constitution; the s.7
+  power exists for exactly such subordinate machinery; the legacy orders are not
+  invalidated.
+  AGAINST (reserved): the order is the court's constitutive output, and the
+  schema of that output is arguably part of what a court constitutionally IS;
+  defining new required elements of a valid ruling could be read as adding to the
+  constitution of the court; if so, s.7 cannot reach it and it needs primary law
+  or the Supreme Court (the entrenched single apex, s.15).
+  The court is asked to settle the dividing line between court machinery and the
+  court constitution, and to dispose of the operational limb.
+requested_order: >
+  Settle whether the order-schema extension and REG-COURT-RECORD-001 are
+  machinery within operational/subordinate competence or reserved; dispose of
+  the operational limb; and, if a point of general constitutional importance
+  arises on the dividing line, grant permission to appeal to the Privy Council.
+private_boundary: local
+word_count: 320

@@ -1,0 +1,54 @@
+id: "2026-VJS-CC-ORDER-SCHEMA-001"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-CC-AGENT-UNIVERSE-V2 14"
+title: Order-schema court-record extension and REG-COURT-RECORD-001 machinery order
+court: county
+jurisdiction: agent-universe-v2
+status: binding
+issue: court_machinery_vs_constitution
+holding: >
+  Operational limb disposed: the order-schema extension and REG-COURT-RECORD-001
+  are court MACHINERY, within operational and subordinate (s.7) competence. The
+  new fields are optional, serde-default, and prospective; the 22 existing orders
+  load unchanged. The Regulation imposes only a recording duty and disclaims any
+  reach into bench sizes, who-sits, tier jurisdiction, or the assent rule, all of
+  which remain fixed by 2026-VJS-COURTS-CONSTITUTION-001 and the primary Acts.
+  Recording what a court did is administration of the court, not its constitution.
+  The case_file_digest and bench fields make rulings auditable without becoming a
+  validity condition that re-defines what a court constitutionally IS. The change
+  is valid as enacted.
+directives:
+  - id: D1
+    actor: lexby
+    must: record_the_deciding_bench_and_case_file_digest_on_every_new_order_from_reg_court_record_001_commencement
+  - id: D2
+    actor: lexby
+    must: pin_the_symmetric_case_file_digest_in_the_vjs_court_record_before_the_order_issues
+  - id: D3
+    actor: lexby
+    must: keep_every_new_court_record_field_optional_serde_default_so_the_existing_orders_load_unchanged
+  - id: D4
+    actor: lexby
+    must: treat_reg_court_record_001_as_additive_and_prospective_only
+  - id: D5
+    actor: lexby
+    must: route_any_change_to_bench_size_who_sits_tier_jurisdiction_or_the_assent_rule_to_primary_law_or_the_reserved_court
+forbidden:
+  - treating_a_missing_structured_field_as_invalidating_a_legacy_ruling
+  - using_the_s7_si_power_to_alter_bench_sizes_who_sits_tier_jurisdiction_or_the_assent_rule
+  - reading_reg_court_record_001_as_amending_2026_vjs_courts_constitution_001
+  - making_the_recording_duty_a_constitutive_validity_gate_that_redefines_what_a_court_is
+  - retroactively_applying_the_recording_duty_to_rulings_predating_commencement
+supersedes: []
+source_opinion: ".vjs/submissions/filed/2026-VJS-CC-ORDER-SCHEMA-001-opinion.md"
+created_at: "2026-06-10T14:00:00Z"
+bench:
+  - Ledgerward CCJ
+vote: "1-0"
+convened_at: "2026-06-10T14:00:00Z"
+case_file_digest: "sha256:ef75c15bd569a142839c4520944f6cff25e2b169fc83f149846c9587110e7ba2"
+appealable: true
+runtime_summary: >
+  Order-schema court-record fields and REG-COURT-RECORD-001 are court machinery,
+  valid under s.7: optional, prospective, recording-only, touching no bench size,
+  jurisdiction, or assent rule. Operational limb disposed; permission to appeal granted.
