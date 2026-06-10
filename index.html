@@ -682,15 +682,26 @@ function paras(text) {
   return String(text || '').split(/\n+/).filter(Boolean)
     .map(p => `<p>${linkify(esc(p))}</p>`).join('');
 }
+function plain(v, depth = 0) {
+  // write values properly: no braces, no quotes, no underscores
+  if (v == null) return '';
+  if (Array.isArray(v)) return v.map(x => plain(x, depth)).filter(Boolean)
+    .map(x => `<div style="padding-left:${depth * .8}rem">${x}</div>`).join('');
+  if (typeof v === 'object') return Object.entries(v).map(([k, x]) => {
+    const label = `<i>${esc(String(k).replace(/_/g, ' '))}</i>`;
+    if (x != null && typeof x === 'object')
+      return `<div style="padding-left:${depth * .8}rem">${label}:</div>${plain(x, depth + 1)}`;
+    return `<div style="padding-left:${depth * .8}rem">${label}: ${plain(x, depth)}</div>`;
+  }).join('');
+  if (typeof v === 'boolean') return v ? 'yes' : 'no';
+  return linkify(esc(String(v).replace(/_/g, ' ')));
+}
 function factsPanel(obj, skip = []) {
   if (!obj || typeof obj !== 'object') return '';
   let out = '';
   for (const [k, v] of Object.entries(obj)) {
     if (skip.includes(k) || v == null) continue;
-    out += `<b>${esc(k.replace(/_/g, ' '))}</b>`;
-    if (Array.isArray(v)) out += v.map(x => `<div>${linkify(esc(typeof x === 'object' ? JSON.stringify(x) : String(x).replace(/_/g, ' ')))}</div>`).join('');
-    else if (typeof v === 'object') out += `<div>${esc(JSON.stringify(v, null, 1))}</div>`;
-    else out += `<div>${linkify(esc(String(v).replace(/_/g, ' ')))}</div>`;
+    out += `<b>${esc(k.replace(/_/g, ' '))}</b>${plain(v)}`;
   }
   return out ? `<div class="facts">${out}</div>` : '';
 }
