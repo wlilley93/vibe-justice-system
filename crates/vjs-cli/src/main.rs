@@ -523,10 +523,12 @@ fn cmd_invoke(
         Err(e) => return Err(io(e)),
     };
 
-    // 2. lawpack.lock - pin the lawpack digest.
+    // 2. lawpack.lock - pin the lawpack digest. Canonical fields matching the
+    // one LawpackLock serde model (Bug A: the writer and reader no longer drift),
+    // including schema_version for the load-time version handshake (Bug C).
     let lock = format!(
-        "lawpack = \"{lp}\"\ndigest = \"{dig}\"\nlocked_at = \"{ts}\"\nlocked_by = \"{prin}\"\n",
-        lp = lawpack, dig = digest, ts = now_rfc, prin = principal,
+        "lawpack_id = \"{lp}\"\nlawpack_version = \"0.1.0\"\ndigest = \"{dig}\"\nschema_version = {sv}\ngenerated_at = \"{ts}\"\nlocked_by = \"{prin}\"\n",
+        lp = lawpack, dig = digest, sv = vjs_store::LOCK_SCHEMA_VERSION, ts = now_rfc, prin = principal,
     );
     std::fs::write(vjs_dir.join("lawpack.lock"), lock).map_err(io)?;
 

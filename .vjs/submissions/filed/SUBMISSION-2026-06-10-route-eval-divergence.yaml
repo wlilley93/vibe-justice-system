@@ -1,0 +1,52 @@
+id: SUBMISSION-2026-06-10-route-eval-divergence
+court_requested: county
+jurisdiction: agent-universe-v2
+question: >
+  The realm's own route eval-suite and the routing kernel disagree on two cases.
+  For a PublicRecordChange tagged "public_private.repo_facts" (risk medium,
+  public target) and an ExternalAct tagged "release.push" (risk low, external
+  target), the suite expects decision=allowed_with_conditions; the kernel returns
+  CourtRequired. Which routing is the law: are these routine significant acts
+  ALLOWED WITH CONDITIONS under their standing authorities, or are they
+  FIRST-IMPRESSION matters that must convene a court?
+facts: >
+  Symmetric case file; the registrar's preference is not before the court. The
+  realm's first machinery dispute, surfaced by a subscriber (opbox) and confirmed
+  to reproduce upstream. THE MACHINERY: court.rs detect_court_trigger holds a
+  matter "significant" when risk is not low, OR it is irreversible, public, or
+  external; a significant matter with NO on-point authority is FirstImpression ->
+  CourtRequired. DEC-006 ("no semantic authority matching") makes an authority
+  on-point ONLY by literal substring of the issue tag in the authority's id,
+  title, or summary. No authority's text contains the dotted tags
+  "public_private.repo_facts" or "release.push", so neither is on-point, so both
+  are significant-with-no-on-point -> CourtRequired. The eval cases
+  (evals.rs:330-396) assert allowed_with_conditions for both.
+  READING A (the kernel states the law): DEC-006 forbids semantic matching; an
+  issue tag is on-point only by literal substring. A significant act with no
+  literally-matching authority is genuinely first-impression by the settled rule.
+  In real use a public-record change or an external push tagged with an issue
+  that matches its governing authority (e.g. a tag carrying "boundary" or
+  "release warrant", or "federation", "permit", "assent") routes
+  allowed_with_conditions - and did so repeatedly this session. The eval's two
+  cases use namespaced tags that match nothing, so they are out of step with
+  DEC-006, not the kernel. Remedy: correct the eval to tag each case with a
+  governing authority (testing the real conditioned path) or to expect
+  CourtRequired. The permitted set does not change.
+  READING B (the eval states the law): routine public and external acts are
+  governed by standing authorities (the Public and Private Boundary Act ACT-005;
+  the Automated Release Warrant Regulation REG-RELEASE-WARRANT-001) and should be
+  allowed_with_conditions without a court, even when a dotted DOMAIN tag does not
+  literally match. The strict substring rule is too brittle for namespaced domain
+  tags. Remedy: make a significant act in a governed DOMAIN on-point (a recorded
+  domain->authority map, or a routing rule that a public_private.* tag is
+  governed by ACT-005 and a release.* tag by REG-RELEASE-WARRANT-001) ->
+  allowed_with_conditions. This softens DEC-006 for domain-prefixed tags.
+requested_order: >
+  Settle which routing is the law for these two cases, and direct the conforming
+  fix: either correct the eval to realistic governing-authority tags (Reading A),
+  or recognise governed-domain tags as on-point in routing (Reading B). Whichever
+  side conforms cites this ruling; the kernel and the eval are made consistent and
+  vjs local-ci goes green. Note the direction of the current drift (stricter,
+  fail-closed) is the safe direction for routing to drift.
+private_boundary: local
+word_count: 470

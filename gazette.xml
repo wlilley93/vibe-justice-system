@@ -20,6 +20,17 @@
     <summary type="text">Order-schema court-record fields and REG-COURT-RECORD-001 are court machinery, valid under s.7: optional, prospective, recording-only, touching no bench size, jurisdiction, or assent rule.</summary>
   </entry>
   <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-ROUTE-EVAL-001</id>
+    <title>Route-Eval Divergence; DEC-006 Substring Governs On-Point Authority</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-CC-ROUTE-EVAL-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-ROUTE-EVAL-001.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-10T00:00:00Z</published>
+    <updated>2026-06-10T00:00:00Z</updated>
+    <summary type="text">Kernel routing is correct under DEC-006; the eval used tags matching no authority.</summary>
+  </entry>
+  <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-COURTS-CONSTITUTION-001</id>
     <title>Court Constitution (The Order)</title>
     <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-COURTS-CONSTITUTION-001"/>
