@@ -125,7 +125,8 @@
   .longtitle { margin:.2rem 0 1rem; }
   .longtitle .lbl { font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
     margin-bottom:.15rem; }
-  .gapnote { color:var(--muted); font-size:.78rem; font-style:italic; }
+  .reserved { color:var(--muted); font-size:.88rem; margin:.5rem 0 .5rem .9rem; }
+  .tocres { display:block; color:var(--muted); padding:.1rem 0; }
   .assoc-row { display:flex; align-items:baseline; gap:.55rem; padding:.28rem 0;
     border-bottom:1px solid #eee6da; cursor:pointer; }
   .assoc-row:hover .t { text-decoration:underline; }
@@ -285,34 +286,30 @@ function renderBody(d, body) {
   if (!body) return '';
   switch (d.kind) {
     case 'statute': {
-      // the V1 bill form: the long title under its own label
+      // the V1 bill form: the long title under its own label, then the
+      // contiguous sections exactly as the delivery engine numbers them
       let out = body.purpose ? `<div class="longtitle"><div class="lbl">Long title</div>
         <div class="lead">${linkify(esc(body.purpose))}</div></div>` : '';
       const secs = body.sections || [];
-      const ordinal = sec => parseInt(((sec.id || '').split(':s').pop()), 10) || 0;
-      const gapNote = (a, b) => {
-        const from = ordinal(a) + 1, to = ordinal(b) - 1;
-        if (!a || from > to) return '';
-        return from === to
-          ? `s${from} is not carried in the enacted text`
-          : `ss ${from} to ${to} are not carried in the enacted text`;
-      };
       if (secs.length >= 4) {
-        out += `<nav class="toc">` + secs.map(sec =>
-          `<a href="#${encodeURIComponent(sec.id || '')}">${esc((sec.id || '').split(':').pop())} - ${esc(sec.title || '')}</a>`).join('') + `</nav>`;
-        const gaps = secs.slice(1).map((sec, i) => gapNote(secs[i], sec)).filter(Boolean);
-        if (gaps.length) out += `<p class="gapnote">The enacted text carries these sections only; ${esc(gaps.join('; '))}.</p>`;
+        out += `<nav class="toc"><div class="lbl" style="column-span:all;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.25rem">Contents</div>` +
+          secs.map(sec => {
+            const n = (sec.id || '').split(':').pop();
+            return sec.reserved
+              ? `<span class="tocres">${esc(n)} - Reserved</span>`
+              : `<a href="#${encodeURIComponent(sec.id || '')}">${esc(n)} - ${esc(sec.title || '')}</a>`;
+          }).join('') + `</nav>`;
       }
-      let prev = null;
       for (const sec of secs) {
         const n = (sec.id || '').split(':').pop();
-        const gap = prev ? gapNote(prev, sec) : '';
-        if (gap) out += `<p class="gapnote">[${esc(gap)}]</p>`;
+        if (sec.reserved) {
+          out += `<p class="reserved" id="sec:${esc(sec.id || '')}">${esc(n)}. Reserved.</p>`;
+          continue;
+        }
         out += `<section id="sec:${esc(sec.id || '')}"><h3>${esc(n)} - ${esc(sec.title || '')}
           <a class="pilcrow" data-sec="${esc(sec.id || '')}" title="Copy a citation to this section">&para;</a></h3>${paras(sec.text)}
           ${sec.commentary ? `<p class="commentary">${linkify(esc(sec.commentary))}</p>` : ''}
           ${factsPanel(sec.kernel_effect)}</section>`;
-        prev = sec;
       }
       return out;
     }
