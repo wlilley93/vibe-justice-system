@@ -1566,8 +1566,11 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                     return w.to_string();
                 }
                 let lower = w.to_lowercase();
-                // a bracket opens a new phrase: "(the Order)" reads "(The Order)"
-                if !w.starts_with('(')
+                // a bracket or a dash opens a new phrase: the first word of a
+                // subtitle ("... - the Founding Settlement") is capitalised
+                let after_break = i > 0 && words[i - 1] == "-";
+                if !after_break
+                    && !w.starts_with('(')
                     && i != 0
                     && i != last
                     && SMALL.contains(&lower.trim_matches(|c: char| !c.is_alphanumeric()))

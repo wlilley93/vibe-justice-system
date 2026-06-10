@@ -59,6 +59,38 @@
 
   /* the document */
   main { max-width:50rem; margin:0 auto; padding:1.4rem 1.2rem 4rem; }
+  main.wide { max-width:74rem; }
+
+  /* legislation.gov.uk-style layout: a sticky Contents rail and numbered
+     sections in a left gutter */
+  .legdoc { display:grid; grid-template-columns:16rem 1fr; gap:2.4rem; align-items:start; margin-top:1rem; }
+  .legdoc .contents { position:sticky; top:58px; align-self:start; max-height:calc(100vh - 76px); overflow:auto;
+    font-size:.85rem; padding-right:.4rem; }
+  .legdoc .contents .lbl { font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+    margin-bottom:.4rem; padding-bottom:.3rem; border-bottom:1px solid var(--rule); }
+  .legdoc .contents a { display:grid; grid-template-columns:2rem 1fr; gap:.4rem; padding:.2rem 0;
+    color:var(--ink); text-decoration:none; line-height:1.3; }
+  .legdoc .contents a .cn { color:var(--muted); text-align:right; }
+  .legdoc .contents a:hover { text-decoration:underline; }
+  .legdoc .contents a.active { font-weight:bold; }
+  .legdoc .contents a.active .cn { color:var(--ink); }
+  .legdoc .contents .res { color:var(--muted); }
+  .legbody { min-width:0; }
+  .leg-section { display:grid; grid-template-columns:2.6rem 1fr; gap:.7rem; margin:0 0 1.8rem;
+    scroll-margin-top:64px; }
+  .leg-section .num { text-align:right; color:var(--muted); font-size:1rem; padding-top:.15rem; }
+  .leg-section .num .pilcrow { display:block; margin:.15rem 0 0; font-size:.85rem; opacity:0; }
+  .leg-section:hover .num .pilcrow, .leg-section.flash .num .pilcrow { opacity:1; }
+  .leg-section .content h3 { margin:0 0 .4rem; font-size:1.12rem; color:var(--ink); line-height:1.3; }
+  .leg-section.flash .content h3 { color:var(--accent); }
+  .leg-section .content p { margin:.5rem 0; }
+  .leg-reserved { display:grid; grid-template-columns:2.6rem 1fr; gap:.7rem; margin:0 0 1rem; color:var(--muted); }
+  .leg-reserved .num { text-align:right; }
+  @media (max-width: 760px) {
+    .legdoc { grid-template-columns:1fr; gap:1rem; }
+    .legdoc .contents { position:static; max-height:none; border-bottom:1px solid var(--rule); padding-bottom:.6rem; }
+    .leg-section, .leg-reserved { grid-template-columns:2.2rem 1fr; gap:.5rem; }
+  }
   .kicker { font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
   h1 { margin:.25rem 0 .35rem; font-size:1.85rem; line-height:1.2; color:var(--ink); }
   .docmeta { color:var(--muted); font-size:.88rem; margin:.2rem 0 .1rem; }
@@ -338,32 +370,31 @@ function renderBody(d, body) {
   if (!body) return '';
   switch (d.kind) {
     case 'statute': {
-      // the V1 bill form: the long title under its own label, then the
-      // contiguous sections exactly as the delivery engine numbers them
-      let out = body.purpose ? `<div class="longtitle"><div class="lbl">Long title</div>
+      // legislation.gov.uk form: the long title, a sticky Contents rail, and
+      // contiguous sections numbered in a left gutter (Reserved where absent)
+      const lead = body.purpose ? `<div class="longtitle"><div class="lbl">Long title</div>
         <div class="lead">${linkify(esc(body.purpose))}</div></div>` : '';
       const secs = body.sections || [];
-      if (secs.length >= 4) {
-        out += `<nav class="toc"><div class="lbl" style="column-span:all;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.25rem">Contents</div>` +
-          secs.map(sec => {
-            const n = (sec.id || '').split(':').pop();
-            return sec.reserved
-              ? `<span class="tocres">${esc(n)} - Reserved</span>`
-              : `<a href="#${encodeURIComponent(sec.id || '')}">${esc(n)} - ${esc(sec.title || '')}</a>`;
-          }).join('') + `</nav>`;
-      }
+      const num = sec => (sec.id || '').split(':').pop().replace(/^s/, '');
+      const contents = `<nav class="contents"><div class="lbl">Contents</div>` +
+        secs.map(sec => sec.reserved
+          ? `<a class="res" href="#${encodeURIComponent(sec.id || '')}"><span class="cn">${esc(num(sec))}</span><span>Reserved</span></a>`
+          : `<a href="#${encodeURIComponent(sec.id || '')}" data-toc="${esc(sec.id || '')}"><span class="cn">${esc(num(sec))}</span><span>${esc(sec.title || '')}</span></a>`
+        ).join('') + `</nav>`;
+      let bodyHtml = '';
       for (const sec of secs) {
-        const n = (sec.id || '').split(':').pop();
+        const n = num(sec);
         if (sec.reserved) {
-          out += `<p class="reserved" id="sec:${esc(sec.id || '')}">${esc(n)}. Reserved.</p>`;
+          bodyHtml += `<div class="leg-reserved" id="sec:${esc(sec.id || '')}"><div class="num">${esc(n)}</div><div>Reserved.</div></div>`;
           continue;
         }
-        out += `<section id="sec:${esc(sec.id || '')}"><h3>${esc(n)} - ${esc(sec.title || '')}
-          <a class="pilcrow" data-sec="${esc(sec.id || '')}" title="Copy a citation to this section">&para;</a></h3>${paras(sec.text)}
-          ${sec.commentary ? `<p class="commentary">${linkify(esc(sec.commentary))}</p>` : ''}
-          ${factsPanel(sec.kernel_effect)}</section>`;
+        bodyHtml += `<div class="leg-section" id="sec:${esc(sec.id || '')}">
+          <div class="num">${esc(n)}<a class="pilcrow" data-sec="${esc(sec.id || '')}" title="Copy a citation to this section">&para;</a></div>
+          <div class="content"><h3>${esc(sec.title || '')}</h3>${paras(sec.text)}
+            ${sec.commentary ? `<p class="commentary">${linkify(esc(sec.commentary))}</p>` : ''}
+            ${factsPanel(sec.kernel_effect)}</div></div>`;
       }
-      return out;
+      return `${lead}<div class="legdoc">${contents}<div class="legbody">${bodyHtml}</div></div>`;
     }
     case 'regulation': {
       let out = `${body.authority ? `<p class="commentary">Made under ${linkify(esc(body.authority))}</p>` : ''}
@@ -535,7 +566,8 @@ function render() {
       const body = d.archive_text
         ? `<article class="archivedoc">${markdown(t && t.archive_md)}</article>`
         : `<article>${renderBody(d, t) || '<p class="commentary">No renderable text.</p>'}</article>`;
-      page.innerHTML = `<main>${head}${body}${assoc}${docNav(d)}</main>`;
+      const wide = d.kind === 'statute' ? ' class="wide"' : '';
+      page.innerHTML = `<main${wide}>${head}${body}${assoc}${docNav(d)}</main>`;
       const want = decodeURIComponent(location.hash.slice(1));
       if (want.includes(':')) {
         const el = document.getElementById('sec:' + want);
@@ -574,7 +606,7 @@ function wireAssoc() {
       const sec = document.getElementById('sec:' + a.dataset.sec);
       if (sec) sec.classList.add('flash');
     }));
-  document.querySelectorAll('.toc a').forEach(a =>
+  document.querySelectorAll('.contents a, .toc a').forEach(a =>
     a.addEventListener('click', e => {
       e.preventDefault();
       const sec = decodeURIComponent(a.getAttribute('href').slice(1));
@@ -582,6 +614,19 @@ function wireAssoc() {
       if (el) { el.classList.add('flash'); el.scrollIntoView({ block: 'start' }); }
       history.replaceState(null, '', '#' + encodeURIComponent(sec));
     }));
+  // gov.uk-style: the Contents rail tracks the section in view
+  const tocLinks = new Map([...document.querySelectorAll('.contents a[data-toc]')].map(a => [a.dataset.toc, a]));
+  if (tocLinks.size && 'IntersectionObserver' in window) {
+    const obs = new IntersectionObserver(entries => {
+      for (const en of entries) {
+        if (!en.isIntersecting) continue;
+        const sid = en.target.id.replace(/^sec:/, '');
+        tocLinks.forEach(l => l.classList.remove('active'));
+        tocLinks.get(sid)?.classList.add('active');
+      }
+    }, { rootMargin: '-60px 0px -70% 0px' });
+    document.querySelectorAll('.leg-section').forEach(el => obs.observe(el));
+  }
 }
 
 window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
