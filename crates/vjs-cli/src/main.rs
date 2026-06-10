@@ -1460,11 +1460,10 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     fn pick(v: &serde_yaml::Value, keys: &[&str]) -> serde_json::Value {
         let mut obj = serde_json::Map::new();
         for k in keys {
-            if let Some(x) = v.get(k) {
-                if !x.is_null() {
+            if let Some(x) = v.get(k)
+                && !x.is_null() {
                     obj.insert(k.to_string(), yaml_to_json(x));
                 }
-            }
         }
         serde_json::Value::Object(obj)
     }
@@ -1578,7 +1577,7 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 let mut cs = w.chars();
                 match cs.next() {
                     Some(f) if f.is_alphabetic() => f.to_uppercase().collect::<String>() + cs.as_str(),
-                    Some(f) if f == '(' => {
+                    Some('(') => {
                         // capitalise inside an opening bracket: "(the order)" -> "(The Order)"
                         let rest = cs.as_str();
                         let mut rc = rest.chars();
@@ -1986,15 +1985,14 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
         let mut by_subject: std::collections::BTreeMap<String, Vec<(String, String, usize)>> =
             std::collections::BTreeMap::new();
         for (idx, item) in items.iter().enumerate() {
-            if item["kind"] == "order" {
-                if let Some(subj) = item["subject"].as_str() {
+            if item["kind"] == "order"
+                && let Some(subj) = item["subject"].as_str() {
                     by_subject.entry(subject_family(subj)).or_default().push((
                         item["date"].as_str().unwrap_or_default().to_string(),
                         item["id"].as_str().unwrap_or_default().to_string(),
                         idx,
                     ));
                 }
-            }
         }
         for (_, mut chain) in by_subject {
             chain.sort();
@@ -2194,8 +2192,8 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     if let Ok(html) = std::fs::read_to_string(&gazette_page) {
         const START: &str = "<script type=\"application/ld+json\" id=\"gazette-jsonld\">";
         const END: &str = "</script>";
-        if let Some(s_idx) = html.find(START) {
-            if let Some(e_off) = html[s_idx + START.len()..].find(END) {
+        if let Some(s_idx) = html.find(START)
+            && let Some(e_off) = html[s_idx + START.len()..].find(END) {
                 let mut graph = vec![serde_json::json!({
                     "@type": "Periodical",
                     "name": "The VJS Gazette",
@@ -2225,7 +2223,6 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 );
                 std::fs::write(&gazette_page, new_html).map_err(io)?;
             }
-        }
     }
 
     if json {

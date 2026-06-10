@@ -38,4 +38,16 @@ The first generation, preserved and honoured. On the protected `v1` branch and t
 
 ---
 
+## Trust and verification
+
+Publication is constitutively inert; everything published here is verifiable against the assented record:
+
+- **The provenance colophon** on every page states the lawpack id, its digest, and the commit the data was generated from. Check the digest against `.vjs/lawpack.lock` on the canonical line.
+- **Machine-readable copies**: [`gazette-data.json`](gazette-data.json) (the register with treatment, lineage, and docket edges) and [`gazette.xml`](gazette.xml) (Atom; byte-stable when the law is unchanged, so subscribers see no synthetic churn).
+- **Documents**: every item opens at `law.html#<id>`. The archive reads as its V1 PDFs, served by the Gazette itself (`archive/pdfs/`; files suffixed `-derived.pdf` are Gazette renderings of the frozen v1-branch sources, marked as such on their face). The canon renders from `gazette-text.js`, which the delivery engine emits with contiguous section numbering: absent ordinals appear as Reserved, the positive drafting convention.
+- **Assent**: items show the `assent_source` their law declares; the Gazette never mints one. The schema.org graph on the register page deliberately omits `legislationLegalForce`.
+- **The whole pipeline is test-held**: a stale or unfaithful artifact fails the kernel's own suite (`cargo test --workspace`).
+
+---
+
 *This index is the canonical Gazette landing for the one line. An archive source resolves through the citation-map register (`lawpack/v2/provenance/citation-map/`).*
