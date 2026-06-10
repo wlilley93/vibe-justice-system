@@ -279,7 +279,7 @@ function card(d) {
   const t = tone(d);
   const sourceChip = d.court
     ? `<span class="chip tone-${t}" title="${esc(SOURCE_LABEL[d.court] || d.court)}">${esc(d.court.toUpperCase())}</span>`
-    : `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'Archive' : 'Canon'}</span>`;
+    : '';
   const metaBits = [d.citation, fmtDate(d.date)].filter(Boolean).map(esc).join(' &middot; ');
 
   const el = document.createElement('div');
