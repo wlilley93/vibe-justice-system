@@ -505,11 +505,36 @@ function neighbourOf(id, other) {
   return o && ((o.cites || []).includes(id) || (o.lineage || []).includes(id) || (o.thread || []).includes(id));
 }
 
+// Two constellations in one: the canon and the archive are distinct estates.
+// A custom x-force (no d3 global needed) pulls each estate to its own side in
+// 'Both' so they settle as two clusters bridged by the cross-estate lineage;
+// shown alone, each estate is framed as its own constellation.
+function estateXForce() {
+  let nodes = [];
+  const force = alpha => {
+    for (const n of nodes) {
+      const target = n.estate === 'v1' ? 280 : -280;
+      n.vx += (target - n.x) * 0.06 * alpha;
+    }
+  };
+  force.initialize = n => { nodes = n; };
+  return force;
+}
+const ESTATE_X = estateXForce();
+function applyEstateLayout() {
+  Graph.d3Force('estateX', estate === 'all' ? ESTATE_X : null);
+}
 // importance-first draw order so collision-avoided labels favour major law
-function setData() {
+function setData(refit) {
   const data = buildData();
   data.nodes.sort((a, b) => (inbound.get(b.id) || 0) - (inbound.get(a.id) || 0));
   Graph.graphData(data);
+  applyEstateLayout();
+  Graph.d3ReheatSimulation();
+  if (refit) {
+    let done = false;
+    Graph.onEngineStop(() => { if (!done) { done = true; Graph.zoomToFit(500, 60); } });
+  }
 }
 setData();
 
@@ -537,7 +562,7 @@ document.querySelectorAll('[data-estate]').forEach(b => b.onclick = () => {
   document.querySelectorAll('[data-estate]').forEach(x => x.classList.remove('active'));
   b.classList.add('active');
   estate = b.dataset.estate;
-  setData();
+  setData(true);
   renderList();
 });
 
@@ -903,7 +928,7 @@ if (location.hash) {
   const id = decodeURIComponent(location.hash.slice(1)).split(':')[0];
   setTimeout(() => openPanel(id), 700);
 } else {
-  // a composed first paint: settle briefly, then frame the whole record
+  // a composed first paint: settle, then frame the record
   let framed = false;
   Graph.onEngineStop(() => {
     if (framed) return;
@@ -911,6 +936,7 @@ if (location.hash) {
     Graph.zoomToFit(500, 70);
   });
 }
+applyEstateLayout();
 </script>
 </body>
 </html>
