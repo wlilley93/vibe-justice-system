@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-10T12:44:50.554973041+00:00",
+  "generated_at": "2026-06-10T12:46:54.019089592+00:00",
   "items": [
     {
       "assent_source": "sovereign_assent",
@@ -233,7 +233,7 @@
       "path": "lawpack/v2/statutes/08-computer-first-realm.yaml",
       "points": [
         "Force derives from constitutive organ acts (Sovereign assent), not self-assertion; V2 silence does not revive V1",
-        "Commencement requires Royal Assent (external, non-automatable, non-delegable); V2 commenced 2026-06-09",
+        "Commencement requires Sovereign Assent (external, non-automatable, non-delegable); V2 commenced 2026-06-09",
         "V2 is computer-first runtime with compact lawpack; record without kernel effect excluded from authority graph",
         "Authority hierarchy: real-world law, Constitution, primary Acts, regulations, Supreme Court orders, Privy Council orders, County orders, logs, incorporated V1",
         "Entrenched provisions (s.14, s.15, s.21) amendable only by Sovereign-assented constitutional Act citing section; agent cannot amend"
@@ -264,7 +264,7 @@
       "points": [
         "Schedule 1 V1 valid-law principles adopted as substrate; runtime force only via invariant, regulation, or statutory instrument, not restatement alone",
         "Standing Committee may make subordinate regulations under Act; cannot amend the Act, constitution, primary Acts, or assent rule (anti-Henry VIII)",
-        "Royal Assent is sole constitutive gate for primary/constitutional Acts; computational legislature may draft only, not expand competence",
+        "Sovereign Assent is sole constitutive gate for primary/constitutional Acts; computational legislature may draft only, not expand competence",
         "Protective floor non-derogable: real-world-law floor, rights/standing/due process, public/private boundary, restorative remedy",
         "Assent floor, apex-singleness, protective floor entrenched; amendable only by specific Sovereign assent citing provision"
       ],
@@ -1308,7 +1308,7 @@
         "Privy Council sits as odd bench of 3 over constitutional, jurisdiction, routing, public/private boundary matters at realm level",
         "Supreme Court sits as odd bench of 5, expandable to 9 for constitutional/foundational questions, as single central apex",
         "Court of Appeal persists as tier but administratively non-convened in MVP; may be convened if appeal arises (not abolished)",
-        "Gives effect to REALM-SC 10 handover order; force from migration Royal Assent"
+        "Gives effect to REALM-SC 10 handover order; force from migration Sovereign Assent"
       ],
       "status": "binding",
       "subject": "constitutional.court-constitution",
@@ -1918,7 +1918,7 @@
         "Settled V1-to-V2 migration; continuity construction; apex preserved",
         "Enacted CASE-LAW s. 23(1)-(6): Sovereign-assent floor and AI non-sovereignty",
         "V2 founding lawful only if runs through V1 organs",
-        "Royal Assent sole constitutive external gate",
+        "Sovereign Assent sole constitutive external gate",
         "Derived source edge (not authority); back-filled per VJS-PC 3"
       ],
       "status": "good-law",
@@ -2258,7 +2258,7 @@
       "path": "Legislature/legislature/bills/01-acts-of-union-2026.md",
       "pdf": "archive/pdfs/01-acts-of-union-2026.pdf",
       "points": [
-        "Royal Assent 2026-06-06",
+        "Sovereign Assent 2026-06-06",
         "Enacts Acts of Union; parliament is sovereign",
         "Amends CASE-LAW ss. 1, 2, 9, 10 by Schedule 1",
         "Statute sits above founding case-law settlement",
@@ -2290,7 +2290,7 @@
       "pdf": "archive/pdfs/02-legislature-of-the-realm-act-2026.pdf",
       "points": [
         "Constitutes Standing Committee as legislative body",
-        "Defines Bill-making procedures and Royal Assent requirements",
+        "Defines Bill-making procedures and Sovereign Assent requirements",
         "Establishes parliamentary procedures and orderly legislation",
         "Cited by REALM-SC 8, REALM-PC 12",
         "Core governance statute"
@@ -2542,7 +2542,7 @@
         "Establishes V2 as computer-first successor to V1 on continuity",
         "Cited by REALM-SC 10 (V1-to-V2 migration minute)",
         "Governs V2 founding conditions and handover",
-        "Royal Assent reserved to Sovereign",
+        "Sovereign Assent reserved to Sovereign",
         "Foundational for V2 founding"
       ],
       "status": "assented",
@@ -2771,6 +2771,6 @@
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "58990cf089d424ecc09e1c681be44e67d67832fa"
+    "source_commit": "fc0e14cbf7142f4d1c1bf7d59b0fc5b8a57403fb"
   }
 }

@@ -25,13 +25,13 @@ lawpack:
 # The [2026] REALM-SC 10 conditions precedent, each satisfied:
 conditions:
   - id: A
-    condition: "specific Royal Assent recorded against the final pinned text + digest"
+    condition: "specific Sovereign Assent recorded against the final pinned text + digest"
     satisfied: true
     evidence: "royal_assent above; assented_text_digest 8e1d3f51...6b9a0c; sealed at bill-32-adopted-final-text.md (this directory)"
   - id: B
     condition: "externally-anchored commencement sequence; no condition satisfiable by V2 machinery alone"
     satisfied: true
-    evidence: "Royal Assent is wholly antecedent and external; lawpack lock confirms digest-fidelity only"
+    evidence: "Sovereign Assent is wholly antecedent and external; lawpack lock confirms digest-fidelity only"
   - id: C
     condition: "always-on fail-closed kernel Assent-Source Invariant exists and passes, proven against a missing-field record and an unresolved-trace record (both rejected)"
     satisfied: true

@@ -54,7 +54,7 @@ commentary: |
 
   assent_source:
     kind: specific_assent | standing_bounded_assent
-    instrument: "Royal Assent Act 2026" | "Computer-First Realm Act" | etc.
+    instrument: "Sovereign Assent Act 2026" | "Computer-First Realm Act" | etc.
     date: "2026-06-08"
     signatory: "Sovereign" | "Committee" | "Court" | "Delegated Body"
     scope_limit: "V2 lawpack only" | "kernel regulations only" | etc.

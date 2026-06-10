@@ -14,7 +14,7 @@
 | Privy Council reference judgment | Defined the eight governing questions and the seventeen limits; referred up to the Supreme Court | **[2026] REALM-PC 24** |
 | Supreme Court settlement (full court of 9, DECLARATORY, unanimous 9-0) | Settled the migration; **enacted CASE-LAW s. 23(1)-(6)** [constitutional] (the Sovereign-assent floor and AI non-sovereignty); issued the express handover order | **[2026] REALM-SC 10** |
 | Standing Committee adoption | Adopted Bill 32 (the Computer-First Realm Act 2026) **4-0** at its second drafting round (after curing the Bill 27 s. 14(2) -> s. 15(2) entrenchment-citation defect); adoption is constitutive | Bill 32 (adopted) |
-| Royal Assent | GRANTED 2026-06-09: positive, specific, digest-pinned assent (V1 record: Legislature/legislature/2026-06-09-royal-assent-bill-32.md); CASE-LAW s. 23 in force; Bill 32 enacted | done |
+| Sovereign Assent | GRANTED 2026-06-09: positive, specific, digest-pinned assent (V1 record: Legislature/legislature/2026-06-09-royal-assent-bill-32.md); CASE-LAW s. 23 in force; Bill 32 enacted | done |
 
 **Adopted Bill 32 final-text digest (sha256):** `8e1d3f516cb2aca8e044d8c73bdc6ededa91a47ca86b729eece06f7eee6b9a0c`
 
@@ -28,7 +28,7 @@
 
 Per [2026] REALM-SC 10, commencement requires, and no commencement condition may be satisfiable by the V2 machinery alone:
 
-- **Gate A - the Sovereign's positive, specific, digest-pinned assent.** SATISFIED 2026-06-09: the Sovereign granted Royal Assent against the digest 8e1d3f51...6b9a0c; CASE-LAW s. 23 is in force and Bill 32 is enacted. The sealed adopted bytes (`bill-32-adopted-final-text.md`, this directory) reproduce the digest.
+- **Gate A - the Sovereign's positive, specific, digest-pinned assent.** SATISFIED 2026-06-09: the Sovereign granted Sovereign Assent against the digest 8e1d3f51...6b9a0c; CASE-LAW s. 23 is in force and Bill 32 is enacted. The sealed adopted bytes (`bill-32-adopted-final-text.md`, this directory) reproduce the digest.
 - **Gate B - the V2 commencement engineering.** SATISFIED 2026-06-09:
   1. The fail-closed Assent-Source Invariant is implemented (kernel predicate `assent_source_valid`, `crates/vjs-core/src/spec.rs`), recorded (`INV-ASSENT-SOURCE-001`, allow-list form superseding the void draft), and PROVEN (`crates/vjs-testkit/tests/assent_source_invariant.rs`, 7/7: missing-field and unresolved-trace rejected; valid forms admitted). Every runtime-force lawpack record carries a valid `assent_source`, so the invariant passes over the whole pack.
   2. The V2 courts are expressly constituted (`2026-VJS-COURTS-CONSTITUTION-001`: County 1, Privy Council 3, Supreme Court 5/9; Court of Appeal persisting, administratively non-convened).

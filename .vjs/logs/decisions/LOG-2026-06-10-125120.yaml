@@ -1,0 +1,12 @@
+id: LOG-2026-06-10-125120
+time: 2026-06-10T12:51:20.677921248+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260610-125120
+decision: 'Two changes, both checked by the gate. (1) The canon''s voice conforms to the realm''s enacted term: every ''Royal Assent'' now reads ''Sovereign Assent'' across the constitutional statutes, the assent records, the courts-constitution order, the assent invariant and spec, and all editorial and estate summaries; force and meaning untouched; the honoured archive''s own frozen V1 bill text is preserved as written. (2) A kernel correctness fix the change surfaced: a scoped invariant''s content predicates (field_equals, string_contains, import_contains) now examine only files within the invariant''s declared scope, not every staged file. INV-LAWMAKING-002 (scoped to statutes/regulations/rules) was tripping on a draft spec and a narrative doc that merely contain ''status: draft'' in prose; the path-aware predicates already self-filtered, these now do too. A real draft statute or regulation is still caught. 60 tests green.'
+basis:
+- PERMIT-1781095880
+risk: low
+reversibility: easy
+court_required: false
+why: Principal directed dropping 'Royal'; the gate's fail-closed catch was a crude-predicate false positive, fixed at the kernel so the law reads its own scope.

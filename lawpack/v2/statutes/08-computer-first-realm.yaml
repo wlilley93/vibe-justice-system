@@ -23,7 +23,7 @@ sections:
     title: Constitutional status and the constitutional relay
     text: >
       The force of this Act comes from the constitutive act of the Realm's
-      organs (the Committee's drafting and the Sovereign's Royal Assent on a
+      organs (the Committee's drafting and the Sovereign's Sovereign Assent on a
       Supreme Court settlement), never from the self-assertion of V2 or any
       agent. The agent-originated text was a void first draft cured by Assent.
     kernel_effect:
@@ -39,7 +39,7 @@ sections:
   - id: ACT-COMPUTER-FIRST-REALM:s3
     title: Commencement
     text: >
-      Commencement is a strict external-then-compiled sequence: Royal Assent
+      Commencement is a strict external-then-compiled sequence: Sovereign Assent
       under the V1 route is the sole, wholly antecedent and external
       legitimating act; lawpack validation, entry and lock confirm form and
       digest-fidelity only. No commencement condition is satisfiable by the V2
@@ -181,7 +181,7 @@ sections:
     commentary: constitutional
     text: >
       The sole constitutive gate for a V2 primary or constitutional Act is the
-      Sovereign's Royal Assent, which is non-automatable, non-presumable and
+      Sovereign's Sovereign Assent, which is non-automatable, non-presumable and
       non-delegable. The computational legislature may propose, draft, codify,
       consolidate and revise only; it is not sovereign, may not expand its own
       competence, may not amend the assent rule, and may not create force from

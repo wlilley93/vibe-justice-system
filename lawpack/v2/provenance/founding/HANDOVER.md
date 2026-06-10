@@ -28,7 +28,7 @@ Everything that crosses from V1 to V2 lands in exactly one of three layers:
 
 ### Layer 1: Provenance
 
-The proof of lawful birth. Records the V1 route: void first draft, Committee referral, Privy Council reference, Committee drafting, Privy Council ruling, Supreme Court settlement (if escalated), Sovereign consultation, Royal Assent, commencement.
+The proof of lawful birth. Records the V1 route: void first draft, Committee referral, Privy Council reference, Committee drafting, Privy Council ruling, Supreme Court settlement (if escalated), Sovereign consultation, Sovereign Assent, commencement.
 
 This layer is **not runtime law**. It is the chain of authority showing that V2 was lawfully founded.
 
@@ -59,7 +59,7 @@ The following V1 filings constitute the lawful migration process:
 | 7 | Privy Council ruling | pending | Defines the governing questions and confirms or varies limits |
 | 8 | Supreme Court settlement (if escalated) | pending | Express handover order: V2 self-governs after commencement |
 | 9 | Sovereign consultation | pending | Founder may overturn or affirm the Supreme Court ruling |
-| 10 | Royal Assent | pending | Sovereign enacts the constitutional Act |
+| 10 | Sovereign Assent | pending | Sovereign enacts the constitutional Act |
 | 11 | Commencement record | pending | All commencement conditions satisfied |
 
 ### 2.2 V1 authority chain
@@ -108,7 +108,7 @@ The Committee referral identified these issues that must be resolved before enac
 
 ## Part 3 - V2 settlement records
 
-These are the records that V2 receives as its founding constitutional law. They should be created in the V2 lawpack after the V1 process completes (Royal Assent + commencement conditions).
+These are the records that V2 receives as its founding constitutional law. They should be created in the V2 lawpack after the V1 process completes (Sovereign Assent + commencement conditions).
 
 ### 3.1 The Computer-First Realm Act (V2 statute)
 
@@ -1287,7 +1287,7 @@ status: pending
 requires:
   - id: R1
     condition: principal_assent
-    description: The Principal has granted Royal Assent to Bill 32
+    description: The Principal has granted Sovereign Assent to Bill 32
     satisfied: false
     evidence: null
 

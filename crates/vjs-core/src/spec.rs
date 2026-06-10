@@ -178,7 +178,7 @@ pub fn evaluate_invariants(
             None => true,
         };
         let result = if in_scope {
-            evaluate_predicate(&invariant.rule, repo_state)
+            evaluate_predicate(&invariant.rule, repo_state, invariant.scope.as_ref())
         } else {
             true
         };
@@ -199,15 +199,26 @@ pub fn evaluate_invariants(
     Ok(InvariantReport { findings })
 }
 
-fn evaluate_predicate(rule: &PredicateExpr, repo_state: &RepoState) -> bool {
+/// A scoped invariant's content predicates examine only the files within its
+/// declared scope. Without this, a content match (field_equals, string_contains)
+/// would scan every staged file and false-positive on unrelated records that
+/// merely quote the pattern in prose. An unscoped invariant scans everything.
+fn scope_allows(scope: Option<&Scope>, path: &std::path::Path) -> bool {
+    match scope.and_then(|s| s.paths.as_ref()) {
+        Some(paths) if !paths.is_empty() => paths.iter().any(|g| glob_matches(g, path)),
+        _ => true,
+    }
+}
+
+fn evaluate_predicate(rule: &PredicateExpr, repo_state: &RepoState, scope: Option<&Scope>) -> bool {
     match rule {
-        PredicateExpr::All { items } => items.iter().all(|item| evaluate_predicate(item, repo_state)),
-        PredicateExpr::Any { items } => items.iter().any(|item| evaluate_predicate(item, repo_state)),
-        PredicateExpr::None { items } => items.iter().all(|item| !evaluate_predicate(item, repo_state)),
-        PredicateExpr::Not { item } => !evaluate_predicate(item, repo_state),
+        PredicateExpr::All { items } => items.iter().all(|item| evaluate_predicate(item, repo_state, scope)),
+        PredicateExpr::Any { items } => items.iter().any(|item| evaluate_predicate(item, repo_state, scope)),
+        PredicateExpr::None { items } => items.iter().all(|item| !evaluate_predicate(item, repo_state, scope)),
+        PredicateExpr::Not { item } => !evaluate_predicate(item, repo_state, scope),
         PredicateExpr::If { condition, then } => {
-            if evaluate_predicate(condition, repo_state) {
-                evaluate_predicate(then, repo_state)
+            if evaluate_predicate(condition, repo_state, scope) {
+                evaluate_predicate(then, repo_state, scope)
             } else {
                 true // if condition is false, the implication is vacuously true
             }
@@ -224,12 +235,16 @@ fn evaluate_predicate(rule: &PredicateExpr, repo_state: &RepoState) -> bool {
         PredicateExpr::FileDeleted { pattern } => {
             repo_state.deleted_files.iter().any(|p| glob_matches(pattern, p))
         }
-        PredicateExpr::StringContains { value } => {
-            repo_state.file_contents.values().any(|content| content.contains(value))
-        }
-        PredicateExpr::ImportContains { value } => {
-            repo_state.file_contents.values().any(|content| content.contains(value))
-        }
+        PredicateExpr::StringContains { value } => repo_state
+            .file_contents
+            .iter()
+            .filter(|(p, _)| scope_allows(scope, p))
+            .any(|(_, content)| content.contains(value)),
+        PredicateExpr::ImportContains { value } => repo_state
+            .file_contents
+            .iter()
+            .filter(|(p, _)| scope_allows(scope, p))
+            .any(|(_, content)| content.contains(value)),
         PredicateExpr::DependencyAdded { name } => {
             repo_state.dependency_changes.iter().any(|c| c.name == *name && c.added)
         }
@@ -273,11 +288,15 @@ fn evaluate_predicate(rule: &PredicateExpr, repo_state: &RepoState) -> bool {
             true
         }
         PredicateExpr::FieldEquals { field, value } => {
-            // Check if any file content contains the field with the specified value
-            repo_state.file_contents.values().any(|content| {
-                let pattern = format!("{}: {}", field, value);
-                content.contains(&pattern)
-            })
+            // Only the files within the invariant's scope: a field check on a
+            // statute invariant must not trip on a draft spec or a narrative
+            // doc that merely contains "status: draft" in prose.
+            let pattern = format!("{}: {}", field, value);
+            repo_state
+                .file_contents
+                .iter()
+                .filter(|(p, _)| scope_allows(scope, p))
+                .any(|(_, content)| content.contains(&pattern))
         }
         PredicateExpr::IncludedInRuntimeAuthorityGraph => {
             // Simplified: always true for now

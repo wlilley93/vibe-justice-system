@@ -2,7 +2,7 @@
 
 **status:** draft
 **assent_source:** pending_v1_constitutional_route
-**binding:** NO. This is a Committee drafting input for the Computer-First Realm Act (proposed Bill 32). It carries no force. It becomes law only if the Supreme Court settlement (running in another flow, leapfrogged by [2026] REALM-PC 24) permits the founding, the Standing Committee drafts it, and the Sovereign Founder grants Royal Assent (Bill 2 s.21).
+**binding:** NO. This is a Committee drafting input for the Computer-First Realm Act (proposed Bill 32). It carries no force. It becomes law only if the Supreme Court settlement (running in another flow, leapfrogged by [2026] REALM-PC 24) permits the founding, the Standing Committee drafts it, and the Sovereign Founder grants Sovereign Assent (Bill 2 s.21).
 
 ---
 
