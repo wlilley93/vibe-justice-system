@@ -255,8 +255,10 @@ function sorted(list) {
   const byKind = (a, b) =>
     ((KIND_ORDER[a.kind] ?? 9) - (KIND_ORDER[b.kind] ?? 9)) ||
     a.id.localeCompare(b.id, undefined, { numeric: true });
-  const byDateDesc = (a, b) => (b.date || '').localeCompare(a.date || '') || byKind(a, b);
-  const byDateAsc = (a, b) => (a.date || '').localeCompare(b.date || '') || byKind(a, b);
+  // sort on the full timestamp (ts) so same-day records keep true newest-first
+  const tsOf = d => d.ts || ((d.date || '') + 'T00:00:00Z');
+  const byDateDesc = (a, b) => tsOf(b).localeCompare(tsOf(a)) || byKind(a, b);
+  const byDateAsc = (a, b) => tsOf(a).localeCompare(tsOf(b)) || byKind(a, b);
   if (sortMode === 'timeline') return [...list].sort(byDateDesc);
   if (sortMode === 'oldest') return [...list].sort((a, b) => archiveFirst(a, b) || byDateAsc(a, b));
   if (sortMode === 'kind') return [...list].sort((a, b) => byKind(a, b) || canonFirst(a, b) || byDateAsc(a, b));

@@ -705,7 +705,8 @@ function listSorted(arr) {
     a.id.localeCompare(b.id, undefined, { numeric: true });
   if (lsort === 'kind') return [...arr].sort((a, b) => byKind(a, b) || canonFirst(a, b));
   if (lsort === 'cited') return [...arr].sort((a, b) => (inbound.get(b.id) || 0) - (inbound.get(a.id) || 0));
-  return [...arr].sort((a, b) => canonFirst(a, b) || (b.date || '').localeCompare(a.date || '') || byKind(a, b));
+  const tsOf = d => d.ts || ((d.date || '') + 'T00:00:00Z');
+  return [...arr].sort((a, b) => canonFirst(a, b) || tsOf(b).localeCompare(tsOf(a)) || byKind(a, b));
 }
 const KIND_ORDER = { statute:0, act:0, regulation:1, instrument:1, rule:2, order:3, judgment:3,
   decision:4, invariant:5, obligation:6, spec:7 };

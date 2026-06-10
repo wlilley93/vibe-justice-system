@@ -1750,7 +1750,9 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             let mut current = String::new();
             for line in text.lines() {
                 if let Some(ts) = line.strip_prefix('\u{1}') {
-                    current = ts.split('T').next().unwrap_or("").to_string();
+                    // keep the full committer timestamp (%cI); the day is derived
+                    // where a date-only display is wanted
+                    current = ts.to_string();
                 } else if !line.is_empty() && !current.is_empty() {
                     map.entry(line.to_string()).or_insert_with(|| current.clone());
                 }
@@ -1957,11 +1959,21 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             cites.retain(|c| *c != id);
 
             let rel = format!("lawpack/v2/{}/{}", dir, path.file_name().unwrap().to_string_lossy());
-            let date = s(&v, "created_at")
-                .map(|c| c.split('T').next().unwrap_or("").trim_matches('"').to_string())
-                .filter(|c| !c.is_empty())
+            let day = |s: &str| s.split('T').next().unwrap_or("").trim_matches('"').to_string();
+            // Full-precision sort key: the record's declared created_at if it has
+            // one, else the git commit timestamp, else the day at midnight. The
+            // register orders newest-first on this, so same-day records keep
+            // their true chronological order, not a kind tiebreak.
+            let ts = s(&v, "created_at")
+                .filter(|c| c.contains('T'))
                 .or_else(|| added_at.get(&rel).cloned())
                 .unwrap_or_default();
+            let date = s(&v, "created_at")
+                .map(|c| day(&c))
+                .filter(|c| !c.is_empty())
+                .or_else(|| added_at.get(&rel).map(|t| day(t)))
+                .unwrap_or_default();
+            let ts = if ts.contains('T') { ts } else { format!("{}T00:00:00Z", date) };
             let citation = if citation.is_empty() && kind == "order" {
                 derive_order_citation(&id).unwrap_or_default()
             } else {
@@ -1977,7 +1989,7 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             }
             let mut item = serde_json::json!({
                 "id": id, "title": title, "citation": citation, "kind": kind,
-                "court": court, "estate": "v2", "status": status, "date": date,
+                "court": court, "estate": "v2", "status": status, "date": date, "ts": ts,
                 "summary": summary, "points": points, "cites": cites,
                 "supersedes": str_list(&v, "supersedes"),
                 "has_text": true,
@@ -1998,7 +2010,7 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 item["assent_source"] = serde_json::Value::String(asrc);
             }
             item["updated"] = serde_json::Value::String(
-                updated_at.get(&rel).cloned().unwrap_or_else(|| date.clone()),
+                updated_at.get(&rel).map(|t| day(t)).unwrap_or_else(|| date.clone()),
             );
             // A case's subject: the problem it was defined against.
             if kind == "order" {
@@ -2077,6 +2089,7 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                     "estate": "v1",
                     "status": s(it, "status").unwrap_or_default(),
                     "date": s(it, "date").unwrap_or_default(),
+                    "ts": format!("{}T00:00:00Z", s(it, "date").unwrap_or_default()),
                     "summary": s(it, "summary").unwrap_or_default(),
                     "points": str_list(it, "points"),
                     "cites": str_list(it, "cites"),
