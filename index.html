@@ -113,6 +113,8 @@
     padding:.05rem .45rem; border-radius:10px; border:1px solid var(--rule); color:var(--muted);
     background:#fff; }
   .tl.live { background:#1fd13f; color:#08350f; border-color:#16a832; }
+  .tl.assent { background:#cdf3d6; color:#0a5224; border-color:#5cbf80; }
+  .tl.arch { background:#f1ece1; color:#6b5b3a; border-color:#cdbf9c; }
   .tl.bad  { background:#fbe3e3; color:#a01010; border-color:#c0392b; }
   .tl.pend { background:#fff2d6; color:#8a5a00; border-color:#d99b1f; }
 
@@ -296,8 +298,8 @@
 </details>
 
 <div id="estates" role="group" aria-label="Estate filter">
-  <button class="tab active" data-estate="all">Both estates</button>
-  <button class="tab tone-v2" data-estate="v2">Canon</button>
+  <button class="tab" data-estate="all">Both estates</button>
+  <button class="tab tone-v2 active" data-estate="v2">Canon</button>
   <button class="tab tone-v1" data-estate="v1">Archive</button>
 </div>
 
@@ -389,6 +391,14 @@ function statusKind(s) {
   return '';
 }
 function statusPill(s) { return s ? `<span class="tl ${statusKind(s)}">${esc(s.replace(/[_-]/g, ' '))}</span>` : ''; }
+function statusChip(d) {
+  // the honoured archive reads 'archived' (no live good-law); canon reads its
+  // traffic-light status and, if assented, a green assent chip
+  if (d.estate === 'v1') return `<span class="tl arch">archived</span>`;
+  let out = statusPill(d.status);
+  if (d.assent_source) out += ` <span class="tl assent">${esc(d.assent_source.replace(/_/g, ' '))}</span>`;
+  return out;
+}
 function fmtDate(iso) {
   if (!iso) return '';
   const [y, m, d] = iso.split('-').map(Number);
@@ -426,7 +436,7 @@ document.addEventListener('click', e => {
 });
 
 /* ---------- state ---------- */
-let estate = 'all', lineageOn = true, labelsOn = true;
+let estate = 'v2', lineageOn = true, labelsOn = true;
 let query = '', selected = null, hovered = null, highlightIds = new Set();
 let trail = [];
 let focusId = null; // when set, the map shows only this node and its citations
@@ -621,6 +631,16 @@ function estateXForce() {
 const ESTATE_X = estateXForce();
 function applyEstateLayout() {
   Graph.d3Force('estateX', estate === 'all' ? ESTATE_X : null);
+  // stretch any edge that bridges the two estates so the archive sits well
+  // away from the canon; within-estate edges keep their natural length
+  const lf = Graph.d3Force('link');
+  if (lf && lf.distance) {
+    lf.distance(l => {
+      const a = (l.source && l.source.estate) || byId.get(l.source)?.estate;
+      const b = (l.target && l.target.estate) || byId.get(l.target)?.estate;
+      return a && b && a !== b ? 220 : 36;
+    });
+  }
 }
 // importance-first draw order so collision-avoided labels favour major law
 function setData(refit) {
@@ -762,7 +782,7 @@ function showHoverCard(d, x, y) {
   const meta = [d.citation || d.id, fmtDate(d.date)].filter(Boolean).map(esc).join(' · ');
   hc.style.setProperty('--tone', `var(--${t})`);
   hc.innerHTML = `
-    <div class="hc-chips"><span class="chip tone-${t}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>${source}${statusPill(d.status)}</div>
+    <div class="hc-chips"><span class="chip tone-${t}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>${source}${statusChip(d)}</div>
     <div class="hc-title">${esc(d.title)}</div>
     <div class="hc-meta">${meta}</div>
     <div class="hc-sum">${esc(d.summary || '')}</div>
@@ -983,13 +1003,12 @@ function openPanel(id, opts = {}) {
   citeEl.textContent = [
     d.citation || d.id,
     fmtDate(d.date),
-    d.assent_source ? 'assent: ' + d.assent_source.replace(/_/g, ' ') : '',
   ].filter(Boolean).join(' · ') + ' ';
-  if (d.status) {
-    const sp = document.createElement('span');
-    sp.className = 'tl ' + statusKind(d.status);
-    sp.textContent = d.status.replace(/[_-]/g, ' ');
-    citeEl.appendChild(sp);
+  const sc = statusChip(d);
+  if (sc) {
+    const span = document.createElement('span');
+    span.innerHTML = sc;
+    while (span.firstChild) citeEl.appendChild(span.firstChild);
   }
   const cbtn = document.createElement('button');
   cbtn.className = 'copycite'; cbtn.textContent = 'Copy citation';

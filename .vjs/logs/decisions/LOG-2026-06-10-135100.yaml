@@ -1,0 +1,12 @@
+id: LOG-2026-06-10-135100
+time: 2026-06-10T13:51:00.740465579+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260610-135100
+decision: 'Four presentation corrections from the Principal. (1) The honoured archive now reads ''archived'' on its status chip, not a live good-law green: a V1 record binds nothing in V2 (it is persuasive unless expressly incorporated), so showing it as current good law misled; the document page keeps the V1 status as a historical note (''recorded in V1 as good law; persuasive unless incorporated''). (2) An assented canon record now carries a green assent chip with dark green text on the green ground (sovereign / standing-bounded assent), matching the bright-green in-force status; bad states stay red, pending amber. (3) The constellation defaults to Canon, not Both, so the living canon is what opens. (4) Any edge that bridges the two estates is stretched (link distance 220 vs 36 within an estate) so the honoured archive sits well clear of the canon when both are shown.'
+basis:
+- PERMIT-1781099460
+risk: low
+reversibility: easy
+court_required: false
+why: 'Principal: archive items are archived not good law; green status text dark on green; Canon default-on; push the archive further from the canon.'

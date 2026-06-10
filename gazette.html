@@ -97,6 +97,8 @@
   .tl { display:inline-block; font-size:.62rem; letter-spacing:.05em; text-transform:uppercase;
     padding:.05rem .45rem; border-radius:10px; border:1px solid var(--rule); color:var(--muted); background:#fff; }
   .tl.live { background:#1fd13f; color:#08350f; border-color:#16a832; }
+  .tl.assent { background:#cdf3d6; color:#0a5224; border-color:#5cbf80; }
+  .tl.arch { background:#f1ece1; color:#6b5b3a; border-color:#cdbf9c; }
   .tl.bad  { background:#fbe3e3; color:#a01010; border-color:#c0392b; }
   .tl.pend { background:#fff2d6; color:#8a5a00; border-color:#d99b1f; }
   .card details { margin:.45rem 0 0; }
@@ -206,6 +208,16 @@ function esc(t) {
   return String(t ?? '').replace(/[&<>"']/g, c =>
     ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
 }
+function statusChip(d) {
+  // The honoured archive binds nothing in V2 (persuasive unless incorporated):
+  // its chip reads 'archived', not a live good-law green. Its V1 status stays
+  // in the document. An assented canon record reads green.
+  if (d.estate === 'v1') return `<span class="tl arch">archived</span>`;
+  const bits = [];
+  if (d.status) bits.push(`<span class="tl ${statusKind(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>`);
+  if (d.assent_source) bits.push(`<span class="tl assent">${esc(d.assent_source.replace(/_/g, ' '))}</span>`);
+  return bits.join(' ');
+}
 function statusKind(s) {
   s = (s || '').toLowerCase();
   if (/(void|per.incuriam|superseded|revoked|stayed|not.law)/.test(s)) return 'bad';
@@ -258,9 +270,8 @@ function card(d) {
   const sourceChip = d.court
     ? `<span class="chip tone-${t}" title="${esc(SOURCE_LABEL[d.court] || d.court)}">${esc(d.court.toUpperCase())}</span>`
     : `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'Archive' : 'Canon'}</span>`;
-  const metaBits = [d.citation, fmtDate(d.date),
-    d.assent_source ? d.assent_source.replace(/_/g, ' ') : ''].filter(Boolean).map(esc).join(' &middot; ')
-    + (d.status ? ` <span class="tl ${statusKind(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : '');
+  const metaBits = [d.citation, fmtDate(d.date)].filter(Boolean).map(esc).join(' &middot; ')
+    + ' ' + statusChip(d);
 
   const el = document.createElement('div');
   el.className = `card tone-${t}`;
