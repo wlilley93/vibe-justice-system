@@ -1,8 +1,7 @@
 # The V1 archive estate as published in the Gazette (curated; the V1 corpus
-# is frozen on the immutable v1 branch, so this curation is stable).
-# pdf = a native V1 judgment PDF carried into archive/pdfs/ (loads as the
-# document); source_md = the frozen V1 markdown for records with no native
-# PDF, rendered as a webpage in the Gazette's own document style.
+# is frozen). pdf = a native judgment/act PDF carried into archive/pdfs/
+# (loads as the document); source_md = frozen markdown for records with no
+# native PDF, rendered as a webpage in the Gazette's own document style.
 items:
 - id: REALM-SC-1
   title: '[2026] REALM-SC 1 - Tort recast and foundational settlement'
@@ -167,13 +166,13 @@ items:
   - REALM-PC-17
   pdf: archive/pdfs/2026-realm-sc-9.pdf
 - id: REALM-SC-10
-  title: '[2026] REALM-SC 10 - V1-to-V2 migration handover minute'
+  title: '[2026] REALM-SC 10 - The Founding Settlement'
   kind: judgment
   court: sc
   estate: v1
   status: good-law
-  summary: 'Derived minute (archival): V1-to-V2 migration lawful on continuity; enacted CASE-LAW s. 23
-    Sovereign-assent floor.'
+  summary: 'The full-court founding settlement: V1-to-V2 migration on the continuity construction; enacted
+    CASE-LAW s.23, the Sovereign-assent floor and AI non-sovereignty.'
   points:
   - Settled V1-to-V2 migration; continuity construction; apex preserved
   - 'Enacted CASE-LAW s. 23(1)-(6): Sovereign-assent floor and AI non-sovereignty'
@@ -185,7 +184,7 @@ items:
   cites:
   - REALM-PC-24
   - REALM-SC-8
-  source_md: archive/text/REALM-SC-10.md
+  pdf: archive/pdfs/2026-realm-sc-10.pdf
 - id: REALM-CA-1
   title: '[2026] REALM-CA 1 - s.8/s.5 sequencing dismissed'
   kind: judgment
@@ -373,7 +372,7 @@ items:
   - REALM-PC-12
   - REALM-SC-5
   - REALM-SC-6
-  source_md: archive/text/REALM-PC-24.md
+  pdf: archive/pdfs/2026-realm-pc-24.pdf
 - id: BILL-1
   title: '[2026] Acts of Union'
   kind: act

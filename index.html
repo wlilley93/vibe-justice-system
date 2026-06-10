@@ -167,6 +167,12 @@
   #ftext .pred { font-family:ui-monospace,Menlo,monospace; font-size:.78rem; background:#fff;
     border:1px solid var(--rule); border-radius:6px; padding:.5rem .7rem; white-space:pre-wrap; }
   a.lawref { color:var(--ink); text-decoration:underline; text-decoration-color:var(--rule); cursor:pointer; }
+  #ftext .pilcrow { color:var(--rule); text-decoration:none; margin-left:.3rem; cursor:pointer; font-size:.85rem; }
+  #ftext section:hover .pilcrow { color:var(--muted); }
+  #ftext .pilcrow:hover { color:var(--ink) !important; }
+  .copycite { font:inherit; font-size:.72rem; color:var(--muted); border:1px solid var(--rule);
+    border-radius:4px; background:var(--paper); cursor:pointer; padding:.04rem .45rem; margin-left:.5rem; }
+  .copycite:hover { border-color:var(--ink); color:var(--ink); }
   a.lawref:hover { text-decoration-color:var(--ink); }
   .hint { position:fixed; bottom:34px; left:16px; z-index:5; font-size:.72rem; color:var(--muted);
     pointer-events:none; font-style:italic; }
@@ -306,6 +312,21 @@ const COURT_LABEL = { sc:'Supreme Court', pc:'Privy Council', ca:'Court of Appea
 function esc(t) {
   return String(t ?? '').replace(/[&<>"']/g, c =>
     ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+function copyText(text, btn) {
+  const done = () => { if (btn) { const w = btn.textContent; btn.textContent = 'Copied'; setTimeout(() => btn.textContent = w, 1200); } };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, done);
+  else { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch (e) {} ta.remove(); done(); }
+}
+function citeFor(d, sec) {
+  const unit = sec ? ', ' + sec.split(':').pop() : '';
+  return `${d.title}${unit} (${d.citation || d.id}) - https://wlilley93.github.io/vibe-justice-system/law.html#${encodeURIComponent(sec || d.id)}`;
+}
+function wirePilcrows(d) {
+  document.querySelectorAll('#ftext .pilcrow').forEach(a =>
+    a.addEventListener('click', e => { e.preventDefault(); copyText(citeFor(d, a.dataset.sec), null);
+      a.textContent = '\u2713'; setTimeout(() => a.innerHTML = '&para;', 1100); }));
 }
 function fmtDate(iso) {
   if (!iso) return '';
@@ -577,11 +598,17 @@ listToggle.onclick = () => {
 let lsort = 'newest';
 document.getElementById('lsort').onchange = e => { lsort = e.target.value; renderList(); };
 function listSorted(arr) {
-  const byKind = (a, b) => a.kind.localeCompare(b.kind) || a.id.localeCompare(b.id, undefined, { numeric: true });
-  if (lsort === 'kind') return [...arr].sort((a, b) => (a.estate === b.estate ? 0 : a.estate === 'v2' ? -1 : 1) || byKind(a, b));
+  // the same order as the register: the canon leads, then newest first
+  const canonFirst = (a, b) => (a.estate === b.estate ? 0 : a.estate === 'v2' ? -1 : 1);
+  const byKind = (a, b) =>
+    ((KIND_ORDER[a.kind] ?? 9) - (KIND_ORDER[b.kind] ?? 9)) ||
+    a.id.localeCompare(b.id, undefined, { numeric: true });
+  if (lsort === 'kind') return [...arr].sort((a, b) => byKind(a, b) || canonFirst(a, b));
   if (lsort === 'cited') return [...arr].sort((a, b) => (inbound.get(b.id) || 0) - (inbound.get(a.id) || 0));
-  return [...arr].sort((a, b) => (b.date || '').localeCompare(a.date || '') || byKind(a, b));
+  return [...arr].sort((a, b) => canonFirst(a, b) || (b.date || '').localeCompare(a.date || '') || byKind(a, b));
 }
+const KIND_ORDER = { statute:0, act:0, regulation:1, instrument:1, rule:2, order:3, judgment:3,
+  decision:4, invariant:5, obligation:6, spec:7 };
 const KIND_ABBREV = { statute:'ACT', act:'ACT', regulation:'REG', rule:'RULE', instrument:'SI',
   order:'ORDER', judgment:'CASE', decision:'DEC', invariant:'INV', obligation:'OBL', spec:'SPEC' };
 function renderList() {
@@ -746,7 +773,9 @@ function renderText(d, body) {
       let out = body.purpose ? `<p><i>${linkify(esc(body.purpose))}</i></p>` : '';
       for (const sec of body.sections || []) {
         const n = (sec.id || '').split(':').pop();
-        out += `<section><h4>${esc(n)} - ${esc(sec.title || '')}</h4>${paras(sec.text)}
+        if (sec.reserved) { out += `<p class="commentary">${esc(n)}. Reserved.</p>`; continue; }
+        out += `<section><h4>${esc(n)} - ${esc(sec.title || '')}
+          <a class="pilcrow" data-sec="${esc(sec.id || '')}" title="Copy a citation to this section">&para;</a></h4>${paras(sec.text)}
           ${sec.commentary ? `<p class="commentary">${linkify(esc(sec.commentary))}</p>` : ''}
           ${factsPanel(sec.kernel_effect)}</section>`;
       }
@@ -832,12 +861,17 @@ function openPanel(id) {
     d.estate === 'v1' ? 'The honoured archive' : 'The living canon';
   document.getElementById('p-title').textContent = d.title;
   document.getElementById('p-chips').innerHTML = chipsFor(d);
-  document.getElementById('p-cite').textContent = [
+  const citeEl = document.getElementById('p-cite');
+  citeEl.textContent = [
     d.citation || d.id,
     fmtDate(d.date),
     (d.status || '').replace(/[_-]/g, ' '),
     d.assent_source ? 'assent: ' + d.assent_source.replace(/_/g, ' ') : '',
   ].filter(Boolean).join(' · ');
+  const cbtn = document.createElement('button');
+  cbtn.className = 'copycite'; cbtn.textContent = 'Copy citation';
+  cbtn.onclick = () => copyText(citeFor(d), cbtn);
+  citeEl.appendChild(cbtn);
   document.getElementById('p-subject').textContent = d.subject ? `Subject: ${d.subject}` : '';
   document.getElementById('p-summary').textContent = d.summary;
 
@@ -861,6 +895,7 @@ function openPanel(id) {
       if (selected !== id) return;
       ftext.innerHTML = renderText(d, (window.GAZETTE_TEXT || {})[id]) ||
         '<p class="commentary">No renderable text.</p>';
+      wirePilcrows(d);
     }).catch(() => {
       ftext.innerHTML = `<p class="commentary">The text could not be loaded here; read it at the source below.</p>`;
     });
