@@ -1,0 +1,12 @@
+id: LOG-2026-06-10-202325
+time: 2026-06-10T20:23:25.395371398+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260610-202325
+decision: 'Reconciled the realm''s first three machinery defects, surfaced by a subscriber (acmeco) and confirmed to reproduce upstream before any fix - the system caught its own bugs with its own instruments. BUG B (a law question, not a test fix): the route eval-suite expected allowed_with_conditions for a PublicRecordChange tagged public_private.repo_facts and an ExternalAct tagged release.push, but the kernel returned CourtRequired because those significant acts have no on-point authority under DEC-006 (no semantic matching; literal substring only). Docketed to the County Court; Ledgerward CCJ held 1-0 ([2026] VJS-CC 1, Reading A): the kernel is correct and the eval was out of step - a significant act is conditioned only WITH an on-point governing authority, and the safe direction for routing to drift is stricter/fail-closed. Conformed per the ruling by tagging the two cases with governing-authority substrings (public records -> ACT-005; release warrant -> REG-RELEASE-WARRANT-001); DEC-006 and the kernel routing are NOT amended. BUG A (schema drift between writer and reader): vjs invoke hand-rolled lawpack.lock as lawpack=... while the reader expected the LawpackLock struct''s lawpack_id, so vjs status failed to parse an invoke-written lock. Fixed structurally: one LawpackLock serde model with aliases that reads both forms, the invoke writer moved to the canonical fields, and a golden write->read->re-write round-trip test. BUG C (forward-compatibility): a stale kernel cannot parse newer law (an unknown enum variant). Added the load-time version handshake: the lock carries schema_version, and read_lawpack_lock refuses any lock newer than LOCK_SCHEMA_VERSION loudly, rather than crashing mid-eval - for law, strict is the only correct posture. 73 tests green, 0 clippy warnings, eval 17/17, validation OK, local-ci PASS (the subscriber''s pre-push is unblocked).'
+basis:
+- PERMIT-1781123005
+risk: low
+reversibility: easy
+court_required: false
+why: A subscriber reported three upstream defects (the subscription channel run in reverse); the substantive one was a law question put to the realm's own court, the other two are structural engineering fixes with tests.

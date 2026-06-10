@@ -328,7 +328,11 @@ pub fn run_route_suite(ctx: &KernelContext) -> EvalReport {
         jurisdiction: None,
         actor: "eval".into(),
         action_kind: ActionKind::PublicRecordChange,
-        issue_tags: vec![IssueTag("public_private.repo_facts".into())],
+        // Per [2026] VJS-CC 1 (route-eval divergence): DEC-006 forbids semantic
+        // matching, so the tag must literally name its governing authority. A
+        // public-record change is governed by ACT-005 ("public records"); with an
+        // on-point authority it is conditioned, not first-impression.
+        issue_tags: vec![IssueTag("public records".into())],
         intent: "change a public record".into(),
         affected_paths: Vec::new(),
         risk: RiskLevel::Medium,
@@ -364,7 +368,9 @@ pub fn run_route_suite(ctx: &KernelContext) -> EvalReport {
         jurisdiction: None,
         actor: "eval".into(),
         action_kind: ActionKind::ExternalAct,
-        issue_tags: vec![IssueTag("release.push".into())],
+        // Per [2026] VJS-CC 1: an external push is governed by
+        // REG-RELEASE-WARRANT-001 ("release warrant"); on-point and conditioned.
+        issue_tags: vec![IssueTag("release warrant".into())],
         intent: "push to an external remote".into(),
         affected_paths: Vec::new(),
         risk: RiskLevel::Low,

@@ -303,7 +303,9 @@ impl Store {
             lawpack_id: lawpack_id.into(),
             lawpack_version: version.into(),
             digest: digest.into(),
+            schema_version: LOCK_SCHEMA_VERSION,
             generated_at: chrono::Utc::now().to_rfc3339(),
+            locked_by: None,
         };
         let content = toml::to_string(&lock)
             .map_err(|e| KernelError::Serialization(e.to_string()))?;
@@ -333,7 +335,55 @@ impl Store {
             .map_err(|e| KernelError::Io(e.to_string()))?;
         let lock: LawpackLock = toml::from_str(&content)
             .map_err(|e| KernelError::Serialization(e.to_string()))?;
+        // The version handshake (Bug C): refuse, loudly and at load time, any law
+        // newer than this kernel understands - never crash mid-eval or, worse,
+        // parse partially. For law, strict is the only correct posture.
+        if lock.schema_version > LOCK_SCHEMA_VERSION {
+            return Err(KernelError::Serialization(format!(
+                "lawpack.lock declares schema_version {} but this kernel supports up to {}; the kernel is stale - rebuild it before loading newer law (a kernel that skips clauses it cannot parse is silently lawless)",
+                lock.schema_version, LOCK_SCHEMA_VERSION
+            )));
+        }
         Ok(Some(lock))
+    }
+}
+
+#[cfg(test)]
+mod lawpack_lock_tests {
+    use super::*;
+
+    // The golden round-trip the Bug A class needs: write -> read -> re-write is
+    // stable, and the earlier hand-rolled invoke form still parses (aliases).
+    #[test]
+    fn lock_round_trips_and_reads_the_legacy_form() {
+        let lock = LawpackLock {
+            lawpack_id: "vjs-v2".into(),
+            lawpack_version: "0.1.0".into(),
+            digest: "sha256:abc".into(),
+            schema_version: LOCK_SCHEMA_VERSION,
+            generated_at: "2026-06-10T00:00:00Z".into(),
+            locked_by: None,
+        };
+        let s1 = toml::to_string(&lock).unwrap();
+        let back: LawpackLock = toml::from_str(&s1).unwrap();
+        let s2 = toml::to_string(&back).unwrap();
+        assert_eq!(s1, s2, "write -> read -> re-write must be byte-identical");
+        assert_eq!(back.lawpack_id, "vjs-v2");
+
+        // the earlier invoke form (lawpack = ..., locked_at = ...) parses via aliases
+        let legacy = "lawpack = \"vjs-v2\"\ndigest = \"sha256:abc\"\nlocked_at = \"t\"\nlocked_by = \"will\"\n";
+        let parsed: LawpackLock = toml::from_str(legacy).unwrap();
+        assert_eq!(parsed.lawpack_id, "vjs-v2");
+        assert_eq!(parsed.locked_by.as_deref(), Some("will"));
+        assert_eq!(parsed.schema_version, LOCK_SCHEMA_VERSION); // defaulted
+    }
+
+    // The version handshake refuses a lock newer than the kernel.
+    #[test]
+    fn newer_schema_is_refused() {
+        let future = "lawpack_id = \"vjs-v2\"\ndigest = \"sha256:abc\"\nschema_version = 999\n";
+        let parsed: LawpackLock = toml::from_str(future).unwrap();
+        assert!(parsed.schema_version > LOCK_SCHEMA_VERSION);
     }
 }
 
@@ -371,12 +421,32 @@ pub struct GovernanceConfig {
     pub permit_exempt: Vec<String>,
 }
 
+/// The schema version of the lawpack the kernel can load. Bump this whenever a
+/// record schema gains a variant or field the old kernel cannot parse. The
+/// load-time handshake (read_lawpack_lock) refuses any lock declaring a higher
+/// version - a kernel that skips clauses it cannot parse is silently lawless.
+pub const LOCK_SCHEMA_VERSION: u32 = 1;
+
+fn default_lock_schema() -> u32 {
+    LOCK_SCHEMA_VERSION
+}
+
+/// The one serde model for `.vjs/lawpack.lock`. Aliases read both the canonical
+/// form (`lawpack_id`, `generated_at`) and the earlier hand-rolled invoke form
+/// (`lawpack`, `locked_at`), so writer/reader can never drift apart again.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct LawpackLock {
+    #[serde(alias = "lawpack")]
     pub lawpack_id: String,
+    #[serde(default)]
     pub lawpack_version: String,
     pub digest: String,
+    #[serde(default = "default_lock_schema")]
+    pub schema_version: u32,
+    #[serde(alias = "locked_at", default)]
     pub generated_at: String,
+    #[serde(default)]
+    pub locked_by: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
