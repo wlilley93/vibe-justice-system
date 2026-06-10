@@ -52,6 +52,12 @@
   #hits .hit.active, #hits .hit:hover { background:var(--cream); }
   #listToggle { pointer-events:auto; border:1px solid var(--ink); background:var(--paper); color:var(--ink);
     border-radius:7px; padding:.5rem .8rem; cursor:pointer; font-size:.82rem; }
+  #focusbar { position:fixed; left:50%; bottom:18px; transform:translateX(-50%) translateY(8px); z-index:9;
+    display:none; opacity:0; transition:opacity .15s ease, transform .15s ease;
+    border:1px solid var(--ink); background:var(--ink); color:var(--cream); border-radius:999px;
+    padding:.45rem 1rem; cursor:pointer; font-size:.84rem; box-shadow:0 4px 16px rgba(26,39,68,.22); }
+  #focusbar.show { display:block; opacity:1; transform:translateX(-50%) translateY(0); }
+  #focusbar:hover { background:#243254; }
 
   /* ---- the list sidebar ---- */
   #list { position:fixed; top:58px; bottom:0; left:0; width:330px; z-index:7; background:var(--paper);
@@ -227,6 +233,7 @@
 </noscript>
 <div id="graph"></div>
 <div id="hovercard" role="tooltip"></div>
+<button id="focusbar" onclick="clearFocus()" title="Show the whole map">&larr; Show the whole map</button>
 
 <div id="topbar">
   <a id="brand" href="gazette.html" title="The Gazette, classic reading view">
@@ -401,7 +408,13 @@ document.addEventListener('click', e => {
 let estate = 'all', lineageOn = true, labelsOn = true;
 let query = '', selected = null, hovered = null, highlightIds = new Set();
 let trail = [];
+let focusId = null; // when set, the map shows only this node and its citations
 
+function inFocus(d) {
+  // the focused node and its immediate neighbourhood (what it cites, what
+  // cites it, its lineage either way, its docket) - the local map
+  return !focusId || d.id === focusId || neighbourOf(focusId, d.id);
+}
 function visible(d) {
   return estate === 'all' || d.estate === estate;
 }
@@ -412,7 +425,7 @@ function matchesQuery(d) {
 }
 
 function buildData() {
-  const nodes = ITEMS.filter(visible).map(d => ({ ...d }));
+  const nodes = ITEMS.filter(d => visible(d) && inFocus(d)).map(d => ({ ...d }));
   const ids = new Set(nodes.map(n => n.id));
   const links = [];
   for (const d of nodes) {
@@ -910,14 +923,17 @@ function linkSection(wrap, label, list, count) {
 function openPanel(id) {
   const d = byId.get(id);
   if (!d) return;
-  let rebuild = false;
   if (estate !== 'all' && d.estate !== estate) {
     estate = 'all';
     document.querySelectorAll('[data-estate]').forEach(x =>
       x.classList.toggle('active', x.dataset.estate === 'all'));
-    rebuild = true;
   }
-  if (rebuild) setData();
+  // focus the map on this node and its citations - the local map
+  if (focusId !== id) {
+    focusId = id;
+    setData(true);
+    document.getElementById('focusbar').classList.add('show');
+  }
 
   if (selected !== id) {
     if (selected) {
@@ -1021,7 +1037,14 @@ function closePanel() {
   highlightIds = new Set();
   document.getElementById('panel').classList.remove('open');
   history.replaceState(null, '', location.pathname);
+  clearFocus();
   renderList();
+}
+function clearFocus() {
+  if (!focusId) return;
+  focusId = null;
+  document.getElementById('focusbar').classList.remove('show');
+  setData(true);
 }
 
 // The colophon: bind the publication to the record. Inert, always.
