@@ -48,6 +48,9 @@
     padding:.06rem .5rem; border-radius:10px; border:1px solid var(--rule); color:var(--muted);
     background:#fff; margin-right:.5rem; vertical-align:.05rem; }
   .tl.live { background:#1fd13f; color:#08350f; border-color:#16a832; }
+  .tl.assent { background:#cdf3d6; color:#0a5224; border-color:#5cbf80; }
+  .tl.arch { background:#f1ece1; color:#6b5b3a; border-color:#cdbf9c; }
+  .archnote { color:var(--muted); font-size:.82rem; font-style:italic; }
   .tl.bad  { background:#fbe3e3; color:#a01010; border-color:#c0392b; }
   .tl.pend { background:#fff2d6; color:#8a5a00; border-color:#d99b1f; }
 
@@ -469,8 +472,13 @@ function chipsFor(d) {
 }
 function statusLine(d) {
   const bits = [];
-  if (d.status) bits.push(`<span class="tl ${statusKind(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>`);
-  if (d.assent_source) bits.push(`assent: ${esc(d.assent_source.replace(/_/g, ' '))}`);
+  if (d.estate === 'v1') {
+    bits.push(`<span class="tl arch">archived</span>`);
+    if (d.status) bits.push(`<span class="archnote">recorded in V1 as ${esc(d.status.replace(/[_-]/g, ' '))}; persuasive unless incorporated</span>`);
+  } else {
+    if (d.status) bits.push(`<span class="tl ${statusKind(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>`);
+    if (d.assent_source) bits.push(`<span class="tl assent">${esc(d.assent_source.replace(/_/g, ' '))}</span>`);
+  }
   if (d.subject) bits.push(`subject: ${esc(d.subject)}`);
   return bits.length ? `<div class="statusline">${bits.join(' &middot; ')}</div>` : '';
 }
@@ -553,7 +561,7 @@ function render() {
         <div class="kicker">${d.estate === 'v1' ? 'The honoured archive' : 'The living canon'}</div>
         <h1>${esc(d.title)}</h1>
         <div>${chipsFor(d)}</div>
-        <div class="docmeta">${esc(d.citation || d.id)} &middot; ${esc(fmtDate(d.date))}${d.status ? ` &middot; <span class="tl ${statusKind(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : ''}</div>
+        <div class="docmeta">${esc(d.citation || d.id)} &middot; ${esc(fmtDate(d.date))}${d.estate === 'v1' ? ` &middot; <span class="tl arch">archived</span>` : (d.status ? ` &middot; <span class="tl ${statusKind(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : '')}</div>
       </div>
       ${secondary.length ? `<div class="pdftools"><span class="lbl">Also:</span>${secondary.join('')}</div>` : ''}
       <div class="pdfwrap"><embed src="${esc(d.pdf)}" type="application/pdf"
