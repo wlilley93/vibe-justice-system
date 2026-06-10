@@ -5,6 +5,8 @@ jurisdiction: default
 repo_code: VJS
 status: binding
 issue: vjs-v2-logs
+question: >
+  Should written decision logs be mandatory for material implementation decisions?
 holding: Logs are mandatory for material implementation decisions.
 directives:
   - id: D1

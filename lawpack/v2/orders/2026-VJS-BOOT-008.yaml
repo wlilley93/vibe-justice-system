@@ -5,6 +5,9 @@ jurisdiction: default
 repo_code: VJS
 status: binding
 issue: vjs-v2-specs
+question: >
+  Whether specifications are first-class law objects with enforceable purpose, scope, decisions,
+  and invariants?
 holding: Specs are first-class law objects with purpose, scope, decisions, invariants, and obligations.
 directives:
   - id: D1

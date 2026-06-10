@@ -1618,7 +1618,7 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             }
             "regulation" => pick(v, &["authority", "text", "kernel_effect"]),
             "order" => pick(v, &[
-                "holding", "directives", "forbidden", "exceptions", "runtime_summary", "source_opinion",
+                "question", "holding", "directives", "forbidden", "exceptions", "runtime_summary", "source_opinion",
             ]),
             "decision" => pick(v, &["decision", "reason", "basis", "consequences", "review_triggers", "scope"]),
             "invariant" => pick(v, &["severity", "rule", "remedy", "basis"]),
@@ -1995,6 +1995,8 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 "summary": summary, "points": points, "cites": cites,
                 "supersedes": str_list(&v, "supersedes"),
                 "has_text": true,
+                // the question before the court, shown up top on court documents
+                "question": s(&v, "question").unwrap_or_default(),
                 "path": rel, "url": format!("{}{}", V2_BASE, rel),
             });
             item["doc"] = serde_json::Value::String(format!("law.html#{}", item["id"].as_str().unwrap_or("")));
@@ -2097,6 +2099,7 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                     "cites": str_list(it, "cites"),
                     "supersedes": [],
                     "has_text": false,
+                    "question": s(it, "question").unwrap_or_default(),
                     "archive_text": archive_text,
                     "updated": s(it, "date").unwrap_or_default(),
                     "pdf": s(it, "pdf").unwrap_or_default(),

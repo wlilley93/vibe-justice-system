@@ -1,9 +1,3 @@
-# The V1 archive estate as published in the Gazette (curated; the V1 corpus
-# is frozen). The honoured archive spans the frozen V1-lineage repos
-# (vibe-justice-system v1 branch and agent-universe). pdf = a native
-# judgment/act PDF carried into archive/pdfs/; source_md = a public-safe
-# rendering; url names the frozen github source. A V1-lineage record is
-# persuasive in V2, never binding unless expressly incorporated (ACT-001).
 items:
 - id: REALM-SC-1
   title: '[2026] REALM-SC 1 - Tort recast and foundational settlement'
@@ -23,6 +17,8 @@ items:
   date: '2026-06-06'
   cites: []
   pdf: archive/pdfs/2026-realm-sc-1.pdf
+  question: Whether breach of fiduciary duty should be reconceived as the tort of negligence rather than
+    a crime?
 - id: REALM-SC-2
   title: '[2026] REALM-SC 2 - Proactive disclosure obligation'
   kind: judgment
@@ -40,6 +36,8 @@ items:
   cites:
   - REALM-SC-1
   pdf: archive/pdfs/2026-realm-sc-2.pdf
+  question: Must Lexby proactively disclose material risks without waiting for inquiry, or may silence
+    on risks avoid breach?
 - id: REALM-SC-3
   title: '[2026] REALM-SC 3 - Six procedural reforms'
   kind: judgment
@@ -59,6 +57,9 @@ items:
   cites:
   - REALM-PC-1
   pdf: archive/pdfs/2026-realm-sc-3.pdf
+  question: Should the Supreme Court mandate six procedural reforms - reviewable leapfrog routing, two-sided
+    case intake, independent leave-judges, and deterministic citation integrity gates - to safeguard procedural
+    fairness and system reliability?
 - id: REALM-SC-4
   title: '[2026] REALM-SC 4 - Odd benches and bench constitution'
   kind: judgment
@@ -77,6 +78,8 @@ items:
   date: '2026-06-06'
   cites: []
   pdf: archive/pdfs/2026-realm-sc-4.pdf
+  question: Whether benches deciding cases must be constituted with odd-numbered membership and whether
+    rulings by improperly constituted benches are void?
 - id: REALM-SC-5
   title: '[2026] REALM-SC 5 - Unitary court with domain divisions'
   kind: judgment
@@ -94,6 +97,8 @@ items:
   date: '2026-06-06'
   cites: []
   pdf: archive/pdfs/2026-realm-sc-5.pdf
+  question: Whether the court may be divided into separate domain-specific courts with parallel citators
+    and apex authorities or must remain a single unitary court on one spine with domain divisions only?
 - id: REALM-SC-6
   title: '[2026] REALM-SC 6 - Distributed County Courts, single apex'
   kind: judgment
@@ -111,6 +116,8 @@ items:
   date: '2026-06-06'
   cites: []
   pdf: archive/pdfs/2026-realm-sc-6.pdf
+  question: May the realm be administered as a super-repo over a Ministry of Justice and operational jurisdiction-repos
+    with local hearing-centres?
 - id: REALM-SC-7
   title: '[2026] REALM-SC 7 - Pre-enactment precedent entry-by-entry review'
   kind: judgment
@@ -129,6 +136,8 @@ items:
   date: '2026-06-06'
   cites: []
   pdf: archive/pdfs/2026-realm-sc-7.pdf
+  question: Should pre-enactment precedent be void wholesale or reviewed entry-by-entry under the entrenchment
+    lock?
 - id: REALM-SC-8
   title: '[2026] REALM-SC 8 - Lexby has no law-making authority'
   kind: judgment
@@ -147,6 +156,8 @@ items:
   cites:
   - REALM-PC-12
   pdf: archive/pdfs/2026-realm-sc-8.pdf
+  question: Does Lexby hold independent law-making authority, or is un-adopted text void pending formal
+    adoption by proper constitutional organs?
 - id: REALM-SC-9
   title: '[2026] REALM-SC 9 - External law supremacy floor'
   kind: judgment
@@ -167,6 +178,8 @@ items:
   - REALM-PC-18
   - REALM-PC-17
   pdf: archive/pdfs/2026-realm-sc-9.pdf
+  question: Does VJS law create immunity from external law, or must agents escalate apparent illegality
+    under delegated authority?
 - id: REALM-SC-10
   title: '[2026] REALM-SC 10 - The Founding Settlement'
   kind: judgment
@@ -187,6 +200,8 @@ items:
   - REALM-PC-24
   - REALM-SC-8
   pdf: archive/pdfs/2026-realm-sc-10.pdf
+  question: Whether the V1-to-V2 migration on the continuity construction is constitutionally lawful and
+    what conditions it must satisfy?
 - id: REALM-CA-1
   title: '[2026] REALM-CA 1 - s.8/s.5 sequencing dismissed'
   kind: judgment
@@ -205,6 +220,8 @@ items:
   cites:
   - REALM-PC-1
   pdf: archive/pdfs/2026-realm-ca-1.pdf
+  question: Whether the statutory sequencing of section 8 before section 5 describes a remediable substantive
+    error or an inherent structural impossibility?
 - id: REALM-PC-1
   title: '[2026] REALM-PC 1 - Alpha release fitness test'
   kind: judgment
@@ -223,6 +240,8 @@ items:
   date: '2026-06-06'
   cites: []
   pdf: archive/pdfs/2026-realm-pc-1.pdf
+  question: Whether the governance system is fit for alpha release with coherent legal model, committed
+    statute and procedure, and constitutional enforcement in place?
 - id: REALM-PC-4
   title: '[2026] REALM-PC 4 - Token-free retrieval index permitted'
   kind: judgment
@@ -241,6 +260,8 @@ items:
   date: '2026-06-06'
   cites: []
   pdf: archive/pdfs/2026-realm-pc-4.pdf
+  question: Whether a deterministic token-free retrieval index may be adopted as a screening device under
+    section 12?
 - id: REALM-PC-12
   title: '[2026] REALM-PC 12 - Lexby drafting authority (foundational)'
   kind: judgment
@@ -261,6 +282,8 @@ items:
   - REALM-SC-4
   - REALM-SC-7
   pdf: archive/pdfs/2026-realm-pc-12.pdf
+  question: Whether text drafted by Lexby holds legal force as an instrument or void first draft requiring
+    adoption?
 - id: REALM-PC-13
   title: '[2026] REALM-PC 13 - Agent security fork reference'
   kind: judgment
@@ -279,6 +302,8 @@ items:
   date: '2026-06-06'
   cites: []
   pdf: archive/pdfs/2026-realm-pc-13.pdf
+  question: Whether audited break-glass can reconcile fail-closed security defaults with agent operability
+    without choosing between them?
 - id: REALM-PC-14
   title: '[2026] REALM-PC 14 - County Court formation substance rule'
   kind: judgment
@@ -297,6 +322,8 @@ items:
   date: '2026-06-07'
   cites: []
   pdf: archive/pdfs/2026-realm-pc-14.pdf
+  question: Whether County Court validity depends on .gitignore presence or substantive jurisdiction-repo
+    and system-data integrity?
 - id: REALM-PC-15
   title: '[2026] REALM-PC 15 - VJS super-repo constitutional classification'
   kind: judgment
@@ -317,6 +344,8 @@ items:
   - REALM-PC-14
   - REALM-PC-11
   pdf: archive/pdfs/2026-realm-pc-15.pdf
+  question: Whether the VJS super-repo is a County Court or a distinct central constitutional first-instance
+    court?
 - id: REALM-PC-17
   title: '[2026] REALM-PC 17 - Fork sovereignty and local independence'
   kind: judgment
@@ -335,6 +364,8 @@ items:
   date: '2026-06-07'
   cites: []
   pdf: archive/pdfs/2026-realm-pc-17.pdf
+  question: Whether default VJS subscription constitutes perpetual subjection or permits local sovereign
+    amendment and independence?
 - id: REALM-PC-19
   title: '[2026] REALM-PC 19 - Superrepo changes require court order'
   kind: judgment
@@ -353,6 +384,7 @@ items:
   date: '2026-06-07'
   cites: []
   pdf: archive/pdfs/2026-realm-pc-19.pdf
+  question: Whether superrepo changes implementing new governance rules require court order before implementation?
 - id: REALM-PC-24
   title: '[2026] REALM-PC 24 - VJS V2 founding and continuity'
   kind: judgment
@@ -375,6 +407,8 @@ items:
   - REALM-SC-5
   - REALM-SC-6
   pdf: archive/pdfs/2026-realm-pc-24.pdf
+  question: May V2 be lawfully founded through V1 organs while preserving a single apex under one Gazette
+    covering both estates?
 - id: BILL-1
   title: '[2026] Acts of Union'
   kind: act
@@ -727,3 +761,5 @@ items:
   - REALM-PC-14
   - REALM-PC-15
   source_md: archive/text/REALM-SC-11.md
+  question: Is an embeddable governance client rendering canonical law from a central server a lawful
+    presentation-layer division or a forbidden parallel court?

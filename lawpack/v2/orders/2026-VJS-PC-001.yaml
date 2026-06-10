@@ -5,6 +5,9 @@ jurisdiction: default
 repo_code: VJS
 status: binding
 issue: constitutional.transition-and-onboarding
+question: >
+  Whether the V1-to-V2 transfer carries pending matters forward at their current state and
+  permits perfection of old doctrine for publication only?
 holding: >
   On the Principal's reference: the V2 Privy Council (3 seats, unanimous) takes
   jurisdiction over the V1->V2 transitional-continuity doctrine and the project-

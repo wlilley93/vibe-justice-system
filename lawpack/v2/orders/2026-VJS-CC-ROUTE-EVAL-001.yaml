@@ -6,6 +6,9 @@ court: county
 jurisdiction: agent-universe-v2
 status: binding
 issue: route_eval_divergence
+question: >
+  Whether DEC-006's literal substring rule requires authority-tagged inputs when routing
+  significant acts to CourtRequired?
 holding: >
   Reading A prevails. DEC-006 forbids semantic authority matching: an authority
   is on-point only by a literal substring of the issue tag in its id, title, or

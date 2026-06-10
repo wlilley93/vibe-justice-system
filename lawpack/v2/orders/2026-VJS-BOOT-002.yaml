@@ -5,6 +5,9 @@ jurisdiction: default
 repo_code: VJS
 status: binding
 issue: vjs-v2-archive
+question: >
+  Whether the V1 archive constitutes binding runtime law absent express incorporation by V2
+  statute, rule, or order?
 holding: V1 archive is not runtime context unless incorporated.
 directives:
   - id: D1

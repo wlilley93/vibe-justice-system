@@ -5,6 +5,9 @@ jurisdiction: default
 repo_code: VJS
 status: binding
 issue: governance.repository-topology
+question: >
+  Should the canon consolidate onto the established public repository as a single canonical line
+  with the V1 archive as an immutable archival estate?
 holding: >
   V2 Privy Council, 3-0. The canon consolidates onto the established public
   repository as the one canonical line (T1): canon on main, the repository name

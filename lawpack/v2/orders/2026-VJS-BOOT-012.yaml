@@ -6,6 +6,9 @@ court: county
 jurisdiction: agent-universe-v2
 status: binding
 issue: permit_enforcement
+question: >
+  Whether to enforce route permits at the staged-change and commit boundary before further
+  doctrinal expansion?
 holding: >
   VJS V2 alpha must enforce permits at the staged-change and commit boundary
   before further doctrinal or feature expansion.

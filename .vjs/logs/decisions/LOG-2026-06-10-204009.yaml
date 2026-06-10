@@ -1,0 +1,12 @@
+id: LOG-2026-06-10-204009
+time: 2026-06-10T20:40:09.405647482+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260610-204009
+decision: Put the question before the court up top on every court case in the Gazette. Each of the 48 court records (27 V2 orders and 21 V1 judgments) now carries a one-sentence question - the matter the court actually decided - written by reading each record's holding and summary. The question is stored in the order record itself (part of the auditable court record) and in each V1 judgment's estate item, threaded through the gazette generator into both the item data and the full-text body, and rendered in a labelled question box at the top of the document - under the title and citation, above the PDF - in both the PDF view and the read-as-a-page view. It shows only for court cases (orders and judgments). 73 tests green, 0 clippy warnings, validation OK.
+basis:
+- PERMIT-1781124009
+risk: low
+reversibility: easy
+court_required: false
+why: The Principal asked that every court case lead with the question before the court; it is the most orienting line of a judgment and was previously buried.

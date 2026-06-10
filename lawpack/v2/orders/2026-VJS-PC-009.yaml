@@ -6,6 +6,8 @@ court: privy_council
 jurisdiction: agent-universe-v2
 status: binding
 issue: case_law_is_v1
+question: >
+  Whether CASE-LAW, an untouched V1 document, may be cited as live binding V2 authority?
 holding: >
   CASE-LAW, an untouched V1 document, may not be cited as live binding V2
   authority. Under ACT-001 s.4 and ACT-COMPUTER-FIRST-REALM s.6/s.8/s.9, V1 binds

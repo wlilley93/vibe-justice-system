@@ -5,6 +5,9 @@ jurisdiction: default
 repo_code: VJS
 status: binding
 issue: governance.superrepo-self-invocation
+question: >
+  Whether the canon super-repo must self-invoke under REG-INVOCATION-001 and the Privy Council
+  is the realm's first-instance court?
 holding: >
   V2 Privy Council, 3-0. The canon super-repo (the realm-as-state) must
   self-invoke under REG-INVOCATION-001: binding flows from the kernel-readable

@@ -5,6 +5,9 @@ jurisdiction: default
 repo_code: VJS
 status: binding
 issue: vjs-v2-invariants
+question: >
+  Whether invariants in vjs-v2 should be evaluated through deterministic, typed mechanical
+  predicates rather than heuristic methods?
 holding: Invariants are deterministic, typed, and evaluated mechanically.
 directives:
   - id: D1

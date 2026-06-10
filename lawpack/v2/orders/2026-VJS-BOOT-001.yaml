@@ -5,6 +5,8 @@ jurisdiction: default
 repo_code: VJS
 status: binding
 issue: vjs-v2-governance
+question: >
+  What constitutes runtime law governing V2 agents in their load-bearing acts?
 holding: V2 uses orders, rules, and logs as runtime law.
 directives:
   - id: D1

@@ -5,6 +5,9 @@ jurisdiction: default
 repo_code: VJS
 status: binding
 issue: vjs-v2-mcp
+question: >
+  Whether the MCP adapter should be constrained to thin, local-first design with restricted tool
+  exposure?
 holding: MCP adapter is thin and local-first.
 directives:
   - id: D1

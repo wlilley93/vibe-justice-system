@@ -5,6 +5,9 @@ jurisdiction: default
 repo_code: VJS
 status: binding
 issue: governance.s23-sc10-location
+question: >
+  Whether section 23 case-law and REALM-SC 10 may be back-filled into the V1 archival estate as
+  verified transcription and derived minute only, carrying no live authority?
 holding: >
   V2 Privy Council, 3-0, on a hybrid split by instrument. The V1 case-law assent floor (s.23) and
   [2026] REALM-SC 10 are treated as good law and reproduced operatively in the

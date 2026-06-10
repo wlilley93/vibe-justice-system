@@ -5,6 +5,9 @@ jurisdiction: default
 repo_code: VJS
 status: binding
 issue: vjs-v2-alpha-hardening
+question: >
+  Whether VJS V2 alpha must harden its deterministic spine before expanding doctrine, courts,
+  and migration features?
 holding: >
   VJS V2 alpha must harden predicate evaluation, repo state scanning, invariant
   validation, permit enforcement, hooks, and tests before adding courts, Gazette,
