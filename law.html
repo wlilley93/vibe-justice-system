@@ -121,6 +121,19 @@
     border-radius:6px; background:var(--paper); padding:.4rem .7rem; max-width:46%; }
   .docnav a:hover { border-color:var(--ink); }
   .docnav .spacer { flex:1; }
+  .headrule { border:none; border-top:2px solid var(--ink); margin:.9rem 0 1rem; }
+  .longtitle { margin:.2rem 0 1rem; }
+  .longtitle .lbl { font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+    margin-bottom:.15rem; }
+  .gapnote { color:var(--muted); font-size:.78rem; font-style:italic; }
+  .assoc-row { display:flex; align-items:baseline; gap:.55rem; padding:.28rem 0;
+    border-bottom:1px solid #eee6da; cursor:pointer; }
+  .assoc-row:hover .t { text-decoration:underline; }
+  .assoc-row .minichip { flex:none; width:3.6rem; text-align:center; border:1px solid var(--tone,var(--muted));
+    border-radius:4px; background:var(--tone-bg,#fff); color:var(--tone,var(--muted)); font-size:.58rem;
+    letter-spacing:.05em; text-transform:uppercase; padding:.08rem 0; }
+  .assoc-row .t { color:var(--ink); font-size:.92rem; }
+  .assoc-row .c { margin-left:auto; color:var(--muted); font-size:.76rem; white-space:nowrap; }
 
   @media print {
     .bar, footer, .neigh, h2.sect.assoc { display:none !important; }
@@ -231,15 +244,26 @@ function ensureText() {
 function paras(text) {
   return String(text || '').split(/\n+/).filter(Boolean).map(p => `<p>${linkify(esc(p))}</p>`).join('');
 }
+function plain(v, depth = 0) {
+  // write values properly: no braces, no quotes, no underscores
+  if (v == null) return '';
+  if (Array.isArray(v)) return v.map(x => plain(x, depth)).filter(Boolean)
+    .map(x => `<div style="padding-left:${depth * .8}rem">${x}</div>`).join('');
+  if (typeof v === 'object') return Object.entries(v).map(([k, x]) => {
+    const label = `<i>${esc(String(k).replace(/_/g, ' '))}</i>`;
+    if (x != null && typeof x === 'object')
+      return `<div style="padding-left:${depth * .8}rem">${label}:</div>${plain(x, depth + 1)}`;
+    return `<div style="padding-left:${depth * .8}rem">${label}: ${plain(x, depth)}</div>`;
+  }).join('');
+  if (typeof v === 'boolean') return v ? 'yes' : 'no';
+  return linkify(esc(String(v).replace(/_/g, ' ')));
+}
 function factsPanel(obj, skip = []) {
   if (!obj || typeof obj !== 'object') return '';
   let out = '';
   for (const [k, v] of Object.entries(obj)) {
     if (skip.includes(k) || v == null) continue;
-    out += `<b>${esc(k.replace(/_/g, ' '))}</b>`;
-    if (Array.isArray(v)) out += v.map(x => `<div>${linkify(esc(typeof x === 'object' ? JSON.stringify(x) : String(x).replace(/_/g, ' ')))}</div>`).join('');
-    else if (typeof v === 'object') out += `<div>${esc(JSON.stringify(v, null, 1))}</div>`;
-    else out += `<div>${linkify(esc(String(v).replace(/_/g, ' ')))}</div>`;
+    out += `<b>${esc(k.replace(/_/g, ' '))}</b>${plain(v)}`;
   }
   return out ? `<div class="facts">${out}</div>` : '';
 }
@@ -261,18 +285,34 @@ function renderBody(d, body) {
   if (!body) return '';
   switch (d.kind) {
     case 'statute': {
-      let out = body.purpose ? `<div class="lead">${linkify(esc(body.purpose))}</div>` : '';
+      // the V1 bill form: the long title under its own label
+      let out = body.purpose ? `<div class="longtitle"><div class="lbl">Long title</div>
+        <div class="lead">${linkify(esc(body.purpose))}</div></div>` : '';
       const secs = body.sections || [];
+      const ordinal = sec => parseInt(((sec.id || '').split(':s').pop()), 10) || 0;
+      const gapNote = (a, b) => {
+        const from = ordinal(a) + 1, to = ordinal(b) - 1;
+        if (!a || from > to) return '';
+        return from === to
+          ? `s${from} is not carried in the enacted text`
+          : `ss ${from} to ${to} are not carried in the enacted text`;
+      };
       if (secs.length >= 4) {
         out += `<nav class="toc">` + secs.map(sec =>
           `<a href="#${encodeURIComponent(sec.id || '')}">${esc((sec.id || '').split(':').pop())} - ${esc(sec.title || '')}</a>`).join('') + `</nav>`;
+        const gaps = secs.slice(1).map((sec, i) => gapNote(secs[i], sec)).filter(Boolean);
+        if (gaps.length) out += `<p class="gapnote">The enacted text carries these sections only; ${esc(gaps.join('; '))}.</p>`;
       }
+      let prev = null;
       for (const sec of secs) {
         const n = (sec.id || '').split(':').pop();
+        const gap = prev ? gapNote(prev, sec) : '';
+        if (gap) out += `<p class="gapnote">[${esc(gap)}]</p>`;
         out += `<section id="sec:${esc(sec.id || '')}"><h3>${esc(n)} - ${esc(sec.title || '')}
           <a class="pilcrow" data-sec="${esc(sec.id || '')}" title="Copy a citation to this section">&para;</a></h3>${paras(sec.text)}
           ${sec.commentary ? `<p class="commentary">${linkify(esc(sec.commentary))}</p>` : ''}
           ${factsPanel(sec.kernel_effect)}</section>`;
+        prev = sec;
       }
       return out;
     }
@@ -319,10 +359,17 @@ function statusLine(d) {
   if (d.subject) bits.push(`subject: ${esc(d.subject)}`);
   return bits.length ? `<div class="statusline">${bits.join(' &middot; ')}</div>` : '';
 }
+const KIND_ABBREV = { statute:'ACT', act:'ACT', regulation:'REG', rule:'RULE', instrument:'SI',
+  order:'ORDER', judgment:'CASE', decision:'DEC', invariant:'INV', obligation:'OBL', spec:'SPEC' };
 function assocSection(title, list) {
   if (!list.length) return '';
-  return `<h2 class="sect assoc">${esc(title)}</h2><div class="neigh">${list.map(n =>
-    `<button data-go="${esc(n.id)}">${esc(n.title)}</button>`).join('')}</div>`;
+  return `<h2 class="sect assoc">${esc(title)} <span style="letter-spacing:0;text-transform:none">${list.length}</span></h2>
+    <div class="neigh">${list.map(n => `
+      <div class="assoc-row" data-go="${esc(n.id)}" role="link" tabindex="0">
+        <span class="minichip" style="--tone:var(--${tone(n)});--tone-bg:var(--${tone(n)}-bg)">${esc(KIND_ABBREV[n.kind] || n.kind)}</span>
+        <span class="t">${esc(n.title)}</span>
+        <span class="c">${esc(n.citation || fmtDate(n.date))}</span>
+      </div>`).join('')}</div>`;
 }
 
 const DERIVED = new URLSearchParams(location.search).has('derived');
@@ -401,6 +448,7 @@ function render() {
     <div class="docmeta"><b>${esc(d.citation || d.id)}</b> &middot; ${esc(fmtDate(d.date))}
       <button class="copycite" data-cite>Copy citation</button></div>
     ${statusLine(d)}
+    <hr class="headrule">
     ${DERIVED ? `<div class="derived">Derived presentation rendered by the Gazette on ${esc(fmtDate(new Date().toISOString().slice(0, 10)))}; the source of record is unchanged on the immutable v1 branch.</div>` : ''}
     ${d.summary ? `<div class="lead">${linkify(esc(d.summary))}</div>` : ''}`;
 
@@ -440,8 +488,11 @@ function render() {
   }
 }
 function wireAssoc() {
-  document.querySelectorAll('.neigh button').forEach(b =>
-    b.addEventListener('click', () => { location.hash = encodeURIComponent(b.dataset.go); }));
+  document.querySelectorAll('.assoc-row').forEach(b => {
+    const go = () => { location.hash = encodeURIComponent(b.dataset.go); };
+    b.addEventListener('click', go);
+    b.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  });
   const id = decodeURIComponent(location.hash.slice(1)).split(':')[0];
   const d = byId.get(id);
   if (!d) return;
