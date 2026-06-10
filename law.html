@@ -47,8 +47,7 @@
   .tl { display:inline-block; font-size:.7rem; letter-spacing:.05em; text-transform:uppercase;
     padding:.06rem .5rem; border-radius:10px; border:1px solid var(--rule); color:var(--muted);
     background:#fff; margin-right:.5rem; vertical-align:.05rem; }
-  .tl.live { background:#1fd13f; color:#08350f; border-color:#16a832; }
-  .tl.assent { background:#cdf3d6; color:#0a5224; border-color:#5cbf80; }
+  .tl.live { background:#dff3e4; color:#0a5a26; border-color:#7cc894; }
   .tl.arch { background:#f1ece1; color:#6b5b3a; border-color:#cdbf9c; }
   .archnote { color:var(--muted); font-size:.82rem; font-style:italic; }
   .tl.bad  { background:#fbe3e3; color:#a01010; border-color:#c0392b; }
@@ -470,17 +469,23 @@ function chipsFor(d) {
     : `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'Archive' : 'Canon'}</span>`;
   return `<span class="chip tone-${t}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>${source}`;
 }
+function statusChipFor(d) {
+  // the status sits with the other chips; archive reads 'archived', canon shows
+  // its status; no assent chip (canon is assented by rule)
+  if (d.estate === 'v1') return `<span class="tl arch">archived</span>`;
+  return d.status ? `<span class="tl ${statusKind(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : '';
+}
 function statusLine(d) {
   const bits = [];
-  if (d.estate === 'v1') {
-    bits.push(`<span class="tl arch">archived</span>`);
-    if (d.status) bits.push(`<span class="archnote">recorded in V1 as ${esc(d.status.replace(/[_-]/g, ' '))}; persuasive unless incorporated</span>`);
-  } else {
-    if (d.status) bits.push(`<span class="tl ${statusKind(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>`);
-    if (d.assent_source) bits.push(`<span class="tl assent">${esc(d.assent_source.replace(/_/g, ' '))}</span>`);
-  }
+  if (d.estate === 'v1' && d.status) bits.push(`<span class="archnote">recorded in V1 as ${esc(d.status.replace(/[_-]/g, ' '))}; persuasive unless incorporated</span>`);
   if (d.subject) bits.push(`subject: ${esc(d.subject)}`);
   return bits.length ? `<div class="statusline">${bits.join(' &middot; ')}</div>` : '';
+}
+function displayTitle(d) {
+  const cite = d.citation;
+  if (cite && ['order', 'judgment', 'act', 'statute', 'instrument'].includes(d.kind)
+      && !d.title.startsWith(cite) && !d.title.startsWith('[')) return `${cite} - ${d.title}`;
+  return d.title;
 }
 const KIND_ABBREV = { statute:'ACT', act:'ACT', regulation:'REG', rule:'RULE', instrument:'SI',
   order:'ORDER', judgment:'CASE', decision:'DEC', invariant:'INV', obligation:'OBL', spec:'SPEC' };
@@ -559,9 +564,9 @@ function render() {
     if (d.estate === 'v2' && d.path) secondary.push(`<a href="${esc(d.path)}">Machine record (YAML)</a>`);
     page.innerHTML = `<div class="pdfhead">
         <div class="kicker">${d.estate === 'v1' ? 'The honoured archive' : 'The living canon'}</div>
-        <h1>${esc(d.title)}</h1>
-        <div>${chipsFor(d)}</div>
-        <div class="docmeta">${esc(d.citation || d.id)} &middot; ${esc(fmtDate(d.date))}${d.estate === 'v1' ? ` &middot; <span class="tl arch">archived</span>` : (d.status ? ` &middot; <span class="tl ${statusKind(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : '')}</div>
+        <h1>${esc(displayTitle(d))}</h1>
+        <div>${chipsFor(d)}${statusChipFor(d)}</div>
+        <div class="docmeta">${esc(d.citation || d.id)} &middot; ${esc(fmtDate(d.date))}</div>
       </div>
       ${secondary.length ? `<div class="pdftools"><span class="lbl">Also:</span>${secondary.join('')}</div>` : ''}
       <div class="pdfwrap"><embed src="${esc(d.pdf)}" type="application/pdf"
@@ -573,8 +578,8 @@ function render() {
 
   // the rendered document
   const head = `<div class="kicker">${d.estate === 'v1' ? 'The honoured archive' : 'The living canon'}</div>
-    <h1>${esc(d.title)}</h1>
-    <div>${chipsFor(d)}</div>
+    <h1>${esc(displayTitle(d))}</h1>
+    <div>${chipsFor(d)}${statusChipFor(d)}</div>
     <div class="docmeta"><b>${esc(d.citation || d.id)}</b> &middot; ${esc(fmtDate(d.date))}
       <button class="copycite" data-cite>Copy citation</button></div>
     ${statusLine(d)}

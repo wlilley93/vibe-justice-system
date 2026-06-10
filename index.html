@@ -112,8 +112,7 @@
   .tl { display:inline-block; font-size:.66rem; letter-spacing:.05em; text-transform:uppercase;
     padding:.05rem .45rem; border-radius:10px; border:1px solid var(--rule); color:var(--muted);
     background:#fff; }
-  .tl.live { background:#1fd13f; color:#08350f; border-color:#16a832; }
-  .tl.assent { background:#cdf3d6; color:#0a5224; border-color:#5cbf80; }
+  .tl.live { background:#dff3e4; color:#0a5a26; border-color:#7cc894; }
   .tl.arch { background:#f1ece1; color:#6b5b3a; border-color:#cdbf9c; }
   .tl.bad  { background:#fbe3e3; color:#a01010; border-color:#c0392b; }
   .tl.pend { background:#fff2d6; color:#8a5a00; border-color:#d99b1f; }
@@ -392,12 +391,16 @@ function statusKind(s) {
 }
 function statusPill(s) { return s ? `<span class="tl ${statusKind(s)}">${esc(s.replace(/[_-]/g, ' '))}</span>` : ''; }
 function statusChip(d) {
-  // the honoured archive reads 'archived' (no live good-law); canon reads its
-  // traffic-light status and, if assented, a green assent chip
+  // the honoured archive reads 'archived'; canon shows its status; no assent
+  // chip (canon is assented by rule)
   if (d.estate === 'v1') return `<span class="tl arch">archived</span>`;
-  let out = statusPill(d.status);
-  if (d.assent_source) out += ` <span class="tl assent">${esc(d.assent_source.replace(/_/g, ' '))}</span>`;
-  return out;
+  return statusPill(d.status);
+}
+function displayTitle(d) {
+  const cite = d.citation;
+  if (cite && ['order', 'judgment', 'act', 'statute', 'instrument'].includes(d.kind)
+      && !d.title.startsWith(cite) && !d.title.startsWith('[')) return `${cite} - ${d.title}`;
+  return d.title;
 }
 function fmtDate(iso) {
   if (!iso) return '';
@@ -721,7 +724,7 @@ function renderList() {
     const courtChip = d.court
       ? `<span class="chip tone-${t}">${esc(d.court.toUpperCase())}</span>`
       : `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'ARCHIVE' : 'CANON'}</span>`;
-    row.innerHTML = `<div class="t${major(d) ? ' major' : ''}">${esc(d.title)}</div>
+    row.innerHTML = `<div class="t${major(d) ? ' major' : ''}">${esc(displayTitle(d))}</div>
       <div class="chips"><span class="chip tone-${t}">${esc(KIND_ABBREV[d.kind] || d.kind)}</span>${courtChip}</div>
       <div class="m"><span class="dot" style="background:${d.estate === 'v1' ? '#fffdfa' : TONES[t]};border-color:${TONES[t]}${d.estate === 'v1' ? ';border-style:dashed' : ''}"></span>
       <span>${esc(d.citation || '')}</span>
@@ -783,7 +786,7 @@ function showHoverCard(d, x, y) {
   hc.style.setProperty('--tone', `var(--${t})`);
   hc.innerHTML = `
     <div class="hc-chips"><span class="chip tone-${t}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>${source}${statusChip(d)}</div>
-    <div class="hc-title">${esc(d.title)}</div>
+    <div class="hc-title">${esc(displayTitle(d))}</div>
     <div class="hc-meta">${meta}</div>
     <div class="hc-sum">${esc(d.summary || '')}</div>
     <div class="hc-hint">Click to open the document</div>`;
@@ -997,19 +1000,14 @@ function openPanel(id, opts = {}) {
 
   document.getElementById('p-kicker').textContent =
     d.estate === 'v1' ? 'The honoured archive' : 'The living canon';
-  document.getElementById('p-title').textContent = d.title;
-  document.getElementById('p-chips').innerHTML = chipsFor(d);
+  document.getElementById('p-title').textContent = displayTitle(d);
+  // the status chip sits with the kind and source chips, top of the panel
+  document.getElementById('p-chips').innerHTML = chipsFor(d) + statusChip(d);
   const citeEl = document.getElementById('p-cite');
   citeEl.textContent = [
     d.citation || d.id,
     fmtDate(d.date),
   ].filter(Boolean).join(' · ') + ' ';
-  const sc = statusChip(d);
-  if (sc) {
-    const span = document.createElement('span');
-    span.innerHTML = sc;
-    while (span.firstChild) citeEl.appendChild(span.firstChild);
-  }
   const cbtn = document.createElement('button');
   cbtn.className = 'copycite'; cbtn.textContent = 'Copy citation';
   cbtn.onclick = () => copyText(citeFor(d), cbtn);
