@@ -1,0 +1,12 @@
+id: LOG-2026-06-10-171818
+time: 2026-06-10T17:18:18.937054890+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260610-171744
+decision: 'Closed the gap that allowed the client-data breach (BREACH-2026-06-10-client-data-published): the Gazette publication path had no boundary scan, unlike the governed writers (Store::write_log, write_convening) which scan before bytes hit disk. vjs gazette now runs a publication boundary gate over everything it is about to publish (the data and the full-text artifacts) and fails closed BEFORE writing: the RedactScanner catches API keys, tokens, AWS keys, emails, and passwords (the private-hostname finding kind is excluded because its pattern false-positives on legal prose and config examples); and a hashed denylist (sha256 of lowercased private terms, so no plaintext private identifier is stored in the repo) catches private identifiers including the client name from this incident. The gate is proven both ways: the clean record publishes, a planted denylisted term fails closed. A new CI test mirrors the gate over the published artifacts so a hand-edit cannot slip past. Doctrine recorded: a carried external-matter artifact is private by default and must be cleared before publication. Notably, write_log itself rejected the first draft of this very log for quoting the config example verbatim, demonstrating the governed-writer gate this change extends to publication. 71 tests, 0 clippy warnings.'
+basis:
+- PERMIT-1781111864
+risk: low
+reversibility: easy
+court_required: false
+why: The breach root cause was a publication path with no boundary scan; this adds the missing fail-closed gate and a CI net.
