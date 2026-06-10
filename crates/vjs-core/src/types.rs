@@ -523,6 +523,26 @@ pub struct Order {
     pub source_opinion: Option<PathBuf>,
     pub runtime_summary: String,
     pub created_at: String,
+    // Promote the citation and assent source the orders already carry (they
+    // were silently dropped on load). Optional so the existing orders are valid.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub citation: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub assent_source: Option<String>,
+    // Auditable court record: the bench that decided, the sha256 of the
+    // symmetric case file, when it convened, the vote, and the appeal links.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub bench: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub case_file_digest: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub convened_at: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub vote: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub appeal_of: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub appealable: Option<bool>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

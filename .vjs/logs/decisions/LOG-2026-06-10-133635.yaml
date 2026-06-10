@@ -1,0 +1,12 @@
+id: LOG-2026-06-10-133635
+time: 2026-06-10T13:36:35.585845017+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260610-133610
+decision: 'Made the court auditable infrastructure, not just prose. The Order schema gains optional, serde-default fields recorded on a ruling: bench (the deciding seats), case_file_digest (the sha256 of the symmetric case file the court decided), convened_at, vote, appeal_of and appealable; and the citation and assent_source the orders already carried but the loader silently dropped are now real fields. The existing 22 orders load unchanged (back-compat test: PC-7 round-trips its citation and standing-bounded assent). A new vjs court surface: ''docket'' lists the canon orders, the pending submissions, and the convening records, marking which orders carry a convening; ''record'' loads a filed submission, pins the sha256 of its exact bytes as the case-file digest, and writes a ConveningRecord (bench, court, convened_at) under .vjs/court/convenings through the same public/private boundary scan the decision logs use. Store gains write_convening/read_convenings/read_submissions and the court/convenings init dir. Additive data shape only, no change to who sits or jurisdiction: machinery, not a touch of the courts constitution (the genuine classification question is itself the vehicle for the A5 reference). 69 tests, 0 clippy warnings.'
+basis:
+- PERMIT-1781098570
+risk: low
+reversibility: easy
+court_required: false
+why: 'An honest-caveat fix: the bench and the case-file digest lived only in narrative; now a ruling is traceable to exactly what was before it, by tooling.'
