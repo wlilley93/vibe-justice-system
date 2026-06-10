@@ -38,8 +38,9 @@ fn test_invariant_evaluation() {
     let repo = repo_root();
     let lawpack = LawpackLoader::load(&repo.join("lawpack/v2")).unwrap();
     let repo_state = RepoScanner::build_repo_state(&repo).unwrap();
-    let report = evaluate_invariants(&repo_state, &lawpack.invariants).unwrap();
-    
+    let facts = vjs_lawpack::lawpack_facts(&repo, &lawpack);
+    let report = evaluate_invariants(&repo_state, &lawpack.invariants, &facts).unwrap();
+
     let failures: Vec<_> = report.findings.iter().filter(|f| !f.passed).collect();
     assert!(failures.is_empty(), "All invariants should pass: failures: {:?}", 
         failures.iter().map(|f| &f.invariant_id.0).collect::<Vec<_>>());

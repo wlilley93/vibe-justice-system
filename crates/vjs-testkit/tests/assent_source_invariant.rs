@@ -11,7 +11,7 @@
 
 use std::collections::HashMap;
 use std::path::PathBuf;
-use vjs_core::spec::{evaluate_invariants, Invariant, RepoState};
+use vjs_core::spec::{evaluate_invariants, Invariant, LawpackFacts, RepoState};
 use vjs_core::types::*;
 
 fn state_with(path: &str, content: &str) -> RepoState {
@@ -53,7 +53,7 @@ fn assent_invariant() -> Invariant {
 
 fn passes(state: &RepoState) -> bool {
     let inv = assent_invariant();
-    let report = evaluate_invariants(state, std::slice::from_ref(&inv)).expect("eval");
+    let report = evaluate_invariants(state, std::slice::from_ref(&inv), &LawpackFacts::default()).expect("eval");
     report.findings[0].passed
 }
 

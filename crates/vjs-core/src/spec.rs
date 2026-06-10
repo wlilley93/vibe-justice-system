@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::path::{Path, PathBuf};
 
 use crate::types::*;
@@ -152,9 +152,39 @@ pub struct DependencyChange {
     pub removed: bool,
 }
 
+/// Facts about the WHOLE lawpack, computed once (by the lawpack crate) and
+/// handed to the staged-only invariant evaluator. `RepoState` holds only the
+/// staged diff; predicates that reason about the entire authority graph
+/// (validation, duplicate ids/citations, graph membership) read these.
+#[derive(Clone, Debug)]
+pub struct LawpackFacts {
+    pub validates: bool,
+    pub duplicate_ids: bool,
+    pub duplicate_citations: bool,
+    pub all_ids: HashSet<String>,
+    pub mcp_local_first: bool,
+    pub directory_roles_resolve: bool,
+}
+
+impl Default for LawpackFacts {
+    /// Permissive default for callers/tests that do not exercise the
+    /// lawpack-wide predicates. Real call sites build facts from the lawpack.
+    fn default() -> Self {
+        LawpackFacts {
+            validates: true,
+            duplicate_ids: false,
+            duplicate_citations: false,
+            all_ids: HashSet::new(),
+            mcp_local_first: true,
+            directory_roles_resolve: true,
+        }
+    }
+}
+
 pub fn evaluate_invariants(
     repo_state: &RepoState,
     invariants: &[Invariant],
+    facts: &LawpackFacts,
 ) -> Result<InvariantReport, KernelError> {
     let mut findings = Vec::new();
 
@@ -178,7 +208,7 @@ pub fn evaluate_invariants(
             None => true,
         };
         let result = if in_scope {
-            evaluate_predicate(&invariant.rule, repo_state, invariant.scope.as_ref())
+            evaluate_predicate(&invariant.rule, repo_state, invariant.scope.as_ref(), facts)
         } else {
             true
         };
@@ -210,15 +240,20 @@ fn scope_allows(scope: Option<&Scope>, path: &std::path::Path) -> bool {
     }
 }
 
-fn evaluate_predicate(rule: &PredicateExpr, repo_state: &RepoState, scope: Option<&Scope>) -> bool {
+fn evaluate_predicate(
+    rule: &PredicateExpr,
+    repo_state: &RepoState,
+    scope: Option<&Scope>,
+    facts: &LawpackFacts,
+) -> bool {
     match rule {
-        PredicateExpr::All { items } => items.iter().all(|item| evaluate_predicate(item, repo_state, scope)),
-        PredicateExpr::Any { items } => items.iter().any(|item| evaluate_predicate(item, repo_state, scope)),
-        PredicateExpr::None { items } => items.iter().all(|item| !evaluate_predicate(item, repo_state, scope)),
-        PredicateExpr::Not { item } => !evaluate_predicate(item, repo_state, scope),
+        PredicateExpr::All { items } => items.iter().all(|item| evaluate_predicate(item, repo_state, scope, facts)),
+        PredicateExpr::Any { items } => items.iter().any(|item| evaluate_predicate(item, repo_state, scope, facts)),
+        PredicateExpr::None { items } => items.iter().all(|item| !evaluate_predicate(item, repo_state, scope, facts)),
+        PredicateExpr::Not { item } => !evaluate_predicate(item, repo_state, scope, facts),
         PredicateExpr::If { condition, then } => {
-            if evaluate_predicate(condition, repo_state, scope) {
-                evaluate_predicate(then, repo_state, scope)
+            if evaluate_predicate(condition, repo_state, scope, facts) {
+                evaluate_predicate(then, repo_state, scope, facts)
             } else {
                 true // if condition is false, the implication is vacuously true
             }
@@ -283,9 +318,20 @@ fn evaluate_predicate(rule: &PredicateExpr, repo_state: &RepoState, scope: Optio
             // Simplified: always true for now
             true
         }
-        PredicateExpr::RequiredFields { fields: _ } => {
-            // Simplified: always true for now
-            true
+        PredicateExpr::RequiredFields { fields } => {
+            // Every staged in-scope record must declare each required field
+            // (e.g. a new law record must carry authority/status/kernel_effect).
+            // A YAML key is `name:` at the start of a (possibly indented) line.
+            repo_state
+                .file_contents
+                .iter()
+                .filter(|(p, _)| scope_allows(scope, p))
+                .all(|(_, content)| {
+                    fields.iter().all(|f| {
+                        let key = format!("{}:", f);
+                        content.lines().any(|l| l.trim_start().starts_with(&key))
+                    })
+                })
         }
         PredicateExpr::FieldEquals { field, value } => {
             // Only the files within the invariant's scope: a field check on a
@@ -299,8 +345,22 @@ fn evaluate_predicate(rule: &PredicateExpr, repo_state: &RepoState, scope: Optio
                 .any(|(_, content)| content.contains(&pattern))
         }
         PredicateExpr::IncludedInRuntimeAuthorityGraph => {
-            // Simplified: always true for now
-            true
+            // A staged in-scope record whose declared id resolves in the whole
+            // lawpack is part of the runtime authority graph. INV-LAWMAKING-002
+            // wraps this as `if status==draft then not(included)`, so a draft
+            // record sitting in a runtime-authority path (its id already in the
+            // graph) fails - draft law is not binding.
+            repo_state
+                .file_contents
+                .iter()
+                .filter(|(p, _)| scope_allows(scope, p))
+                .any(|(_, content)| {
+                    content
+                        .lines()
+                        .find_map(|l| l.trim().strip_prefix("id:"))
+                        .map(|id| facts.all_ids.contains(id.trim().trim_matches('"')))
+                        .unwrap_or(false)
+                })
         }
         PredicateExpr::PublicNoPrivateFacts => {
             repo_state.boundary_findings.is_empty()
@@ -342,24 +402,14 @@ fn evaluate_predicate(rule: &PredicateExpr, repo_state: &RepoState, scope: Optio
         PredicateExpr::LogsStayShort => {
             repo_state.logs.iter().all(|log| log.why.split_whitespace().count() <= 150)
         }
-        PredicateExpr::LawpackValidates => {
-            true
-        }
-        PredicateExpr::NoDuplicateIds => {
-            true
-        }
-        PredicateExpr::NoDuplicateCitations => {
-            true
-        }
+        PredicateExpr::LawpackValidates => facts.validates,
+        PredicateExpr::NoDuplicateIds => !facts.duplicate_ids,
+        PredicateExpr::NoDuplicateCitations => !facts.duplicate_citations,
         PredicateExpr::OrdersHaveDirectives => {
             repo_state.orders.iter().all(|order| !order.directives.is_empty())
         }
-        PredicateExpr::McpLocalFirst => {
-            true
-        }
-        PredicateExpr::DirectoryRolesResolve => {
-            true
-        }
+        PredicateExpr::McpLocalFirst => facts.mcp_local_first,
+        PredicateExpr::DirectoryRolesResolve => facts.directory_roles_resolve,
         PredicateExpr::V1NotLoadedByDefault => {
             // Deterministic: a runtime authority record (statute, regulation,
             // rule, or order) must not drag V1 in as binding law on a V2
