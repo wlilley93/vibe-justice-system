@@ -31,3 +31,5 @@
 | s.23 | SC / constitutional | [2026] REALM-SC 10 - the assent floor (back-filled per [2026] VJS-PC 3) |
 
 **Use.** A reference of the form `CASE-LAW s.N` in the live corpus resolves through this table to its true source. For an SC article, prefer the case citation in new drafting; for a P/constitutional article, the section is the genuine statutory unit and is correct. The principle-20 gate is to fail closed on a `CASE-LAW s.N` reference to an SC-sourced article in newly authored records (a court-made article must be cited by its case).
+
+**Update ([2026] VJS-PC 9).** CASE-LAW is the entrenched V1 document and may not be cited as live binding V2 authority. Every `CASE-LAW s.X` in the binding V2 record has been STRUCK and re-grounded by its true V2 source (the assent floor to ACT-COMPUTER-FIRST-REALM s.23 and INV-ASSENT-SOURCE-001, true source [2026] REALM-SC 10; SC articles to their case, persuasive only). The principle-20 gate fails closed on any `CASE-LAW s.X` citation to a court-made SC article in ALL records, old and new. The entrenched rules are saved; only the citation form and pedigree change.

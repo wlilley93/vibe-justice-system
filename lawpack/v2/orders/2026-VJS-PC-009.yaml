@@ -1,0 +1,68 @@
+id: "2026-VJS-PC-009"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-PC 9"
+title: CASE-LAW is V1; it may not be cited as binding V2 authority
+court: privy_council
+jurisdiction: agent-universe-v2
+status: binding
+issue: case_law_is_v1
+holding: >
+  CASE-LAW, an untouched V1 document, may not be cited as live binding V2
+  authority. Under ACT-001 s.4 and ACT-COMPUTER-FIRST-REALM s.6/s.8/s.9, V1 binds
+  V2 only by express incorporation; a citation "CASE-LAW s.X" is reference, not
+  incorporation, and imports V1 by implication. Every "CASE-LAW s.X" in the
+  binding V2 record is STRUCK and re-grounded by its true V2 source per the
+  VJS-PC 4 citation-map: P/constitutional articles by their V2 statutory home,
+  SC articles by their case (cited persuasive, never binding). This is a
+  governed, meaning-preserving clerical pass: no fresh adoption, no legal meaning
+  changed. The entrenched rules are SAVED from repeal. The assent floor dwells
+  operatively in ACT-COMPUTER-FIRST-REALM s.23 and INV-ASSENT-SOURCE-001, sourced
+  to [2026] REALM-SC 10. Re-grounding the citation clarifies V2 enactment; it
+  does not amend, dilute, or orphan the rule.
+directives:
+  - id: D1
+    actor: lexby
+    must: strike_every_case_law_s_x_reference_from_the_binding_v2_record_and_replace_it_by_its_true_v2_source_per_the_vjs_pc_4_citation_map
+  - id: D2
+    actor: lexby
+    must: reground_the_assent_floor_citation_to_act_computer_first_realm_s23_and_inv_assent_source_001_with_true_source_2026_realm_sc_10_never_to_case_law_s23
+  - id: D3
+    actor: lexby
+    must: cite_p_constitutional_articles_by_their_v2_statutory_home_and_sc_case_made_articles_by_their_neutral_case_citation_treating_v1_cases_as_persuasive_only
+  - id: D4
+    actor: lexby
+    must: effect_the_re_citation_as_a_governed_meaning_preserving_clerical_pass_requiring_no_fresh_adoption_and_changing_no_legal_meaning
+  - id: D5
+    actor: lexby
+    must: save_the_underlying_entrenched_rules_above_all_the_assent_floor_from_any_repeal_dilution_or_orphaning_the_strike_amends_citation_form_and_pedigree_only
+  - id: D6
+    actor: lexby
+    must: extend_the_principle_20_gate_to_fail_closed_on_any_case_law_s_x_citation_to_a_court_made_sc_sourced_article_in_all_records
+  - id: D7
+    actor: lexby
+    must: record_this_order_as_v2_caselaw_with_a_citator_row
+forbidden:
+  - citing_case_law_a_v1_document_as_live_binding_v2_authority
+  - treating_a_citation_or_general_reference_to_case_law_as_express_incorporation_of_v1
+  - importing_any_v1_rule_into_v2_by_implication_or_silence
+  - amending_diluting_or_orphaning_the_entrenched_assent_floor_through_the_clerical_re_citation_pass
+  - changing_any_legal_meaning_in_the_meaning_preserving_re_citation_pass
+  - re_cutting_or_re_sectioning_the_entrenched_v1_case_law_document
+  - citing_a_court_made_sc_article_by_a_pseudo_section_instead_of_its_case
+  - treating_case_law_as_a_v2_extensible_binding_statute_or_purporting_to_enact_a_new_case_law_section
+supersedes: []
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-009-opinion.md"
+created_at: "2026-06-10T17:30:00Z"
+bench:
+  - Marbury
+  - Calder
+  - Ashby
+vote: "3-0 to strike (unanimous to save the entrenched rules)"
+convened_at: "2026-06-10T17:30:00Z"
+case_file_digest: "sha256:4147348160072e77831bc06cb9a720c550b35f1cab453884f5aad2976c114290"
+appeal_of: ""
+appealable: true
+runtime_summary: >
+  CASE-LAW (V1) cannot be cited as live binding V2 authority. Strike every
+  "CASE-LAW s.X" in the binding record; re-ground by true V2 source per the
+  VJS-PC 4 map. Meaning-preserving clerical pass; entrenched assent floor saved.

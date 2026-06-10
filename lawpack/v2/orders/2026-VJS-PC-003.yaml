@@ -6,10 +6,10 @@ repo_code: VJS
 status: binding
 issue: governance.s23-sc10-location
 holding: >
-  V2 Privy Council, 3-0, on a hybrid split by instrument. CASE-LAW s.23 and
+  V2 Privy Council, 3-0, on a hybrid split by instrument. The V1 case-law assent floor (s.23) and
   [2026] REALM-SC 10 are treated as good law and reproduced operatively in the
   assented Bill 32 Part 12 + the V2 provenance, but absent from the V1 tree. The
-  record is made whole by back-filling into the V1 archival estate: a CASE-LAW
+  record is made whole by back-filling into the V1 archival estate: a V1 case-law
   s.23 article by word-for-word transcription verified against the assented
   digest sha256:8e1d3f51, any unverifiable wording left a cited gap; and a
   [2026] REALM-SC 10 DERIVED MINUTE only (record_kind derived_minute,
