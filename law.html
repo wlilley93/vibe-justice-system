@@ -41,6 +41,15 @@
   .bar .gh { margin-left:auto; display:flex; align-items:center; color:var(--ink); }
   .bar .gh svg { width:22px; height:22px; display:block; }
   .bar .gh:hover { opacity:.7; }
+  .backbtn { border:1px solid var(--ink); background:var(--paper); color:var(--ink); border-radius:6px;
+    padding:.25rem .7rem; cursor:pointer; font-size:.82rem; }
+  .backbtn:hover { background:var(--cream); }
+  .tl { display:inline-block; font-size:.7rem; letter-spacing:.05em; text-transform:uppercase;
+    padding:.06rem .5rem; border-radius:10px; border:1px solid var(--rule); color:var(--muted);
+    background:#fff; margin-right:.5rem; vertical-align:.05rem; }
+  .tl.live { background:#1fd13f; color:#08350f; border-color:#16a832; }
+  .tl.bad  { background:#fbe3e3; color:#a01010; border-color:#c0392b; }
+  .tl.pend { background:#fff2d6; color:#8a5a00; border-color:#d99b1f; }
 
   /* chips: the same tone-on-tint pairs as everywhere */
   .chip { display:inline-block; width:6.1rem; text-align:center; border:1px solid var(--tone,var(--muted));
@@ -194,7 +203,7 @@
 </noscript>
 
 <div class="bar">
-  <img class="mark" src="assets/vjs-logo-mark.png" alt="">
+  <button class="backbtn" onclick="goBack()" title="Back">&larr; Back</button>
   <span class="word"><b>The VJS Gazette</b><span>the record of the realm</span></span>
   <nav>
     <a href="gazette.html">Register</a>
@@ -243,8 +252,12 @@ function fmtDate(iso) {
   const M = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   return `${d} ${M[m - 1]} ${y}`;
 }
-function goodBad(status) {
-  return /(void|per.incuriam|superseded|revoked|stayed)/.test((status || '').toLowerCase()) ? ' bad' : '';
+function statusKind(s) {
+  s = (s || '').toLowerCase();
+  if (/(void|per.incuriam|superseded|revoked|stayed|not.law)/.test(s)) return 'bad';
+  if (/(draft|pending|proposed)/.test(s)) return 'pend';
+  if (/(in.force|good.law|binding|active|assented|enacted|made)/.test(s)) return 'live';
+  return '';
 }
 
 /* citation linkification (same grammar as the explorer) */
@@ -450,7 +463,7 @@ function chipsFor(d) {
 }
 function statusLine(d) {
   const bits = [];
-  if (d.status) bits.push(`<span class="force${goodBad(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>`);
+  if (d.status) bits.push(`<span class="tl ${statusKind(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>`);
   if (d.assent_source) bits.push(`assent: ${esc(d.assent_source.replace(/_/g, ' '))}`);
   if (d.subject) bits.push(`subject: ${esc(d.subject)}`);
   return bits.length ? `<div class="statusline">${bits.join(' &middot; ')}</div>` : '';
@@ -470,6 +483,7 @@ function assocSection(title, list) {
 
 const DERIVED = new URLSearchParams(location.search).has('derived');
 
+function goBack() { if (history.length > 1) history.back(); else location.href = 'gazette.html'; }
 function copyText(text, btn) {
   const done = () => {
     if (!btn) return;
@@ -528,7 +542,7 @@ function render() {
         <div class="kicker">${d.estate === 'v1' ? 'The honoured archive' : 'The living canon'}</div>
         <h1>${esc(d.title)}</h1>
         <div>${chipsFor(d)}</div>
-        <div class="docmeta">${esc(d.citation || d.id)} &middot; ${esc(fmtDate(d.date))}${d.status ? ` &middot; ${esc(d.status.replace(/[_-]/g, ' '))}` : ''}</div>
+        <div class="docmeta">${esc(d.citation || d.id)} &middot; ${esc(fmtDate(d.date))}${d.status ? ` &middot; <span class="tl ${statusKind(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : ''}</div>
       </div>
       <div class="pdfwrap"><embed src="${esc(d.pdf)}" type="application/pdf"
         title="${esc(d.title)}"></div>
