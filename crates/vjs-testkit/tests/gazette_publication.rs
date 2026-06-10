@@ -182,14 +182,18 @@ fn the_workplan_order_terms_hold_on_the_register() {
         );
         if item["estate"] == "v1" {
             let pdf = item["pdf"].as_str().unwrap_or_default();
-            assert!(!pdf.is_empty(), "{}: archive items read as PDFs", item["id"]);
+            let webpage = item["archive_text"] == true;
+            // every archive record loads as its native PDF, or (where none was
+            // ever rendered in V1) as a webpage from its frozen source
             assert!(
-                repo_root().join(pdf).exists(),
-                "{}: the carried PDF exists at {}",
-                item["id"],
-                pdf
+                !pdf.is_empty() || webpage,
+                "{}: archive items load a PDF or a source webpage",
+                item["id"]
             );
-            assert!(!pdf.starts_with("http"), "{}: the Gazette serves its own PDFs", item["id"]);
+            if !pdf.is_empty() {
+                assert!(repo_root().join(pdf).exists(), "{}: carried PDF exists at {}", item["id"], pdf);
+                assert!(!pdf.starts_with("http"), "{}: the Gazette serves its own PDFs", item["id"]);
+            }
         }
     }
 }

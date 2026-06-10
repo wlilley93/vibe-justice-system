@@ -1678,7 +1678,7 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     // machinery is scheduled under REG-REALM-INVARIANTS-001 and read within
     // it (the instrument's own terms, assented per [2026] VJS-PC 7).
     const MACHINERY_INSTRUMENT: &str = "REG-REALM-INVARIANTS-001";
-    const MACHINERY: [&str; 4] = ["invariant", "obligation", "rule", "spec"];
+    const MACHINERY: [&str; 5] = ["invariant", "obligation", "rule", "spec", "decision"];
     let mut schedules: Vec<serde_json::Value> = Vec::new();
 
     let kinds = [
@@ -1932,6 +1932,7 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
         if let Some(seq) = v.get("items").and_then(|x| x.as_sequence()) {
             for it in seq {
                 let path = s(it, "path").unwrap_or_default();
+                let v1_id = s(it, "id").unwrap_or_default();
                 let v1_kind = s(it, "kind").unwrap_or_default();
                 let v1_title = s(it, "title").unwrap_or_default();
                 let v1_title = if matches!(v1_kind.as_str(), "act" | "instrument" | "judgment") {
@@ -1939,8 +1940,18 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 } else {
                     v1_title
                 };
+                // A record with no native V1 PDF renders as a webpage from its
+                // frozen source markdown, in the Gazette's own document style.
+                let mut archive_text = false;
+                if let Some(src) = s(it, "source_md").filter(|x| !x.is_empty()) {
+                    if let Ok(md) = std::fs::read_to_string(repo.join(&src)) {
+                        texts.insert(v1_id.clone(), serde_json::json!({ "archive_md": md }));
+                        archive_text = true;
+                    }
+                }
+                let v1_id_for_doc = v1_id.clone();
                 items.push(serde_json::json!({
-                    "id": s(it, "id").unwrap_or_default(),
+                    "id": v1_id,
                     "title": v1_title,
                     "citation": s(it, "citation").unwrap_or_default(),
                     "kind": s(it, "kind").unwrap_or_default(),
@@ -1953,10 +1964,11 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                     "cites": str_list(it, "cites"),
                     "supersedes": [],
                     "has_text": false,
+                    "archive_text": archive_text,
                     "updated": s(it, "date").unwrap_or_default(),
                     "pdf": s(it, "pdf").unwrap_or_default(),
-                    "doc": format!("law.html#{}", s(it, "id").unwrap_or_default()),
-                    "path": path,
+                    "doc": format!("law.html#{}", v1_id_for_doc),
+                    "path": path.clone(),
                     "url": format!("{}{}", V1_BASE, path),
                 }));
             }

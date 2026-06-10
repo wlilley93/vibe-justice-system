@@ -28,7 +28,7 @@
     <category term="canon"/>
     <published>2026-06-10T00:00:00Z</published>
     <updated>2026-06-10T00:00:00Z</updated>
-    <summary type="text">The kernel machinery of the realm, namely its invariants, obligations, agent rules, and specifications, is consolidated under this single instrument.</summary>
+    <summary type="text">The kernel machinery of the realm, namely its invariants, obligations, agent rules, specifications, and decisions of record, is consolidated under this single instrument.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-001</id>
@@ -372,83 +372,6 @@
     <summary type="text">Founding statute for VJS V2 (Computer-First Realm); establishes V2 machinery and handover conditions.</summary>
   </entry>
   <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-AGENT-001</id>
-    <title>Agent lifecycle - route, permit, obligations, proof, log, validate</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-AGENT-001"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-AGENT-001.yaml"/>
-    <category term="decision"/>
-    <category term="canon"/>
-    <published>2026-06-08T00:00:00Z</published>
-    <updated>2026-06-09T00:00:00Z</updated>
-    <summary type="text">Agents performing load-bearing work (implementation decisions, public record changes, external acts, security-sensitive acts) shall follow the route-permit-obligations-proof-log-validate lifecycle.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-AGENT-HARNESS-001</id>
-    <title>Prompts do not create governance capability</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-AGENT-HARNESS-001"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-AGENT-HARNESS-001.yaml"/>
-    <category term="decision"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-06-09T00:00:00Z</updated>
-    <summary type="text">Agents are governed by kernel tools, deterministic validation, permits, proofs, logs, evals; not long prompts.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-ASSENT-DRAFT-001</id>
-    <title>AI legislature competence bounds - delegated lawmaking conditions and assent_source semantics</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-ASSENT-DRAFT-001"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-ASSENT-DRAFT-001.yaml"/>
-    <category term="decision"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-06-09T00:00:00Z</updated>
-    <summary type="text">Delegated lawmaking by AI agents is conditional on express Sovereign assent and bounded by prohibited subjects.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-ASSENT-DRAFT-002</id>
-    <title>Assent lifecycle gates - from draft to Gazette entry and adoption</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-ASSENT-DRAFT-002"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-ASSENT-DRAFT-002.yaml"/>
-    <category term="decision"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-06-09T00:00:00Z</updated>
-    <summary type="text">No law object acquires binding force by silence, default, or implied assent.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-KERNEL-001</id>
-    <title>Kernel determinism mandate</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-KERNEL-001"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-KERNEL-001.yaml"/>
-    <category term="decision"/>
-    <category term="canon"/>
-    <published>2026-06-08T00:00:00Z</published>
-    <updated>2026-06-09T00:00:00Z</updated>
-    <summary type="text">The kernel must be deterministic, local-first, and independent of model judgement.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-KERNEL-002</id>
-    <title>Kernel refactor and dependency constraints</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-KERNEL-002"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-KERNEL-002.yaml"/>
-    <category term="decision"/>
-    <category term="canon"/>
-    <published>2026-06-08T00:00:00Z</published>
-    <updated>2026-06-09T00:00:00Z</updated>
-    <summary type="text">Kernel refactors, dependency additions, network capability introductions, model call introductions, and authority-ranking changes must be gated by judicial review.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-V1-SILENCE-001</id>
-    <title>V2 silence is a V2 question, not a V1 revival</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-V1-SILENCE-001"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-V1-SILENCE-001.yaml"/>
-    <category term="decision"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-06-09T00:00:00Z</updated>
-    <summary type="text">V2 gap does not auto-import V1 as binding; gaps are V2 first-impression questions; V1 may be consulted.</summary>
-  </entry>
-  <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-PC-24</id>
     <title>[2026] REALM-PC 24 - VJS V2 Founding and Continuity</title>
     <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REALM-PC-24"/>
@@ -689,83 +612,6 @@
     <published>2026-06-09T00:00:00Z</published>
     <updated>2026-06-09T00:00:00Z</updated>
     <summary type="text">Privy Council is transition court classifying pending V1 matters as continued, reframed, or moot; V1 Court perfects only.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-001</id>
-    <title>V1 is archive, not runtime</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-001"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-001.yaml"/>
-    <category term="decision"/>
-    <category term="canon"/>
-    <published>2026-06-08T00:00:00Z</published>
-    <updated>2026-06-08T00:00:00Z</updated>
-    <summary type="text">V1 preserved as Gazette and archive; V2 runtime uses compact lawpack; only expressly migrated V1 binds.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-002</id>
-    <title>Orders bind, opinions explain</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-002"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-002.yaml"/>
-    <category term="decision"/>
-    <category term="canon"/>
-    <published>2026-06-08T00:00:00Z</published>
-    <updated>2026-06-08T00:00:00Z</updated>
-    <summary type="text">Kernel applies orders and rule atoms; opinions explain but do not bind unless incorporated.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-003</id>
-    <title>No Court of Appeal in V2 MVP</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-003"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-003.yaml"/>
-    <category term="decision"/>
-    <category term="canon"/>
-    <published>2026-06-08T00:00:00Z</published>
-    <updated>2026-06-08T00:00:00Z</updated>
-    <summary type="text">V2 uses County Court, Privy Council, and Supreme Court only; Court of Appeal deferred.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-004</id>
-    <title>Kernel first, MCP second</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-004"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-004.yaml"/>
-    <category term="decision"/>
-    <category term="canon"/>
-    <published>2026-06-08T00:00:00Z</published>
-    <updated>2026-06-08T00:00:00Z</updated>
-    <summary type="text">Rust kernel is authoritative runtime machinery; MCP is adapter; kernel must not depend on MCP.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-005</id>
-    <title>Configurable directories</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-005"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-005.yaml"/>
-    <category term="decision"/>
-    <category term="canon"/>
-    <published>2026-06-08T00:00:00Z</published>
-    <updated>2026-06-08T00:00:00Z</updated>
-    <summary type="text">VJS binds records by schema, ID, and configured role, not by ceremonial path.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-006</id>
-    <title>No semantic authority matching</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-006"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-006.yaml"/>
-    <category term="decision"/>
-    <category term="canon"/>
-    <published>2026-06-08T00:00:00Z</published>
-    <updated>2026-06-08T00:00:00Z</updated>
-    <summary type="text">Binding authority resolved by tags, jurisdiction, rank, status, scope, supersession; not cosine similarity.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:DEC-007</id>
-    <title>Legislation is YAML-first</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#DEC-007"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/decisions/DEC-007.yaml"/>
-    <category term="decision"/>
-    <category term="canon"/>
-    <published>2026-06-08T00:00:00Z</published>
-    <updated>2026-06-08T00:00:00Z</updated>
-    <summary type="text">V2 legislation is canonical as schema-validated YAML; Markdown is rendered explanation only.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-PC-14</id>

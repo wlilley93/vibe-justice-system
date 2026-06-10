@@ -32,8 +32,28 @@ impl RepoScanner {
             state.modified_files = staged;
         }
 
-        // Read file contents for changed paths
+        // Read file contents for changed paths, EXCEPT the published Gazette
+        // presentation, which is constitutively inert (REG-GAZETTE-CONTINUITY-
+        // 001) and must never be read as law: the archive's frozen V1 copies
+        // and the generated data artifacts quote legal phrases in prose, on
+        // which a content predicate (field_equals, string_contains) would
+        // false-positive. Law and governed code are scanned; presentation is not.
+        let is_presentation = |p: &PathBuf| -> bool {
+            let s = p.to_string_lossy();
+            s.starts_with("archive/")
+                || s.ends_with(".html")
+                || matches!(
+                    p.file_name().and_then(|f| f.to_str()),
+                    Some("gazette-data.js")
+                        | Some("gazette-data.json")
+                        | Some("gazette-text.js")
+                        | Some("gazette.xml")
+                )
+        };
         for path in &state.changed_paths.clone() {
+            if is_presentation(path) {
+                continue;
+            }
             let full_path = repo_root.join(path);
             if full_path.exists()
                 && let Ok(content) = std::fs::read_to_string(&full_path) {

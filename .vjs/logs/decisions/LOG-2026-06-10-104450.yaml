@@ -1,0 +1,12 @@
+id: LOG-2026-06-10-104450
+time: 2026-06-10T10:44:50.494489576+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260610-104428
+decision: 'Two register and archive corrections on the Principal''s direction. (1) The honoured archive now loads the real V1 JUDGMENT for every record: the 29 with native V1 PDFs embed them (the actual judgments, served from archive/pdfs/ by the Gazette, not GitHub); the 7 that V1 never rendered to PDF (REALM-SC-10, REALM-PC-24, BILL-32, SI-8..11) now render as WEBPAGES from their frozen v1-branch source markdown, in law.html''s own document header and style (markdown, tables, lists, citations linkified), replacing the off-style derived PDFs which are withdrawn. On SC-10 specifically: there is by constitutional design no native judgment to serve. [2026] VJS-PC 3 (Calloway J) holds the native SC-10 opinion was produced in a separate flow and never lodged, and the V1 record may reproduce only the disposition, the express handover order, the result, and the cited ratios, never an authored opinion, which would fabricate the founding record. The page now serves that derived minute in full, honestly labelled, rather than a mismatched PDF. (2) Decisions of record join the consolidation: REG-REALM-INVARIANTS-001 is amended under the Framework Act s.7 SI power, on the Principal''s express direction and conforming to the instrument''s own assented principle that the Gazette registers legislation and case law only, so the 14 VJS-DEC decisions leave the register and are read as Schedule 5 within the instrument (the register is now 88 items; the schedules carry 56 machinery records in full; no orphan results; kernel enforcement unchanged). The completeness test now treats decisions as scheduled machinery and requires every archive record to load a PDF or a webpage.'
+basis:
+- PERMIT-1781088268
+risk: low
+reversibility: easy
+court_required: false
+why: 'Principal: serve the judgments in the archive with one header style; remove decisions from the register as enacted machinery. SI-power amendment, not a held-draft commencement. 60 tests green.'

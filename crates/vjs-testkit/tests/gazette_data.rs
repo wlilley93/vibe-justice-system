@@ -54,7 +54,7 @@ fn every_law_object_is_published_and_every_edge_resolves() {
     let lawpack = repo_root().join("lawpack/v2");
     for (dir, machinery) in [
         ("statutes", false), ("regulations", false), ("rules", true), ("orders", false),
-        ("specs", true), ("invariants", true), ("decisions", false), ("obligations", true),
+        ("specs", true), ("invariants", true), ("decisions", true), ("obligations", true),
     ] {
         let d = lawpack.join(dir);
         if !d.exists() {
