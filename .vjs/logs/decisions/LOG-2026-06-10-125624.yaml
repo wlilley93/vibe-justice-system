@@ -1,0 +1,12 @@
+id: LOG-2026-06-10-125624
+time: 2026-06-10T12:56:24.857146589+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260610-125624
+decision: 'On the Principal''s direction, court orders now render as PDF on the site. Each of the 22 V2 court orders has a PDF carried under pdfs/orders/, rendered from the order''s own document (kicker, title, the two tone chips, the bright-green binding status, holding, directive table, forbidden terms, runtime summary) via the law.html print stylesheet; the generator points each order''s pdf field at it, and law.html serves the embedded PDF under the Gazette chrome. The machine YAML stands alongside as the Principal asked: the document offers an ''Also'' toolbar with ''Read as a page'' (the rendered webpage, via ?page) and ''Machine record (YAML)'' (the lawpack file itself, served by Pages). A test binds every order to its existing PDF and its existing machine record. 60 tests green.'
+basis:
+- PERMIT-1781096184
+risk: low
+reversibility: easy
+court_required: false
+why: 'Principal: court orders should be in PDF, though the machine yaml can also stand in the site.'

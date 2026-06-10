@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-10T12:46:54.019089592+00:00",
+  "generated_at": "2026-06-10T12:55:15.047221474+00:00",
   "items": [
     {
       "assent_source": "sovereign_assent",
@@ -243,7 +243,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Computer-First Realm Act 2026",
-      "updated": "2026-06-09",
+      "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/08-computer-first-realm.yaml"
     },
     {
@@ -273,7 +273,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Realm Consolidation and Reconciliation Framework Act 2026",
-      "updated": "2026-06-09",
+      "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/09-consolidation-framework.yaml"
     },
     {
@@ -762,7 +762,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Automated Release Warrant Regulation",
-      "updated": "2026-06-09",
+      "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-RELEASE-WARRANT-001.yaml"
     },
     {
@@ -904,6 +904,7 @@
         "2026-VJS-COURTS-CONSTITUTION-001"
       ],
       "path": "lawpack/v2/orders/2026-VJS-BOOT-001.yaml",
+      "pdf": "pdfs/orders/2026-VJS-BOOT-001.pdf",
       "points": [
         "Orders, rules, logs are runtime authority",
         "V1 archive not used as runtime unless expressly incorporated",
@@ -931,6 +932,7 @@
       "kind": "order",
       "lineage": [],
       "path": "lawpack/v2/orders/2026-VJS-BOOT-002.yaml",
+      "pdf": "pdfs/orders/2026-VJS-BOOT-002.pdf",
       "points": [
         "V1 is archive and historical record",
         "Check incorporation before citing V1 archive",
@@ -961,6 +963,7 @@
       "kind": "order",
       "lineage": [],
       "path": "lawpack/v2/orders/2026-VJS-BOOT-003.yaml",
+      "pdf": "pdfs/orders/2026-VJS-BOOT-003.pdf",
       "points": [
         "Use County, Privy Council, Supreme Court only",
         "Court of Appeal deferred; not created in MVP",
@@ -991,6 +994,7 @@
       "kind": "order",
       "lineage": [],
       "path": "lawpack/v2/orders/2026-VJS-BOOT-004.yaml",
+      "pdf": "pdfs/orders/2026-VJS-BOOT-004.pdf",
       "points": [
         "Material decisions, public record changes, external acts, security-sensitive acts require decision logs",
         "Logs must be 50-150 words",
@@ -1021,6 +1025,7 @@
       "kind": "order",
       "lineage": [],
       "path": "lawpack/v2/orders/2026-VJS-BOOT-005.yaml",
+      "pdf": "pdfs/orders/2026-VJS-BOOT-005.pdf",
       "points": [
         "MCP tools: route, lookup, validate, log, file, status only",
         "No arbitrary file writes, no release tools, no direct push actions",
@@ -1051,6 +1056,7 @@
       "kind": "order",
       "lineage": [],
       "path": "lawpack/v2/orders/2026-VJS-BOOT-006.yaml",
+      "pdf": "pdfs/orders/2026-VJS-BOOT-006.pdf",
       "points": [
         "vjs-core must not contain model calls, network clients, vector search, or LLM judgment",
         "Model interaction belongs in vjs-mcp or external adapters",
@@ -1081,6 +1087,7 @@
       "kind": "order",
       "lineage": [],
       "path": "lawpack/v2/orders/2026-VJS-BOOT-007.yaml",
+      "pdf": "pdfs/orders/2026-VJS-BOOT-007.pdf",
       "points": [
         "Invariants evaluated by fixed predicate registry in Rust",
         "No LLM checks, no cosine similarity, no free-form scripts",
@@ -1111,6 +1118,7 @@
       "kind": "order",
       "lineage": [],
       "path": "lawpack/v2/orders/2026-VJS-BOOT-008.yaml",
+      "pdf": "pdfs/orders/2026-VJS-BOOT-008.pdf",
       "points": [
         "Specs used as compact machine-checkable contracts for governed work",
         "Specs link to decisions, invariants, obligations, and review triggers",
@@ -1141,6 +1149,7 @@
       "kind": "order",
       "lineage": [],
       "path": "lawpack/v2/orders/2026-VJS-BOOT-009.yaml",
+      "pdf": "pdfs/orders/2026-VJS-BOOT-009.pdf",
       "points": [
         "Permits obtained before governed write; closed with proof after",
         "Hooks are session hint (40 words), pre-write check, pre-commit validation",
@@ -1172,6 +1181,7 @@
       "kind": "order",
       "lineage": [],
       "path": "lawpack/v2/orders/2026-VJS-BOOT-010.yaml",
+      "pdf": "pdfs/orders/2026-VJS-BOOT-010.pdf",
       "points": [
         "Boundary scan run on public record changes",
         "Deterministic scanner detects secrets, tokens, hostnames, emails, private paths",
@@ -1202,6 +1212,7 @@
       "kind": "order",
       "lineage": [],
       "path": "lawpack/v2/orders/2026-VJS-BOOT-011.yaml",
+      "pdf": "pdfs/orders/2026-VJS-BOOT-011.pdf",
       "points": [
         "Implement predicate DSL, repo state scanner, invariant wiring, permit persistence, hook installation, golden tests",
         "No doctrine expansion, Gazette, Court of Appeal, semantic search, PDF rendering until spine hardened",
@@ -1234,6 +1245,7 @@
         "2026-VJS-COURTS-CONSTITUTION-001"
       ],
       "path": "lawpack/v2/orders/2026-VJS-BOOT-012.yaml",
+      "pdf": "pdfs/orders/2026-VJS-BOOT-012.pdf",
       "points": [
         "Wire permit gate into validate staged; load permits/proofs/logs in status",
         "Block governed staged paths without matching permit; block missing before-commit obligations",
@@ -1264,6 +1276,7 @@
         "2026-VJS-COURTS-CONSTITUTION-001"
       ],
       "path": "lawpack/v2/orders/2026-VJS-CC-WORKPLAN-001.yaml",
+      "pdf": "pdfs/orders/2026-VJS-CC-WORKPLAN-001.pdf",
       "points": [
         "open the document full page on any list item click pdf for archive rendered canon page for v2",
         "generate seven missing archive pdfs as clearly marked derived presentations without touching v1 sources",
@@ -1303,6 +1316,7 @@
       "kind": "order",
       "lineage": [],
       "path": "lawpack/v2/orders/2026-VJS-COURTS-CONSTITUTION-001.yaml",
+      "pdf": "pdfs/orders/2026-VJS-COURTS-CONSTITUTION-001.pdf",
       "points": [
         "County Court sits as single judge (odd bench of 1) over repo-local operational matters",
         "Privy Council sits as odd bench of 3 over constitutional, jurisdiction, routing, public/private boundary matters at realm level",
@@ -1316,7 +1330,7 @@
       "superseded_by": [],
       "supersedes": [],
       "title": "Court Constitution (The Order)",
-      "updated": "2026-06-09",
+      "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-COURTS-CONSTITUTION-001.yaml"
     },
     {
@@ -1339,6 +1353,7 @@
         "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-001-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-001.yaml",
+      "pdf": "pdfs/orders/2026-VJS-PC-001.pdf",
       "points": [
         "Transfer carries pending V1 matters forward at current state; never restarts them; perfected orders and accrued rights preserved",
         "Pending matters classified as continued at point, reframed where unworkable, or moot; already-heard matters perfected for Gazette publication only",
@@ -1377,6 +1392,7 @@
         "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-002-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-002.yaml",
+      "pdf": "pdfs/orders/2026-VJS-PC-002.pdf",
       "points": [
         "Canon consolidates onto established public repo (main = canon, drop spent v2 ordinal with redirect); one Gazette carries both V1 archive and V2 estates",
         "V1 archive estate anchored by immutable signed tag, protected read-only v1 branch, distinct published Archive directory; not bare branch",
@@ -1412,6 +1428,7 @@
         "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-003-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-003.yaml",
+      "pdf": "pdfs/orders/2026-VJS-PC-003.pdf",
       "points": [
         "CASE-LAW s.23 transcribed into V1 verified against assented digest word-for-word; unverifiable wording left as cited gap",
         "REALM-SC 10 lodged as marked derived minute (never native judgment) reproducing disposition and ratios only",
@@ -1448,6 +1465,7 @@
         "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-004-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-004.yaml",
+      "pdf": "pdfs/orders/2026-VJS-PC-004.pdf",
       "points": [
         "Statute cited by enacting instrument and section; case law cited by its case neutral citation, never by pseudo-section",
         "V1 CASE-LAW hybrid (P articles = genuine Sovereign-enacted constitutional statute; SC articles = case law); stays intact in archive",
@@ -1487,6 +1505,7 @@
         "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-005-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-005.yaml",
+      "pdf": "pdfs/orders/2026-VJS-PC-005.pdf",
       "points": [
         "Repos House is lightweight declarative jurisdiction registry and certification ledger; registration creates no legal force; invocation and lawpack lock do",
         "Certification restates deterministic kernel/gate output, never human attestation; two layers (private operational, public system-data-only)",
@@ -1526,6 +1545,7 @@
         "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-006-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-006.yaml",
+      "pdf": "pdfs/orders/2026-VJS-PC-006.pdf",
       "points": [
         "Canon self-invokes like any jurisdiction (binding by invocation, not authorship); authorship no exemption (no-one above law)",
         "Lodged invocation must be perfected by installing enforcement hooks",
@@ -1564,6 +1584,7 @@
         "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-007-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-007.yaml",
+      "pdf": "pdfs/orders/2026-VJS-PC-007.pdf",
       "points": [
         "record the assent event digest pinned quoting the sovereigns word go verbatim and citing 2026 vjs pc 7",
         "lodge reg realm invariants 001 verbatim from the filed draft at digest 1be7181cbb3215fe3e1b540bb19915ab4ccd85d2e4eed146e8207d8e07ec1e7f",
@@ -1600,6 +1621,7 @@
         "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-SC-001-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-SC-001.yaml",
+      "pdf": "pdfs/orders/2026-VJS-SC-001.pdf",
       "points": [
         "Coordinating root may federate peers under one canonical lawpack and apex but never be sovereign; kernel-checkable bright-line plus court-applied practical-subjection standard",
         "General V1 law crosses only by express entry-by-entry rank-matched fail-closed incorporation in migration ledger; protective floor may not weaken",
@@ -2771,6 +2793,6 @@
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "fc0e14cbf7142f4d1c1bf7d59b0fc5b8a57403fb"
+    "source_commit": "d5eea71958a3b3ebd798cb178bb380361dc60ba4"
   }
 }
