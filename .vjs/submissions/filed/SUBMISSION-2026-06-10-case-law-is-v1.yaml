@@ -1,0 +1,55 @@
+id: SUBMISSION-2026-06-10-case-law-is-v1
+court_requested: privy_council
+jurisdiction: agent-universe-v2
+question: >
+  CASE-LAW is the entrenched V1 case-law document, not a V2 instrument, yet the
+  live binding V2 corpus cites "CASE-LAW s.X" as if it were current V2 authority
+  (the assent floor is pinned to CASE-LAW s.23; the courts and the assent
+  invariant cite CASE-LAW s.10, s.23, etc.). Should "CASE-LAW s.X" be STRUCK
+  from the live binding V2 record and each reference replaced by its true V2
+  authority, given that a V1-lineage source binds nothing in V2 unless expressly
+  incorporated (ACT-001)? If so, with what saving for the rules (above all the
+  assent floor) that were lawfully carried into V2 at founding?
+facts: >
+  Symmetric case file; the registrar's preference is not before the court.
+  EVIDENCE (entered by the Principal's direction that CASE-LAW is V1):
+  (1) The citation-map lodged per [2026] VJS-PC 4
+  (lawpack/v2/provenance/citation-map/case-law-section-to-source.md) states on
+  its face that CASE-LAW is "the entrenched V1 document," a provenance register
+  that is "not runtime authority"; it resolves every CASE-LAW s.N to a true
+  source: P/constitutional articles to the Sovereign-enacted Constitution
+  sections, SC articles to their V1 cases (REALM-SC 1-10), and holds (the
+  principle-20 gate) that a CASE-LAW s.N citation to an SC-sourced article in
+  NEW records fails closed because a court-made article must be cited by its case.
+  (2) The live binding V2 records that cite CASE-LAW are: the statute
+  ACT-COMPUTER-FIRST-REALM (08), INV-ASSENT-SOURCE-001, the courts-constitution
+  order, and orders VJS-PC 3, 4, 7. The assent floor is cited 30+ times as
+  CASE-LAW s.23, whose true source is [2026] REALM-SC 10 (itself V1-lineage,
+  back-filled per VJS-PC 3).
+  (3) The honoured archive doctrine (ACT-001): a V1-lineage record is persuasive
+  in V2, never binding unless expressly incorporated. REALM-SC 10 and the
+  CASE-LAW articles are V1-lineage.
+  (4) The live confusion this breeds: a V1-lineage judgment ([2026] REALM-SC 11)
+  purported to "enact CASE-LAW s.24," treating the V1 case-law book as a
+  V2-extensible binding statute - which it cannot be.
+  FOR STRIKING: citing CASE-LAW as live binding V2 authority imports V1 as
+  binding without incorporation, contrary to ACT-001 and to VJS-PC 4's own
+  cite-by-source rule; the V2 binding rules already have V2 homes (the assent
+  floor in ACT-COMPUTER-FIRST-REALM and INV-ASSENT-SOURCE-001; the courts in
+  ACT-002 and the courts-constitution); the citation form "CASE-LAW s.X" should
+  be struck and replaced by the true V2 source.
+  AGAINST / LIMITS: the assent floor was deliberately and lawfully carried into
+  V2 at founding (REALM-SC 10; VJS-PC 3); striking the form must not dilute or
+  orphan the entrenched assent rule itself; the P/constitutional CASE-LAW
+  articles are genuine Sovereign statute, not court-made, and keep their section
+  in their true instrument; the exercise is to re-cite, not to repeal.
+requested_order: >
+  Settle whether CASE-LAW (a V1 document) may be cited as live binding V2
+  authority; if not, direct that every CASE-LAW s.X reference in the binding V2
+  record be struck and replaced by its true V2 source per the VJS-PC 4 map (the
+  assent floor re-grounded in ACT-COMPUTER-FIRST-REALM and INV-ASSENT-SOURCE-001;
+  V1 cases cited as persuasive, never as binding "CASE-LAW"); and save the
+  underlying rules from any suggestion of repeal. Nothing in this reference
+  amends the assent rule, which is entrenched.
+private_boundary: local
+word_count: 470

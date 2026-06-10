@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-10T16:51:01.618247665+00:00",
+  "generated_at": "2026-06-10T17:07:41.975830320+00:00",
   "items": [
     {
       "assent_source": "sovereign_assent",
@@ -1400,6 +1400,7 @@
       "cites": [
         "ACT-002",
         "ACT-COMPUTER-FIRST-REALM",
+        "REALM-SC-1",
         "REALM-SC-10",
         "REALM-SC-9"
       ],
@@ -1665,6 +1666,7 @@
       "assent_source": "standing_bounded_assent",
       "citation": "[2026] VJS-PC 7",
       "cites": [
+        "ACT-COMPUTER-FIRST-REALM",
         "REG-REALM-INVARIANTS-001"
       ],
       "court": "pc",
@@ -1733,6 +1735,46 @@
       "title": "The Court Machinery Versus Court Constitution Dividing Line",
       "updated": "2026-06-10",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-008.yaml"
+    },
+    {
+      "assent_source": "standing_bounded_assent",
+      "citation": "[2026] VJS-PC 9",
+      "cites": [
+        "ACT-001",
+        "ACT-COMPUTER-FIRST-REALM",
+        "REALM-SC-10"
+      ],
+      "court": "pc",
+      "date": "2026-06-10",
+      "doc": "law.html#2026-VJS-PC-009",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-PC-009",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": ".vjs/submissions/filed/2026-VJS-PC-009-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-009-opinion.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-PC-009.yaml",
+      "pdf": "pdfs/orders/2026-VJS-PC-009.pdf",
+      "points": [
+        "strike every case law s x reference from the binding v2 record and replace it by its true v2 source per the vjs pc 4 citation map",
+        "reground the assent floor citation to act computer first realm s23 and inv assent source 001 with true source 2026 realm sc 10 never to case law s23",
+        "cite p constitutional articles by their v2 statutory home and sc case made articles by their neutral case citation treating v1 cases as persuasive only",
+        "effect the re citation as a governed meaning preserving clerical pass requiring no fresh adoption and changing no legal meaning",
+        "save the underlying entrenched rules above all the assent floor from any repeal dilution or orphaning the strike amends citation form and pedigree only",
+        "extend the principle 20 gate to fail closed on any case law s x citation to a court made sc sourced article in all records",
+        "record this order as v2 caselaw with a citator row"
+      ],
+      "status": "binding",
+      "subject": "case law is v1",
+      "summary": "CASE-LAW (V1) cannot be cited as live binding V2 authority.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "CASE-LAW Is V1; It May Not Be Cited as Binding V2 Authority",
+      "updated": "2026-06-10",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-009.yaml"
     },
     {
       "assent_source": "standing_bounded_assent",
@@ -2955,14 +2997,14 @@
   "meta": {
     "counts": {
       "archive": 37,
-      "canon": 56,
-      "total": 93
+      "canon": 57,
+      "total": 94
     },
     "lawpack": {
       "digest": "sha256:14cdb3337039ffdbe4f007fcb6fc5fd634cb0e7f6218e201555ab5de45868f9f",
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "51801da82f3e0d98c26a1f1f1b0c4c0146df7d35"
+    "source_commit": "1c4d2dfc33201e0dfd3efdbf46ed9105b168426e"
   }
 }

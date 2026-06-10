@@ -12,19 +12,19 @@ rule:
     - sovereign_assent
     - standing_bounded_assent
 remedy: >
-  CASE-LAW s. 23(5) ([2026] REALM-SC 10): a record that claims binding runtime
+  ACT-COMPUTER-FIRST-REALM s.23 (the assent floor; [2026] REALM-SC 10): a record that claims binding runtime
   force carries it only if it declares an assent_source resolving to a specific
   Sovereign-assent event (sovereign_assent) or a standing-bounded route tracing
   to specific Sovereign assent (standing_bounded_assent). Absence of the field,
   an empty value, an unrecognised form, or an unresolved trace each cause
   rejection. This is an affirmative allow-list that fails closed; the
-  not-equal-to-self_authorised deny-list form is void as fail-open (s. 23(5)).
+  not-equal-to-self_authorised deny-list form is void as fail-open (ACT-COMPUTER-FIRST-REALM s.23).
   Declare a valid, traceable assent_source.
 supersedes:
   - INV-ASSENT-DRAFT-001
   - INV-ASSENT-DRAFT-002
 provenance:
-  enacted_by: "[2026] REALM-SC 10 (CASE-LAW s. 23(5)); Sovereign Assent to Bill 32, 2026-06-09"
+  enacted_by: "ACT-COMPUTER-FIRST-REALM s.23 (the assent floor); [2026] REALM-SC 10; Sovereign Assent to Bill 32, 2026-06-09"
   note: >
     Promoted from the draft scaffold to a settled record on completion of the V1
     constitutional route. Replaces the draft deny-list form, which the Supreme

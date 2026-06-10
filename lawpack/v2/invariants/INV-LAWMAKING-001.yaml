@@ -2,8 +2,10 @@ id: INV-LAWMAKING-001
 title: New law requires authority basis
 severity: fatal
 scope:
+  # Subordinate law (regulations, rules) requires a parent authority basis;
+  # primary statutes are authorised by Sovereign assent (assent_source +
+  # enacted_by, gated by INV-ASSENT-SOURCE-001), not a parent authority field.
   paths:
-    - lawpack/v2/statutes/**
     - lawpack/v2/regulations/**
     - lawpack/v2/rules/**
 rule:

@@ -9,7 +9,7 @@ purpose: >
   at provenance/founding/bill-32-adopted-final-text.md
   (sha256:8e1d3f516cb2aca8e044d8c73bdc6ededa91a47ca86b729eece06f7eee6b9a0c);
   this record is its concordant compact form. Settled on [2026] REALM-PC 24 and
-  [2026] REALM-SC 10 (which enacted the CASE-LAW s.23 assent floor), drafted by
+  [2026] REALM-SC 10 (which settled the assent floor given effect at s.23), drafted by
   the Standing Committee on the V2 Kernel Team's void first draft (REALM-SC 8),
   and assented by the Sovereign Founder on 2026-06-09. V2 COMMENCED 2026-06-09
   (COMMENCEMENT-V2-0001). The Act's own VJS-ACT ordinal is minted deterministically
@@ -234,7 +234,7 @@ sections:
       Sovereign assent (standing_bounded_assent). Absence, emptiness, an
       unrecognised form, or an unresolved trace each cause rejection. This is an
       affirmative allow-list that fails closed; the not-equal-to-self_authorised
-      deny-list form is void as fail-open (CASE-LAW s.23(5); [2026] REALM-SC 10).
+      deny-list form is void as fail-open (s.23; [2026] REALM-SC 10).
       This section is given continuing deterministic effect by
       INV-ASSENT-SOURCE-001.
     kernel_effect:
@@ -279,7 +279,7 @@ sections:
       Court as a single judge, the Privy Council as an odd bench of 3, and the
       Supreme Court as an odd bench of 5, expandable to an odd bench of 9 for
       constitutional or foundational questions as the single central apex. The
-      Court of Appeal tier persists in law under CASE-LAW s. 10 and may be
+      Court of Appeal tier persists in law under the Courts and Orders Act (ACT-002) and 2026-VJS-COURTS-CONSTITUTION-001 and may be
       administratively non-convened in the V2 MVP; once constituted or when an
       appeal arises, it shall sit as an odd bench of 3. No V2 court may issue a
       binding order until so constituted; until a bench is constituted, the matter
