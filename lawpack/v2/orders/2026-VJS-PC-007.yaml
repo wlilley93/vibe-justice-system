@@ -1,0 +1,56 @@
+id: "2026-VJS-PC-007"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-PC 7"
+title: Assent construction for the Realm Invariants and Machinery Instrument 2026
+court: privy_council
+jurisdiction: agent-universe-v2
+status: binding
+issue: assent_construction
+holding: >
+  Assent found, 2-1. The Sovereign's entire and immediate reply "go", given in
+  answer to a digest-pinned presentment stating that the draft alone remained
+  and that the Sovereign's word against the digest commences it, is express,
+  antecedent, external assent within CASE-LAW s.23 to the Realm Invariants and
+  Machinery Instrument 2026 at digest
+  sha256:1be7181cbb3215fe3e1b540bb19915ab4ccd85d2e4eed146e8207d8e07ec1e7f.
+  The omnibus precedent governs: minimal sovereign words suffice where the
+  presentment fixes the referent; the assent rule binds the delegate, never
+  the Sovereign (s.23(4)). Force flows from the Sovereign's utterance; the
+  court construes, it does not promulgate. The holding is confined to this
+  posture: sole pending act, direct digest-pinned presentment, immediate
+  unqualified affirmative. Generic directives remain never assent; declining
+  "proceed all" was correct.
+directives:
+  - id: D1
+    actor: lexby
+    must: record_the_assent_event_digest_pinned_quoting_the_sovereigns_word_go_verbatim_and_citing_2026_vjs_pc_7
+  - id: D2
+    actor: lexby
+    must: lodge_reg_realm_invariants_001_verbatim_from_the_filed_draft_at_digest_1be7181cbb3215fe3e1b540bb19915ab4ccd85d2e4eed146e8207d8e07ec1e7f
+  - id: D3
+    actor: lexby
+    must: complete_the_lifecycle_gates_in_order_assent_event_then_gazette_entry_then_lawpack_adoption
+  - id: D4
+    actor: lexby
+    must: apply_the_register_consolidation_with_machinery_read_as_schedules_within_the_instrument
+  - id: D5
+    actor: lexby
+    must: register_legislation_and_case_law_only_in_the_gazette_carrying_the_schedules_in_full_within_the_instruments_entry
+  - id: D6
+    actor: lexby
+    must: keep_kernel_loading_and_enforcement_of_every_scheduled_record_unchanged_in_force_severity_and_effect
+forbidden:
+  - construing_generic_directives_as_assent_outside_this_exact_presentment_posture
+  - commencing_any_other_held_instrument_on_the_authority_of_this_ruling
+  - altering_the_force_severity_or_effect_of_any_scheduled_record_through_the_consolidation
+  - reintroducing_machinery_records_as_separate_gazette_register_items
+  - satisfying_any_commencement_condition_by_the_machinery_alone
+  - recording_the_assent_event_without_the_verbatim_words_and_pinned_digest
+supersedes: []
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-007-opinion.md"
+created_at: "2026-06-10T10:15:00Z"
+runtime_summary: >
+  Assent found 2-1: the Sovereign's "go", in immediate answer to the sole
+  digest-pinned presentment, commences the Realm Invariants Instrument. Record
+  the assent event verbatim, lodge REG-REALM-INVARIANTS-001, consolidate the
+  register; kernel enforcement unchanged. Generic directives remain never assent.

@@ -1,0 +1,22 @@
+id: ASSENT-2026-06-10-REALM-INVARIANTS
+kind: sovereign_assent_event
+date: "2026-06-10"
+instrument: Realm Invariants and Machinery Instrument 2026
+instrument_text: .vjs/submissions/filed/2026-06-09-realm-invariants-instrument.md
+instrument_digest: "sha256:1be7181cbb3215fe3e1b540bb19915ab4ccd85d2e4eed146e8207d8e07ec1e7f"
+sovereign: Will (the Principal, in the Sovereign capacity)
+sovereign_words_verbatim: "go"
+construed_by: "[2026] VJS-PC 7"
+form: >
+  Express assent found by the Privy Council (2-1, Justice C dissenting) in the
+  Sovereign's entire and immediate reply "go" to the registrar's digest-pinned
+  presentment, which stated that the draft alone remained outstanding and that
+  the Sovereign's word against the digest would commence it. The holding is
+  confined to that posture: a sole pending act, a direct digest-pinned
+  presentment, and an immediate unqualified affirmative. Generic directives
+  remain never assent; the registrar's refusal of "proceed all" was correct.
+effects:
+  - lodges: REG-REALM-INVARIANTS-001 (verbatim from the filed draft)
+  - consolidates: the kernel machinery (invariants, obligations, rules, specs) as schedules read within the instrument
+  - registers: legislation and case law only in the Gazette thereafter
+  - unchanged: the kernel's loading and enforcement of every scheduled record, in force, severity, and effect

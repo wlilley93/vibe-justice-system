@@ -313,9 +313,25 @@ function renderBody(d, body) {
       }
       return out;
     }
-    case 'regulation':
-      return `${body.authority ? `<p class="commentary">Made under ${linkify(esc(body.authority))}</p>` : ''}
+    case 'regulation': {
+      let out = `${body.authority ? `<p class="commentary">Made under ${linkify(esc(body.authority))}</p>` : ''}
         ${paras(body.text)}${factsPanel(body.kernel_effect)}`;
+      // the consolidating instrument carries its schedules in full
+      const SCHED_NAME = { invariant:'Schedule 1 - The Invariants', obligation:'Schedule 2 - The Obligations',
+        rule:'Schedule 3 - The Agent Rules', spec:'Schedule 4 - The Specifications' };
+      let lastKind = null;
+      for (const sch of body.schedules || []) {
+        if (sch.kind !== lastKind) {
+          out += `<h2 class="sect">${esc(SCHED_NAME[sch.kind] || sch.kind)}</h2>`;
+          lastKind = sch.kind;
+        }
+        out += `<section id="sec:${esc(sch.id)}"><h3>${esc(sch.title)}</h3>
+          <p class="commentary">${esc(sch.id)}${sch.status ? ' &middot; ' + esc(String(sch.status).replace(/[_-]/g, ' ')) : ''}</p>
+          ${sch.summary ? `<p>${linkify(esc(sch.summary))}</p>` : ''}
+          ${(sch.points || []).length ? `<ul class="points">${sch.points.map(pt => `<li>${linkify(esc(pt))}</li>`).join('')}</ul>` : ''}</section>`;
+      }
+      return out;
+    }
     case 'order': {
       let out = paras(body.holding);
       const dirs = body.directives || [];
