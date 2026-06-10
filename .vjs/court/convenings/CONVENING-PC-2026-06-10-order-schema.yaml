@@ -1,0 +1,10 @@
+id: CONVENING-PC-2026-06-10-order-schema
+court: privy_council
+submission_id: SUBMISSION-2026-06-10-order-schema
+issue: court_machinery_vs_constitution_dividing_line
+case_file_digest: sha256:ef75c15bd569a142839c4520944f6cff25e2b169fc83f149846c9587110e7ba2
+bench:
+- Marchmont
+- Tindale
+- Rowanne
+convened_at: "2026-06-10T15:00:00Z"

@@ -1191,7 +1191,7 @@ fn cmd_court(repo: &Path, subcmd: CourtCommands, json: bool) -> Result<(), Kerne
             let digest = format!("sha256:{}", hex::encode(sha2::Sha256::digest(bytes.as_bytes())));
             let convened_at = chrono::Utc::now().to_rfc3339();
             let rec = vjs_store::ConveningRecord {
-                id: format!("CONVENING-{}", chrono::Utc::now().format("%Y-%m-%d-%H%M%S")),
+                id: format!("CONVENING-{}-{}", court, chrono::Utc::now().format("%Y-%m-%d-%H%M%S")),
                 court,
                 submission_id: submission,
                 issue,

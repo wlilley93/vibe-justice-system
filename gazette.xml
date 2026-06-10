@@ -9,6 +9,17 @@
   <author><name>Vibe Justice System</name></author>
   <rights>Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001): force comes from the lawpack and the Sovereign's assent, never from publication or syndication.</rights>
   <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-ORDER-SCHEMA-001</id>
+    <title>Order-schema Court-record Extension and REG-COURT-RECORD-001 Machinery Order</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-CC-ORDER-SCHEMA-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-ORDER-SCHEMA-001.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-10T00:00:00Z</published>
+    <updated>2026-06-10T00:00:00Z</updated>
+    <summary type="text">Order-schema court-record fields and REG-COURT-RECORD-001 are court machinery, valid under s.7: optional, prospective, recording-only, touching no bench size, jurisdiction, or assent rule.</summary>
+  </entry>
+  <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-COURTS-CONSTITUTION-001</id>
     <title>Court Constitution (The Order)</title>
     <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-COURTS-CONSTITUTION-001"/>
@@ -29,6 +40,17 @@
     <published>2026-06-10T00:00:00Z</published>
     <updated>2026-06-10T00:00:00Z</updated>
     <summary type="text">Assent found 2-1: the Sovereign&apos;s &quot;go&quot;, in immediate answer to the sole digest-pinned presentment, commences the Realm Invariants Instrument.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-008</id>
+    <title>The Court Machinery Versus Court Constitution Dividing Line</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-008"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-008.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-10T00:00:00Z</published>
+    <updated>2026-06-10T00:00:00Z</updated>
+    <summary type="text">Appeal dismissed 3-0; County Court affirmed.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-COMPUTER-FIRST-REALM</id>
