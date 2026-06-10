@@ -2087,7 +2087,12 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                     "pdf": s(it, "pdf").unwrap_or_default(),
                     "doc": format!("law.html#{}", v1_id_for_doc),
                     "path": path.clone(),
-                    "url": format!("{}{}", V1_BASE, path),
+                    // The honoured archive is the frozen V1-lineage corpus,
+                    // which spans more than the vibe-justice-system v1 branch
+                    // (e.g. agent-universe). An estate item may name its own
+                    // frozen github source; otherwise the v1 branch is assumed.
+                    "url": s(it, "url").filter(|u| !u.is_empty())
+                        .unwrap_or_else(|| format!("{}{}", V1_BASE, path)),
                 }));
             }
         }

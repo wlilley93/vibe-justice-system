@@ -1,7 +1,10 @@
 # The V1 archive estate as published in the Gazette (curated; the V1 corpus
-# is frozen). pdf = a native judgment/act PDF carried into archive/pdfs/
-# (loads as the document); source_md = frozen markdown for records with no
-# native PDF, rendered as a webpage in the Gazette's own document style.
+# is frozen). The honoured archive spans the frozen V1-lineage repos
+# (vibe-justice-system v1 branch and agent-universe). pdf = a native
+# judgment/act PDF carried into archive/pdfs/ (loads as the document);
+# source_md = frozen markdown rendered as a webpage; url names the frozen
+# github source. A V1-lineage record is persuasive in V2, never binding
+# unless expressly incorporated (ACT-001).
 items:
 - id: REALM-SC-1
   title: '[2026] REALM-SC 1 - Tort recast and foundational settlement'
@@ -684,3 +687,44 @@ items:
   - BILL-18
   - BILL-21
   source_md: archive/text/SI-11.md
+- id: REALM-SC-11
+  title: Server-of-Law and the Embeddable Governance Client (Opbox)
+  citation: '[2026] REALM-SC 11'
+  kind: judgment
+  court: sc
+  estate: v1
+  status: good-law
+  date: '2026-06-10'
+  pdf: archive/pdfs/2026-realm-sc-11.pdf
+  path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-11.md
+  url: https://github.com/wlilley93/agent-universe/blob/master/Judicature/.justice/judgments/supreme-court/2026-realm-sc-11.md
+  summary: 'Full court of nine (leapfrog): an embeddable, corporate-re-skinned client that renders the
+    same canonical VJS governance from a central server of law is a lawful presentation DIVISION over
+    the one spine, not a forbidden parallel COURT, only if it meets six cumulative conditions. Re-naming
+    canonical governance is permitted; re-housing substantive law, citator, bench, or apex inside the
+    product is forbidden. Persuasive in V2 (V1-lineage; no binding standing unless incorporated).'
+  points:
+  - Enacts CASE-LAW s.24 (ordinary, declaratory; unanimous it is ordinary not constitutional) - persuasive
+    only in V2.
+  - 'Condition 1 - Unity and currency of law: applies the canonical CASE-LAW, VPR, bench and duty unaltered,
+    mints no local statute, and renders the central text LIVE as the apex enacts it - never a vendored,
+    pinned, or stale local copy (else it mints a subscribed local jurisdiction under s.9).'
+  - 'Condition 2 - Unity of citator and apex: every binding decision resolves to the one central citation
+    series and single central apex; no parallel series or local apex.'
+  - 'Condition 3 - The synthesiser bar: the client constitutes no deciding bench of its own; it only displays
+    rulings handed down by a properly constituted central bench.'
+  - 'Condition 4 - Delivery not law-making: the client force is engineering (rendering), deriving wholly
+    from the canonical organ, never from promulgation by the client (source-of-force test, REALM-SC 8).'
+  - 'Condition 5 - Candour of provenance: the re-skinned nomenclature is disclosed to the user as descriptive
+    presentation of canonical VJS governance, not an independent locally-sovereign body.'
+  - 'Condition 6 (7:2) - External-law floor / non-impersonation: the client must not wear the appearance
+    of a regulated real-world legal authority it does not hold (grounded in REALM-SC 9); a floor of substance,
+    not a script of UI wording.'
+  - Ownership of the renderer is not ownership of the law; the vendor controls when canonical law is displayed,
+    never what it is.
+  cites:
+  - REALM-SC-5
+  - REALM-SC-8
+  - REALM-SC-9
+  - REALM-PC-14
+  - REALM-PC-15
