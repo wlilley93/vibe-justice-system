@@ -1474,7 +1474,7 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
         match kind {
             "statute" => {
                 let mut body = pick(v, &["purpose"]);
-                let sections: Vec<serde_json::Value> = v
+                let enacted: Vec<serde_json::Value> = v
                     .get("sections")
                     .and_then(|x| x.as_sequence())
                     .map(|secs| {
@@ -1483,6 +1483,29 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                             .collect()
                     })
                     .unwrap_or_default();
+                // Contiguous numbering: every ordinal from s1 to the highest
+                // enacted section appears; absent ordinals are Reserved (the
+                // positive drafting convention), so the count never jumps.
+                let act_id = v.get("id").and_then(|x| x.as_str()).unwrap_or_default();
+                let ordinal = |sec: &serde_json::Value| -> Option<u32> {
+                    sec["id"].as_str()?.rsplit(":s").next()?.parse().ok()
+                };
+                let max = enacted.iter().filter_map(&ordinal).max().unwrap_or(0);
+                let mut by_ord: std::collections::HashMap<u32, serde_json::Value> = enacted
+                    .into_iter()
+                    .filter_map(|sec| ordinal(&sec).map(|n| (n, sec)))
+                    .collect();
+                let sections: Vec<serde_json::Value> = (1..=max)
+                    .map(|n| {
+                        by_ord.remove(&n).unwrap_or_else(|| {
+                            serde_json::json!({
+                                "id": format!("{}:s{}", act_id, n),
+                                "title": "Reserved",
+                                "reserved": true,
+                            })
+                        })
+                    })
+                    .collect();
                 body["sections"] = serde_json::Value::Array(sections);
                 body
             }
@@ -1527,6 +1550,48 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             }
         }
         out
+    }
+    /// Capital Case for Act and Case names: significant words capitalised,
+    /// small words lowered (never first or last), tokens already carrying
+    /// capitals or digits (V1, VJS-PC, 2026, Computer-First) left alone.
+    fn title_case(t: &str) -> String {
+        const SMALL: [&str; 14] =
+            ["a", "an", "and", "as", "at", "but", "by", "for", "in", "of", "on", "or", "the", "to"];
+        let words: Vec<&str> = t.split(' ').collect();
+        let last = words.len().saturating_sub(1);
+        words
+            .iter()
+            .enumerate()
+            .map(|(i, w)| {
+                if w.chars().skip(1).any(|c| c.is_uppercase()) || w.chars().any(|c| c.is_ascii_digit()) {
+                    return w.to_string();
+                }
+                let lower = w.to_lowercase();
+                // a bracket opens a new phrase: "(the Order)" reads "(The Order)"
+                if !w.starts_with('(')
+                    && i != 0
+                    && i != last
+                    && SMALL.contains(&lower.trim_matches(|c: char| !c.is_alphanumeric()))
+                {
+                    return lower;
+                }
+                let mut cs = w.chars();
+                match cs.next() {
+                    Some(f) if f.is_alphabetic() => f.to_uppercase().collect::<String>() + cs.as_str(),
+                    Some(f) if f == '(' => {
+                        // capitalise inside an opening bracket: "(the order)" -> "(The Order)"
+                        let rest = cs.as_str();
+                        let mut rc = rest.chars();
+                        match rc.next() {
+                            Some(g) => format!("({}{}", g.to_uppercase(), rc.as_str()),
+                            None => w.to_string(),
+                        }
+                    }
+                    _ => w.to_string(),
+                }
+            })
+            .collect::<Vec<_>>()
+            .join(" ")
     }
     /// "[2026] VJS-PC 5" from an id like "2026-VJS-PC-005"; None otherwise.
     fn derive_order_citation(id: &str) -> Option<String> {
@@ -1660,15 +1725,23 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 .or_else(|| s(&v, "severity").map(|sev| format!("severity {}", sev)))
                 .unwrap_or_default();
             let court = match kind {
+                // For this jurisdiction the first-instance court IS the Privy
+                // Council ([2026] VJS-PC 6: the canon self-invokes; the PC is
+                // its first-instance court), so county-coded orders present
+                // as the Privy Council. The minted citations stay untouched.
                 "order" => match s(&v, "court").unwrap_or_default().as_str() {
                     "supreme_court" => "sc",
-                    "privy_council" => "pc",
-                    "county" => "county",
+                    "privy_council" | "county" => "pc",
                     _ => "",
                 },
                 _ => "",
             }
             .to_string();
+            let title = if matches!(kind, "statute" | "regulation" | "rule" | "order") {
+                title_case(&title)
+            } else {
+                title
+            };
 
             // Mechanical fallbacks straight from the law text.
             let summary_field = match kind {
@@ -1820,9 +1893,16 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
         if let Some(seq) = v.get("items").and_then(|x| x.as_sequence()) {
             for it in seq {
                 let path = s(it, "path").unwrap_or_default();
+                let v1_kind = s(it, "kind").unwrap_or_default();
+                let v1_title = s(it, "title").unwrap_or_default();
+                let v1_title = if matches!(v1_kind.as_str(), "act" | "instrument" | "judgment") {
+                    title_case(&v1_title)
+                } else {
+                    v1_title
+                };
                 items.push(serde_json::json!({
                     "id": s(it, "id").unwrap_or_default(),
-                    "title": s(it, "title").unwrap_or_default(),
+                    "title": v1_title,
                     "citation": s(it, "citation").unwrap_or_default(),
                     "kind": s(it, "kind").unwrap_or_default(),
                     "court": s(it, "court").unwrap_or_default(),

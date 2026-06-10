@@ -70,11 +70,32 @@ fn the_text_artifact_is_bijective_with_the_canon_and_renderable() {
             "statute" => {
                 let secs = body["sections"].as_array().unwrap();
                 assert!(!secs.is_empty(), "{} has sections", id);
-                for sec in secs {
+                // the settled format: contiguous ordinals from s1, absent
+                // ones present as Reserved placeholders, enacted ones with text
+                for (i, sec) in secs.iter().enumerate() {
                     let sid = sec["id"].as_str().unwrap();
-                    assert!(sid.starts_with(&format!("{}:s", id)), "section id {}", sid);
-                    assert!(!sec["text"].as_str().unwrap_or("").trim().is_empty());
+                    assert_eq!(
+                        sid,
+                        format!("{}:s{}", id, i + 1),
+                        "{}: sections number contiguously from s1",
+                        id
+                    );
+                    if sec["reserved"] == true {
+                        assert_eq!(sec["title"], "Reserved");
+                    } else {
+                        assert!(
+                            !sec["text"].as_str().unwrap_or("").trim().is_empty(),
+                            "{}: enacted section {} carries text",
+                            id,
+                            sid
+                        );
+                    }
                 }
+                assert!(
+                    secs.last().unwrap()["reserved"] != true,
+                    "{}: the final section is enacted, never Reserved",
+                    id
+                );
             }
             "regulation" | "obligation" => nonempty("text"),
             "order" => {
