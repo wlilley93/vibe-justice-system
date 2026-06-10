@@ -466,7 +466,7 @@ function chipsFor(d) {
   const t = tone(d);
   const source = d.court
     ? `<span class="chip tone-${t}" title="${esc(SOURCE_LABEL[d.court] || d.court)}">${esc(d.court.toUpperCase())}</span>`
-    : `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'Archive' : 'Canon'}</span>`;
+    : '';
   return `<span class="chip tone-${t}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>${source}`;
 }
 function statusChipFor(d) {

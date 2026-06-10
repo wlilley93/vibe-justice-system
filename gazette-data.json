@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-10T17:33:21.626349132+00:00",
+  "generated_at": "2026-06-10T17:36:30.366918255+00:00",
   "items": [
     {
       "assent_source": "sovereign_assent",
@@ -3099,6 +3099,6 @@
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "e7e70d42e226984edeff2350f9a9806a1fe64c46"
+    "source_commit": "d3f3fc8d4323f67c0effe12ba21461d9d0fe92e9"
   }
 }
