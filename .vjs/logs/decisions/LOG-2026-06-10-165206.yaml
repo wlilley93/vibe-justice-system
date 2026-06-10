@@ -1,0 +1,12 @@
+id: LOG-2026-06-10-165206
+time: 2026-06-10T16:52:06.057889073+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260610-164633
+decision: 'Cured a public/private boundary breach (BREACH-2026-06-10-client-data-published). I had carried the full REALM-SC 11 judgment PDF into the public Gazette and pushed it live; that judgment was decided on a confidential commercial matter and the PDF carried client data, and a pre-existing archive point (REALM-SC-7) named the client first-instance series (CC-ACMECO) in the public estate. Neither was boundary-scanned before publication, breaching ACT-005 and the external-law floor (REALM-SC 9 / REALM-PC 18). Cure: the client-data PDF is removed from the repo and the published Gazette; REALM-SC 11 is replaced with a public-only record reproducing only the public ratio (the six-condition test, authored clean with no client facts, no client name, no PDF); the CC-ACMECO reference in REALM-SC-7 is scrubbed to a generic phrasing; the artifacts are regenerated and a zero-client-reference sweep over the published record passes. Remedy is restorative per the duty of care. The root cause is recorded: the Gazette publication path has no boundary scan, unlike the governed writers; a carried external artifact from a commercial matter must be private-by-default and scanned before publication. A permanent gate on the archive-carry path is the prevention. 69 tests green.'
+basis:
+- PERMIT-1781109993
+risk: low
+reversibility: easy
+court_required: false
+why: Outward-facing client-data exposure on the public Gazette; cured immediately and self-reported, no blame, work made good.
