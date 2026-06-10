@@ -1,0 +1,33 @@
+id: REG-COURT-RECORD-001
+assent_source: standing_bounded_assent
+title: Court Record and Convening Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+created_at: "2026-06-10T13:40:00Z"
+text: >
+  A ruling of a constituted V2 court must be auditable: every order issued from
+  this Regulation's commencement records the bench that decided it (the counted
+  seats) and the case_file_digest, the sha256 of the symmetric case file the
+  court decided, so the ruling is traceable to exactly what was before it. The
+  convening is recorded before the order issues (vjs court record), pinning the
+  digest and the bench under the public record; an order may also carry its
+  convened_at, vote, and the appeal links appeal_of and appealable. This is a
+  recording duty on the court machinery only. It does not change who sits, the
+  bench sizes, the jurisdiction of any tier, or the assent rule (those are fixed
+  by 2026-VJS-COURTS-CONSTITUTION-001 and the primary Acts), and being
+  subordinate legislation under the s.7 power it may not purport to amend them
+  (anti-Henry-VIII). It binds prospectively: rulings predating commencement keep
+  their narrative record and are not invalidated for want of the structured
+  fields.
+kernel_effect:
+  defines:
+    convening_record: bench_and_case_file_digest
+    recorded_by: vjs_court_record
+    binds: prospective_rulings_only
+    scope: court_machinery_not_constitution
+  must:
+    - record_the_deciding_bench_on_every_new_order
+    - pin_the_case_file_digest_before_the_order_issues
+  must_not:
+    - alter_bench_sizes_jurisdiction_or_the_assent_rule
+    - invalidate_a_legacy_ruling_for_want_of_the_structured_fields

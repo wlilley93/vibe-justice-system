@@ -53,6 +53,28 @@
     <summary type="text">Consolidating constitutional Act restating V1 law, establishing subordinate regulation power, and protecting core principles.</summary>
   </entry>
   <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-COURT-RECORD-001</id>
+    <title>Court Record and Convening Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-COURT-RECORD-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-COURT-RECORD-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-10T00:00:00Z</published>
+    <updated>2026-06-10T00:00:00Z</updated>
+    <summary type="text">A ruling of a constituted V2 court must be auditable: every order issued from this Regulation&apos;s commencement records the bench that decided it (the counted seats) and the case_file_digest, the sha256 of the symmetric case file the court decided, so the ruling is traceable to exactly what was before it.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-DEV-CONDUCT-001</id>
+    <title>Development and Knowledge-Work Conduct Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-DEV-CONDUCT-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-DEV-CONDUCT-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-10T00:00:00Z</published>
+    <updated>2026-06-10T00:00:00Z</updated>
+    <summary type="text">This Regulation codifies the day-to-day operating model for an agent doing development or knowledge work in a jurisdiction that has adopted this lawpack, so an adopter governs ordinary work without re-deriving it.</summary>
+  </entry>
+  <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-REALM-INVARIANTS-001</id>
     <title>Realm Invariants and Machinery Instrument 2026</title>
     <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-REALM-INVARIANTS-001"/>
