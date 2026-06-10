@@ -94,6 +94,11 @@
   .chip.tone-submission { --tone:var(--submission); --tone-bg:var(--submission-bg); }
   .chip.tone-v1 { --tone:var(--v1); --tone-bg:var(--v1-bg); }
   .chip.tone-v2 { --tone:var(--v2); --tone-bg:var(--v2-bg); }
+  .tl { display:inline-block; font-size:.62rem; letter-spacing:.05em; text-transform:uppercase;
+    padding:.05rem .45rem; border-radius:10px; border:1px solid var(--rule); color:var(--muted); background:#fff; }
+  .tl.live { background:#1fd13f; color:#08350f; border-color:#16a832; }
+  .tl.bad  { background:#fbe3e3; color:#a01010; border-color:#c0392b; }
+  .tl.pend { background:#fff2d6; color:#8a5a00; border-color:#d99b1f; }
   .card details { margin:.45rem 0 0; }
   .card summary { cursor:pointer; color:var(--muted); font-size:.8rem; user-select:none; }
   .card summary:hover { color:var(--ink); }
@@ -201,6 +206,13 @@ function esc(t) {
   return String(t ?? '').replace(/[&<>"']/g, c =>
     ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
 }
+function statusKind(s) {
+  s = (s || '').toLowerCase();
+  if (/(void|per.incuriam|superseded|revoked|stayed|not.law)/.test(s)) return 'bad';
+  if (/(draft|pending|proposed)/.test(s)) return 'pend';
+  if (/(in.force|good.law|binding|active|assented|enacted|made)/.test(s)) return 'live';
+  return '';
+}
 function fmtDate(iso) {
   if (!iso) return '';
   const [y, m, d] = iso.split('-').map(Number);
@@ -246,8 +258,9 @@ function card(d) {
   const sourceChip = d.court
     ? `<span class="chip tone-${t}" title="${esc(SOURCE_LABEL[d.court] || d.court)}">${esc(d.court.toUpperCase())}</span>`
     : `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'Archive' : 'Canon'}</span>`;
-  const metaBits = [d.citation, fmtDate(d.date), (d.status || '').replace(/[_-]/g, ' '),
-    d.assent_source ? d.assent_source.replace(/_/g, ' ') : ''].filter(Boolean).map(esc).join(' &middot; ');
+  const metaBits = [d.citation, fmtDate(d.date),
+    d.assent_source ? d.assent_source.replace(/_/g, ' ') : ''].filter(Boolean).map(esc).join(' &middot; ')
+    + (d.status ? ` <span class="tl ${statusKind(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : '');
 
   const el = document.createElement('div');
   el.className = `card tone-${t}`;

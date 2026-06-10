@@ -99,6 +99,12 @@
   .chip.tone-v1 { --tone:var(--v1); --tone-bg:var(--v1-bg); }
   .chip.tone-v2 { --tone:var(--v2); --tone-bg:var(--v2-bg); }
   .chip.status { border-color:var(--muted); color:var(--muted); background:#fff; }
+  .tl { display:inline-block; font-size:.66rem; letter-spacing:.05em; text-transform:uppercase;
+    padding:.05rem .45rem; border-radius:10px; border:1px solid var(--rule); color:var(--muted);
+    background:#fff; }
+  .tl.live { background:#1fd13f; color:#08350f; border-color:#16a832; }
+  .tl.bad  { background:#fbe3e3; color:#a01010; border-color:#c0392b; }
+  .tl.pend { background:#fff2d6; color:#8a5a00; border-color:#d99b1f; }
 
   /* ---- legend (minimisable) ---- */
   #legend { position:fixed; top:64px; right:14px; z-index:6; font-size:.74rem; color:var(--muted);
@@ -160,6 +166,11 @@
   #panel .close { position:absolute; top:8px; right:12px; cursor:pointer; color:var(--muted);
     font-size:1.5rem; line-height:1; background:none; border:none; }
   #panel .close:hover { color:var(--ink); }
+  #panel .pbody { padding-bottom:1rem; }
+  .pcta { flex:none; display:block; text-align:center; margin:0; padding:.8rem 1rem;
+    background:var(--ink); color:var(--cream); text-decoration:none; font-size:.95rem; letter-spacing:.02em;
+    border-top:1px solid var(--ink); }
+  .pcta:hover { background:#243254; }
   #trail { font-size:.72rem; color:var(--muted); margin-top:.3rem; }
   #trail span { cursor:pointer; }
   #trail span:hover { text-decoration:underline; color:var(--ink); }
@@ -219,7 +230,7 @@
 
 <div id="topbar">
   <a id="brand" href="gazette.html" title="The Gazette, classic reading view">
-    <img src="assets/vibe-justice-system-logo.png" alt="Vibe Justice System">
+    
     <span class="word"><b>The VJS Gazette</b><span>the record of the realm</span></span>
   </a>
   <div id="searchwrap">
@@ -293,6 +304,7 @@
     <h3>Sources</h3>
     <div class="links" id="p-links"></div>
   </div>
+  <a class="pcta" id="p-cta" href="#">Open the record &rarr;</a>
 </aside>
 
 <script src="assets/vendor/force-graph.min.js"></script>
@@ -341,6 +353,14 @@ function wirePilcrows(d) {
     a.addEventListener('click', e => { e.preventDefault(); copyText(citeFor(d, a.dataset.sec), null);
       a.textContent = '\u2713'; setTimeout(() => a.innerHTML = '&para;', 1100); }));
 }
+function statusKind(s) {
+  s = (s || '').toLowerCase();
+  if (/(void|per.incuriam|superseded|revoked|stayed|not.law)/.test(s)) return 'bad';
+  if (/(draft|pending|proposed)/.test(s)) return 'pend';
+  if (/(in.force|good.law|binding|active|assented|enacted|made)/.test(s)) return 'live';
+  return '';
+}
+function statusPill(s) { return s ? `<span class="tl ${statusKind(s)}">${esc(s.replace(/[_-]/g, ' '))}</span>` : ''; }
 function fmtDate(iso) {
   if (!iso) return '';
   const [y, m, d] = iso.split('-').map(Number);
@@ -701,10 +721,10 @@ function showHoverCard(d, x, y) {
   const source = d.court
     ? `<span class="chip tone-${t}" title="${esc(COURT_LABEL[d.court] || d.court)}">${esc(d.court.toUpperCase())}</span>`
     : `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'The archive' : 'The canon'}</span>`;
-  const meta = [d.citation || d.id, fmtDate(d.date), (d.status || '').replace(/[_-]/g, ' ')].filter(Boolean).map(esc).join(' · ');
+  const meta = [d.citation || d.id, fmtDate(d.date)].filter(Boolean).map(esc).join(' · ');
   hc.style.setProperty('--tone', `var(--${t})`);
   hc.innerHTML = `
-    <div class="hc-chips"><span class="chip tone-${t}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>${source}</div>
+    <div class="hc-chips"><span class="chip tone-${t}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>${source}${statusPill(d.status)}</div>
     <div class="hc-title">${esc(d.title)}</div>
     <div class="hc-meta">${meta}</div>
     <div class="hc-sum">${esc(d.summary || '')}</div>
@@ -919,9 +939,14 @@ function openPanel(id) {
   citeEl.textContent = [
     d.citation || d.id,
     fmtDate(d.date),
-    (d.status || '').replace(/[_-]/g, ' '),
     d.assent_source ? 'assent: ' + d.assent_source.replace(/_/g, ' ') : '',
-  ].filter(Boolean).join(' · ');
+  ].filter(Boolean).join(' · ') + ' ';
+  if (d.status) {
+    const sp = document.createElement('span');
+    sp.className = 'tl ' + statusKind(d.status);
+    sp.textContent = d.status.replace(/[_-]/g, ' ');
+    citeEl.appendChild(sp);
+  }
   const cbtn = document.createElement('button');
   cbtn.className = 'copycite'; cbtn.textContent = 'Copy citation';
   cbtn.onclick = () => copyText(citeFor(d), cbtn);
@@ -979,6 +1004,9 @@ function openPanel(id) {
   links.push(`<a href="gazette.html#${encodeURIComponent(d.id)}">Find in the register</a>`);
   document.getElementById('p-links').innerHTML = links.join('');
 
+  const cta = document.getElementById('p-cta');
+  cta.href = d.doc || ('law.html#' + encodeURIComponent(d.id));
+  cta.textContent = (d.pdf ? 'Open the record (PDF)' : 'Open the record') + ' \u2192';
   document.getElementById('panel').classList.add('open');
   history.replaceState(null, '', '#' + encodeURIComponent(id));
   renderList();
