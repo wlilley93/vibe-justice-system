@@ -119,6 +119,17 @@
     <summary type="text">Full court (leapfrog): an embeddable, corporate-re-skinned client that renders the same canonical governance from a central server of law is a lawful presentation DIVISION over the one spine, not a forbidden parallel COURT, only on six cumulative conditions. Re-naming canonical governance is permitted; re-housing substantive law, citator, bench, or apex inside the product is forbidden. Public-only record: the confidential client matter is withheld; persuasive in V2, not binding unless incorporated.</summary>
   </entry>
   <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-CERTIFICATION-MARK-001</id>
+    <title>Naming and Certification Mark Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-CERTIFICATION-MARK-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-CERTIFICATION-MARK-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-10T00:00:00Z</published>
+    <updated>2026-06-10T00:00:00Z</updated>
+    <summary type="text">This Regulation governs the certification mark and the naming of certified packs, under the Repos House regime (REG-REPOS-HOUSE-001) and the lineage of the V1 Repositories and Records Certification Act (BILL-20, carried forward only as archival lineage, not as binding V2 law).</summary>
+  </entry>
+  <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-COURT-RECORD-001</id>
     <title>Court Record and Convening Regulation</title>
     <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-COURT-RECORD-001"/>
@@ -139,6 +150,17 @@
     <published>2026-06-10T00:00:00Z</published>
     <updated>2026-06-10T00:00:00Z</updated>
     <summary type="text">This Regulation codifies the day-to-day operating model for an agent doing development or knowledge work in a jurisdiction that has adopted this lawpack, so an adopter governs ordinary work without re-deriving it.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-KERNEL-001</id>
+    <title>Embeddable Kernel Adoption Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-KERNEL-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-KERNEL-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-10T00:00:00Z</published>
+    <updated>2026-06-10T00:00:00Z</updated>
+    <summary type="text">The kernel adopts SPEC-KERNEL-002 (the embeddable jurisdiction-neutral kernel spec) alongside SPEC-KERNEL-001 (determinism).</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-REALM-INVARIANTS-001</id>

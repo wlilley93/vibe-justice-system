@@ -1,0 +1,36 @@
+id: REG-CERTIFICATION-MARK-001
+assent_source: standing_bounded_assent
+title: Naming and Certification Mark Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+created_at: "2026-06-10T18:25:00Z"
+text: >
+  This Regulation governs the certification mark and the naming of certified
+  packs, under the Repos House regime (REG-REPOS-HOUSE-001) and the lineage of
+  the V1 Repositories and Records Certification Act (BILL-20, carried forward
+  only as archival lineage, not as binding V2 law). The canon is open: anyone may
+  read, fork, or re-publish a lawpack under its licence. What they may not do is
+  call an uncertified or divergent thing CERTIFIED. Certification is deterministic
+  kernel output, never human attestation: a signed attestation that a named pack
+  release conforms to a named canon digest, produced by a passing conformance run
+  (the two-layer registry of REG-REPOS-HOUSE-001). Only a release whose
+  conformance run passes against the pinned canon digest may bear the mark; the
+  mark lapses on the next pack release, on a canon-pin change, or on revocation. A
+  subscriber that diverges from the canon (amends it, forks with divergent
+  lineage, or impersonates Realm authority contrary to [2026] VJS-PC 10) loses
+  the mark by operation of the kernel, not by anyone's leave. The mark protects
+  integrity; the licence governs copying. This is additive machinery; it amends
+  no statute and creates no new office.
+kernel_effect:
+  defines:
+    certification: deterministic_kernel_output_signed_attestation_against_a_pinned_canon_digest
+    mark_eligibility: only_a_release_whose_conformance_run_passes_against_the_pinned_digest
+    lapses_on: [ next_pack_release, canon_pin_change, revocation, divergence_from_canon ]
+    open_canon: anyone_may_fork_under_licence_but_not_call_it_certified
+    registry: REG-REPOS-HOUSE-001_two_layer
+  must:
+    - issue_the_mark_only_on_a_passing_conformance_run_against_the_pinned_canon_digest
+    - lapse_the_mark_on_release_pin_change_revocation_or_divergence
+  must_not:
+    - permit_an_uncertified_or_divergent_pack_to_bear_the_certification_mark
+    - treat_certification_as_a_human_attestation_rather_than_deterministic_kernel_output
