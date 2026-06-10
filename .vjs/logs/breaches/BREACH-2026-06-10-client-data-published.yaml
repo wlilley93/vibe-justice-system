@@ -1,0 +1,44 @@
+id: BREACH-2026-06-10-client-data-published
+time: "2026-06-10T16:55:00+00:00"
+actor: lexby
+kind: breach_self_report
+issue: public-private-boundary
+what_happened: >
+  Acting on the Principal's direction to add [2026] REALM-SC 11 to the books,
+  Lexby carried the full judgment PDF from the agent-universe repo into
+  archive/pdfs/ and published it to the public Gazette, and committed and pushed
+  it live. The judgment was decided on a confidential commercial matter and the
+  PDF carries client data. A pre-existing archive point (REALM-SC-7) also named
+  the client's first-instance series (CC-OPBOX) in the public estate. Neither
+  the carried PDF nor the estate text was run through the public/private
+  boundary scan before publication.
+law_breached:
+  - "ACT-005 (Public and Private Boundary Act): public records are system data only; private and client facts must not enter the public record"
+  - "REALM-SC 9 / REALM-PC 18 (the external-law supremacy floor): real-world law, including confidentiality owed to a real client, is a floor VJS permission cannot lift"
+  - "The duty of reasonable skill and care (CASE-LAW s.5): the boundary scan that Store::write_log and write_convening run was bypassed by the publication path"
+discovered_by: the Principal (in session)
+containment: >
+  The client-data PDF was committed and PUSHED live to the public Gazette
+  (commit 51801da); it was reachable until this cure pushed and Pages rebuilt.
+  This is an outward-facing exposure, not working-tree only - the more serious
+  for it.
+remedy:
+  - remove the client-data PDF from the repo and the published Gazette
+  - replace REALM-SC 11 with a public-only record: the public ratio (the six-condition test, general law) authored clean, no client facts, no client name, no PDF
+  - scrub the pre-existing client reference (CC-OPBOX) from REALM-SC-7's public points
+  - regenerate the artifacts; confirm a zero-client-reference sweep over the published record
+  - push the cure and rebuild Pages to take the exposure down
+why_it_happened: >
+  The Gazette publication path (carry a PDF, add an estate item, regenerate,
+  commit) has no boundary scan, unlike the governed writers (Store::write_log,
+  write_convening) which scan before bytes hit disk. Lexby treated "add to the
+  books" as a presentation act and did not independently apply the boundary
+  duty to a carried external artifact whose provenance (a commercial matter) put
+  client data squarely in scope. The duty is the agent's to discharge without a
+  hook; a missing hook is no excuse.
+prevention:
+  - the archive-carry path must boundary-scan every carried PDF and estate text before publication (a kernel/generator gate, to be added)
+  - a carried artifact from an external matter is private-by-default until cleared
+note: >
+  Remedy is restorative, not punitive (the duty of care). The work is made good;
+  the gap that let it through is recorded for a permanent fix.

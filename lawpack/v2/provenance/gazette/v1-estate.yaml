@@ -1,10 +1,9 @@
 # The V1 archive estate as published in the Gazette (curated; the V1 corpus
 # is frozen). The honoured archive spans the frozen V1-lineage repos
 # (vibe-justice-system v1 branch and agent-universe). pdf = a native
-# judgment/act PDF carried into archive/pdfs/ (loads as the document);
-# source_md = frozen markdown rendered as a webpage; url names the frozen
-# github source. A V1-lineage record is persuasive in V2, never binding
-# unless expressly incorporated (ACT-001).
+# judgment/act PDF carried into archive/pdfs/; source_md = a public-safe
+# rendering; url names the frozen github source. A V1-lineage record is
+# persuasive in V2, never binding unless expressly incorporated (ACT-001).
 items:
 - id: REALM-SC-1
   title: '[2026] REALM-SC 1 - Tort recast and foundational settlement'
@@ -124,7 +123,7 @@ items:
   - Entry-by-entry review of legacy (not wholesale void)
   - 'Bill 25 s.6(2) and CASE-LAW s.18(5) interlock: savings carve void'
   - s.18(5) prospective in reach; entrenchment-lock compels it
-  - VARIED 9:0; CC-OPBOX 1-11 saved, 12 remitted
+  - VARIED 9:0; the first-instance series saved entry-by-entry, the last remitted
   - Leapfrog per s.20; affirms REALM-SC 4
   path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-7.md
   date: '2026-06-06'
@@ -688,21 +687,20 @@ items:
   - BILL-21
   source_md: archive/text/SI-11.md
 - id: REALM-SC-11
-  title: Server-of-Law and the Embeddable Governance Client (Opbox)
+  title: The Server-of-Law and the Embeddable Governance Client
   citation: '[2026] REALM-SC 11'
   kind: judgment
   court: sc
   estate: v1
   status: good-law
   date: '2026-06-10'
-  pdf: archive/pdfs/2026-realm-sc-11.pdf
   path: Judicature/.justice/judgments/supreme-court/2026-realm-sc-11.md
   url: https://github.com/wlilley93/agent-universe/blob/master/Judicature/.justice/judgments/supreme-court/2026-realm-sc-11.md
-  summary: 'Full court of nine (leapfrog): an embeddable, corporate-re-skinned client that renders the
-    same canonical VJS governance from a central server of law is a lawful presentation DIVISION over
-    the one spine, not a forbidden parallel COURT, only if it meets six cumulative conditions. Re-naming
-    canonical governance is permitted; re-housing substantive law, citator, bench, or apex inside the
-    product is forbidden. Persuasive in V2 (V1-lineage; no binding standing unless incorporated).'
+  summary: 'Full court (leapfrog): an embeddable, corporate-re-skinned client that renders the same canonical
+    governance from a central server of law is a lawful presentation DIVISION over the one spine, not
+    a forbidden parallel COURT, only on six cumulative conditions. Re-naming canonical governance is permitted;
+    re-housing substantive law, citator, bench, or apex inside the product is forbidden. Public-only record:
+    the confidential client matter is withheld; persuasive in V2, not binding unless incorporated.'
   points:
   - Enacts CASE-LAW s.24 (ordinary, declaratory; unanimous it is ordinary not constitutional) - persuasive
     only in V2.
@@ -728,3 +726,4 @@ items:
   - REALM-SC-9
   - REALM-PC-14
   - REALM-PC-15
+  source_md: archive/text/REALM-SC-11.md
