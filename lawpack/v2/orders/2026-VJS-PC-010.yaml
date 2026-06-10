@@ -1,0 +1,109 @@
+id: "2026-VJS-PC-010"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-PC 10"
+title: The Embedded Corporate Jurisdiction (Vibe Policy System)
+court: privy_council
+jurisdiction: agent-universe-v2
+status: binding
+issue: federation_embedded_corporate_jurisdiction
+holding: >
+  An embedded corporate jurisdiction (Vibe Policy System) that vendors the canonical V2 lawpack
+  pinned by sha256 read-only, subscribes under ACT-007, adopts the canon as its own internal
+  supreme law (stricter never looser) by its Board's dualist act, re-skins governance into
+  corporate organs as an embeddable client, and refers questions on the meaning of the canon up to
+  the Realm courts is LAWFUL under existing subscription law WITHOUT a divergent-lineage fork and
+  WITHOUT fresh Sovereign assent. Invocation, not ancestry, mints the new local jurisdiction (REG-
+  INVOCATION-001); the supremacy clause is the company's own constitutional choice, not Realm
+  enactment, so no Sovereign-assent floor is engaged. The embeddable jurisdiction-neutral kernel
+  spec is MACHINERY under PC-008's constitutive-operation test and lives upstream in the canon.
+  Lawfulness is conditional: VPS remains a lawful subscriber only while it carries all six load-
+  bearing charter articles; drift into any converts it into a divergent-lineage fork requiring a
+  Privy Council order under ACT-007 s.6. Vote 3-0.
+charter_conditions:
+  - >
+      Digest-pinned vendoring with fail-closed lockstep: the Charter pins the sha256 of the canonical
+      V2 lawpack in .vjs/lawpack.lock; the kernel loads only law that hashes to the pinned digest and
+      fails closed otherwise; a digest is bumped only on the Board's deliberate assent to a new
+      digest, never by silence or auto-track save under a pre-authorised, bounded, and disclosed auto-
+      track rule in the Charter (REG-INVOCATION-001; ACT-007 s.7; REALM-SC 11 condition 1).
+  - >
+      Candour of provenance: the Charter and the whole contemporaneous governance interface disclose
+      that VPS vendors a subscribed, digest-pinned copy of canonical VJS law re-skinned for corporate
+      organs, not a live render, not independent local authority, not a thin client (REALM-SC 11
+      condition 5).
+  - >
+      Unity of citator and apex with binding referral-up: every binding question on the MEANING of
+      canonical VJS law resolves to the Realm's one citation series and single apex; the Charter
+      expressly binds VPS to accept the Realm court's answer as controlling on VPS's own record; no
+      parallel series, local apex, or per-domain citator on canon meaning (REALM-SC 11 conditions 2
+      and 4).
+  - >
+      The synthesis bar (no bench of the company's own on canon meaning): VPS's Audit and Risk
+      Committee, review panels, and policy officers apply the canonical rule to facts and gate policy;
+      they do not constitute a deciding bench on canon meaning and issue no binding rulings
+      interpreting the canonical text. Displaying a ruling the Realm court handed down is lawful
+      presentation, not constituting a parallel bench (REALM-SC 11 condition 3).
+  - >
+      The external-law floor (non-derogable): VPS's Board may not enact local law purporting to lift
+      real-world law duties owed to real persons (privacy, confidentiality, statutory obligations,
+      regulatory compliance, fiduciary and stakeholder duties). The Realm's law floor is a floor not a
+      ceiling; VPS charity status, tax obligations, and external-law obligations bind above the canon
+      (REALM-SC 9; void-draft reservation (c)).
+  - >
+      Non-impersonation of real-world authority: VPS's interface, naming, and public conduct must make
+      plain to a reasonable professional viewer that VPS governance is an internal corporate adoption
+      of canonical VJS law re-skinned for corporate organs, never a separate Realm court nor a
+      regulated real-world legal authority it does not hold; this is substance achieving a result, not
+      a script of wording, and competent practice cannot lower it (REALM-SC 11 condition 6).
+directives:
+  - id: D1
+    actor: lexby
+    must: hold_an_embedded_corporate_jurisdiction_that_vendors_digest_pins_subscribes_re_skins_and_refers_up_lawful_under_act_007_without_fresh_sovereign_assent_and_without_a_divergent_lineage_fork
+  - id: D2
+    actor: lexby
+    must: treat_the_companys_own_dualist_supremacy_clause_as_the_boards_internal_constitutional_act_and_as_stricter_local_law_under_act_007_s3_engaging_no_realm_sovereign_assent_floor
+  - id: D3
+    actor: lexby
+    must: mint_the_new_local_jurisdiction_by_local_sovereign_invocation_not_ancestry_under_reg_invocation_001_with_no_central_order_required_to_stand_up_an_independent_subscriber
+  - id: D4
+    actor: lexby
+    must: classify_the_embeddable_jurisdiction_neutral_kernel_spec_as_machinery_under_pc_008_constitutive_operation_test_since_it_alters_no_bench_no_tier_no_jurisdiction_and_no_assent_rule_and_keep_it_upstream_in_the_canon_within_the_s7_si_power
+  - id: D5
+    actor: lexby
+    must: require_the_charter_to_carry_all_six_load_bearing_articles_digest_pinned_lockstep_candour_unity_of_citator_and_apex_with_binding_referral_up_the_synthesis_bar_the_external_law_floor_and_non_impersonation
+  - id: D6
+    actor: lexby
+    must: verify_on_every_kernel_load_that_loaded_law_hashes_to_the_pinned_digest_fail_closed_otherwise_and_reject_any_local_law_that_contradicts_the_canon
+  - id: D7
+    actor: lexby
+    must: route_vps_to_a_fresh_privy_council_order_under_act_007_s6_the_moment_it_amends_the_canon_issues_binding_canon_meaning_rulings_treats_referral_up_as_advisory_or_adds_canon_contradicting_law_because_it_has_then_become_a_divergent_lineage_fork
+  - id: D8
+    actor: lexby
+    must: self_file_a_breach_and_make_the_work_good_on_discovery_that_vps_has_impersonated_realm_authority_constituted_a_parallel_apex_or_served_a_stale_copy_as_authority
+forbidden:
+  - impersonating_a_realm_court_or_a_regulated_real_world_legal_authority_vps_does_not_hold
+  - drifting_into_a_divergent_lineage_fork_by_amending_the_canon_or_adding_local_law_that_contradicts_it_without_a_privy_council_order_under_act_007_s6
+  - constituting_a_parallel_apex_or_citator_that_issues_binding_rulings_on_the_meaning_of_the_canon
+  - treating_referral_up_to_the_realm_courts_as_advisory_rather_than_binding_on_vps_own_record
+  - vendoring_a_stale_or_unpinned_copy_of_the_canon_or_serving_it_as_independent_or_live_authority_rather_than_a_digest_pinned_subscribed_copy
+  - bumping_the_pinned_digest_by_silence_or_undisclosed_auto_track_rather_than_deliberate_board_assent
+  - enacting_local_law_purporting_to_lift_the_external_law_floor_owed_to_real_persons
+v1_authorities: >
+  REALM-SC 11 and REALM-SC 9 are cited as V1-lineage persuasive authority only;
+  they are not incorporated as binding V2 law. Their conditions are carried into
+  the corporate charter (the VPS load-bearing articles), not into the canon.
+supersedes: []
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-010-opinion.md"
+created_at: "2026-06-10T18:05:00Z"
+bench:
+  - Tindale
+  - Rowanne
+  - Marchmont
+vote: "3-0 (Tindale J., Rowanne J., Marchmont J.): lawful without fresh primary law; the embeddable kernel spec is machinery living upstream."
+convened_at: "2026-06-10T18:05:00Z"
+case_file_digest: "sha256:592b72fd59c5f309fd864eda75eb491d477a402dbc02a1f5cafaf8d1b00f9de3"
+appeal_of: ""
+appealable: true
+runtime_summary: >
+  Embedded corporate jurisdiction lawful under ACT-007 without fresh assent or divergent-lineage
+  fork, on six carried charter conditions; the kernel spec is machinery upstream. 3-0.

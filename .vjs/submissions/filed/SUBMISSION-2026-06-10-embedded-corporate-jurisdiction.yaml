@@ -1,0 +1,77 @@
+id: SUBMISSION-2026-06-10-embedded-corporate-jurisdiction
+court_requested: privy_council
+jurisdiction: agent-universe-v2
+question: >
+  May a company stand up an EMBEDDED CORPORATE JURISDICTION - a separate
+  repository that (a) vendors the canonical V2 lawpack pinned by sha256,
+  read-only; (b) subscribes under ACT-007; (c) adopts the canon as its own
+  INTERNAL supreme law, being stricter but never looser; (d) re-skins governance
+  into corporate organs (a Board, an Audit and Risk Committee as apex, review
+  panels, policy officers, a company secretary) as an embeddable client; and (e)
+  refers questions about the MEANING OF THE CANON up to the Realm's courts -
+  WITHOUT a fork of divergent lineage and WITHOUT fresh Sovereign assent? Or does
+  corporate accession-with-supremacy require primary law (as the subscribing-
+  jurisdiction void first draft flagged as an open tier question)? And is an
+  embeddable, jurisdiction-neutral kernel spec machinery that lives upstream in
+  the canon, or does adopting it touch the courts constitution?
+facts: >
+  Symmetric case file; the registrar's preference is not before the court. This
+  is the lawful-basis reference for "Vibe Policy System" (VPS), a corporate
+  sibling of VJS. EVIDENCE, all real instruments verified in-repo:
+  (1) ACT-007 (Federation and Local Sovereignty Act): installing VJS into a repo
+  creates a local jurisdiction that subscribes to the canonical lawpack by
+  default (s.1-2); the local Principal may vary LOCAL law but it does not
+  override the canon unless a Privy Council order or Principal assent permits
+  (s.3); a central order is required only to VARY the canonical lawpack or to
+  FORK WITH DIVERGENT LINEAGE (s.5-6). Default subscription does not forfeit
+  local sovereignty.
+  (2) REG-INVOCATION-001 (Local Sovereign Invocation): a repository becomes a VJS
+  jurisdiction by the Principal's local sovereign invocation plus a mechanical
+  install, NOT by directory ancestry; no central order is needed to stand up an
+  independent subscribing repo.
+  (3) REG-REPOS-HOUSE-001 + REG-REPOS-REGISTER-001: Repos House is a non-sovereign,
+  two-layer declarative registry and certification ledger; registration creates
+  no legal force (invocation binds, the registry records); each repo declares its
+  lawpack lineage and subscribes; certification is deterministic kernel output.
+  (4) [2026] REALM-SC 11 (server-of-law and the embeddable client; V1-lineage,
+  persuasive, public-only): a re-skinned governance client is lawful under six
+  conditions (currency of law - render live or carry a digest-pinned copy and
+  own the duties; unity of citator and apex; the synthesiser bar - no bench of
+  its own; delivery not law-making; candour of provenance; the external-law
+  non-impersonation floor). A client that vendors its own copy is a subscribed
+  jurisdiction with those duties, not a thin client.
+  (5) [2026] REALM-SC 9 (external-law supremacy floor; persuasive): real-world law,
+  including duties owed to real persons, is a floor VJS permission cannot lift.
+  (6) The subscribing-jurisdiction void first draft (.vjs/submissions/draft/
+  2026-06-10-subscribing-jurisdiction-and-supremacy.md): accession with supremacy
+  on the dualist model; it flagged as OPEN whether supremacy needs primary law or
+  is subordinate.
+  (7) [2026] VJS-PC 8 (binding): the constitutive-operation test - a measure is
+  court CONSTITUTION only if it alters who sits, bench size or parity,
+  jurisdiction or tier, or the assent rule; else it is MACHINERY within the s.7
+  SI power.
+  (8) [2026] REALM-PC 19 (persuasive): superrepo changes require a court order -
+  but a NEW INDEPENDENT subscriber repo is not a change to the canonical superrepo
+  topology.
+  FOR LAWFULNESS WITHOUT FRESH PRIMARY LAW: VPS adds only STRICTER local law and
+  never alters the canon's assent rule or lineage, so it is a subscriber under
+  ACT-007, not a divergent-lineage fork; the supremacy is the COMPANY'S OWN
+  adoption of the canon as its internal floor (a dualist act of the company's own
+  Board), not the Realm enacting the company's law, so no Sovereign assent of the
+  Realm is engaged; the re-skin is the REALM-SC 11 embeddable client; referral-up
+  is a preliminary-reference analogue whose answer binds the company because the
+  company's charter so provides.
+  AGAINST / LIMITS: corporate supremacy and a binding referral channel are
+  first-impression; the void draft flagged a possible primary-law requirement;
+  the court should fix the conditions (digest-pinned vendoring, candour, the
+  external-law floor, no parallel apex) so the embedded jurisdiction cannot drift
+  into a divergent-lineage fork or impersonate the Realm's authority.
+requested_order: >
+  Settle whether an embedded corporate jurisdiction (vendor + subscribe + re-skin
+  + internal supremacy + referral-up) is lawful under existing subscription law
+  without a divergent-lineage fork or fresh Sovereign assent, and on what
+  conditions; and whether an embeddable jurisdiction-neutral kernel spec is
+  machinery (PC-008 dividing line) that lives upstream in the canon. Direct what
+  the company's charter must carry to stay a lawful subscriber.
+private_boundary: local
+word_count: 560

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-10T17:36:30.366918255+00:00",
+  "generated_at": "2026-06-10T18:01:47.530152467+00:00",
   "items": [
     {
       "assent_source": "sovereign_assent",
@@ -1834,6 +1834,47 @@
     },
     {
       "assent_source": "standing_bounded_assent",
+      "citation": "[2026] VJS-PC 10",
+      "cites": [
+        "ACT-007",
+        "REG-INVOCATION-001"
+      ],
+      "court": "pc",
+      "date": "2026-06-10",
+      "doc": "law.html#2026-VJS-PC-010",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-PC-010",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": ".vjs/submissions/filed/2026-VJS-PC-010-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-010-opinion.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-PC-010.yaml",
+      "pdf": "pdfs/orders/2026-VJS-PC-010.pdf",
+      "points": [
+        "hold an embedded corporate jurisdiction that vendors digest pins subscribes re skins and refers up lawful under act 007 without fresh sovereign assent and without a divergent lineage fork",
+        "treat the companys own dualist supremacy clause as the boards internal constitutional act and as stricter local law under act 007 s3 engaging no realm sovereign assent floor",
+        "mint the new local jurisdiction by local sovereign invocation not ancestry under reg invocation 001 with no central order required to stand up an independent subscriber",
+        "classify the embeddable jurisdiction neutral kernel spec as machinery under pc 008 constitutive operation test since it alters no bench no tier no jurisdiction and no assent rule and keep it upstream in the canon within the s7 si power",
+        "require the charter to carry all six load bearing articles digest pinned lockstep candour unity of citator and apex with binding referral up the synthesis bar the external law floor and non impersonation",
+        "verify on every kernel load that loaded law hashes to the pinned digest fail closed otherwise and reject any local law that contradicts the canon",
+        "route vps to a fresh privy council order under act 007 s6 the moment it amends the canon issues binding canon meaning rulings treats referral up as advisory or adds canon contradicting law because it has then become a divergent lineage fork",
+        "self file a breach and make the work good on discovery that vps has impersonated realm authority constituted a parallel apex or served a stale copy as authority"
+      ],
+      "status": "binding",
+      "subject": "federation embedded corporate jurisdiction",
+      "summary": "Embedded corporate jurisdiction lawful under ACT-007 without fresh assent or divergent-lineage fork, on six carried charter conditions; the kernel spec is machinery upstream.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "The Embedded Corporate Jurisdiction (Vibe Policy System)",
+      "ts": "2026-06-10T18:05:00Z",
+      "updated": "2026-06-10",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-010.yaml"
+    },
+    {
+      "assent_source": "standing_bounded_assent",
       "citation": "[2026] VJS-SC 1",
       "cites": [
         "2026-VJS-PC-001"
@@ -3091,14 +3132,14 @@
   "meta": {
     "counts": {
       "archive": 37,
-      "canon": 57,
-      "total": 94
+      "canon": 58,
+      "total": 95
     },
     "lawpack": {
       "digest": "sha256:14cdb3337039ffdbe4f007fcb6fc5fd634cb0e7f6218e201555ab5de45868f9f",
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "d3f3fc8d4323f67c0effe12ba21461d9d0fe92e9"
+    "source_commit": "6ffe2c886a3b4794e34ef3985d45efebd155cd18"
   }
 }

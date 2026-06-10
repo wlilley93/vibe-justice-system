@@ -1,0 +1,12 @@
+id: LOG-2026-06-10-180217
+time: 2026-06-10T18:02:17.179488481+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260610-180217
+decision: 'Entered [2026] VJS-PC 10, the lawful-basis reference for Vibe Policy System (VPS), the corporate sibling. An independent Privy Council of three (Tindale, Rowanne, Marchmont) sat on a symmetric researched case file and held unanimously (3-0): an embedded corporate jurisdiction that vendors the canonical V2 lawpack pinned by sha256 read-only, subscribes under ACT-007, adopts the canon as its own internal supreme law (stricter never looser) by its Board''s own dualist act, re-skins governance into corporate organs as an embeddable client, and refers questions on the MEANING of the canon up to the Realm courts, is LAWFUL under existing subscription law WITHOUT a divergent-lineage fork and WITHOUT fresh Sovereign assent. Invocation, not ancestry, mints the new jurisdiction (REG-INVOCATION-001); the supremacy clause is the company''s own constitutional choice, not Realm enactment, so no Sovereign-assent floor is engaged - this settles the tier question the subscribing-jurisdiction void draft left open. The embeddable jurisdiction-neutral kernel spec is MACHINERY under the PC-008 constitutive-operation test and lives upstream. Lawfulness is conditional on six load-bearing charter articles: digest-pinned fail-closed lockstep; candour of provenance; unity of citator and apex with binding referral-up; the synthesis bar (no bench of its own on canon meaning); the non-derogable external-law floor (REALM-SC 9); and non-impersonation of real-world authority (REALM-SC 11). Drift into any converts VPS into a divergent-lineage fork needing a fresh PC order under ACT-007 s.6. REALM-SC 11 and SC 9 are cited persuasive only, carried into the corporate charter not the canon. The order carries the structured court record (bench, 3-0, pinned case-file digest). 71 tests green.'
+basis:
+- PERMIT-1781114537
+risk: low
+reversibility: easy
+court_required: false
+why: The Principal directed the lawful end-to-end build of VPS; the one genuine first-impression decision (is an embedded corporate jurisdiction lawful without primary law) was put to the Privy Council, which so held on six conditions.
