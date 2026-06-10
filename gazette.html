@@ -22,7 +22,7 @@
     --first:#3d7fbd; --first-bg:#eef7ff;
     --act:#b42318; --act-bg:#fff0ec;
     --si:#761919;  --si-bg:#fbe6e6;
-    --pc:#a31963;  --pc-bg:#fde7f3;
+    --pc:#5b6472;  --pc-bg:#eceef2;
     --submission:#4b5563; --submission-bg:#f3f4f6;
     --v1:#7a5c1e;  --v1-bg:#f6eeda;
     --v2:#1a5c46;  --v2-bg:#e9f5ef;
@@ -272,6 +272,7 @@ function card(d) {
   const get = ids => (ids || []).map(c => byId.get(c)).filter(Boolean);
   const assoc = [
     ['Derives force from', [...get(d.lineage), ...get(d.cites)]],
+    ['Same docket', [...get(d.thread), ...ITEMS.filter(x => (x.thread || []).includes(d.id))]],
     ['Relied on by', ITEMS.filter(x => (x.cites || []).includes(d.id) || (x.lineage || []).includes(d.id))],
   ].filter(([, l]) => l.length);
   if (assoc.length) {

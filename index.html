@@ -20,7 +20,7 @@
     --first:#3d7fbd; --first-bg:#eef7ff;
     --act:#b42318; --act-bg:#fff0ec;
     --si:#761919;  --si-bg:#fbe6e6;
-    --pc:#a31963;  --pc-bg:#fde7f3;
+    --pc:#5b6472;  --pc-bg:#eceef2;
     --submission:#4b5563; --submission-bg:#f3f4f6;
     --v1:#7a5c1e;  --v1-bg:#f6eeda;
     --v2:#1a5c46;  --v2-bg:#e9f5ef;
@@ -109,6 +109,18 @@
   #legend .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-left:6px;
     vertical-align:middle; border:1.5px solid var(--ink); }
   #legend .edge { display:inline-block; width:16px; height:2px; margin-left:6px; vertical-align:middle; }
+  /* ---- the hover card (over a node, or over a list row) ---- */
+  #hovercard { position:fixed; z-index:20; width:268px; max-width:78vw; background:var(--paper);
+    border:1px solid var(--ink); border-left:5px solid var(--tone,var(--ink)); border-radius:7px;
+    box-shadow:0 6px 22px rgba(26,39,68,.18); padding:.6rem .75rem; pointer-events:none;
+    opacity:0; transform:translateY(3px); transition:opacity .1s ease, transform .1s ease; display:none; }
+  #hovercard.show { opacity:1; transform:translateY(0); }
+  #hovercard .hc-chips { margin-bottom:.3rem; }
+  #hovercard .hc-title { font-weight:bold; color:var(--ink); font-size:.95rem; line-height:1.25; }
+  #hovercard .hc-meta { color:var(--muted); font-size:.74rem; margin:.15rem 0 .35rem; }
+  #hovercard .hc-sum { font-size:.84rem; color:#33404f; line-height:1.45;
+    display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
+  #hovercard .hc-hint { color:var(--muted); font-size:.68rem; margin-top:.4rem; font-style:italic; }
   .filterrow { display:flex; gap:.3rem; justify-content:flex-end; margin-top:.45rem; flex-wrap:wrap; }
   .tab { --tone:var(--ink); padding:.15rem .55rem; border:1px solid var(--tone); border-radius:999px;
     cursor:pointer; background:var(--paper); color:var(--tone); font-size:.72rem; }
@@ -203,6 +215,7 @@
   </div>
 </noscript>
 <div id="graph"></div>
+<div id="hovercard" role="tooltip"></div>
 
 <div id="topbar">
   <a id="brand" href="gazette.html" title="The Gazette, classic reading view">
@@ -291,9 +304,9 @@ const byId = new Map(ITEMS.map(d => [d.id, d]));
 
 /* ---------- shared vocabulary (the chip taxonomy, presentation only) ---------- */
 const TONES = { sc:'#8a5a00', ca:'#1d4f91', first:'#3d7fbd', act:'#b42318', si:'#761919',
-  pc:'#a31963', submission:'#4b5563' };
+  pc:'#5b6472', submission:'#4b5563' };
 const TONE_BG = { sc:'#fff2bf', ca:'#e8f1ff', first:'#eef7ff', act:'#fff0ec', si:'#fbe6e6',
-  pc:'#fde7f3', submission:'#f3f4f6' };
+  pc:'#eceef2', submission:'#f3f4f6' };
 function tone(d) {
   if (d.kind === 'statute' || d.kind === 'act') return 'act';
   if (d.kind === 'regulation' || d.kind === 'rule' || d.kind === 'instrument') return 'si';
@@ -514,6 +527,12 @@ const Graph = ForceGraph()(document.getElementById('graph'))
   .onNodeHover(d => {
     hovered = d ? d.id : null;
     document.getElementById('graph').style.cursor = d ? 'pointer' : null;
+    if (d) {
+      const sc = Graph.graph2ScreenCoords(d.x, d.y);
+      showHoverCard(d, sc.x + 14, sc.y + 14);
+    } else {
+      hideHoverCard();
+    }
   })
   .onNodeClick(d => openPanel(d.id))
   .onBackgroundClick(() => closePanel());
@@ -633,6 +652,7 @@ function renderList() {
     // the lineage disclosure: the object's associations, in place
     const assoc = [
       ['Derives force from', [...(d.lineage || []), ...(d.cites || [])]],
+      ['Same docket', [...(d.thread || []), ...ITEMS.filter(x => (x.thread || []).includes(d.id)).map(x => x.id)]],
       ['Relied on by', ITEMS.filter(x => (x.cites || []).includes(d.id) || (x.lineage || []).includes(d.id)).map(x => x.id)],
     ].filter(([, l]) => l.length);
     if (assoc.length) {
@@ -662,10 +682,44 @@ function renderList() {
     }
 
     row.onclick = () => openPanel(d.id);
+    row.addEventListener('mouseenter', () => {
+      const r = row.getBoundingClientRect();
+      showHoverCard(d, r.right + 10, r.top);
+    });
+    row.addEventListener('mouseleave', hideHoverCard);
     rows.appendChild(row);
   }
 }
 renderList();
+
+/* ---------- the hover card ---------- */
+const hc = document.getElementById('hovercard');
+let hcTimer = null;
+function showHoverCard(d, x, y) {
+  clearTimeout(hcTimer);
+  const t = tone(d);
+  const source = d.court
+    ? `<span class="chip tone-${t}">${esc(COURT_LABEL[d.court] || d.court)}</span>`
+    : `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'The archive' : 'The canon'}</span>`;
+  const meta = [d.citation || d.id, fmtDate(d.date), (d.status || '').replace(/[_-]/g, ' ')].filter(Boolean).map(esc).join(' · ');
+  hc.style.setProperty('--tone', `var(--${t})`);
+  hc.innerHTML = `
+    <div class="hc-chips"><span class="chip tone-${t}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>${source}</div>
+    <div class="hc-title">${esc(d.title)}</div>
+    <div class="hc-meta">${meta}</div>
+    <div class="hc-sum">${esc(d.summary || '')}</div>
+    <div class="hc-hint">Click to open the document</div>`;
+  hc.style.display = 'block';
+  // clamp to the viewport
+  const w = hc.offsetWidth, h = hc.offsetHeight;
+  hc.style.left = Math.max(8, Math.min(x, innerWidth - w - 8)) + 'px';
+  hc.style.top = Math.max(8, Math.min(y, innerHeight - h - 8)) + 'px';
+  requestAnimationFrame(() => hc.classList.add('show'));
+}
+function hideHoverCard() {
+  hc.classList.remove('show');
+  hcTimer = setTimeout(() => { hc.style.display = 'none'; }, 120);
+}
 
 /* ---------- search: grouped type-ahead ---------- */
 const qEl = document.getElementById('q'), hitsEl = document.getElementById('hits');
