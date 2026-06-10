@@ -121,7 +121,14 @@ fn every_law_object_is_published_and_every_edge_resolves() {
             );
             assert!(url.contains("/blob/master/"), "v2 url on wrong branch: {}", url);
         } else {
-            assert!(url.contains("/blob/v1/"), "v1 url on wrong branch: {}", url);
+            // The honoured archive spans the frozen V1-lineage repos (the
+            // vibe-justice-system v1 branch and agent-universe); each item
+            // points at a github blob in that lineage.
+            assert!(
+                url.contains("github.com/wlilley93/") && url.contains("/blob/"),
+                "v1 url must be a frozen V1-lineage github source: {}",
+                url
+            );
         }
         assert!(!url.contains("/blob/main/"), "the remote has no main branch: {}", url);
 
