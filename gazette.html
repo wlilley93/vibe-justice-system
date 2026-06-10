@@ -96,7 +96,9 @@
   .chip.tone-v2 { --tone:var(--v2); --tone-bg:var(--v2-bg); }
   .tl { display:inline-block; font-size:.62rem; letter-spacing:.05em; text-transform:uppercase;
     padding:.05rem .45rem; border-radius:10px; border:1px solid var(--rule); color:var(--muted); background:#fff; }
-  .tl.live { background:#1fd13f; color:#08350f; border-color:#16a832; }
+  .tl.live { background:#dff3e4; color:#0a5a26; border-color:#7cc894; }
+  .chips-status { margin-top:.05rem; }
+  .chips-status .tl { font-size:.6rem; padding:.08rem .4rem; }
   .tl.assent { background:#cdf3d6; color:#0a5224; border-color:#5cbf80; }
   .tl.arch { background:#f1ece1; color:#6b5b3a; border-color:#cdbf9c; }
   .tl.bad  { background:#fbe3e3; color:#a01010; border-color:#c0392b; }
@@ -209,14 +211,20 @@ function esc(t) {
     ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
 }
 function statusChip(d) {
-  // The honoured archive binds nothing in V2 (persuasive unless incorporated):
-  // its chip reads 'archived', not a live good-law green. Its V1 status stays
-  // in the document. An assented canon record reads green.
+  // The honoured archive binds nothing in V2: its chip reads 'archived'. A canon
+  // record shows its status (in force / void / draft). No assent chip - canon is
+  // assented by rule.
   if (d.estate === 'v1') return `<span class="tl arch">archived</span>`;
-  const bits = [];
-  if (d.status) bits.push(`<span class="tl ${statusKind(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>`);
-  if (d.assent_source) bits.push(`<span class="tl assent">${esc(d.assent_source.replace(/_/g, ' '))}</span>`);
-  return bits.join(' ');
+  return d.status ? `<span class="tl ${statusKind(d.status)}">${esc(d.status.replace(/[_-]/g, ' '))}</span>` : '';
+}
+// court orders, judgments and acts show the citation before the name
+function displayTitle(d) {
+  const cite = d.citation;
+  if (cite && ['order', 'judgment', 'act', 'statute', 'instrument'].includes(d.kind)
+      && !d.title.startsWith(cite) && !d.title.startsWith('[')) {
+    return `${cite} - ${d.title}`;
+  }
+  return d.title;
 }
 function statusKind(s) {
   s = (s || '').toLowerCase();
@@ -270,8 +278,7 @@ function card(d) {
   const sourceChip = d.court
     ? `<span class="chip tone-${t}" title="${esc(SOURCE_LABEL[d.court] || d.court)}">${esc(d.court.toUpperCase())}</span>`
     : `<span class="chip tone-${d.estate === 'v1' ? 'v1' : 'v2'}">${d.estate === 'v1' ? 'Archive' : 'Canon'}</span>`;
-  const metaBits = [d.citation, fmtDate(d.date)].filter(Boolean).map(esc).join(' &middot; ')
-    + ' ' + statusChip(d);
+  const metaBits = [d.citation, fmtDate(d.date)].filter(Boolean).map(esc).join(' &middot; ');
 
   const el = document.createElement('div');
   el.className = `card tone-${t}`;
@@ -280,8 +287,8 @@ function card(d) {
   el.setAttribute('role', 'link');
   el.setAttribute('aria-label', `Open ${d.title}`);
   el.innerHTML = `
-    <div class="chips"><span class="chip tone-${t}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>${sourceChip}</div>
-    <div class="titleline">${esc(d.title)}</div>
+    <div class="chips"><span class="chip tone-${t}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>${sourceChip}${statusChip(d) ? `<span class="chips-status">${statusChip(d)}</span>` : ''}</div>
+    <div class="titleline">${esc(displayTitle(d))}</div>
     ${metaBits ? `<div class="court">${metaBits}</div>` : ''}
     <div class="ratio">${esc(d.summary)}</div>`;
 
