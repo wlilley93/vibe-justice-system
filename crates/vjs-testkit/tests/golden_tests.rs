@@ -94,3 +94,15 @@ fn repo_root() -> PathBuf {
     // lawpack-backed assertion would pass vacuously over an empty lawpack.
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
 }
+
+#[test]
+fn orders_load_with_the_new_optional_fields() {
+    let repo = repo_root();
+    let lawpack = LawpackLoader::load(&repo.join("lawpack/v2")).unwrap();
+    // The existing orders still load (the new fields are optional)...
+    assert!(lawpack.orders.len() >= 22, "all orders load: {}", lawpack.orders.len());
+    // ...and the citation the orders already carried is now a real field.
+    let pc7 = lawpack.orders.iter().find(|o| o.id == "2026-VJS-PC-007").unwrap();
+    assert_eq!(pc7.citation.as_deref(), Some("[2026] VJS-PC 7"));
+    assert_eq!(pc7.assent_source.as_deref(), Some("standing_bounded_assent"));
+}

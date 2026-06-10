@@ -130,6 +130,11 @@ enum Commands {
         #[command(subcommand)]
         subcmd: PermitCommands,
     },
+    /// The court's auditable surface: list the docket, or record a convening.
+    Court {
+        #[command(subcommand)]
+        subcmd: CourtCommands,
+    },
     Eval {
         /// Suite to run: agent-harness | prompts | route | all
         suite: Option<String>,
@@ -163,6 +168,26 @@ enum PermitCommands {
         id: String,
         #[arg(long)]
         proof: Option<String>,
+    },
+}
+
+#[derive(Subcommand)]
+enum CourtCommands {
+    /// List the docket: filed submissions and issued orders, grouped by issue.
+    Docket,
+    /// Record a convening: pin the sha256 of a filed submission (the symmetric
+    /// case file) and the bench that decided it.
+    Record {
+        #[arg(long)]
+        court: String,
+        /// The filed submission id whose bytes are the case file.
+        #[arg(long)]
+        submission: String,
+        /// A deciding seat (repeat for each bench member).
+        #[arg(long = "seat")]
+        bench: Vec<String>,
+        #[arg(long)]
+        issue: Option<String>,
     },
 }
 
@@ -233,6 +258,7 @@ fn main() {
         }
         Commands::LocalCi => cmd_local_ci(&repo, json),
         Commands::Order { subcmd } => cmd_order(&repo, subcmd, json),
+        Commands::Court { subcmd } => cmd_court(&repo, subcmd, json),
         Commands::File { court, question, facts_file } => {
             cmd_file(&repo, court, question, facts_file, json)
         }
@@ -1103,6 +1129,84 @@ fn cmd_order(repo: &Path, subcmd: OrderCommands, json: bool) -> Result<(), Kerne
         }
     }
 
+    Ok(())
+}
+
+fn cmd_court(repo: &Path, subcmd: CourtCommands, json: bool) -> Result<(), KernelError> {
+    match subcmd {
+        CourtCommands::Docket => {
+            let submissions = Store::read_submissions(repo)?;
+            // The docket is the canon orders (lawpack/v2/orders), not the
+            // runtime .vjs/orders working copy.
+            let orders = load_lawpack(repo).map(|l| l.orders).unwrap_or_default();
+            let convenings = Store::read_convenings(repo)?;
+            if json {
+                println!(
+                    "{}",
+                    serde_json::json!({
+                        "pending_submissions": submissions.iter().map(|s| serde_json::json!({
+                            "id": s.id, "court": s.court_requested, "question": s.question,
+                        })).collect::<Vec<_>>(),
+                        "convenings": convenings.iter().map(|c| serde_json::json!({
+                            "id": c.id, "court": c.court, "submission": c.submission_id,
+                            "case_file_digest": c.case_file_digest, "bench": c.bench,
+                        })).collect::<Vec<_>>(),
+                        "orders": orders.iter().map(|o| serde_json::json!({
+                            "id": o.id, "citation": o.citation, "court": o.court,
+                            "issue": o.issue.0, "bench": o.bench, "case_file_digest": o.case_file_digest,
+                        })).collect::<Vec<_>>(),
+                    })
+                );
+            } else {
+                println!("The docket\n");
+                println!("Pending submissions ({}):", submissions.len());
+                for s in &submissions {
+                    println!("  {} -> {} : {}", s.id, s.court_requested, s.question);
+                }
+                println!("\nConvenings ({}):", convenings.len());
+                for c in &convenings {
+                    println!("  {} [{}] case-file {} bench {:?}", c.id, c.court, c.case_file_digest, c.bench);
+                }
+                println!("\nOrders ({}):", orders.len());
+                for o in &orders {
+                    let cite = o.citation.clone().unwrap_or_else(|| o.id.clone());
+                    let recorded = if o.case_file_digest.is_some() { "recorded" } else { "no convening record" };
+                    println!("  {} ({}) [{}]", cite, o.issue.0, recorded);
+                }
+            }
+        }
+        CourtCommands::Record { court, submission, bench, issue } => {
+            if bench.is_empty() {
+                return Err(KernelError::InvalidInput("a convening records at least one --seat".into()));
+            }
+            let subs = Store::read_submissions(repo)?;
+            let sub = subs
+                .iter()
+                .find(|s| s.id == submission)
+                .ok_or_else(|| KernelError::InvalidInput(format!("no filed submission {}", submission)))?;
+            // The case-file digest pins exactly what was before the court.
+            let bytes = serde_yaml::to_string(sub)
+                .map_err(|e| KernelError::Serialization(e.to_string()))?;
+            use sha2::Digest;
+            let digest = format!("sha256:{}", hex::encode(sha2::Sha256::digest(bytes.as_bytes())));
+            let convened_at = chrono::Utc::now().to_rfc3339();
+            let rec = vjs_store::ConveningRecord {
+                id: format!("CONVENING-{}", chrono::Utc::now().format("%Y-%m-%d-%H%M%S")),
+                court,
+                submission_id: submission,
+                issue,
+                case_file_digest: digest.clone(),
+                bench,
+                convened_at,
+            };
+            Store::write_convening(repo, &rec)?;
+            if json {
+                println!("{}", serde_json::json!({ "convening": rec.id, "case_file_digest": digest }));
+            } else {
+                println!("Convening recorded: {} (case file {})", rec.id, digest);
+            }
+        }
+    }
     Ok(())
 }
 

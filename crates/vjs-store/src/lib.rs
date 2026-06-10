@@ -19,6 +19,7 @@ impl Store {
             "logs/breaches",
             "submissions/draft",
             "submissions/filed",
+            "court/convenings",
             "permits",
             "cache",
             "private",
@@ -211,6 +212,62 @@ impl Store {
         Ok(proofs)
     }
 
+    pub fn write_convening(repo_root: &Path, rec: &ConveningRecord) -> Result<(), KernelError> {
+        let dir = repo_root.join(".vjs/court/convenings");
+        std::fs::create_dir_all(&dir).map_err(|e| KernelError::Io(e.to_string()))?;
+        let path = dir.join(format!("{}.yaml", rec.id));
+        let content = serde_yaml::to_string(rec)
+            .map_err(|e| KernelError::Serialization(e.to_string()))?;
+        // Convening records are public record: the boundary scan runs first.
+        let findings = vjs_redact::RedactScanner::scan_file(&path, &content);
+        if !vjs_redact::RedactScanner::check_public_safe(&findings) {
+            return Err(KernelError::InvalidInput(format!(
+                "convening record '{}' fails the public/private boundary scan; keep secrets out of the record",
+                rec.id
+            )));
+        }
+        std::fs::write(&path, content).map_err(|e| KernelError::Io(e.to_string()))?;
+        Ok(())
+    }
+
+    pub fn read_convenings(repo_root: &Path) -> Result<Vec<ConveningRecord>, KernelError> {
+        let dir = repo_root.join(".vjs/court/convenings");
+        let mut out = Vec::new();
+        if !dir.exists() {
+            return Ok(out);
+        }
+        for entry in std::fs::read_dir(&dir).map_err(|e| KernelError::Io(e.to_string()))? {
+            let path = entry.map_err(|e| KernelError::Io(e.to_string()))?.path();
+            if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
+                let content = std::fs::read_to_string(&path)
+                    .map_err(|e| KernelError::Io(e.to_string()))?;
+                if let Ok(rec) = serde_yaml::from_str::<ConveningRecord>(&content) {
+                    out.push(rec);
+                }
+            }
+        }
+        Ok(out)
+    }
+
+    pub fn read_submissions(repo_root: &Path) -> Result<Vec<Submission>, KernelError> {
+        let dir = repo_root.join(".vjs/submissions/filed");
+        let mut out = Vec::new();
+        if !dir.exists() {
+            return Ok(out);
+        }
+        for entry in std::fs::read_dir(&dir).map_err(|e| KernelError::Io(e.to_string()))? {
+            let path = entry.map_err(|e| KernelError::Io(e.to_string()))?.path();
+            if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
+                let content = std::fs::read_to_string(&path)
+                    .map_err(|e| KernelError::Io(e.to_string()))?;
+                if let Ok(sub) = serde_yaml::from_str::<Submission>(&content) {
+                    out.push(sub);
+                }
+            }
+        }
+        Ok(out)
+    }
+
     pub fn read_orders(repo_root: &Path) -> Result<Vec<Order>, KernelError> {
         let orders_dir = repo_root.join(".vjs/orders");
         let mut orders = Vec::new();
@@ -332,6 +389,21 @@ pub struct Submission {
     pub requested_order: String,
     pub private_boundary: String,
     pub word_count: usize,
+}
+
+/// A convening record: the auditable proof that a court sat. It pins the
+/// sha256 of the symmetric case file (the submission) it decided and the bench
+/// that decided, so a ruling can be traced to exactly what was before it.
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct ConveningRecord {
+    pub id: String,
+    pub court: String,
+    pub submission_id: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub issue: Option<String>,
+    pub case_file_digest: String,
+    pub bench: Vec<String>,
+    pub convened_at: String,
 }
 
 fn default_config() -> JurisdictionConfig {
