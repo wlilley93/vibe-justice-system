@@ -6,10 +6,10 @@ status: in_force
 created_at: "2026-06-10T10:20:00Z"
 text: >
   The kernel machinery of the realm, namely its invariants, obligations,
-  agent rules, and specifications, is consolidated under this single
+  agent rules, specifications, and decisions of record, is consolidated under this single
   instrument. The machinery is maintained as the working schedules of this
   instrument: the machine-checkable records under lawpack/v2/invariants,
-  lawpack/v2/obligations, lawpack/v2/rules, and lawpack/v2/specs. The
+  lawpack/v2/obligations, lawpack/v2/rules, lawpack/v2/specs, and lawpack/v2/decisions. The
   schedules carry force as part of this instrument and are loaded and
   enforced by the kernel directly. They may be amended from time to time by
   the established lawmaking route (route, permit, decision log, validation)
@@ -27,6 +27,7 @@ kernel_effect:
       - lawpack/v2/obligations
       - lawpack/v2/rules
       - lawpack/v2/specs
+      - lawpack/v2/decisions
     schedule_amendment_route: route_permit_log_validate
   must:
     - load_and_enforce_schedules_directly

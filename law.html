@@ -126,6 +126,11 @@
   .longtitle .lbl { font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
     margin-bottom:.15rem; }
   .reserved { color:var(--muted); font-size:.88rem; margin:.5rem 0 .5rem .9rem; }
+  .archivedoc h2, .archivedoc h3, .archivedoc h4 { margin:1.1rem 0 .4rem; color:var(--ink); line-height:1.25; }
+  .archivedoc h2 { font-size:1.25rem; } .archivedoc h3 { font-size:1.08rem; } .archivedoc h4 { font-size:.98rem; }
+  .archivedoc blockquote { border-left:3px solid var(--rule); margin:.6rem 0; padding-left:.9rem; color:#33404f; }
+  .archivedoc code { font-family:ui-monospace,Menlo,monospace; font-size:.85em; background:#f1ece3; padding:.05rem .25rem; border-radius:3px; }
+  .archivedoc hr { border:none; border-top:1px solid var(--rule); margin:1rem 0; }
   .tocres { display:block; color:var(--muted); padding:.1rem 0; }
   .assoc-row { display:flex; align-items:baseline; gap:.55rem; padding:.28rem 0;
     border-bottom:1px solid #eee6da; cursor:pointer; }
@@ -245,6 +250,53 @@ function ensureText() {
 function paras(text) {
   return String(text || '').split(/\n+/).filter(Boolean).map(p => `<p>${linkify(esc(p))}</p>`).join('');
 }
+function markdown(md) {
+  // enough markdown for the frozen V1 sources: headings, lists, rules,
+  // blockquotes, bold/italic/code, paragraphs - rendered in the document style
+  const inline = t => linkify(esc(t))
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[^*])\*(?!\s)([^*]+?)\*/g, '$1<em>$2</em>')
+    .replace(/`([^`]+?)`/g, '<code>$1</code>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+  const lines = String(md || '').split('\n');
+  let out = '', list = null, para = [];
+  const flushPara = () => { if (para.length) { out += `<p>${inline(para.join(' '))}</p>`; para = []; } };
+  const flushList = () => { if (list) { out += `</${list}>`; list = null; } };
+  for (const raw of lines) {
+    const line = raw.replace(/\s+$/, '');
+    let m;
+    if (/^\s*$/.test(line)) { flushPara(); flushList(); continue; }
+    if (/^---+$/.test(line) || /^___+$/.test(line)) { flushPara(); flushList(); out += '<hr class="headrule">'; continue; }
+    if ((m = line.match(/^(#{1,4})\s+(.*)$/))) {
+      flushPara(); flushList();
+      const lvl = Math.min(m[1].length + 1, 4);
+      out += `<h${lvl}>${inline(m[2])}</h${lvl}>`; continue;
+    }
+    if ((m = line.match(/^\s*[-*]\s+(.*)$/))) {
+      flushPara(); if (list !== 'ul') { flushList(); out += '<ul class="points">'; list = 'ul'; }
+      out += `<li>${inline(m[1])}</li>`; continue;
+    }
+    if ((m = line.match(/^\s*\d+[.)]\s+(.*)$/))) {
+      flushPara(); if (list !== 'ol') { flushList(); out += '<ol class="points">'; list = 'ol'; }
+      out += `<li>${inline(m[1])}</li>`; continue;
+    }
+    if ((m = line.match(/^>\s?(.*)$/))) { flushPara(); flushList(); out += `<blockquote>${inline(m[1])}</blockquote>`; continue; }
+    if (/^\|.*\|\s*$/.test(line)) {
+      flushPara(); flushList();
+      const cells = line.replace(/^\||\|\s*$/g, '').split('|').map(c => c.trim());
+      if (cells.every(c => /^:?-+:?$/.test(c))) continue; // the header separator row
+      const tag = out.endsWith('</tr>') || out.endsWith('<table>') ? 'td' : 'th';
+      if (!out.endsWith('</tr>') && !out.endsWith('<table>')) out += '<table>';
+      out += `<tr>${cells.map(c => `<${tag}>${inline(c)}</${tag}>`).join('')}</tr>`;
+      continue;
+    }
+    if (out.endsWith('</tr>')) out += '</table>';
+    para.push(line.trim());
+  }
+  flushPara(); flushList();
+  if (out.endsWith('</tr>')) out += '</table>';
+  return out;
+}
 function plain(v, depth = 0) {
   // write values properly: no braces, no quotes, no underscores
   if (v == null) return '';
@@ -318,7 +370,7 @@ function renderBody(d, body) {
         ${paras(body.text)}${factsPanel(body.kernel_effect)}`;
       // the consolidating instrument carries its schedules in full
       const SCHED_NAME = { invariant:'Schedule 1 - The Invariants', obligation:'Schedule 2 - The Obligations',
-        rule:'Schedule 3 - The Agent Rules', spec:'Schedule 4 - The Specifications' };
+        rule:'Schedule 3 - The Agent Rules', spec:'Schedule 4 - The Specifications', decision:'Schedule 5 - The Decisions' };
       let lastKind = null;
       for (const sch of body.schedules || []) {
         if (sch.kind !== lastKind) {
@@ -474,13 +526,16 @@ function render() {
     assocSection('Superseded by', get(d.superseded_by)) +
     assocSection('Cited by', ITEMS.filter(x => (x.cites || []).includes(d.id)));
 
-  if (d.has_text) {
+  if (d.has_text || d.archive_text) {
     page.innerHTML = `<main>${head}<article><p class="commentary">Loading the text&hellip;</p></article></main>`;
     ensureText().then(() => {
       const current = decodeURIComponent(location.hash.slice(1)).split(':')[0];
       if (current !== id) return;
-      const body = renderBody(d, (window.GAZETTE_TEXT || {})[id]) || '<p class="commentary">No renderable text.</p>';
-      page.innerHTML = `<main>${head}<article>${body}</article>${assoc}${docNav(d)}</main>`;
+      const t = (window.GAZETTE_TEXT || {})[id];
+      const body = d.archive_text
+        ? `<article class="archivedoc">${markdown(t && t.archive_md)}</article>`
+        : `<article>${renderBody(d, t) || '<p class="commentary">No renderable text.</p>'}</article>`;
+      page.innerHTML = `<main>${head}${body}${assoc}${docNav(d)}</main>`;
       const want = decodeURIComponent(location.hash.slice(1));
       if (want.includes(':')) {
         const el = document.getElementById('sec:' + want);
