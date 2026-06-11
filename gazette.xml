@@ -9,6 +9,50 @@
   <author><name>Vibe Justice System</name></author>
   <rights>Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001): force comes from the lawpack and the Sovereign's assent, never from publication or syndication.</rights>
   <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-007</id>
+    <title>Assent Construction for the Realm Invariants and Machinery Instrument 2026</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-007"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-007.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-10T00:00:00Z</published>
+    <updated>2026-06-11T00:00:00Z</updated>
+    <summary type="text">Assent found 2-1: the Sovereign&apos;s &quot;go&quot;, in immediate answer to the sole digest-pinned presentment, commences the Realm Invariants Instrument.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-008</id>
+    <title>The Court Machinery Versus Court Constitution Dividing Line</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-008"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-008.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-10T00:00:00Z</published>
+    <updated>2026-06-11T00:00:00Z</updated>
+    <summary type="text">Appeal dismissed 3-0; County Court affirmed.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-009</id>
+    <title>CASE-LAW Is V1; It May Not Be Cited as Binding V2 Authority</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-009"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-009.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-10T00:00:00Z</published>
+    <updated>2026-06-11T00:00:00Z</updated>
+    <summary type="text">CASE-LAW (V1) cannot be cited as live binding V2 authority.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-010</id>
+    <title>The Embedded Corporate Jurisdiction (Vibe Policy System)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-010"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-010.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-10T00:00:00Z</published>
+    <updated>2026-06-11T00:00:00Z</updated>
+    <summary type="text">Embedded corporate jurisdiction lawful under ACT-007 without fresh assent or divergent-lineage fork, on six carried charter conditions; the kernel spec is machinery upstream.</summary>
+  </entry>
+  <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-ACCESSION-001</id>
     <title>Accession and Subscription Form Regulation</title>
     <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-ACCESSION-001"/>
@@ -141,50 +185,6 @@
     <summary type="text">V2 alpha must harden predicate evaluation, repo scanning, invariant validation, permits, hooks before adding courts, Gazette, migration.</summary>
   </entry>
   <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-012</id>
-    <title>Permit Enforcement Hardening Order</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-BOOT-012"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-BOOT-012.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-08T00:00:00Z</published>
-    <updated>2026-06-10T00:00:00Z</updated>
-    <summary type="text">V2 alpha must enforce permits at staged-change and commit boundary before further expansion.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-ORDER-SCHEMA-001</id>
-    <title>Order-schema Court-record Extension and REG-COURT-RECORD-001 Machinery Order</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-CC-ORDER-SCHEMA-001"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-ORDER-SCHEMA-001.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-10T00:00:00Z</published>
-    <updated>2026-06-10T00:00:00Z</updated>
-    <summary type="text">Order-schema court-record fields and REG-COURT-RECORD-001 are court machinery, valid under s.7: optional, prospective, recording-only, touching no bench size, jurisdiction, or assent rule.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-ROUTE-EVAL-001</id>
-    <title>Route-Eval Divergence; DEC-006 Substring Governs On-Point Authority</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-CC-ROUTE-EVAL-001"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-ROUTE-EVAL-001.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-10T00:00:00Z</published>
-    <updated>2026-06-10T00:00:00Z</updated>
-    <summary type="text">Kernel routing is correct under DEC-006; the eval used tags matching no authority.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-WORKPLAN-001</id>
-    <title>Overnight Gazette Work Programme Order</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-CC-WORKPLAN-001"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-WORKPLAN-001.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-06-10T00:00:00Z</updated>
-    <summary type="text">Overnight run: execute the Principal&apos;s Gazette presentation mandate with derived PDFs for the 7 gaps, two-chip rule, compact header, gated commits, and morning acceptance on tests, live checks, screenshots and logs.</summary>
-  </entry>
-  <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-COURTS-CONSTITUTION-001</id>
     <title>Court Constitution (The Order)</title>
     <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-COURTS-CONSTITUTION-001"/>
@@ -260,50 +260,6 @@
     <published>2026-06-09T00:00:00Z</published>
     <updated>2026-06-10T00:00:00Z</updated>
     <summary type="text">3-0 Privy Council ruling that canon super-repo self-invokes under REG-INVOCATION-001; Privy Council is realm first-instance court.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-007</id>
-    <title>Assent Construction for the Realm Invariants and Machinery Instrument 2026</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-007"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-007.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-10T00:00:00Z</published>
-    <updated>2026-06-10T00:00:00Z</updated>
-    <summary type="text">Assent found 2-1: the Sovereign&apos;s &quot;go&quot;, in immediate answer to the sole digest-pinned presentment, commences the Realm Invariants Instrument.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-008</id>
-    <title>The Court Machinery Versus Court Constitution Dividing Line</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-008"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-008.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-10T00:00:00Z</published>
-    <updated>2026-06-10T00:00:00Z</updated>
-    <summary type="text">Appeal dismissed 3-0; County Court affirmed.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-009</id>
-    <title>CASE-LAW Is V1; It May Not Be Cited as Binding V2 Authority</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-009"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-009.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-10T00:00:00Z</published>
-    <updated>2026-06-10T00:00:00Z</updated>
-    <summary type="text">CASE-LAW (V1) cannot be cited as live binding V2 authority.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-010</id>
-    <title>The Embedded Corporate Jurisdiction (Vibe Policy System)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-010"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-010.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-10T00:00:00Z</published>
-    <updated>2026-06-10T00:00:00Z</updated>
-    <summary type="text">Embedded corporate jurisdiction lawful under ACT-007 without fresh assent or divergent-lineage fork, on six carried charter conditions; the kernel spec is machinery upstream.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-001</id>
