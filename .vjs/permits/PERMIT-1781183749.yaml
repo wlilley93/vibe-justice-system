@@ -1,0 +1,23 @@
+id: PERMIT-1781183749
+route_id: ROUTE-20260611-131549
+actor: lexby
+scope:
+  paths:
+  - index.html
+  jurisdictions: null
+  action_kinds: null
+  issue_tags: null
+  records: null
+obligations:
+- id: OBL-LOG-001
+  kind: decision_log
+  required: true
+  due: before_commit
+  description: Write a decision log for this material implementation decision
+- id: OBL-VALIDATE-001
+  kind: validation
+  required: true
+  due: before_commit
+  description: Run vjs validate before commit
+expires_at: 2026-06-12T13:15:49.160997957+00:00
+status: active
