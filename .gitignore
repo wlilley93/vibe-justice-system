@@ -33,6 +33,6 @@ __pycache__/
 # stray build artifacts
 *.rlib
 
-# The realm ministry tree holds nested project repos (e.g. acmeco) with their
-# own git history; the canon does not track them.
+# The realm ministry tree holds nested project repos with their own git
+# history (each a separate jurisdiction); the canon does not track them.
 Executive/
