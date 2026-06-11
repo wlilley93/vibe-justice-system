@@ -1,0 +1,12 @@
+id: LOG-2026-06-11-123134
+time: 2026-06-11T12:31:34.752585369+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260611-123134
+decision: 'Reworked the constellation link-hover tooltip into three horizontal blocks at the Principal''s direction: a full node hover card for each endpoint, with the association verb and arrow in a connector between them. Each end card now carries the same content and styling as the node hover cards - the kind chip plus court chip plus status chip, the document title, the citation and date meta line, and the clamped summary - by reusing the exact hc-chips/hc-title/hc-meta/hc-sum markup (the hovercard CSS selectors were extended to apply inside the link cards too). So hovering a cite edge shows, left to right: the citing record''s full card, ''cites ->'', the cited authority''s full card. The tone-coloured left border and chips carry per-record colour; the verb is ''cites'' / ''descends from'' / ''same docket as''. Display only; verified by a rendered preview of the three-block tooltip.'
+basis:
+- PERMIT-1781181094
+risk: low
+reversibility: easy
+court_required: false
+why: 'The Principal wanted the link hover state to be the rich node-card style, almost like three horizontal blocks: card, association, card.'
