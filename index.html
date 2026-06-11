@@ -851,7 +851,7 @@ function renderList() {
     row.innerHTML = `<div class="t${major(d) ? ' major' : ''}">${esc(displayTitle(d))}</div>
       <div class="chips"><span class="chip tone-${t}">${esc(KIND_ABBREV[d.kind] || d.kind)}</span>${courtChip}</div>
       <div class="m"><span class="dot" style="background:${d.estate === 'v1' ? '#fffdfa' : TONES[t]};border-color:${TONES[t]}${d.estate === 'v1' ? ';border-style:dashed' : ''}"></span>
-      <span>${esc(d.citation || '')}</span>
+      <span>${esc(displayCite(d))}</span>
       <span style="margin-left:auto">${esc(d.date || '')}</span></div>`;
 
     // the lineage disclosure: the object's associations, in place
