@@ -753,7 +753,7 @@ function applyEstateLayout() {
   // stretch any edge that bridges the two estates so the archive sits well
   // away from the canon; within-estate edges keep their natural length
   const lf = Graph.d3Force('link');
-  if (lf && lf.distance) lf.distance(linkDist);
+  if (lf && lf.distance) { lf.distance(linkDist); lf.strength(linkStrength); }
 }
 // the spread multiplier (1 at the default), set by the spread slider; it scales
 // link distances so the whole map spreads, not only repels
@@ -766,6 +766,14 @@ function linkDist(l) {
   const a = (l.source && l.source.estate) || byId.get(l.source)?.estate;
   const b = (l.target && l.target.estate) || byId.get(l.target)?.estate;
   return (a && b && a !== b ? 220 : 36) * spreadMul;
+}
+function linkStrength(l) {
+  // d3's default link strength is 1/degree, so a high-degree hub (the boot docket
+  // origin, which holds eleven spokes) is left only weakly tethered to the rest
+  // of the map - and its cluster flies off to the edge under the charge. Give
+  // links a solid, near-uniform pull instead: the thread spokes hold the docket
+  // wheel tight, and every other edge holds its cluster anchored to the graph.
+  return l.type === 'thread' ? 0.8 : 0.5;
 }
 // importance-first draw order so collision-avoided labels favour major law
 function setData(refit) {
@@ -786,7 +794,7 @@ function applyGravity(v) {
   spreadMul = v / 300;
   Graph.d3Force('charge').strength(-v);
   const lf = Graph.d3Force('link');
-  if (lf && lf.distance) lf.distance(linkDist);
+  if (lf && lf.distance) { lf.distance(linkDist); lf.strength(linkStrength); }
   Graph.d3ReheatSimulation();
 }
 document.getElementById('gravity').addEventListener('input', e => applyGravity(+e.target.value));
