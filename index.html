@@ -30,14 +30,20 @@
   html,body { margin:0; height:100%; background:var(--cream); color:#15202b;
     font-family:'Iowan Old Style','Palatino Linotype','Times New Roman',serif; line-height:1.5; overflow:hidden; }
   #graph { position:fixed; inset:0; }
-  /* the link-hover tooltip: three horizontal blocks - a full node card for
-     each end with the association between them (the node-hovercard language) */
-  .graph-tooltip { background:transparent !important; padding:0 !important; font:inherit !important; }
-  .linkpair { display:flex; align-items:center; gap:.5rem; filter:drop-shadow(0 8px 24px rgba(26,39,68,.2)); }
-  .lp-full { width:14rem; background:var(--paper); border:1px solid var(--ink);
-             border-left:5px solid var(--lt,var(--ink)); border-radius:7px; padding:.55rem .7rem; }
-  .lp-rel { display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:4rem; }
-  .lp-verb { font:.66rem/1.15 Georgia,serif; font-style:italic; color:var(--muted); text-align:center; margin-bottom:.08rem; }
+  /* the link-hover tooltip: ONE solid white panel with a record block for each
+     end and the association between them. The real force-graph tooltip class is
+     .float-tooltip-kap (NOT .graph-tooltip) - reset its dark translucent bg,
+     sans font and light colour so only this white panel shows, in the same
+     serif as the node hover cards. */
+  .float-tooltip-kap { background:transparent !important; color:var(--ink) !important;
+    padding:0 !important; max-width:none !important; font:inherit !important; }
+  .linkpair { display:flex; align-items:stretch; background:#ffffff; border:1px solid var(--ink);
+    border-radius:8px; box-shadow:0 8px 26px rgba(26,39,68,.22); overflow:hidden;
+    font-family:'Iowan Old Style','Palatino Linotype','Times New Roman',serif; }
+  .lp-full { width:13.5rem; padding:.55rem .7rem; border-left:4px solid var(--lt,var(--ink)); }
+  .lp-rel { display:flex; flex-direction:column; align-items:center; justify-content:center;
+    min-width:3.4rem; padding:0 .25rem; }
+  .lp-verb { font:italic .66rem/1.15 Georgia,serif; color:var(--muted); text-align:center; margin-bottom:.1rem; }
   .lp-arrow { font-size:1.3rem; line-height:.6; color:var(--ink); }
   button { font:inherit; }
 
