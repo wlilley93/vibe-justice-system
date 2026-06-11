@@ -2180,15 +2180,19 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
         .iter()
         .map(|i| i["id"].as_str().unwrap_or_default().to_string())
         .collect();
-    // The docket thread: successive cases on the same subject (the order's
-    // issue tag) chain chronologically. This is how cases interweave when
-    // they cite no legislation textually: by the problem they were defined
-    // against.
+    // The docket thread: orders on the same subject (the order's issue tag)
+    // belong to one docket. They thread to the docket's ORIGIN - its first
+    // entry - not each to its predecessor, because a docket is a hub, not a
+    // sequence: the founding boot slate (BOOT-001..011) was passed together,
+    // so BOOT-005 does not follow from BOOT-004; the orders are siblings of
+    // one docket that opened with BOOT-001. Threading to the origin makes a
+    // docket circle its first order instead of streaming off as a chain. (A
+    // genuine appeal is a separate relationship, carried by appeal_of.)
     {
         // Issue tags are unique per case but carry family structure:
         // "governance.x" / "constitutional.x" are dotted dockets, and the
         // "vjs-v2-*" tags are the boot-series docket. The family is the
-        // thread; the full issue stays on the item as its subject.
+        // docket; the full issue stays on the item as its subject.
         fn subject_family(issue: &str) -> String {
             if let Some((fam, _)) = issue.split_once('.') {
                 return fam.to_string();
@@ -2210,11 +2214,14 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                     ));
                 }
         }
-        for (_, mut chain) in by_subject {
-            chain.sort();
-            for w in chain.windows(2) {
-                let (prev_id, idx) = (&w[0].1, w[1].2);
-                items[idx]["thread"] = serde_json::json!([prev_id]);
+        for (_, mut docket) in by_subject {
+            docket.sort();
+            // a docket of one is no thread; otherwise every member after the
+            // first threads to the origin (the hub)
+            if let Some((_, origin, _)) = docket.first().cloned() {
+                for (_, _id, idx) in docket.iter().skip(1) {
+                    items[*idx]["thread"] = serde_json::json!([origin]);
+                }
             }
         }
     }
