@@ -1,0 +1,12 @@
+id: LOG-2026-06-11-141448
+time: 2026-06-11T14:14:48.714751429+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260611-141448
+decision: 'Gave every record a citation subheader, at the Principal''s direction. The v2 canon instruments that lacked a neutral citation now carry one: the 17 regulations are numbered [2026] VJS-REG 10-26, the 2 framework statutes [2026] VJS-ACT 8-9, and the Supreme Court Court-Constitution order [2026] VJS-SC 2, each assigned by date-then-id order continuing the existing series (no collisions; citation_check passes). The constellation list subheader now renders displayCite (the neutral citation, falling back to the record id) so every item shows a citation line, not just a bare date. The founding boot slate and the honoured v1 archive keep their own id-form citations (e.g. 2026-VJS-BOOT-001, REALM-SC-1, SI-6), which read as their citations; if the Principal wants those given formal VJS/REALM neutral-citation series too, that is a follow-up. Validation OK, citation_check PASS, 73 tests expected green.'
+basis:
+- PERMIT-1781187288
+risk: low
+reversibility: easy
+court_required: false
+why: 'The Principal: everything needs a subheader line - regulations need a citation too.'

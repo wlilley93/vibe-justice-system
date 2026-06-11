@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-11T14:04:59.478486102+00:00",
+  "generated_at": "2026-06-11T14:14:49.368903719+00:00",
   "items": [
     {
       "assent_source": "sovereign_assent",
@@ -227,7 +227,7 @@
     },
     {
       "assent_source": "sovereign_assent",
-      "citation": "",
+      "citation": "[2026] VJS-ACT 8",
       "cites": [
         "ACT-002",
         "REALM-PC-24",
@@ -264,7 +264,7 @@
     },
     {
       "assent_source": "sovereign_assent",
-      "citation": "",
+      "citation": "[2026] VJS-ACT 9",
       "cites": [],
       "court": "",
       "date": "2026-06-09",
@@ -537,7 +537,7 @@
     },
     {
       "assent_source": "standing_bounded_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 26",
       "cites": [
         "2026-VJS-PC-010",
         "ACT-007",
@@ -574,7 +574,7 @@
     },
     {
       "assent_source": "standing_bounded_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 10",
       "cites": [
         "2026-VJS-PC-002",
         "ACT-CONSOLIDATION-FRAMEWORK"
@@ -605,7 +605,7 @@
     },
     {
       "assent_source": "standing_bounded_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 21",
       "cites": [
         "2026-VJS-PC-010",
         "ACT-CONSOLIDATION-FRAMEWORK",
@@ -638,7 +638,7 @@
     },
     {
       "assent_source": "standing_bounded_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 22",
       "cites": [
         "ACT-CONSOLIDATION-FRAMEWORK"
       ],
@@ -669,7 +669,7 @@
     },
     {
       "assent_source": "standing_bounded_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 23",
       "cites": [
         "ACT-003",
         "REG-SELF-CONVENE-001"
@@ -702,7 +702,7 @@
     },
     {
       "assent_source": "standing_bounded_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 11",
       "cites": [
         "2026-VJS-SC-001",
         "ACT-CONSOLIDATION-FRAMEWORK"
@@ -734,7 +734,7 @@
     },
     {
       "assent_source": "standing_bounded_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 12",
       "cites": [
         "ACT-COMPUTER-FIRST-REALM",
         "ACT-CONSOLIDATION-FRAMEWORK"
@@ -766,7 +766,7 @@
     },
     {
       "assent_source": "standing_bounded_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 13",
       "cites": [
         "ACT-CONSOLIDATION-FRAMEWORK"
       ],
@@ -796,7 +796,7 @@
     },
     {
       "assent_source": "standing_bounded_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 14",
       "cites": [
         "ACT-CONSOLIDATION-FRAMEWORK"
       ],
@@ -827,7 +827,7 @@
     },
     {
       "assent_source": "standing_bounded_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 24",
       "cites": [
         "2026-VJS-PC-008",
         "2026-VJS-PC-010",
@@ -894,7 +894,7 @@
     },
     {
       "assent_source": "standing_bounded_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 15",
       "cites": [
         "ACT-CONSOLIDATION-FRAMEWORK"
       ],
@@ -925,7 +925,7 @@
     },
     {
       "assent_source": "sovereign_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 25",
       "cites": [
         "ACT-CONSOLIDATION-FRAMEWORK"
       ],
@@ -957,7 +957,7 @@
     },
     {
       "assent_source": "standing_bounded_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 16",
       "cites": [
         "ACT-CONSOLIDATION-FRAMEWORK",
         "REG-HOOKS-001"
@@ -989,7 +989,7 @@
     },
     {
       "assent_source": "sovereign_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 17",
       "cites": [
         "ACT-CONSOLIDATION-FRAMEWORK",
         "REG-REPOS-REGISTER-001"
@@ -1026,7 +1026,7 @@
     },
     {
       "assent_source": "standing_bounded_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 18",
       "cites": [
         "ACT-CONSOLIDATION-FRAMEWORK"
       ],
@@ -1057,7 +1057,7 @@
     },
     {
       "assent_source": "standing_bounded_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 19",
       "cites": [
         "ACT-CONSOLIDATION-FRAMEWORK",
         "REG-HOOKS-001"
@@ -1089,7 +1089,7 @@
     },
     {
       "assent_source": "standing_bounded_assent",
-      "citation": "",
+      "citation": "[2026] VJS-REG 20",
       "cites": [
         "2026-VJS-PC-001",
         "ACT-CONSOLIDATION-FRAMEWORK"
@@ -1473,7 +1473,7 @@
     },
     {
       "assent_source": "sovereign_assent",
-      "citation": "",
+      "citation": "[2026] VJS-SC 2",
       "cites": [
         "ACT-002",
         "ACT-COMPUTER-FIRST-REALM",
@@ -3232,6 +3232,6 @@
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "cd46d5e9822f83ca4240e817875e3e68f13e2b85"
+    "source_commit": "599189d0cfd638e06a0d575c84d9abd182210089"
   }
 }
