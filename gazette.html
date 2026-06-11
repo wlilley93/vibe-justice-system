@@ -219,12 +219,22 @@ function statusChip(d) {
 }
 // court orders, judgments and acts show the citation before the name
 function displayTitle(d) {
-  const cite = d.citation;
-  if (cite && ['order', 'judgment', 'act', 'statute', 'instrument'].includes(d.kind)
-      && !d.title.startsWith(cite) && !d.title.startsWith('[')) {
-    return `${cite} - ${d.title}`;
+  const cite = d.citation || '';
+  if (d.title.startsWith('[')) return d.title;
+  if (cite && d.title.startsWith(cite)) return d.title;
+  // acts read like statutes, not law reports: the year alone, no series number
+  // (the unique machine citation stays on the record and in the meta line)
+  if (d.kind === 'statute' || d.kind === 'act') {
+    const y = (cite.match(/^\[(\d{4})\]/) || [null, (d.date || '').slice(0, 4)])[1];
+    return y ? `[${y}] - ${d.title}` : d.title;
   }
+  if (cite && ['order', 'judgment', 'instrument'].includes(d.kind)) return `${cite} - ${d.title}`;
   return d.title;
+}
+// what the meta line shows as the citation: acts are cited by name and year,
+// so their meta carries the record id, not the retired-from-display series
+function displayCite(d) {
+  return (d.kind === 'statute' || d.kind === 'act') ? d.id : (d.citation || d.id);
 }
 function statusKind(s) {
   s = (s || '').toLowerCase();
@@ -280,7 +290,7 @@ function card(d) {
   const sourceChip = d.court
     ? `<span class="chip tone-${t}" title="${esc(SOURCE_LABEL[d.court] || d.court)}">${esc(d.court.toUpperCase())}</span>`
     : '';
-  const metaBits = [d.citation, fmtDate(d.date)].filter(Boolean).map(esc).join(' &middot; ');
+  const metaBits = [(d.kind === 'statute' || d.kind === 'act') ? '' : d.citation, fmtDate(d.date)].filter(Boolean).map(esc).join(' &middot; ');
 
   const el = document.createElement('div');
   el.className = `card tone-${t}`;
