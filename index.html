@@ -372,6 +372,42 @@ function tone(d) {
 const KIND_LABEL = { statute:'Act', act:'Act', regulation:'Regulation', rule:'Rule', instrument:'Instrument',
   order:'Order', judgment:'Judgment', decision:'Decision', invariant:'Invariant', obligation:'Obligation', spec:'Spec' };
 const COURT_LABEL = { sc:'Supreme Court', pc:'Privy Council', ca:'Court of Appeal', county:'County Court' };
+// Per-kind monoline glyphs drawn INSIDE larger nodes. Inline path data only, so
+// the page stays self-contained (archival-robust: no external images). The glyph
+// appears only when a node is big enough to read it - significant or zoomed-in -
+// so the wide star field stays clean dots.
+const ICON_DATA = {
+  act:    'M6 7 H18 M5 18 H19 M9 7 V18 M12 7 V18 M15 7 V18',                                                  // a column: statute
+  doc:    'M7.5 5 H14.5 L17 7.5 V19 H7.5 Z M14.5 5 V7.5 H17 M9.5 11.5 H14.5 M9.5 14 H14.5 M9.5 16.5 H12.5',  // a page: regulation
+  scales: 'M12 5 V18 M9 18 H15 M6 8 H18 M6 8 L4.5 12 M7.5 12 L6 8 M4.5 12 Q6 14.5 7.5 12 M18 8 L16.5 12 M19.5 12 L18 8 M16.5 12 Q18 14.5 19.5 12', // scales: judgment
+  check:  'M6 12.5 L10 16.5 L18 7'                                                                            // a tick: decision
+};
+const ICON_CACHE = {};
+function iconPath(name) {
+  if (!ICON_CACHE[name] && ICON_DATA[name]) ICON_CACHE[name] = new Path2D(ICON_DATA[name]);
+  return ICON_CACHE[name];
+}
+function iconFor(d) {
+  if (d.kind === 'statute' || d.kind === 'act') return 'act';
+  if (d.kind === 'regulation' || d.kind === 'rule' || d.kind === 'instrument') return 'doc';
+  if (d.kind === 'order' || d.kind === 'judgment') return 'scales';
+  if (d.kind === 'decision') return 'check';
+  return null;
+}
+function drawNodeIcon(ctx, d, t, r, scale) {
+  const p = iconPath(iconFor(d));
+  if (!p) return;
+  const iconR = r * 0.6, sc = (iconR * 2) / 24;
+  ctx.save();
+  ctx.translate(d.x - iconR, d.y - iconR);
+  ctx.scale(sc, sc);
+  ctx.lineWidth = (1.15 / scale) / sc;
+  ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  // light glyph on the saturated v2 fill; tone glyph on the v1 paper fill
+  ctx.strokeStyle = d.estate === 'v1' ? TONES[t] : 'rgba(255,253,250,.94)';
+  ctx.stroke(p);
+  ctx.restore();
+}
 function esc(t) {
   return String(t ?? '').replace(/[&<>"']/g, c =>
     ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
@@ -553,7 +589,7 @@ const Graph = ForceGraph()(document.getElementById('graph'))
   .nodeCanvasObject((d, ctx, scale) => {
     // Screen-compensated radius: stars shrink in world units as you zoom in,
     // so close inspection shows structure, not blobs.
-    const base = Math.sqrt(2.4 + Math.min(12, (inbound.get(d.id) || 0) * 1.6)) * 3.0;
+    const base = Math.sqrt(2.4 + Math.min(12, (inbound.get(d.id) || 0) * 1.6)) * 3.4;
     const r = base / Math.pow(Math.max(scale, .4), .55);
     const t = tone(d);
     const isSel = selected === d.id, isHov = hovered === d.id;
@@ -578,14 +614,10 @@ const Graph = ForceGraph()(document.getElementById('graph'))
       ctx.lineWidth = Math.max(1.1 / scale, .3);
       ctx.strokeStyle = 'rgba(20,30,50,.55)';
       ctx.stroke();
-      // a small paper core keeps the largest hubs readable, without washing out colour
-      if (r > 6) {
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, r * .3, 0, 2 * Math.PI);
-        ctx.fillStyle = TONE_BG[t];
-        ctx.fill();
-      }
     }
+    // a per-kind glyph inside larger nodes (significant or zoomed-in); small
+    // stars stay clean dots
+    if (r > 5) drawNodeIcon(ctx, d, t, r, scale);
 
     if (isHov && !isSel) {
       ctx.beginPath();
