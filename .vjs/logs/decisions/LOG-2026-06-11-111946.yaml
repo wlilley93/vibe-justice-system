@@ -1,0 +1,12 @@
+id: LOG-2026-06-11-111946
+time: 2026-06-11T11:19:46.053496245+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260611-111946
+decision: 'Record correction and script fix for the publishing-flow change. CORRECTION: the earlier log LOG-2026-06-11-111807 was written from-permit against PERMIT-1781124009, a stale permit from a prior beat - the route for that beat had returned court_required (risk medium with no on-point authority under DEC-006) and issued no permit, and the log tooling silently picked the newest permit file. The matter is properly risk LOW (a reversible repo-process change publishing no new substantive record), routed here with an on-point tag; this log supersedes that linkage. SCRIPT FIX, found by dogfooding the first promotion: the denylist sweep piped a diff into a heredoc-fed python, which is a silent no-op (the heredoc overrides stdin, so the sweep scanned nothing and printed clean) and pipefail turned the writer''s SIGPIPE into a spurious abort. Fixed via a temp file, and the sweep now FAILS on empty input rather than passing vacuously - a boundary check that can pass while seeing nothing is worse than no check.'
+basis:
+- PERMIT-1781176786
+risk: low
+reversibility: easy
+court_required: false
+why: The first dogfood run of promote-canonical.sh surfaced both defects; corrected before canonical moved.
