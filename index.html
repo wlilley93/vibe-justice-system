@@ -30,6 +30,12 @@
   html,body { margin:0; height:100%; background:var(--cream); color:#15202b;
     font-family:'Iowan Old Style','Palatino Linotype','Times New Roman',serif; line-height:1.5; overflow:hidden; }
   #graph { position:fixed; inset:0; }
+  /* the link-hover tooltip (force-graph's .graph-tooltip hosts .linktip) */
+  .graph-tooltip { background:transparent !important; padding:0 !important; }
+  .linktip { background:#1a2744; color:#fcf7f1; font:.78rem/1.35 Georgia, 'Times New Roman', serif;
+             padding:.3rem .6rem; border-radius:6px; box-shadow:0 2px 10px rgba(26,39,68,.25);
+             white-space:nowrap; }
+  .linktip b { color:#ffd98a; font-weight:bold; }
   button { font:inherit; }
 
   /* ---- top bar: logo + search ---- */
@@ -440,7 +446,7 @@ document.addEventListener('click', e => {
 
 /* ---------- state ---------- */
 let estate = 'v2', lineageOn = true, labelsOn = true;
-let query = '', selected = null, hovered = null, highlightIds = new Set();
+let query = '', selected = null, hovered = null, hoverLink = null, highlightIds = new Set();
 let trail = [];
 let focusId = null; // when set, the map shows only this node and its citations
 
@@ -485,17 +491,35 @@ const Graph = ForceGraph()(document.getElementById('graph'))
   .onRenderFramePre(() => { labelRects = []; })
   .linkColor(l => {
     const sel = selected && (l.source.id === selected || l.target.id === selected);
-    const hov = hovered && (l.source.id === hovered || l.target.id === hovered);
-    const a = sel ? .65 : hov ? .5 : .22;
+    const hov = (l === hoverLink) || (hovered && (l.source.id === hovered || l.target.id === hovered));
+    const a = (l === hoverLink) ? .85 : sel ? .65 : hov ? .5 : .22;
     if (l.archival) return `rgba(122,92,30,${a + .1})`;
     if (l.type === 'lineage') return `rgba(61,127,189,${a + .08})`;
     if (l.type === 'thread') return `rgba(109,40,217,${a + .08})`;
     return `rgba(26,39,68,${a})`;
   })
   .linkLineDash(l => l.archival ? [3, 3] : l.type === 'lineage' ? [1.5, 2.5] : l.type === 'thread' ? [4, 2] : null)
-  .linkWidth(l => (selected && (l.source.id === selected || l.target.id === selected)) ? 1.6 : .7)
+  .linkWidth(l => (l === hoverLink) ? 2 : (selected && (l.source.id === selected || l.target.id === selected)) ? 1.6 : .7)
   .linkDirectionalParticles(l => (selected && (l.source.id === selected || l.target.id === selected)) ? 2 : 0)
   .linkDirectionalParticleWidth(2)
+  // hovering a line names the association and shows its direction: the label
+  // reads source -> target, and an arrowhead appears on the hovered link
+  // pointing the same way (a cite points at the authority it relies on)
+  .linkHoverPrecision(6)
+  .linkLabel(l => {
+    const verb = l.type === 'cite' ? 'cites' : l.type === 'lineage' ? 'descends from' : 'threads to';
+    const name = n => esc((typeof n === 'object' ? (byId.get(n.id)?.citation || n.id) : n));
+    return `<div class="linktip"><b>${name(l.source)}</b> ${verb} &rarr; <b>${name(l.target)}</b></div>`;
+  })
+  .linkDirectionalArrowLength(l => (l === hoverLink) ? 7 : 0)
+  .linkDirectionalArrowRelPos(.92)
+  .linkDirectionalArrowColor(l => {
+    if (l.archival) return 'rgba(122,92,30,.95)';
+    if (l.type === 'lineage') return 'rgba(61,127,189,.95)';
+    if (l.type === 'thread') return 'rgba(109,40,217,.95)';
+    return 'rgba(26,39,68,.95)';
+  })
+  .onLinkHover(l => { hoverLink = l || null; })
   .nodeCanvasObject((d, ctx, scale) => {
     // Screen-compensated radius: stars shrink in world units as you zoom in,
     // so close inspection shows structure, not blobs.
