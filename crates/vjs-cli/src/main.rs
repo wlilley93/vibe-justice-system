@@ -1865,17 +1865,30 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             let status = s(&v, "status")
                 .or_else(|| s(&v, "severity").map(|sev| format!("severity {}", sev)))
                 .unwrap_or_default();
-            let court = match kind {
-                // For this jurisdiction the first-instance court IS the Privy
-                // Council ([2026] VJS-PC 6: the canon self-invokes; the PC is
-                // its first-instance court), so county-coded orders present
-                // as the Privy Council. The minted citations stay untouched.
-                "order" => match s(&v, "court").unwrap_or_default().as_str() {
-                    "supreme_court" => "sc",
-                    "privy_council" | "county" => "pc",
-                    _ => "",
-                },
-                _ => "",
+            // The displayed court follows the CITATION series where one exists,
+            // so the court label always matches the neutral citation a reader
+            // sees: VJS-CC -> County Court, VJS-PC -> Privy Council, VJS-SC ->
+            // Supreme Court, REALM-CA -> Court of Appeal. A county-coded order
+            // with NO citation (the founding boot slate) keeps the [2026] VJS-PC
+            // 6 first-instance-is-the-Privy-Council presentation.
+            let court = if kind == "order" {
+                let cite = s(&v, "citation").unwrap_or_default();
+                let raw = s(&v, "court").unwrap_or_default();
+                if cite.contains("-SC ") || cite.contains("REALM-SC") || raw == "supreme_court" {
+                    "sc"
+                } else if cite.contains("-CA ") || cite.contains("REALM-CA") {
+                    "ca"
+                } else if cite.contains("-CC") {
+                    "county"
+                } else if cite.contains("-PC ") || cite.contains("REALM-PC") || raw == "privy_council" {
+                    "pc"
+                } else if raw == "county" {
+                    "pc"
+                } else {
+                    ""
+                }
+            } else {
+                ""
             }
             .to_string();
             let title = if matches!(kind, "statute" | "regulation" | "rule" | "order") {
@@ -2049,6 +2062,17 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                         "path": op,
                         "url": format!("{}{}", V2_BASE, op.trim_start_matches("./")),
                     });
+                }
+                // the structured court record (REG-COURT-RECORD-001): the bench,
+                // the vote, the pinned case-file digest - surfaced as a headnote
+                let bench = str_list(&v, "bench");
+                if !bench.is_empty() {
+                    item["bench"] = serde_json::json!(bench);
+                }
+                for f in ["vote", "case_file_digest", "convened_at"] {
+                    if let Some(val) = s(&v, f).filter(|x| !x.is_empty()) {
+                        item[f] = serde_json::Value::String(val);
+                    }
                 }
             }
             items.push(item);

@@ -79,6 +79,8 @@
   .card .titleline { font-weight:bold; color:var(--ink); font-size:1.05rem; }
   .card .court { color:var(--muted); font-size:.84rem; margin-top:.12rem; }
   .card .ratio { margin:.35rem 0 0; }
+  .card .snip { margin:.35rem 0 0; font-size:.84rem; color:#5b4a2e; background:var(--v1-bg);
+    border-left:2px solid var(--v1); border-radius:0 4px 4px 0; padding:.2rem .5rem; font-style:italic; }
   /* exactly two uniform chips, docked top right: the kind and the source */
   .chips { position:absolute; top:.7rem; right:.7rem; display:flex; flex-direction:column; gap:.22rem; }
   .chip { display:inline-block; width:6.3rem; text-align:center; border:1px solid var(--tone,var(--muted));
@@ -170,6 +172,7 @@
 <footer id="foot"></footer>
 
 <script src="gazette-data.js"></script>
+<script src="gazette-text.js"></script>
 <script>
 'use strict';
 const ITEMS = window.GAZETTE.items;
@@ -251,12 +254,39 @@ function fmtDate(iso) {
   const M = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   return `${d} ${M[m - 1]} ${y}`;
 }
+const _ftCache = {};
+function fullText(id) {
+  if (id in _ftCache) return _ftCache[id];
+  let out = '';
+  const walk = v => {
+    if (typeof v === 'string') out += ' ' + v;
+    else if (Array.isArray(v)) v.forEach(walk);
+    else if (v && typeof v === 'object') Object.values(v).forEach(walk);
+  };
+  walk((window.GAZETTE_TEXT || {})[id]);
+  return _ftCache[id] = out.toLowerCase();
+}
 function matches(d) {
   if (estate !== 'all' && d.estate !== estate) return false;
   if (klass !== 'all' && tone(d) !== klass) return false;
   if (!query) return true;
-  const hay = [d.id, d.title, d.citation, d.summary, d.status, ...(d.points || [])].join(' ').toLowerCase();
+  const hay = [d.id, d.title, d.citation, d.summary, d.status, ...(d.points || [])].join(' ').toLowerCase()
+    + ' ' + fullText(d.id);
   return query.toLowerCase().split(/\s+/).every(w => hay.includes(w));
+}
+// a snippet of body text around the query, shown when the match is in the text
+// rather than the title/summary (so the reader sees WHY a result matched)
+function snippet(d) {
+  if (!query) return '';
+  const meta = [d.id, d.title, d.citation, d.summary, d.status].join(' ').toLowerCase();
+  const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+  if (words.every(w => meta.includes(w))) return '';
+  const ft = fullText(d.id);
+  const at = ft.indexOf(words[0]);
+  if (at < 0) return '';
+  const start = Math.max(0, at - 40);
+  const raw = ft.slice(start, at + 80);
+  return '<div class="snip">&hellip;' + esc(raw.trim()) + '&hellip;</div>';
 }
 
 function sorted(list) {
@@ -304,7 +334,7 @@ function card(d) {
     <div class="chips"><span class="chip tone-${t}">${esc(KIND_LABEL[d.kind] || d.kind)}</span>${sourceChip}${statusChip(d) ? `<span class="chips-status">${statusChip(d)}</span>` : ''}</div>
     <div class="titleline">${esc(displayTitle(d))}</div>
     ${metaBits ? `<div class="court">${metaBits}</div>` : ''}
-    <div class="ratio">${esc(d.summary)}</div>`;
+    <div class="ratio">${esc(d.summary)}</div>${snippet(d)}`;
 
   if ((d.points || []).length) {
     const det = document.createElement('details');

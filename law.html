@@ -120,11 +120,25 @@
   article section:target, article section.flash { border-left-color:var(--ink); }
   article section h3 { margin:.2rem 0 .3rem; font-size:1.08rem; color:var(--ink); }
   .commentary { color:var(--muted); font-size:.88rem; font-style:italic; }
+  .authtrace { margin:1.4rem 0 .4rem; border:1px solid var(--rule); border-radius:6px; background:#fbfaf6; padding:.3rem .7rem; }
+  .authtrace > summary { cursor:pointer; color:var(--ink); font-size:.92rem; font-weight:bold; padding:.3rem 0; }
+  .authtrace .authtree, .authtrace .authtree ul { list-style:none; margin:.2rem 0 .2rem; padding-left:1.1rem;
+    border-left:1px solid var(--rule); }
+  .authtrace .authtree li { margin:.2rem 0; font-size:.9rem; }
+  .authtrace .at-c { color:var(--muted); font-size:.78rem; margin-left:.45rem; }
   .qbox { border-left:3px solid var(--ink); background:var(--paper); border-radius:0 6px 6px 0;
           padding:.55rem .9rem .65rem; margin:0 0 1.1rem; }
   .qbox .qlabel { font-size:.66rem; letter-spacing:.09em; text-transform:uppercase; color:var(--muted);
           font-weight:700; margin-bottom:.25rem; }
   .qbox p { margin:.2rem 0 0; font-size:1.02rem; line-height:1.5; }
+  .headnote { border:1px solid var(--rule); background:#fbfaf6; border-radius:6px; padding:.5rem .8rem;
+    margin:0 0 .9rem; font-size:.9rem; }
+  .headnote .hn-label { font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+    font-weight:bold; margin-bottom:.35rem; }
+  .headnote .hn-row { display:grid; grid-template-columns:5.5rem 1fr; gap:.6rem; padding:.12rem 0; }
+  .headnote .hn-k { color:var(--muted); }
+  .headnote .hn-v { color:var(--ink); }
+  .headnote .mono { font-family:ui-monospace,'SF Mono',Menlo,monospace; font-size:.78rem; word-break:break-all; }
   .facts { background:var(--paper); border:1px solid var(--rule); border-radius:6px; padding:.6rem .8rem;
     font-size:.84rem; margin:.6rem 0; }
   .facts b { font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);
@@ -512,8 +526,49 @@ function questionBox(d) {
     ? `<div class="qbox"><div class="qlabel">The question before the court</div><p>${linkify(esc(d.question))}</p></div>`
     : '';
 }
+const COURT_FULL = { sc:'Supreme Court', pc:'Privy Council', ca:'Court of Appeal', county:'County Court' };
+// the law-report headnote: the structured court record (REG-COURT-RECORD-001)
+// rendered at a glance - court, the bench that decided it, the vote, and the
+// pinned case-file digest the bench sat on
+function headnote(d) {
+  if (d.kind !== 'order' && d.kind !== 'judgment') return '';
+  const rows = [];
+  const court = COURT_FULL[d.court] || (d.court ? d.court : '');
+  if (court) rows.push(['Court', esc(court)]);
+  if ((d.bench || []).length) {
+    const suffix = (d.court === 'county') ? ' CCJ' : ' J';
+    rows.push(['Before', d.bench.map(b => esc(b) + suffix).join(', ')]);
+  }
+  if (d.vote) rows.push(['Decision', esc(d.vote.split(':')[0].split('(')[0].trim()) || esc(d.vote)]);
+  if (d.case_file_digest) rows.push(['Case file', `<span class="mono">${esc(d.case_file_digest)}</span>`]);
+  if (!rows.length) return '';
+  return `<div class="headnote"><div class="hn-label">Headnote</div>`
+    + rows.map(([k, v]) => `<div class="hn-row"><span class="hn-k">${k}</span><span class="hn-v">${v}</span></div>`).join('')
+    + `</div>`;
+}
 const KIND_ABBREV = { statute:'ACT', act:'ACT', regulation:'REG', rule:'RULE', instrument:'SI',
   order:'ORDER', judgment:'CASE', decision:'DEC', invariant:'INV', obligation:'OBL', spec:'SPEC' };
+// the authority trace: walk cites + lineage to the roots, so a reader sees what
+// this rests on all the way down to the constitution, not just one hop. Shared
+// 'seen' keeps it compact (each authority shown once, at its first depth).
+function authorityTrace(d) {
+  const seen = new Set([d.id]);
+  const node = (id, depth) => {
+    if (depth > 5 || seen.has(id)) return '';
+    seen.add(id);
+    const x = byId.get(id);
+    if (!x) return '';
+    const ups = [...(x.cites || []), ...(x.lineage || [])].filter(u => byId.has(u) && !seen.has(u));
+    const kids = ups.map(u => node(u, depth + 1)).filter(Boolean).join('');
+    return `<li><a class="lawref" href="law.html#${encodeURIComponent(id)}">${esc(displayTitle(x))}</a>`
+      + `<span class="at-c">${esc(displayCite(x))}</span>${kids ? `<ul>${kids}</ul>` : ''}</li>`;
+  };
+  const ups = [...(d.cites || []), ...(d.lineage || [])].filter(u => byId.has(u) && u !== d.id);
+  const tree = ups.map(u => node(u, 1)).filter(Boolean).join('');
+  if (!tree) return '';
+  return `<details class="authtrace"><summary>Authority trace &mdash; what this rests on, to the roots</summary>`
+    + `<ul class="authtree">${tree}</ul></details>`;
+}
 function assocSection(title, list) {
   if (!list.length) return '';
   return `<h2 class="sect assoc">${esc(title)} <span style="letter-spacing:0;text-transform:none">${list.length}</span></h2>
@@ -592,7 +647,7 @@ function render() {
         <h1>${esc(displayTitle(d))}</h1>
         <div>${chipsFor(d)}${statusChipFor(d)}</div>
         <div class="docmeta">${esc(displayCite(d))} &middot; ${esc(fmtDate(d.date))}</div>
-        ${questionBox(d)}
+        ${headnote(d)}${questionBox(d)}
       </div>
       ${secondary.length ? `<div class="pdftools"><span class="lbl">Also:</span>${secondary.join('')}</div>` : ''}
       <div class="pdfwrap"><embed src="${esc(d.pdf)}" type="application/pdf"
@@ -610,12 +665,13 @@ function render() {
       <button class="copycite" data-cite>Copy citation</button></div>
     ${statusLine(d)}
     <hr class="headrule">
-    ${questionBox(d)}
+    ${headnote(d)}${questionBox(d)}
     ${DERIVED ? `<div class="derived">Derived presentation rendered by the Gazette on ${esc(fmtDate(new Date().toISOString().slice(0, 10)))}; the source of record is unchanged on the immutable v1 branch.</div>` : ''}
     ${d.summary ? `<div class="lead">${linkify(esc(d.summary))}</div>` : ''}`;
 
   const get = ids => (ids || []).map(c => byId.get(c)).filter(Boolean);
   const assoc =
+    authorityTrace(d) +
     assocSection('Construes / relies on', get(d.cites)) +
     assocSection('Derives force from', get(d.lineage)) +
     assocSection('On the same docket', [...get(d.thread), ...ITEMS.filter(x => (x.thread || []).includes(d.id))]) +

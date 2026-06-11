@@ -1,0 +1,12 @@
+id: LOG-2026-06-11-125803
+time: 2026-06-11T12:58:03.691503007+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260611-125803
+decision: 'Improved the Gazette across five fronts, all surfacing data the realm already holds. (1) Full-text search: search now reaches the full body text of every instrument (flattened from the shipped text payload), not just titles and summaries, on both the constellation and the register; the register shows a match snippet when the hit is in the text so the reader sees why a result matched - a search for ''fail closed'' now finds the five records that use the phrase. (2) Judgment headnotes: every order and judgment leads with a law-report headnote built from the structured court record (REG-COURT-RECORD-001) - the court, the bench (Before: ... J/CCJ), the vote, and the pinned case-file digest; the generator now emits bench/vote/case_file_digest/convened_at, which it had dropped. (3) Authority trace: a collapsible ''what this rests on, to the roots'' that walks cites and lineage recursively (capped, deduped) so a reader can follow the full provenance, not one hop. (4) Node-icon zoom fix: the per-kind glyphs were gated on world radius, which shrinks as you zoom in, so they vanished exactly when you zoomed to read them; they now gate on on-screen radius (r*scale), so zooming in reveals more glyphs, and the regulation page glyph is enlarged to match the others. (5) Court-citation consistency: the displayed court now follows the neutral citation series, so a ruling cited [2026] VJS-CC 1 by Ledgerward CCJ shows as County Court, not Privy Council; the citation-less founding boot slate keeps its PC-6 first-instance presentation. 73 tests green, validation OK.'
+basis:
+- PERMIT-1781182683
+risk: low
+reversibility: easy
+court_required: false
+why: The Principal set the goal 'improve gazette'; these build the improvements I had proposed (search, headnotes, authority trace) plus the icon bug and a court-label inconsistency the headnote surfaced.
