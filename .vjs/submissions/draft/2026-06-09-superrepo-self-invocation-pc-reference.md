@@ -9,7 +9,7 @@
 
 - **[2026] REALM-PC 15** (V1, archival source): the super-repo is the **realm-as-state**, not a County Court; it adds no apex; the **central Privy Council is the distinct central first-instance court** (CASE-LAW s.22(3)).
 - **REG-INVOCATION-001** (V2): a repo is bound by **local sovereign invocation, not by directory ancestry**; the sole anchor is `.vjs/config.toml`.
-- The canon super-repo (`agent-universe-v2`, becoming the canonical line) is the source of the lawpack, yet on the invocation doctrine its *binding* should flow from invocation, not from being the source.
+- The canon super-repo (`vibe-justice-system`, becoming the canonical line) is the source of the lawpack, yet on the invocation doctrine its *binding* should flow from invocation, not from being the source.
 - `vjs invoke` has been run on the canon (lawpack.lock + invocation record lodged), without `--install-hooks`.
 
 ## The questions

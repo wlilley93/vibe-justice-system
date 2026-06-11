@@ -1,0 +1,40 @@
+id: "2026-VJS-CC-JURISDICTION-REID-001"
+court: county
+kind: shadow_order
+register: excluded
+status: in_force
+issue: jurisdiction_reidentification
+title: Re-identification of the jurisdiction id to vibe-justice-system
+before: Ledgerward CCJ
+holding: >
+  At the repo level, on the local County Court's own motion at the Principal's
+  direction, the jurisdiction formerly identified as "agent-universe-v2" is
+  re-identified as "vibe-justice-system", to align the realm's internal handle
+  with its name (the Vibe Justice System) and its repository. The change is
+  MEANING-PRESERVING and MACHINERY under the [2026] VJS-PC 8 constitutive-
+  operation test: it alters no bench, no tier, no jurisdiction's powers, and no
+  assent rule - only the label. It is a clerical pass: every textual occurrence
+  of the old id is rewritten to the new id across the config, the orders, the
+  filed and draft submissions, the convening records, the decision logs, and the
+  docs, so the reference never reads as the old id. The case-file digests, which
+  pin the sha256 of each filed submission, are RE-PINNED over the renamed
+  submissions by the kernel's own method, so each seal remains accurate to the
+  matter the bench decided (the same matter, relabelled). This order is a SHADOW
+  order: recorded in .vjs for the audit trail and NOT entered in the register or
+  the Gazette, because a public order about an internal relabel would be bloat
+  and the old id would only confuse readers.
+directives:
+  - id: D1
+    actor: lexby
+    must: rewrite_every_textual_occurrence_of_agent_universe_v2_to_vibe_justice_system_leaving_no_trace
+  - id: D2
+    actor: lexby
+    must: re_pin_each_case_file_digest_over_the_renamed_submission_by_the_kernels_own_method_so_the_seal_stays_accurate
+  - id: D3
+    actor: lexby
+    must: keep_this_order_out_of_the_register_as_a_shadow_order
+forbidden:
+  - leaving_the_old_jurisdiction_id_visible_in_any_text_record
+  - treating_the_relabel_as_a_substantive_change_to_any_bench_tier_or_assent_rule
+  - entering_this_order_in_the_public_register
+created_at: "2026-06-11T13:30:00Z"

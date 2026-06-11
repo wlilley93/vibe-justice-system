@@ -1,6 +1,6 @@
 id: SUBMISSION-2026-06-10-embedded-corporate-jurisdiction
 court_requested: privy_council
-jurisdiction: agent-universe-v2
+jurisdiction: vibe-justice-system
 question: >
   May a company stand up an EMBEDDED CORPORATE JURISDICTION - a separate
   repository that (a) vendors the canonical V2 lawpack pinned by sha256,

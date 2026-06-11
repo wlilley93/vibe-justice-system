@@ -3,7 +3,7 @@ assent_source: standing_bounded_assent
 citation: "[2026] VJS-CC 1"
 title: Route-Eval Divergence; DEC-006 Substring Governs On-Point Authority
 court: county
-jurisdiction: agent-universe-v2
+jurisdiction: vibe-justice-system
 status: binding
 issue: route_eval_divergence
 question: >
@@ -35,7 +35,7 @@ bench:
   - Ledgerward
 vote: "1-0 (Ledgerward CCJ)"
 convened_at: "2026-06-10T19:30:00Z"
-case_file_digest: "sha256:a0d793dc9e7dfbab3718ecf972a8236c3a6a5c7b9b2b389d13be26576cb5aed1"
+case_file_digest: "sha256:e3d5024f4bd401bd15be579611030ba311bff963e5006d22d956b415e2c9c9d5"
 appeal_of: ""
 appealable: true
 runtime_summary: >

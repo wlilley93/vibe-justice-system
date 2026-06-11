@@ -1,6 +1,6 @@
 # [2026] VJS-PC 9 - CASE-LAW is V1; it may not be cited as binding V2 authority
 
-**Privy Council of agent-universe-v2, bench of three at constitutional first instance (2026-VJS-COURTS-CONSTITUTION-001 D2). Registrar's own motion at the Principal's direction. Before: Marbury J (presiding), Calder J, Ashby J. Disposition: STRIKE-AND-RESOURCE, 3 of 3 to strike the CASE-LAW citation form (strike-and-resource); unanimous to save the underlying entrenched rules from repeal. Marbury J (presiding, leading judgment), Calder J, Ashby J concurring..**
+**Privy Council of vibe-justice-system, bench of three at constitutional first instance (2026-VJS-COURTS-CONSTITUTION-001 D2). Registrar's own motion at the Principal's direction. Before: Marbury J (presiding), Calder J, Ashby J. Disposition: STRIKE-AND-RESOURCE, 3 of 3 to strike the CASE-LAW citation form (strike-and-resource); unanimous to save the underlying entrenched rules from repeal. Marbury J (presiding, leading judgment), Calder J, Ashby J concurring..**
 
 ## Leading judgment of Marbury J, for the Court
 

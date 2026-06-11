@@ -16,7 +16,7 @@ version = "0.1.0"
 edition = "2024"
 license = "AGPL-3.0-only"
 authors = ["wlilley93"]
-repository = "https://github.com/wlilley93/agent-universe-v2"
+repository = "https://github.com/wlilley93/vibe-justice-system"
 
 [workspace.dependencies]
 serde = { version = "1", features = ["derive"] }

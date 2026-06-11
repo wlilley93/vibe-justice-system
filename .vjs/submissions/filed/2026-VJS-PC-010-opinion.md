@@ -1,6 +1,6 @@
 # [2026] VJS-PC 10 - The Embedded Corporate Jurisdiction (Vibe Policy System)
 
-**Privy Council of agent-universe-v2, bench of three (federation/jurisdiction first instance). Registrar's reference at the Principal's direction. Before: Tindale J (presiding), Rowanne J, Marchmont J. Disposition: LAWFUL, CONDITIONED. Vote: 3-0 (Tindale J., Rowanne J., Marchmont J.): lawful without fresh primary law; the embeddable kernel spec is machinery living upstream..**
+**Privy Council of vibe-justice-system, bench of three (federation/jurisdiction first instance). Registrar's reference at the Principal's direction. Before: Tindale J (presiding), Rowanne J, Marchmont J. Disposition: LAWFUL, CONDITIONED. Vote: 3-0 (Tindale J., Rowanne J., Marchmont J.): lawful without fresh primary law; the embeddable kernel spec is machinery living upstream..**
 
 ## Leading judgment of Tindale J, for the Court
 

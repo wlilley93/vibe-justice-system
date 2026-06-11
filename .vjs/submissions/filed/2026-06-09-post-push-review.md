@@ -21,5 +21,5 @@ This records the post-push review the release warrant requires (REG-RELEASE-WARR
 ## Outstanding (post-release, disclosed; not release blockers)
 - **Enforcement hardening:** permit-scoping (scope permits to routed paths; a no-scope permit must not blanket-cover) then `vjs invoke --install-hooks` to activate commit-time gating (per [2026] VJS-PC 6 D1).
 - **Prospective de-naming:** the canon README still reads "VJS V2"; drop the spent "v2" ordinal from naming going forward (SC-1 Q6) - cosmetic, non-disturbing.
-- **`agent-universe-v2` archive + redirect:** defer until active work moves off it; archiving the working repo now would block ongoing commits.
+- **`vibe-justice-system` archive + redirect:** defer until active work moves off it; archiving the working repo now would block ongoing commits.
 - **Schedule-3 items 2-6:** remain staged with machine-checkable predicates.

@@ -1,6 +1,6 @@
 id: SUBMISSION-2026-06-10-order-schema
 court_requested: county
-jurisdiction: agent-universe-v2
+jurisdiction: vibe-justice-system
 question: >
   Is extending the canonical order schema with optional structured court-record
   fields (bench, case_file_digest, convened_at, vote, appeal_of, appealable, and

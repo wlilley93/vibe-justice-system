@@ -1,6 +1,6 @@
 id: SUBMISSION-2026-06-10-route-eval-divergence
 court_requested: county
-jurisdiction: agent-universe-v2
+jurisdiction: vibe-justice-system
 question: >
   The realm's own route eval-suite and the routing kernel disagree on two cases.
   For a PublicRecordChange tagged "public_private.repo_facts" (risk medium,

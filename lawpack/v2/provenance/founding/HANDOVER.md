@@ -1359,7 +1359,7 @@ effect: >
 ```yaml
 id: GAZETTE-PACKET-2026-0001
 estate: v2
-source_jurisdiction: agent-universe-v2
+source_jurisdiction: vibe-justice-system
 source_repo_visibility: private
 lawpack: vjs-v2@0.1.0
 lawpack_digest: sha256:...
@@ -1512,7 +1512,7 @@ V2 private/source repo
 Repos:
 
 ```
-agent-universe-v2        source of V2 runtime law
+vibe-justice-system        source of V2 runtime law
 vibe-justice-system      public Gazette and Archive site
 ```
 

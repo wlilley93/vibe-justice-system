@@ -3,7 +3,7 @@ assent_source: standing_bounded_assent
 citation: "[2026] VJS-PC 9"
 title: CASE-LAW is V1; it may not be cited as binding V2 authority
 court: privy_council
-jurisdiction: agent-universe-v2
+jurisdiction: vibe-justice-system
 status: binding
 issue: case_law_is_v1
 question: >
@@ -61,7 +61,7 @@ bench:
   - Ashby
 vote: "3-0 to strike (unanimous to save the entrenched rules)"
 convened_at: "2026-06-10T17:30:00Z"
-case_file_digest: "sha256:4147348160072e77831bc06cb9a720c550b35f1cab453884f5aad2976c114290"
+case_file_digest: "sha256:ea5e9ee372640d802c137a1d6af75aa7b0383a28af94b6d7677d88eac29cad5b"
 appeal_of: ""
 appealable: true
 runtime_summary: >
