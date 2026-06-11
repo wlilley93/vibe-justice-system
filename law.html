@@ -496,13 +496,15 @@ function displayTitle(d) {
     const y = (cite.match(/^\[(\d{4})\]/) || [null, (d.date || '').slice(0, 4)])[1];
     return y ? `[${y}] - ${d.title}` : d.title;
   }
-  if (cite && ['order', 'judgment', 'instrument'].includes(d.kind)) return `${cite} - ${d.title}`;
+  if (cite && d.kind === 'instrument') return `${cite} - ${d.title}`;
+  // orders and judgments are named by their matter; the neutral citation sits
+  // on the meta line below the title, not duplicated in the heading
   return d.title;
 }
-// what the meta line shows as the citation: acts are cited by name and year,
-// so their meta carries the record id, not the retired-from-display series
+// the citation shown on the meta line / copy-citation: the official series
+// (acts keep [YYYY] VJS-ACT n here, even though the title shows only the year)
 function displayCite(d) {
-  return (d.kind === 'statute' || d.kind === 'act') ? d.id : (d.citation || d.id);
+  return d.citation || d.id;
 }
 // the question before the court, shown up top on any court case
 function questionBox(d) {
