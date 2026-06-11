@@ -381,7 +381,7 @@ function copyText(text, btn) {
 }
 function citeFor(d, sec) {
   const unit = sec ? ', ' + sec.split(':').pop() : '';
-  return `${d.title}${unit} (${d.citation || d.id}) - https://wlilley93.github.io/vibe-justice-system/law.html#${encodeURIComponent(sec || d.id)}`;
+  return `${d.title}${unit} (${displayCite(d)}) - https://wlilley93.github.io/vibe-justice-system/law.html#${encodeURIComponent(sec || d.id)}`;
 }
 function wirePilcrows(d) {
   document.querySelectorAll('#ftext .pilcrow').forEach(a =>
@@ -403,10 +403,22 @@ function statusChip(d) {
   return statusPill(d.status);
 }
 function displayTitle(d) {
-  const cite = d.citation;
-  if (cite && ['order', 'judgment', 'act', 'statute', 'instrument'].includes(d.kind)
-      && !d.title.startsWith(cite) && !d.title.startsWith('[')) return `${cite} - ${d.title}`;
+  const cite = d.citation || '';
+  if (d.title.startsWith('[')) return d.title;
+  if (cite && d.title.startsWith(cite)) return d.title;
+  // acts read like statutes, not law reports: the year alone, no series number
+  // (the unique machine citation stays on the record and in the meta line)
+  if (d.kind === 'statute' || d.kind === 'act') {
+    const y = (cite.match(/^\[(\d{4})\]/) || [null, (d.date || '').slice(0, 4)])[1];
+    return y ? `[${y}] - ${d.title}` : d.title;
+  }
+  if (cite && ['order', 'judgment', 'instrument'].includes(d.kind)) return `${cite} - ${d.title}`;
   return d.title;
+}
+// what the meta line shows as the citation: acts are cited by name and year,
+// so their meta carries the record id, not the retired-from-display series
+function displayCite(d) {
+  return (d.kind === 'statute' || d.kind === 'act') ? d.id : (d.citation || d.id);
 }
 function fmtDate(iso) {
   if (!iso) return '';
@@ -665,7 +677,13 @@ function applyEstateLayout() {
     lf.distance(l => {
       const a = (l.source && l.source.estate) || byId.get(l.source)?.estate;
       const b = (l.target && l.target.estate) || byId.get(l.target)?.estate;
-      return a && b && a !== b ? 220 : 36;
+      if (a && b && a !== b) return 220;
+      // docket threads (e.g. the boot series) are a single-file chain: each
+      // node holds only its neighbours, so at normal distance the chain
+      // streams off as a long tail. Short links make the series coil beside
+      // the cluster instead.
+      if (l.type === 'thread') return 14;
+      return 36;
     });
   }
 }
@@ -1030,7 +1048,7 @@ function openPanel(id, opts = {}) {
   document.getElementById('p-chips').innerHTML = chipsFor(d) + statusChip(d);
   const citeEl = document.getElementById('p-cite');
   citeEl.textContent = [
-    d.citation || d.id,
+    displayCite(d),
     fmtDate(d.date),
   ].filter(Boolean).join(' · ') + ' ';
   const cbtn = document.createElement('button');

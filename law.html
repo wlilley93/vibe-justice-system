@@ -487,10 +487,22 @@ function statusLine(d) {
   return bits.length ? `<div class="statusline">${bits.join(' &middot; ')}</div>` : '';
 }
 function displayTitle(d) {
-  const cite = d.citation;
-  if (cite && ['order', 'judgment', 'act', 'statute', 'instrument'].includes(d.kind)
-      && !d.title.startsWith(cite) && !d.title.startsWith('[')) return `${cite} - ${d.title}`;
+  const cite = d.citation || '';
+  if (d.title.startsWith('[')) return d.title;
+  if (cite && d.title.startsWith(cite)) return d.title;
+  // acts read like statutes, not law reports: the year alone, no series number
+  // (the unique machine citation stays on the record and in the meta line)
+  if (d.kind === 'statute' || d.kind === 'act') {
+    const y = (cite.match(/^\[(\d{4})\]/) || [null, (d.date || '').slice(0, 4)])[1];
+    return y ? `[${y}] - ${d.title}` : d.title;
+  }
+  if (cite && ['order', 'judgment', 'instrument'].includes(d.kind)) return `${cite} - ${d.title}`;
   return d.title;
+}
+// what the meta line shows as the citation: acts are cited by name and year,
+// so their meta carries the record id, not the retired-from-display series
+function displayCite(d) {
+  return (d.kind === 'statute' || d.kind === 'act') ? d.id : (d.citation || d.id);
 }
 // the question before the court, shown up top on any court case
 function questionBox(d) {
@@ -535,7 +547,7 @@ function copyText(text, btn) {
 }
 function citeFor(d, sec) {
   const unit = sec ? `, ${sec.split(':').pop()}` : '';
-  return `${d.title}${unit} (${d.citation || d.id}) - https://wlilley93.github.io/vibe-justice-system/law.html#${encodeURIComponent(sec || d.id)}`;
+  return `${d.title}${unit} (${displayCite(d)}) - https://wlilley93.github.io/vibe-justice-system/law.html#${encodeURIComponent(sec || d.id)}`;
 }
 // the register's reading order, for previous/next navigation
 const KIND_ORDER = { statute:0, act:0, regulation:1, instrument:1, rule:2, order:3, judgment:3,
@@ -577,7 +589,7 @@ function render() {
         <div class="kicker">${d.estate === 'v1' ? 'The honoured archive' : 'The living canon'}</div>
         <h1>${esc(displayTitle(d))}</h1>
         <div>${chipsFor(d)}${statusChipFor(d)}</div>
-        <div class="docmeta">${esc(d.citation || d.id)} &middot; ${esc(fmtDate(d.date))}</div>
+        <div class="docmeta">${esc(displayCite(d))} &middot; ${esc(fmtDate(d.date))}</div>
         ${questionBox(d)}
       </div>
       ${secondary.length ? `<div class="pdftools"><span class="lbl">Also:</span>${secondary.join('')}</div>` : ''}
@@ -592,7 +604,7 @@ function render() {
   const head = `<div class="kicker">${d.estate === 'v1' ? 'The honoured archive' : 'The living canon'}</div>
     <h1>${esc(displayTitle(d))}</h1>
     <div>${chipsFor(d)}${statusChipFor(d)}</div>
-    <div class="docmeta"><b>${esc(d.citation || d.id)}</b> &middot; ${esc(fmtDate(d.date))}
+    <div class="docmeta"><b>${esc(displayCite(d))}</b> &middot; ${esc(fmtDate(d.date))}
       <button class="copycite" data-cite>Copy citation</button></div>
     ${statusLine(d)}
     <hr class="headrule">
