@@ -1,6 +1,8 @@
 # VOID FIRST DRAFT - Subscribing Jurisdiction and External Supremacy
 
-**Status: a void first draft, awaiting committee adoption and the Sovereign's digest-pinned assent. It enacts nothing. Drafting is not assent (the assent floor; the cured breach of 2026-06-09). The Principal stated they would lodge this law; this draft is offered as the strongest case to assent to or replace, not to commence.**
+**DISPOSED (2026-06-11). This draft is spent.** Its open tier question was settled by [2026] VJS-PC 10 (the supremacy clause is the subscriber's own charter act engaging no Sovereign-assent floor; the mechanics are machinery under the [2026] VJS-PC 8 test). Its mechanical content is adopted as **REG-ACCESSION-001** (the Accession and Subscription Form Regulation, made under the s.7 power). Its supremacy limb is expressly NOT enacted Realm-side: per PC-10 it belongs to each subscriber's own charter. Nothing below carries any force; it remains as drafting history.
+
+**Original status: a void first draft, awaiting committee adoption and the Sovereign's digest-pinned assent. It enacts nothing. Drafting is not assent (the assent floor; the cured breach of 2026-06-09). The Principal stated they would lodge this law; this draft is offered as the strongest case to assent to or replace, not to commence.**
 
 **Persuasive authority:** [2026] REALM-SC 11 (the server-of-law judgment, V1-lineage, persuasive) and the federation statute ACT-007. The concept is **accession with supremacy (primacy)** - the legal shape by which a jurisdiction joins a higher legal order and accepts the supremacy of its law, given domestic force by the joining sovereign's own act (the dualist model; the United Kingdom's European Communities Act 1972, ss.2(1) and 2(4); the primacy doctrine of Costa v ENEL).
 
