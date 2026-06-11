@@ -36,3 +36,6 @@ __pycache__/
 # The realm ministry tree holds nested project repos with their own git
 # history (each a separate jurisdiction); the canon does not track them.
 Executive/
+
+# stray symlink recreated by headless-render ln footgun; never track it
+/assets/assets
