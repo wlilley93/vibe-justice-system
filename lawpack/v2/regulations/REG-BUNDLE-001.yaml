@@ -32,9 +32,10 @@ text: >
   (5) The verify: a single, fail-closed verify checks the manifest - every component
   carries every prescribed field, every digest is a well-formed sha256, and the
   licence firewall holds - and refuses, loudly, on the first violation. The
-  reference implementation is scripts/bundle-verify.py; an assembled bundle is
-  additionally verified by recomputing each present component's digest against its
-  pin. No bundle is trusted that does not verify.
+  first-class verify is the kernel command `vjs bundle verify <bundle.lock>`
+  (a portable reference also stands at scripts/bundle-verify.py); an assembled
+  bundle is additionally verified by recomputing each present component's digest
+  against its pin. No bundle is trusted that does not verify.
   (6) Publication: the spec is published in the public canon because it governs how
   the shared law is assembled; the component digests for private repositories
   resolve to private sources, but the pin metadata and the spec are public. The
