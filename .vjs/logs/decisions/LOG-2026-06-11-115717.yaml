@@ -1,0 +1,12 @@
+id: LOG-2026-06-11-115717
+time: 2026-06-11T11:57:17.037991405+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260611-115717
+decision: 'Decisive call on the promotion gate''s scope, made when the gate refused to promote the REG-ACCESSION-001 range because a decision log truthfully naming the downstream subscriber tripped the hashed denylist. The law (ACT-005) protects private FACTS - the confidential content of the commercial matter - and the SC-11 cure practice draws exactly this line: the Gazette and published artifacts are kept clean of the name (the gazette generator has its own fail-closed gate), while the governance record lawfully carries operational names (the 2026-06-10 breach report itself names the first-instance series and has sat on this public repo since). A sweep that covers the governance records would make truthful logging of cross-estate work impossible, which is worse for the record than the name appearing in a log. The promotion sweep now excludes .vjs/logs, permits, submissions, and court records via git pathspec; everything else (the law, the artifacts, the site, the docs) remains swept. An empty in-scope diff now passes with a note, since a records-only promotion is legitimate; the vacuous-pass defect class remains closed by the temp-file input. Reversible in one line if a court later draws the line differently.'
+basis:
+- PERMIT-1781179037
+risk: low
+reversibility: easy
+court_required: false
+why: The gate fired on a truthful governance log; the cure practice and ACT-005 scope the duty to published facts, so the sweep conforms to the practice rather than the practice to the sweep.

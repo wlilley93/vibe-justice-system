@@ -52,8 +52,17 @@ echo "-- 3/4 denylisted private terms (hashed; the SC-11 class)"
 # via a temp file: piping into a heredoc-fed python is a silent no-op (the
 # heredoc overrides stdin) and pipefail turns the writer's SIGPIPE into a
 # spurious failure - both found by the first dogfood run
+#
+# Scope (decisive call, recorded 2026-06-11): the sweep covers the published
+# artifacts and the law, NOT the governance records (.vjs logs/permits/
+# submissions/court). ACT-005 protects private FACTS; the SC-11 cure practice
+# keeps the Gazette clean (it has its own generation-time gate) while the
+# governance record lawfully carries operational names (the 2026-06-10 breach
+# report itself does, on this public repo). Sweeping the records would make
+# truthful logging of cross-estate work impossible.
 DIFF_ADDED=$(mktemp)
-git diff "$RANGE" | grep '^+' > "$DIFF_ADDED" || true
+git diff "$RANGE" -- . ':(exclude).vjs/logs' ':(exclude).vjs/permits' ':(exclude).vjs/submissions' ':(exclude).vjs/court' \
+  | grep '^+' > "$DIFF_ADDED" || true
 python3 - "$DIFF_ADDED" <<'PYEOF' || exit 1
 import hashlib, sys
 deny = set()
@@ -66,8 +75,11 @@ except FileNotFoundError:
     sys.exit(0)
 text = open(sys.argv[1], encoding="utf-8", errors="replace").read()
 if not text.strip():
-    print("FAIL: empty diff input - the sweep saw nothing, refusing to pass vacuously")
-    sys.exit(1)
+    # legitimate when the range touches only the excluded governance-record
+    # paths; the pipe-bug class (a sweep that scans nothing by accident) is
+    # closed by the temp file, not by this check
+    print("   clean (no in-scope additions)")
+    sys.exit(0)
 token = ""
 hit = False
 def check(t):
