@@ -168,7 +168,7 @@
   .pdfhead { max-width:62rem; margin:0 auto; padding:.7rem 1.2rem .4rem; }
   .pdfhead h1 { font-size:1.25rem; margin:.1rem 0; }
   .pdfwrap { height:calc(100vh - 132px); max-width:62rem; margin:0 auto; padding:0 1.2rem 1rem; }
-  .pdfwrap embed { width:100%; height:100%; border:1.5px solid var(--ink); border-radius:6px; background:#fff; }
+  .pdfwrap iframe { width:100%; height:100%; border:1.5px solid var(--ink); border-radius:6px; background:#fff; }
 
   footer { border-top:1px solid var(--rule); margin-top:2rem; padding:1rem; text-align:center;
     color:var(--muted); font-size:.78rem; font-style:italic; }
@@ -654,10 +654,10 @@ function render() {
         ${headnote(d)}${questionBox(d)}
       </div>
       ${secondary.length ? `<div class="pdftools"><span class="lbl">Also:</span>${secondary.join('')}</div>` : ''}
-      <div class="pdfwrap"><embed src="${esc(d.pdf)}" type="application/pdf"
-        title="${esc(d.title)}"></div>
+      <div class="pdfwrap"><iframe src="${esc(d.pdf)}"
+        title="${esc(d.title)}" loading="lazy"></iframe></div>
       <p style="text-align:center;font-size:.8rem;color:var(--muted)">If the document does not display,
-        <a href="${esc(d.pdf)}">open the PDF directly</a>.</p>`;
+        <a href="${esc(d.pdf)}" target="_blank" rel="noopener">open the PDF directly</a>.</p>`;
     return;
   }
 
