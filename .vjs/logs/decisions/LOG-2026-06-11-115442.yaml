@@ -1,0 +1,12 @@
+id: LOG-2026-06-11-115442
+time: 2026-06-11T11:54:42.898888923+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260611-115403
+decision: 'Enacted REG-ACCESSION-001, the Accession and Subscription Form Regulation - the canon legislation a subscriber''s loader builds to, and the law acmeco''s beat-6 loader has been held on (its directive 0380). Made as subordinate law under the s.7 SI power with standing_bounded_assent and NO fresh Sovereign assent, because the lawful tier was already settled: the void first draft of 2026-06-10 flagged whether supremacy needs primary law, and [2026] VJS-PC 10 answered it (the supremacy clause is the subscriber''s own charter act engaging no Sovereign-assent floor; the mechanics are machinery under the [2026] VJS-PC 8 constitutive-operation test). The Regulation prescribes form only: the lock file''s canonical fields matching the kernel''s one LawpackLock model; vendored-read-only digest-pinned fail-closed loading with no runtime fetch; the load-time schema_version handshake (refuse newer-than-the-loader law loudly); digest bumps by deliberate recorded act or a pre-authorised bounded disclosed auto-track, never by silence; the notify-then-reconcile duty; and a declaratory echo of the six PC-10 charter conditions. It expressly does not and may not enact any subscriber''s supremacy clause. The spent void draft is disposed with a header recording the adoption and the settled tier. Register 99 items, cites resolve, validation OK, 73 tests green.'
+basis:
+- PERMIT-1781178843
+risk: low
+reversibility: easy
+court_required: false
+why: 'The Principal asked for the proper way; as Lexby: PC-10 settled the tier, so the form is s.7 machinery enacted now, clearing acmeco''s 0380 hold lawfully.'

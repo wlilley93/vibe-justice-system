@@ -1,0 +1,57 @@
+id: REG-ACCESSION-001
+assent_source: standing_bounded_assent
+title: Accession and Subscription Form Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+created_at: "2026-06-11T12:10:00Z"
+text: >
+  This Regulation prescribes the FORM of accession: what a subscribing
+  jurisdiction's loader must implement to carry the canonical law. It is the
+  machinery [2026] VJS-PC 10 contemplated and the form the void first draft of
+  2026-06-10 proposed; the draft's open tier question was settled by that
+  ruling (the supremacy clause is the subscriber's own charter act engaging no
+  Sovereign-assent floor, and the mechanics are machinery under the [2026]
+  VJS-PC 8 constitutive-operation test), so this Regulation is made under the
+  s.7 power with no fresh assent. FORM. (1) The lock: a subscriber records its
+  subscription in .vjs/lawpack.lock carrying lawpack_id, lawpack_version,
+  digest (the sha256 of the vendored law), schema_version, generated_at, and
+  locked_by - the kernel's one lock model, so writer and reader cannot drift.
+  (2) Vendored-read-only adoption: the runtime loads only law that hashes to
+  the pinned digest and fails closed otherwise; the runtime never fetches law.
+  (3) The handshake: a loader refuses, loudly and at load time, any law whose
+  schema_version exceeds what it understands; a kernel that skips clauses it
+  cannot parse is silently lawless. (4) Bumps by deliberate act: a new digest
+  is adopted only by the subscriber's own recorded act, or under a
+  pre-authorised, bounded, disclosed auto-track; no law flows downstream by
+  silence. (5) Reconciliation: a canon change opens a notify-then-reconcile
+  window; pending local amendment the canon applies directly. (6) The
+  subscriber carries the six conditions of [2026] VJS-PC 10 in its own charter
+  (digest-pinned lockstep; candour of provenance; unity of citator and apex
+  with binding referral-up; the synthesis bar; the external-law floor;
+  non-impersonation) - referenced here declaratively, not re-enacted. LIMIT.
+  This Regulation prescribes mechanics only: it does not and may not enact any
+  subscriber's supremacy clause, which per [2026] VJS-PC 10 is the
+  subscriber's own constitutional act, and it amends no bench, tier,
+  jurisdiction, or assent rule.
+kernel_effect:
+  defines:
+    lock_file: ".vjs/lawpack.lock"
+    lock_fields: [ lawpack_id, lawpack_version, digest, schema_version, generated_at, locked_by ]
+    adoption_mode: vendored_read_only_digest_pinned_fail_closed
+    handshake: refuse_law_newer_than_the_loader_understands_at_load
+    bumps: by_deliberate_recorded_act_or_a_preauthorised_bounded_disclosed_auto_track
+    reconciliation: notify_then_reconcile_window_canon_applies_pending
+  must:
+    - load_only_law_that_hashes_to_the_pinned_digest_and_fail_closed_otherwise
+    - refuse_law_whose_schema_version_exceeds_the_loader_at_load_time
+    - record_every_digest_bump_as_a_deliberate_act
+  must_not:
+    - fetch_law_at_runtime
+    - adopt_a_new_digest_by_silence
+    - enact_or_purport_to_enact_a_subscribers_supremacy_clause
+cites:
+  - ACT-007
+  - "2026-VJS-PC-010"
+  - "2026-VJS-PC-008"
+  - REG-INVOCATION-001
+  - REG-REPOS-REGISTER-001
