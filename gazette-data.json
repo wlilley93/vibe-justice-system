@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-11T14:14:49.368903719+00:00",
+  "generated_at": "2026-06-11T15:02:49.793614113+00:00",
   "items": [
     {
       "assent_source": "sovereign_assent",
@@ -259,7 +259,7 @@
       "supersedes": [],
       "title": "Computer-First Realm Act 2026",
       "ts": "2026-06-09T08:48:20Z",
-      "updated": "2026-06-10",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/08-computer-first-realm.yaml"
     },
     {
@@ -291,7 +291,7 @@
       "supersedes": [],
       "title": "Realm Consolidation and Reconciliation Framework Act 2026",
       "ts": "2026-06-09T14:50:25Z",
-      "updated": "2026-06-10",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/09-consolidation-framework.yaml"
     },
     {
@@ -600,7 +600,7 @@
       "supersedes": [],
       "title": "Canonicalisation and Migration Regulation",
       "ts": "2026-06-09T14:50:25Z",
-      "updated": "2026-06-09",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-CANONICALISATION-MIGRATION-001.yaml"
     },
     {
@@ -633,7 +633,7 @@
       "supersedes": [],
       "title": "Naming and Certification Mark Regulation",
       "ts": "2026-06-10T18:25:00Z",
-      "updated": "2026-06-10",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-CERTIFICATION-MARK-001.yaml"
     },
     {
@@ -664,7 +664,7 @@
       "supersedes": [],
       "title": "Court Record and Convening Regulation",
       "ts": "2026-06-10T13:40:00Z",
-      "updated": "2026-06-10",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-COURT-RECORD-001.yaml"
     },
     {
@@ -697,7 +697,7 @@
       "supersedes": [],
       "title": "Development and Knowledge-Work Conduct Regulation",
       "ts": "2026-06-10T13:40:00Z",
-      "updated": "2026-06-10",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-DEV-CONDUCT-001.yaml"
     },
     {
@@ -729,7 +729,7 @@
       "supersedes": [],
       "title": "Federation Coordination Regulation",
       "ts": "2026-06-09T14:50:25Z",
-      "updated": "2026-06-09",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-FEDERATION-COORDINATION-001.yaml"
     },
     {
@@ -761,7 +761,7 @@
       "supersedes": [],
       "title": "Gazette-Continuity and Publication Regulation",
       "ts": "2026-06-09T14:50:25Z",
-      "updated": "2026-06-09",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-GAZETTE-CONTINUITY-001.yaml"
     },
     {
@@ -791,7 +791,7 @@
       "supersedes": [],
       "title": "Functional Hook Regulation",
       "ts": "2026-06-09T15:15:38Z",
-      "updated": "2026-06-09",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-HOOKS-001.yaml"
     },
     {
@@ -822,7 +822,7 @@
       "supersedes": [],
       "title": "Local Sovereign Invocation Regulation",
       "ts": "2026-06-09T15:22:23Z",
-      "updated": "2026-06-09",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-INVOCATION-001.yaml"
     },
     {
@@ -858,7 +858,7 @@
       "supersedes": [],
       "title": "Embeddable Kernel Adoption Regulation",
       "ts": "2026-06-10T18:20:00Z",
-      "updated": "2026-06-10",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-KERNEL-001.yaml"
     },
     {
@@ -920,7 +920,7 @@
       "supersedes": [],
       "title": "Migration and Incorporation Regulation",
       "ts": "2026-06-09T14:50:25Z",
-      "updated": "2026-06-09",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-MIGRATION-INCORPORATION-001.yaml"
     },
     {
@@ -952,7 +952,7 @@
       "supersedes": [],
       "title": "Realm Invariants and Machinery Instrument 2026",
       "ts": "2026-06-10T10:20:00Z",
-      "updated": "2026-06-10",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-REALM-INVARIANTS-001.yaml"
     },
     {
@@ -984,7 +984,7 @@
       "supersedes": [],
       "title": "Automated Release Warrant Regulation",
       "ts": "2026-06-09T15:22:23Z",
-      "updated": "2026-06-10",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-RELEASE-WARRANT-001.yaml"
     },
     {
@@ -1021,7 +1021,7 @@
       "supersedes": [],
       "title": "Repos House, Certification, and the Two-Layer Registry Regulation",
       "ts": "2026-06-09T19:10:56Z",
-      "updated": "2026-06-09",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-REPOS-HOUSE-001.yaml"
     },
     {
@@ -1052,7 +1052,7 @@
       "supersedes": [],
       "title": "Repos Register and Subscription Regulation",
       "ts": "2026-06-09T14:50:25Z",
-      "updated": "2026-06-09",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-REPOS-REGISTER-001.yaml"
     },
     {
@@ -1084,7 +1084,7 @@
       "supersedes": [],
       "title": "Self-Convening and No-Fork-to-Principal Regulation",
       "ts": "2026-06-09T15:15:38Z",
-      "updated": "2026-06-09",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-SELF-CONVENE-001.yaml"
     },
     {
@@ -1116,12 +1116,12 @@
       "supersedes": [],
       "title": "Transition-Court and Continuity Regulation",
       "ts": "2026-06-09T14:50:25Z",
-      "updated": "2026-06-09",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-TRANSITION-CONTINUITY-001.yaml"
     },
     {
       "assent_source": "sovereign_assent",
-      "citation": "",
+      "citation": "[2026] VJS-BOOT 1",
       "cites": [],
       "court": "pc",
       "date": "2026-06-08",
@@ -1152,7 +1152,7 @@
     },
     {
       "assent_source": "sovereign_assent",
-      "citation": "",
+      "citation": "[2026] VJS-BOOT 2",
       "cites": [],
       "court": "pc",
       "date": "2026-06-08",
@@ -1184,7 +1184,7 @@
     },
     {
       "assent_source": "sovereign_assent",
-      "citation": "",
+      "citation": "[2026] VJS-BOOT 3",
       "cites": [],
       "court": "pc",
       "date": "2026-06-08",
@@ -1216,7 +1216,7 @@
     },
     {
       "assent_source": "sovereign_assent",
-      "citation": "",
+      "citation": "[2026] VJS-BOOT 4",
       "cites": [],
       "court": "pc",
       "date": "2026-06-08",
@@ -1248,7 +1248,7 @@
     },
     {
       "assent_source": "sovereign_assent",
-      "citation": "",
+      "citation": "[2026] VJS-BOOT 5",
       "cites": [],
       "court": "pc",
       "date": "2026-06-08",
@@ -1280,7 +1280,7 @@
     },
     {
       "assent_source": "sovereign_assent",
-      "citation": "",
+      "citation": "[2026] VJS-BOOT 6",
       "cites": [],
       "court": "pc",
       "date": "2026-06-08",
@@ -1312,7 +1312,7 @@
     },
     {
       "assent_source": "sovereign_assent",
-      "citation": "",
+      "citation": "[2026] VJS-BOOT 7",
       "cites": [],
       "court": "pc",
       "date": "2026-06-08",
@@ -1344,7 +1344,7 @@
     },
     {
       "assent_source": "sovereign_assent",
-      "citation": "",
+      "citation": "[2026] VJS-BOOT 8",
       "cites": [],
       "court": "pc",
       "date": "2026-06-08",
@@ -1376,7 +1376,7 @@
     },
     {
       "assent_source": "sovereign_assent",
-      "citation": "",
+      "citation": "[2026] VJS-BOOT 9",
       "cites": [],
       "court": "pc",
       "date": "2026-06-08",
@@ -1409,7 +1409,7 @@
     },
     {
       "assent_source": "sovereign_assent",
-      "citation": "",
+      "citation": "[2026] VJS-BOOT 10",
       "cites": [],
       "court": "pc",
       "date": "2026-06-08",
@@ -1441,7 +1441,7 @@
     },
     {
       "assent_source": "sovereign_assent",
-      "citation": "",
+      "citation": "[2026] VJS-BOOT 11",
       "cites": [],
       "court": "pc",
       "date": "2026-06-08",
@@ -1505,7 +1505,7 @@
       "supersedes": [],
       "title": "Court Constitution (The Order)",
       "ts": "2026-06-09T08:48:20Z",
-      "updated": "2026-06-10",
+      "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-COURTS-CONSTITUTION-001.yaml"
     },
     {
@@ -1930,6 +1930,52 @@
     },
     {
       "assent_source": "standing_bounded_assent",
+      "bench": [
+        "Tindale",
+        "Rowanne",
+        "Marchmont"
+      ],
+      "case_file_digest": "sha256:dc6931bb2cf3389fd5cbf43f2b29f772f5072dd595dca2740998edb8d8d1c3e0",
+      "citation": "[2026] VJS-PC 11",
+      "cites": [
+        "2026-VJS-PC-008",
+        "2026-VJS-PC-010",
+        "ACT-007"
+      ],
+      "convened_at": "2026-06-11T14:54:00Z",
+      "court": "pc",
+      "date": "2026-06-11",
+      "doc": "law.html#2026-VJS-PC-011",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-PC-011",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": ".vjs/submissions/filed/2026-VJS-PC-011-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-011-opinions.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-PC-011.yaml",
+      "points": [
+        "enact the binding deployment bundle spec in the public canon one manifest of repo digest commit licence adoption mode with a fail closed verify",
+        "keep the canon a separate public agpl repo at the root with zero inbound dependency",
+        "preserve each subscriber pin independently sha256 addressable no giant tree vendor",
+        "bring any physical consolidation back for a further order with the subscriber heard"
+      ],
+      "question": "Should the governance estate - the canon (the law), the engine (kern), and the policy framework (VPS) - be consolidated into a single \"governance house\" monorepo, or remain separate repositories, and on what conditions?",
+      "status": "binding",
+      "subject": "governance estate consolidation",
+      "summary": "Don't merge it all into one repo.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "The Governance House",
+      "ts": "2026-06-11T14:54:00Z",
+      "updated": "2026-06-11",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-011.yaml",
+      "vote": "3-0 (Tindale J., Rowanne J., Marchmont J.): HYBRID. The canon stays a separate public repository; the private layers may form a house by a further order; the immediate deliverable is a binding deployment-bundle spec."
+    },
+    {
+      "assent_source": "standing_bounded_assent",
       "citation": "[2026] VJS-SC 1",
       "cites": [
         "2026-VJS-PC-001"
@@ -1970,7 +2016,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-SC 1",
       "cites": [],
       "court": "sc",
       "date": "2026-06-06",
@@ -2003,7 +2049,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-SC 2",
       "cites": [
         "REALM-SC-1"
       ],
@@ -2035,7 +2081,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-SC 3",
       "cites": [
         "REALM-PC-1"
       ],
@@ -2068,7 +2114,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-SC 4",
       "cites": [],
       "court": "sc",
       "date": "2026-06-06",
@@ -2101,7 +2147,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-SC 5",
       "cites": [],
       "court": "sc",
       "date": "2026-06-06",
@@ -2134,7 +2180,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-SC 6",
       "cites": [],
       "court": "sc",
       "date": "2026-06-06",
@@ -2167,7 +2213,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-SC 7",
       "cites": [],
       "court": "sc",
       "date": "2026-06-06",
@@ -2200,7 +2246,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-SC 8",
       "cites": [
         "REALM-PC-12"
       ],
@@ -2233,7 +2279,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-SC 9",
       "cites": [
         "REALM-PC-17"
       ],
@@ -2266,7 +2312,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-SC 10",
       "cites": [
         "REALM-PC-24",
         "REALM-SC-8"
@@ -2300,7 +2346,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-CA 1",
       "cites": [
         "REALM-PC-1"
       ],
@@ -2333,7 +2379,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-PC 1",
       "cites": [],
       "court": "pc",
       "date": "2026-06-06",
@@ -2366,7 +2412,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-PC 4",
       "cites": [],
       "court": "pc",
       "date": "2026-06-06",
@@ -2399,7 +2445,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-PC 12",
       "cites": [
         "REALM-SC-4",
         "REALM-SC-7"
@@ -2433,7 +2479,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-PC 13",
       "cites": [],
       "court": "pc",
       "date": "2026-06-06",
@@ -2466,7 +2512,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-PC 14",
       "cites": [],
       "court": "pc",
       "date": "2026-06-07",
@@ -2499,7 +2545,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-PC 15",
       "cites": [
         "REALM-PC-14"
       ],
@@ -2532,7 +2578,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-PC 17",
       "cites": [],
       "court": "pc",
       "date": "2026-06-07",
@@ -2565,7 +2611,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-PC 19",
       "cites": [],
       "court": "pc",
       "date": "2026-06-07",
@@ -2598,7 +2644,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-PC 24",
       "cites": [
         "REALM-PC-12",
         "REALM-SC-5",
@@ -2634,7 +2680,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-BILL 1",
       "cites": [],
       "court": "",
       "date": "2026-06-06",
@@ -2665,7 +2711,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-BILL 2",
       "cites": [],
       "court": "",
       "date": "2026-06-06",
@@ -2698,7 +2744,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-BILL 13",
       "cites": [],
       "court": "",
       "date": "2026-06-06",
@@ -2731,7 +2777,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-BILL 14",
       "cites": [],
       "court": "",
       "date": "2026-06-06",
@@ -2764,7 +2810,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-BILL 16",
       "cites": [],
       "court": "",
       "date": "2026-06-06",
@@ -2797,7 +2843,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-BILL 18",
       "cites": [],
       "court": "",
       "date": "2026-06-06",
@@ -2830,7 +2876,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-BILL 20",
       "cites": [],
       "court": "",
       "date": "2026-06-06",
@@ -2863,7 +2909,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-BILL 21",
       "cites": [],
       "court": "",
       "date": "2026-06-06",
@@ -2896,7 +2942,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-BILL 27",
       "cites": [],
       "court": "",
       "date": "2026-06-06",
@@ -2929,7 +2975,7 @@
     },
     {
       "archive_text": true,
-      "citation": "",
+      "citation": "[2026] REALM-BILL 32",
       "cites": [
         "BILL-14"
       ],
@@ -2964,7 +3010,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-SI 6",
       "cites": [
         "BILL-14",
         "REALM-PC-14"
@@ -2998,7 +3044,7 @@
     },
     {
       "archive_text": false,
-      "citation": "",
+      "citation": "[2026] REALM-SI 7",
       "cites": [
         "BILL-18",
         "BILL-20",
@@ -3035,7 +3081,7 @@
     },
     {
       "archive_text": true,
-      "citation": "",
+      "citation": "[2026] REALM-SI 8",
       "cites": [
         "BILL-13",
         "BILL-18",
@@ -3072,7 +3118,7 @@
     },
     {
       "archive_text": true,
-      "citation": "",
+      "citation": "[2026] REALM-SI 9",
       "cites": [
         "BILL-16",
         "BILL-20"
@@ -3108,7 +3154,7 @@
     },
     {
       "archive_text": true,
-      "citation": "",
+      "citation": "[2026] REALM-SI 10",
       "cites": [
         "BILL-13",
         "BILL-18",
@@ -3145,7 +3191,7 @@
     },
     {
       "archive_text": true,
-      "citation": "",
+      "citation": "[2026] REALM-SI 11",
       "cites": [
         "BILL-13",
         "BILL-18",
@@ -3224,14 +3270,14 @@
   "meta": {
     "counts": {
       "archive": 37,
-      "canon": 58,
-      "total": 95
+      "canon": 59,
+      "total": 96
     },
     "lawpack": {
       "digest": "sha256:14cdb3337039ffdbe4f007fcb6fc5fd634cb0e7f6218e201555ab5de45868f9f",
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "599189d0cfd638e06a0d575c84d9abd182210089"
+    "source_commit": "a32d2a7e61aa9d83324ab1635c8cb36c966d4341"
   }
 }

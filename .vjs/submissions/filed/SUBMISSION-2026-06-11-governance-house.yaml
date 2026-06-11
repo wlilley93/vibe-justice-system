@@ -1,0 +1,36 @@
+id: SUBMISSION-2026-06-11-governance-house
+court_requested: privy_council
+jurisdiction: vibe-justice-system
+question: >
+  Should the governance estate - the canon (VJS, the law), the engine (kern, the
+  jurisdiction-neutral deterministic kernel), and the policy framework (VPS, the
+  corporate governance pack) - be consolidated into a single "governance house"
+  monorepo, or remain as separate repositories? On what conditions, given
+  REALM-PC-19 (superrepo/topology changes require a court order), the live opbox
+  subscriber that vendors these artifacts pinned by sha256, and the public(AGPL)/
+  private(MIT) boundaries?
+facts: >
+  Symmetric case file; the registrar's preference is not before the court.
+  Verified in-repo. THE LATTICE IS ACYCLIC, canon at the root: the canon
+  (vibe-justice-system) is PUBLIC, AGPL-3.0, depends on nothing, and holds the
+  lawpack plus the realm's first-generation machinery crates (vjs-core et al.);
+  kern is PRIVATE, MIT, a SEPARATE newer jurisdiction-neutral kernel
+  (SPEC-KERNEL-002, machinery under PC-10) that the canon's crates do NOT import;
+  VPS is PRIVATE, MIT, vendors the canon lawpack digest-pinned; opbox vendors kern
+  (sha-pinned, unmodified, drift-gated), the canon lawpack (sha-pinned), and the
+  VPS policypack, each as its own per-component lock. THERE ARE TWO ENGINES
+  (vjs-core and kern), orthogonal, neither importing the other.
+  READING A (consolidate): one monorepo cuts assembly friction and matches the
+  operator's mental model; the engine stays an internal pinnable package so the
+  shared pieces are not forked. READING B (separate): the canon is shared higher
+  law that multiple independent subscribers pin; a monorepo entangles four clocks,
+  forces a subscriber to vendor a giant tree for one piece, and co-mingles AGPL law
+  with MIT product code. A HYBRID is open: keep the canon separate and public;
+  permit the private product layer to form a house; enact a binding
+  deployment-bundle spec instead of moving repos first.
+requested_order: >
+  Settle whether the governance estate consolidates into one monorepo or stays
+  separate, and fix the conditions, given REALM-PC-19, the AGPL/MIT firewall, and
+  the live opbox subscriber's per-component sha256 pins.
+private_boundary: local
+word_count: 300

@@ -1733,12 +1733,28 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             && parts[0].len() == 4
             && parts[0].chars().all(|c| c.is_ascii_digit())
             && parts[1] == "VJS"
-            && matches!(parts[2], "SC" | "PC" | "CC")
+            && matches!(parts[2], "SC" | "PC" | "CC" | "BOOT")
         {
             let n: u32 = parts[3].parse().ok()?;
             return Some(format!("[{}] VJS-{} {}", parts[0], parts[2], n));
         }
         None
+    }
+
+    // V1 archive: derive a REALM-form neutral citation from the id + year when
+    // the curated estate left one blank (REALM-SC-1 -> [2026] REALM-SC 1;
+    // SI-6 -> [2026] REALM-SI 6; BILL-1 -> [2026] REALM-BILL 1).
+    fn derive_v1_citation(id: &str, date: &str) -> Option<String> {
+        let year = date.get(0..4).filter(|y| y.chars().all(|c| c.is_ascii_digit()))?;
+        let (series, n) = id.rsplit_once('-')?;
+        if n.is_empty() || !n.chars().all(|c| c.is_ascii_digit()) {
+            return None;
+        }
+        let series = match series.strip_prefix("REALM-") {
+            Some(rest) => format!("REALM-{}", rest),
+            None => format!("REALM-{}", series),
+        };
+        Some(format!("[{}] {} {}", year, series, n))
     }
 
     // Editorial overlay: presentation copy only, never force.
@@ -2131,10 +2147,19 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                         archive_text = true;
                     }
                 let v1_id_for_doc = v1_id.clone();
+                let v1_date = s(it, "date").unwrap_or_default();
+                let v1_citation = {
+                    let c = s(it, "citation").unwrap_or_default();
+                    if c.is_empty() {
+                        derive_v1_citation(&v1_id_for_doc, &v1_date).unwrap_or_default()
+                    } else {
+                        c
+                    }
+                };
                 items.push(serde_json::json!({
                     "id": v1_id,
                     "title": v1_title,
-                    "citation": s(it, "citation").unwrap_or_default(),
+                    "citation": v1_citation,
                     "kind": s(it, "kind").unwrap_or_default(),
                     "court": s(it, "court").unwrap_or_default(),
                     "estate": "v1",
