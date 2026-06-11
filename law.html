@@ -139,6 +139,10 @@
   .headnote .hn-k { color:var(--muted); }
   .headnote .hn-v { color:var(--ink); }
   .headnote .mono { font-family:ui-monospace,'SF Mono',Menlo,monospace; font-size:.78rem; word-break:break-all; }
+  .plainbox { border-left:3px solid var(--accent); background:#fbf6ee; border-radius:0 6px 6px 0;
+    padding:.5rem .85rem; margin:1.4rem 0 .4rem; }
+  .plainbox .plabel { font-size:.64rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:bold; }
+  .plainbox p { margin:.25rem 0 0; font-size:1rem; line-height:1.55; color:#2a3340; }
   .facts { background:var(--paper); border:1px solid var(--rule); border-radius:6px; padding:.6rem .8rem;
     font-size:.84rem; margin:.6rem 0; }
   .facts b { font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);
@@ -463,7 +467,7 @@ function renderBody(d, body) {
           `<tr><td>${esc(x.id || '')}</td><td>${esc(x.actor || '')}</td><td>${linkify(esc(String(x.must || '').replace(/_/g, ' ')))}</td></tr>`).join('') + `</table>`;
       }
       if (body.forbidden?.length) out += `<div class="facts"><b>forbidden</b>${body.forbidden.map(f => `<div>${esc(String(f).replace(/_/g, ' '))}</div>`).join('')}</div>`;
-      if (body.runtime_summary) out += `<p class="commentary">${linkify(esc(body.runtime_summary))}</p>`;
+      if (body.runtime_summary) out += `<div class="plainbox"><div class="plabel">In plain terms</div><p>${linkify(esc(body.runtime_summary))}</p></div>`;
       return out;
     }
     case 'decision':

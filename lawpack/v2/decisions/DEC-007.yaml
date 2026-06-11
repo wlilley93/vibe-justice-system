@@ -1,27 +1,35 @@
 id: DEC-007
 citation: "[2026] VJS-DEC 7"
-title: Legislation is YAML-first
+title: What the register carries; County Court orders are operational
 status: active
 scope:
-  action_kinds:
-    - legislative_draft
   paths:
     - lawpack/v2/**
+    - .vjs/court/**
 decision: >
-  V2 legislation is canonical as schema-validated YAML. Markdown is rendered explanation only.
-  The kernel loads YAML. Human readers may read Markdown renderings.
+  The public register (the Gazette) and the published lawpack carry the realm's
+  law - Acts, Regulations, Statutory Instruments, Rules, Decisions, Invariants
+  and Obligations - and the binding precedent of the Privy Council and the
+  Supreme Court. County Court orders are repo-level and operational; they are
+  recorded as shadow orders under .vjs/court/orders and are NOT entered in the
+  register or the published lawpack. A County Court order's load-bearing
+  principle is given lasting force only by enactment as an Act, Regulation or
+  Statutory Instrument, or by a higher court's ruling.
 basis:
-  - ACT-001:s4
-  - ACT-004:s6
-  - REG-LAWMAKING-001
+  - ACT-002:s1
+  - ACT-004:s1
 reason: >
-  Machine-readable law is the runtime source. Markdown is commentary.
-  The kernel must not parse prose to determine authority.
+  The register is the record of the realm's law, not its operational docket.
+  Repo-level County Court orders (work programmes, local enforcement, internal
+  re-identifications) would bloat the public record and confuse readers without
+  adding law; their substance, where it matters, lives in standing law already
+  (e.g. DEC-006, REG-COURT-RECORD-001) or is enacted deliberately.
 consequences:
   must:
-    - validate_yaml_before_lawpack_entry
-    - treat_markdown_as_non_authoritative
+    - register_carries_law_and_pc_sc_precedent
+    - record_county_court_orders_as_shadow_in_vjs_court_orders
+    - enshrine_a_load_bearing_county_principle_as_act_regulation_or_si
   must_not:
-    - load_markdown_as_runtime_law
+    - publish_county_court_orders_in_the_register_or_lawpack
 review_triggers:
-  - markdown_proposed_as_canonical
+  - gazette_entry_published
