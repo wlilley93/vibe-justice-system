@@ -49,7 +49,12 @@ echo "$ADDED" | grep -nE "sk-[a-zA-Z0-9]{48}|gh[pousr]_[A-Za-z0-9_]{36,}|AKIA[0-
   && { echo "FAIL: secret-shaped content in the range"; exit 1; } || echo "   clean"
 
 echo "-- 3/4 denylisted private terms (hashed; the SC-11 class)"
-git diff "$RANGE" | grep '^+' | python3 - <<'PYEOF' || exit 1
+# via a temp file: piping into a heredoc-fed python is a silent no-op (the
+# heredoc overrides stdin) and pipefail turns the writer's SIGPIPE into a
+# spurious failure - both found by the first dogfood run
+DIFF_ADDED=$(mktemp)
+git diff "$RANGE" | grep '^+' > "$DIFF_ADDED" || true
+python3 - "$DIFF_ADDED" <<'PYEOF' || exit 1
 import hashlib, sys
 deny = set()
 try:
@@ -59,7 +64,10 @@ try:
             deny.add(line)
 except FileNotFoundError:
     sys.exit(0)
-text = sys.stdin.read()
+text = open(sys.argv[1], encoding="utf-8", errors="replace").read()
+if not text.strip():
+    print("FAIL: empty diff input - the sweep saw nothing, refusing to pass vacuously")
+    sys.exit(1)
 token = ""
 hit = False
 def check(t):
@@ -76,6 +84,7 @@ if hit:
     print("FAIL: a denylisted private term would be published"); sys.exit(1)
 print("   clean")
 PYEOF
+rm -f "$DIFF_ADDED"
 
 echo "-- 4/4 dev-machine paths in added content"
 echo "$ADDED" | grep -nE "/home/[a-z]+/" | grep -v "promote-canonical.sh" \
