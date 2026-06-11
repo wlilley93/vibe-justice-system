@@ -108,6 +108,17 @@
     <summary type="text">This Regulation prescribes the FORM of accession: what a subscribing jurisdiction&apos;s loader must implement to carry the canonical law.</summary>
   </entry>
   <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-BUNDLE-001</id>
+    <title>Deployment Bundle Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-BUNDLE-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-BUNDLE-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-11T00:00:00Z</published>
+    <updated>2026-06-11T00:00:00Z</updated>
+    <summary type="text">This Regulation prescribes the FORM of a deployment bundle: the single manifest that assembles the governance house from separate repositories without moving any repository.</summary>
+  </entry>
+  <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-CANONICALISATION-MIGRATION-001</id>
     <title>Canonicalisation and Migration Regulation</title>
     <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-CANONICALISATION-MIGRATION-001"/>

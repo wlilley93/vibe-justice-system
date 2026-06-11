@@ -1,0 +1,52 @@
+id: REG-BUNDLE-001
+citation: "[2026] VJS-REG 27"
+assent_source: standing_bounded_assent
+title: Deployment Bundle Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+created_at: "2026-06-11T15:30:00Z"
+text: >
+  This Regulation prescribes the FORM of a deployment bundle: the single manifest
+  that assembles the governance house from separate repositories without moving any
+  repository. It is the binding spec [2026] VJS-PC 11 (The Governance House) directed
+  the registrar to enact (D1), made under the s.7 power as machinery, no fresh
+  assent. It mirrors the lock pattern REG-ACCESSION-001 already prescribes.
+  FORM. (1) The manifest: a bundle is recorded in a bundle.lock carrying
+  schema_version, bundle (its name), distribution_licence (the licence of the
+  assembled distribution boundary), generated_at, generated_by, and a list of
+  components. Each component carries id, repo, digest (the sha256 it is pinned at),
+  source_commit, licence, and adoption_mode - so a builder reproduces the whole
+  house from one file and the four independent clocks never entangle.
+  (2) Assembly, not relocation: the bundle assembles the house from separate repos
+  each pinned by sha256; per [2026] VJS-PC 11 the canon stays its own public
+  AGPL-3.0 repository at the root, and no component is re-homed, forked in-tree, or
+  pulled into a product monorepo. A physical move is a fresh topology change for a
+  further court order.
+  (3) Per-component pinnability: every component stays independently
+  sha256-addressable; no subscriber is forced to vendor a giant tree to obtain the
+  one piece it pins.
+  (4) The licence firewall: an AGPL component may NOT be consumed into a permissive
+  (MIT/Apache/BSD) distribution boundary by co-resident source; it is consumed only
+  as a vendored, re-stamped, pinned copy (adoption_mode vendored-restamped-readonly),
+  carrying the embed-point licence grant. The verify fails closed on any breach.
+  (5) The verify: a single, fail-closed verify checks the manifest - every component
+  carries every prescribed field, every digest is a well-formed sha256, and the
+  licence firewall holds - and refuses, loudly, on the first violation. The
+  reference implementation is scripts/bundle-verify.py; an assembled bundle is
+  additionally verified by recomputing each present component's digest against its
+  pin. No bundle is trusted that does not verify.
+  (6) Publication: the spec is published in the public canon because it governs how
+  the shared law is assembled; the component digests for private repositories
+  resolve to private sources, but the pin metadata and the spec are public. The
+  governance house, if and when its private layers consolidate by a further order,
+  ships and is gated by this manifest. CITES [2026] VJS-PC 11; REG-ACCESSION-001.
+kernel_effect:
+  defines:
+    manifest_file: "bundle.lock"
+    top_fields: [ schema_version, bundle, distribution_licence, generated_at, generated_by ]
+    component_fields: [ id, repo, digest, source_commit, licence, adoption_mode ]
+    assembly: assemble_from_separate_repos_by_sha256_never_relocate
+    pinnability: each_component_independently_sha256_addressable
+    licence_firewall: agpl_into_a_permissive_boundary_only_as_vendored_restamped_readonly
+    verify: single_fail_closed_check_of_schema_digests_and_firewall
+    reference_verify: "scripts/bundle-verify.py"

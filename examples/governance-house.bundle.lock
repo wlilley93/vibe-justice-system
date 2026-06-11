@@ -1,0 +1,38 @@
+# The governance-house deployment bundle: one manifest that assembles the house
+# from separate repositories, each pinned by sha256, WITHOUT moving any repo.
+# Prescribed by REG-BUNDLE-001; enacted by [2026] VJS-PC 11 (The Governance House).
+# Verify with: python3 scripts/bundle-verify.py examples/governance-house.bundle.lock
+
+schema_version = 1
+bundle = "governance-house"
+# the licence of the assembled distribution boundary; the verify fails closed if
+# an AGPL component is consumed into this boundary by co-resident source.
+distribution_licence = "MIT"
+generated_at = "2026-06-11T15:30:00Z"
+generated_by = "Lexby"
+
+[[component]]
+id = "canon"
+repo = "wlilley93/vibe-justice-system"
+digest = "sha256:14cdb3337039ffdbe4f007fcb6fc5fd634cb0e7f6218e201555ab5de45868f9f"
+source_commit = "599189d"
+licence = "AGPL-3.0-only"
+# AGPL law is consumed only as a vendored, re-stamped, pinned copy - never as
+# co-resident source in the MIT boundary (PC-11; the embed-point grant).
+adoption_mode = "vendored-restamped-readonly"
+
+[[component]]
+id = "engine"
+repo = "wlilley93/kern"
+digest = "sha256:015ad8c0a9f6e3b1d2c4a5768b9e0f1a2b3c4d5e6f7081929324a5b6c7d8e9f0"
+source_commit = "7288504"
+licence = "MIT"
+adoption_mode = "vendored-readonly"
+
+[[component]]
+id = "policy"
+repo = "wlilley93/vibe-policy-system"
+digest = "sha256:39dc6427d21b8bf51f77aeef69be73416e404865aa21fc1efca4bb18f4b8358c"
+source_commit = "794b3f5"
+licence = "MIT"
+adoption_mode = "vendored-readonly"
