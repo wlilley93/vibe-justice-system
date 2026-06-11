@@ -759,8 +759,10 @@ function applyEstateLayout() {
 // link distances so the whole map spreads, not only repels
 let spreadMul = 1;
 function linkDist(l) {
-  // docket threads stay short regardless so the boot series keeps coiling
-  if (l.type === 'thread') return 14;
+  // every connecting line scales with the spread, the boot docket included, so
+  // no cluster stays a flung tight knot while the rest of the map opens; the
+  // hub model (each docket member -> its origin) keeps the series a wheel, not
+  // a tail, without a fixed short distance.
   const a = (l.source && l.source.estate) || byId.get(l.source)?.estate;
   const b = (l.target && l.target.estate) || byId.get(l.target)?.estate;
   return (a && b && a !== b ? 220 : 36) * spreadMul;
