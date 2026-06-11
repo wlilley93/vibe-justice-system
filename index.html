@@ -41,6 +41,8 @@
     border-radius:8px; box-shadow:0 8px 26px rgba(26,39,68,.22); overflow:hidden;
     font-family:'Iowan Old Style','Palatino Linotype','Times New Roman',serif; }
   .lp-full { width:13.5rem; padding:.55rem .7rem; border-left:4px solid var(--lt,var(--ink)); }
+  .lp-full .hc-chips { display:flex; align-items:center; flex-wrap:wrap; gap:.25rem; }
+  .lp-full .hc-chips .chip, .lp-full .hc-chips .tl { margin:0; vertical-align:baseline; }
   .lp-rel { display:flex; flex-direction:column; align-items:center; justify-content:center;
     min-width:3.4rem; padding:0 .25rem; }
   .lp-verb { font:italic .66rem/1.15 Georgia,serif; color:var(--muted); text-align:center; margin-bottom:.1rem; }
@@ -581,7 +583,13 @@ const Graph = ForceGraph()(document.getElementById('graph'))
   // pointing the same way (a cite points at the authority it relies on)
   .linkHoverPrecision(6)
   .linkLabel(l => {
-    const verb = l.type === 'cite' ? 'cites' : l.type === 'lineage' ? 'descends from' : 'same docket as';
+    // flow old -> new: the foundational record on the left, the newer one that
+    // builds on it on the right. cite edges point citer->cited, lineage edges
+    // descendant->ancestor, so for both the tooltip shows target -> source.
+    let left, right, verb;
+    if (l.type === 'cite') { left = l.target; right = l.source; verb = 'cited by'; }
+    else if (l.type === 'lineage') { left = l.target; right = l.source; verb = 'carried into'; }
+    else { left = l.source; right = l.target; verb = 'same docket as'; }
     const card = n => {
       const d = byId.get(typeof n === 'object' ? n.id : n);
       if (!d) return `<div class="lp-full"><div class="hc-title">${esc(typeof n === 'object' ? n.id : n)}</div></div>`;
@@ -594,9 +602,9 @@ const Graph = ForceGraph()(document.getElementById('graph'))
         + `<div class="hc-meta">${meta}</div>`
         + `<div class="hc-sum">${esc(d.summary || '')}</div></div>`;
     };
-    return `<div class="linkpair">${card(l.source)}`
+    return `<div class="linkpair">${card(left)}`
       + `<div class="lp-rel"><span class="lp-verb">${verb}</span><span class="lp-arrow">&rarr;</span></div>`
-      + `${card(l.target)}</div>`;
+      + `${card(right)}</div>`;
   })
   .linkDirectionalArrowLength(l => (l === hoverLink) ? 7 : 0)
   .linkDirectionalArrowRelPos(.92)
