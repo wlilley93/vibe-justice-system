@@ -1,0 +1,12 @@
+id: LOG-2026-06-11-132623
+time: 2026-06-11T13:26:23.575425206+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260611-132414
+decision: 'Executed the County Court shadow order [2026-VJS-CC-JURISDICTION-REID-001]: a repo-level, meaning-preserving re-identification of the jurisdiction id from agent-universe-v2 to vibe-justice-system, on the Principal''s direction. The change is machinery under the [2026] VJS-PC 8 test (it alters no bench, tier, jurisdiction power, or assent rule - only the label) and was done as a clerical pass: every textual occurrence of the old id was rewritten to the new id across 60 files - the config, the orders, the filed and draft submissions, the convening records, the decision logs, the docs, and the Cargo.toml repository URL - so the reference never reads as the old id anywhere. The five case-file digests (which pin the sha256 of the serde-reserialized submission) were RE-PINNED over the renamed submissions using the kernel''s own method (vjs court record), so each seal stays accurate to the matter the bench decided; verified that a fresh kernel recompute now matches the recorded digests. The order is a SHADOW order: recorded only in .vjs/court/orders for the audit trail and deliberately kept OUT of the register and the Gazette, because a public order about an internal relabel would be bloat and the old id would only confuse readers - so the one place the old id survives is that private deed-poll record. The PDFs carry the old filesystem PATH in producer metadata only (not the jurisdiction id, not in their rendered content), left as invisible metadata rather than regenerating thirty files. Validation OK, gazette regenerated clean, 73 tests green.'
+basis:
+- PERMIT-1781184254
+risk: low
+reversibility: easy
+court_required: false
+why: The Principal said yes to aligning the jurisdiction id, as a County Court shadow order kept out of the register, with no visible trace of the old name.

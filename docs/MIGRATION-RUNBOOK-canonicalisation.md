@@ -17,7 +17,7 @@ warrant:  granted by the Sovereign Founder, 2026-06-09 ("assent given, go")
 
 ## 1. Pre-flight (prove the baseline)
 ```bash
-cd ~/Projects/agent-universe-v2
+cd ~/Projects/vibe-justice-system
 git rev-parse HEAD                                  # record canon SHA
 ./target/debug/vjs local-ci                         # must PASS (incl. boundary_scan)
 ./target/debug/vjs validate --all || ./target/debug/vjs validate --staged   # 20 invariants pass
@@ -45,9 +45,9 @@ git branch v1 v1-archive-2026-06-09 && git push origin v1
 Then in GitHub settings: **protect** the `v1` branch (read-only, no force-push, no deletion); the tag is the estate anchor. The V1 content renders as a distinct **Archive** directory in the Gazette build.
 
 ## 4. Make the canon the default line (the "drop v2" step)
-- `vibe-justice-system` is already free of the "v2" ordinal -> **no repo rename is needed** for the canon; the spent "v2" lives only in `agent-universe-v2`.
+- `vibe-justice-system` is already free of the "v2" ordinal -> **no repo rename is needed** for the canon; the spent "v2" lives only in `vibe-justice-system`.
 - Set `main` = the canon (fast-forward from `main-canon-staging` once verified).
-- **`agent-universe-v2`:** archive it on GitHub (Settings -> Archive) and add a README pointer/redirect to `vibe-justice-system`. Its history is preserved; this is the inbound redirect PC-2 required. Do **not** delete it.
+- **`vibe-justice-system`:** archive it on GitHub (Settings -> Archive) and add a README pointer/redirect to `vibe-justice-system`. Its history is preserved; this is the inbound redirect PC-2 required. Do **not** delete it.
 
 ## 5. Re-prove invariants after the move (the halt gate)
 ```bash

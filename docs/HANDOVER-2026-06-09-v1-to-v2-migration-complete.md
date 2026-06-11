@@ -8,7 +8,7 @@
 
 ## 1. TL;DR - what is true now
 
-- **V2 is live.** The Supreme Court handover order has taken effect. V2 (`~/Projects/agent-universe-v2`) is the self-governing computer-first runtime jurisdiction. See `lawpack/v2/provenance/founding/COMMENCEMENT-V2-0001.yaml` (`status: commenced`).
+- **V2 is live.** The Supreme Court handover order has taken effect. V2 (`~/Projects/vibe-justice-system`) is the self-governing computer-first runtime jurisdiction. See `lawpack/v2/provenance/founding/COMMENCEMENT-V2-0001.yaml` (`status: commenced`).
 - **V1 is the Gazette and Archive.** `~/agent-universe` is preserved, read-only by default, citable as archive authority, and remains the public Gazette source (`wlilley93/vibe-justice-system`). New doctrine does not expand V1 except migration/archive maintenance.
 - **The governing constitutional floor is CASE-LAW s. 23** (enacted by the Supreme Court): all V2 law, including AI-drafted or delegated law, derives force only from Sovereign assent; AI may run the machinery but may never be sovereign, expand its own competence, amend the assent rule, or create force from its own output. The kernel enforces this with a fail-closed allow-list invariant.
 - **Directory-agnostic.** V2 binds records by role/schema/id/status/kernel-effect, never by path. The only fixed anchor in a jurisdiction is `.vjs/config.toml` (`ACT-007:s1`). Projects can live in any directory.
@@ -42,7 +42,7 @@
 |------|------|--------|------|------|
 | V1 dev (`agent-universe`) | `~/agent-universe` | `master` | `14cec32` (moves; check) | Gazette/Archive + dev provenance |
 | V1 public Gazette | `wlilley93/vibe-justice-system` | `public-vjs-canonical-preview` | `03a75c3` | the live public Gazette (serves REALM-SC 10) |
-| V2 runtime (`agent-universe-v2`) | `~/Projects/agent-universe-v2` | `v2-agent-harness-doctrine` | moving (concurrent activity; check) | the live computer-first runtime |
+| V2 runtime (`vibe-justice-system`) | `~/Projects/vibe-justice-system` | `v2-agent-harness-doctrine` | moving (concurrent activity; check) | the live computer-first runtime |
 
 - **The SC judgment (REALM-SC 10) and PC 24 are LIVE on the public Gazette.** The rest of the migration records sit on the private `master` and are NOT yet public. Publishing them is a separate warranted act (see s. 8 below).
 - Next central citations: **`[2026] REALM-PC 26`**, **`[2026] REALM-SC 11`** (PC 25 is the post-push review).
@@ -56,7 +56,7 @@
 
 ## 6. CONCURRENT ACTIVITY - read before you touch V2
 
-Another agent/session is actively committing in `~/Projects/agent-universe-v2` (recent: `a4661b2` "reconcile my records to the authoritative commenced state", `ba48143` "File V2 Privy Council reference: Gazette publication governance"). **Pull/inspect the V2 log before writing there, and avoid clobbering their files.** It appears a V2-native governance thread is already running (e.g. a Gazette-publication-governance reference). Coordinate; do not duplicate.
+Another agent/session is actively committing in `~/Projects/vibe-justice-system` (recent: `a4661b2` "reconcile my records to the authoritative commenced state", `ba48143` "File V2 Privy Council reference: Gazette publication governance"). **Pull/inspect the V2 log before writing there, and avoid clobbering their files.** It appears a V2-native governance thread is already running (e.g. a Gazette-publication-governance reference). Coordinate; do not duplicate.
 
 ## 7. Binding authorities the next agent MUST respect
 
@@ -86,7 +86,7 @@ node Executive/cli/bin/cdd.js check          # provenance + citator + bench-name
 node Executive/cli/bin/cdd.js local-ci       # full deterministic gate (expect green)
 node Executive/cli/bin/cdd.js gazette live-check   # public Gazette matches local (REALM-SC 10 live)
 
-# V2 (from ~/Projects/agent-universe-v2)
+# V2 (from ~/Projects/vibe-justice-system)
 cargo test                                   # kernel + the 7 assent-source proof tests, expect green
 cargo test -p vjs-testkit --test assent_source_invariant
 cat lawpack/v2/provenance/founding/COMMENCEMENT-V2-0001.yaml   # status: commenced

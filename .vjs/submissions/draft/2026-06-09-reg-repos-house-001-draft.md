@@ -49,8 +49,8 @@ kernel_effect:
 
 ## Public register entry shape (system-data only)
 ```yaml
-id: repo:agent-universe-v2
-jurisdiction_id: agent-universe-v2
+id: repo:vibe-justice-system
+jurisdiction_id: vibe-justice-system
 estate: v2
 visibility: private-source-public-metadata
 status: active

@@ -1,8 +1,8 @@
 # [2026] VJS-CC-AGENT-UNIVERSE-V2 14 - Order-schema court-record extension (operational limb)
 
-**County Court of agent-universe-v2, single judge (odd bench of 1) per 2026-VJS-COURTS-CONSTITUTION-001 D1. Convened on the registrar's own motion. Before: Ledgerward CCJ. Disposition: operational limb disposed; the schema change is machinery; permission to appeal GRANTED.**
+**County Court of vibe-justice-system, single judge (odd bench of 1) per 2026-VJS-COURTS-CONSTITUTION-001 D1. Convened on the registrar's own motion. Before: Ledgerward CCJ. Disposition: operational limb disposed; the schema change is machinery; permission to appeal GRANTED.**
 
-I sit as Ledgerward CCJ, single judge of the County Court of agent-universe-v2, convened on the registrar's own motion. The registrar's preference is not before me; I decide on the symmetric file alone.
+I sit as Ledgerward CCJ, single judge of the County Court of vibe-justice-system, convened on the registrar's own motion. The registrar's preference is not before me; I decide on the symmetric file alone.
 
 The s.7 power lets the Standing Committee make subordinate law that is "strictly below" the Act, the Acts of Union, the constitution, and the primary Acts. It may not amend, disapply, or expand any of those, nor the assent rule (anti-Henry-VIII; s.25 entrenchment). So the dividing line is plain: an SI is good if it operates wholly within the space the constitution leaves to administration, and void to the extent it reaches a reserved matter.
 

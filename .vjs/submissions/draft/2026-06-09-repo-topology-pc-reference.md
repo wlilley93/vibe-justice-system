@@ -11,7 +11,7 @@
 ## Why now
 
 V2 has commenced; the canon is the unqualified Realm and "V1" is the Archive/Gazette estate label ([2026] VJS-SC 1, Q6). But the canon and the archive currently sit in **two GitHub repositories** that do not yet reflect that settlement:
-- `agent-universe-v2` (the live runtime/kernel; `origin/main` at an old draft; the work on a feature branch);
+- `vibe-justice-system` (the live runtime/kernel; `origin/main` at an old draft; the work on a feature branch);
 - `vibe-justice-system` (the public **Gazette** + Archive; default branch `public-vjs-canonical-preview`; also `master`).
 
 The Principal asks the Council to settle, as a routing/public-boundary/governance matter, **where the canon and the V1 archive estate should live across the repositories and branches**, consistent with canonicalisation, the single Gazette of two estates (Bill 32 s.16), and the SC-1 non-disturbance rule.
@@ -21,7 +21,7 @@ The Principal asks the Council to settle, as a routing/public-boundary/governanc
 > How should the canonical Realm and the V1 Archive/Gazette estate be arranged across the GitHub repositories and branches, such that (i) there is one canonical line, (ii) the single Gazette carries both estates with the citation graph intact, (iii) V1/REALM cases remain referenced only as archival source law (not live authority), and (iv) the SC-1 non-disturbance rule is honoured (digests, the lawpack lock, citations, and record IDs immutable; governed rename, never a mass edit)?
 
 Concrete sub-questions the Principal puts:
-1. Should the canon be consolidated into the **existing `vibe-justice-system` repo** (reusing the established repo, README, and public Gazette Pages site), or into `agent-universe-v2`, or should the two remain **separate** (runtime vs Gazette)?
+1. Should the canon be consolidated into the **existing `vibe-justice-system` repo** (reusing the established repo, README, and public Gazette Pages site), or into `vibe-justice-system`, or should the two remain **separate** (runtime vs Gazette)?
 2. Should the canonical current Realm live on **`main`**, with the V1 archive preserved as a **`v1` branch** (the Archive estate)?
 3. Should the **single Gazette live on the canonical line and include V1 law** (as the archive estate), so the citation graph from transitioning V2 law back to its REALM source resolves in one place?
 4. How is the non-disturbance rule honoured through any repo move / branch reorganisation (the lawpack lock `4d2639cc...`, the assented digest `8e1d3f51...`, the `[YEAR] VJS-ACT N` and `REALM-*` citations, and embedded `lawpack/...` paths must not be broken)?

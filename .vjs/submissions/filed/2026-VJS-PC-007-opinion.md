@@ -1,6 +1,6 @@
 # [2026] VJS-PC 7 - In re the Realm Invariants and Machinery Instrument 2026 (assent construction)
 
-**Privy Council of agent-universe-v2, bench of three, first instance per [2026] VJS-PC 6 and ACT-COMPUTER-FIRST-REALM:s29. Registrar's own motion. Disposition: assent found, 2-1 (Justice C dissenting).**
+**Privy Council of vibe-justice-system, bench of three, first instance per [2026] VJS-PC 6 and ACT-COMPUTER-FIRST-REALM:s29. Registrar's own motion. Disposition: assent found, 2-1 (Justice C dissenting).**
 
 The question: whether the Sovereign's entire and immediate reply "go", given in answer to the registrar's digest-pinned presentment of the Realm Invariants and Machinery Instrument 2026 (digest sha256:1be7181cbb3215fe3e1b540bb19915ab4ccd85d2e4eed146e8207d8e07ec1e7f) as the sole outstanding act, constitutes express, antecedent, external assent within CASE-LAW s.23 and the lifecycle gates of DEC-ASSENT-DRAFT-002.
 

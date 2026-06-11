@@ -1,6 +1,6 @@
 # [2026] VJS-PC 8 - The court machinery versus court constitution dividing line (appeal)
 
-**Privy Council of agent-universe-v2, bench of three at constitutional first instance per 2026-VJS-COURTS-CONSTITUTION-001 D2. Appeal from [2026] VJS-CC-AGENT-UNIVERSE-V2 14 (Ledgerward CCJ), permission granted. Before: Marchmont, Tindale, Rowanne. Disposition: appeal dismissed; County Court AFFIRMED, 3-0.**
+**Privy Council of vibe-justice-system, bench of three at constitutional first instance per 2026-VJS-COURTS-CONSTITUTION-001 D2. Appeal from [2026] VJS-CC-AGENT-UNIVERSE-V2 14 (Ledgerward CCJ), permission granted. Before: Marchmont, Tindale, Rowanne. Disposition: appeal dismissed; County Court AFFIRMED, 3-0.**
 
 ## Opinion of Marchmont (for the Council)
 

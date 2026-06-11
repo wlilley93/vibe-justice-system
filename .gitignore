@@ -32,3 +32,7 @@ __pycache__/
 
 # stray build artifacts
 *.rlib
+
+# The realm ministry tree holds nested project repos (e.g. opbox) with their
+# own git history; the canon does not track them.
+Executive/

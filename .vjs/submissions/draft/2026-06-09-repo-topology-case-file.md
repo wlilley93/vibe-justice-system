@@ -11,7 +11,7 @@
 
 1. Canonicalisation is settled ([2026] VJS-SC 1, Q6): the commenced successor is the unqualified canon; "V1" survives only as the Archive/Gazette estate label; de-naming is prospective and **strictly non-disturbing** (assented digest `8e1d3f51...`, lawpack lock `4d2639cc...`, citations `[YEAR] VJS-ACT N` and `REALM-*`, and record IDs are immutable; governed rename, never a mass edit).
 2. Bill 32 s.16: one Gazette, two estates (V1 Archive, V2 Current); publication creates no runtime force; estate boundary operative by substance.
-3. Two repos exist: `agent-universe-v2` (Rust runtime/kernel; `origin/main` at an old draft; work on a branch) and `vibe-justice-system` (the public **Gazette** + Archive; Node/Pages build; default `public-vjs-canonical-preview`, also `master`).
+3. Two repos exist: `vibe-justice-system` (Rust runtime/kernel; `origin/main` at an old draft; work on a branch) and `vibe-justice-system` (the public **Gazette** + Archive; Node/Pages build; default `public-vjs-canonical-preview`, also `master`).
 4. V1/REALM cases bind V2 only by incorporation (s.8/s.9); they are otherwise archival/persuasive. The Principal wants them **referenced as archival source law by transitioning V2 law**, so the citation graph stays intact.
 5. Operability finding (Harlan J, SC-1): the lawpack lock is a tree digest; many invariants embed literal `lawpack/...` paths in `scope.paths`; a blind move/rename breaks the lock and un-scopes invariants fail-open.
 
@@ -23,9 +23,9 @@ How should the canon and the V1 Archive estate be arranged across repos/branches
 
 **T1 - Consolidate onto the established public repo (`vibe-justice-system`).** The canon lives on `main` of the established repo (reusing its README, public presence, and Gazette Pages site); the V1 archive becomes a read-only `v1` branch (the Archive estate); the single Gazette is built on the canonical line and includes the V1 archive law, so the graph from transitioning V2 law to its REALM source resolves in one repo. *For:* one canonical line; reuses the public Gazette site and established name; the single-Gazette-two-estates model maps naturally to one repo with `main` (Current) and `v1` (Archive); drops the "v2" in the runtime repo name (canonicalisation). *Against:* the runtime is Rust and the Gazette is a Node/Pages build - merging two stacks; the migration must move the lawpack into the established repo without breaking the lock/paths (a real, but governable, non-disturbance task); history reconciliation across two repos.
 
-**T2 - Consolidate onto `agent-universe-v2` (renamed canonically).** Pull the Gazette into the runtime repo. *For:* the runtime/kernel is the live canon; keep its history. *Against:* loses the established public Gazette site/README/presence; "agent-universe-v2" itself carries the spent "v2" ordinal; bigger public-facing disruption.
+**T2 - Consolidate onto `vibe-justice-system` (renamed canonically).** Pull the Gazette into the runtime repo. *For:* the runtime/kernel is the live canon; keep its history. *Against:* loses the established public Gazette site/README/presence; "vibe-justice-system" itself carries the spent "v2" ordinal; bigger public-facing disruption.
 
-**T3 - Keep separate.** `agent-universe-v2` = runtime canon; `vibe-justice-system` = Gazette/Archive; cross-linked. *For:* least disruption; clean separation of runtime vs public Gazette; no lock/path migration. *Against:* two canonical-ish lines; the single-Gazette graph spans two repos; the spent "v2" name persists; cross-estate references are split.
+**T3 - Keep separate.** `vibe-justice-system` = runtime canon; `vibe-justice-system` = Gazette/Archive; cross-linked. *For:* least disruption; clean separation of runtime vs public Gazette; no lock/path migration. *Against:* two canonical-ish lines; the single-Gazette graph spans two repos; the spent "v2" name persists; cross-estate references are split.
 
 ## Part 4 - Sub-questions
 
