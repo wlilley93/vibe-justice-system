@@ -680,6 +680,29 @@ fn cmd_log(
             let permit = permits.into_iter().find(|p| p.id.0 == permit_id)
                 .ok_or_else(|| KernelError::PermitNotFound(permit_id.clone()))?;
 
+            // A log may only be written from a LIVE permit: active and
+            // unexpired, failing closed on an unparseable expiry (the gate's
+            // rule). Defect class this closes: a route that returns
+            // court_required issues no permit, and a caller that then grabs
+            // the newest permit file silently links the log to a stale,
+            // unrelated permit (LOG-2026-06-11-111946 records the instance).
+            if !matches!(permit.status, PermitStatus::Active) {
+                return Err(KernelError::InvalidInput(format!(
+                    "permit {} is {:?}, not active; a decision log may only be written from a live permit",
+                    permit_id, permit.status
+                )));
+            }
+            let expired = match chrono::DateTime::parse_from_rfc3339(&permit.expires_at) {
+                Ok(expiry) => chrono::Utc::now() >= expiry.with_timezone(&chrono::Utc),
+                Err(_) => true,
+            };
+            if expired {
+                return Err(KernelError::InvalidInput(format!(
+                    "permit {} is expired (expires_at {}); route again for a live permit",
+                    permit_id, permit.expires_at
+                )));
+            }
+
             let log = DecisionLog {
                 id: format!("LOG-{}", chrono::Utc::now().format("%Y-%m-%d-%H%M%S")),
                 time: chrono::Utc::now().to_rfc3339(),
