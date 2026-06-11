@@ -62,6 +62,15 @@ contract:
   conformance: >
     A set of golden vectors (the conformance scenarios) doubles as the kernel
     test vectors; the suite is a condition of every kernel release.
+  attestation: >
+    A conforming kernel MAY provide, as feature-gated extensions that do not touch
+    the model-free or no-default-network posture, ed25519 officer signing of chain
+    entries (a verifiable signer behind the signer seam, with key rotation and
+    revocation - a revoked key fails closed) and external anchoring (publishing the
+    chain head to a timestamping authority and recording the receipt, so a fact is
+    verifiable as of a time without trusting the mutable tail). The reference
+    kernel (kern v0.2.0) ships both behind the ed25519 and anchor features; they
+    are optional and never alter the deterministic core's contract.
 
 decisions:
   - DEC-KERNEL-001
