@@ -1,0 +1,12 @@
+id: LOG-2026-06-11-145924
+time: 2026-06-11T14:59:24.079077376+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260611-145924
+decision: 'Two threads. (1) Citation completion: every record now carries a neutral citation. The founding boot slate derives [2026] VJS-BOOT n (added BOOT to derive_order_citation); the honoured v1 archive derives REALM-form citations from id+year (REALM-SC-n / REALM-SI-n / REALM-BILL-n) where the curated estate left one blank; the now-empty ''First instance'' register filter (no first-instance items remain after the County Court orders went to shadow) is removed. citation_check passes; 0 records without a citation. (2) The Privy Council sat on the governance-house consolidation reference ([2026] VJS-PC 11, The Governance House) - a first-impression topology question convened under REALM-PC-19. Three justices (Tindale, Rowanne, Marchmont) ruled 3-0 HYBRID on a symmetric case file, each verifying the dependency lattice, licences and pins in-repo: the canon is the shared higher law at the acyclic root and MUST stay a separate, public, AGPL-3.0 repo, never a package in a product monorepo; the private MIT layers may form a ''house'' only as a reversible additive arrangement that pins canon+kern as external sha256 copies; the operator''s real need is met by a binding deployment-bundle spec (one manifest of repo+digest+commit+licence+adoption_mode, fail-closed verify) rather than moving repos; kern and vjs-core are not force-merged; REALM-SC-11 no-live-egress is preserved; any physical consolidation returns for a further order with the subscriber heard. The order carries the bench, the 3-0 vote, and the pinned case-file digest; the opinions stand in full in the .vjs filed record; the subscriber''s name is kept out of the published order (denylist). The directed next deliverable is the deployment-bundle spec. Validation OK, 73 tests green.'
+basis:
+- PERMIT-1781189964
+risk: low
+reversibility: easy
+court_required: false
+why: 'The Principal: proceed all. The architecture consolidation is a REALM-PC-19 topology fork - it goes to the court, decided on a symmetric case file without the registrar''s preference.'

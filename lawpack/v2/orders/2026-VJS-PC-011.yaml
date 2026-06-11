@@ -1,0 +1,78 @@
+id: "2026-VJS-PC-011"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-PC 11"
+title: The Governance House
+court: privy_council
+jurisdiction: vibe-justice-system
+status: binding
+issue: governance_estate_consolidation
+bench:
+  - Tindale
+  - Rowanne
+  - Marchmont
+vote: >
+  3-0 (Tindale J., Rowanne J., Marchmont J.): HYBRID. The canon stays a separate
+  public repository; the private layers may form a house by a further order; the
+  immediate deliverable is a binding deployment-bundle spec.
+case_file_digest: "sha256:dc6931bb2cf3389fd5cbf43f2b29f772f5072dd595dca2740998edb8d8d1c3e0"
+convened_at: "2026-06-11T14:54:00Z"
+question: >
+  Should the governance estate - the canon (the law), the engine (kern), and the
+  policy framework (VPS) - be consolidated into a single "governance house"
+  monorepo, or remain separate repositories, and on what conditions?
+holding: >
+  HYBRID, 3-0. The canon (vibe-justice-system) is the realm's shared higher law,
+  pinned by digest by more than one INDEPENDENT subscriber, and is the root of an
+  acyclic dependency lattice (canon depends on nothing). It must REMAIN a separate,
+  PUBLIC, AGPL-3.0 repository with zero inbound dependency and no product code; it
+  may never become a package inside a product monorepo. Folding the canon into a
+  product-ish house would entangle the law's clock with product releases, force a
+  subscriber to vendor a giant tree to obtain the one piece it pins, and collapse
+  the AGPL/MIT firewall that separate repositories enforce by construction. The
+  private MIT layers (the engine-adjacent product code, the policy-template, and
+  the products) MAY be arranged as a "governance house", but only as a reversible,
+  additive convenience that pins the canon and kern as external sha256-locked
+  vendored copies, never as in-tree forks. The operator's real need - one
+  reproducible home for the assembly - is met NOT by moving repositories but by a
+  binding DEPLOYMENT-BUNDLE SPEC: one machine-checkable manifest naming each
+  component repo, its sha256 digest, its source commit, its licence, and its
+  adoption mode, with a single fail-closed verify, published in the public canon.
+  This delivers the consolidation benefit at near-zero blast radius. kern and
+  vjs-core are NOT force-merged: they are orthogonal, neither imports the other,
+  and any reconciliation is a separate first-impression question on its own record.
+  Any PHYSICAL consolidation - merging repository histories, re-homing the canon,
+  or collapsing the two engines - is a fresh superrepo/topology change that
+  this Court reserves to a further order on which the live subscriber is heard. This order authorises the SHAPE and
+  enacts the bundle-spec, not the physical move.
+directives:
+  - id: D1
+    actor: lexby
+    must: enact_the_binding_deployment_bundle_spec_in_the_public_canon_one_manifest_of_repo_digest_commit_licence_adoption_mode_with_a_fail_closed_verify
+  - id: D2
+    actor: lexby
+    must: keep_the_canon_a_separate_public_agpl_repo_at_the_root_with_zero_inbound_dependency
+  - id: D3
+    actor: lexby
+    must: preserve_each_subscriber_pin_independently_sha256_addressable_no_giant_tree_vendor
+  - id: D4
+    actor: principal
+    must: bring_any_physical_consolidation_back_for_a_further_order_with_the subscriber_heard
+forbidden:
+  - folding_the_canon_into_any_product_or_mit_monorepo
+  - co_mingling_agpl_canon_source_with_mit_product_source_in_one_published_repo
+  - force_merging_kern_and_vjs_core_under_cover_of_a_restructure
+  - forcing_a_subscriber_to_vendor_a_giant_tree_to_obtain_one_pinned_piece
+  - introducing_a_live_egress_dependency_on_the_canon_for_any_subscriber
+supersedes: []
+appealable: true
+appeal_of: null
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-011-opinions.md"
+runtime_summary: >
+  Don't merge it all into one repo. Keep the law (the canon) its own public repo -
+  it's shared and others pin it. The private product side can have a "house", but
+  the real fix is a single lockfile that lists every piece and its hash so the
+  whole thing rebuilds from one file. Keep kern and vjs-core separate. Any actual
+  repo move comes back to court with the live subscriber in the room.
+  Rests on ACT-007, [2026] VJS-PC 10 and [2026] VJS-PC 8; the no-live-egress
+  floor is carried as a V2 directive, the V1 archive persuasive only.
+created_at: "2026-06-11T14:54:00Z"
