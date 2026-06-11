@@ -24,7 +24,16 @@ permit_required = [
   "Cargo.toml",
   "AGENTS.md",
   "VJS.md",
-  "README.md"
+  "README.md",
+  # the publishing machinery and the public record surfaces are governed:
+  # the boundary pass itself must not be editable without a permit
+  "scripts/**",
+  "PUBLISHING.md",
+  "index.html",
+  "gazette.html",
+  "law.html",
+  ".vjs/config.toml",
+  ".vjs/publication-denylist.txt"
 ]
 
 permit_exempt = [

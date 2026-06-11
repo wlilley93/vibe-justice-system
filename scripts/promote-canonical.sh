@@ -45,7 +45,7 @@ BAD_PATHS=$(git diff --name-only "$RANGE" | grep -E '^\.vjs/private/|(^|/)\.env(
 echo "-- 2/4 secrets (high-confidence patterns over the added lines)"
 ADDED=$(git diff "$RANGE" | grep '^+' || true)
 echo "$ADDED" | grep -nE "sk-[a-zA-Z0-9]{48}|gh[pousr]_[A-Za-z0-9_]{36,}|AKIA[0-9A-Z]{16}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY" \
-  | grep -v "store_boundary.rs\|synthetic\|0123456789abcdefghijklmnopqrstuvwxyz" \
+  | grep -v "0123456789abcdefghijklmnopqrstuvwxyzAB" \
   && { echo "FAIL: secret-shaped content in the range"; exit 1; } || echo "   clean"
 
 echo "-- 3/4 denylisted private terms (hashed; the SC-11 class)"
