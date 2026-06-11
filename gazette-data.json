@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-11T15:02:49.793614113+00:00",
+  "generated_at": "2026-06-11T15:19:37.944944932+00:00",
   "items": [
     {
       "assent_source": "sovereign_assent",
@@ -571,6 +571,34 @@
       "ts": "2026-06-11T12:10:00Z",
       "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-ACCESSION-001.yaml"
+    },
+    {
+      "assent_source": "standing_bounded_assent",
+      "citation": "[2026] VJS-REG 27",
+      "cites": [
+        "2026-VJS-PC-011",
+        "ACT-CONSOLIDATION-FRAMEWORK",
+        "REG-ACCESSION-001"
+      ],
+      "court": "",
+      "date": "2026-06-11",
+      "doc": "law.html#REG-BUNDLE-001",
+      "estate": "v2",
+      "has_text": true,
+      "id": "REG-BUNDLE-001",
+      "kind": "regulation",
+      "lineage": [],
+      "path": "lawpack/v2/regulations/REG-BUNDLE-001.yaml",
+      "points": [],
+      "question": "",
+      "status": "in_force",
+      "summary": "This Regulation prescribes the FORM of a deployment bundle: the single manifest that assembles the governance house from separate repositories without moving any repository.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "Deployment Bundle Regulation",
+      "ts": "2026-06-11T15:30:00Z",
+      "updated": "2026-06-11",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-BUNDLE-001.yaml"
     },
     {
       "assent_source": "standing_bounded_assent",
@@ -3270,14 +3298,14 @@
   "meta": {
     "counts": {
       "archive": 37,
-      "canon": 59,
-      "total": 96
+      "canon": 60,
+      "total": 97
     },
     "lawpack": {
       "digest": "sha256:14cdb3337039ffdbe4f007fcb6fc5fd634cb0e7f6218e201555ab5de45868f9f",
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "a32d2a7e61aa9d83324ab1635c8cb36c966d4341"
+    "source_commit": "741226b5cde558cca9e187f4983313934906718f"
   }
 }

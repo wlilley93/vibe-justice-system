@@ -1,0 +1,12 @@
+id: LOG-2026-06-11-151839
+time: 2026-06-11T15:18:39.888607176+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260611-151715
+decision: 'Discharged [2026] VJS-PC 11 D1: enacted the binding deployment-bundle spec. REG-BUNDLE-001 (the Deployment Bundle Regulation, [2026] VJS-REG 27, s.7 machinery, no fresh assent) prescribes the bundle.lock manifest form - schema_version, bundle, distribution_licence, and per component id/repo/digest/source_commit/licence/adoption_mode - the assembly-not-relocation rule (the canon stays its own public AGPL repo at the root; no component re-homed or pulled into a product monorepo), per-component pinnability, the AGPL/MIT licence firewall (AGPL consumed into a permissive boundary only as a vendored re-stamped pinned copy), and a single fail-closed verify. A reference manifest (examples/governance-house.bundle.lock) assembles the house from the three separate repos (canon AGPL, kern MIT, policy MIT) by sha256. The reference verify (scripts/bundle-verify.py) checks schema completeness, sha256 well-formedness and the firewall, fail-closed; verified to PASS the reference bundle and to FAIL closed when AGPL canon is declared a monorepo-package into the MIT boundary. This delivers the operator''s one-home-for-the-assembly benefit at near-zero blast radius without moving any repository, exactly as the court directed. Validation OK, 73 tests green.'
+basis:
+- PERMIT-1781191035
+risk: low
+reversibility: easy
+court_required: false
+why: '[2026] VJS-PC 11 directive D1 directs the registrar to enact the binding deployment-bundle spec in the public canon.'
