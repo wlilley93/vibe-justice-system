@@ -178,3 +178,50 @@ fn treatment_inverses_make_a_varied_order_show_its_treatment() {
         "the inverse must land on PC-12: a varied order carries varied_by back to its treater"
     );
 }
+
+#[test]
+fn every_v1_node_carries_the_migration_edge_to_the_v2_canon() {
+    // No honoured-archive record is a navigable dead-end: each V1 node states,
+    // uniformly, that it was superseded as live law by the consolidation
+    // (ACT-COMPUTER-FIRST-REALM s.6) and its settled law restated in Schedule 1
+    // of the framework (ACT-CONSOLIDATION-FRAMEWORK s.4). This is a migration
+    // relation, not per-ruling court treatment - so it is the SAME edge on every
+    // V1 node, and both targets must resolve to real V2 statutes (live links).
+    let items = gazette_items();
+    let ids: HashSet<String> =
+        items.iter().map(|i| i["id"].as_str().unwrap().to_string()).collect();
+    let arr = |v: &serde_json::Value, k: &str| -> Vec<String> {
+        v.get(k)
+            .and_then(|x| x.as_array())
+            .map(|a| a.iter().filter_map(|x| x.as_str().map(String::from)).collect())
+            .unwrap_or_default()
+    };
+
+    let v1: Vec<&serde_json::Value> = items.iter().filter(|i| i["estate"] == "v1").collect();
+    assert!(!v1.is_empty(), "the honoured archive must carry V1 nodes");
+
+    for item in v1 {
+        let mig = &item["migration"];
+        let superseded = arr(mig, "superseded_as_live_by");
+        let restated = arr(mig, "restated_in");
+        assert!(
+            superseded.contains(&"ACT-COMPUTER-FIRST-REALM".to_string()),
+            "V1 node '{}' must record it was superseded as live law by the consolidation - rerun vjs gazette",
+            item["id"]
+        );
+        assert!(
+            restated.contains(&"ACT-CONSOLIDATION-FRAMEWORK".to_string()),
+            "V1 node '{}' must record its settled law was restated in the framework - rerun vjs gazette",
+            item["id"]
+        );
+        // The migration edge must be a live link, not a dead pointer.
+        for target in superseded.iter().chain(restated.iter()) {
+            assert!(
+                ids.contains(target),
+                "V1 node '{}' migration edge points at non-item '{}'",
+                item["id"],
+                target
+            );
+        }
+    }
+}

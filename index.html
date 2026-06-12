@@ -1202,6 +1202,11 @@ function openPanel(id, opts = {}) {
   linkSection(wrap, 'On the same docket', [...threadPrev, ...threadNext]);
   linkSection(wrap, 'Supersedes', get(d.supersedes));
   linkSection(wrap, 'Superseded by', get(d.superseded_by));
+  linkSection(wrap, 'Varied by', get(d.varied_by));
+  linkSection(wrap, 'Affirmed by', get(d.affirmed_by));
+  const mig = d.migration || {};
+  linkSection(wrap, 'Superseded as live law by', get(mig.superseded_as_live_by));
+  linkSection(wrap, 'Settled law restated in', get(mig.restated_in));
   linkSection(wrap, 'Cited by', ITEMS.filter(x => (x.cites || []).includes(id)));
   linkSection(wrap, 'Grounds (by lineage)', ITEMS.filter(x => (x.lineage || []).includes(id)).slice(0, 12),
     ITEMS.filter(x => (x.lineage || []).includes(id)).length);
