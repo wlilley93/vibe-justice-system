@@ -1765,10 +1765,17 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
         v.get(key).and_then(|x| x.as_str()).map(|x| x.trim().to_string())
     }
     fn str_list(v: &serde_yaml::Value, key: &str) -> Vec<String> {
-        v.get(key)
-            .and_then(|x| x.as_sequence())
-            .map(|seq| seq.iter().filter_map(|i| i.as_str().map(|s| s.to_string())).collect())
-            .unwrap_or_default()
+        match v.get(key) {
+            // A sequence: collect its string items (the canonical form).
+            Some(x) if x.is_sequence() => x
+                .as_sequence()
+                .map(|seq| seq.iter().filter_map(|i| i.as_str().map(|s| s.to_string())).collect())
+                .unwrap_or_default(),
+            // Tolerate a bare scalar string as a one-element list: varies / affirms /
+            // appeal_of are written as scalars across the order record.
+            Some(x) => x.as_str().filter(|s| !s.is_empty()).map(|s| vec![s.to_string()]).unwrap_or_default(),
+            None => Vec::new(),
+        }
     }
     fn first_sentence(text: &str) -> String {
         let collapsed = text.split_whitespace().collect::<Vec<_>>().join(" ");
@@ -2243,6 +2250,8 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 "court": court, "estate": "v2", "status": status, "date": date, "ts": ts,
                 "summary": summary, "points": points, "cites": cites,
                 "supersedes": str_list(&v, "supersedes"),
+                "varies": str_list(&v, "varies"),
+                "affirms": str_list(&v, "affirms"),
                 "has_text": true,
                 // the question before the court, shown up top on court documents
                 "question": s(&v, "question").unwrap_or_default(),
@@ -2493,6 +2502,14 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     let mut dropped = 0usize;
     let mut superseded_by: std::collections::HashMap<String, Vec<String>> =
         std::collections::HashMap::new();
+    // Treatment inverses: a higher court that varies/affirms a lower order is
+    // recorded back on that order as varied_by/affirmed_by, so no node is a stale
+    // dead-end. Mirrors superseded_by. Edges to off-gazette orders (e.g. County,
+    // which live in .vjs/court/orders not lawpack/v2/orders) resolve away.
+    let mut varied_by: std::collections::HashMap<String, Vec<String>> =
+        std::collections::HashMap::new();
+    let mut affirmed_by: std::collections::HashMap<String, Vec<String>> =
+        std::collections::HashMap::new();
     for item in &mut items {
         let own_id = item["id"].as_str().unwrap_or_default().to_string();
         let estate = item["estate"].as_str().unwrap_or_default().to_string();
@@ -2520,6 +2537,20 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             sup.into_iter().map(serde_json::Value::String).collect(),
         );
 
+        for (field, map) in [("varies", &mut varied_by), ("affirms", &mut affirmed_by)] {
+            let raw: Vec<String> = item[field]
+                .as_array()
+                .map(|a| a.iter().filter_map(|c| c.as_str().map(String::from)).collect())
+                .unwrap_or_default();
+            let resolved_t = resolve(&raw, &own_id, &known);
+            for target in &resolved_t {
+                map.entry(target.clone()).or_default().push(own_id.clone());
+            }
+            item[field] = serde_json::Value::Array(
+                resolved_t.into_iter().map(serde_json::Value::String).collect(),
+            );
+        }
+
         // A case interweaves by its SUBJECT: the legislation it construes
         // (resolved citations) or the docket thread on its issue. The
         // constitutional anchor is a last resort against orphaning only.
@@ -2543,12 +2574,19 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
         item["lineage"] = serde_json::Value::Array(lineage);
     }
     for item in &mut items {
-        let own_id = item["id"].as_str().unwrap_or_default();
-        let mut sb = superseded_by.get(own_id).cloned().unwrap_or_default();
-        sb.sort();
-        sb.dedup();
-        item["superseded_by"] =
-            serde_json::Value::Array(sb.into_iter().map(serde_json::Value::String).collect());
+        let own_id = item["id"].as_str().unwrap_or_default().to_string();
+        for (field, map) in [
+            ("superseded_by", &superseded_by),
+            ("varied_by", &varied_by),
+            ("affirmed_by", &affirmed_by),
+        ] {
+            let mut v = map.get(&own_id).cloned().unwrap_or_default();
+            v.sort();
+            v.dedup();
+            item[field] = serde_json::Value::Array(
+                v.into_iter().map(serde_json::Value::String).collect(),
+            );
+        }
     }
 
     let v2_count = items.iter().filter(|i| i["estate"] == "v2").count();

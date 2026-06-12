@@ -50,6 +50,13 @@ forbidden:
 exceptions:
   - "the entrenched assent floor (s.14/s.23) is non-derogable: assent is non-presumable and the registry's coverage may never narrow what counts as valid assented law"
 supersedes: []
+treatment: >
+  Affirmed on appeal: Point 1 by [2026] VJS-PC 12 and [2026] VJS-SC 3 (the gate is
+  machinery). The gate was built to these conditions and the general floor enacted as
+  the Assented-Record Protection Act ([2026] VJS-ACT 10). Note: D5's reference to "the
+  current 37 [PredicateExpr] arms" is the submission-era framing; the gate as built
+  keys to the KernelEffect operation schema, the structural choice PC 12 held was what
+  saved it. Current rule: ACT-ASSENTED-RECORD-PROTECTION.
 source_opinion: ".vjs/submissions/filed/2026-VJS-CC-KERNEL-EFFECT-GATE-001-opinion.md"
 created_at: "2026-06-12T12:40:00Z"
 bench:
