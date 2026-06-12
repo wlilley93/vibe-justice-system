@@ -484,15 +484,17 @@ impl LawpackValidator {
                     // present but binds to no recognized operation is inert ceremony,
                     // routed for correction (never voided).
                     //
-                    // PROTECTED ([2026] VJS-PC 12, recharacterised by [2026] VJS-SC 3,
-                    // 9-0): this severity must remain Warning - the gate may never void
-                    // or block an assented record. That protection BINDS NOW as apex
-                    // precedent (from s.5/s.11/s.23), and the entrenchment test enforces
-                    // it. Note the apex's limit: full CONSTITUTIONAL entrenchment rank
-                    // (immunity from ordinary change, amendable only by primary law
-                    // citing s.5) awaits SOVEREIGN ASSENT - a court cannot mint it.
-                    // Until then, changing this to Error/Fatal is barred by binding
-                    // precedent, not yet by entrenched constitutional rank.
+                    // ENTRENCHED (ACT-ASSENTED-RECORD-PROTECTION, Sovereign-assented
+                    // 2026-06-12, [2026] VJS-ACT 10): this severity must remain Warning.
+                    // A Sovereign-assented record may never be voided or blocked by
+                    // subordinate validation; its defects are always routed for
+                    // correction. This is the general assented-record FLOOR, given full
+                    // constitutional rank by Sovereign Assent (completing the invitation
+                    // of [2026] VJS-SC 3; the s.5(a) gate is one instance). Changing a
+                    // route-for-correction code to a blocking severity is amendable only
+                    // by a Sovereign-assented constitutional Act citing
+                    // ACT-ASSENTED-RECORD-PROTECTION by number, and breaks the
+                    // assented-record-floor test by design.
                     Some(ke) if is_inert_kernel_effect(ke) => findings.push(ValidationFinding {
                         severity: Severity::Warning,
                         code: "S5_INERT_KERNEL_EFFECT".into(),

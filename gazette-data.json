@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-12T13:15:48.437014797+00:00",
+  "generated_at": "2026-06-12T13:37:45.297590345+00:00",
   "items": [
     {
       "assent_source": "sovereign_assent",
@@ -293,6 +293,37 @@
       "ts": "2026-06-09T14:50:25Z",
       "updated": "2026-06-11",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/09-consolidation-framework.yaml"
+    },
+    {
+      "assent_source": "sovereign_assent",
+      "citation": "[2026] VJS-ACT 10",
+      "cites": [
+        "2026-VJS-SC-003"
+      ],
+      "court": "",
+      "date": "2026-06-12",
+      "doc": "law.html#ACT-ASSENTED-RECORD-PROTECTION",
+      "estate": "v2",
+      "has_text": true,
+      "id": "ACT-ASSENTED-RECORD-PROTECTION",
+      "kind": "statute",
+      "lineage": [
+        "ACT-COMPUTER-FIRST-REALM"
+      ],
+      "path": "lawpack/v2/statutes/10-assented-record-protection.yaml",
+      "points": [
+        "s1 - The assented-record floor",
+        "s2 - Entrenchment and savings"
+      ],
+      "question": "",
+      "status": "in_force",
+      "summary": "Enacts the floor invited by [2026] VJS-SC 3 (9-0) and gives the s.5 \"routed for correction\" rule general constitutional force: a Sovereign-assented record may never be voided or blocked by subordinate validation; its defects are always routed for correction.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "The Assented-Record Protection Act",
+      "ts": "2026-06-12T00:00:00Z",
+      "updated": "2026-06-12",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/10-assented-record-protection.yaml"
     },
     {
       "assent_source": "standing_bounded_assent",
@@ -3392,14 +3423,14 @@
   "meta": {
     "counts": {
       "archive": 37,
-      "canon": 62,
-      "total": 99
+      "canon": 63,
+      "total": 100
     },
     "lawpack": {
       "digest": "sha256:14cdb3337039ffdbe4f007fcb6fc5fd634cb0e7f6218e201555ab5de45868f9f",
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "bb2ba70082bc2afaac1dc052c90a232e1d0d7df9"
+    "source_commit": "27c2d8055049c1eff4549be8e60655fd479703e7"
   }
 }
