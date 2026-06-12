@@ -484,12 +484,15 @@ impl LawpackValidator {
                     // present but binds to no recognized operation is inert ceremony,
                     // routed for correction (never voided).
                     //
-                    // ENTRENCHED ([2026] VJS-PC 12 D3, 3-0): this severity must remain
-                    // Warning. The gate may never void or block an assented record;
-                    // that property is amendable ONLY by Sovereign-assented primary law
-                    // expressly citing s.5. Changing this to Error/Fatal is not a
-                    // refactor - it is a constitutional act and breaks an entrenchment
-                    // test by design (s.14/s.23 are non-derogable by construction).
+                    // PROTECTED ([2026] VJS-PC 12, recharacterised by [2026] VJS-SC 3,
+                    // 9-0): this severity must remain Warning - the gate may never void
+                    // or block an assented record. That protection BINDS NOW as apex
+                    // precedent (from s.5/s.11/s.23), and the entrenchment test enforces
+                    // it. Note the apex's limit: full CONSTITUTIONAL entrenchment rank
+                    // (immunity from ordinary change, amendable only by primary law
+                    // citing s.5) awaits SOVEREIGN ASSENT - a court cannot mint it.
+                    // Until then, changing this to Error/Fatal is barred by binding
+                    // precedent, not yet by entrenched constitutional rank.
                     Some(ke) if is_inert_kernel_effect(ke) => findings.push(ValidationFinding {
                         severity: Severity::Warning,
                         code: "S5_INERT_KERNEL_EFFECT".into(),
