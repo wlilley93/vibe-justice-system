@@ -3,11 +3,44 @@
   <title>The VJS Gazette</title>
   <subtitle>The record of the realm: the living canon and the honoured archive</subtitle>
   <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette</id>
-  <updated>2026-06-11T00:00:00Z</updated>
+  <updated>2026-06-12T00:00:00Z</updated>
   <link rel="self" href="https://wlilley93.github.io/vibe-justice-system/gazette.xml"/>
   <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/"/>
   <author><name>Vibe Justice System</name></author>
   <rights>Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001): force comes from the lawpack and the Sovereign's assent, never from publication or syndication.</rights>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-012</id>
+    <title>The s.5(a) Kernel-effect Gate on Appeal - The Entrenchment Condition</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-012"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-012.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-12T00:00:00Z</published>
+    <updated>2026-06-12T00:00:00Z</updated>
+    <summary type="text">On appeal from [2026] VJS-CC 15, 3-0: the s.5(a) kernel-effect gate is concordance-machinery because its test is structural (the KernelEffect operation schema), not the 37 PredicateExpr arms; affirmance is fact-bound and does not license a semantic/predicate-selection enrichment.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-003</id>
+    <title>The Source and Rank of Entrenchment - The s.5(a) Gate, Final Appeal</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-003"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-003.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-12T00:00:00Z</published>
+    <updated>2026-06-12T00:00:00Z</updated>
+    <summary type="text">Final appeal, 9-0: entrenchment in V2 is constitutive and its sole source is Sovereign Assent (s.14); no court or kernel may mint it.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-ASSENTED-RECORD-PROTECTION</id>
+    <title>The Assented-Record Protection Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-ASSENTED-RECORD-PROTECTION"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/10-assented-record-protection.yaml"/>
+    <category term="statute"/>
+    <category term="canon"/>
+    <published>2026-06-12T00:00:00Z</published>
+    <updated>2026-06-12T00:00:00Z</updated>
+    <summary type="text">Enacts the floor invited by [2026] VJS-SC 3 (9-0) and gives the s.5 &quot;routed for correction&quot; rule general constitutional force: a Sovereign-assented record may never be voided or blocked by subordinate validation; its defects are always routed for correction.</summary>
+  </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-COURTS-CONSTITUTION-001</id>
     <title>Court Constitution (The Order)</title>

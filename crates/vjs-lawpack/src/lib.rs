@@ -300,6 +300,43 @@ pub struct Condition {
     pub all: Option<Vec<String>>,
 }
 
+/// ACT-COMPUTER-FIRST-REALM s.5 limb (a): a runtime-force record whose declared
+/// kernel_effect binds to no evaluable operation is inert ceremony. A kernel_effect
+/// is INERT when every modelled operation field is empty - so a block that carries
+/// only unrecognized keys (e.g. a bare `force_source:` at the kernel_effect top
+/// level, which serde drops) parses to an all-empty KernelEffect and is inert,
+/// whereas the same `force_source` declared INSIDE a populated `defines` (as in
+/// ACT-COMPUTER-FIRST-REALM s.2) is real kernel effect and is NOT inert. The guard
+/// `when` is not itself an effect and does not count.
+///
+/// Authorized as machinery by [2026] VJS-CC 15 (Marrowby CCJ) under conditions
+/// D2-D5: this is structural only (no model, no prose-reading, D4); the disposition
+/// is ROUTE FOR CORRECTION, never silent exclusion or void (D2); the cure is to
+/// declare a recognized operation or extend the recognized set, never to remove an
+/// assented record (D3, D5). Limb (b), prose/effect divergence, stays at the agent
+/// rung (s.11).
+pub fn is_inert_kernel_effect(ke: &KernelEffect) -> bool {
+    fn json_empty(v: &Option<serde_json::Value>) -> bool {
+        match v {
+            None | Some(serde_json::Value::Null) => true,
+            Some(serde_json::Value::Object(m)) => m.is_empty(),
+            Some(serde_json::Value::Array(a)) => a.is_empty(),
+            Some(_) => false,
+        }
+    }
+    fn vec_empty(v: &Option<Vec<String>>) -> bool {
+        v.as_ref().map_or(true, |x| x.is_empty())
+    }
+    vec_empty(&ke.must)
+        && vec_empty(&ke.may)
+        && vec_empty(&ke.must_not)
+        && vec_empty(&ke.exceptions)
+        && vec_empty(&ke.proof)
+        && vec_empty(&ke.prohibits)
+        && json_empty(&ke.defines)
+        && json_empty(&ke.status)
+}
+
 /// Every authority id the lawpack defines (statutes + their sections,
 /// regulations, rules, orders, specs, invariants, decisions, obligations).
 pub fn defined_ids(lawpack: &Lawpack) -> std::collections::HashSet<String> {
@@ -435,14 +472,43 @@ impl LawpackValidator {
                     });
                     ok = false;
                 }
-                if section.kernel_effect.is_none() {
-                    findings.push(ValidationFinding {
+                match &section.kernel_effect {
+                    None => findings.push(ValidationFinding {
                         severity: Severity::Warning,
                         code: "NO_KERNEL_EFFECT".into(),
                         path: None,
                         message: format!("Section {} has no kernel_effect", section.id.0),
                         suggested_fix: Some("Add kernel_effect with structured executable rules".into()),
-                    });
+                    }),
+                    // s.5(a) teeth-gate ([2026] VJS-CC 15): a kernel_effect that is
+                    // present but binds to no recognized operation is inert ceremony,
+                    // routed for correction (never voided).
+                    //
+                    // ENTRENCHED (ACT-ASSENTED-RECORD-PROTECTION, Sovereign-assented
+                    // 2026-06-12, [2026] VJS-ACT 10): this severity must remain Warning.
+                    // A Sovereign-assented record may never be voided or blocked by
+                    // subordinate validation; its defects are always routed for
+                    // correction. This is the general assented-record FLOOR, given full
+                    // constitutional rank by Sovereign Assent (completing the invitation
+                    // of [2026] VJS-SC 3; the s.5(a) gate is one instance). Changing a
+                    // route-for-correction code to a blocking severity is amendable only
+                    // by a Sovereign-assented constitutional Act citing
+                    // ACT-ASSENTED-RECORD-PROTECTION by number, and breaks the
+                    // assented-record-floor test by design.
+                    Some(ke) if is_inert_kernel_effect(ke) => findings.push(ValidationFinding {
+                        severity: Severity::Warning,
+                        code: "S5_INERT_KERNEL_EFFECT".into(),
+                        path: None,
+                        message: format!(
+                            "Section {} declares a kernel_effect that binds to no recognized operation (inert)",
+                            section.id.0
+                        ),
+                        suggested_fix: Some(
+                            "ACT-COMPUTER-FIRST-REALM s.5 / [2026] VJS-CC 15: routed for correction. Declare a recognized operation (defines/prohibits/must/must_not/may/proof/status) or extend the recognized set; never remove an assented record (D2-D5)."
+                                .into(),
+                        ),
+                    }),
+                    Some(_) => {}
                 }
             }
         }
@@ -458,6 +524,27 @@ impl LawpackValidator {
                     suggested_fix: Some("Add text field with binding legal text".into()),
                 });
                 ok = false;
+            }
+            // s.5(a) teeth-gate ([2026] VJS-CC 15): a present-but-inert kernel_effect
+            // is routed for correction (never voided). Severity ENTRENCHED as Warning
+            // ([2026] VJS-PC 12 D3): never void/block an assented record; amendable
+            // only by Sovereign-assented primary law citing s.5.
+            if let Some(ke) = &regulation.kernel_effect {
+                if is_inert_kernel_effect(ke) {
+                    findings.push(ValidationFinding {
+                        severity: Severity::Warning,
+                        code: "S5_INERT_KERNEL_EFFECT".into(),
+                        path: None,
+                        message: format!(
+                            "Regulation {} declares a kernel_effect that binds to no recognized operation (inert)",
+                            regulation.id.0
+                        ),
+                        suggested_fix: Some(
+                            "ACT-COMPUTER-FIRST-REALM s.5 / [2026] VJS-CC 15: routed for correction. Declare a recognized operation (defines/prohibits/must/must_not/may/proof/status) or extend the recognized set; never remove an assented record (D2-D5)."
+                                .into(),
+                        ),
+                    });
+                }
             }
         }
 

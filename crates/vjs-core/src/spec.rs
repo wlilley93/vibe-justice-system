@@ -240,6 +240,28 @@ fn scope_allows(scope: Option<&Scope>, path: &std::path::Path) -> bool {
     }
 }
 
+/// A path that, by its location, claims binding runtime force (statute,
+/// regulation, rule, or order). One definition so every witness agrees.
+fn claims_runtime_force(path: &Path) -> bool {
+    let p = path.to_string_lossy();
+    p.contains("lawpack/v2/statutes/")
+        || p.contains("lawpack/v2/regulations/")
+        || p.contains("lawpack/v2/rules/")
+        || p.contains("lawpack/v2/orders/")
+}
+
+/// Read a record's OPERATIVE top-level field by parsing its structure, never by
+/// scanning raw lines. Returns the value only when `key` is a top-level mapping
+/// entry whose value is a scalar string. A parse failure, a non-mapping document,
+/// a missing key, or a non-string (e.g. an empty/null) value yields None - so a
+/// runtime-force record that merely MENTIONS the field in prose (a section text
+/// block, a quoted example) does not DECLARE it, and fails closed. Deterministic:
+/// serde_yaml parse only - no model call, no network, no clock (DEC-KERNEL-001).
+fn top_level_scalar(content: &str, key: &str) -> Option<String> {
+    let value: serde_yaml::Value = serde_yaml::from_str(content).ok()?;
+    value.get(key)?.as_str().map(|s| s.to_string())
+}
+
 fn evaluate_predicate(
     rule: &PredicateExpr,
     repo_state: &RepoState,
@@ -355,10 +377,8 @@ fn evaluate_predicate(
                 .iter()
                 .filter(|(p, _)| scope_allows(scope, p))
                 .any(|(_, content)| {
-                    content
-                        .lines()
-                        .find_map(|l| l.trim().strip_prefix("id:"))
-                        .map(|id| facts.all_ids.contains(id.trim().trim_matches('"')))
+                    top_level_scalar(content, "id")
+                        .map(|id| facts.all_ids.contains(id.trim()))
                         .unwrap_or(false)
                 })
         }
@@ -366,6 +386,13 @@ fn evaluate_predicate(
             repo_state.boundary_findings.is_empty()
         }
         PredicateExpr::CoreNoModelCalls => {
+            // SECONDARY defense-in-depth only. The AUTHORITATIVE model-free witness
+            // is the dependency closure, fenced by deny.toml (`cargo deny check
+            // bans`): a substring scan of source can be obfuscated, and cannot scan
+            // the evaluator file (it holds these very patterns as string literals),
+            // so it can never be the real guarantee. With no model/HTTP crate in the
+            // closure, a model call here is impossible, not merely unspelt.
+            //
             // Check if vjs-core source files contain actual model API imports or calls
             // Exclude the invariant evaluator itself (spec.rs) and test files
             repo_state.file_contents.iter().all(|(path, content)| {
@@ -385,19 +412,41 @@ fn evaluate_predicate(
             })
         }
         PredicateExpr::CoreNoNetwork => {
-            // Check if any file in vjs-core contains network-related dependencies
+            // SECONDARY defense-in-depth, change-triggered. The AUTHORITATIVE
+            // network-free witness is the dependency closure fenced by deny.toml
+            // (`cargo deny check bans`), which checks the whole graph regardless of
+            // what this staged diff happens to touch. This list flags an obvious
+            // network crate the moment it is added to the kernel.
+            const NET_CRATES: [&str; 8] = [
+                "reqwest", "hyper", "hyper-util", "ureq", "curl", "isahc", "surf",
+                "attohttpc",
+            ];
             repo_state.dependency_changes.iter().all(|c| {
                 if !repo_state.changed_paths.iter().any(|p| p.to_string_lossy().contains("vjs-core")) {
                     return true;
                 }
-                c.name != "reqwest" && c.name != "hyper" && c.name != "ureq" && c.name != "curl"
+                !NET_CRATES.contains(&c.name.as_str())
             })
         }
         PredicateExpr::GovernedWritesRequirePermit => {
-            !repo_state.permits.is_empty()
+            // Presence is not coverage: require at least one ACTIVE permit, not
+            // merely a permit (a Closed/Revoked/Expired permit no longer excuses a
+            // governed write). Per-path scope and time-of-day expiry are the clock's
+            // business and are enforced at the pre-write hook (PermitGate::covers,
+            // which holds the clock); the invariant evaluator stays deterministic
+            // (no now()), so it witnesses status, the part it can check purely.
+            repo_state
+                .permits
+                .iter()
+                .any(|p| matches!(p.status, PermitStatus::Active))
         }
         PredicateExpr::ProofsExistBeforeClose => {
-            !repo_state.proofs.is_empty()
+            // Presence is not proof: require a proof that actually PASSED. A Pending
+            // or Failed proof does not discharge the close obligation.
+            repo_state
+                .proofs
+                .iter()
+                .any(|p| matches!(p.status, ProofStatus::Passed))
         }
         PredicateExpr::LogsStayShort => {
             repo_state.logs.iter().all(|log| log.why.split_whitespace().count() <= 150)
@@ -420,12 +469,7 @@ fn evaluate_predicate(
             // decisions citing V1 as evidence) are out of scope and pass.
             const V1_MARKERS: [&str; 4] = ["REALM-SC", "REALM-PC", "REALM-CA", "REALM-SI"];
             repo_state.file_contents.iter().all(|(path, content)| {
-                let p = path.to_string_lossy();
-                let is_runtime_authority = p.contains("lawpack/v2/statutes/")
-                    || p.contains("lawpack/v2/regulations/")
-                    || p.contains("lawpack/v2/rules/")
-                    || p.contains("lawpack/v2/orders/");
-                if !is_runtime_authority {
+                if !claims_runtime_force(path) {
                     return true;
                 }
                 // A V1 authority binds V2 only by one of the two lawful routes
@@ -459,24 +503,22 @@ fn evaluate_predicate(
             // field is rejected, never passed (the not-equal-to-self_authorised form is
             // void as fail-open, s. 23(5)). Deterministic: no model call, no similarity
             // search.
+            //
+            // The witness reads the OPERATIVE top-level `assent_source` field by
+            // parsing structure. A raw-line scan read the document as a bag of lines,
+            // so a value buried in a section's prose - or any line that happened to
+            // trim to `assent_source: <allowed>` - pardoned the whole record, and an
+            // explicitly-void operative `self_authorised` could be masked by a buried
+            // valid line (confirmed admitted by the binary 2026-06-12). The operative
+            // field, and only it, confers force.
             repo_state.file_contents.iter().all(|(path, content)| {
-                let p = path.to_string_lossy();
-                let claims_runtime_force = p.contains("lawpack/v2/statutes/")
-                    || p.contains("lawpack/v2/regulations/")
-                    || p.contains("lawpack/v2/rules/")
-                    || p.contains("lawpack/v2/orders/");
-                if !claims_runtime_force {
+                if !claims_runtime_force(path) {
                     return true;
                 }
-                content.lines().any(|line| {
-                    match line.trim().strip_prefix("assent_source:") {
-                        Some(rest) => {
-                            let v = rest.trim().trim_matches('"').trim_matches('\'');
-                            allowed.iter().any(|a| a == v)
-                        }
-                        None => false,
-                    }
-                })
+                match top_level_scalar(content, "assent_source") {
+                    Some(v) => allowed.iter().any(|a| *a == v),
+                    None => false,
+                }
             })
         }
     }

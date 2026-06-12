@@ -1,0 +1,41 @@
+# The capability fence (cargo-deny).
+#
+# DEC-KERNEL-001 / ACT-COMPUTER-FIRST-REALM s.11 require the kernel to be
+# model-free and network-free. The sound witness for that is the dependency
+# closure, not a substring scan of source (which the kernel can forge or
+# exempt): make the capability impossible, not merely prohibited.
+#
+# A dead `jsonschema` dependency in vjs-lawpack was pulling reqwest -> hyper ->
+# tokio into the kernel closure (discovered by execution, 2026-06-12). It was
+# removed. This fence keeps any HTTP client or hosted-model SDK out of the whole
+# workspace graph, so neither vjs-core nor vjs-lawpack can regain network egress
+# by silence. tokio is NOT banned: vjs-mcp legitimately uses it for async stdio.
+#
+# Verify:  cargo deny check bans
+
+[bans]
+multiple-versions = "allow"
+wildcards = "allow"
+
+# HTTP clients (network egress) and hosted-model SDKs. None may appear anywhere
+# in the workspace dependency graph.
+deny = [
+    { crate = "reqwest" },
+    { crate = "hyper" },
+    { crate = "hyper-util" },
+    { crate = "ureq" },
+    { crate = "curl" },
+    { crate = "isahc" },
+    { crate = "surf" },
+    { crate = "attohttpc" },
+    { crate = "async-openai" },
+    { crate = "openai" },
+    { crate = "openai-api-rs" },
+    { crate = "anthropic" },
+    { crate = "anthropic-sdk" },
+    { crate = "genai" },
+    { crate = "ollama-rs" },
+    { crate = "rig-core" },
+    { crate = "google-generative-ai-rs" },
+    { crate = "aws-sdk-bedrockruntime" },
+]

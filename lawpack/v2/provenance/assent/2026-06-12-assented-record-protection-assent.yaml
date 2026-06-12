@@ -1,0 +1,23 @@
+id: ASSENT-2026-06-12-ASSENTED-RECORD-PROTECTION
+kind: sovereign_assent_event
+date: "2026-06-12"
+instrument: The Assented-Record Protection Act
+instrument_text: .vjs/submissions/draft/2026-06-12-assented-record-protection-act-void-first-draft.yaml
+instrument_digest: "sha256:0fffd4f80d1657bc904cd4ce678ad5b08443e5559bf5bad6499354555d599262"
+sovereign: Will (the Principal, in the Sovereign capacity)
+form: >
+  Express assent given in session on 2026-06-12 ("I assent"), against the void first
+  draft as drafted by Lexby and presented in full (both sections read), whole and
+  unamended. The assent is specific to the digest above and is antecedent and external
+  to the lawpack (s.14: non-automatable, non-presumable, non-delegable). It gives
+  effect to the unanimous invitation of [2026] VJS-SC 3 (9-0): it confers full
+  constitutional entrenchment RANK on the assented-record floor, which until this event
+  bound only as apex precedent.
+effects:
+  - lodges: ACT-ASSENTED-RECORD-PROTECTION as enacted V2 statute law, citation [2026] VJS-ACT 10, with assent_source sovereign_assent tracing to this event
+  - entrenches: the assented-record floor (a Sovereign-assented record may never be voided or blocked by subordinate validation; defects are always routed for correction), amendable only by a Sovereign-assented constitutional Act citing ACT-ASSENTED-RECORD-PROTECTION by number
+notes: >
+  The s.5(a) kernel-effect gate ([2026] VJS-CC 15 / VJS-PC 12) is one instance of this
+  general floor. On commencement the floor becomes a checked invariant across the kernel
+  (route-for-correction finding codes never blocking), not one gate's disposition. The
+  void first draft is spent and removed; this Act supersedes it.
