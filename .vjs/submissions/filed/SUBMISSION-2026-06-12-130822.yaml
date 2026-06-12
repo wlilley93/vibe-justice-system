@@ -1,0 +1,21 @@
+id: SUBMISSION-2026-06-12-130822
+court_requested: supreme_court
+jurisdiction: default
+question: 'On appeal from [2026] VJS-PC 12 (foundational): did the Privy Council have constitutional power to ENTRENCH the gate''s never-void/never-block-an-assented-record property by court order (amendable only by Sovereign-assented primary law citing s.5), or is entrenchment a Sovereign/primary-law act (s.14) that a court may not create - so the entrenchment limb is ultra vires, must be recharacterised as a binding declaration awaiting Sovereign assent, or reserved to the Sovereign? What is the lawful source and rank of entrenchment in V2?'
+facts: |
+  Appeal to the apex from [2026] VJS-PC 12 on a point of foundational importance, certified by the Principal. Symmetric file; no party's preference is before the court. The Supreme Court sits as the single apex (s.15) and may UPHOLD, RECHARACTERISE, or RESERVE-TO-SOVEREIGN.
+
+  WHAT HAPPENED: the s.5(a) kernel-effect gate (machinery flagging an inert kernel_effect, as a non-blocking Warning routed for correction) was affirmed as machinery by County and PC. But the PC, 3-0, held the gate lawful ONLY ON CONDITION that its never-void / never-block-an-assented-record character is ENTRENCHED, "amendable only by Sovereign-assented primary law expressly citing s.5." That condition is now enacted in code (a test fails if the severity is changed to block/void).
+
+  THE FOUNDATIONAL QUESTION: did the Privy Council have constitutional power to ENTRENCH a property by court order, or is entrenchment a Sovereign / primary-law act that no court may create? What is the lawful source and rank of entrenchment in V2?
+
+  FOR UPHOLDING (the PC acted within power): the PC created no primary law; it imposed a condition on the validity of subordinate machinery, which courts may do. And the condition DEFERS to the Sovereign ("amendable only by Sovereign-assented primary law") - it reserves the matter UP, the opposite of a Henry-VIII grab or s.11/s.14 self-extension. A court may declare that an entrenched floor (s.14/s.23) cannot be guarded by a derogable disposition.
+
+  AGAINST (ultra vires): entrenchment is a constitutional-rank act. s.14's entrenchment exists because the SOVEREIGN assented to it. A court "entrenching" a new property CREATES an entrenchment clause - legislating, which courts may not (they apply and interpret; only the Sovereign enacts and only Sovereign Assent is constitutive, s.14). The proper judicial remedy is to DECLARE the gate unsafe absent entrenchment and either hold it RESERVED until the Sovereign entrenches, or INVITE Sovereign enactment - not to self-execute the entrenchment.
+
+  MIDDLE (recharacterise): the PC order binds NOW as precedent (the gate may never block/void an assented record, and the agent/kernel must obey) but acquires full constitutional entrenchment RANK only upon Sovereign Assent; until then it is a binding judicial declaration plus a reservation, not a self-made constitutional clause.
+
+  ASKED: settle the source and rank of entrenchment in V2, and whether the PC's entrenchment limb stands as made, must be recharacterised, or is reserved to the Sovereign (a matter for the Principal qua Sovereign to enact). The affirmance of the gate as machinery is not reopened.
+requested_order: TBD
+private_boundary: local
+word_count: 477

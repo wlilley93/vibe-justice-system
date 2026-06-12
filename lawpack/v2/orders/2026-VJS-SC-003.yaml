@@ -1,0 +1,77 @@
+id: "2026-VJS-SC-003"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-SC 3"
+title: The source and rank of entrenchment - the s.5(a) gate, final appeal
+court: supreme_court
+jurisdiction: vibe-justice-system
+status: binding
+issue: source_and_rank_of_entrenchment
+question: >
+  On final appeal from [2026] VJS-PC 12: did the Privy Council have constitutional
+  power to entrench the s.5(a) gate's never-void/never-block-an-assented-record
+  property by court order, or is entrenchment a Sovereign/primary-law act (s.14)?
+  What is the lawful source and rank of entrenchment in V2?
+holding: >
+  APPEAL ALLOWED, 9-0; the Privy Council's entrenchment limb is RECHARACTERISED.
+  Entrenchment in V2 is a constitutive, constitutional-rank act whose SOLE lawful
+  source is Sovereign Assent (s.14); no court, and no kernel, may originate or
+  self-execute it. A court may condition the validity of subordinate machinery and
+  may declare, as binding apex precedent, that the gate must never void or block an
+  assented record (that flows from s.5, s.11, s.23 read with s.14, and binds today
+  without entrenchment). But the further words "amendable only by Sovereign-assented
+  primary law expressly citing s.5" purported to mint a new entrenchment clause -
+  fixing the manner-and-form of future amendment - which is the defining content of
+  entrenchment and reserved to Assent. That the court deferred amendment UPWARD does
+  not cure it: an usurpation that flatters its victim is an usurpation still; the
+  question is the act's rank and author, not its modesty. The limb is READ DOWN, not
+  struck: it stands as a binding judicial declaration plus a standing reservation, and
+  ripens into full constitutional entrenchment RANK only upon a Sovereign-assented Act
+  expressly citing s.5. The Court INVITES, and does not command, that enactment.
+  Reservation of the whole limb was rejected (it would leave assented records exposed
+  in the interim); upholding as written was rejected (a court may not legislate rank).
+directives:
+  - id: D1
+    actor: lexby
+    must: treat_entrenchment_in_v2_as_constitutive_and_constitutional_rank_whose_sole_source_is_sovereign_assent_s14_no_court_or_kernel_may_originate_or_self_execute_it
+  - id: D2
+    actor: lexby
+    must: obey_now_the_pcs_substantive_protection_as_binding_apex_precedent_the_kernel_and_agent_must_never_void_or_block_an_assented_record_no_entrenchment_being_needed_for_it_to_bind_today
+  - id: D3
+    actor: lexby
+    must: read_down_the_pc_entrenchment_limb_to_a_binding_declaration_plus_standing_reservation_its_full_constitutional_rank_awaiting_a_sovereign_assented_act_expressly_citing_s5
+  - id: D4
+    actor: lexby
+    must: treat_the_never_void_property_as_apex_precedent_revisitable_only_by_this_court_not_as_constitutionally_entrenched_until_sovereign_assent_and_may_draft_the_entrenching_act_only_as_a_void_first_draft_for_the_sovereigns_assent
+forbidden:
+  - a_court_the_kernel_or_lexby_minting_or_self_executing_constitutional_entrenchment_rank
+  - lodging_a_lexby_drafted_entrenching_instrument_bearing_assent_source_sovereign_assent_before_the_sovereign_actually_assents_the_void_first_draft_rule
+  - treating_the_never_void_property_as_immune_from_apex_revisitation_before_sovereign_assent_citing_s5
+supersedes: []
+varies: "2026-VJS-PC-012"
+affirms: "2026-VJS-CC-KERNEL-EFFECT-GATE-001"
+source_opinion: ".vjs/submissions/filed/2026-VJS-SC-003-opinions.md"
+created_at: "2026-06-12T13:25:00Z"
+bench:
+  - Vexmoor J.
+  - Halworth J.
+  - Trevigne J.
+  - Ashridge J.
+  - Penhallow J.
+  - Corbridge J.
+  - Mottram J.
+  - Greyfen J.
+  - Wyndale J.
+vote: "9-0 (full constitutional bench): entrenchment is the Sovereign's alone; the PC's protection binds now as precedent, its constitutional rank awaits Sovereign Assent citing s.5."
+convened_at: "2026-06-12T13:25:00Z"
+case_file_digest: "sha256:153c51a36d18f274efd5ecec357ad282936d4a57a066fc5264ecc81383b8d1c8"
+appeal_of: "2026-VJS-PC-012"
+appealable: false
+runtime_summary: >
+  Final appeal, 9-0: entrenchment in V2 is constitutive and its sole source is
+  Sovereign Assent (s.14); no court or kernel may mint it. The s.5(a) gate's
+  never-void/never-block-an-assented-record protection binds NOW as apex precedent
+  (from s.5/s.11/s.23), but the Privy Council's "amendable only by primary law citing
+  s.5" entrenchment limb is read down: it acquires full constitutional rank only on a
+  Sovereign-assented Act expressly citing s.5. The Court invites that enactment;
+  Lexby may draft it only as a void first draft for the Sovereign's assent. Apex;
+  no further appeal (s.15).
