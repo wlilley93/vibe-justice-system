@@ -150,3 +150,31 @@ fn every_law_object_is_published_and_every_edge_resolves() {
         );
     }
 }
+
+#[test]
+fn treatment_inverses_make_a_varied_order_show_its_treatment() {
+    // A reader landing on a varied order must see it was treated, not a stale
+    // dead-end. SC-3 declares `varies: PC-12`; the Gazette must compute the inverse
+    // so PC-12 carries `varied_by: SC-3`. (Edges to off-gazette County orders, in
+    // .vjs/court/orders, resolve away and do not appear - that is expected.)
+    let items = gazette_items();
+    let by_id: HashMap<String, &serde_json::Value> =
+        items.iter().map(|i| (i["id"].as_str().unwrap().to_string(), i)).collect();
+    let arr = |v: &serde_json::Value, k: &str| -> Vec<String> {
+        v[k].as_array()
+            .map(|a| a.iter().filter_map(|x| x.as_str().map(String::from)).collect())
+            .unwrap_or_default()
+    };
+
+    let pc = by_id.get("2026-VJS-PC-012").expect("PC-12 is a gazette item");
+    let sc = by_id.get("2026-VJS-SC-003").expect("SC-3 is a gazette item");
+
+    assert!(
+        arr(sc, "varies").contains(&"2026-VJS-PC-012".to_string()),
+        "SC-3 must declare it varies PC-12"
+    );
+    assert!(
+        arr(pc, "varied_by").contains(&"2026-VJS-SC-003".to_string()),
+        "the inverse must land on PC-12: a varied order carries varied_by back to its treater"
+    );
+}
