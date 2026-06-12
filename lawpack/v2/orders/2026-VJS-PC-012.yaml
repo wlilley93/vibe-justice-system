@@ -1,0 +1,70 @@
+id: "2026-VJS-PC-012"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-PC 12"
+title: The s.5(a) kernel-effect gate on appeal - the entrenchment condition
+court: privy_council
+jurisdiction: vibe-justice-system
+status: binding
+issue: kernel_machinery_vs_runtime_authority_graph_constitution
+question: >
+  On appeal from [2026] VJS-CC 15: (1) is enforcing ACT-COMPUTER-FIRST-REALM s.5's
+  exclusion of records with no kernel effect concordance-machinery or a reserved
+  constitutive act; and (2) do the route-for-correction conditions cure the
+  s.14/s.23 assent-floor risk, must they be entrenched, or is the gate reserved?
+holding: >
+  APPEAL ALLOWED IN PART, 3-0. Point 1 (dividing line): the County is AFFIRMED. The
+  gate is concordance-machinery, not a reserved constitutive act, BECAUSE the
+  implemented test is structural (the KernelEffect operation schema: is any
+  recognized operation field populated) and not the 37 PredicateExpr arms the
+  original submission named. The Sovereign drew the exclusion in s.5 at assent; the
+  kernel as clerk patrols that line, it does not survey it (s.11). The affirmance is
+  fact-bound: it does not license enriching "kernel effect" into a semantic or
+  predicate-selection judgment; crossing that line returns the matter reserved.
+  Point 2 (assent floor): the County is VARIED. A non-blocking Warning cures the
+  risk today, but s.14/s.23 are non-derogable BY CONSTRUCTION, and a Warning that
+  becomes a blocking Error by a one-line change is a courtesy, not a floor. The
+  safeguard must share the rank of the floor it guards. The never-void /
+  never-block-an-assented-record character is ENTRENCHED, amendable only by
+  Sovereign-assented primary law expressly citing s.5.
+directives:
+  - id: D1
+    actor: lexby
+    must: treat_enforcing_s5s_exclusion_via_the_structural_kernel_effect_operation_schema_test_as_concordance_machinery_not_a_reserved_constitutive_act_the_giving_effect_defining_distinction_holding_because_the_test_is_structural_not_semantic
+  - id: D2
+    actor: lexby
+    must: keep_the_affirmance_fact_bound_never_enriching_the_gate_into_a_semantic_or_predicate_selection_judgment_eg_keying_it_to_which_predicate_arms_count_as_force_without_a_fresh_reserved_matter_determination
+  - id: D3
+    actor: lexby
+    must: entrench_that_the_gate_may_never_void_and_never_block_an_assented_record_this_property_amendable_only_by_sovereign_assented_primary_law_expressly_citing_s5
+  - id: D4
+    actor: lexby
+    must: leave_the_operation_schema_tests_and_warning_wording_free_to_evolve_as_ordinary_engineering_entrenching_only_the_narrow_never_void_never_block_assented_invariant_and_keeping_limb_b_at_the_agent_rung_s11
+forbidden:
+  - hardening_the_gate_to_void_or_block_an_assented_record_without_sovereign_assented_primary_law_expressly_citing_s5
+  - enriching_the_gate_into_a_semantic_or_predicate_selection_judgment_about_which_operations_count_as_binding_force_without_a_fresh_reserved_matter_determination
+  - treating_the_present_non_blocking_disposition_as_a_sufficient_safeguard_without_the_entrenchment
+exceptions:
+  - "the entrenched assent floor (s.14/s.23) is non-derogable and outranks the gate; the gate's never-void/never-block-assented property is itself now entrenched at that rank"
+supersedes: []
+affirms: "2026-VJS-CC-KERNEL-EFFECT-GATE-001"
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-012-opinions.md"
+created_at: "2026-06-12T13:05:00Z"
+bench:
+  - Carrow PC
+  - Lindwall PC
+  - Strathorn PC
+vote: "3-0 (Carrow, Lindwall, Strathorn JJ): Point 1 affirmed (concordance-machinery, structural test); Point 2 varied (entrench the never-void/never-block-assented character)."
+convened_at: "2026-06-12T13:05:00Z"
+case_file_digest: "sha256:61be7e3f15f16aea3ad1563715edfe9d0ae0d7b07f7d1afbeb86950e65e86684"
+appeal_of: "2026-VJS-CC-KERNEL-EFFECT-GATE-001"
+appealable: true
+runtime_summary: >
+  On appeal from [2026] VJS-CC 15, 3-0: the s.5(a) kernel-effect gate is
+  concordance-machinery because its test is structural (the KernelEffect operation
+  schema), not the 37 PredicateExpr arms; affirmance is fact-bound and does not
+  license a semantic/predicate-selection enrichment. The assent floor is protected
+  not by the gate's present politeness but by ENTRENCHMENT: the gate may never void
+  or block an assented record, amendable only by Sovereign-assented primary law
+  expressly citing s.5. The operation schema, tests, and Warning wording remain
+  ordinary engineering; only the never-void/never-block-assented invariant is
+  entrenched; limb (b) stays at the agent rung.

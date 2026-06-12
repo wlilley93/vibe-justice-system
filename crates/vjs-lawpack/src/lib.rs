@@ -483,6 +483,13 @@ impl LawpackValidator {
                     // s.5(a) teeth-gate ([2026] VJS-CC 15): a kernel_effect that is
                     // present but binds to no recognized operation is inert ceremony,
                     // routed for correction (never voided).
+                    //
+                    // ENTRENCHED ([2026] VJS-PC 12 D3, 3-0): this severity must remain
+                    // Warning. The gate may never void or block an assented record;
+                    // that property is amendable ONLY by Sovereign-assented primary law
+                    // expressly citing s.5. Changing this to Error/Fatal is not a
+                    // refactor - it is a constitutional act and breaks an entrenchment
+                    // test by design (s.14/s.23 are non-derogable by construction).
                     Some(ke) if is_inert_kernel_effect(ke) => findings.push(ValidationFinding {
                         severity: Severity::Warning,
                         code: "S5_INERT_KERNEL_EFFECT".into(),
@@ -514,7 +521,9 @@ impl LawpackValidator {
                 ok = false;
             }
             // s.5(a) teeth-gate ([2026] VJS-CC 15): a present-but-inert kernel_effect
-            // is routed for correction (never voided).
+            // is routed for correction (never voided). Severity ENTRENCHED as Warning
+            // ([2026] VJS-PC 12 D3): never void/block an assented record; amendable
+            // only by Sovereign-assented primary law citing s.5.
             if let Some(ke) = &regulation.kernel_effect {
                 if is_inert_kernel_effect(ke) {
                     findings.push(ValidationFinding {

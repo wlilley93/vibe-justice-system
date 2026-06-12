@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-11T17:21:59.480644100+00:00",
+  "generated_at": "2026-06-12T13:03:53.177971333+00:00",
   "items": [
     {
       "assent_source": "sovereign_assent",
@@ -2004,6 +2004,50 @@
     },
     {
       "assent_source": "standing_bounded_assent",
+      "bench": [
+        "Carrow PC",
+        "Lindwall PC",
+        "Strathorn PC"
+      ],
+      "case_file_digest": "sha256:61be7e3f15f16aea3ad1563715edfe9d0ae0d7b07f7d1afbeb86950e65e86684",
+      "citation": "[2026] VJS-PC 12",
+      "cites": [
+        "ACT-COMPUTER-FIRST-REALM"
+      ],
+      "convened_at": "2026-06-12T13:05:00Z",
+      "court": "pc",
+      "date": "2026-06-12",
+      "doc": "law.html#2026-VJS-PC-012",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-PC-012",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": ".vjs/submissions/filed/2026-VJS-PC-012-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-012-opinions.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-PC-012.yaml",
+      "points": [
+        "treat enforcing s5s exclusion via the structural kernel effect operation schema test as concordance machinery not a reserved constitutive act the giving effect defining distinction holding because the test is structural not semantic",
+        "keep the affirmance fact bound never enriching the gate into a semantic or predicate selection judgment eg keying it to which predicate arms count as force without a fresh reserved matter determination",
+        "entrench that the gate may never void and never block an assented record this property amendable only by sovereign assented primary law expressly citing s5",
+        "leave the operation schema tests and warning wording free to evolve as ordinary engineering entrenching only the narrow never void never block assented invariant and keeping limb b at the agent rung s11"
+      ],
+      "question": "On appeal from [2026] VJS-CC 15: (1) is enforcing ACT-COMPUTER-FIRST-REALM s.5's exclusion of records with no kernel effect concordance-machinery or a reserved constitutive act; and (2) do the route-for-correction conditions cure the s.14/s.23 assent-floor risk, must they be entrenched, or is the gate reserved?",
+      "status": "binding",
+      "subject": "kernel machinery vs runtime authority graph constitution",
+      "summary": "On appeal from [2026] VJS-CC 15, 3-0: the s.5(a) kernel-effect gate is concordance-machinery because its test is structural (the KernelEffect operation schema), not the 37 PredicateExpr arms; affirmance is fact-bound and does not license a semantic/predicate-selection enrichment.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "The s.5(a) Kernel-effect Gate on Appeal - The Entrenchment Condition",
+      "ts": "2026-06-12T13:05:00Z",
+      "updated": "2026-06-12",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-012.yaml",
+      "vote": "3-0 (Carrow, Lindwall, Strathorn JJ): Point 1 affirmed (concordance-machinery, structural test); Point 2 varied (entrench the never-void/never-block-assented character)."
+    },
+    {
+      "assent_source": "standing_bounded_assent",
       "citation": "[2026] VJS-SC 1",
       "cites": [
         "2026-VJS-PC-001"
@@ -3298,14 +3342,14 @@
   "meta": {
     "counts": {
       "archive": 37,
-      "canon": 60,
-      "total": 97
+      "canon": 61,
+      "total": 98
     },
     "lawpack": {
       "digest": "sha256:14cdb3337039ffdbe4f007fcb6fc5fd634cb0e7f6218e201555ab5de45868f9f",
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "fd0d9efdaab72b23ce706adfc84f4d7ad615bdd1"
+    "source_commit": "0db7a357711adf8e7f8ed237718dbe3e50d570a5"
   }
 }
