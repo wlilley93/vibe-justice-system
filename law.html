@@ -500,7 +500,7 @@ function statusChipFor(d) {
 }
 function statusLine(d) {
   const bits = [];
-  if (d.estate === 'v1' && d.status) bits.push(`<span class="archnote">recorded in V1 as ${esc(d.status.replace(/[_-]/g, ' '))}; persuasive unless incorporated</span>`);
+  if (d.estate === 'v1' && d.status) bits.push(`<span class="archnote">recorded in V1 as ${esc(d.status.replace(/[_-]/g, ' '))}; superseded as live law in the V2 consolidation, persuasive unless expressly incorporated</span>`);
   if (d.subject) bits.push(`subject: ${esc(d.subject)}`);
   return bits.length ? `<div class="statusline">${bits.join(' &middot; ')}</div>` : '';
 }
@@ -674,6 +674,7 @@ function render() {
     ${d.summary ? `<div class="lead">${linkify(esc(d.summary))}</div>` : ''}`;
 
   const get = ids => (ids || []).map(c => byId.get(c)).filter(Boolean);
+  const mig = d.migration || {};
   const assoc =
     authorityTrace(d) +
     assocSection('Construes / relies on', get(d.cites)) +
@@ -681,6 +682,10 @@ function render() {
     assocSection('On the same docket', [...get(d.thread), ...ITEMS.filter(x => (x.thread || []).includes(d.id))]) +
     assocSection('Supersedes', get(d.supersedes)) +
     assocSection('Superseded by', get(d.superseded_by)) +
+    assocSection('Varied by', get(d.varied_by)) +
+    assocSection('Affirmed by', get(d.affirmed_by)) +
+    assocSection('Superseded as live law by', get(mig.superseded_as_live_by)) +
+    assocSection('Settled law restated in', get(mig.restated_in)) +
     assocSection('Cited by', ITEMS.filter(x => (x.cites || []).includes(d.id)));
 
   if (d.has_text || d.archive_text) {

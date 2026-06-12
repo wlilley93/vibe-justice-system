@@ -20,4 +20,4 @@ obligations:
   due: before_commit
   description: Run vjs validate before commit
 expires_at: 2026-06-12T12:38:44.322846665+00:00
-status: active
+status: closed
