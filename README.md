@@ -4,7 +4,7 @@
 
 *AI governance for your repo. The court is AI. Not legal advice.*
 
-![license](https://img.shields.io/badge/license-AGPL--3.0-blue?style=flat-square)
+![license](https://img.shields.io/badge/license-PolyForm_Noncommercial-blue?style=flat-square)
 ![status](https://img.shields.io/badge/status-alpha-orange?style=flat-square)
 ![vibes](https://img.shields.io/badge/vibes-litigated-purple?style=flat-square)
 ![community](https://img.shields.io/badge/community-open-green?style=flat-square)
@@ -141,4 +141,6 @@ Everything resolves in one Gazette, two estates: **the living canon** and the re
 
 ## License
 
-GNU Affero General Public License v3.0 (AGPL-3.0). See [`LICENSE`](LICENSE) and [`NOTICE.md`](NOTICE.md).
+PolyForm Noncommercial License 1.0.0 for noncommercial use. See [`LICENSE`](LICENSE) and [`NOTICE.md`](NOTICE.md).
+
+For commercial use, a separate license is required. See [`COMMERCIAL_LICENSE.md`](COMMERCIAL_LICENSE.md).
