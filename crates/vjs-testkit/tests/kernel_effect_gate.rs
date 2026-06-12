@@ -113,20 +113,29 @@ fn a_present_but_inert_kernel_effect_is_routed_for_correction() {
     );
 }
 
+// The route-for-correction registry: finding codes that report a DEFECT in a record
+// (to be cured), as opposed to genuine structural invalidity. ACT-ASSENTED-RECORD-
+// PROTECTION ([2026] VJS-ACT 10) entrenches that these never block or void a
+// Sovereign-assented record. Adding a defect-gate? Add its code here AND keep it
+// non-blocking, or you breach the floor.
+const ROUTE_FOR_CORRECTION_CODES: [&str; 2] = ["NO_KERNEL_EFFECT", "S5_INERT_KERNEL_EFFECT"];
+
 #[test]
-fn the_never_void_disposition_is_entrenched_warning_only() {
-    // [2026] VJS-PC 12 D3 (3-0, on appeal): the gate may never void or block an
-    // assented record; its severity is ENTRENCHED as Warning, amendable only by
-    // Sovereign-assented primary law expressly citing s.5 (s.14/s.23 are
-    // non-derogable by construction). Every inert finding - section AND regulation -
-    // must be Warning, never Error/Fatal. A change that blocks/voids breaks this
-    // test BY DESIGN: it is a constitutional act, not a refactor.
-    let dir = std::env::temp_dir().join(format!("vjs-entrench-{}", std::process::id()));
+fn the_assented_record_floor_holds_route_for_correction_codes_never_block() {
+    // ENTRENCHED by ACT-ASSENTED-RECORD-PROTECTION (Sovereign-assented 2026-06-12,
+    // [2026] VJS-ACT 10; completing [2026] VJS-SC 3): a Sovereign-assented record may
+    // never be voided or blocked by subordinate validation; its defects are always
+    // routed for correction. Mechanically: every route-for-correction finding code is
+    // Warning, never Error/Fatal. The s.5(a) gate is one instance; this guards the
+    // whole class. Making any such code block is amendable ONLY by a Sovereign-assented
+    // constitutional Act citing the Act by number, and breaks this test BY DESIGN.
+    let dir = std::env::temp_dir().join(format!("vjs-floor-{}", std::process::id()));
     std::fs::create_dir_all(dir.join("statutes")).unwrap();
     std::fs::create_dir_all(dir.join("regulations")).unwrap();
+    // s1: inert kernel_effect -> S5_INERT_KERNEL_EFFECT; s2: no kernel_effect -> NO_KERNEL_EFFECT.
     std::fs::write(
         dir.join("statutes/01-fix.yaml"),
-        "id: ACT-FIX\ntitle: Fix\nstatus: binding\nsections:\n  - id: ACT-FIX:s1\n    title: s\n    text: t\n    kernel_effect:\n      force_source: organ_constitutive_act\n",
+        "id: ACT-FIX\ntitle: Fix\nstatus: binding\nsections:\n  - id: ACT-FIX:s1\n    title: s\n    text: t\n    kernel_effect:\n      force_source: organ_constitutive_act\n  - id: ACT-FIX:s2\n    title: s\n    text: t\n",
     )
     .unwrap();
     std::fs::write(
@@ -139,21 +148,24 @@ fn the_never_void_disposition_is_entrenched_warning_only() {
     let report = LawpackValidator::validate(&lawpack).unwrap();
     std::fs::remove_dir_all(&dir).ok();
 
-    let inert: Vec<_> = report
+    // every route-for-correction code is exercised, and every such finding is Warning.
+    for code in ROUTE_FOR_CORRECTION_CODES {
+        assert!(
+            report.findings.iter().any(|f| f.code == code),
+            "fixture should exercise {}",
+            code
+        );
+    }
+    for f in report
         .findings
         .iter()
-        .filter(|f| f.code == "S5_INERT_KERNEL_EFFECT")
-        .collect();
-    assert!(
-        inert.len() >= 2,
-        "expected the inert section AND regulation both flagged, got {}",
-        inert.len()
-    );
-    for f in &inert {
+        .filter(|f| ROUTE_FOR_CORRECTION_CODES.contains(&f.code.as_str()))
+    {
         assert_eq!(
             f.severity,
             vjs_core::types::Severity::Warning,
-            "ENTRENCHED [2026] VJS-PC 12 D3: the gate may never block or void; severity must stay Warning"
+            "ASSENTED-RECORD FLOOR (ACT-ASSENTED-RECORD-PROTECTION): {} must route for correction, never block/void",
+            f.code
         );
     }
 }

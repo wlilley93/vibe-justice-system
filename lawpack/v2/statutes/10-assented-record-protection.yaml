@@ -1,29 +1,19 @@
-# ============================================================================
-# VOID FIRST DRAFT - NO LEGAL FORCE.
-#
-# Drafted by Lexby in answer to the unanimous invitation of [2026] VJS-SC 3 (9-0)
-# and per its D4. This instrument has NO force until the Sovereign's Assent - an
-# external, antecedent, digest-pinned act that only the Principal qua Sovereign may
-# perform (s.14: non-automatable, non-presumable, non-delegable). It bears NO
-# sovereign_assent and MUST NOT be lodged into lawpack/v2/ until a recorded assent
-# event exists (the rule learned in BREACH-2026-06-09; s.2 void-first-draft doctrine).
-#
-# ON ASSENT, commencement is mechanical: move this file to lawpack/v2/statutes/,
-# set assent_source: sovereign_assent tracing to the recorded assent event, mint the
-# VJS-ACT ordinal, regenerate the Gazette, and wire the general-floor invariant.
-# ============================================================================
-
 id: ACT-ASSENTED-RECORD-PROTECTION
+citation: "[2026] VJS-ACT 10"
+assent_source: sovereign_assent
 title: The Assented-Record Protection Act
-status: draft
-enacted_by: pending_sovereign_assent
-assent_source: pending_sovereign_assent   # -> sovereign_assent on the recorded assent event
+status: in_force
+enacted_by: principal
+created_at: "2026-06-12"
 purpose: >
-  To give the s.5 "routed for correction" rule general constitutional force and to
-  enact the floor invited by [2026] VJS-SC 3: a Sovereign-assented record may never be
-  voided or blocked by subordinate validation; its defects are always routed for
+  Enacts the floor invited by [2026] VJS-SC 3 (9-0) and gives the s.5 "routed for
+  correction" rule general constitutional force: a Sovereign-assented record may never
+  be voided or blocked by subordinate validation; its defects are always routed for
   correction. The s.5(a) kernel-effect gate ([2026] VJS-CC 15 / VJS-PC 12) is one
-  instance; this Act is the general principle of which it is a case.
+  instance. Sovereign Assent given 2026-06-12, pinned to the assented-text digest
+  sha256:0fffd4f80d1657bc904cd4ce678ad5b08443e5559bf5bad6499354555d599262 (assent record
+  lawpack/v2/provenance/assent/2026-06-12-assented-record-protection-assent.yaml). The
+  VJS-ACT ordinal is minted at commencement.
 
 sections:
   - id: ACT-ASSENTED-RECORD-PROTECTION:s1
