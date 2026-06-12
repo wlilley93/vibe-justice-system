@@ -1,0 +1,12 @@
+id: LOG-2026-06-12-184025
+time: 2026-06-12T18:40:25.310874918+00:00
+actor: lexby
+kind: housekeeping
+issue: governance.permit-graveyard-sweep
+decision: 'Remove all 88 spent permit files from .vjs/permits/ (76 expired, 12 closed incl PERMIT-1781287804 whose work merged in PR #3). git history retains every one; decision logs (the durable provenance) reference the permit ids and are untouched. Leaves a clean slate so the next governed write routes a fresh permit.'
+basis:
+- ACT-COMPUTER-FIRST-REALM:s5
+risk: low
+reversibility: easy
+court_required: false
+why: Prior sessions accumulated a graveyard of un-disposed permits that silently gated commits touching crates/**; spent permits are inert operational records, not law. Sweeping them is exempt-path (.vjs/permits/**) housekeeping, fully reversible via git, and removes the latent hazard of a lingering active permit excusing future writes.
