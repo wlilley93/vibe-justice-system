@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-12T13:03:53.177971333+00:00",
+  "generated_at": "2026-06-12T13:15:48.437014797+00:00",
   "items": [
     {
       "assent_source": "sovereign_assent",
@@ -2087,6 +2087,56 @@
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-001.yaml"
     },
     {
+      "assent_source": "standing_bounded_assent",
+      "bench": [
+        "Vexmoor J.",
+        "Halworth J.",
+        "Trevigne J.",
+        "Ashridge J.",
+        "Penhallow J.",
+        "Corbridge J.",
+        "Mottram J.",
+        "Greyfen J.",
+        "Wyndale J."
+      ],
+      "case_file_digest": "sha256:153c51a36d18f274efd5ecec357ad282936d4a57a066fc5264ecc81383b8d1c8",
+      "citation": "[2026] VJS-SC 3",
+      "cites": [
+        "2026-VJS-PC-012"
+      ],
+      "convened_at": "2026-06-12T13:25:00Z",
+      "court": "sc",
+      "date": "2026-06-12",
+      "doc": "law.html#2026-VJS-SC-003",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-SC-003",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": ".vjs/submissions/filed/2026-VJS-SC-003-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-SC-003-opinions.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-SC-003.yaml",
+      "points": [
+        "treat entrenchment in v2 as constitutive and constitutional rank whose sole source is sovereign assent s14 no court or kernel may originate or self execute it",
+        "obey now the pcs substantive protection as binding apex precedent the kernel and agent must never void or block an assented record no entrenchment being needed for it to bind today",
+        "read down the pc entrenchment limb to a binding declaration plus standing reservation its full constitutional rank awaiting a sovereign assented act expressly citing s5",
+        "treat the never void property as apex precedent revisitable only by this court not as constitutionally entrenched until sovereign assent and may draft the entrenching act only as a void first draft for the sovereigns assent"
+      ],
+      "question": "On final appeal from [2026] VJS-PC 12: did the Privy Council have constitutional power to entrench the s.5(a) gate's never-void/never-block-an-assented-record property by court order, or is entrenchment a Sovereign/primary-law act (s.14)? What is the lawful source and rank of entrenchment in V2?",
+      "status": "binding",
+      "subject": "source and rank of entrenchment",
+      "summary": "Final appeal, 9-0: entrenchment in V2 is constitutive and its sole source is Sovereign Assent (s.14); no court or kernel may mint it.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "The Source and Rank of Entrenchment - The s.5(a) Gate, Final Appeal",
+      "ts": "2026-06-12T13:25:00Z",
+      "updated": "2026-06-12",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-003.yaml",
+      "vote": "9-0 (full constitutional bench): entrenchment is the Sovereign's alone; the PC's protection binds now as precedent, its constitutional rank awaits Sovereign Assent citing s.5."
+    },
+    {
       "archive_text": false,
       "citation": "[2026] REALM-SC 1",
       "cites": [],
@@ -3342,14 +3392,14 @@
   "meta": {
     "counts": {
       "archive": 37,
-      "canon": 61,
-      "total": 98
+      "canon": 62,
+      "total": 99
     },
     "lawpack": {
       "digest": "sha256:14cdb3337039ffdbe4f007fcb6fc5fd634cb0e7f6218e201555ab5de45868f9f",
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "0db7a357711adf8e7f8ed237718dbe3e50d570a5"
+    "source_commit": "bb2ba70082bc2afaac1dc052c90a232e1d0d7df9"
   }
 }
