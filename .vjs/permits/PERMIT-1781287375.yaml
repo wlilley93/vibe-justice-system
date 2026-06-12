@@ -1,11 +1,10 @@
-id: PERMIT-1781269481
-route_id: ROUTE-20260612-130441
+id: PERMIT-1781287375
+route_id: ROUTE-20260612-180255
 actor: lexby
 scope:
   paths:
-  - crates/**
-  - lawpack/v2/**
-  - gazette.html
+  - crates/vjs-cli/src/main.rs
+  - crates/vjs-testkit/tests/gazette_data.rs
   jurisdictions: null
   action_kinds: null
   issue_tags: null
@@ -21,5 +20,5 @@ obligations:
   required: true
   due: before_commit
   description: Run vjs validate before commit
-expires_at: 2026-06-13T13:04:41.960842563+00:00
+expires_at: 2026-06-13T18:02:55.141482361+00:00
 status: closed

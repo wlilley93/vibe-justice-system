@@ -2587,6 +2587,21 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 v.into_iter().map(serde_json::Value::String).collect(),
             );
         }
+        // Every V1 archive node carries the uniform migration relation to the V2
+        // canon, so no honoured-archive record is a navigable dead-end. It was
+        // superseded as live law by the consolidation (ACT-COMPUTER-FIRST-REALM
+        // s.6; preserved as archive by s.7) and its settled law was restated in
+        // Schedule 1 of the framework (ACT-CONSOLIDATION-FRAMEWORK s.4), live in
+        // V2 only where expressly incorporated (s.20). This is a MIGRATION edge,
+        // not per-ruling court treatment: no V2 record varies/affirms/overrules an
+        // individual V1 node, and V1 declares no such treatment of itself. Both
+        // targets are V2 statutes in the gazette, so the edges resolve as links.
+        if item["estate"] == "v1" {
+            item["migration"] = serde_json::json!({
+                "superseded_as_live_by": ["ACT-COMPUTER-FIRST-REALM"],
+                "restated_in": ["ACT-CONSOLIDATION-FRAMEWORK"],
+            });
+        }
     }
 
     let v2_count = items.iter().filter(|i| i["estate"] == "v2").count();

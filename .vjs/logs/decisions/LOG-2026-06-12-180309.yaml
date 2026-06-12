@@ -1,0 +1,14 @@
+id: LOG-2026-06-12-180309
+time: 2026-06-12T18:03:09.959287232+00:00
+actor: lexby
+kind: implementation-decision
+issue: gazette.v1-migration-lineage
+decision: 'Every honoured-archive (V1) node was a navigable dead-end: the register stated ''persuasive unless incorporated'' as flat prose naming no V2 target, and the varied_by/affirmed_by edges PR #2 computed were never rendered in either frontend. Attached a uniform migration edge to all 37 V1 nodes (superseded_as_live_by: ACT-COMPUTER-FIRST-REALM; restated_in: ACT-CONSOLIDATION-FRAMEWORK) and rendered it, plus varied_by/affirmed_by, in law.html and index.html. This is a MIGRATION relation, not per-ruling court treatment: no V2 record varies or overrules an individual V1 node.'
+basis:
+- ACT-COMPUTER-FIRST-REALM:s9
+- ACT-COMPUTER-FIRST-REALM:s6
+- ACT-CONSOLIDATION-FRAMEWORK:s4
+risk: low
+reversibility: easy
+court_required: false
+why: 'Concordance: makes the citator tell the truth the law already holds. s.6 superseded V1 as live law wholesale; s.7 preserved it as honoured archive; s.9 makes it consultable as migration evidence binding only by express incorporation; Schedule 1 (framework s.4) restated the settled V1 law. The edge is uniform because the relation is wholesale, not per-ruling - so it does not fabricate court treatment the record never issued. Archive untouched (V2-side render only). 96 tests green; new test pins all 37 V1 nodes carry a live migration edge.'
