@@ -112,3 +112,48 @@ fn a_present_but_inert_kernel_effect_is_routed_for_correction() {
         "the disposition is route-for-correction (Warning), never a blocking void (D2)"
     );
 }
+
+#[test]
+fn the_never_void_disposition_is_entrenched_warning_only() {
+    // [2026] VJS-PC 12 D3 (3-0, on appeal): the gate may never void or block an
+    // assented record; its severity is ENTRENCHED as Warning, amendable only by
+    // Sovereign-assented primary law expressly citing s.5 (s.14/s.23 are
+    // non-derogable by construction). Every inert finding - section AND regulation -
+    // must be Warning, never Error/Fatal. A change that blocks/voids breaks this
+    // test BY DESIGN: it is a constitutional act, not a refactor.
+    let dir = std::env::temp_dir().join(format!("vjs-entrench-{}", std::process::id()));
+    std::fs::create_dir_all(dir.join("statutes")).unwrap();
+    std::fs::create_dir_all(dir.join("regulations")).unwrap();
+    std::fs::write(
+        dir.join("statutes/01-fix.yaml"),
+        "id: ACT-FIX\ntitle: Fix\nstatus: binding\nsections:\n  - id: ACT-FIX:s1\n    title: s\n    text: t\n    kernel_effect:\n      force_source: organ_constitutive_act\n",
+    )
+    .unwrap();
+    std::fs::write(
+        dir.join("regulations/REG-FIX.yaml"),
+        "id: REG-FIX\ntitle: Fix Reg\nauthority: ACT-FIX:s1\nstatus: binding\ntext: t\nkernel_effect:\n  force_source: organ_constitutive_act\n",
+    )
+    .unwrap();
+
+    let lawpack = LawpackLoader::load(&dir).unwrap();
+    let report = LawpackValidator::validate(&lawpack).unwrap();
+    std::fs::remove_dir_all(&dir).ok();
+
+    let inert: Vec<_> = report
+        .findings
+        .iter()
+        .filter(|f| f.code == "S5_INERT_KERNEL_EFFECT")
+        .collect();
+    assert!(
+        inert.len() >= 2,
+        "expected the inert section AND regulation both flagged, got {}",
+        inert.len()
+    );
+    for f in &inert {
+        assert_eq!(
+            f.severity,
+            vjs_core::types::Severity::Warning,
+            "ENTRENCHED [2026] VJS-PC 12 D3: the gate may never block or void; severity must stay Warning"
+        );
+    }
+}
