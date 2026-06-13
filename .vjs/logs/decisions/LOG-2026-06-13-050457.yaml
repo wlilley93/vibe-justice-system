@@ -1,0 +1,12 @@
+id: LOG-2026-06-13-050457
+time: 2026-06-13T05:04:57.020485426+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260613-050444
+decision: Replace LICENSE file contents with PolyForm Noncommercial License 1.0.0 text
+basis:
+- PERMIT-1781327084
+risk: low
+reversibility: easy
+court_required: false
+why: LICENSE contained AGPL-3.0 text but VJS is PolyForm Noncommercial. README and COMMERCIAL_LICENSE.md already updated; LICENSE must match.
