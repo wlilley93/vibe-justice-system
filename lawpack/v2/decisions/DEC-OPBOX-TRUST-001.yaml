@@ -1,0 +1,56 @@
+id: DEC-ACMECO-TRUST-001
+assent_source: sovereign_assent
+citation: "[2026] VJS-DEC 21"
+title: Trust-boundary determinations - anchor-on-party, PII single-home, EXTERNAL ingress via verbs, store token_id
+status: active
+scope:
+  paths:
+    - Executive/ministry-of-business-engineering-and-skills/engineering-department/projects/acmeco/**
+  action_kinds:
+    - implementation_decision
+    - schema_change
+    - refactor
+decision: >
+  First Instance (authoring judge + 2 reviewers, both concur-with-qualification). This is the CC-ACMECO 16
+  trust-boundary determination for the flagged SENSITIVE/EXTERNAL/identity/PII/token forks.
+  BINDING RATIO (CONSOLIDATED-ANCHOR-PARTY): trust-boundary forks over regulated data are resolved by
+  anchoring the subject on the kernel's single-home party_id; regulated PII + secrets persist ENCRYPTED in the
+  kernel store ONLY (INV-7), with frontend holding hashed/ciphered references + deriving plaintext read-only via
+  join+decrypt (Option D); EXTERNAL ingress (webhooks/third-party callbacks) writes ONLY through an EXTERNAL-tier
+  idempotent verb that emits an INV-8 audit event - never direct Prisma; tokens store the token_id (kernel Token
+  row ref) for lifecycle + auditability, never only an opaque hash.
+  DISPOSITIONS:
+  - verificationCheck (KYC): anchor on party_id (the subject verified), not subjectEmail/stakeholder; subjectEmail
+    /subjectName are PII -> store identifierHash (HMAC) + party FK, derive plaintext from party_kyc (no plaintext
+    persisted in verification_check); the Onfido webhook + poll MUST route through a new verification.ingest
+    verb (EXTERNAL-tier, Sensitive, idempotent, INV-8) - not direct Prisma.
+  - portal token: store token_id (FK to the kernel Token), not hash-only, for lifecycle + RLS + audit.
+  - globalIdentifier write boundary: verb-gate identity minting (build identity.create/update, low-tier,
+    INV-8); Party remains the dedup anchor (INV-10).
+  - deletion_certificate: KERNEL is the source-of-truth (content_sha256 + byte_size + deleted_by, forensic,
+    GDPR data-subject-rights / SOC2). Route all deletes through file.retain.sweep; the frontend snapshot is a
+    non-authoritative UX cache.
+basis:
+  - DEC-ACMECO-UNITARY-STACK-001
+  - DEC-ACMECO-MONEY-001
+  - ACT-CONSOLIDATION-FRAMEWORK:s4
+reason: >
+  These touch real trust boundaries (regulated PII, identity dedup, external auth tokens, forensic deletion),
+  where guessing wrong breaks KYC/compliance/tenant-isolation. The party-anchor + PII-single-home + verb-gated
+  EXTERNAL-ingress + token_id rules consolidate identity/PII into the kernel's audited, encrypted, RLS-enforced
+  stores (INV-7/8/10), giving each fork a deterministic, defensible resolution before implementation
+  (CC-ACMECO 16). Outbound partner PAYOUT remains separately reserved (DEC-16 / CC-ACMECO 30 D7).
+consequences:
+  must:
+    - anchor_regulated_subjects_on_kernel_party_id
+    - persist_regulated_pii_and_secrets_encrypted_in_the_kernel_only
+    - route_external_ingress_through_an_external_tier_audited_verb
+    - store_token_id_for_token_lifecycle_not_hash_only
+    - route_file_deletion_through_the_kernel_forensic_verb
+  must_not:
+    - persist_plaintext_regulated_pii_in_a_frontend_or_non_party_kyc_table
+    - let_an_external_webhook_write_a_kernel_owned_table_via_direct_prisma
+    - enable_outbound_payout_without_a_separate_ruling
+review_triggers:
+  - schema_changed
+  - authority_basis_missing
