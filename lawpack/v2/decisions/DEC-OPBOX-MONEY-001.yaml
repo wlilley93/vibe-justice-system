@@ -1,0 +1,54 @@
+id: DEC-ACMECO-MONEY-001
+assent_source: sovereign_assent
+citation: "[2026] VJS-DEC 16"
+title: Money domain migrates under the Unitary Stack (writes via bill verbs; payout stays reserved)
+status: active
+scope:
+  paths:
+    - Executive/ministry-of-business-engineering-and-skills/engineering-department/projects/acmeco/**
+  action_kinds:
+    - implementation_decision
+    - refactor
+    - schema_change
+decision: >
+  The Acmeco MONEY domain (invoice, invoice_line_item, invoice_branding_theme, credit_note, payment,
+  payment_request, refund, ledger_entry, partner_remittance) is brought under the Unitary Stack
+  ([2026] VJS-DEC 15), lifting the prior reservation on inbound money MIGRATION subject to conditions:
+
+  (1) WRITES VIA VERBS ONLY. Every money mutation goes through a kernel `bill.*` verb whose per-verb
+      transaction appends exactly one ledger/audit event. A direct Prisma write to any money table is
+      forbidden (the spawn-class silent-divergence bug is categorically unacceptable for money).
+  (2) READS DIRECT from the kernel money tables (no projection copy), per the three rules.
+  (3) RLS at the database on every money table.
+  (4) RECONCILED CUTOVER. Before a legacy money route is deleted, a reconciliation proof must show the
+      kernel money tables and the retiring projection agree (row + total). `syncInvoiceFromKernel` is wired
+      or superseded by read-direct first; no money route is flipped write-only without its read path settled.
+  (5) PAYOUT STAYS RESERVED. Outbound partner PAYOUT (CC-ACMECO 30 D7) is NOT enabled by this ruling; it
+      remains a separate Money/SENSITIVE fork requiring its own determination.
+  (6) VERIFICATION. Each money migration is proven by a tsx runtime proof against a real kernel AND, because
+      money is sensitive, a post-deploy reconciliation check before the legacy path is removed.
+basis:
+  - ACT-CONSOLIDATION-FRAMEWORK:s4
+  - ACT-CONSOLIDATION-FRAMEWORK:s7
+  - ACT-001:s4
+reason: >
+  Money was reserved because a silent divergence between two stores is intolerable for ledgers. The Unitary
+  Stack removes the second store entirely - one source of truth, one write path, one event per mutation -
+  which is STRICTLY SAFER for money than the dual-write status quo, not riskier. The reservation therefore no
+  longer serves its purpose for inbound migration and is lifted under conditions (1)-(6). Outbound payout
+  moves real funds to third parties and keeps its separate gate (5). This applies the consolidation principle
+  (ACT-9) to the money plane with a reconciled, audited, RLS-enforced cutover.
+consequences:
+  must:
+    - migrate_money_writes_to_bill_verbs
+    - read_money_direct_from_kernel_tables
+    - enforce_rls_on_money_tables
+    - reconcile_before_deleting_a_legacy_money_route
+    - verify_money_migration_by_proof_and_post_deploy_reconciliation
+  must_not:
+    - write_a_money_table_directly_via_prisma
+    - enable_outbound_partner_payout_under_this_ruling
+    - flip_a_money_route_write_only_without_its_read_path_settled
+review_triggers:
+  - schema_changed
+  - authority_basis_missing
