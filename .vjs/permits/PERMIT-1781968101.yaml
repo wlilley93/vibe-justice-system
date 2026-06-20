@@ -1,0 +1,25 @@
+id: PERMIT-1781968101
+route_id: ROUTE-20260620-150821
+actor: lexby
+scope:
+  paths:
+  - lawpack/v2/decisions/DEC-ACMECO-UNITARY-STACK-001.yaml
+  - lawpack/v2/specs/SPEC-ACMECO-UNITARY-STACK-001.yaml
+  - lawpack/v2/invariants/INV-ACMECO-UNITARY-001.yaml
+  jurisdictions: null
+  action_kinds: null
+  issue_tags: null
+  records: null
+obligations:
+- id: OBL-LOG-001
+  kind: decision_log
+  required: true
+  due: before_commit
+  description: Write a decision log for this material implementation decision
+- id: OBL-VALIDATE-001
+  kind: validation
+  required: true
+  due: before_commit
+  description: Run vjs validate before commit
+expires_at: 2026-06-21T15:08:21.229307494+00:00
+status: active
