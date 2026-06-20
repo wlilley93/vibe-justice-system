@@ -1,0 +1,69 @@
+id: DEC-OPBOX-READ-MECHANIC-001
+assent_source: sovereign_assent
+citation: "[2026] VJS-DEC 18"
+title: The reads-direct mechanic for kernel-owned data (un-@@ignore model default; view for fidelity; verb transitional)
+status: active
+scope:
+  paths:
+    - Executive/ministry-of-business-engineering-and-skills/engineering-department/projects/opbox/**
+  action_kinds:
+    - implementation_decision
+    - refactor
+    - schema_change
+decision: >
+  First Instance, on a symmetric case file (odd bench of 3), settles HOW the Next.js/Prisma frontend reads
+  kernel-owned data under the Unitary Stack ([2026] VJS-DEC 15). Majority (B+C) with a noted dissent (A).
+
+  FINDING THAT REFRAMES THE FORK: "Blocker A" is FALSE as originally framed. `@@ignore` controls only Prisma
+  CLIENT visibility; it does NOT change what `prisma db push` diffs (empirically verified on an isolated
+  pg18/Prisma 6.19.3). `db push` proposes to drop a column iff the model is INCOMPLETE relative to the table -
+  with or without `@@ignore`. Therefore un-`@@ignore`ing a COMPLETE, full-column mirror model is DROP-SAFE.
+  Drop-safety rests on mirror COMPLETENESS, not on the `@@ignore` blindfold. Separately, DEC-15's own text is
+  dispositive: it mandates reads "via Prisma/SQL direct" and its must_not forbids
+  `add_http_read_verbs_for_shared_db_reads` - so HTTP verb-dispatch reads are NOT the steady-state mechanic.
+
+  THE BINDING MECHANIC (hybrid, when-which):
+  (D) DEFAULT - un-`@@ignore` the kernel's full-column mirror as a READ-ONLY Prisma model `@@map`'d to the
+      singular kernel table; read it directly via the Prisma client (joins/where/pagination compose normally).
+      Writes never go through this model (verb-only, DEC-15 rule 2).
+  (B) ESCALATE - a KERNEL-OWNED, non-materialized DB VIEW (created by a kernel sqlx migration) where the kernel
+      column shape diverges from the UI contract and needs a pure typed projection. MANDATORY for the money
+      domains (kernel BigInt minor-units -> the UI's display shape, DEC-16) and for snake->camel/union shaping.
+      `db push` never manages views, so B is structurally drop-safe.
+  (A) TRANSITION + FALLBACK - verb dispatch reads are permitted ONLY (i) as temporary scaffolding for a domain
+      until its fold + RLS + write-guard are in place, and (ii) as the BINDING mechanic if the split-DB reopen
+      condition of DEC-15 fires (frontend and kernel on different Postgres). A is off-pattern for steady state
+      and must be removed once D/B land (the regulator_comment helper + /invoices|/sign/kernel routes are this
+      debt).
+  (C) ESCAPE HATCH - `$queryRaw` only for a one-off read no model/view can express, added to the raw-SQL
+      allowlist with rationale. Never a domain's standing read path.
+basis:
+  - DEC-OPBOX-UNITARY-STACK-001
+  - ACT-CONSOLIDATION-FRAMEWORK:s4
+  - ACT-001:s4
+reason: >
+  Under one shared Postgres, the cheapest correct read is a typed read-only Prisma artifact mapped onto the
+  kernel's own table - an un-`@@ignore`'d complete model where the shape matches, a kernel-owned view where it
+  must be projected. This makes existing reads "just work" (no per-call-site rewrite), dissolving the
+  read-sprawl problem, and honours DEC-15 rule 1 ("reads go direct via Prisma/SQL") and its prohibition on
+  HTTP read verbs for shared-DB reads. The verb path is reserved for writes, the pre-RLS transition, and the
+  split-DB reopen. Safety comes from mirror/view COMPLETENESS and Prisma's hands-off treatment of views - not
+  from `@@ignore`, which the bench found does not gate migration scope.
+consequences:
+  must:
+    - read_kernel_owned_data_via_unignored_complete_readonly_model_by_default
+    - use_kernel_owned_db_view_where_fidelity_diverges_mandatory_for_money
+    - keep_db_push_additive_only_and_regenerate_the_mirror_before_unignoring
+    - enforce_a_ci_mirror_completeness_gate
+    - enforce_a_prisma_write_guard_on_kernel_owned_models
+    - require_rls_live_before_switching_a_domain_from_verb_read_to_direct_read
+    - complete_the_table_fold_before_redirecting_a_domains_reads
+    - keep_views_kernel_owned_and_non_materialized
+  must_not:
+    - use_http_verb_dispatch_as_the_steady_state_read_mechanic
+    - unignore_an_incomplete_or_stale_mirror_model
+    - write_to_a_kernel_owned_model_through_prisma
+    - use_a_materialized_view_as_a_read_projection
+review_triggers:
+  - schema_changed
+  - authority_basis_missing
