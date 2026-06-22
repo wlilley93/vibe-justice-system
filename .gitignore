@@ -39,3 +39,4 @@ Executive/
 
 # stray symlink recreated by headless-render ln footgun; never track it
 /assets/assets
+._*
