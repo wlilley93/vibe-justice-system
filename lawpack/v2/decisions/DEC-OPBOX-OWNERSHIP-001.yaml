@@ -20,13 +20,13 @@ decision: >
   / carries similar regulated columns. Otherwise it is FRONTEND-OWNED (transient display state, UI preference,
   client-only config, export prefs). When a frontend model extends a kernel row with FRONTEND-OWNED data, the
   structure is a SEPARATE EXTENSION TABLE keyed by the kernel id (never a re-copy of kernel columns). The kernel
-  stays PROVIDER-GENERIC (INV-14): provider/UI variation routes through a seam (extension table or a
+  stays PROVIDER-GENERIC (INV 14): provider/UI variation routes through a seam (extension table or a
   parameterised verb), never a denormalised column forest. Never invent a kernel column that does not exist to
   justify "kernel-owned" (the dissent's phantom-column guard).
   DISPOSITIONS (apply per domain):
   - signing provider-metadata (reminderCadence, consentText, sourceFileId/signedFileId/auditCertFileId,
     checksums): FRONTEND-OWNED (corrected per dissent - these columns are NOT in kernel signing_envelope + are
-    provider/UI orchestration, not regulated facts; INV-14). File-ref/checksum metadata -> a frontend file-meta
+    provider/UI orchestration, not regulated facts; INV 14). File-ref/checksum metadata -> a frontend file-meta
     extension table; reminderCadence/consentText -> frontend-only.
   - workspace jurisdiction/taxInvoiceBaseCurrency/processingRole/dataController*: KERNEL-OWNED (corrected per
     qualification - the firm's regulatory/GDPR posture is a regulated fact; grow the kernel workspace table +
@@ -39,7 +39,7 @@ decision: >
   - document_version: title/tableId -> FRONTEND extension (kernel owns the content/structural snapshot).
   - matter projection: assignedToId/dueDate -> KERNEL; priority/tags/UI-fold-state -> frontend extension;
     relational links (comments/followers/documents) are separate tables.
-  - fileRecord folder + starred: FRONTEND-OWNED (UI org/preference; no kernel verb -> not kernel-owned, INV-11).
+  - fileRecord folder + starred: FRONTEND-OWNED (UI org/preference; no kernel verb -> not kernel-owned, INV 11).
   - notification: SPLIT - the ~14 canonical kernel work-signals are kernel-owned; transient/display alerts +
     not-yet-wired kinds stay frontend until their producer wires notify.send (then grow the kernel enum).
   - equity stock_legend: frontend/import-time config (no CRUD verb) unless a user-facing need authorises verbs.
@@ -53,7 +53,7 @@ reason: >
   facts belong to the kernel (grown + verb-written + RLS); UI/preference/transient/provider-orchestration data
   stays frontend (extension table, never a kernel-column re-copy). The adversarial dissent corrected two
   misapplications (signing phantom-columns = a moat-leak the test forbids; workspace GDPR attrs = regulated =
-  kernel), proving the test by its edges. Keeps the kernel generic (INV-14) and prevents both moat-leak
+  kernel), proving the test by its edges. Keeps the kernel generic (INV 14) and prevents both moat-leak
   (frontend owning regulated data) and kernel-bloat (kernel owning UI chrome).
 consequences:
   must:

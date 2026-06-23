@@ -1,7 +1,7 @@
 id: DEC-OPBOX-READ-RLS-001
 assent_source: sovereign_assent
 citation: "[2026] VJS-DEC 22"
-title: The frontend RLS read mechanic - transparent request-scoped single-tx injection, fail-closed (refines DEC-18)
+title: The frontend RLS read mechanic - transparent request-scoped single-tx injection, fail-closed (refines VJS-DEC 18)
 status: active
 scope:
   paths:
@@ -24,14 +24,14 @@ decision: >
   set_config('app.workspace_id', <authorized-ws>, true) are bound. The authorized workspace comes from
   AsyncLocalStorage established at the request boundary from the session/ctx, NEVER client-supplied. A kernel
   read with no bound workspace context FAILS CLOSED (throws) and never falls through to the unscoped superuser
-  connection. This honours DEC-18's "no per-site rewrite" objective for conforming model-delegate read paths
+  connection. This honours VJS-DEC 18's "no per-site rewrite" objective for conforming model-delegate read paths
   while enforcing the non-derogable tenant-isolation floor. tx-PER-READ is PROHIBITED (empirically proven P2028
   pool-deadlock when a kernel read runs inside a caller's interactive tx - it opens a 2nd connection; fails
-  DEC-18's "provably safe" precondition). Per-site readScoped() (mechanic A) survives ONLY as a narrowly-
+  VJS-DEC 18's "provably safe" precondition). Per-site readScoped() (mechanic A) survives ONLY as a narrowly-
   sanctioned commented fallback for enumerated non-request contexts and MUST NOT be nested inside another
   $transaction. The mechanic's safety is made out ONLY when the escape-hatch conditions below are cured (the
   live tree had a rogue new PrismaClient(), raw kernel-table SQL outside the hook, 110 files using
-  prisma.$transaction, and no static coverage gate). OVERRULED-IN-PART (narrow): any reading of DEC-18 that
+  prisma.$transaction, and no static coverage gate). OVERRULED-IN-PART (narrow): any reading of VJS-DEC 18 that
   permits a transparent UNBOUND direct read is overruled as per incuriam of the isolation floor - such a read
   MUST fail closed. D-team (already migrated under mechanic A) is GRANDFATHERED; verificationCheck keeps its
   own KYC court.
@@ -40,8 +40,8 @@ basis:
   - DEC-OPBOX-READ-MECHANIC-001
   - ACT-ASSENTED-RECORD-PROTECTION
 reason: >
-  DEC-18 under-weighted that direct reads on the opbox superuser connection (rolbypassrls=t) BYPASS RLS and leak
-  cross-tenant rows (spike-proven). This supplies the missing mechanic and corrects DEC-18's implicit cost model:
+  VJS-DEC 18 under-weighted that direct reads on the opbox superuser connection (rolbypassrls=t) BYPASS RLS and leak
+  cross-tenant rows (spike-proven). This supplies the missing mechanic and corrects VJS-DEC 18's implicit cost model:
   the "zero per-site change" prize is restated as "single-export rewire + nested-tx reuse + non-request-path
   wrapping", not literally zero touches. tx-per-read (a candidate reading of "read direct") is rejected on the
   reproduced P2028 deadlock. The transparent mechanic's invisibility is a NET hazard WITHOUT the sole-singleton
