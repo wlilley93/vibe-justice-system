@@ -18,21 +18,21 @@ decision: >
   CLIENT visibility; it does NOT change what `prisma db push` diffs (empirically verified on an isolated
   pg18/Prisma 6.19.3). `db push` proposes to drop a column iff the model is INCOMPLETE relative to the table -
   with or without `@@ignore`. Therefore un-`@@ignore`ing a COMPLETE, full-column mirror model is DROP-SAFE.
-  Drop-safety rests on mirror COMPLETENESS, not on the `@@ignore` blindfold. Separately, DEC-15's own text is
+  Drop-safety rests on mirror COMPLETENESS, not on the `@@ignore` blindfold. Separately, VJS-DEC 15's own text is
   dispositive: it mandates reads "via Prisma/SQL direct" and its must_not forbids
   `add_http_read_verbs_for_shared_db_reads` - so HTTP verb-dispatch reads are NOT the steady-state mechanic.
 
   THE BINDING MECHANIC (hybrid, when-which):
   (D) DEFAULT - un-`@@ignore` the kernel's full-column mirror as a READ-ONLY Prisma model `@@map`'d to the
       singular kernel table; read it directly via the Prisma client (joins/where/pagination compose normally).
-      Writes never go through this model (verb-only, DEC-15 rule 2).
+      Writes never go through this model (verb-only, VJS-DEC 15 rule 2).
   (B) ESCALATE - a KERNEL-OWNED, non-materialized DB VIEW (created by a kernel sqlx migration) where the kernel
       column shape diverges from the UI contract and needs a pure typed projection. MANDATORY for the money
-      domains (kernel BigInt minor-units -> the UI's display shape, DEC-16) and for snake->camel/union shaping.
+      domains (kernel BigInt minor-units -> the UI's display shape, VJS-DEC 16) and for snake->camel/union shaping.
       `db push` never manages views, so B is structurally drop-safe.
   (A) TRANSITION + FALLBACK - verb dispatch reads are permitted ONLY (i) as temporary scaffolding for a domain
       until its fold + RLS + write-guard are in place, and (ii) as the BINDING mechanic if the split-DB reopen
-      condition of DEC-15 fires (frontend and kernel on different Postgres). A is off-pattern for steady state
+      condition of VJS-DEC 15 fires (frontend and kernel on different Postgres). A is off-pattern for steady state
       and must be removed once D/B land (the regulator_comment helper + /invoices|/sign/kernel routes are this
       debt).
   (C) ESCAPE HATCH - `$queryRaw` only for a one-off read no model/view can express, added to the raw-SQL
@@ -45,7 +45,7 @@ reason: >
   Under one shared Postgres, the cheapest correct read is a typed read-only Prisma artifact mapped onto the
   kernel's own table - an un-`@@ignore`'d complete model where the shape matches, a kernel-owned view where it
   must be projected. This makes existing reads "just work" (no per-call-site rewrite), dissolving the
-  read-sprawl problem, and honours DEC-15 rule 1 ("reads go direct via Prisma/SQL") and its prohibition on
+  read-sprawl problem, and honours VJS-DEC 15 rule 1 ("reads go direct via Prisma/SQL") and its prohibition on
   HTTP read verbs for shared-DB reads. The verb path is reserved for writes, the pre-RLS transition, and the
   split-DB reopen. Safety comes from mirror/view COMPLETENESS and Prisma's hands-off treatment of views - not
   from `@@ignore`, which the bench found does not gate migration scope.

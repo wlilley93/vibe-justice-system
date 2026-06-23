@@ -26,7 +26,7 @@ decision: >
     verb (EXTERNAL-tier, Sensitive, idempotent, INV-8) - not direct Prisma.
   - portal token: store token_id (FK to the kernel Token), not hash-only, for lifecycle + RLS + audit.
   - globalIdentifier write boundary: verb-gate identity minting (build identity.create/update, low-tier,
-    INV-8); Party remains the dedup anchor (INV-10).
+    INV-8); Party remains the dedup anchor (INV 10).
   - deletion_certificate: KERNEL is the source-of-truth (content_sha256 + byte_size + deleted_by, forensic,
     GDPR data-subject-rights / SOC2). Route all deletes through file.retain.sweep; the frontend snapshot is a
     non-authoritative UX cache.
@@ -39,7 +39,7 @@ reason: >
   where guessing wrong breaks KYC/compliance/tenant-isolation. The party-anchor + PII-single-home + verb-gated
   EXTERNAL-ingress + token_id rules consolidate identity/PII into the kernel's audited, encrypted, RLS-enforced
   stores (INV-7/8/10), giving each fork a deterministic, defensible resolution before implementation
-  (CC-ACMECO 16). Outbound partner PAYOUT remains separately reserved (DEC-16 / CC-ACMECO 30 D7).
+  (CC-ACMECO 16). Outbound partner PAYOUT remains separately reserved (VJS-DEC 16 / CC-ACMECO 30 D7).
 consequences:
   must:
     - anchor_regulated_subjects_on_kernel_party_id

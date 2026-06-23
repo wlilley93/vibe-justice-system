@@ -24,7 +24,7 @@ decision: >
   - matterRelation: GENERALIZE the kernel matter_relation to carry SPAWNED lineage AND user RELATED relations
     (kind is already text - no migration needed for new kinds; make parent_step_id nullable for user relations)
     + build matter.relation.add/list/remove verbs. One store, not a parallel frontend graph.
-  - Party vs GlobalIdentity: PARTY is the identity source-of-truth (INV-10 dedup, workspace-scoped). The
+  - Party vs GlobalIdentity: PARTY is the identity source-of-truth (INV 10 dedup, workspace-scoped). The
     frontend GlobalIdentity is RETIRED as a write store -> a read-only projection over party, or deleted.
   - money payment_request connection: CONVERGE toward bill_connection as the canonical rail-credential store,
     with scope-constrained reads; DEFER the full bill_connection vs pipeline_connection merge to a court
@@ -36,7 +36,7 @@ basis:
   - ACT-CONSOLIDATION-FRAMEWORK:s4
   - ACT-001:s4
 reason: >
-  Consolidation-over-fragmentation is the realm's steering law; DEC-17 already ruled "generalize the kernel
+  Consolidation-over-fragmentation is the realm's steering law; VJS-DEC 17 already ruled "generalize the kernel
   store, never fork." This generalizes that into a test with a burden of proof, so scope/shape divergence is
   resolved deterministically (fold into one generalized kernel store) and a second store is permitted only on a
   proven genuine-two-concerns showing. The kernel tables here are already built extensibly (polymorphic edge,
