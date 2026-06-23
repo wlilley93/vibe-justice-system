@@ -279,7 +279,7 @@ fn main() {
             cmd_file(&repo, court, question, facts_file, json)
         }
         Commands::Status => cmd_status(&repo, json),
-        Commands::NextCitation { series, year } => cmd_next_citation(series, year, json),
+        Commands::NextCitation { series, year } => cmd_next_citation(&repo, series, year, json),
         Commands::MigrateV1 { v1_path, out } => cmd_migrate_v1(&v1_path, out, json),
         Commands::Permit { subcmd } => cmd_permit(&repo, subcmd, json),
         Commands::Eval { suite } => cmd_eval(&repo, suite, json),
@@ -1551,26 +1551,65 @@ fn cmd_status(repo: &Path, json: bool) -> Result<(), KernelError> {
     Ok(())
 }
 
-fn cmd_next_citation(series: String, year: Option<i32>, json: bool) -> Result<(), KernelError> {
+/// Resolve the repo CODE for a `--repo` value: prefer the repo's declared `repo_code` from
+/// `.vjs/config.toml`, falling back to the path's final component uppercased. This makes both
+/// `--repo .` (a repo dir whose config declares OPBOX) and `--repo OPBOX` (a bare code) resolve a
+/// sensible Cc-series code, instead of the hardcoded "REPO" placeholder.
+fn resolve_repo_code(repo: &Path) -> String {
+    if let Ok(txt) = std::fs::read_to_string(repo.join(".vjs/config.toml")) {
+        for line in txt.lines() {
+            let t = line.trim();
+            if let Some(rest) = t.strip_prefix("repo_code") {
+                let val = rest.trim_start_matches([' ', '=']).trim().trim_matches('"').trim();
+                if !val.is_empty() {
+                    return val.to_uppercase();
+                }
+            }
+        }
+    }
+    repo.file_name()
+        .map(|s| s.to_string_lossy().to_uppercase())
+        .filter(|s| !s.is_empty() && s != ".")
+        .unwrap_or_else(|| "REPO".into())
+}
+
+fn cmd_next_citation(
+    repo: &Path,
+    series: String,
+    year: Option<i32>,
+    json: bool,
+) -> Result<(), KernelError> {
     let y = year.unwrap_or_else(|| chrono::Utc::now().year());
+    // Bind the Cc series to THIS repo's code (the bug fix: it was hardcoded "REPO", ignoring --repo).
+    let repo_code = resolve_repo_code(repo);
     let citation_series = match series.as_str() {
-        "cc" => CitationSeries::Cc("REPO".into()),
+        "cc" => CitationSeries::Cc(repo_code.clone()),
         "pc" => CitationSeries::Pc,
         "sc" => CitationSeries::Sc,
         "reg" => CitationSeries::Reg,
         "act" => CitationSeries::Act,
-        _ => CitationSeries::Cc("REPO".into()),
+        _ => CitationSeries::Cc(repo_code.clone()),
     };
 
     let registry = CitationRegistry::new();
     let next = registry.next_citation(citation_series, y);
 
-    let citation_str = format!("[{}] VJS-{:?} {}", next.year, next.series, next.n);
+    // Canonical citation string. The Cc series renders as VJS-CC-<REPO> (matching the citator records);
+    // the other series render VJS-<SERIES>. NOTE: the registry is empty here, so `n` is the series
+    // genesis - this helper binds the repo + series, not the live count (the citator INDEX is the count).
+    let citation_str = match series.as_str() {
+        "pc" => format!("[{}] VJS-PC {}", next.year, next.n),
+        "sc" => format!("[{}] VJS-SC {}", next.year, next.n),
+        "reg" => format!("[{}] VJS-REG {}", next.year, next.n),
+        "act" => format!("[{}] VJS-ACT {}", next.year, next.n),
+        _ => format!("[{}] VJS-CC-{} {}", next.year, repo_code, next.n),
+    };
 
     if json {
         println!("{}", serde_json::to_string_pretty(&serde_json::json!({
             "year": next.year,
             "series": series,
+            "repoCode": repo_code,
             "n": next.n,
             "citation": citation_str
         })).unwrap());
