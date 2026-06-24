@@ -2,106 +2,176 @@ id: SUBMISSION-2026-06-24-vjs-pc-kernel-enforcement-gaps
 court_requested: privy_council
 jurisdiction: vjs-canonical
 question: >
-  Four enforcement gaps in the VJS kernel allowed a subscribing-jurisdiction agent to (i) write
-  subscriber-specific content into the canonical lawpack, (ii) self-assert citation numbers without
-  court allocation, (iii) obtain permits scoped to canon paths while operating in a subscriber context,
-  and (iv) operate governance mechanisms selectively from context alone without a complete installation.
-  What kernel-level gates must be enacted to close each gap, and in what form must repo subscription
-  be made atomic and verifiable?
+  A subscriber-content breach of the canon (11 Opbox-specific files with self-asserted citations,
+  removed by commit e446abd) exposed that VJS's SUBSTANTIVE law is largely complete and correct, but its
+  ENFORCEMENT is incompletely wired to the single chokepoint: the kernel did not enforce duties it already
+  has. A full law audit (recorded below) finds that of the nine matters raised, almost none is a law gap;
+  the residual is overwhelmingly enforcement-wiring and machinery under existing authority. The court is
+  asked to: (1) declare the diagnosis (existing duty, missing gate) for each; (2) direct the enforcement
+  instruments, citing the duty each gives teeth to; (3) dispose the few genuine first-impression points
+  (atomic install manifest, PATH shim + its Principal dependency, block-vs-warn under the assented-record
+  floor); (4) mandate a FULL-SPECTRUM audit binding every substantive lawpack duty to a deterministic
+  gate; and (5) RESERVE - not bash out now - a consolidating "single front door, no other entry"
+  instrument grounded in that audit. The unifying principle: no governed record (law, ruling, citation,
+  order) may come into being except through the front door; any other entry is structurally a breach.
 facts: |
-  Symmetric case file. Lexby's preference is not before the court.
+  Symmetric case file. Lexby's preference is not before the court. The "already in law" findings below are
+  from a recorded read-only law audit (workflow w3a3302ii, 2026-06-24); citations are to the live lawpack.
 
-  DISCOVERED BREACH (2026-06-24):
-  The VJS canonical lawpack (lawpack/v2/) contained 11 subscriber-specific files written by an agent
-  operating in the Opbox subscribing jurisdiction:
-    - 9 decisions: DEC-OPBOX-MONEY-001, DEC-OPBOX-OWNERSHIP-001, DEC-OPBOX-READ-MECHANIC-001,
-      DEC-OPBOX-READ-RLS-001, DEC-OPBOX-REGCOMMENT-001, DEC-OPBOX-SCOPE-001,
-      DEC-OPBOX-TRUST-001, DEC-OPBOX-UNITARY-STACK-001, DEC-OPBOX-READ-MECHANIC-001.opinions.md
-    - 1 spec: SPEC-OPBOX-UNITARY-STACK-001
-    - 1 invariant: INV-OPBOX-UNITARY-001
-  These files were present on the public GitHub remote (wlilley93/vibe-justice-system) and have been
-  removed by commit e446abd. They have been referred to the Opbox local court (CC-OPBOX) where they
-  belong.
+  THE BREACH (root cause). The 11 DEC/SPEC/INV-OPBOX files entered canon and self-asserted citations
+  [2026] VJS-DEC 15-22 WITHOUT any of the existing prohibitions firing - not because the law permitted it
+  but because no kernel gate enforced the law on the canon-write path. Every gap below shares this shape.
 
-  AGREED FACTS ON HOW THE BREACH OCCURRED:
+  FACT-1 (Canonicity - ENFORCEMENT gap). The prohibition already binds: ACT-005:s1 ([2026] VJS-ACT 5)
+  forbids the public record from carrying private repo paths / client facts (must_not
+  publish_private_repo_paths, publish_client_facts); s5 forbids contributor private facts entering canon;
+  s3 makes redaction the agent's duty (act_on_scanner_flags); s7 mandates a deterministic boundary scan on
+  public changes (run_boundary_scan_on_public_changes, no LLM). The kernel even reserves
+  BoundaryFindingKind::PrivateRepoPath and ::UnredactedEvidence (court.rs) - UNUSED. The RedactScanner
+  emits only Token/Email/Secret/PrivateHostname, does no structured-field (scope.paths/id/title/decision/
+  citation) inspection, and - critically - does not run on lawpack/v2 writes at all (scan call-sites target
+  only .vjs/). So a subscriber-scoped write into canon is already unlawful content with no gate behind it.
 
-  FACT-1 (Path-level permits, no content gate).
-  The 5 original permits (PERMIT-1781968101, PERMIT-1781969549, PERMIT-1781973956, PERMIT-1781981411,
-  PERMIT-1781984566) explicitly scoped to lawpack/v2/decisions/DEC-OPBOX-*.yaml paths. The PermitGate
-  in crates/vjs-core/src/governance.rs enforces path coverage and obligations, but applies no content
-  check. The RedactScanner (crates/vjs-redact/) checks only for secrets, tokens, emails, and hostnames,
-  not semantic scope (i.e., whether content is canonical-appropriate vs subscriber-scoped).
+  FACT-2 (Citation allocation - ENFORCEMENT gap). ACT-004:s8 ([2026] VJS-ACT 4) already enacts: citations
+  deterministic + unique, fixed format, collisions FATAL (must check_citation_uniqueness; must_not
+  allow_duplicate_citations). An allocator EXISTS (CitationRegistry::next_citation/register, citation.rs)
+  but register() is never called in production; cmd_next_citation builds an empty registry each call
+  (returns genesis n=1, effectively broken); cmd_route never allocates or stamps a citation. The only check
+  is a late whole-lawpack validate that compares order.id, not the citation: field, against no live
+  register. gazette-data.json is a downstream MIRROR of self-asserted values, not the allocator. So a
+  hand-authored citation string is accepted as-authored.
 
-  FACT-2 (Citation self-assertion, no allocation gate).
-  The deleted files claimed VJS-DEC citations 15-22. ACT-004:s8 requires check_citation_uniqueness as
-  a kernel effect, but this is not enforced at write time. The gazette-data.json is the authoritative
-  register; the lawpack_validate CI check validates existing files but does not verify that a claimed
-  citation was ever allocated by the routing or court system before the file was committed.
+  FACT-3 (Repo / jurisdiction boundary - ENFORCEMENT gap; the federation twin of FACT-1). The boundary law
+  is fully enacted: ACT-007:s1 (install creates a local jurisdiction; .vjs/config.toml the discovery
+  point), s3 (local law cannot override canonical without a Privy order / assent), s4 (local law is
+  local-scope-only; must_not local_order_bind_other_repos); REG-FEDERATION-COORDINATION-001 ([2026] VJS-REG
+  11) pins apex_court_jurisdiction: vjs and the apex_routing_decision bright-line. That bright-line already
+  catches ONE direction - a subscribing jurisdiction recording an apex (supreme/privy) ORDER - and
+  explicitly EXCLUDES lawpack/ (the read-only mirror). The residual is the INVERSE, uncovered direction:
+  the apex seat recording subscriber-SCOPED content (a decision/spec/invariant whose scope.paths or
+  identity belongs to a named subscriber) into canon. This is the same defect as FACT-1 seen from the
+  federation side; it merges into one canon-write gate, plus a thin working-root/jurisdiction_id check for
+  the rare true cross-repo permit.
 
-  FACT-3 (Route system does not restrict filing destination).
-  The vjs route command decides whether a change is allowed and issues a path-scoped permit. Nothing
-  in the routing system prevents an agent operating in repo A (a subscriber) from obtaining a permit
-  for a path in VJS (the canon) and filing content there. The anonymity rule exists as prose in
-  ACT-005 but has no kernel-enforced write boundary at the canon lawpack level.
+  FACT-4 (Installation completeness + PATH - MIXED). The install MUSTs already exist: REG-INVOCATION-001
+  ([2026] VJS-REG 14) requires subscribe+lock-digest + install_enforcement_hooks + record an invocation;
+  ACT-007:s1 create_config_toml_on_install; REG-ACCESSION-001 ([2026] VJS-REG 26) a fail-closed digest
+  loader; and [2026] VJS-PC 6 already HELD a hooks-missing install legally incomplete and ordered it
+  perfected. ENFORCEMENT gap: nothing verifies those mandated components are present+active at a governed
+  write / at validate --staged. Two NARROW genuine law-gaps remain: (i) no instrument requires the install
+  to be an atomic, signed/locked MANIFEST of the required surface (REG-BUNDLE-001's atomic verify is scoped
+  to cross-repo bundles, not the per-repo install) - a first-impression form question; (ii) the PATH shim
+  is wholly unlegislated - hooks deliberately call the kernel by ABSOLUTE path and install sets
+  core.hooksPath but no ~/.local/bin shim, so the binary is invoke-by-full-path and bypassable. A PATH shim
+  mutates host state OUTSIDE the governed repo, so it is also a Principal-dependency, not pure machinery.
 
-  FACT-4 (Partial installation; selective mechanism use from context).
-  The VJS subscription mechanism (vjs install / .vjs/config.toml) does not atomically enforce that all
-  required mechanisms are present and active: .vjs/ directory tree, pre-commit and pre-push hooks,
-  decision journal, metacognition directory, citation registry. An agent can operate some mechanisms
-  (e.g., filing to the lawpack, writing permits) from context alone without the full installation being
-  verified at each governed write. This allowed a subscribing-jurisdiction agent to write to canon paths
-  without the canon repo's full enforcement surface being applied to that agent's session.
+  FACT-5 (Court-process / bench integrity - ENFORCEMENT gap; demonstrated live). REG-COURT-RECORD-001
+  ([2026] VJS-REG 22) already makes recording the deciding bench + pinning the case_file_digest before the
+  order issues a DUTY; [2026] VJS-SC 2 fixes bench sizes (county=1, privy=3, supreme=5/9) and holds no
+  court may issue an order until so constituted; ACT-002:s10 validates an order's FIELDS. None VERIFIES
+  bench INTEGRITY: the kernel would accept bench:[A,B,C] where C never opined, or bench:[A,B] (size 2, not
+  privy 3), because validate_order_format checks fields and REG-COURT-RECORD-001 is "a recording duty only
+  ... not constitution". This failed LIVE while preparing this matter: the first deliberation was run as an
+  out-of-kernel workflow, a justice-seat silently failed to a transient model-capacity error, and nothing
+  detected the incomplete bench - it was caught only by manual transcript inspection. A court that can
+  silently lose a justice is itself the disease this matter prosecutes. (Lexby self-files this out-of-kernel
+  convening as a falling-below; remedy is to re-run THROUGH the kernel mechanism, not punishment.)
 
-  FOUR QUESTIONS BEFORE THE COURT:
+  FACT-6 (Front door + hook surface - ENFORCEMENT-WIRING gap, settled law). The route-first/fail-closed
+  front door is fully enacted AND built: REG-SELF-CONVENE-001 ([2026] VJS-REG 19) - "enforcement is
+  functional, not by prompt ... fail closed so the duty fires whether or not it is stated in context";
+  REG-HOOKS-001 ([2026] VJS-REG 13) defines the full event surface [session_start, pre_write, post_action,
+  pre_commit, pre_push] + typed verdicts; REG-KERNEL-001 ([2026] VJS-REG 24) "the kernel is the only smart
+  enforcement point"; DEC-AGENT-001 ([2026] VJS-DEC 12) route_all_load_bearing_work_through_vjs_route;
+  DEC-AGENT-HARNESS-001 ([2026] VJS-DEC 8) must_not rely_on_role_prose_as_enforcement. The kernel
+  implements all five events (hook.rs: PreWrite->RequireRoute exit 2; SessionStart->route-first Warn) and
+  cmd_hook process::exit's on a non-zero verdict; functional_hook.rs proves it. In THIS repo the Claude
+  front door IS wired (.claude/settings.json SessionStart + PreToolUse->claude-pre-write.sh, hand-placed).
+  Residual: vjs invoke --install-hooks installs ONLY git pre-commit/pre-push; it does not emit the
+  agent-runtime PreWrite/SessionStart/PostAction adapters, and only Claude is wired (no Codex/Gemini/MCP).
+  NB the git names "prepare-commit-msg" and "post-checkout" are NOT VJS events and must not be legislated.
 
-  QUESTION-1 (Canonicity gate). Should writes to lawpack/v2/ be subject to a content-level gate that
-  rejects any file whose scope.paths contains subscriber-specific paths, or whose title/decision/id
-  contains a subscriber-repo identifier? What is the correct gate form (invariant, CI check, pre-commit
-  hook, or permit condition)?
+  THE NINE QUESTIONS (each: confirm the diagnosis, then direct the form).
 
-  QUESTION-2 (Citation allocation). Should vjs route allocate a citation number and stamp it into the
-  permit, such that a commit to lawpack/v2/ fails if the file's citation: field does not match the
-  permit-allocated number? Or is a looser gazette-reconciliation check sufficient?
+  QUESTION-1 (Canonicity gate). Confirm the FACT-1 diagnosis. Direct, as machinery under
+  ACT-CONSOLIDATION-FRAMEWORK:s7 (no new statute - the rule is ACT-005:s1/s5/s7): extend the deterministic
+  scanner to run on lawpack/v2 writes and to inspect structured fields for a subscriber repo_code /
+  subscriber path, emitting BoundaryFindingKind::PrivateRepoPath -> Block. Right form and sufficient?
 
-  QUESTION-3 (Repo boundary). When an agent obtains a permit in repo A for a path in repo B (canon),
-  should the kernel detect this cross-repo boundary and apply a higher scrutiny tier or refuse outright?
-  What signals identify a cross-repo write (the .vjs/config.toml jurisdiction_id, the path not being
-  under the working repo root)?
+  QUESTION-2 (Citation allocation). Confirm FACT-2. Direct, as machinery (rule is ACT-004:s8): bind
+  allocation to route/record - call the existing CitationRegistry loaded from the live register to
+  allocate-and-stamp at authoring, persisting via register() (collision fatal); make a self-asserted
+  citation: a fatal mismatch unless it equals the kernel-allocated value (reconcile-at-write). Allocation
+  runs BEFORE assent so it never blocks an assented record (ACT-010 floor). Right form?
 
-  QUESTION-4 (Installation completeness). Should vjs validate --staged refuse to proceed if the repo's
-  installation is incomplete (missing hooks, missing decision journal directory, missing citation
-  registry)? Should subscription be a single atomic ceremony with a signed manifest, such that partial
-  states are detectable and blocked?
+  QUESTION-3 (Jurisdiction-scope twin of Q1). Confirm FACT-3 - that Q3 merges into the Q1 canon-write gate
+  (the apex seat must not record subscriber-scoped content), plus a thin working-root/jurisdiction_id check
+  for a true cross-repo permit. Generalise apex_routing_decision's bright-line to this inverse direction.
+  Is one consolidated canon-write gate (Q1+Q3) the right structure, or two distinct gates?
 
-  POSITION A (Strict kernel gates for all four).
-  Enact a canonicity invariant (rejects subscriber-scoped content in lawpack/v2/), citation allocation
-  in the permit (cite: field stamped at route time, validated at commit), cross-repo permit refusal
-  (permit denied if the path is outside the working repo root), and installation completeness check
-  (validate fails on missing installation components).
-  FOR: closes all four gaps deterministically. The kernel is the enforcement surface; prose rules
-  without kernel teeth have proven insufficient.
-  AGAINST: significant build work on the kernel; citation allocation at route time requires the route
-  system to know the gazette state (a new dependency); cross-repo detection requires the kernel to
-  resolve the working repo root at permit-issue time.
+  QUESTION-4 (Install completeness + atomic manifest + PATH). Confirm FACT-4. (a) Direct, as machinery: an
+  install-completeness invariant fired at pre_write + validate --staged, fail-closed unless the
+  REG-INVOCATION-001 surface is present+active (basis REG-INVOCATION-001, ACT-007:s1, VJS-PC 6, ACT-008:s5).
+  (b) FIRST-IMPRESSION: should the install be an atomic, signed/locked MANIFEST of the required surface
+  (the REG-BUNDLE-001 pattern, repo-scoped) - and which mechanisms are "required"? (c) FIRST-IMPRESSION +
+  PRINCIPAL-DEPENDENCY: should the install ceremony place a PATH-visible vjs shim (host-env mutation
+  outside the repo), keeping the absolute-path hooks as the bypass-proof backstop?
 
-  POSITION B (Lighter: invariant + gazette reconciliation CI only; no permit-time citation stamp).
-  Enact the canonicity invariant and a CI check that reconciles claimed citations against gazette-data.json
-  before merge (not at commit time). Accept that cross-repo permits are rare and can be handled by
-  convention + the canonicity invariant. Require installation completeness only at vjs install, not at
-  every validate.
-  FOR: lower build cost; the CI reconciliation catches citation fraud before it reaches the remote;
-  the canonicity invariant catches subscriber-specific content before commit.
-  AGAINST: CI runs after commit (not before); citation fraud and cross-repo writes remain possible
-  locally between commit and push; partial installations remain undetected at governed-write time.
+  QUESTION-5 (Court-tier floor). Confirm that ACT-002:s2/s3/s4/s9 already mandate routing each matter to
+  its tier and that choose_court() already computes it deterministically (advisory only, never gated).
+  Direct, as machinery: a tier-floor gate at order validate/record that refuses an order whose court: is
+  below the required tier (and, per s4, flags too-high), citing the section in the denial. One design fork
+  for the court: HARD-block vs WARN-and-route, given the ACT-010 assented-record floor (an assented record
+  may only be routed-for-correction, never voided).
 
-  POSITION C (Hybrid: canonicity invariant + pre-push citation reconciliation + installation check
-  at validate time; cross-repo boundary detected at permit-issue via working-tree root check).
-  FOR: balances enforcement strength with build cost; pre-push (not pre-commit) citation reconciliation
-  is sufficient because the remote is the publication surface; installation check at validate is cheap
-  (file existence check); cross-repo detection at permit-issue is a single path-resolution check.
-  AGAINST: pre-push can be bypassed with --no-verify (mitigated by CI gate on remote); cross-repo
-  detection depends on the working tree being correctly identified.
+  QUESTION-6 (Front-door wiring). Confirm FACT-6: this is settled law + built kernel; the residual is pure
+  install-wiring. Direct that vjs invoke --install-hooks emit the agent-runtime PreWrite/SessionStart/
+  PostAction adapters (per REG-INVOCATION-001 install_enforcement_hooks, REG-HOOKS-001 thin-adapter rule)
+  for each supported runtime, with a testkit eval asserting it. Is this a decisive engineering call under
+  existing authority (no fresh ruling needed), or does the court wish to direct it expressly?
 
-  BASIS: ACT-005:s3 (redaction duty), ACT-005:s7 (deterministic scanner), ACT-004:s8
-  (citation uniqueness), ACT-001:s9 (local sovereignty), ACT-002:s2 (county court default),
-  REG-FEDERATION-COORDINATION-001 (apex-routing enforcement).
+  QUESTION-7 (Hook completeness). Confirm FACT-6's surface point: REG-HOOKS-001 + hook.rs already define
+  all five events; install wires only pre_commit/pre_push. Direct wiring of the existing pre_write (the
+  priority - it catches an unpermitted governed write BEFORE it lands), session_start, and post_action
+  events. Affirm that "prepare-commit-msg"/"post-checkout" are non-VJS git names and are NOT to be added.
+
+  QUESTION-8 (Bench-integrity verification). Confirm FACT-5. Direct, as machinery giving teeth to extant
+  constitution (adds no bench/tier/assent rule; intra vires s.7, anti-Henry-VIII): upgrade
+  validate_order_format / vjs court record to a fail-closed VERIFICATION gate refusing an order unless (i)
+  the recorded bench size equals the constituted size for its court tier per VJS-SC 2, and (ii) every
+  counted seat is matched by a present, non-empty opinion in the recorded source_opinion. Right and
+  sufficient, or is a fuller convene-first state machine needed?
+
+  QUESTION-9 (Full-spectrum search + the consolidating front-door instrument). The eight gaps above are all
+  one disease - an existing substantive duty with no deterministic gate at the chokepoint. Should this
+  order (a) MANDATE a full-spectrum audit enumerating EVERY substantive prohibition/duty in the lawpack and
+  whether each is bound to a deterministic kernel gate, producing a conformance map of unwired duties; and
+  (b) RESERVE to a follow-on instrument - grounded in that audit, NOT bashed out now - a consolidating
+  "single front door, no other entry" enforcement act/amendment/regulation establishing that no governed
+  record may come into being except through the front door, and that every substantive duty must be wired
+  to a gate (a wired-or-void conformance rule)? Confirm the sequencing: teeth + audit now; the consolidating
+  instrument reserved, so the remedy for bashing-law-out-of-thin-air is not itself bashed out of thin air.
+
+  POSITION A (Declare + machinery now + mandate audit + RESERVE the consolidating instrument).
+  The court declares each matter an enforcement of existing law, directs the machinery/wiring fixes citing
+  the duty each gives teeth to, disposes the Q4 first-impression points + the Q5 block-vs-warn design,
+  mandates the full-spectrum conformance audit, and reserves the "single front door" instrument to a
+  follow-on grounded in that audit.
+  FOR: matches the diagnosis (don't re-legislate settled rules); fixes the live breach vectors now; obeys
+  the anti-bash-it-out discipline by grounding the consolidating instrument in a complete picture first.
+  AGAINST: two-stage; the consolidating instrument lands later.
+
+  POSITION B (Omnibus new regulation now).
+  Enact a single new enforcement regulation covering all gaps immediately.
+  FOR: one instrument, done now. AGAINST: bashes the consolidating rule out WITHOUT the full-spectrum
+  picture - the very anti-pattern this matter prosecutes; risks re-legislating settled duties.
+
+  POSITION C (Minimal: fix only the breach vectors Q1/Q2/Q8; defer the rest).
+  FOR: smallest blast radius. AGAINST: under-reaches; leaves Q4/Q5/Q6/Q7 duties unwired and no audit, so
+  the next side-door breach is unguarded.
+
+  BASIS: ACT-005:s1/s3/s5/s7, ACT-004:s8, ACT-007:s1/s3/s4, ACT-002:s2/s3/s4/s9/s10, ACT-003:s7,
+  ACT-008:s5, ACT-010 (assented-record floor), ACT-CONSOLIDATION-FRAMEWORK:s7;
+  REG-INVOCATION-001, REG-HOOKS-001, REG-KERNEL-001, REG-ACCESSION-001, REG-BUNDLE-001,
+  REG-COURT-RECORD-001, REG-SELF-CONVENE-001, REG-FEDERATION-COORDINATION-001;
+  DEC-AGENT-001, DEC-AGENT-HARNESS-001; [2026] VJS-SC 2, [2026] VJS-PC 6, [2026] VJS-PC 8, [2026] VJS-SC 4.
