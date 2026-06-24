@@ -1,0 +1,12 @@
+id: LOG-2026-06-24-215711
+time: 2026-06-24T21:57:11.797668895+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260624-215618
+decision: File Privy Council submission on VJS kernel enforcement gaps (canonicity gate, citation allocation, repo boundary, installation completeness)
+basis:
+- PERMIT-1782338178
+risk: low
+reversibility: easy
+court_required: false
+why: Four gate failures allowed a subscriber agent to contaminate canon with Acmeco-specific law and self-asserted citations; court determination required before kernel fixes are built
