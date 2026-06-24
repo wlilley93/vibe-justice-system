@@ -1,9 +1,11 @@
-id: PERMIT-1781984566
-route_id: ROUTE-20260620-194246
+id: PERMIT-1782290415
+route_id: ROUTE-20260624-084015
 actor: lexby
 scope:
   paths:
-  - lawpack/v2/decisions/DEC-OPBOX-READ-RLS-001.yaml
+  - crates/vjs-core/src/hook.rs
+  - crates/vjs-cli/src/main.rs
+  - lawpack/v2/regulations/REG-FEDERATION-COORDINATION-001.yaml
   jurisdictions: null
   action_kinds: null
   issue_tags: null
@@ -19,5 +21,5 @@ obligations:
   required: true
   due: before_commit
   description: Run vjs validate before commit
-expires_at: 2026-06-21T19:42:46.320832965+00:00
-status: closed
+expires_at: 2026-06-25T08:40:15.127644209+00:00
+status: active

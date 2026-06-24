@@ -1,0 +1,12 @@
+id: LOG-2026-06-24-214705
+time: 2026-06-24T21:47:05.144060778+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260624-214543
+decision: Remove DEC-OPBOX-*, SPEC-OPBOX-*, INV-OPBOX-* and breach log - subscriber law belongs in the subscribing repo not VJS canon
+basis:
+- PERMIT-1782337543
+risk: low
+reversibility: easy
+court_required: false
+why: VJS must be anonymous and reusable; Opbox-specific law pollutes the canonical lawpack and exposes product internals publicly on GitHub

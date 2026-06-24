@@ -1,0 +1,12 @@
+id: LOG-2026-06-23-212327
+time: 2026-06-23T21:23:27.350798927+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260623-212048
+decision: 'Editorial drift-cure of 7 dangling citations in 6 enacted DEC-OPBOX decisions: they cross-reference opbox''s OWN kernel invariants (INV-10/11/14) and opbox decisions by their VJS-DEC citation number (DEC-15/16/17/18) - NOT canon lawpack objects (canon has INV-010..013, semantically distinct; re-pointing would be wrong). Normalised the citation FORM only (DEC-NN -> VJS-DEC NN; INV-NN -> INV NN) so they are no longer parsed as canon object-ids. No substantive change to any decision; meaning preserved.'
+basis:
+- PERMIT-1782249648
+risk: low
+reversibility: easy
+court_required: false
+why: The referential-integrity validator flags 2+-digit id-pattern tokens that do not resolve to a canon object; these are legitimate opbox cross-refs, not canon objects, so the cure is form-normalisation (the recognised drift-cure remedy), not defining new law or re-pointing to a different object.
