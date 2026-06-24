@@ -151,10 +151,11 @@ sections:
         - vjs_mcp
         - vjs_git
 
-  # s10/s11 - ASSENT DRAFT prepared 2026-06-24 under Sovereign direction ("proceed as best"); ratified as apex
-  # caselaw by [2026] VJS-SC 4 (5-0). A void first draft until cured by Sovereign Assent (ACT-COMPUTER-FIRST-REALM
-  # s2/s23; [2026] VJS-SC 3: no court or kernel may originate a primary-law act). Pending assent, force flows
-  # from VJS-SC 4 as binding apex caselaw, not from these statute lines.
+  # s10/s11 - SOVEREIGN-ASSENTED 2026-06-24 by the Principal, curing the void first draft into enacted primary law
+  # (assent record lawpack/v2/provenance/assent/2026-06-24-act003-s10-s11-assent.yaml, pinned to assented-text
+  # digest sha256:4357d836b38a7d4b9a7977790b491421bd8535dfab890c78503374e6db881db8). Ratified as apex caselaw by
+  # [2026] VJS-SC 4 (5-0); now in force as statute. Drafted by Lexby under Sovereign direction; force conferred by
+  # the Sovereign Assent above (s.14; ACT-COMPUTER-FIRST-REALM s2/s23; no court or kernel may originate it).
   - id: ACT-003:s10
     title: Unsatisfiable-enforcement-gate auto-justiciability
     text: >
