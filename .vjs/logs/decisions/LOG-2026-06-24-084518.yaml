@@ -1,0 +1,12 @@
+id: LOG-2026-06-24-084518
+time: 2026-06-24T08:45:18.987025108+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260624-084015
+decision: 'Made the kernel ENFORCE the existing REG-FEDERATION-COORDINATION-001 prohibition on a subscribing jurisdiction asserting an apex/final-court function: added apex_routing_decision to vjs-core/hook.rs (blocks a supreme/privy court order in any non-apex-seat jurisdiction; content-based detection; 4 unit tests), declared apex_court_jurisdiction=vjs in the reg, wired it in the CLI before evaluate_governed. Proven end-to-end: a subscribing repo recording a supreme order is blocked; county orders + referrals pass.'
+basis:
+- PERMIT-1782290415
+risk: low
+reversibility: easy
+court_required: false
+why: 'VJS-SC 4 D3 + the global enforcement change (Principal ''proceed as best''): determinism in the kernel, not context; makes the VJS-SC-ACMECO 1 mis-filing structurally impossible'

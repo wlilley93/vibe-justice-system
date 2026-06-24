@@ -1,13 +1,13 @@
-use clap::{Parser, Subcommand};
 use chrono::Datelike;
+use clap::{Parser, Subcommand};
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
 
 use vjs_core::*;
-use vjs_lawpack::*;
-use vjs_store::*;
 use vjs_git::*;
+use vjs_lawpack::*;
 use vjs_redact::*;
+use vjs_store::*;
 
 #[derive(Parser)]
 #[command(name = "vjs")]
@@ -157,12 +157,8 @@ enum Commands {
 
 #[derive(Subcommand)]
 enum OrderCommands {
-    Validate {
-        path: PathBuf,
-    },
-    Apply {
-        path: PathBuf,
-    },
+    Validate { path: PathBuf },
+    Apply { path: PathBuf },
 }
 
 #[derive(Subcommand)]
@@ -248,7 +244,10 @@ fn main() {
     let cli = Cli::parse();
     let repo = cli.repo.unwrap_or_else(|| {
         std::env::current_dir().unwrap_or_else(|e| {
-            eprintln!("Error: cannot determine current directory: {} (pass --repo)", e);
+            eprintln!(
+                "Error: cannot determine current directory: {} (pass --repo)",
+                e
+            );
             std::process::exit(1);
         })
     });
@@ -256,28 +255,58 @@ fn main() {
 
     let result = match cli.command {
         Commands::Init { lawpack } => cmd_init(&repo, lawpack),
-        Commands::Route { kind, issue, risk, intent, public, external, irreversible, paths, gate } => {
-            cmd_route(&repo, kind, issue, risk, intent, public, external, irreversible, paths, gate, json)
-        }
-        Commands::Hook { event, paths, tool, stdin_json } => {
-            cmd_hook(&repo, event, paths, tool, stdin_json, json)
-        }
-        Commands::Invoke { jurisdiction, principal, lawpack, install_hooks } => {
-            cmd_invoke(&repo, jurisdiction, principal, lawpack, install_hooks, json)
-        }
+        Commands::Route {
+            kind,
+            issue,
+            risk,
+            intent,
+            public,
+            external,
+            irreversible,
+            paths,
+            gate,
+        } => cmd_route(
+            &repo,
+            kind,
+            issue,
+            risk,
+            intent,
+            public,
+            external,
+            irreversible,
+            paths,
+            gate,
+            json,
+        ),
+        Commands::Hook {
+            event,
+            paths,
+            tool,
+            stdin_json,
+        } => cmd_hook(&repo, event, paths, tool, stdin_json, json),
+        Commands::Invoke {
+            jurisdiction,
+            principal,
+            lawpack,
+            install_hooks,
+        } => cmd_invoke(&repo, jurisdiction, principal, lawpack, install_hooks, json),
         Commands::Lookup { issue, limit } => cmd_lookup(&repo, issue, limit, json),
         Commands::Log { subcmd } => cmd_log(&repo, subcmd, json),
         Commands::Proof { subcmd } => cmd_proof(&repo, subcmd, json),
-        Commands::Validate { staged, external, scope } => {
-            cmd_validate(&repo, staged, external, scope, json)
-        }
+        Commands::Validate {
+            staged,
+            external,
+            scope,
+        } => cmd_validate(&repo, staged, external, scope, json),
         Commands::LocalCi => cmd_local_ci(&repo, json),
         Commands::Order { subcmd } => cmd_order(&repo, subcmd, json),
         Commands::Court { subcmd } => cmd_court(&repo, subcmd, json),
         Commands::Bundle { subcmd } => cmd_bundle(&repo, subcmd, json),
-        Commands::File { court, question, facts_file } => {
-            cmd_file(&repo, court, question, facts_file, json)
-        }
+        Commands::File {
+            court,
+            question,
+            facts_file,
+        } => cmd_file(&repo, court, question, facts_file, json),
         Commands::Status => cmd_status(&repo, json),
         Commands::NextCitation { series, year } => cmd_next_citation(&repo, series, year, json),
         Commands::MigrateV1 { v1_path, out } => cmd_migrate_v1(&v1_path, out, json),
@@ -308,8 +337,7 @@ fn cmd_init(repo: &Path, lawpack: Option<String>) -> Result<(), KernelError> {
     let agents_md = target.join("AGENTS.md");
     let content = "# VJS V2 Agent Contract\n\nThis repo is governed by VJS V2.\n\nBefore governed load-bearing work, call `vjs.route`.\nIf the route is settled, follow the returned orders/rules.\nIf `court_required=true`, file a short submission.\nAfter material implementation decisions, write a decision log.\nDo not place private repo facts in public records.\nThe kernel answer is the runtime authority surface.\n";
     if !agents_md.exists() {
-        std::fs::write(&agents_md, content)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
+        std::fs::write(&agents_md, content).map_err(|e| KernelError::Io(e.to_string()))?;
     }
 
     let lawpack_id = lawpack.as_deref().unwrap_or("vjs-v2");
@@ -336,7 +364,10 @@ fn cmd_route(
     let action_kind = parse_action_kind(&kind);
     let risk_level = parse_risk_level(risk.as_deref().unwrap_or("low"));
     let issue_tags = issue.map(|i| vec![IssueTag(i)]).unwrap_or_default();
-    let path_globs: Vec<String> = paths.iter().map(|p| p.to_string_lossy().to_string()).collect();
+    let path_globs: Vec<String> = paths
+        .iter()
+        .map(|p| p.to_string_lossy().to_string())
+        .collect();
 
     let input = RouteInput {
         repo_root: Some(repo.to_path_buf()),
@@ -360,7 +391,10 @@ fn cmd_route(
     if let Some(ref permit_id) = decision.permit_id {
         let permit = Permit {
             id: permit_id.clone(),
-            route_id: RouteId(format!("ROUTE-{}", chrono::Utc::now().format("%Y%m%d-%H%M%S"))),
+            route_id: RouteId(format!(
+                "ROUTE-{}",
+                chrono::Utc::now().format("%Y%m%d-%H%M%S")
+            )),
             actor: "lexby".into(),
             scope: if path_globs.is_empty() {
                 None
@@ -413,7 +447,9 @@ fn cmd_route(
     if gate {
         match decision.decision {
             RouteOutcome::CourtRequired => {
-                eprintln!("BLOCK: court required - convene on own motion; do not route the fork to the Principal.");
+                eprintln!(
+                    "BLOCK: court required - convene on own motion; do not route the fork to the Principal."
+                );
                 std::process::exit(2);
             }
             RouteOutcome::Blocked => {
@@ -476,14 +512,24 @@ fn cmd_hook(
     // Permit-aware: a governed write under an active in-scope permit passes;
     // an unpermitted one fails closed with the route as the remedy.
     let permits = Store::read_permits(repo).unwrap_or_default();
-    let gov = Store::read_repo_config(repo)
-        .ok()
-        .flatten()
-        .and_then(|c| c.governance);
-    let (required, exempt) = gov
+    let cfg = Store::read_repo_config(repo).ok().flatten();
+    let jurisdiction_id = cfg
+        .as_ref()
+        .map(|c| c.jurisdiction_id.clone())
+        .unwrap_or_default();
+    let (required, exempt) = cfg
+        .as_ref()
+        .and_then(|c| c.governance.clone())
         .map(|g| (g.permit_required, g.permit_exempt))
         .unwrap_or_default();
-    let decision = vjs_core::hook::evaluate_governed(&input, &ctx, &permits, &required, &exempt);
+    // REG-FEDERATION-COORDINATION-001 kernel-checkable bright-line (giving effect to [2026] VJS-SC 1): a
+    // subscribing jurisdiction may not assert an apex/final-court function, i.e. may not record a supreme/privy
+    // court order; it must refer up. The apex seat is the canonical VJS jurisdiction.
+    const APEX_SEAT: &str = "vjs";
+    let decision = vjs_core::hook::apex_routing_decision(&input, &jurisdiction_id, APEX_SEAT)
+        .unwrap_or_else(|| {
+            vjs_core::hook::evaluate_governed(&input, &ctx, &permits, &required, &exempt)
+        });
 
     if json {
         println!("{}", serde_json::to_string_pretty(&decision).unwrap());
@@ -523,7 +569,10 @@ fn cmd_invoke(
     let config_path = vjs_dir.join("config.toml");
     let config = format!(
         "version = \"2\"\njurisdiction_id = \"{jur}\"\nrepo_code = \"{code}\"\nlawpack = \"{lp}\"\nprincipal = \"{prin}\"\n\n[paths]\norders = \".vjs/orders\"\nlogs = \".vjs/logs\"\nsubmissions = \".vjs/submissions\"\nproofs = \".vjs/proofs\"\npermits = \".vjs/permits\"\nprivate = \".vjs/private\"\n\n[paths.public]\nenabled = false\n\n[governance]\npermit_required = [\"src/**\", \"crates/**\", \"lawpack/**\", \"Cargo.toml\", \"package.json\", \"AGENTS.md\", \"VJS.md\", \"README.md\"]\npermit_exempt = [\".vjs/logs/**\", \".vjs/permits/**\", \".vjs/proofs/**\", \".vjs/cache/**\", \".vjs/private/**\", \"target/**\", \"node_modules/**\"]\n",
-        jur = jurisdiction, code = repo_code, lp = lawpack, prin = principal,
+        jur = jurisdiction,
+        code = repo_code,
+        lp = lawpack,
+        prin = principal,
     );
     let config_written = match std::fs::OpenOptions::new()
         .write(true)
@@ -544,16 +593,26 @@ fn cmd_invoke(
     // including schema_version for the load-time version handshake (Bug C).
     let lock = format!(
         "lawpack_id = \"{lp}\"\nlawpack_version = \"0.1.0\"\ndigest = \"{dig}\"\nschema_version = {sv}\ngenerated_at = \"{ts}\"\nlocked_by = \"{prin}\"\n",
-        lp = lawpack, dig = digest, sv = vjs_store::LOCK_SCHEMA_VERSION, ts = now_rfc, prin = principal,
+        lp = lawpack,
+        dig = digest,
+        sv = vjs_store::LOCK_SCHEMA_VERSION,
+        ts = now_rfc,
+        prin = principal,
     );
     std::fs::write(vjs_dir.join("lawpack.lock"), lock).map_err(io)?;
 
     // 3. the local sovereign invocation record (the constitutional act).
     let inv = format!(
         "id: INVOCATION-{stamp}\nkind: local_sovereign_invocation\nstatus: in_force\njurisdiction:\n  id: {jur}\n  repo_root: \".\"\n  repo_code: {code}\nprincipal:\n  name: \"{prin}\"\n  capacity: local_sovereign\nsubscription:\n  lawpack: {lp}\n  lawpack_lock: .vjs/lawpack.lock\n  mode: subscribed\n  v1_archive_import: none_unless_expressly_incorporated\nassent:\n  given: true\n  form: local_sovereign_act\n  statement: >\n    The Principal invokes this repository as a VJS V2 local jurisdiction,\n    subscribes it to the stated lawpack, and authorises the kernel, hooks,\n    permits, proofs, logs, and court route to govern repo work.\neffect:\n  - creates_local_jurisdiction\n  - creates_county_court_for_repo\n  - binds_agents_to_kernel_route\n  - requires_permits_for_governed_writes\n  - requires_logs_for_material_decisions\n  - installs_validation_hooks\n",
-        stamp = stamp, jur = jurisdiction, code = repo_code, prin = principal, lp = lawpack,
+        stamp = stamp,
+        jur = jurisdiction,
+        code = repo_code,
+        prin = principal,
+        lp = lawpack,
     );
-    let inv_path = vjs_dir.join("invocation").join(format!("{}-local-sovereign-invocation.yaml", stamp));
+    let inv_path = vjs_dir
+        .join("invocation")
+        .join(format!("{}-local-sovereign-invocation.yaml", stamp));
     std::fs::write(&inv_path, inv).map_err(io)?;
 
     // 4. install enforcement hooks (the activation): git core.hooksPath + tiny
@@ -568,10 +627,16 @@ fn cmd_invoke(
         let exe = std::env::current_exe()
             .map(|p| p.to_string_lossy().to_string())
             .unwrap_or_else(|_| "vjs".into());
-        std::fs::write(hooks_dir.join("pre-commit"),
-            format!("#!/usr/bin/env bash\nexec \"{}\" validate --staged\n", exe)).map_err(io)?;
-        std::fs::write(hooks_dir.join("pre-push"),
-            format!("#!/usr/bin/env bash\nexec \"{}\" local-ci\n", exe)).map_err(io)?;
+        std::fs::write(
+            hooks_dir.join("pre-commit"),
+            format!("#!/usr/bin/env bash\nexec \"{}\" validate --staged\n", exe),
+        )
+        .map_err(io)?;
+        std::fs::write(
+            hooks_dir.join("pre-push"),
+            format!("#!/usr/bin/env bash\nexec \"{}\" local-ci\n", exe),
+        )
+        .map_err(io)?;
         #[cfg(unix)]
         {
             use std::os::unix::fs::PermissionsExt;
@@ -585,24 +650,40 @@ fn cmd_invoke(
             }
         }
         let out = std::process::Command::new("git")
-            .args(["-C", &repo.to_string_lossy(), "config", "core.hooksPath", ".vjs/hooks"])
+            .args([
+                "-C",
+                &repo.to_string_lossy(),
+                "config",
+                "core.hooksPath",
+                ".vjs/hooks",
+            ])
             .output();
         hooks_installed = out.map(|o| o.status.success()).unwrap_or(false);
     }
 
     if json {
-        println!("{}", serde_json::json!({
-            "jurisdiction": jurisdiction,
-            "repo_code": repo_code,
-            "lawpack": lawpack,
-            "lawpack_digest": digest,
-            "invocation": inv_path.to_string_lossy(),
-            "config_written": config_written,
-            "hooks_installed": hooks_installed,
-        }));
+        println!(
+            "{}",
+            serde_json::json!({
+                "jurisdiction": jurisdiction,
+                "repo_code": repo_code,
+                "lawpack": lawpack,
+                "lawpack_digest": digest,
+                "invocation": inv_path.to_string_lossy(),
+                "config_written": config_written,
+                "hooks_installed": hooks_installed,
+            })
+        );
     } else {
-        println!("Invoked '{}' as a VJS jurisdiction (repo_code {}).", jurisdiction, repo_code);
-        println!("  lawpack: {} ({}...)", lawpack, &digest[..digest.len().min(23)]);
+        println!(
+            "Invoked '{}' as a VJS jurisdiction (repo_code {}).",
+            jurisdiction, repo_code
+        );
+        println!(
+            "  lawpack: {} ({}...)",
+            lawpack,
+            &digest[..digest.len().min(23)]
+        );
         println!("  invocation: {}", inv_path.display());
         println!("  config written: {}", config_written);
         println!("  hooks installed (core.hooksPath): {}", hooks_installed);
@@ -653,13 +734,16 @@ fn cmd_lookup(
     Ok(())
 }
 
-fn cmd_log(
-    repo: &Path,
-    subcmd: LogCommands,
-    json: bool,
-) -> Result<(), KernelError> {
+fn cmd_log(repo: &Path, subcmd: LogCommands, json: bool) -> Result<(), KernelError> {
     match subcmd {
-        LogCommands::Decision { kind, issue, decision, basis, risk, why } => {
+        LogCommands::Decision {
+            kind,
+            issue,
+            decision,
+            basis,
+            risk,
+            why,
+        } => {
             let log = DecisionLog {
                 id: format!("LOG-{}", chrono::Utc::now().format("%Y-%m-%d-%H%M%S")),
                 time: chrono::Utc::now().to_rfc3339(),
@@ -691,9 +775,15 @@ fn cmd_log(
             }
             Ok(())
         }
-        LogCommands::FromPermit { permit_id, decision, why } => {
+        LogCommands::FromPermit {
+            permit_id,
+            decision,
+            why,
+        } => {
             let permits = Store::read_permits(repo)?;
-            let permit = permits.into_iter().find(|p| p.id.0 == permit_id)
+            let permit = permits
+                .into_iter()
+                .find(|p| p.id.0 == permit_id)
                 .ok_or_else(|| KernelError::PermitNotFound(permit_id.clone()))?;
 
             // A log may only be written from a LIVE permit: active and
@@ -746,21 +836,27 @@ fn cmd_log(
             if json {
                 println!("{}", serde_json::to_string_pretty(&log).unwrap());
             } else {
-                println!("Decision log written: {} (from permit {})", log.id, permit_id);
+                println!(
+                    "Decision log written: {} (from permit {})",
+                    log.id, permit_id
+                );
             }
             Ok(())
         }
     }
 }
 
-fn cmd_proof(
-    repo: &Path,
-    subcmd: ProofCommands,
-    json: bool,
-) -> Result<(), KernelError> {
+fn cmd_proof(repo: &Path, subcmd: ProofCommands, json: bool) -> Result<(), KernelError> {
     match subcmd {
-        ProofCommands::Add { permit_id, kind, status } => {
-            let proof_id = ProofId(format!("PROOF-{}", chrono::Utc::now().format("%Y%m%d-%H%M%S")));
+        ProofCommands::Add {
+            permit_id,
+            kind,
+            status,
+        } => {
+            let proof_id = ProofId(format!(
+                "PROOF-{}",
+                chrono::Utc::now().format("%Y%m%d-%H%M%S")
+            ));
             let proof_status = match status.as_deref() {
                 Some("passed") => ProofStatus::Passed,
                 Some("failed") => ProofStatus::Failed,
@@ -879,7 +975,10 @@ fn cmd_validate(
                     severity: Severity::Info,
                     code: "INVARIANTS_PASS".into(),
                     path: None,
-                    message: format!("{} invariants evaluated, all passed", invariant_report.findings.len()),
+                    message: format!(
+                        "{} invariants evaluated, all passed",
+                        invariant_report.findings.len()
+                    ),
                     suggested_fix: None,
                 });
             }
@@ -887,8 +986,16 @@ fn cmd_validate(
             // Permit gate: governed staged paths require valid permit
             let config = Store::read_repo_config(repo)?;
             let (permit_required, permit_exempt) = if let Some(ref cfg) = config {
-                let req = cfg.governance.as_ref().map(|g| g.permit_required.clone()).unwrap_or_default();
-                let ex = cfg.governance.as_ref().map(|g| g.permit_exempt.clone()).unwrap_or_default();
+                let req = cfg
+                    .governance
+                    .as_ref()
+                    .map(|g| g.permit_required.clone())
+                    .unwrap_or_default();
+                let ex = cfg
+                    .governance
+                    .as_ref()
+                    .map(|g| g.permit_exempt.clone())
+                    .unwrap_or_default();
                 (req, ex)
             } else {
                 (Vec::new(), Vec::new())
@@ -924,16 +1031,15 @@ fn cmd_validate(
         }
     }
 
-    if external
-        && GitIntegration::is_public_remote(repo)? {
-            findings.push(ValidationFinding {
-                severity: Severity::Warning,
-                code: "PUBLIC_REMOTE".into(),
-                path: None,
-                message: "Repository has a public remote. Release warrant may be required.".into(),
-                suggested_fix: Some("Run vjs release-warrant check".into()),
-            });
-        }
+    if external && GitIntegration::is_public_remote(repo)? {
+        findings.push(ValidationFinding {
+            severity: Severity::Warning,
+            code: "PUBLIC_REMOTE".into(),
+            path: None,
+            message: "Repository has a public remote. Release warrant may be required.".into(),
+            suggested_fix: Some("Run vjs release-warrant check".into()),
+        });
+    }
 
     // Boundary scan
     let vjs_dir = repo.join(".vjs");
@@ -962,7 +1068,10 @@ fn cmd_validate(
     } else {
         println!("Validation: {}", if ok { "OK" } else { "FAILED" });
         for finding in &result.findings {
-            println!("  [{:?}] {}: {}", finding.severity, finding.code, finding.message);
+            println!(
+                "  [{:?}] {}: {}",
+                finding.severity, finding.code, finding.message
+            );
         }
     }
 
@@ -983,7 +1092,11 @@ fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
     steps.push(CiStep {
         name: "lawpack_validate".into(),
         passed: report.ok,
-        message: if report.ok { "Lawpack valid".into() } else { "Lawpack invalid".into() },
+        message: if report.ok {
+            "Lawpack valid".into()
+        } else {
+            "Lawpack invalid".into()
+        },
     });
     if !report.ok {
         ok = false;
@@ -1000,7 +1113,11 @@ fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
     steps.push(CiStep {
         name: "citation_check".into(),
         passed: citation_ok,
-        message: if citation_ok { "No citation collisions".into() } else { "Citation collision detected".into() },
+        message: if citation_ok {
+            "No citation collisions".into()
+        } else {
+            "Citation collision detected".into()
+        },
     });
     if !citation_ok {
         ok = false;
@@ -1017,7 +1134,11 @@ fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
     steps.push(CiStep {
         name: "boundary_scan".into(),
         passed: boundary_ok,
-        message: if boundary_ok { "Boundary scan passed".into() } else { "Boundary scan failed".into() },
+        message: if boundary_ok {
+            "Boundary scan passed".into()
+        } else {
+            "Boundary scan failed".into()
+        },
     });
     if !boundary_ok {
         ok = false;
@@ -1026,14 +1147,21 @@ fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
     // Step 4: Order validation
     let mut order_ok = true;
     for order in &lawpack.orders {
-        if order.holding.is_empty() || order.directives.is_empty() || order.runtime_summary.is_empty() {
+        if order.holding.is_empty()
+            || order.directives.is_empty()
+            || order.runtime_summary.is_empty()
+        {
             order_ok = false;
         }
     }
     steps.push(CiStep {
         name: "order_validate".into(),
         passed: order_ok,
-        message: if order_ok { "Orders valid".into() } else { "Invalid orders found".into() },
+        message: if order_ok {
+            "Orders valid".into()
+        } else {
+            "Invalid orders found".into()
+        },
     });
     if !order_ok {
         ok = false;
@@ -1050,7 +1178,12 @@ fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
         message: if invariant_ok {
             format!("{} invariants passed", invariant_report.findings.len())
         } else {
-            let failures: Vec<_> = invariant_report.findings.iter().filter(|f| !f.passed).map(|f| f.invariant_id.0.clone()).collect();
+            let failures: Vec<_> = invariant_report
+                .findings
+                .iter()
+                .filter(|f| !f.passed)
+                .map(|f| f.invariant_id.0.clone())
+                .collect();
             format!("Invariant failures: {}", failures.join(", "))
         },
     });
@@ -1061,8 +1194,16 @@ fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
     // Step 6: Permit gate
     let config = Store::read_repo_config(repo)?;
     let (permit_required, permit_exempt) = if let Some(ref cfg) = config {
-        let req = cfg.governance.as_ref().map(|g| g.permit_required.clone()).unwrap_or_default();
-        let ex = cfg.governance.as_ref().map(|g| g.permit_exempt.clone()).unwrap_or_default();
+        let req = cfg
+            .governance
+            .as_ref()
+            .map(|g| g.permit_required.clone())
+            .unwrap_or_default();
+        let ex = cfg
+            .governance
+            .as_ref()
+            .map(|g| g.permit_exempt.clone())
+            .unwrap_or_default();
         (req, ex)
     } else {
         (Vec::new(), Vec::new())
@@ -1090,9 +1231,12 @@ fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
         message: if permit_gate_ok {
             format!("{} staged paths, permit gate passed", staged_paths.len())
         } else {
-            let failures: Vec<_> = gate_result.findings.iter()
+            let failures: Vec<_> = gate_result
+                .findings
+                .iter()
                 .filter(|f| matches!(f.severity, Severity::Fatal | Severity::Error))
-                .map(|f| f.code.clone()).collect();
+                .map(|f| f.code.clone())
+                .collect();
             format!("Permit gate failures: {}", failures.join(", "))
         },
     });
@@ -1107,7 +1251,11 @@ fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
     } else {
         println!("Local CI: {}", if ok { "PASS" } else { "FAIL" });
         for step in &result.steps {
-            println!("  {}: {}", step.name, if step.passed { "PASS" } else { "FAIL" });
+            println!(
+                "  {}: {}",
+                step.name,
+                if step.passed { "PASS" } else { "FAIL" }
+            );
         }
     }
 
@@ -1121,8 +1269,8 @@ fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
 fn cmd_order(repo: &Path, subcmd: OrderCommands, json: bool) -> Result<(), KernelError> {
     match subcmd {
         OrderCommands::Validate { path } => {
-            let content = std::fs::read_to_string(&path)
-                .map_err(|e| KernelError::Io(e.to_string()))?;
+            let content =
+                std::fs::read_to_string(&path).map_err(|e| KernelError::Io(e.to_string()))?;
             let order: Order = serde_yaml::from_str(&content)
                 .map_err(|e| KernelError::Serialization(e.to_string()))?;
 
@@ -1143,10 +1291,14 @@ fn cmd_order(repo: &Path, subcmd: OrderCommands, json: bool) -> Result<(), Kerne
             }
 
             if json {
-                println!("{}", serde_json::to_string_pretty(&serde_json::json!({
-                    "ok": ok,
-                    "findings": findings
-                })).unwrap());
+                println!(
+                    "{}",
+                    serde_json::to_string_pretty(&serde_json::json!({
+                        "ok": ok,
+                        "findings": findings
+                    }))
+                    .unwrap()
+                );
             } else {
                 println!("Order validation: {}", if ok { "OK" } else { "FAILED" });
                 for f in &findings {
@@ -1159,8 +1311,8 @@ fn cmd_order(repo: &Path, subcmd: OrderCommands, json: bool) -> Result<(), Kerne
             }
         }
         OrderCommands::Apply { path } => {
-            let content = std::fs::read_to_string(&path)
-                .map_err(|e| KernelError::Io(e.to_string()))?;
+            let content =
+                std::fs::read_to_string(&path).map_err(|e| KernelError::Io(e.to_string()))?;
             let order: Order = serde_yaml::from_str(&content)
                 .map_err(|e| KernelError::Serialization(e.to_string()))?;
 
@@ -1194,12 +1346,22 @@ struct BundleComponent {
     adoption_mode: Option<String>,
 }
 
-const BUNDLE_COPYLEFT: &[&str] = &["AGPL-3.0-only", "AGPL-3.0", "GPL-3.0-only", "GPL-3.0", "LGPL-3.0"];
+const BUNDLE_COPYLEFT: &[&str] = &[
+    "AGPL-3.0-only",
+    "AGPL-3.0",
+    "GPL-3.0-only",
+    "GPL-3.0",
+    "LGPL-3.0",
+];
 const BUNDLE_PERMISSIVE: &[&str] = &["MIT", "Apache-2.0", "BSD-3-Clause", "BSD-2-Clause", "ISC"];
 
 fn is_sha256_digest(s: &str) -> bool {
     match s.strip_prefix("sha256:") {
-        Some(h) => h.len() == 64 && h.bytes().all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b)),
+        Some(h) => {
+            h.len() == 64
+                && h.bytes()
+                    .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+        }
         None => false,
     }
 }
@@ -1236,7 +1398,9 @@ fn verify_bundle_manifest(m: &BundleManifest) -> Result<String, String> {
             ("adoption_mode", &c.adoption_mode),
         ] {
             if !present(val) {
-                return Err(format!("component '{cid}' is missing the prescribed field '{name}'"));
+                return Err(format!(
+                    "component '{cid}' is missing the prescribed field '{name}'"
+                ));
             }
         }
         if !seen.insert(cid.to_string()) {
@@ -1244,7 +1408,9 @@ fn verify_bundle_manifest(m: &BundleManifest) -> Result<String, String> {
         }
         let digest = c.digest.as_deref().unwrap();
         if !is_sha256_digest(digest) {
-            return Err(format!("component '{cid}' digest is not a well-formed sha256: {digest}"));
+            return Err(format!(
+                "component '{cid}' digest is not a well-formed sha256: {digest}"
+            ));
         }
         let licence = c.licence.as_deref().unwrap();
         let adoption = c.adoption_mode.as_deref().unwrap();
@@ -1270,7 +1436,11 @@ fn verify_bundle_manifest(m: &BundleManifest) -> Result<String, String> {
 fn cmd_bundle(repo: &Path, subcmd: BundleCommands, json: bool) -> Result<(), KernelError> {
     match subcmd {
         BundleCommands::Verify { path } => {
-            let p = if path.is_absolute() { path.clone() } else { repo.join(&path) };
+            let p = if path.is_absolute() {
+                path.clone()
+            } else {
+                repo.join(&path)
+            };
             let content = std::fs::read_to_string(&p).map_err(|e| {
                 KernelError::InvalidInput(format!("cannot read {}: {e}", p.display()))
             })?;
@@ -1334,7 +1504,10 @@ mod bundle_tests {
     }
     #[test]
     fn fails_closed_on_licence_firewall_breach() {
-        let m = manifest("MIT", vec![comp("canon", "AGPL-3.0-only", "monorepo-package")]);
+        let m = manifest(
+            "MIT",
+            vec![comp("canon", "AGPL-3.0-only", "monorepo-package")],
+        );
         let e = verify_bundle_manifest(&m).unwrap_err();
         assert!(e.contains("licence firewall"), "{e}");
     }
@@ -1343,14 +1516,22 @@ mod bundle_tests {
         let mut c = comp("canon", "MIT", "vendored-readonly");
         c.source_commit = None;
         let m = manifest("MIT", vec![c]);
-        assert!(verify_bundle_manifest(&m).unwrap_err().contains("source_commit"));
+        assert!(
+            verify_bundle_manifest(&m)
+                .unwrap_err()
+                .contains("source_commit")
+        );
     }
     #[test]
     fn fails_closed_on_bad_digest() {
         let mut c = comp("canon", "MIT", "vendored-readonly");
         c.digest = Some("sha256:notahex".into());
         let m = manifest("MIT", vec![c]);
-        assert!(verify_bundle_manifest(&m).unwrap_err().contains("well-formed sha256"));
+        assert!(
+            verify_bundle_manifest(&m)
+                .unwrap_err()
+                .contains("well-formed sha256")
+        );
     }
 }
 
@@ -1387,33 +1568,53 @@ fn cmd_court(repo: &Path, subcmd: CourtCommands, json: bool) -> Result<(), Kerne
                 }
                 println!("\nConvenings ({}):", convenings.len());
                 for c in &convenings {
-                    println!("  {} [{}] case-file {} bench {:?}", c.id, c.court, c.case_file_digest, c.bench);
+                    println!(
+                        "  {} [{}] case-file {} bench {:?}",
+                        c.id, c.court, c.case_file_digest, c.bench
+                    );
                 }
                 println!("\nOrders ({}):", orders.len());
                 for o in &orders {
                     let cite = o.citation.clone().unwrap_or_else(|| o.id.clone());
-                    let recorded = if o.case_file_digest.is_some() { "recorded" } else { "no convening record" };
+                    let recorded = if o.case_file_digest.is_some() {
+                        "recorded"
+                    } else {
+                        "no convening record"
+                    };
                     println!("  {} ({}) [{}]", cite, o.issue.0, recorded);
                 }
             }
         }
-        CourtCommands::Record { court, submission, bench, issue } => {
+        CourtCommands::Record {
+            court,
+            submission,
+            bench,
+            issue,
+        } => {
             if bench.is_empty() {
-                return Err(KernelError::InvalidInput("a convening records at least one --seat".into()));
+                return Err(KernelError::InvalidInput(
+                    "a convening records at least one --seat".into(),
+                ));
             }
             let subs = Store::read_submissions(repo)?;
-            let sub = subs
-                .iter()
-                .find(|s| s.id == submission)
-                .ok_or_else(|| KernelError::InvalidInput(format!("no filed submission {}", submission)))?;
+            let sub = subs.iter().find(|s| s.id == submission).ok_or_else(|| {
+                KernelError::InvalidInput(format!("no filed submission {}", submission))
+            })?;
             // The case-file digest pins exactly what was before the court.
             let bytes = serde_yaml::to_string(sub)
                 .map_err(|e| KernelError::Serialization(e.to_string()))?;
             use sha2::Digest;
-            let digest = format!("sha256:{}", hex::encode(sha2::Sha256::digest(bytes.as_bytes())));
+            let digest = format!(
+                "sha256:{}",
+                hex::encode(sha2::Sha256::digest(bytes.as_bytes()))
+            );
             let convened_at = chrono::Utc::now().to_rfc3339();
             let rec = vjs_store::ConveningRecord {
-                id: format!("CONVENING-{}-{}", court, chrono::Utc::now().format("%Y-%m-%d-%H%M%S")),
+                id: format!(
+                    "CONVENING-{}-{}",
+                    court,
+                    chrono::Utc::now().format("%Y-%m-%d-%H%M%S")
+                ),
                 court,
                 submission_id: submission,
                 issue,
@@ -1423,7 +1624,10 @@ fn cmd_court(repo: &Path, subcmd: CourtCommands, json: bool) -> Result<(), Kerne
             };
             Store::write_convening(repo, &rec)?;
             if json {
-                println!("{}", serde_json::json!({ "convening": rec.id, "case_file_digest": digest }));
+                println!(
+                    "{}",
+                    serde_json::json!({ "convening": rec.id, "case_file_digest": digest })
+                );
             } else {
                 println!("Convening recorded: {} (case file {})", rec.id, digest);
             }
@@ -1440,8 +1644,7 @@ fn cmd_file(
     json: bool,
 ) -> Result<(), KernelError> {
     let facts = if let Some(path) = facts_file {
-        std::fs::read_to_string(&path)
-            .map_err(|e| KernelError::Io(e.to_string()))?
+        std::fs::read_to_string(&path).map_err(|e| KernelError::Io(e.to_string()))?
     } else {
         String::new()
     };
@@ -1455,7 +1658,10 @@ fn cmd_file(
     }
 
     let submission = Submission {
-        id: format!("SUBMISSION-{}", chrono::Utc::now().format("%Y-%m-%d-%H%M%S")),
+        id: format!(
+            "SUBMISSION-{}",
+            chrono::Utc::now().format("%Y-%m-%d-%H%M%S")
+        ),
         court_requested: court,
         jurisdiction: "default".into(),
         question,
@@ -1515,8 +1721,14 @@ fn cmd_status(repo: &Path, json: bool) -> Result<(), KernelError> {
         0
     };
 
-    let active_permits = permits.iter().filter(|p| matches!(p.status, PermitStatus::Active)).count();
-    let closed_permits = permits.iter().filter(|p| matches!(p.status, PermitStatus::Closed)).count();
+    let active_permits = permits
+        .iter()
+        .filter(|p| matches!(p.status, PermitStatus::Active))
+        .count();
+    let closed_permits = permits
+        .iter()
+        .filter(|p| matches!(p.status, PermitStatus::Closed))
+        .count();
 
     let status = StatusInfo {
         repo: repo.display().to_string(),
@@ -1544,7 +1756,10 @@ fn cmd_status(repo: &Path, json: bool) -> Result<(), KernelError> {
         }
         println!("Logs: {}", status.logs_count);
         println!("Orders: {}", status.orders_count);
-        println!("Permits: {} total, {} active, {} closed", status.permits_count, status.active_permits_count, status.closed_permits_count);
+        println!(
+            "Permits: {} total, {} active, {} closed",
+            status.permits_count, status.active_permits_count, status.closed_permits_count
+        );
         println!("Proofs: {}", status.proofs_count);
     }
 
@@ -1560,7 +1775,11 @@ fn resolve_repo_code(repo: &Path) -> String {
         for line in txt.lines() {
             let t = line.trim();
             if let Some(rest) = t.strip_prefix("repo_code") {
-                let val = rest.trim_start_matches([' ', '=']).trim().trim_matches('"').trim();
+                let val = rest
+                    .trim_start_matches([' ', '='])
+                    .trim()
+                    .trim_matches('"')
+                    .trim();
                 if !val.is_empty() {
                     return val.to_uppercase();
                 }
@@ -1606,13 +1825,17 @@ fn cmd_next_citation(
     };
 
     if json {
-        println!("{}", serde_json::to_string_pretty(&serde_json::json!({
-            "year": next.year,
-            "series": series,
-            "repoCode": repo_code,
-            "n": next.n,
-            "citation": citation_str
-        })).unwrap());
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&serde_json::json!({
+                "year": next.year,
+                "series": series,
+                "repoCode": repo_code,
+                "n": next.n,
+                "citation": citation_str
+            }))
+            .unwrap()
+        );
     } else {
         println!("Next citation: {}", citation_str);
     }
@@ -1633,8 +1856,14 @@ fn cmd_migrate_v1(_v1_path: &Path, out: Option<PathBuf>, json: bool) -> Result<(
                 title: "Memory is not authority".into(),
                 status: MigrationStatus::Migrated,
                 v1_sources: vec![
-                    V1Source { file: "Constitution/AGENTS.md".into(), reference: "retrieval-first".into() },
-                    V1Source { file: "AGENTS.md".into(), reference: "cdd-cli-spine".into() },
+                    V1Source {
+                        file: "Constitution/AGENTS.md".into(),
+                        reference: "retrieval-first".into(),
+                    },
+                    V1Source {
+                        file: "AGENTS.md".into(),
+                        reference: "cdd-cli-spine".into(),
+                    },
                 ],
                 v2_destination: V2Destination {
                     statute: "ACT-AGENT-DUTIES".into(),
@@ -1650,9 +1879,10 @@ fn cmd_migrate_v1(_v1_path: &Path, out: Option<PathBuf>, json: bool) -> Result<(
                 id: "L-002".into(),
                 title: "Five court triggers".into(),
                 status: MigrationStatus::Migrated,
-                v1_sources: vec![
-                    V1Source { file: "README.md".into(), reference: "five-triggers".into() },
-                ],
+                v1_sources: vec![V1Source {
+                    file: "README.md".into(),
+                    reference: "five-triggers".into(),
+                }],
                 v2_destination: V2Destination {
                     statute: "ACT-COURTS-ORDERS".into(),
                     rule: "RULE-COURT-TRIGGER".into(),
@@ -1668,8 +1898,14 @@ fn cmd_migrate_v1(_v1_path: &Path, out: Option<PathBuf>, json: bool) -> Result<(
                 title: "Public/private boundary".into(),
                 status: MigrationStatus::Migrated,
                 v1_sources: vec![
-                    V1Source { file: "README.md".into(), reference: "public-private".into() },
-                    V1Source { file: ".gitignore".into(), reference: "private-exclusions".into() },
+                    V1Source {
+                        file: "README.md".into(),
+                        reference: "public-private".into(),
+                    },
+                    V1Source {
+                        file: ".gitignore".into(),
+                        reference: "private-exclusions".into(),
+                    },
                 ],
                 v2_destination: V2Destination {
                     statute: "ACT-PUBLIC-PRIVATE".into(),
@@ -1684,10 +1920,9 @@ fn cmd_migrate_v1(_v1_path: &Path, out: Option<PathBuf>, json: bool) -> Result<(
         ],
     };
 
-    let content = serde_yaml::to_string(&ledger)
-        .map_err(|e| KernelError::Serialization(e.to_string()))?;
-    std::fs::write(&output, content)
-        .map_err(|e| KernelError::Io(e.to_string()))?;
+    let content =
+        serde_yaml::to_string(&ledger).map_err(|e| KernelError::Serialization(e.to_string()))?;
+    std::fs::write(&output, content).map_err(|e| KernelError::Io(e.to_string()))?;
 
     if json {
         println!("{}", serde_json::to_string_pretty(&ledger).unwrap());
@@ -1743,7 +1978,10 @@ fn cmd_eval(repo: &Path, suite: Option<String>, json: bool) -> Result<(), Kernel
     if json {
         println!("{}", serde_json::to_string_pretty(&reports).unwrap());
     } else if reports.is_empty() {
-        println!("No eval suite matched '{}'. Try: agent-harness | prompts | route | all", suite);
+        println!(
+            "No eval suite matched '{}'. Try: agent-harness | prompts | route | all",
+            suite
+        );
     } else {
         for report in &reports {
             println!(
@@ -1801,18 +2039,28 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     let ser = |e: serde_yaml::Error| KernelError::Serialization(e.to_string());
 
     fn s(v: &serde_yaml::Value, key: &str) -> Option<String> {
-        v.get(key).and_then(|x| x.as_str()).map(|x| x.trim().to_string())
+        v.get(key)
+            .and_then(|x| x.as_str())
+            .map(|x| x.trim().to_string())
     }
     fn str_list(v: &serde_yaml::Value, key: &str) -> Vec<String> {
         match v.get(key) {
             // A sequence: collect its string items (the canonical form).
             Some(x) if x.is_sequence() => x
                 .as_sequence()
-                .map(|seq| seq.iter().filter_map(|i| i.as_str().map(|s| s.to_string())).collect())
+                .map(|seq| {
+                    seq.iter()
+                        .filter_map(|i| i.as_str().map(|s| s.to_string()))
+                        .collect()
+                })
                 .unwrap_or_default(),
             // Tolerate a bare scalar string as a one-element list: varies / affirms /
             // appeal_of are written as scalars across the order record.
-            Some(x) => x.as_str().filter(|s| !s.is_empty()).map(|s| vec![s.to_string()]).unwrap_or_default(),
+            Some(x) => x
+                .as_str()
+                .filter(|s| !s.is_empty())
+                .map(|s| vec![s.to_string()])
+                .unwrap_or_default(),
             None => Vec::new(),
         }
     }
@@ -1835,9 +2083,10 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
         let mut obj = serde_json::Map::new();
         for k in keys {
             if let Some(x) = v.get(k)
-                && !x.is_null() {
-                    obj.insert(k.to_string(), yaml_to_json(x));
-                }
+                && !x.is_null()
+            {
+                obj.insert(k.to_string(), yaml_to_json(x));
+            }
         }
         serde_json::Value::Object(obj)
     }
@@ -1852,7 +2101,9 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                     .and_then(|x| x.as_sequence())
                     .map(|secs| {
                         secs.iter()
-                            .map(|sec| pick(sec, &["id", "title", "text", "commentary", "kernel_effect"]))
+                            .map(|sec| {
+                                pick(sec, &["id", "title", "text", "commentary", "kernel_effect"])
+                            })
                             .collect()
                     })
                     .unwrap_or_default();
@@ -1883,14 +2134,46 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 body
             }
             "regulation" => pick(v, &["authority", "text", "kernel_effect"]),
-            "order" => pick(v, &[
-                "question", "holding", "directives", "forbidden", "exceptions", "runtime_summary", "source_opinion",
-            ]),
-            "decision" => pick(v, &["decision", "reason", "basis", "consequences", "review_triggers", "scope"]),
+            "order" => pick(
+                v,
+                &[
+                    "question",
+                    "holding",
+                    "directives",
+                    "forbidden",
+                    "exceptions",
+                    "runtime_summary",
+                    "source_opinion",
+                ],
+            ),
+            "decision" => pick(
+                v,
+                &[
+                    "decision",
+                    "reason",
+                    "basis",
+                    "consequences",
+                    "review_triggers",
+                    "scope",
+                ],
+            ),
             "invariant" => pick(v, &["severity", "rule", "remedy", "basis"]),
             "obligation" => pick(v, &["text", "kind", "due", "required", "basis"]),
-            "spec" => pick(v, &["purpose", "scope", "decisions", "invariants", "obligations", "review_triggers"]),
-            "rule" => pick(v, &["summary", "effect", "scope", "exceptions", "rank", "source"]),
+            "spec" => pick(
+                v,
+                &[
+                    "purpose",
+                    "scope",
+                    "decisions",
+                    "invariants",
+                    "obligations",
+                    "review_triggers",
+                ],
+            ),
+            "rule" => pick(
+                v,
+                &["summary", "effect", "scope", "exceptions", "rank", "source"],
+            ),
             _ => serde_json::Value::Null,
         }
     }
@@ -1928,15 +2211,18 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     /// small words lowered (never first or last), tokens already carrying
     /// capitals or digits (V1, VJS-PC, 2026, Computer-First) left alone.
     fn title_case(t: &str) -> String {
-        const SMALL: [&str; 14] =
-            ["a", "an", "and", "as", "at", "but", "by", "for", "in", "of", "on", "or", "the", "to"];
+        const SMALL: [&str; 14] = [
+            "a", "an", "and", "as", "at", "but", "by", "for", "in", "of", "on", "or", "the", "to",
+        ];
         let words: Vec<&str> = t.split(' ').collect();
         let last = words.len().saturating_sub(1);
         words
             .iter()
             .enumerate()
             .map(|(i, w)| {
-                if w.chars().skip(1).any(|c| c.is_uppercase()) || w.chars().any(|c| c.is_ascii_digit()) {
+                if w.chars().skip(1).any(|c| c.is_uppercase())
+                    || w.chars().any(|c| c.is_ascii_digit())
+                {
                     return w.to_string();
                 }
                 let lower = w.to_lowercase();
@@ -1953,7 +2239,9 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 }
                 let mut cs = w.chars();
                 match cs.next() {
-                    Some(f) if f.is_alphabetic() => f.to_uppercase().collect::<String>() + cs.as_str(),
+                    Some(f) if f.is_alphabetic() => {
+                        f.to_uppercase().collect::<String>() + cs.as_str()
+                    }
                     Some('(') => {
                         // capitalise inside an opening bracket: "(the order)" -> "(The Order)"
                         let rest = cs.as_str();
@@ -1988,7 +2276,9 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     // the curated estate left one blank (REALM-SC-1 -> [2026] REALM-SC 1;
     // SI-6 -> [2026] REALM-SI 6; BILL-1 -> [2026] REALM-BILL 1).
     fn derive_v1_citation(id: &str, date: &str) -> Option<String> {
-        let year = date.get(0..4).filter(|y| y.chars().all(|c| c.is_ascii_digit()))?;
+        let year = date
+            .get(0..4)
+            .filter(|y| y.chars().all(|c| c.is_ascii_digit()))?;
         let (series, n) = id.rsplit_once('-')?;
         if n.is_empty() || !n.chars().all(|c| c.is_ascii_digit()) {
             return None;
@@ -2026,7 +2316,11 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     // (Orders carry created_at and prefer it for the enactment date.)
     fn git_dates(repo: &Path, extra: &[&str]) -> std::collections::HashMap<String, String> {
         let mut map = std::collections::HashMap::new();
-        let mut args = vec!["-C".to_string(), repo.to_string_lossy().to_string(), "log".to_string()];
+        let mut args = vec![
+            "-C".to_string(),
+            repo.to_string_lossy().to_string(),
+            "log".to_string(),
+        ];
         args.extend(extra.iter().map(|a| a.to_string()));
         args.extend(["--name-only".to_string(), "--format=\u{1}%cI".to_string()]);
         if let Ok(out) = std::process::Command::new("git").args(&args).output() {
@@ -2038,7 +2332,8 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                     // where a date-only display is wanted
                     current = ts.to_string();
                 } else if !line.is_empty() && !current.is_empty() {
-                    map.entry(line.to_string()).or_insert_with(|| current.clone());
+                    map.entry(line.to_string())
+                        .or_insert_with(|| current.clone());
                 }
             }
         }
@@ -2107,19 +2402,20 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             };
             // Name first, always: an untitled order is headed by the name of
             // its subject (the issue it was defined against), never its raw id.
-            let title = s(&v, "title").or_else(|| {
-                s(&v, "issue").map(|issue| {
-                    let last = issue.rsplit('.').next().unwrap_or(&issue);
-                    let stem = last.trim_start_matches("vjs-v2-").replace(['-', '_'], " ");
-                    let mut cs = stem.chars();
-                    match cs.next() {
-                        Some(f) => format!("{}{} (the order)", f.to_uppercase(), cs.as_str()),
-                        None => issue.clone(),
-                    }
+            let title = s(&v, "title")
+                .or_else(|| {
+                    s(&v, "issue").map(|issue| {
+                        let last = issue.rsplit('.').next().unwrap_or(&issue);
+                        let stem = last.trim_start_matches("vjs-v2-").replace(['-', '_'], " ");
+                        let mut cs = stem.chars();
+                        match cs.next() {
+                            Some(f) => format!("{}{} (the order)", f.to_uppercase(), cs.as_str()),
+                            None => issue.clone(),
+                        }
+                    })
                 })
-            })
-            .filter(|t| !t.trim().is_empty())
-            .unwrap_or_else(|| id.clone());
+                .filter(|t| !t.trim().is_empty())
+                .unwrap_or_else(|| id.clone());
             let citation = s(&v, "citation").unwrap_or_default();
             let status = s(&v, "status")
                 .or_else(|| s(&v, "severity").map(|sev| format!("severity {}", sev)))
@@ -2139,7 +2435,10 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                     "ca"
                 } else if cite.contains("-CC") {
                     "county"
-                } else if cite.contains("-PC ") || cite.contains("REALM-PC") || raw == "privy_council" {
+                } else if cite.contains("-PC ")
+                    || cite.contains("REALM-PC")
+                    || raw == "privy_council"
+                {
                     "pc"
                 } else if raw == "county" {
                     "pc"
@@ -2202,8 +2501,16 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                     .map(|k| {
                         let mut p: Vec<String> =
                             str_list(k, "must").iter().map(|m| humanize(m)).collect();
-                        p.extend(str_list(k, "must_not").iter().map(|m| format!("never {}", humanize(m))));
-                        p.extend(str_list(k, "prohibits").iter().map(|m| format!("prohibits {}", humanize(m))));
+                        p.extend(
+                            str_list(k, "must_not")
+                                .iter()
+                                .map(|m| format!("never {}", humanize(m))),
+                        );
+                        p.extend(
+                            str_list(k, "prohibits")
+                                .iter()
+                                .map(|m| format!("prohibits {}", humanize(m))),
+                        );
                         p
                     })
                     .unwrap_or_default(),
@@ -2243,7 +2550,10 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             cites.extend(textual_refs(&content));
 
             let ed = editorial.get(&id);
-            let summary = ed.filter(|e| !e.summary.is_empty()).map(|e| e.summary.clone()).unwrap_or(mech_summary);
+            let summary = ed
+                .filter(|e| !e.summary.is_empty())
+                .map(|e| e.summary.clone())
+                .unwrap_or(mech_summary);
             let points = ed
                 .filter(|e| !e.points.is_empty())
                 .map(|e| e.points.clone())
@@ -2255,8 +2565,18 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             cites.dedup();
             cites.retain(|c| *c != id);
 
-            let rel = format!("lawpack/v2/{}/{}", dir, path.file_name().unwrap().to_string_lossy());
-            let day = |s: &str| s.split('T').next().unwrap_or("").trim_matches('"').to_string();
+            let rel = format!(
+                "lawpack/v2/{}/{}",
+                dir,
+                path.file_name().unwrap().to_string_lossy()
+            );
+            let day = |s: &str| {
+                s.split('T')
+                    .next()
+                    .unwrap_or("")
+                    .trim_matches('"')
+                    .to_string()
+            };
             // Full-precision sort key: the record's declared created_at if it has
             // one, else the git commit timestamp, else the day at midnight. The
             // register orders newest-first on this, so same-day records keep
@@ -2270,7 +2590,11 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 .filter(|c| !c.is_empty())
                 .or_else(|| added_at.get(&rel).map(|t| day(t)))
                 .unwrap_or_default();
-            let ts = if ts.contains('T') { ts } else { format!("{}T00:00:00Z", date) };
+            let ts = if ts.contains('T') {
+                ts
+            } else {
+                format!("{}T00:00:00Z", date)
+            };
             let citation = if citation.is_empty() && kind == "order" {
                 derive_order_citation(&id).unwrap_or_default()
             } else {
@@ -2296,7 +2620,10 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 "question": s(&v, "question").unwrap_or_default(),
                 "path": rel, "url": format!("{}{}", V2_BASE, rel),
             });
-            item["doc"] = serde_json::Value::String(format!("law.html#{}", item["id"].as_str().unwrap_or("")));
+            item["doc"] = serde_json::Value::String(format!(
+                "law.html#{}",
+                item["id"].as_str().unwrap_or("")
+            ));
             // Court orders render as PDF (the machine YAML stands alongside as
             // the secondary on the page). The PDF is a rendering of this very
             // record, carried under pdfs/orders/.
@@ -2311,7 +2638,10 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 item["assent_source"] = serde_json::Value::String(asrc);
             }
             item["updated"] = serde_json::Value::String(
-                updated_at.get(&rel).map(|t| day(t)).unwrap_or_else(|| date.clone()),
+                updated_at
+                    .get(&rel)
+                    .map(|t| day(t))
+                    .unwrap_or_else(|| date.clone()),
             );
             // A case's subject: the problem it was defined against.
             if kind == "order" {
@@ -2337,7 +2667,10 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 }
             }
             items.push(item);
-            texts.insert(items.last().unwrap()["id"].as_str().unwrap().to_string(), text_body(kind, &v));
+            texts.insert(
+                items.last().unwrap()["id"].as_str().unwrap().to_string(),
+                text_body(kind, &v),
+            );
         }
     }
 
@@ -2352,7 +2685,9 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     if let Some(body) = texts.get_mut(MACHINERY_INSTRUMENT) {
         let mut counts: std::collections::BTreeMap<String, usize> = Default::default();
         for sch in &schedules {
-            *counts.entry(sch["kind"].as_str().unwrap_or("").to_string()).or_default() += 1;
+            *counts
+                .entry(sch["kind"].as_str().unwrap_or("").to_string())
+                .or_default() += 1;
         }
         body["schedules"] = serde_json::Value::Array(schedules.clone());
         if let Some(item) = items.iter_mut().find(|i| i["id"] == MACHINERY_INSTRUMENT) {
@@ -2387,10 +2722,11 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 // frozen source markdown, in the Gazette's own document style.
                 let mut archive_text = false;
                 if let Some(src) = s(it, "source_md").filter(|x| !x.is_empty())
-                    && let Ok(md) = std::fs::read_to_string(repo.join(&src)) {
-                        texts.insert(v1_id.clone(), serde_json::json!({ "archive_md": md }));
-                        archive_text = true;
-                    }
+                    && let Ok(md) = std::fs::read_to_string(repo.join(&src))
+                {
+                    texts.insert(v1_id.clone(), serde_json::json!({ "archive_md": md }));
+                    archive_text = true;
+                }
                 let v1_id_for_doc = v1_id.clone();
                 let v1_date = s(it, "date").unwrap_or_default();
                 let v1_citation = {
@@ -2455,7 +2791,11 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     fn lineage_anchor(estate: &str, kind: &str, id: &str) -> Option<&'static str> {
         let anchor = match (estate, kind) {
             ("v2", "statute") => {
-                if id == FOUNDING_ACT { V1_FOUNDING_BILL } else { FOUNDING_ACT }
+                if id == FOUNDING_ACT {
+                    V1_FOUNDING_BILL
+                } else {
+                    FOUNDING_ACT
+                }
             }
             ("v2", "regulation") => "", // its authority field already names the parent
             ("v2", "order") => COURTS_ORDER,
@@ -2500,13 +2840,14 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             std::collections::BTreeMap::new();
         for (idx, item) in items.iter().enumerate() {
             if item["kind"] == "order"
-                && let Some(subj) = item["subject"].as_str() {
-                    by_subject.entry(subject_family(subj)).or_default().push((
-                        item["date"].as_str().unwrap_or_default().to_string(),
-                        item["id"].as_str().unwrap_or_default().to_string(),
-                        idx,
-                    ));
-                }
+                && let Some(subj) = item["subject"].as_str()
+            {
+                by_subject.entry(subject_family(subj)).or_default().push((
+                    item["date"].as_str().unwrap_or_default().to_string(),
+                    item["id"].as_str().unwrap_or_default().to_string(),
+                    idx,
+                ));
+            }
         }
         for (_, mut docket) in by_subject {
             docket.sort();
@@ -2556,37 +2897,58 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
 
         let raw_cites: Vec<String> = item["cites"]
             .as_array()
-            .map(|a| a.iter().filter_map(|c| c.as_str().map(String::from)).collect())
+            .map(|a| {
+                a.iter()
+                    .filter_map(|c| c.as_str().map(String::from))
+                    .collect()
+            })
             .unwrap_or_default();
         let resolved = resolve(&raw_cites, &own_id, &known);
         dropped += raw_cites.len().saturating_sub(resolved.len());
         item["cites"] = serde_json::Value::Array(
-            resolved.iter().cloned().map(serde_json::Value::String).collect(),
+            resolved
+                .iter()
+                .cloned()
+                .map(serde_json::Value::String)
+                .collect(),
         );
 
         let raw_sup: Vec<String> = item["supersedes"]
             .as_array()
-            .map(|a| a.iter().filter_map(|c| c.as_str().map(String::from)).collect())
+            .map(|a| {
+                a.iter()
+                    .filter_map(|c| c.as_str().map(String::from))
+                    .collect()
+            })
             .unwrap_or_default();
         let sup = resolve(&raw_sup, &own_id, &known);
         for target in &sup {
-            superseded_by.entry(target.clone()).or_default().push(own_id.clone());
+            superseded_by
+                .entry(target.clone())
+                .or_default()
+                .push(own_id.clone());
         }
-        item["supersedes"] = serde_json::Value::Array(
-            sup.into_iter().map(serde_json::Value::String).collect(),
-        );
+        item["supersedes"] =
+            serde_json::Value::Array(sup.into_iter().map(serde_json::Value::String).collect());
 
         for (field, map) in [("varies", &mut varied_by), ("affirms", &mut affirmed_by)] {
             let raw: Vec<String> = item[field]
                 .as_array()
-                .map(|a| a.iter().filter_map(|c| c.as_str().map(String::from)).collect())
+                .map(|a| {
+                    a.iter()
+                        .filter_map(|c| c.as_str().map(String::from))
+                        .collect()
+                })
                 .unwrap_or_default();
             let resolved_t = resolve(&raw, &own_id, &known);
             for target in &resolved_t {
                 map.entry(target.clone()).or_default().push(own_id.clone());
             }
             item[field] = serde_json::Value::Array(
-                resolved_t.into_iter().map(serde_json::Value::String).collect(),
+                resolved_t
+                    .into_iter()
+                    .map(serde_json::Value::String)
+                    .collect(),
             );
         }
 
@@ -2594,7 +2956,10 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
         // (resolved citations) or the docket thread on its issue. The
         // constitutional anchor is a last resort against orphaning only.
         let case_like = kind == "order" || kind == "judgment";
-        let threaded = item["thread"].as_array().map(|a| !a.is_empty()).unwrap_or(false);
+        let threaded = item["thread"]
+            .as_array()
+            .map(|a| !a.is_empty())
+            .unwrap_or(false);
         let anchor = if case_like && (!resolved.is_empty() || threaded) {
             None
         } else {
@@ -2622,9 +2987,8 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             let mut v = map.get(&own_id).cloned().unwrap_or_default();
             v.sort();
             v.dedup();
-            item[field] = serde_json::Value::Array(
-                v.into_iter().map(serde_json::Value::String).collect(),
-            );
+            item[field] =
+                serde_json::Value::Array(v.into_iter().map(serde_json::Value::String).collect());
         }
         // Every V1 archive node carries the uniform migration relation to the V2
         // canon, so no honoured-archive record is a navigable dead-end. It was
@@ -2751,12 +3115,17 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     // from enactment and amendment history, and the feed's updated is the max
     // entry updated, never the generation time.
     fn xml_esc(t: &str) -> String {
-        t.replace('&', "&amp;").replace('<', "&lt;").replace('>', "&gt;")
-            .replace('"', "&quot;").replace('\'', "&apos;")
+        t.replace('&', "&amp;")
+            .replace('<', "&lt;")
+            .replace('>', "&gt;")
+            .replace('"', "&quot;")
+            .replace('\'', "&apos;")
     }
     let mut feed_items: Vec<&serde_json::Value> = items.iter().collect();
     feed_items.sort_by(|a, b| {
-        b["updated"].as_str().cmp(&a["updated"].as_str())
+        b["updated"]
+            .as_str()
+            .cmp(&a["updated"].as_str())
             .then(a["id"].as_str().cmp(&b["id"].as_str()))
     });
     let feed_updated = feed_items
@@ -2770,26 +3139,48 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
     xml.push_str("  <title>The VJS Gazette</title>\n");
     xml.push_str("  <subtitle>The record of the realm: the living canon and the honoured archive</subtitle>\n");
     xml.push_str(&format!("  <id>{}</id>\n", FEED_TAG));
-    xml.push_str(&format!("  <updated>{}T00:00:00Z</updated>\n", feed_updated));
-    xml.push_str(&format!("  <link rel=\"self\" href=\"{}gazette.xml\"/>\n", SITE_BASE));
-    xml.push_str(&format!("  <link rel=\"alternate\" href=\"{}\"/>\n", SITE_BASE));
+    xml.push_str(&format!(
+        "  <updated>{}T00:00:00Z</updated>\n",
+        feed_updated
+    ));
+    xml.push_str(&format!(
+        "  <link rel=\"self\" href=\"{}gazette.xml\"/>\n",
+        SITE_BASE
+    ));
+    xml.push_str(&format!(
+        "  <link rel=\"alternate\" href=\"{}\"/>\n",
+        SITE_BASE
+    ));
     xml.push_str("  <author><name>Vibe Justice System</name></author>\n");
     xml.push_str("  <rights>Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001): force comes from the lawpack and the Sovereign's assent, never from publication or syndication.</rights>\n");
     for i in &feed_items {
         let id = i["id"].as_str().unwrap_or_default();
         xml.push_str("  <entry>\n");
         xml.push_str(&format!("    <id>{}:{}</id>\n", FEED_TAG, xml_esc(id)));
-        xml.push_str(&format!("    <title>{}</title>\n", xml_esc(i["title"].as_str().unwrap_or(id))));
+        xml.push_str(&format!(
+            "    <title>{}</title>\n",
+            xml_esc(i["title"].as_str().unwrap_or(id))
+        ));
         xml.push_str(&format!(
             "    <link rel=\"alternate\" href=\"{}#{}\"/>\n",
             SITE_BASE,
             xml_esc(id)
         ));
-        xml.push_str(&format!("    <link rel=\"via\" href=\"{}\"/>\n", xml_esc(i["url"].as_str().unwrap_or(""))));
-        xml.push_str(&format!("    <category term=\"{}\"/>\n", xml_esc(i["kind"].as_str().unwrap_or(""))));
+        xml.push_str(&format!(
+            "    <link rel=\"via\" href=\"{}\"/>\n",
+            xml_esc(i["url"].as_str().unwrap_or(""))
+        ));
         xml.push_str(&format!(
             "    <category term=\"{}\"/>\n",
-            if i["estate"] == "v1" { "archive" } else { "canon" }
+            xml_esc(i["kind"].as_str().unwrap_or(""))
+        ));
+        xml.push_str(&format!(
+            "    <category term=\"{}\"/>\n",
+            if i["estate"] == "v1" {
+                "archive"
+            } else {
+                "canon"
+            }
         ));
         xml.push_str(&format!(
             "    <published>{}T00:00:00Z</published>\n",
@@ -2818,36 +3209,37 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
         const START: &str = "<script type=\"application/ld+json\" id=\"gazette-jsonld\">";
         const END: &str = "</script>";
         if let Some(s_idx) = html.find(START)
-            && let Some(e_off) = html[s_idx + START.len()..].find(END) {
-                let mut graph = vec![serde_json::json!({
-                    "@type": "Periodical",
-                    "name": "The VJS Gazette",
-                    "url": SITE_BASE,
-                })];
-                for i in &items {
-                    let id = i["id"].as_str().unwrap_or_default();
-                    let citation = i["citation"].as_str().unwrap_or_default();
-                    graph.push(serde_json::json!({
-                        "@type": "Legislation",
-                        "name": i["title"],
-                        "legislationIdentifier": if citation.is_empty() { id } else { citation },
-                        "legislationDate": i["date"],
-                        "legislationType": i["kind"],
-                        "url": format!("{}law.html#{}", SITE_BASE, id),
-                        "isPartOf": { "@type": "Periodical", "name": "The VJS Gazette" },
-                    }));
-                }
-                let ld = serde_json::json!({ "@context": "https://schema.org", "@graph": graph });
-                let body = guard(serde_json::to_string(&ld).expect("jsonld serializes"));
-                let new_html = format!(
-                    "{}{}\n{}\n{}",
-                    &html[..s_idx],
-                    START,
-                    body,
-                    &html[s_idx + START.len() + e_off..]
-                );
-                std::fs::write(&gazette_page, new_html).map_err(io)?;
+            && let Some(e_off) = html[s_idx + START.len()..].find(END)
+        {
+            let mut graph = vec![serde_json::json!({
+                "@type": "Periodical",
+                "name": "The VJS Gazette",
+                "url": SITE_BASE,
+            })];
+            for i in &items {
+                let id = i["id"].as_str().unwrap_or_default();
+                let citation = i["citation"].as_str().unwrap_or_default();
+                graph.push(serde_json::json!({
+                    "@type": "Legislation",
+                    "name": i["title"],
+                    "legislationIdentifier": if citation.is_empty() { id } else { citation },
+                    "legislationDate": i["date"],
+                    "legislationType": i["kind"],
+                    "url": format!("{}law.html#{}", SITE_BASE, id),
+                    "isPartOf": { "@type": "Periodical", "name": "The VJS Gazette" },
+                }));
             }
+            let ld = serde_json::json!({ "@context": "https://schema.org", "@graph": graph });
+            let body = guard(serde_json::to_string(&ld).expect("jsonld serializes"));
+            let new_html = format!(
+                "{}{}\n{}\n{}",
+                &html[..s_idx],
+                START,
+                body,
+                &html[s_idx + START.len() + e_off..]
+            );
+            std::fs::write(&gazette_page, new_html).map_err(io)?;
+        }
     }
 
     if json {
@@ -2864,8 +3256,17 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
             })
         );
     } else {
-        println!("Gazette data: {} items -> {}", known.len(), out_path.display());
-        println!("  full text: {} bodies ({} KB) -> {}", texts.len(), text_body_js.len() / 1024, text_path.display());
+        println!(
+            "Gazette data: {} items -> {}",
+            known.len(),
+            out_path.display()
+        );
+        println!(
+            "  full text: {} bodies ({} KB) -> {}",
+            texts.len(),
+            text_body_js.len() / 1024,
+            text_path.display()
+        );
         println!("  citation edges to non-items dropped: {}", dropped);
     }
     Ok(())
@@ -2895,8 +3296,7 @@ fn compute_digest(repo: &Path) -> Result<String, KernelError> {
     let mut hasher = sha2::Sha256::new();
     let manifest = repo.join("lawpack/v2/manifest.toml");
     if manifest.exists() {
-        let content = std::fs::read(&manifest)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
+        let content = std::fs::read(&manifest).map_err(|e| KernelError::Io(e.to_string()))?;
         hasher.update(&content);
     }
     Ok(format!("sha256:{}", hex::encode(hasher.finalize())))
@@ -2995,7 +3395,12 @@ fn cmd_permit(repo: &Path, subcmd: PermitCommands, json: bool) -> Result<(), Ker
                     println!("No active permits");
                 } else {
                     for permit in &permits {
-                        println!("{} ({:?}): {} obligations", permit.id.0, permit.status, permit.obligations.len());
+                        println!(
+                            "{} ({:?}): {} obligations",
+                            permit.id.0,
+                            permit.status,
+                            permit.obligations.len()
+                        );
                     }
                 }
             }
@@ -3011,9 +3416,15 @@ fn cmd_permit(repo: &Path, subcmd: PermitCommands, json: bool) -> Result<(), Ker
 
             if let Some(proof_content) = proof {
                 use sha2::Digest;
-                let digest = format!("sha256:{}", hex::encode(sha2::Sha256::digest(proof_content.as_bytes())));
+                let digest = format!(
+                    "sha256:{}",
+                    hex::encode(sha2::Sha256::digest(proof_content.as_bytes()))
+                );
                 let proof = Proof {
-                    id: ProofId(format!("PROOF-{}", chrono::Utc::now().format("%Y%m%d-%H%M%S"))),
+                    id: ProofId(format!(
+                        "PROOF-{}",
+                        chrono::Utc::now().format("%Y%m%d-%H%M%S")
+                    )),
                     permit_id: permit.id.clone(),
                     kind: ProofKind::DecisionLog,
                     status: ProofStatus::Passed,
