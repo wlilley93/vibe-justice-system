@@ -1,0 +1,196 @@
+id: "2026-VJS-PC-013"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-PC 13"
+title: Teeth For The Front Door
+court: privy_council
+jurisdiction: vibe-justice-system
+status: binding
+issue: kernel_enforcement_gaps_canon_write_chokepoint
+bench:
+  - Tindale
+  - Rowanne
+  - Marchmont
+vote: >
+  3-0 (Tindale J., Rowanne J., Marchmont J., unanimous on all nine questions):
+  Position A. Direct the machinery/wiring fixes now (each gate giving teeth to an
+  existing duty under ACT-CONSOLIDATION-FRAMEWORK:s7, each carrying the
+  assent-conditioned Block-or-route verdict ACT-ASSENTED-RECORD-PROTECTION requires), dispose the Q4 and
+  Q8 first-impression points and the Q5 design fork, mandate the full-spectrum
+  conformance audit, and RESERVE the consolidating single-front-door instrument
+  to a grounded follow-on. No dissent.
+case_file_digest: "sha256:6c6597a679e798be72bc48a6fb3d4031549248f9b19f97e7786937b666ce5601"
+convened_at: "2026-06-24T22:41:30.298124629+00:00"
+question: >
+  The case file diagnoses eight enforcement gaps where an enacted substantive
+  duty has no deterministic kernel gate at the canon-write chokepoint (the vector
+  by which eleven subscriber-scoped files self-asserted [2026] VJS-DEC 15-22 into
+  canon), plus a ninth question on whether to consolidate. Per question Q1-Q9:
+  which gaps are enforcement of existing law to be directed as machinery under
+  ACT-CONSOLIDATION-FRAMEWORK:s7; which are decisive engineering calls needing no
+  ruling; how are the Q4 first-impression points (atomic install manifest; PATH
+  shim) disposed; how does the Q5 tier-floor gate reconcile block-vs-warn with the
+  ACT-ASSENTED-RECORD-PROTECTION assented-record floor; what bench-integrity verification (Q8) is owed;
+  and should the consolidating "single front door, no other entry" instrument be
+  enacted now or reserved (Q9)?
+holding: >
+  POSITION A, 3-0. The disease across Q1-Q8 is one: an enacted, in-force (and in
+  its public/private and assent limbs entrenched) substantive duty with no
+  deterministic gate at the chokepoint - law without teeth, not lawlessness. The
+  cure is machinery under ACT-CONSOLIDATION-FRAMEWORK:s7 giving teeth to existing
+  law, not fresh legislation; the Court REFUSES to re-legislate any settled duty.
+  Two hard constraints bind every gate: the anti-Henry-VIII limit (s7/s25 - no
+  gate may amend a statute, bench, tier, jurisdiction, or the assent rule; a gate
+  that merely refuses an unlawful write enforces, it does not amend), and the
+  ACT-ASSENTED-RECORD-PROTECTION floor (a record declaring a valid assent_source may never be voided or
+  blocked, only surfaced/flagged/routed-for-correction; s2 confers no protection
+  on a record lacking a valid assent_source). The governing discipline is
+  therefore: GATE HARD PRE-ASSENT; DOWNGRADE TO ROUTE-FOR-CORRECTION ONCE A VALID
+  ASSENT_SOURCE ATTACHES. Q1 (canonicity gate): enforcement of existing law
+  (ACT-005:s1/s3/s5/s7), directed as machinery (D1). Q2 (citation allocation):
+  enforcement of ACT-004:s8, directed as machinery; allocation runs at authoring,
+  before assent, so the fatal-collision policy never meets an assented record
+  (D2). Q3 (jurisdiction-scope twin): the same defect as Q1 from the federation
+  side; CONSOLIDATED into one canon-write gate (not two), enforcing ACT-007:s4 /
+  REG-FEDERATION-COORDINATION-001 with a thin jurisdiction_id exception for a true
+  cross-repo permit (folded into D1, D3). Q4(a) install-completeness invariant:
+  enforcement of REG-INVOCATION-001, ACT-007:s1 and the ratio of [2026] VJS-PC 6,
+  directed as machinery (D4). Q4(b) atomic locked manifest [FIRST IMPRESSION,
+  DISPOSED]: REG-BUNDLE-001's atomic verify reaches only cross-repo bundles, so
+  the per-repo install manifest is an open FORM question; the Court directs it as
+  s7 form-machinery mirroring the REG-ACCESSION-001/REG-BUNDLE-001 lock pattern,
+  repo-scoped, enumerating EXACTLY the REG-INVOCATION-001 surface (config.toml +
+  lawpack.lock digest + active hooks/adapters + recorded invocation) and no more;
+  NO external signing-key dependency is mandated (sha256 lock suffices) (D5).
+  Q4(c) PATH shim [FIRST IMPRESSION; PRINCIPAL-DEPENDENCY]: wholly unlegislated and
+  mutates host state OUTSIDE the governed repo; the absolute-path hooks are and
+  remain the bypass-proof enforcement backstop and discharge the duty; the
+  PATH-visible shim is RECOMMENDED, opt-in, offered for the Principal's
+  authorisation, never a fail-closed condition; the Court REFUSES to mandate it and
+  records that nothing in this order requires the Principal to alter their host
+  environment (D6). Q5 (tier-floor; block-vs-warn under ACT-ASSENTED-RECORD-PROTECTION): enforcement of
+  ACT-002:s2/s3/s4, directed as machinery, BIFURCATED by assent state - HARD-BLOCK
+  a non-assented order below tier (an order from an unconstituted court is not
+  validly constituted); ROUTE-FOR-CORRECTION ONLY, never block or void, where a
+  valid assent_source is present; a directive to void/block an assented record for
+  a tier defect is void pro tanto under ACT-ASSENTED-RECORD-PROTECTION/s25 (D7). Q6 (front-door adapters):
+  a decisive engineering call under REG-INVOCATION-001 install_enforcement_hooks
+  and REG-HOOKS-001's thin-adapter rule (no fresh ruling needed); directed
+  expressly for clarity and to bind it to the manifest (D8). Q7 (hook
+  completeness): wire the existing pre_write (priority), session_start, post_action
+  events as machinery; AFFIRMED that "prepare-commit-msg" and "post-checkout" are
+  non-VJS git names outside REG-HOOKS-001's closed five-event surface and must NOT
+  be added (D9). Q8 (bench-integrity verification) [FIRST IMPRESSION on form;
+  failed LIVE in this matter's preparation when a justice-seat was silently lost to
+  a capacity error]: enforcement of the extant constitution ([2026] VJS-SC 2 and
+  REG-COURT-RECORD-001, which records but does not verify); a fail-closed
+  VERIFICATION gate is the right and sufficient floor; it reads bench sizes BY
+  REFERENCE from [2026] VJS-SC 2 (never restates or hard-codes them, so it cannot
+  amend the constitution) and refuses an order unless the recorded bench size
+  equals the constituted odd size for the tier AND every counted seat is matched by
+  a present, non-empty opinion in source_opinion (a named-but-silent seat fails);
+  the fuller convene-first/heartbeat state machine is RESERVED to the audit track,
+  not mandated now (D10). The Court records Lexby's self-file of the out-of-kernel
+  convening as a falling-below remedied RESTORATIVELY by re-running this matter
+  through the kernel (ACT-CONSOLIDATION-FRAMEWORK:s21, fourth limb), with no
+  punishment. Q9: POSITION A confirmed; POSITION B (omnibus consolidating rule now)
+  REJECTED because enacting the master wired-or-void rule on a partial door-census
+  would commit the very sin this matter prosecutes - law asserted ahead of its
+  ground truth - and a void-rule switched on before the gates exist would collide
+  with ACT-ASSENTED-RECORD-PROTECTION wherever an assented record is implicated; POSITION C (fix only
+  Q1/Q2/Q8) REJECTED as under-reaching, leaving Q4-Q7 enacted-but-unwired duties as
+  undefended side-doors. The Court MANDATES a full-spectrum conformance audit
+  enumerating every substantive duty (must / must_not / prohibits) in every
+  in-force instrument and recording, deterministically, whether each is bound to a
+  kernel gate, producing a conformance map of unwired duties, itself produced
+  THROUGH the kernel (D11); and RESERVES (enacting nothing today) the consolidating
+  "single front door, no other entry" instrument to a follow-on grounded in that
+  map, returned to this Council or higher, made under s7 (anti-Henry-VIII), with
+  its wired-or-void limb biting at the write/route chokepoint pre-assent and
+  degrading to route-for-correction for any assented record (D12). The unifying
+  principle - no governed record (law, ruling, citation, order) may come into being
+  except through the front door; any other entry is structurally a breach - is
+  DECLARED correct and already latent in enacted law (REG-KERNEL-001's single smart
+  enforcement point; REG-SELF-CONVENE-001's fail-closed route gate; DEC-AGENT-001).
+  Teeth and audit now; the master lock withheld until it can be cut to fit every
+  door at once.
+directives:
+  - id: D1
+    actor: lexby
+    must: build_one_consolidated_canon_write_gate_machinery_under_act_consolidation_framework_s7_teeth_to_act_005_s1_s3_s5_s7_and_act_007_s4_extend_the_deterministic_no_llm_scanner_to_fire_on_lawpack_v2_writes_at_pre_write_and_validate_staged_and_to_inspect_structured_fields_scope_paths_id_title_decision_citation_repo_code_for_a_subscriber_repo_code_or_subscriber_scoped_origin_emitting_the_reserved_boundaryfindingkind_privaterepopath_or_unredactedevidence_and_a_block_verdict_citing_the_section_also_generalising_the_apex_routing_decision_bright_line_to_the_inverse_apex_records_subscriber_scoped_content_direction_within_this_same_gate
+  - id: D2
+    actor: lexby
+    must: bind_citation_allocation_to_route_record_as_machinery_under_s7_teeth_to_act_004_s8_load_the_live_persisted_citationregistry_call_register_allocate_and_stamp_at_authoring_collisions_fatal_treat_a_self_asserted_citation_field_as_a_fatal_mismatch_unless_equal_to_the_kernel_allocated_value_reconcile_at_write_allocation_runs_before_assent_so_it_can_never_block_an_assented_record
+  - id: D3
+    actor: lexby
+    must: implement_a_thin_working_root_jurisdiction_id_check_as_the_sole_lawful_path_for_a_true_cross_repo_permit_act_007_s3_exception_under_a_privy_order_or_principal_assent_fail_closed_otherwise_admitted_only_as_a_narrow_exception_path_on_the_single_d1_gate_not_a_second_gate
+  - id: D4
+    actor: lexby
+    must: fire_an_install_completeness_invariant_at_pre_write_and_validate_staged_as_machinery_under_s7_teeth_to_reg_invocation_001_act_007_s1_and_the_ratio_of_2026_vjs_pc_6_fail_closed_unless_the_reg_invocation_001_surface_is_present_and_active
+  - id: D5
+    actor: lexby
+    must: enact_a_repo_scoped_regulation_under_s7_mirroring_the_reg_accession_001_reg_bundle_001_lock_pattern_requiring_the_install_to_be_an_atomic_digest_locked_manifest_of_the_required_surface_enumerating_exactly_dotvjs_config_toml_act_007_s1_plus_dotvjs_lawpack_lock_digest_pin_plus_active_enforcement_hooks_and_runtime_adapters_plus_the_recorded_local_sovereign_invocation_and_no_more_verified_atomically_at_install_and_re_verified_at_validate_staged_fail_closed_citing_the_instrument_behind_any_missing_limb_no_external_signing_key_dependency_sha256_lock_suffices
+  - id: D6
+    actor: principal
+    must: keep_the_absolute_path_hooks_as_the_authoritative_bypass_proof_enforcement_backstop_never_contingent_on_any_path_shim_the_path_visible_vjs_shim_is_recommended_ergonomic_defence_in_depth_offered_opt_in_by_the_invoke_ceremony_for_the_principals_authorisation_and_is_a_host_env_mutation_outside_the_repo_that_must_never_be_performed_silently_nor_relied_on_as_a_gate_nor_treated_as_a_fail_closed_condition_the_court_refuses_to_mandate_it
+  - id: D7
+    actor: lexby
+    must: build_a_tier_floor_gate_at_order_validate_record_as_machinery_under_s7_teeth_to_act_002_s2_s3_s4_citing_the_section_in_the_denial_bifurcated_under_act_assented_record_protection_hard_block_a_non_assented_order_whose_court_is_below_the_required_tier_and_flag_too_high_per_s4_but_for_a_record_declaring_a_valid_assent_source_route_for_correction_only_surface_and_flag_never_void_or_block_registering_the_defect_code_in_the_kernel_route_for_correction_set_never_as_error_or_fatal
+  - id: D8
+    actor: lexby
+    must: make_vjs_invoke_install_hooks_emit_the_agent_runtime_prewrite_sessionstart_postaction_thin_adapters_for_each_supported_runtime_claude_codex_gemini_opencode_mcp_shell_per_reg_invocation_001_install_enforcement_hooks_and_reg_hooks_001_thin_adapter_rule_adapters_stay_thin_logic_lives_in_hook_rs_with_a_testkit_eval_asserting_each_adapter_is_emitted_and_calls_the_kernel_bound_to_the_d5_manifest_a_decisive_engineering_call_directed_for_clarity
+  - id: D9
+    actor: lexby
+    must: wire_the_existing_pre_write_priority_session_start_and_post_action_events_as_machinery_teeth_to_reg_hooks_001_reg_invocation_001_and_affirm_that_prepare_commit_msg_and_post_checkout_are_non_vjs_git_names_outside_the_closed_five_event_surface_and_must_not_be_added_or_legislated
+  - id: D10
+    actor: lexby
+    must: upgrade_validate_order_format_and_vjs_court_record_to_a_fail_closed_bench_integrity_verification_gate_as_machinery_under_s7_teeth_to_2026_vjs_sc_2_and_reg_court_record_001_refusing_to_record_an_order_unless_i_the_recorded_bench_size_equals_the_constituted_odd_size_for_its_court_tier_read_by_reference_from_2026_vjs_sc_2_never_restated_or_hard_coded_and_ii_every_counted_seat_in_bench_is_matched_by_a_present_non_empty_opinion_attributable_to_that_seat_in_source_opinion_a_named_but_silent_seat_fails_denial_cites_vjs_sc_2_and_reg_court_record_001_the_fuller_convene_first_heartbeat_state_machine_is_reserved_to_the_d11_audit_track
+  - id: D11
+    actor: lexby
+    must: produce_through_the_kernel_a_full_spectrum_conformance_audit_enumerating_every_substantive_prohibition_and_duty_must_must_not_prohibits_in_every_in_force_lawpack_instrument_and_recording_deterministically_whether_each_is_bound_to_a_deterministic_kernel_gate_outputting_a_conformance_map_of_unwired_duties_as_the_factual_predicate_for_the_reserved_d12_instrument
+  - id: D12
+    actor: lexby
+    must: reserve_enacting_nothing_today_the_consolidating_single_front_door_no_other_entry_instrument_to_a_follow_on_grounded_in_the_completed_d11_conformance_map_and_returned_to_this_council_or_higher_made_under_s7_so_it_may_not_amend_any_statute_bench_tier_jurisdiction_or_the_assent_rule_with_its_wired_or_void_limb_biting_at_the_write_route_chokepoint_pre_assent_and_degrading_to_route_for_correction_never_void_for_any_record_carrying_a_valid_assent_source_not_to_be_drafted_on_the_present_partial_sample
+forbidden:
+  - re_legislating_any_settled_duty_no_gate_in_this_order_enacts_a_new_substantive_rule_each_is_teeth_on_existing_law
+  - any_gate_that_voids_blocks_or_excludes_a_record_declaring_a_valid_assent_source_such_a_measure_is_void_pro_tanto_under_act_assented_record_protection_s1_and_act_consolidation_framework_s21_s25_the_only_disposition_for_an_assented_record_is_route_for_correction
+  - enacting_the_consolidating_single_front_door_instrument_now_position_b_drafting_the_master_wired_or_void_rule_on_a_partial_door_census_ahead_of_the_d11_audit
+  - fixing_only_q1_q2_q8_position_c_leaving_q4_q5_q6_q7_enacted_but_unwired_duties_as_undefended_side_doors
+  - mandating_the_path_shim_or_resting_any_enforcement_guarantee_on_it_or_making_the_absolute_path_hooks_contingent_on_it
+  - adding_prepare_commit_msg_or_post_checkout_or_any_sixth_event_to_reg_hooks_001_closed_five_event_surface_by_installer_convention
+  - any_bench_integrity_or_tier_gate_that_hard_codes_or_restates_bench_sizes_or_tiers_rather_than_reading_them_by_reference_from_2026_vjs_sc_2_such_a_gate_would_amend_the_constitution_and_is_ultra_vires_s7
+  - mandating_an_external_signing_key_dependency_for_the_install_manifest_a_sha256_lock_suffices
+  - punishing_the_out_of_kernel_convening_the_remedy_is_restorative_re_run_through_the_kernel_only
+supersedes: []
+appealable: true
+appeal_of: null
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-013-opinions.md"
+runtime_summary: >
+  Most of these duties were already law; they just had no gate switched on at the
+  one chokepoint (the kernel, on the write into canon), which is how eleven private
+  files self-asserting fake citations slipped in. So the kernel and the vjs install
+  must now grow teeth, not new statutes. Build one canon-write gate that runs the
+  deterministic boundary scanner on lawpack/v2 writes and inspects structured
+  fields, blocking subscriber-scoped content from entering canon (both directions),
+  with a narrow jurisdiction_id exception for a real cross-repo permit. Make the
+  kernel allocate-and-stamp every citation from the live register at authoring time
+  (collisions fatal; a hand-written citation that doesn't match is rejected) so no
+  one can mint a citation by hand. Verify every install is complete and record it as
+  one atomic sha256-locked manifest (config.toml + lawpack.lock + active
+  hooks/adapters + recorded invocation), fail-closed; no signing keys needed. The
+  absolute-path hooks stay the real, bypass-proof enforcement; the PATH shim is just
+  a convenience the Principal may accept and is never relied on. Gate the court tier:
+  block an under-tiered order outright, but if it carries a valid Sovereign
+  assent_source, never block it - flag it and route it for correction. Wire the
+  agent-runtime adapters (PreWrite/SessionStart/PostAction) and turn on the existing
+  pre_write/session_start/post_action events; the five-event surface is closed
+  (prepare-commit-msg and post-checkout are git, not VJS). Verify bench integrity at
+  record time: the recorded bench must match the size [2026] VJS-SC 2 fixes for the
+  tier (read from that order, not hard-coded) and every named seat must have a real
+  opinion, or the order won't record - this closes the live hole where a justice was
+  silently lost. The universal rule across all gates: block hard before assent;
+  once a valid assent_source attaches, only ever route-for-correction, never void.
+  Then run a full audit of every duty-vs-gate to map the side-doors, and hold back
+  the single "front door or nothing" master rule until it can be built on that
+  complete map. The out-of-kernel convening that lost a seat is fixed by re-running
+  this matter through the kernel, not by any penalty.
+created_at: "2026-06-24T22:41:30.298124629+00:00"
