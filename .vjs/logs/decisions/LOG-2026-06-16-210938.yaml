@@ -1,0 +1,17 @@
+id: LOG-2026-06-16-210938
+time: 2026-06-16T21:09:38.213063273+00:00
+actor: lexby
+kind: ruling
+issue: opbox_matter_file_storage_substrate
+decision: 'Supreme Court 5-0: adopt Position C (C-strict). Kernel remains the SOLE system of record and authority for identity, RLS, encryption (INV-7), audit (INV-8) and the assented-record floor; only the byte-medium and folder presentation are severable, behind one kernel-owned, encrypt-before-the-seam, ciphertext-only, fail-closed, verb-mediated storage seam (local-FS first; SharePoint/Box as ciphertext backends, never authority). Per-matter folder is a projection whose every write flows through a kernel verb. Position B rejected (per-incuriam vs INV-7/RLS/INV-8/floor). Per-user OS identity NOT a data/permission authority. OpenWebUI upload silo directed onto the substrate.'
+basis:
+- INV-7
+- INV-8
+- ADR-0040
+- ACT-ASSENTED-RECORD-PROTECTION [2026] VJS-ACT 10
+- SPEC-LAW-3
+- consolidation-over-fragmentation
+risk: high
+reversibility: easy
+court_required: false
+why: Foundational substrate decision touching a constitutional invariant (INV-7); unanimous 5-justice bench on a symmetric case file.

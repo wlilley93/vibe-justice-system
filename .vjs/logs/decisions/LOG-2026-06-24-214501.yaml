@@ -1,0 +1,11 @@
+id: LOG-2026-06-24-214501
+time: 2026-06-24T21:45:01.512737765+00:00
+actor: lexby
+kind: change
+issue: Opbox-specific law in VJS canon lawpack
+decision: Remove DEC-OPBOX-*, SPEC-OPBOX-*, INV-OPBOX-* and breach log
+basis: []
+risk: low
+reversibility: easy
+court_required: false
+why: VJS must be anonymous; subscriber-specific decisions pollute canon and expose product internals on GitHub

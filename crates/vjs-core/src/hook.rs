@@ -134,7 +134,8 @@ pub fn evaluate_governed(
     match input.event {
         HookEvent::SessionStart => HookDecision::Warn(Finding {
             code: "VJS_ACTIVE".into(),
-            message: "VJS V2 active. For governed work call vjs route; validate before commit.".into(),
+            message: "VJS V2 active. For governed work call vjs route; validate before commit."
+                .into(),
             next: Some("vjs route".into()),
         }),
         HookEvent::PreWrite => {
@@ -169,7 +170,8 @@ pub fn evaluate_governed(
         }),
         HookEvent::PreCommit => HookDecision::RequireProof(Finding {
             code: "VALIDATE_STAGED".into(),
-            message: "Run vjs validate --staged; fails closed on invariant or permit defects.".into(),
+            message: "Run vjs validate --staged; fails closed on invariant or permit defects."
+                .into(),
             next: Some("vjs validate --staged".into()),
         }),
         HookEvent::PrePush => HookDecision::Block(Finding {
@@ -180,6 +182,72 @@ pub fn evaluate_governed(
     }
 }
 
+/// The kernel-checkable bright-line of REG-FEDERATION-COORDINATION-001 (giving effect to [2026] VJS-SC 1):
+/// a federated/subscribing jurisdiction lives "under one continued apex" and may NOT assert an apex or final
+/// court function. Recording a supreme/privy (apex-tier) court ORDER is asserting that function. This returns
+/// `Some(Block)` when a staged path is an apex-tier court order AND this repo's jurisdiction is NOT the apex
+/// seat - the remedy is to file a referral UP. It returns `None` (no opinion) otherwise; the caller then falls
+/// through to the ordinary event evaluation. The apex seat itself may record apex orders. This makes the
+/// [2026] VJS-SC-OPBOX 1 class of mis-filing (a subscribing repo recording its own Supreme ruling) structurally
+/// impossible rather than merely remembered.
+pub fn apex_routing_decision(
+    input: &HookInput,
+    jurisdiction_id: &str,
+    apex_seat: &str,
+) -> Option<HookDecision> {
+    // Only file-creating events gate a record into existence.
+    if !matches!(input.event, HookEvent::PreWrite | HookEvent::PreCommit) {
+        return None;
+    }
+    // The apex seat is the sole jurisdiction that may record an apex order; everyone else refers up.
+    if jurisdiction_id == apex_seat {
+        return None;
+    }
+    let offender = input
+        .paths
+        .iter()
+        .find(|p| is_apex_court_order(&input.repo_root, p))?;
+    let name = offender
+        .file_name()
+        .map(|f| f.to_string_lossy().to_string())
+        .unwrap_or_else(|| offender.to_string_lossy().to_string());
+    Some(HookDecision::Block(Finding {
+        code: "APEX_RECORD_IN_SUBSCRIBING_JURISDICTION".into(),
+        message: format!(
+            "{name} records an apex (supreme/privy) court ruling, but '{jurisdiction_id}' is a subscribing \
+             jurisdiction. Refer up to the apex seat '{apex_seat}'."
+        ),
+        next: Some("vjs file (referral up)".into()),
+    }))
+}
+
+/// A staged path is an apex-tier court ORDER when it is a YAML record that DECLARES itself a supreme or privy
+/// court ruling (a `court:` field of that tier). Content-based, so it is robust to the filename; a record that
+/// merely references an apex citation (e.g. a referral with `court: county`) is not caught.
+///
+/// The lawpack is the SUBSCRIBED-LAW MIRROR (read-only canon): a subscribing jurisdiction MIRRORING a canon
+/// apex order into its `lawpack/` is lawful and is NOT an assertion of an apex court function - so lawpack
+/// paths are excluded here. The bright-line fires only on a jurisdiction's OWN court-record store (its
+/// `.vjs/orders` / court trees). Lawpack integrity (a mirror that diverges from canon) is a separate concern,
+/// guarded by the lawpack pin/validation, not by this rule.
+fn is_apex_court_order(repo_root: &Path, rel: &Path) -> bool {
+    let name = rel.to_string_lossy().to_ascii_lowercase();
+    if !(name.ends_with(".yaml") || name.ends_with(".yml")) {
+        return false;
+    }
+    if rel.components().any(|comp| comp.as_os_str() == "lawpack") {
+        return false; // the read-only subscribed-law mirror, not the jurisdiction's own court function
+    }
+    let content = std::fs::read_to_string(repo_root.join(rel)).unwrap_or_default();
+    let c = content.to_ascii_lowercase();
+    // Must be an order-shaped record (carries a citation), declaring an apex-tier court.
+    c.contains("citation:")
+        && (c.contains("court: supreme")
+            || c.contains("court: \"supreme")
+            || c.contains("court: privy")
+            || c.contains("court: \"privy"))
+}
+
 pub fn parse_event(s: &str) -> Option<HookEvent> {
     match s.replace('-', "_").as_str() {
         "session_start" => Some(HookEvent::SessionStart),
@@ -188,5 +256,116 @@ pub fn parse_event(s: &str) -> Option<HookEvent> {
         "pre_commit" => Some(HookEvent::PreCommit),
         "pre_push" => Some(HookEvent::PrePush),
         _ => None,
+    }
+}
+
+#[cfg(test)]
+mod apex_routing_tests {
+    use super::*;
+    use std::fs;
+
+    fn write(dir: &Path, rel: &str, body: &str) -> PathBuf {
+        let p = dir.join(rel);
+        if let Some(parent) = p.parent() {
+            fs::create_dir_all(parent).unwrap();
+        }
+        fs::write(&p, body).unwrap();
+        PathBuf::from(rel)
+    }
+
+    fn input(root: &Path, event: HookEvent, rels: Vec<PathBuf>) -> HookInput {
+        HookInput {
+            event,
+            repo_root: root.to_path_buf(),
+            actor: "lexby".into(),
+            paths: rels,
+            tool: None,
+        }
+    }
+
+    #[test]
+    fn subscribing_repo_recording_a_supreme_order_is_blocked() {
+        let dir = std::env::temp_dir().join(format!("vjs_apex_{}", std::process::id()));
+        let _ = fs::remove_dir_all(&dir);
+        let rel = write(
+            &dir,
+            ".vjs/orders/2026-VJS-SC-OPBOX-001.yaml",
+            "id: x\ncitation: \"[2026] VJS-SC-OPBOX 1\"\ncourt: supreme_court\nstatus: binding\n",
+        );
+        let inp = input(&dir, HookEvent::PreCommit, vec![rel]);
+        let d = apex_routing_decision(&inp, "opbox", "vjs");
+        assert!(
+            matches!(d, Some(HookDecision::Block(_))),
+            "a subscribing jurisdiction must not record an apex order"
+        );
+        let _ = fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn apex_seat_recording_a_supreme_order_is_allowed() {
+        let dir = std::env::temp_dir().join(format!("vjs_apex_seat_{}", std::process::id()));
+        let _ = fs::remove_dir_all(&dir);
+        let rel = write(
+            &dir,
+            "lawpack/v2/orders/2026-VJS-SC-004.yaml",
+            "id: x\ncitation: \"[2026] VJS-SC 4\"\ncourt: supreme_court\nstatus: binding\n",
+        );
+        let inp = input(&dir, HookEvent::PreCommit, vec![rel]);
+        assert!(
+            apex_routing_decision(&inp, "vjs", "vjs").is_none(),
+            "the apex seat may record apex orders"
+        );
+        let _ = fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn a_referral_with_court_county_is_not_caught() {
+        let dir = std::env::temp_dir().join(format!("vjs_apex_ref_{}", std::process::id()));
+        let _ = fs::remove_dir_all(&dir);
+        let rel = write(
+            &dir,
+            ".vjs/orders/referral.yaml",
+            "id: x\ncitation: \"REFERRAL -> [2026] VJS-SC 4\"\ncourt: county\nstatus: corrected_to_referral\n",
+        );
+        let inp = input(&dir, HookEvent::PreCommit, vec![rel]);
+        assert!(
+            apex_routing_decision(&inp, "opbox", "vjs").is_none(),
+            "a referral (court: county) is lawful, not an apex assertion"
+        );
+        let _ = fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn county_order_in_a_subscribing_repo_is_allowed() {
+        let dir = std::env::temp_dir().join(format!("vjs_apex_cc_{}", std::process::id()));
+        let _ = fs::remove_dir_all(&dir);
+        let rel = write(
+            &dir,
+            ".vjs/orders/2026-VJS-CC-OPBOX-079.yaml",
+            "id: x\ncitation: \"[2026] VJS-CC-OPBOX 79\"\ncourt: county\nstatus: binding\n",
+        );
+        let inp = input(&dir, HookEvent::PreCommit, vec![rel]);
+        assert!(
+            apex_routing_decision(&inp, "opbox", "vjs").is_none(),
+            "a subscribing jurisdiction may run its own county court"
+        );
+        let _ = fs::remove_dir_all(&dir);
+    }
+    #[test]
+    fn mirroring_a_canon_apex_order_into_the_lawpack_is_allowed() {
+        let dir = std::env::temp_dir().join(format!("vjs_apex_mirror_{}", std::process::id()));
+        let _ = fs::remove_dir_all(&dir);
+        // a subscribing repo mirroring the canon's VJS-SC 4 into its READ-ONLY lawpack mirror
+        let rel = write(
+            &dir,
+            "lawpack/v2/orders/2026-VJS-SC-004.yaml",
+            "id: x\ncitation: \"[2026] VJS-SC 4\"\ncourt: supreme_court\nstatus: binding\n",
+        );
+        let inp = input(&dir, HookEvent::PreCommit, vec![rel]);
+        assert!(
+            apex_routing_decision(&inp, "opbox", "vjs").is_none(),
+            "mirroring canon law into lawpack/ is lawful, not an apex assertion"
+        );
+        let _ = fs::remove_dir_all(&dir);
     }
 }

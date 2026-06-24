@@ -16,6 +16,10 @@ kernel_effect:
   defines:
     practical_subjection_is_court_not_kernel: true
     default_subscription_lawful_because_revocable: true
+    # The "one continued apex" of the federation: the sole jurisdiction that may record an apex (supreme/privy)
+    # court order. Every other (subscribing) jurisdiction must refer up. This is the data-driven seat the
+    # kernel-checkable bright-line below (apex_routing_decision in vjs-core/hook.rs) enforces ([2026] VJS-SC 4 D3).
+    apex_court_jurisdiction: vjs
   prohibits:
     - a_root_asserting_an_apex_or_final_court_function
     - binding_or_gating_a_peer_local_law_without_adoption
