@@ -1,0 +1,12 @@
+id: LOG-2026-06-24-084959
+time: 2026-06-24T08:49:59.591872755+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260624-084940
+decision: Added the apex-routing bright-line to the commit gate (cmd_validate staged block), reusing apex_routing_decision mapped to a Fatal finding; both repos' pre-commit runs validate, so this is where the gate actually bites on a commit.
+basis:
+- PERMIT-1782290980
+risk: low
+reversibility: easy
+court_required: false
+why: 'VJS-SC 4 D3: the SC-OPBOX mis-filing happened via a commit through validate, not vjs hook; enforcement must live on the commit gate'

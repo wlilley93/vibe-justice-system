@@ -951,6 +951,33 @@ fn cmd_validate(
                 message: format!("{} staged files", changed.len()),
                 suggested_fix: None,
             });
+            // REG-FEDERATION-COORDINATION-001 kernel-checkable bright-line (the same decision the hook uses,
+            // here on the commit gate both repos run): a subscribing jurisdiction may not record an apex
+            // (supreme/privy) court order; it must refer up. Fails the commit closed. ([2026] VJS-SC 4 D3.)
+            let jurisdiction_id = Store::read_repo_config(repo)
+                .ok()
+                .flatten()
+                .map(|c| c.jurisdiction_id)
+                .unwrap_or_default();
+            let apex_input = vjs_core::hook::HookInput {
+                event: vjs_core::hook::HookEvent::PreCommit,
+                repo_root: repo.to_path_buf(),
+                actor: "lexby".into(),
+                paths: changed.iter().map(PathBuf::from).collect(),
+                tool: None,
+            };
+            if let Some(vjs_core::hook::HookDecision::Block(f)) =
+                vjs_core::hook::apex_routing_decision(&apex_input, &jurisdiction_id, "vjs")
+            {
+                ok = false;
+                findings.push(ValidationFinding {
+                    severity: Severity::Fatal,
+                    code: f.code,
+                    path: None,
+                    message: f.message,
+                    suggested_fix: f.next,
+                });
+            }
             // Build repo state and evaluate invariants
             let repo_state = RepoScanner::build_repo_state(repo)?;
             let facts = vjs_lawpack::lawpack_facts(repo, &lawpack);
