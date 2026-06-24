@@ -1,0 +1,26 @@
+id: ASSENT-2026-06-24-ACT003-S10-S11
+kind: sovereign_assent_event
+date: "2026-06-24"
+instrument: ACT-003 s10/s11 - Unsatisfiable-enforcement-gate auto-justiciability + Recorded-disposition consultation
+instrument_text: lawpack/v2/provenance/assent/2026-06-24-act003-s10-s11-void-first-draft.yaml
+instrument_digest: "sha256:4357d836b38a7d4b9a7977790b491421bd8535dfab890c78503374e6db881db8"
+sovereign: Will (the Principal, in the Sovereign capacity)
+form: >
+  Express assent given in session on 2026-06-24 ("assented"), to the ACT-003 s10/s11 codification as ratified by
+  [2026] VJS-SC 4 (5-0, RATIFY-WITH-MODIFICATION) and drafted into the statute as the void first draft pinned by
+  the digest above. The Principal directed the rule's substance and the change ("proceed as best", and the four
+  corrections that shaped it: the apex is singular/canonical, the SC citation is the latest, the kernel already
+  exists and is to be extended, and the hooks); the Supreme Court refined the six amendments; the Principal then
+  assented to the result, whole and unamended. The assent is specific to the digest above and is antecedent and
+  external to the lawpack (s.14: non-automatable, non-presumable, non-delegable; no court or kernel may originate
+  it, [2026] VJS-SC 3). It cures the void first draft (ACT-COMPUTER-FIRST-REALM s2/s23).
+effects:
+  - lodges: ACT-003 s10 (unsatisfiable-enforcement-gate auto-justiciability) + s11 (recorded-disposition consultation) as enacted V2 primary law within the Agent Duties Act [2026] VJS-ACT 3, with assent_source sovereign_assent tracing to this event; binding force previously held as apex caselaw under [2026] VJS-SC 4 now also vests in the statute.
+  - commences: the kernel's deterministic enforcement of s10/s11 (vjs-core/hook.rs + the installed hooks) once the kernel-effect declarations are read - the agent-duty extension (D3 of VJS-SC 4); until the kernel reads them the duty binds on the agent's conduct directly.
+notes: >
+  This is the GLOBAL enforcement change's legislative keystone: a repeatedly- or conduct-unsatisfiable enforcement
+  gate is auto-justiciable (route to court on own motion, pause re-firing, never loop/fabricate/self-authorise a
+  reserved act), and a gate consults the recorded dispositions before re-firing, save that NOTHING may silence a
+  gate firing on a printed-RESULT contradiction (audit integrity). Future subscribing jurisdictions receive it by
+  subscribing to the lawpack + installing the hooks. The s10/s11 statute comment is updated from "assent draft" to
+  "Sovereign-assented 2026-06-24, pinned to this record".

@@ -1,0 +1,53 @@
+# ACT-003 s10/s11 - the void first draft presented for Sovereign Assent (2026-06-24).
+# Ratified as apex caselaw by [2026] VJS-SC 4 (5-0). This is the exact text the Principal assented to.
+  - id: ACT-003:s10
+    title: Unsatisfiable-enforcement-gate auto-justiciability
+    text: >
+      An enforcement gate (the loop/Stop hook originating; including pre-commit, CI, release, and
+      kernel-invariant gates) is itself auto-justiciable. CONDUCT TRIGGER (paramount): the moment a gate's only
+      path to satisfaction would require breaching a binding rule, an entrenched floor, or a Principal
+      reservation, it is auto-justiciable on that single fire; the agent need not wait for repetition and must
+      not breach binding law even once. FREQUENCY BACKSTOP: a gate fired N>=3 times without a lawful path is
+      presumed unsatisfiable and routed likewise. On either trigger the agent must, on its own motion, route the
+      gate to court and pause the re-firing gate pending order; must not comply by breaching, must not wait for
+      the Principal to name the court, must not fabricate a pass. PAUSE = THE ALARM, NOT THE LOCK: the pause
+      suppresses only re-firing; the gate's substantive blocking effect and the guarded action
+      (commit/deploy/merge/the printed [x]) stay blocked pending order. The pause is recorded, fail-loud, and
+      court-tested: unsatisfiability is never self-declared, and a pause the court finds was satisfiable is an
+      s.4-8 defect against the agent (remit + make-good).
+    kernel_effect:
+      defines:
+        - hook.unsatisfiable_gate_auto_justiciable
+        - hook.conduct_trigger_first_fire
+        - hook.pause_re_firing_not_the_guarded_action
+      may:
+        - require_route
+      must_not:
+        - comply_by_breaching_binding_law_floor_or_reservation
+        - fabricate_a_pass_to_silence_the_gate
+        - wait_for_principal_to_name_the_court
+  - id: ACT-003:s11
+    title: Recorded-disposition consultation (VJS-ACT 10 machinery floor applied to enforcement gates)
+    text: >
+      Before re-firing, an enforcement gate must consult the recorded Principal dispositions for the matter and
+      the citator. A disposition shelters a gate only if ALL of: verifiable assent-grade provenance (the s.23
+      assent family + digest); dated; scoped to THIS matter AND THIS state; and not stale (does not predate the
+      state it endorses). An unverifiable, undated, mis-scoped, or stale disposition is no endorsement. Where a
+      qualifying disposition endorses the current state, the gate may surface or flag but must route-for-
+      correction or convene rather than block, re-compel, or self-silence; the endorsement is court-tested and is
+      never self-applied by the party who benefits. HARD CARVE-OUT (keystone; non-severable from s11): a
+      disposition never muzzles a gate firing on a printed-RESULT contradiction. Endorsement of a STATE can never
+      convert a not-yet-printed-pass into a pass; a checklist-vs-printed-command disagreement (a [x] whose printed
+      command has not passed) is non-dispositionable, and there a "no fake ticks" disposition agrees with the
+      gate. s10 and s11 are severable except this carve-out, which is non-severable from s11.
+    kernel_effect:
+      defines:
+        - hook.recorded_disposition_consultation
+        - hook.disposition_provenance_assent_grade_dated_scoped_to_matter_and_state_not_stale
+        - hook.printed_result_contradiction_non_dispositionable
+      may:
+        - require_route
+        - warn
+      must_not:
+        - muzzle_a_gate_firing_on_a_printed_result_contradiction
+        - self_apply_a_disposition_by_the_benefiting_party
