@@ -1,0 +1,12 @@
+id: LOG-2026-06-24-085753
+time: 2026-06-24T08:57:53.681196775+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260624-085753
+decision: Refined is_apex_court_order to exclude lawpack/ paths (the subscribed-law mirror); a subscriber mirroring a canon apex order is lawful, only its own court records assert an apex function. +1 test (5/5).
+basis:
+- PERMIT-1782291473
+risk: low
+reversibility: easy
+court_required: false
+why: The enforcement correctly caught the edge when acmeco mirrored VJS-SC 4 into its lawpack; the bright-line targets the court function, not the law mirror

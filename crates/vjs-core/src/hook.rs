@@ -224,10 +224,19 @@ pub fn apex_routing_decision(
 /// A staged path is an apex-tier court ORDER when it is a YAML record that DECLARES itself a supreme or privy
 /// court ruling (a `court:` field of that tier). Content-based, so it is robust to the filename; a record that
 /// merely references an apex citation (e.g. a referral with `court: county`) is not caught.
+///
+/// The lawpack is the SUBSCRIBED-LAW MIRROR (read-only canon): a subscribing jurisdiction MIRRORING a canon
+/// apex order into its `lawpack/` is lawful and is NOT an assertion of an apex court function - so lawpack
+/// paths are excluded here. The bright-line fires only on a jurisdiction's OWN court-record store (its
+/// `.vjs/orders` / court trees). Lawpack integrity (a mirror that diverges from canon) is a separate concern,
+/// guarded by the lawpack pin/validation, not by this rule.
 fn is_apex_court_order(repo_root: &Path, rel: &Path) -> bool {
     let name = rel.to_string_lossy().to_ascii_lowercase();
     if !(name.ends_with(".yaml") || name.ends_with(".yml")) {
         return false;
+    }
+    if rel.components().any(|comp| comp.as_os_str() == "lawpack") {
+        return false; // the read-only subscribed-law mirror, not the jurisdiction's own court function
     }
     let content = std::fs::read_to_string(repo_root.join(rel)).unwrap_or_default();
     let c = content.to_ascii_lowercase();
@@ -339,6 +348,23 @@ mod apex_routing_tests {
         assert!(
             apex_routing_decision(&inp, "acmeco", "vjs").is_none(),
             "a subscribing jurisdiction may run its own county court"
+        );
+        let _ = fs::remove_dir_all(&dir);
+    }
+    #[test]
+    fn mirroring_a_canon_apex_order_into_the_lawpack_is_allowed() {
+        let dir = std::env::temp_dir().join(format!("vjs_apex_mirror_{}", std::process::id()));
+        let _ = fs::remove_dir_all(&dir);
+        // a subscribing repo mirroring the canon's VJS-SC 4 into its READ-ONLY lawpack mirror
+        let rel = write(
+            &dir,
+            "lawpack/v2/orders/2026-VJS-SC-004.yaml",
+            "id: x\ncitation: \"[2026] VJS-SC 4\"\ncourt: supreme_court\nstatus: binding\n",
+        );
+        let inp = input(&dir, HookEvent::PreCommit, vec![rel]);
+        assert!(
+            apex_routing_decision(&inp, "acmeco", "vjs").is_none(),
+            "mirroring canon law into lawpack/ is lawful, not an apex assertion"
         );
         let _ = fs::remove_dir_all(&dir);
     }
