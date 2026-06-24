@@ -1,0 +1,12 @@
+id: LOG-2026-06-24-083030
+time: 2026-06-24T08:30:30.046246645+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260624-082422
+decision: Re-homed the Supreme Council ratification of ACT-003 s10/s11 to canon as [2026] VJS-SC 4 (correcting the mis-filed repo-level VJS-SC-OPBOX 1; the apex is singular and canonical). Prepared ACT-003 s10/s11 as an assent draft (void first draft, force reserved to Sovereign Assent per s.14 / VJS-SC 3); the rule binds now as apex caselaw via VJS-SC 4.
+basis:
+- PERMIT-1782289462
+risk: low
+reversibility: easy
+court_required: false
+why: Principal directed 'proceed as best' (2026-06-24) on the global enforcement change; a subscribing jurisdiction may refer up but may not hold its own Supreme sitting
