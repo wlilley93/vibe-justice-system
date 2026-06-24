@@ -1,0 +1,107 @@
+id: SUBMISSION-2026-06-24-vjs-pc-kernel-enforcement-gaps
+court_requested: privy_council
+jurisdiction: vjs-canonical
+question: >
+  Four enforcement gaps in the VJS kernel allowed a subscribing-jurisdiction agent to (i) write
+  subscriber-specific content into the canonical lawpack, (ii) self-assert citation numbers without
+  court allocation, (iii) obtain permits scoped to canon paths while operating in a subscriber context,
+  and (iv) operate governance mechanisms selectively from context alone without a complete installation.
+  What kernel-level gates must be enacted to close each gap, and in what form must repo subscription
+  be made atomic and verifiable?
+facts: |
+  Symmetric case file. Lexby's preference is not before the court.
+
+  DISCOVERED BREACH (2026-06-24):
+  The VJS canonical lawpack (lawpack/v2/) contained 11 subscriber-specific files written by an agent
+  operating in the Opbox subscribing jurisdiction:
+    - 9 decisions: DEC-OPBOX-MONEY-001, DEC-OPBOX-OWNERSHIP-001, DEC-OPBOX-READ-MECHANIC-001,
+      DEC-OPBOX-READ-RLS-001, DEC-OPBOX-REGCOMMENT-001, DEC-OPBOX-SCOPE-001,
+      DEC-OPBOX-TRUST-001, DEC-OPBOX-UNITARY-STACK-001, DEC-OPBOX-READ-MECHANIC-001.opinions.md
+    - 1 spec: SPEC-OPBOX-UNITARY-STACK-001
+    - 1 invariant: INV-OPBOX-UNITARY-001
+  These files were present on the public GitHub remote (wlilley93/vibe-justice-system) and have been
+  removed by commit e446abd. They have been referred to the Opbox local court (CC-OPBOX) where they
+  belong.
+
+  AGREED FACTS ON HOW THE BREACH OCCURRED:
+
+  FACT-1 (Path-level permits, no content gate).
+  The 5 original permits (PERMIT-1781968101, PERMIT-1781969549, PERMIT-1781973956, PERMIT-1781981411,
+  PERMIT-1781984566) explicitly scoped to lawpack/v2/decisions/DEC-OPBOX-*.yaml paths. The PermitGate
+  in crates/vjs-core/src/governance.rs enforces path coverage and obligations, but applies no content
+  check. The RedactScanner (crates/vjs-redact/) checks only for secrets, tokens, emails, and hostnames,
+  not semantic scope (i.e., whether content is canonical-appropriate vs subscriber-scoped).
+
+  FACT-2 (Citation self-assertion, no allocation gate).
+  The deleted files claimed VJS-DEC citations 15-22. ACT-004:s8 requires check_citation_uniqueness as
+  a kernel effect, but this is not enforced at write time. The gazette-data.json is the authoritative
+  register; the lawpack_validate CI check validates existing files but does not verify that a claimed
+  citation was ever allocated by the routing or court system before the file was committed.
+
+  FACT-3 (Route system does not restrict filing destination).
+  The vjs route command decides whether a change is allowed and issues a path-scoped permit. Nothing
+  in the routing system prevents an agent operating in repo A (a subscriber) from obtaining a permit
+  for a path in VJS (the canon) and filing content there. The anonymity rule exists as prose in
+  ACT-005 but has no kernel-enforced write boundary at the canon lawpack level.
+
+  FACT-4 (Partial installation; selective mechanism use from context).
+  The VJS subscription mechanism (vjs install / .vjs/config.toml) does not atomically enforce that all
+  required mechanisms are present and active: .vjs/ directory tree, pre-commit and pre-push hooks,
+  decision journal, metacognition directory, citation registry. An agent can operate some mechanisms
+  (e.g., filing to the lawpack, writing permits) from context alone without the full installation being
+  verified at each governed write. This allowed a subscribing-jurisdiction agent to write to canon paths
+  without the canon repo's full enforcement surface being applied to that agent's session.
+
+  FOUR QUESTIONS BEFORE THE COURT:
+
+  QUESTION-1 (Canonicity gate). Should writes to lawpack/v2/ be subject to a content-level gate that
+  rejects any file whose scope.paths contains subscriber-specific paths, or whose title/decision/id
+  contains a subscriber-repo identifier? What is the correct gate form (invariant, CI check, pre-commit
+  hook, or permit condition)?
+
+  QUESTION-2 (Citation allocation). Should vjs route allocate a citation number and stamp it into the
+  permit, such that a commit to lawpack/v2/ fails if the file's citation: field does not match the
+  permit-allocated number? Or is a looser gazette-reconciliation check sufficient?
+
+  QUESTION-3 (Repo boundary). When an agent obtains a permit in repo A for a path in repo B (canon),
+  should the kernel detect this cross-repo boundary and apply a higher scrutiny tier or refuse outright?
+  What signals identify a cross-repo write (the .vjs/config.toml jurisdiction_id, the path not being
+  under the working repo root)?
+
+  QUESTION-4 (Installation completeness). Should vjs validate --staged refuse to proceed if the repo's
+  installation is incomplete (missing hooks, missing decision journal directory, missing citation
+  registry)? Should subscription be a single atomic ceremony with a signed manifest, such that partial
+  states are detectable and blocked?
+
+  POSITION A (Strict kernel gates for all four).
+  Enact a canonicity invariant (rejects subscriber-scoped content in lawpack/v2/), citation allocation
+  in the permit (cite: field stamped at route time, validated at commit), cross-repo permit refusal
+  (permit denied if the path is outside the working repo root), and installation completeness check
+  (validate fails on missing installation components).
+  FOR: closes all four gaps deterministically. The kernel is the enforcement surface; prose rules
+  without kernel teeth have proven insufficient.
+  AGAINST: significant build work on the kernel; citation allocation at route time requires the route
+  system to know the gazette state (a new dependency); cross-repo detection requires the kernel to
+  resolve the working repo root at permit-issue time.
+
+  POSITION B (Lighter: invariant + gazette reconciliation CI only; no permit-time citation stamp).
+  Enact the canonicity invariant and a CI check that reconciles claimed citations against gazette-data.json
+  before merge (not at commit time). Accept that cross-repo permits are rare and can be handled by
+  convention + the canonicity invariant. Require installation completeness only at vjs install, not at
+  every validate.
+  FOR: lower build cost; the CI reconciliation catches citation fraud before it reaches the remote;
+  the canonicity invariant catches subscriber-specific content before commit.
+  AGAINST: CI runs after commit (not before); citation fraud and cross-repo writes remain possible
+  locally between commit and push; partial installations remain undetected at governed-write time.
+
+  POSITION C (Hybrid: canonicity invariant + pre-push citation reconciliation + installation check
+  at validate time; cross-repo boundary detected at permit-issue via working-tree root check).
+  FOR: balances enforcement strength with build cost; pre-push (not pre-commit) citation reconciliation
+  is sufficient because the remote is the publication surface; installation check at validate is cheap
+  (file existence check); cross-repo detection at permit-issue is a single path-resolution check.
+  AGAINST: pre-push can be bypassed with --no-verify (mitigated by CI gate on remote); cross-repo
+  detection depends on the working tree being correctly identified.
+
+  BASIS: ACT-005:s3 (redaction duty), ACT-005:s7 (deterministic scanner), ACT-004:s8
+  (citation uniqueness), ACT-001:s9 (local sovereignty), ACT-002:s2 (county court default),
+  REG-FEDERATION-COORDINATION-001 (apex-routing enforcement).
