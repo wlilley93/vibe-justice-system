@@ -1,0 +1,25 @@
+id: PERMIT-1782290016
+route_id: ROUTE-20260624-083336
+actor: lexby
+scope:
+  paths:
+  - lawpack/v2/provenance/assent/2026-06-24-act003-s10-s11-assent.yaml
+  - lawpack/v2/provenance/assent/2026-06-24-act003-s10-s11-void-first-draft.yaml
+  - lawpack/v2/statutes/03-agent-duties.yaml
+  jurisdictions: null
+  action_kinds: null
+  issue_tags: null
+  records: null
+obligations:
+- id: OBL-LOG-001
+  kind: decision_log
+  required: true
+  due: before_commit
+  description: Write a decision log for this material implementation decision
+- id: OBL-VALIDATE-001
+  kind: validation
+  required: true
+  due: before_commit
+  description: Run vjs validate before commit
+expires_at: 2026-06-25T08:33:36.153581775+00:00
+status: active

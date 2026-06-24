@@ -1,0 +1,11 @@
+id: LOG-2026-06-24-214358
+time: 2026-06-24T21:43:58.828357791+00:00
+actor: lexby
+kind: change
+issue: Acmeco-specific law in VJS canon lawpack
+decision: Remove DEC-ACMECO-*, SPEC-ACMECO-*, INV-ACMECO-* and related breach log - subscriber law belongs in the subscribing repo
+basis: []
+risk: low
+reversibility: easy
+court_required: false
+why: VJS must be an anonymous reusable substrate; subscriber-specific decisions pollute canon and expose product internals publicly on GitHub

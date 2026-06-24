@@ -1,0 +1,12 @@
+id: LOG-2026-06-23-212618
+time: 2026-06-23T21:26:18.026913770+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260623-212618
+decision: 'VJS-1 publication integrity: (1) removed two PUBLIC-term denylist false-positives (sha256 of acmeco + cc-acmeco) that fail-closed the Gazette against acmeco''s own public law, replaced with one synthetic private sentinel that keeps the boundary guard active; (2) editorial citation-form drift-cure of 7 dangling cross-refs (acmeco kernel invariants INV-10/11/14 -> INV NN; acmeco decisions DEC-15..18 -> VJS-DEC NN) in 5 DEC-ACMECO decisions, meaning preserved; (3) regenerated the gazette. vjs-testkit now 0 failures.'
+basis:
+- PERMIT-1782249978
+risk: low
+reversibility: easy
+court_required: false
+why: The seeds blocked legitimate public-law publication and protected nothing private; the cross-refs are to acmeco's own invariants/decisions, not canon objects, so form-normalisation (not re-pointing) is the correct drift-cure. No substantive law changed.
