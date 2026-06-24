@@ -1,10 +1,9 @@
-id: PERMIT-1781973956
-route_id: ROUTE-20260620-164556
+id: PERMIT-1782249648
+route_id: ROUTE-20260623-212048
 actor: lexby
 scope:
   paths:
-  - lawpack/v2/decisions/DEC-ACMECO-READ-MECHANIC-001.yaml
-  - lawpack/v2/decisions/DEC-ACMECO-READ-MECHANIC-001.opinions.md
+  - lawpack/v2/decisions/DEC-ACMECO-OWNERSHIP-001.yaml
   jurisdictions: null
   action_kinds: null
   issue_tags: null
@@ -20,5 +19,5 @@ obligations:
   required: true
   due: before_commit
   description: Run vjs validate before commit
-expires_at: 2026-06-21T16:45:56.814658967+00:00
-status: closed
+expires_at: 2026-06-24T21:20:48.168718676+00:00
+status: active

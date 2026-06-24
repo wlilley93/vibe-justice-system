@@ -1,13 +1,7 @@
-id: PERMIT-1781984566
-route_id: ROUTE-20260620-194246
+id: PERMIT-1782289408
+route_id: ROUTE-20260624-082328
 actor: lexby
-scope:
-  paths:
-  - lawpack/v2/decisions/DEC-ACMECO-READ-RLS-001.yaml
-  jurisdictions: null
-  action_kinds: null
-  issue_tags: null
-  records: null
+scope: null
 obligations:
 - id: OBL-LOG-001
   kind: decision_log
@@ -19,5 +13,5 @@ obligations:
   required: true
   due: before_commit
   description: Run vjs validate before commit
-expires_at: 2026-06-21T19:42:46.320832965+00:00
-status: closed
+expires_at: 2026-06-25T08:23:28.977619817+00:00
+status: active
