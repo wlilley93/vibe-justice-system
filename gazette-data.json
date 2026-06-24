@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-12T18:01:38.381825300+00:00",
+  "generated_at": "2026-06-24T22:44:01.968525256+00:00",
   "items": [
     {
       "affirmed_by": [],
@@ -78,7 +78,10 @@
       "affirms": [],
       "assent_source": "sovereign_assent",
       "citation": "[2026] VJS-ACT 3",
-      "cites": [],
+      "cites": [
+        "2026-VJS-SC-004",
+        "ACT-COMPUTER-FIRST-REALM"
+      ],
       "court": "",
       "date": "2026-06-08",
       "doc": "law.html#ACT-003",
@@ -86,9 +89,7 @@
       "has_text": true,
       "id": "ACT-003",
       "kind": "statute",
-      "lineage": [
-        "ACT-COMPUTER-FIRST-REALM"
-      ],
+      "lineage": [],
       "path": "lawpack/v2/statutes/03-agent-duties.yaml",
       "points": [
         "Agents act as advocate, advisor, engineer, and officer but cannot become the court or source of legal force",
@@ -104,7 +105,7 @@
       "supersedes": [],
       "title": "Agent Duties and Route Act",
       "ts": "2026-06-08T23:11:27Z",
-      "updated": "2026-06-09",
+      "updated": "2026-06-24",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/03-agent-duties.yaml",
       "varied_by": [],
       "varies": []
@@ -862,6 +863,7 @@
       "citation": "[2026] VJS-REG 11",
       "cites": [
         "2026-VJS-SC-001",
+        "2026-VJS-SC-004",
         "ACT-CONSOLIDATION-FRAMEWORK"
       ],
       "court": "",
@@ -886,7 +888,7 @@
       "supersedes": [],
       "title": "Federation Coordination Regulation",
       "ts": "2026-06-09T14:50:25Z",
-      "updated": "2026-06-11",
+      "updated": "2026-06-24",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-FEDERATION-COORDINATION-001.yaml",
       "varied_by": [],
       "varies": []
@@ -2329,6 +2331,76 @@
       "affirmed_by": [],
       "affirms": [],
       "assent_source": "standing_bounded_assent",
+      "bench": [
+        "Tindale",
+        "Rowanne",
+        "Marchmont"
+      ],
+      "case_file_digest": "sha256:6c6597a679e798be72bc48a6fb3d4031549248f9b19f97e7786937b666ce5601",
+      "citation": "[2026] VJS-PC 13",
+      "cites": [
+        "2026-VJS-PC-006",
+        "ACT-002",
+        "ACT-004",
+        "ACT-005",
+        "ACT-007",
+        "ACT-ASSENTED-RECORD-PROTECTION",
+        "ACT-CONSOLIDATION-FRAMEWORK",
+        "REG-ACCESSION-001",
+        "REG-BUNDLE-001",
+        "REG-COURT-RECORD-001",
+        "REG-FEDERATION-COORDINATION-001",
+        "REG-HOOKS-001",
+        "REG-INVOCATION-001",
+        "REG-KERNEL-001",
+        "REG-SELF-CONVENE-001"
+      ],
+      "convened_at": "2026-06-24T22:41:30.298124629+00:00",
+      "court": "pc",
+      "date": "2026-06-24",
+      "doc": "law.html#2026-VJS-PC-013",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-PC-013",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": ".vjs/submissions/filed/2026-VJS-PC-013-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-013-opinions.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-PC-013.yaml",
+      "points": [
+        "build one consolidated canon write gate machinery under act consolidation framework s7 teeth to act 005 s1 s3 s5 s7 and act 007 s4 extend the deterministic no llm scanner to fire on lawpack v2 writes at pre write and validate staged and to inspect structured fields scope paths id title decision citation repo code for a subscriber repo code or subscriber scoped origin emitting the reserved boundaryfindingkind privaterepopath or unredactedevidence and a block verdict citing the section also generalising the apex routing decision bright line to the inverse apex records subscriber scoped content direction within this same gate",
+        "bind citation allocation to route record as machinery under s7 teeth to act 004 s8 load the live persisted citationregistry call register allocate and stamp at authoring collisions fatal treat a self asserted citation field as a fatal mismatch unless equal to the kernel allocated value reconcile at write allocation runs before assent so it can never block an assented record",
+        "implement a thin working root jurisdiction id check as the sole lawful path for a true cross repo permit act 007 s3 exception under a privy order or principal assent fail closed otherwise admitted only as a narrow exception path on the single d1 gate not a second gate",
+        "fire an install completeness invariant at pre write and validate staged as machinery under s7 teeth to reg invocation 001 act 007 s1 and the ratio of 2026 vjs pc 6 fail closed unless the reg invocation 001 surface is present and active",
+        "enact a repo scoped regulation under s7 mirroring the reg accession 001 reg bundle 001 lock pattern requiring the install to be an atomic digest locked manifest of the required surface enumerating exactly dotvjs config toml act 007 s1 plus dotvjs lawpack lock digest pin plus active enforcement hooks and runtime adapters plus the recorded local sovereign invocation and no more verified atomically at install and re verified at validate staged fail closed citing the instrument behind any missing limb no external signing key dependency sha256 lock suffices",
+        "keep the absolute path hooks as the authoritative bypass proof enforcement backstop never contingent on any path shim the path visible vjs shim is recommended ergonomic defence in depth offered opt in by the invoke ceremony for the principals authorisation and is a host env mutation outside the repo that must never be performed silently nor relied on as a gate nor treated as a fail closed condition the court refuses to mandate it",
+        "build a tier floor gate at order validate record as machinery under s7 teeth to act 002 s2 s3 s4 citing the section in the denial bifurcated under act assented record protection hard block a non assented order whose court is below the required tier and flag too high per s4 but for a record declaring a valid assent source route for correction only surface and flag never void or block registering the defect code in the kernel route for correction set never as error or fatal",
+        "make vjs invoke install hooks emit the agent runtime prewrite sessionstart postaction thin adapters for each supported runtime claude codex gemini opencode mcp shell per reg invocation 001 install enforcement hooks and reg hooks 001 thin adapter rule adapters stay thin logic lives in hook rs with a testkit eval asserting each adapter is emitted and calls the kernel bound to the d5 manifest a decisive engineering call directed for clarity",
+        "wire the existing pre write priority session start and post action events as machinery teeth to reg hooks 001 reg invocation 001 and affirm that prepare commit msg and post checkout are non vjs git names outside the closed five event surface and must not be added or legislated",
+        "upgrade validate order format and vjs court record to a fail closed bench integrity verification gate as machinery under s7 teeth to 2026 vjs sc 2 and reg court record 001 refusing to record an order unless i the recorded bench size equals the constituted odd size for its court tier read by reference from 2026 vjs sc 2 never restated or hard coded and ii every counted seat in bench is matched by a present non empty opinion attributable to that seat in source opinion a named but silent seat fails denial cites vjs sc 2 and reg court record 001 the fuller convene first heartbeat state machine is reserved to the d11 audit track",
+        "produce through the kernel a full spectrum conformance audit enumerating every substantive prohibition and duty must must not prohibits in every in force lawpack instrument and recording deterministically whether each is bound to a deterministic kernel gate outputting a conformance map of unwired duties as the factual predicate for the reserved d12 instrument",
+        "reserve enacting nothing today the consolidating single front door no other entry instrument to a follow on grounded in the completed d11 conformance map and returned to this council or higher made under s7 so it may not amend any statute bench tier jurisdiction or the assent rule with its wired or void limb biting at the write route chokepoint pre assent and degrading to route for correction never void for any record carrying a valid assent source not to be drafted on the present partial sample"
+      ],
+      "question": "The case file diagnoses eight enforcement gaps where an enacted substantive duty has no deterministic kernel gate at the canon-write chokepoint (the vector by which eleven subscriber-scoped files self-asserted [2026] VJS-DEC 15-22 into canon), plus a ninth question on whether to consolidate. Per question Q1-Q9: which gaps are enforcement of existing law to be directed as machinery under ACT-CONSOLIDATION-FRAMEWORK:s7; which are decisive engineering calls needing no ruling; how are the Q4 first-impression points (atomic install manifest; PATH shim) disposed; how does the Q5 tier-floor gate reconcile block-vs-warn with the ACT-ASSENTED-RECORD-PROTECTION assented-record floor; what bench-integrity verification (Q8) is owed; and should the consolidating \"single front door, no other entry\" instrument be enacted now or reserved (Q9)?",
+      "status": "binding",
+      "subject": "kernel enforcement gaps canon write chokepoint",
+      "summary": "Most of these duties were already law; they just had no gate switched on at the one chokepoint (the kernel, on the write into canon), which is how eleven private files self-asserting fake citations slipped in.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "Teeth for the Front Door",
+      "ts": "2026-06-24T22:41:30.298124629+00:00",
+      "updated": "2026-06-24",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-013.yaml",
+      "varied_by": [],
+      "varies": [],
+      "vote": "3-0 (Tindale J., Rowanne J., Marchmont J., unanimous on all nine questions): Position A. Direct the machinery/wiring fixes now (each gate giving teeth to an existing duty under ACT-CONSOLIDATION-FRAMEWORK:s7, each carrying the assent-conditioned Block-or-route verdict ACT-ASSENTED-RECORD-PROTECTION requires), dispose the Q4 and Q8 first-impression points and the Q5 design fork, mandate the full-spectrum conformance audit, and RESERVE the consolidating single-front-door instrument to a grounded follow-on. No dissent."
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "assent_source": "standing_bounded_assent",
       "citation": "[2026] VJS-SC 1",
       "cites": [
         "2026-VJS-PC-001"
@@ -2425,6 +2497,57 @@
         "2026-VJS-PC-012"
       ],
       "vote": "9-0 (full constitutional bench): entrenchment is the Sovereign's alone; the PC's protection binds now as precedent, its constitutional rank awaits Sovereign Assent citing s.5."
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "assent_source": "standing_bounded_assent",
+      "bench": [
+        "Justice I (separation-of-powers originalist)",
+        "Justice II (anti-gaming / audit-integrity)",
+        "Justice III (assented-record-floor guardian)",
+        "Justice IV (operability / duty-of-care)",
+        "Justice V (drafting / severability, presiding, counted member)"
+      ],
+      "case_file_digest": "sha256:65a6666c053b1422c0d8eed921bd17869df7bf05f0d6f24f37aba29e58f4ff7c",
+      "citation": "[2026] VJS-SC 4",
+      "cites": [
+        "2026-VJS-SC-003",
+        "ACT-003"
+      ],
+      "convened_at": "2026-06-24T08:05:00Z",
+      "court": "sc",
+      "date": "2026-06-24",
+      "doc": "law.html#2026-VJS-SC-004",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-SC-004",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": "lawpack/v2/judgments/2026-VJS-SC-4-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-SC-4-opinion.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-SC-004.yaml",
+      "points": [
+        "treat act003 s10 s11 as binding apex caselaw now route a repeatedly or conduct unsatisfiable gate to court on own motion pause re firing never loop never fabricate never self authorise the reserved act",
+        "codify act003 s10 s11 into the primary statute by sovereign assent the prepared assent draft being a void first draft until cured s14 vjs sc 3",
+        "extend vjs core hook rs and the installed hooks to enforce s10 s11 the printed pass rule and apex routes up so a subscribing repo cannot record a supreme judgment locally",
+        "correct the opbox record replace the misfiled vjs sc opbox 1 with a referral pointing to this canonical vjs sc 4"
+      ],
+      "question": "On referral up from the opbox County Court ([2026] VJS-CC-OPBOX 79): should the ACT-003 s10/s11 rule - unsatisfiable-enforcement-gate auto-justiciability + recorded-disposition consultation, applying the VJS-ACT 10 assented-record/machinery floor to enforcement gates - be ratified, and in what form? And was it correct for a subscribing jurisdiction (opbox) to record the apex ruling locally as VJS-SC-OPBOX 1?",
+      "status": "binding",
+      "subject": "ratification act003 s10 s11 unsatisfiable gate and recorded disposition",
+      "summary": "Apex ratification (5-0), re-homed to canon from a mis-filed repo-level record.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "Unsatisfiable-enforcement-gate Auto-justiciability + Recorded-disposition Consultation (ACT-003 s10/s11 Ratification)",
+      "ts": "2026-06-24T08:10:00Z",
+      "updated": "2026-06-24",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-004.yaml",
+      "varied_by": [],
+      "varies": [],
+      "vote": "5-0 RATIFY-WITH-MODIFICATION; the six convergent amendments command a clear majority (most unanimous)."
     },
     {
       "affirmed_by": [],
@@ -4126,14 +4249,14 @@
   "meta": {
     "counts": {
       "archive": 37,
-      "canon": 63,
-      "total": 100
+      "canon": 65,
+      "total": 102
     },
     "lawpack": {
       "digest": "sha256:14cdb3337039ffdbe4f007fcb6fc5fd634cb0e7f6218e201555ab5de45868f9f",
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "caaae04b691f6c8f3397d0879f123a13cd7bc146"
+    "source_commit": "49abb8ef70701878cf9d35cd62392d410a900830"
   }
 }

@@ -3,11 +3,55 @@
   <title>The VJS Gazette</title>
   <subtitle>The record of the realm: the living canon and the honoured archive</subtitle>
   <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette</id>
-  <updated>2026-06-12T00:00:00Z</updated>
+  <updated>2026-06-24T00:00:00Z</updated>
   <link rel="self" href="https://wlilley93.github.io/vibe-justice-system/gazette.xml"/>
   <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/"/>
   <author><name>Vibe Justice System</name></author>
   <rights>Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001): force comes from the lawpack and the Sovereign's assent, never from publication or syndication.</rights>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-013</id>
+    <title>Teeth for the Front Door</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-013"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-013.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-24T00:00:00Z</published>
+    <updated>2026-06-24T00:00:00Z</updated>
+    <summary type="text">Most of these duties were already law; they just had no gate switched on at the one chokepoint (the kernel, on the write into canon), which is how eleven private files self-asserting fake citations slipped in.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-004</id>
+    <title>Unsatisfiable-enforcement-gate Auto-justiciability + Recorded-disposition Consultation (ACT-003 s10/s11 Ratification)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-004"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-004.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-24T00:00:00Z</published>
+    <updated>2026-06-24T00:00:00Z</updated>
+    <summary type="text">Apex ratification (5-0), re-homed to canon from a mis-filed repo-level record.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-003</id>
+    <title>Agent Duties and Route Act</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-003"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/03-agent-duties.yaml"/>
+    <category term="statute"/>
+    <category term="canon"/>
+    <published>2026-06-08T00:00:00Z</published>
+    <updated>2026-06-24T00:00:00Z</updated>
+    <summary type="text">Defines agent duties, kernel routing for governed work, and permit-obligation-proof-log lifecycle.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-FEDERATION-COORDINATION-001</id>
+    <title>Federation Coordination Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-FEDERATION-COORDINATION-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-FEDERATION-COORDINATION-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-06-24T00:00:00Z</updated>
+    <summary type="text">Defines coordination vs sovereignty test; default subscription lawful because revocable; no binding without adoption.</summary>
+  </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-012</id>
     <title>The s.5(a) Kernel-effect Gate on Appeal - The Entrenchment Condition</title>
@@ -194,17 +238,6 @@
     <published>2026-06-10T00:00:00Z</published>
     <updated>2026-06-11T00:00:00Z</updated>
     <summary type="text">This Regulation codifies the day-to-day operating model for an agent doing development or knowledge work in a jurisdiction that has adopted this lawpack, so an adopter governs ordinary work without re-deriving it.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-FEDERATION-COORDINATION-001</id>
-    <title>Federation Coordination Regulation</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-FEDERATION-COORDINATION-001"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-FEDERATION-COORDINATION-001.yaml"/>
-    <category term="regulation"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-06-11T00:00:00Z</updated>
-    <summary type="text">Defines coordination vs sovereignty test; default subscription lawful because revocable; no binding without adoption.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-GAZETTE-CONTINUITY-001</id>
@@ -557,17 +590,6 @@
     <published>2026-06-08T00:00:00Z</published>
     <updated>2026-06-09T00:00:00Z</updated>
     <summary type="text">Establishes three-court structure (County, Privy Council, Supreme), order binding rules, and word limits.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-003</id>
-    <title>Agent Duties and Route Act</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-003"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/03-agent-duties.yaml"/>
-    <category term="statute"/>
-    <category term="canon"/>
-    <published>2026-06-08T00:00:00Z</published>
-    <updated>2026-06-09T00:00:00Z</updated>
-    <summary type="text">Defines agent duties, kernel routing for governed work, and permit-obligation-proof-log lifecycle.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-004</id>
