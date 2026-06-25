@@ -1,0 +1,41 @@
+id: DOCKET-2026-06-25-mcp-front-door
+status: docketed_awaiting_predicate
+proposed_by: principal
+proposed_at: "2026-06-25"
+court_requested: privy_council
+jurisdiction: vibe-justice-system
+relates_to:
+  - "2026-VJS-PC-013"      # D12 reserved the consolidating instrument
+  - REG-KERNEL-001          # single smart enforcement point
+  - REG-INVOCATION-001      # install_enforcement_hooks
+  - ACT-002:s3              # privy scope: kernel / constitutional machinery
+title: >
+  Host the VJS kernel as a server the agent can only reach via MCP, so
+  route -> court -> record is the agent's sole governance interface (the
+  structural "single front door, no other entry").
+proposition: >
+  The disease PC-13 named is an agent operating SOME but not all mechanisms of
+  the system from context alone. A hosted kernel whose governance verbs (route,
+  convene, allocate-citation, record) are reachable ONLY as MCP tool calls makes
+  the front door the only way a governed record can come into being - it cannot
+  be "bashed out of thin air" because minting a citation, constituting a court,
+  or recording an order is a server-adjudicated act, not a file an agent writes.
+  A vjs-mcp crate already exists, so this elevates an existing surface to the
+  enforced sole entry rather than building from zero.
+honest_limit: >
+  An MCP server cannot fully cage the agent: the agent could decline to call MCP
+  and write a YAML file directly. What catches THAT is the deterministic,
+  absolute-path commit hook (D6 backstop), now carrying the D1 canon-write gate.
+  So the lawful architecture is BOTH: the MCP server as the live front door, and
+  the bypass-proof commit hook as the backstop. Defence in depth, not a single
+  point.
+discipline: >
+  This IS the shape of the D12-reserved instrument. PC-13 reserved it precisely
+  so it is grounded in the D11 full-spectrum conformance map and not asserted
+  ahead of its ground truth (the very sin this line prosecutes). Therefore:
+  complete D11, THEN convene the Privy Council on this proposal, made under
+  ACT-CONSOLIDATION-FRAMEWORK:s7 (so it amends no statute, bench, tier,
+  jurisdiction, or the assent rule) with its wired-or-void limb biting at the
+  write/route chokepoint pre-assent and degrading to route-for-correction for any
+  assented record.
+next_step: convene_after_d11
