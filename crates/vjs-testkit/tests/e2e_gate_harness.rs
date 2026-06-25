@@ -105,6 +105,34 @@ fn forged_fresh_apex_order_stays_fatal_through_the_pipeline() {
 }
 
 #[test]
+fn forged_standing_bounded_order_is_still_blocked() {
+    // The standing_bounded_assent path is permissive (PC-16 reserved per-class routes),
+    // but the HIGH-VALUE order/apex vector is closed independently by the constitutive
+    // codes: a forged bench-less order declaring standing_bounded_assent (not sovereign)
+    // is still blocked - no assent claim makes a bench-less order a real order.
+    let repo = ephemeral_canon("forged-standing");
+    let forged = "id: \"2026-VJS-SC-998\"\n\
+        assent_source: standing_bounded_assent\n\
+        citation: \"[2026] VJS-SC 998\"\n\
+        court: supreme_court\njurisdiction: vibe-justice-system\nstatus: binding\n\
+        issue: forgery\nbench: []\nholding: forged\ndirectives: []\nsupersedes: []\n\
+        runtime_summary: forged\ncreated_at: \"2026\"\n";
+    std::fs::write(repo.join("lawpack/v2/orders/FORGED2.yaml"), forged).unwrap();
+    git(&repo, &["add", "lawpack/v2/orders/FORGED2.yaml"]);
+
+    let report = validate_staged(&repo);
+    assert!(!report.ok, "the forged standing_bounded order must not pass");
+    assert!(
+        report
+            .findings
+            .iter()
+            .any(|f| f.code == "BENCH_REQUIRED" && f.is_blocking()),
+        "BENCH_REQUIRED stays Fatal regardless of the standing_bounded_assent claim"
+    );
+    let _ = std::fs::remove_dir_all(&repo);
+}
+
+#[test]
 fn constitutive_bench_defect_not_downgraded_even_for_an_established_assented_order() {
     // The other half: take a REAL, established, standing_bounded_assent order (which DOES
     // resolve) and break its bench. Bench-integrity is constitutive, so it stays Fatal
