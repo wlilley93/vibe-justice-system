@@ -1,0 +1,12 @@
+id: LOG-2026-06-25-150339
+time: 2026-06-25T15:03:39.806019743+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260625-150312
+decision: 'Built [2026] VJS-PC 16 D1/D2: the assent-resolution floor. The floor now shelters a staged record only if its declared assent_source RESOLVES to real Sovereign authority (named in the provenance corpus assent/+founding/, or an established/commenced record), not on bare allow-list membership. And the constitutive-validity codes (BENCH_REQUIRED, bench-integrity, apex-singleness, CITATION_COLLISION) are NEVER softened by any assent claim (''void ab initio on both grounds''). Two downgrade sites fixed (the main floor loop + the bench gate''s own bifurcation, which downgraded on mere membership - the audit''s exploit). Proven: the forged bench-less apex order declaring sovereign_assent now stays Fatal and is blocked. spec.rs AssentSourceValid comment reconciled (it is the well-formedness limb; resolution is at the floor-attachment site).'
+basis:
+- PERMIT-1782399792
+risk: low
+reversibility: easy
+court_required: false
+why: 'Faithful implementation of PC-16''s binding directives; resolution mechanism adapted to the FACTS (records carry no explicit pointers; resolution is by the provenance corpus naming/commencing them) per the bench''s D7 invitation, never narrowing a genuinely-assented record (D2 verified: every real assent resolves; only fresh forgeries fail)'

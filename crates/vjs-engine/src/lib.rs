@@ -17,6 +17,7 @@ use vjs_lawpack::{Lawpack, LawpackLoader, LawpackValidator, lawpack_facts};
 use vjs_redact::RedactScanner;
 use vjs_store::Store;
 
+pub mod assent;
 pub mod runtime;
 
 /// Options for a validate run.
@@ -148,9 +149,13 @@ pub fn validate(repo: &Path, opts: &ValidateOpts) -> Result<Report, KernelError>
             ));
         } else {
             for rel in &changed {
+                // PC-16 D1: the floor shelters a staged record only if its declared
+                // assent_source RESOLVES to real Sovereign authority - not merely names
+                // an allow-listed form. A forged record that types the words but resolves
+                // to nothing is left at its native severity.
                 if vjs_core::front_door::is_governed_record(rel)
                     && let Ok(content) = std::fs::read_to_string(repo.join(rel))
-                    && vjs_core::front_door::declares_valid_assent(&content)
+                    && crate::assent::assent_resolves(repo, rel, &content)
                 {
                     assented_record_paths.insert(rel.clone());
                 }
@@ -224,11 +229,15 @@ pub fn validate(repo: &Path, opts: &ValidateOpts) -> Result<Report, KernelError>
         }
     }
 
-    // PC-14 D3 assent floor: every block on a staged record declaring valid assent
-    // degrades to route-for-correction (never void/block, ACT-ASSENTED-RECORD-PROTECTION).
+    // PC-14 D3 assent floor: every block on a staged record whose assent RESOLVES
+    // (PC-16 D1) degrades to route-for-correction (never void/block,
+    // ACT-ASSENTED-RECORD-PROTECTION) - EXCEPT a constitutive-validity finding, which
+    // goes to whether the record IS a valid record of its kind and is never softened by
+    // any assent claim (PC-16: "void ab initio on both grounds").
     if !assented_record_paths.is_empty() {
         for fd in &mut findings {
             if fd.is_blocking()
+                && !crate::assent::is_constitutive(&fd.code)
                 && let Some(p) = &fd.path
                 && assented_record_paths.contains(&p.to_string_lossy().to_string())
             {
@@ -484,39 +493,26 @@ fn staged_gates(
                     .fix("Add the bench (the seats that decided) before recording."),
                 );
             }
-            // D10/D7 bench-integrity, assent-bifurcated.
+            // D10/D7 bench-integrity. PC-16: bench-integrity is CONSTITUTIVE - whether an
+            // order issues from a constituted bench goes to whether it IS an order at all
+            // ("void ab initio on both grounds"), and is NEVER softened by an assent
+            // claim. The former code downgraded these on mere allow-list membership, the
+            // very laundering [2026] VJS-PC 16 closed. A genuinely-constituted order has
+            // no such defect, so always-Fatal narrows no real order.
             let opinion_text = order
                 .source_opinion
                 .as_ref()
                 .and_then(|p| std::fs::read_to_string(repo.join(p)).ok());
             let defects =
                 vjs_core::bench::verify_bench(&order, constitution, opinion_text.as_deref());
-            if defects.is_empty() {
-                continue;
-            }
-            let assented = order
-                .assent_source
-                .as_deref()
-                .map(vjs_core::front_door::is_valid_assent_value)
-                .unwrap_or(false);
             for d in defects {
-                let (severity, fix) = if assented {
-                    (
-                        Severity::Warning,
-                        "Assented record: route for correction (never void). Correct the bench \
-                         size / opinions and re-record.",
-                    )
-                } else {
-                    (
-                        Severity::Fatal,
-                        "Constitute the bench correctly (constituted odd size + a non-empty opinion \
-                         per seat) before recording.",
-                    )
-                };
                 findings.push(
-                    f(severity, d.code(), d.message())
+                    f(Severity::Fatal, d.code(), d.message())
                         .at(PathBuf::from(rel))
-                        .fix(fix),
+                        .fix(
+                            "Constitute the bench correctly (constituted odd size + a non-empty \
+                             opinion per seat) before recording.",
+                        ),
                 );
             }
         }
