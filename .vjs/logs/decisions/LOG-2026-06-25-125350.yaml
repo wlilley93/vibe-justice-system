@@ -1,0 +1,12 @@
+id: LOG-2026-06-25-125350
+time: 2026-06-25T12:53:50.884719986+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260625-125350
+decision: 'Beat 5: (#9) vjs_core::bench::subject_tier_advisory flags an order whose issue reads as a higher-tier matter than its court (ACT-002:s2/s3/s4), advisory Warning only (fuzzy subject classification never blocks); (#11) lawpack/v2/federation/subscriber-registry.yaml + RedactScanner reads it so a foreign id-code (e.g. OPBOX) is caught even without scope-path corroboration'
+basis:
+- PERMIT-1782392030
+risk: low
+reversibility: easy
+court_required: false
+why: Completes PC-14 D7's reserved fuzzy tier limb as a conservative advisory; hardens the D1 canon gate against a foreign id-code with no scope path

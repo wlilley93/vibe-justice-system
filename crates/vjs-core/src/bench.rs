@@ -59,6 +59,43 @@ pub fn convening_bench_check(
     }
 }
 
+/// The subject-matter tier-floor ADVISORY (#9, PC-14 D7's reserved fuzzy limb).
+/// ACT-002 routes constitutional / jurisdiction / routing / public-private-boundary
+/// matters to the Privy Council (s3) and foundational doctrine to the Supreme Court
+/// (s4). This flags an order whose `issue`/subject reads as a higher-tier matter than
+/// its court. It is deliberately CONSERVATIVE and advisory only (the caller emits a
+/// Warning, never a block): subject classification is fuzzy, so it surfaces a likely
+/// mis-tiering for human judgement rather than voiding anything. Returns the advisory
+/// message, or None.
+pub fn subject_tier_advisory(issue: &str, court: &Court) -> Option<String> {
+    let s = issue.to_ascii_lowercase();
+    let privy_words = [
+        "constitutional",
+        "jurisdiction",
+        "routing",
+        "boundary",
+        "federation",
+        "sovereignty",
+    ];
+    let supreme_words = ["foundational", "doctrine", "settlement"];
+    let hits = |words: &[&str]| words.iter().any(|w| s.contains(w));
+    match court {
+        Court::County if hits(&supreme_words) => Some(format!(
+            "issue '{issue}' reads as foundational doctrine (ACT-002:s4 -> Supreme Court), but the \
+             court is County. Likely under-tiered."
+        )),
+        Court::County if hits(&privy_words) => Some(format!(
+            "issue '{issue}' reads as a constitutional / jurisdiction / routing / boundary matter \
+             (ACT-002:s3 -> Privy Council), but the court is County. Likely under-tiered."
+        )),
+        Court::PrivyCouncil if hits(&supreme_words) => Some(format!(
+            "issue '{issue}' reads as foundational doctrine (ACT-002:s4 -> Supreme Court), but the \
+             court is the Privy Council. Possibly under-tiered."
+        )),
+        _ => None,
+    }
+}
+
 /// The actor token a tier carries in the VJS-SC 2 constitution directives.
 pub fn court_actor_token(court: &Court) -> &'static str {
     match court {

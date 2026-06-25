@@ -1383,6 +1383,23 @@ fn cmd_validate(
                             });
                         }
                     }
+                    // #9 PC-14 D7's reserved subject-matter tier advisory (ACT-002
+                    // s2/s3/s4): flag a likely under-tiered order. Advisory Warning
+                    // only - subject classification is fuzzy, so it never blocks.
+                    if let Some(msg) =
+                        vjs_core::bench::subject_tier_advisory(&order.issue.0, &order.court)
+                    {
+                        findings.push(ValidationFinding {
+                            severity: Severity::Warning,
+                            code: "TIER_ADVISORY".into(),
+                            path: Some(PathBuf::from(rel)),
+                            message: msg,
+                            suggested_fix: Some(
+                                "Confirm the court tier, or re-file the matter at the indicated tier."
+                                    .into(),
+                            ),
+                        });
+                    }
                     let opinion_text = order
                         .source_opinion
                         .as_ref()
