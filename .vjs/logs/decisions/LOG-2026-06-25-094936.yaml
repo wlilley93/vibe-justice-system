@@ -1,0 +1,12 @@
+id: LOG-2026-06-25-094936
+time: 2026-06-25T09:49:36.549605512+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260625-094936
+decision: 'Add unique_log_id helper: decision-log ids now append -2/-3 on same-second collision instead of overwriting a sibling record'
+basis:
+- PERMIT-1782380976
+risk: low
+reversibility: easy
+court_required: false
+why: A real record-reliability defect surfaced when D6 and D12 logs collided; made the work good (duty of care, restorative)
