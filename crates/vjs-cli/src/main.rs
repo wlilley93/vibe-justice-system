@@ -526,7 +526,36 @@ fn cmd_hook(
     // subscribing jurisdiction may not assert an apex/final-court function, i.e. may not record a supreme/privy
     // court order; it must refer up. The apex seat is the canonical VJS jurisdiction.
     const APEX_SEAT: &str = "vjs";
+    let canon_repo_code = cfg
+        .as_ref()
+        .and_then(|c| c.repo_code.clone())
+        .unwrap_or_else(|| jurisdiction_id.to_uppercase());
+    // Canon-write gate ([2026] VJS-PC 13 D1), pre_write half: best-effort on content
+    // (the file may not be on disk yet; the authoritative bite is validate --staged).
+    let canon_block = |paths: &[PathBuf]| -> Option<vjs_core::hook::HookDecision> {
+        let cf = RedactScanner::scan_canon_writes(repo, paths, &canon_repo_code);
+        let first = cf
+            .into_iter()
+            .find(|x| matches!(x.severity, Severity::Error | Severity::Fatal))?;
+        let where_ = first
+            .path
+            .as_ref()
+            .and_then(|p| p.file_name())
+            .map(|f| f.to_string_lossy().to_string())
+            .unwrap_or_default();
+        Some(vjs_core::hook::HookDecision::Block(
+            vjs_core::hook::Finding {
+                code: "CANON_BOUNDARY_VIOLATION".into(),
+                message: format!(
+                    "{where_} carries subscriber-scoped content (private repo path or repo_code). \
+                 Canon holds system data only; file it in the subscriber's own .justice/."
+                ),
+                next: Some("move to subscriber .justice/".into()),
+            },
+        ))
+    };
     let decision = vjs_core::hook::apex_routing_decision(&input, &jurisdiction_id, APEX_SEAT)
+        .or_else(|| canon_block(&input.paths))
         .unwrap_or_else(|| {
             vjs_core::hook::evaluate_governed(&input, &ctx, &permits, &required, &exempt)
         });
@@ -1053,6 +1082,54 @@ fn cmd_validate(
                     path: finding.path.clone(),
                     message: finding.message.clone(),
                     suggested_fix: Some(finding.remedy.clone()),
+                });
+            }
+
+            // Canon-write gate ([2026] VJS-PC 13 D1): the deterministic boundary
+            // scanner extended to fire on lawpack/v2 records and inspect structured
+            // fields, blocking subscriber-scoped content from entering canon
+            // (ACT-005:s1/s5, ACT-007:s4). This is the commit-time half of the same
+            // gate the pre_write hook runs; it closes the vector by which eleven
+            // DEC-OPBOX/INV-OPBOX/SPEC-OPBOX files self-asserted into the public lawpack.
+            let canon_repo_code = config
+                .as_ref()
+                .and_then(|c| c.repo_code.clone())
+                .or_else(|| config.as_ref().map(|c| c.jurisdiction_id.to_uppercase()))
+                .unwrap_or_else(|| "VJS".into());
+            let canon_findings =
+                RedactScanner::scan_canon_writes(repo, &staged_paths, &canon_repo_code);
+            if !RedactScanner::check_public_safe(&canon_findings) {
+                ok = false;
+                for f in canon_findings {
+                    findings.push(ValidationFinding {
+                        severity: f.severity,
+                        code: "CANON_BOUNDARY_VIOLATION".into(),
+                        path: f.path,
+                        message: f.message,
+                        suggested_fix: Some(format!("{:?}", f.suggested_route)),
+                    });
+                }
+            }
+
+            // D3: the thin working-root jurisdiction check. A permit whose scope
+            // reaches outside the working root is a true cross-repo permit, lawful
+            // under ACT-007:s3 only by privy order / principal assent. No such
+            // authority field exists in the repo-local model, so fail closed.
+            for (permit_id, glob) in PermitGate::cross_repo_reaches(&permits) {
+                ok = false;
+                findings.push(ValidationFinding {
+                    severity: Severity::Fatal,
+                    code: "CROSS_REPO_PERMIT".into(),
+                    path: None,
+                    message: format!(
+                        "Permit {permit_id} scopes '{glob}', which reaches outside the working \
+                         root. A cross-repo reach into another repo's law is lawful only by a \
+                         Privy Council order or Principal assent (ACT-007:s3). Failing closed."
+                    ),
+                    suggested_fix: Some(
+                        "Re-scope the permit to in-root paths, or seek privy/principal authority"
+                            .into(),
+                    ),
                 });
             }
         }

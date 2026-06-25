@@ -374,6 +374,11 @@ mod lawpack_lock_tests {
 pub struct JurisdictionConfig {
     pub version: String,
     pub jurisdiction_id: String,
+    /// This repo's own repo_code (e.g. "VJS"). The canon-write gate (D1) reads it to
+    /// know which repo_code is native; any other in a canon record is contamination.
+    /// Optional for configs predating it; defaults to jurisdiction_id.to_uppercase().
+    #[serde(default)]
+    pub repo_code: Option<String>,
     pub lawpack: String,
     pub paths: PathsConfig,
     pub governance: Option<GovernanceConfig>,
@@ -463,6 +468,7 @@ fn default_config() -> JurisdictionConfig {
     JurisdictionConfig {
         version: "2".into(),
         jurisdiction_id: "default".into(),
+        repo_code: None,
         lawpack: "vjs-v2@0.1.0".into(),
         paths: default_paths(),
         governance: Some(default_governance()),
