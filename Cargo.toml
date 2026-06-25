@@ -4,6 +4,7 @@ members = [
     "crates/vjs-core",
     "crates/vjs-lawpack",
     "crates/vjs-store",
+    "crates/vjs-engine",
     "crates/vjs-cli",
     "crates/vjs-mcp",
     "crates/vjs-git",

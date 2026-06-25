@@ -1,0 +1,12 @@
+id: LOG-2026-06-25-135039
+time: 2026-06-25T13:50:39.125724973+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260625-135039
+decision: 'Refactor R1+R3+R4(validate): added vjs_core::report::{Finding,Report} (one finding type, ending the six-type hand-mapping that dropped fields); created the vjs-engine crate (above core/lawpack/store/redact/git, below cli/mcp) holding vjs_engine::validate(repo, opts) -> Report; moved the 592-line cmd_validate pipeline there near-verbatim; cmd_validate is now a 24-line adapter that prints+exits. Behaviour identical (proven: non-assented DEC-ACMECO blocks, assented downgrades, plain validate OK); 35 test groups green, 0 warnings'
+basis:
+- PERMIT-1782395439
+risk: low
+reversibility: easy
+court_required: false
+why: 'REG-KERNEL-001: the kernel is the only smart point - the validate orchestration was a 592-line function in the CLI binary, which is why CI and MCP re-implemented weaker checks (two audit bypasses). One shared implementation closes that class of bug'

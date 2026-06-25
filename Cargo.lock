@@ -727,6 +727,7 @@ dependencies = [
  "thiserror",
  "toml",
  "vjs-core",
+ "vjs-engine",
  "vjs-git",
  "vjs-lawpack",
  "vjs-redact",
@@ -746,6 +747,24 @@ dependencies = [
  "sha2",
  "thiserror",
  "toml",
+]
+
+[[package]]
+name = "vjs-engine"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "hex",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "sha2",
+ "thiserror",
+ "vjs-core",
+ "vjs-git",
+ "vjs-lawpack",
+ "vjs-redact",
+ "vjs-store",
 ]
 
 [[package]]

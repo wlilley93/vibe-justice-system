@@ -1,33 +1,28 @@
 [package]
-name = "vjs-cli"
+name = "vjs-engine"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 authors.workspace = true
 repository.workspace = true
 
-[[bin]]
-name = "vjs"
-path = "src/main.rs"
-
+# The orchestration kernel: it sits ABOVE the leaf crates (core/lawpack/store/
+# redact/git) and BELOW the adapters (cli/mcp), holding the validate pipeline and
+# record-creation - the "only smart point" of REG-KERNEL-001, in one place the CLI,
+# the MCP server, and CI all call.
 [dependencies]
 vjs-core = { path = "../vjs-core" }
 vjs-lawpack = { path = "../vjs-lawpack" }
 vjs-store = { path = "../vjs-store" }
-vjs-engine = { path = "../vjs-engine" }
-vjs-git = { path = "../vjs-git" }
 vjs-redact = { path = "../vjs-redact" }
+vjs-git = { path = "../vjs-git" }
 serde.workspace = true
 serde_json.workspace = true
 serde_yaml.workspace = true
 thiserror.workspace = true
 chrono.workspace = true
-clap.workspace = true
-regex.workspace = true
-dirs.workspace = true
 sha2.workspace = true
 hex.workspace = true
-toml = "0.8"
 
 [dev-dependencies]
 serde_yaml.workspace = true
