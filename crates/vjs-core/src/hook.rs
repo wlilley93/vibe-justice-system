@@ -260,6 +260,38 @@ pub fn parse_event(s: &str) -> Option<HookEvent> {
 }
 
 #[cfg(test)]
+mod closed_surface_tests {
+    use super::*;
+
+    /// D9 ([2026] VJS-PC 13): REG-HOOKS-001 fixes a CLOSED five-event surface. The
+    /// five VJS events parse; the git names "prepare-commit-msg" and "post-checkout"
+    /// are outside the surface and must NOT be accepted or legislated.
+    #[test]
+    fn the_five_event_surface_is_closed() {
+        for ev in [
+            "session_start",
+            "pre_write",
+            "post_action",
+            "pre_commit",
+            "pre_push",
+        ] {
+            assert!(parse_event(ev).is_some(), "{ev} is a VJS event");
+        }
+        for non in [
+            "prepare-commit-msg",
+            "post-checkout",
+            "pre-rebase",
+            "update",
+        ] {
+            assert!(
+                parse_event(non).is_none(),
+                "{non} is a git name outside the closed five-event surface"
+            );
+        }
+    }
+}
+
+#[cfg(test)]
 mod apex_routing_tests {
     use super::*;
     use std::fs;
