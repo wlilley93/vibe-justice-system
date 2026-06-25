@@ -813,6 +813,22 @@ fn cmd_lookup(
     Ok(())
 }
 
+/// A decision-log id that does not collide with an existing log. The base is
+/// second-precision; on collision (two logs written in the same second, as a single
+/// command can) a -2/-3 suffix is appended, so a record is never silently
+/// overwritten by a sibling sharing its timestamp.
+fn unique_log_id(repo: &Path) -> String {
+    let base = format!("LOG-{}", chrono::Utc::now().format("%Y-%m-%d-%H%M%S"));
+    let dir = repo.join(".vjs/logs/decisions");
+    let mut id = base.clone();
+    let mut n = 2;
+    while dir.join(format!("{id}.yaml")).exists() {
+        id = format!("{base}-{n}");
+        n += 1;
+    }
+    id
+}
+
 fn cmd_log(repo: &Path, subcmd: LogCommands, json: bool) -> Result<(), KernelError> {
     match subcmd {
         LogCommands::Decision {
@@ -824,7 +840,7 @@ fn cmd_log(repo: &Path, subcmd: LogCommands, json: bool) -> Result<(), KernelErr
             why,
         } => {
             let log = DecisionLog {
-                id: format!("LOG-{}", chrono::Utc::now().format("%Y-%m-%d-%H%M%S")),
+                id: unique_log_id(repo),
                 time: chrono::Utc::now().to_rfc3339(),
                 actor: "lexby".into(),
                 kind,
@@ -889,7 +905,7 @@ fn cmd_log(repo: &Path, subcmd: LogCommands, json: bool) -> Result<(), KernelErr
             }
 
             let log = DecisionLog {
-                id: format!("LOG-{}", chrono::Utc::now().format("%Y-%m-%d-%H%M%S")),
+                id: unique_log_id(repo),
                 time: chrono::Utc::now().to_rfc3339(),
                 actor: "lexby".into(),
                 kind: "decision".into(),
