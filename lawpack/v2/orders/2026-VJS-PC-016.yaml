@@ -1,0 +1,232 @@
+id: "2026-VJS-PC-016"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-PC 16"
+title: The Assent-Resolution Floor
+court: privy_council
+jurisdiction: vibe-justice-system
+status: binding
+issue: whether_requiring_a_declared_assent_source_to_resolve_to_a_real_digest_matched_covering_sovereign_assent_event_is_faithful_interpretation_of_the_entrenched_term_valid_within_act_computer_first_realm_s23_as_imported_by_act_assented_record_protection_s1_or_an_amendment_of_the_entrenched_floor_reserved_to_the_sovereign_with_the_deterministic_resolution_mechanism_and_the_companion_self_issued_permit_and_self_satisfiable_kernel_edit_residuals
+bench:
+  - Fenwick
+  - Garrow
+  - Holt
+vote: >
+  3-0 (Fenwick J., Garrow J., Holt J., unanimous on all four questions): POSITION A -
+  REQUIRE RESOLUTION AS INTERPRETATION - prevails. Requiring a declared assent_source to
+  resolve to a real, digest-matched, covering Sovereign-assent event is faithful
+  interpretation of the entrenched term "valid" as ACT-COMPUTER-FIRST-REALM s.23 (imported
+  by ACT-ASSENTED-RECORD-PROTECTION s.1 "within the meaning of s.23" and given continuing
+  deterministic effect by INV-ASSENT-SOURCE-001) already defines it, and is within the
+  Privy Council's interpretive power. It is NOT an amendment of the entrenched floor: it
+  changes no word of VJS-ACT 10, s.23, or INV-ASSENT-SOURCE-001, removes protection from no
+  genuinely-assented record, and therefore is NOT routed to the Sovereign for assent.
+  Position B (value-on-the-allow-list suffices; the cure is a Sovereign amendment) is
+  REJECTED as the reading that, contrary to its own claim, would amend the entrenched text
+  by nullifying s.23's resolution verbs. Position C's belt-and-braces reserved-amendment
+  limb is REJECTED on constitutional hygiene (it would imply the entrenched meaning was
+  contingent on a confirming Act, corroding the meaning it confirms); the Sovereign retains
+  the prerogative to place the requirement beyond future argument by an express Act, but
+  the cure is effective on this order and is not conditional on any such Act. No dissent.
+case_file_digest: "sha256:a8e13c7419a0496e8de6dd01358bda0ce51e659641c3b4d33dac0c279ffb2e5c"
+convened_at: "2026-06-25T14:28:21.919467201+00:00"
+question: >
+  On the Reference re Assent Resolution (SUBMISSION-2026-06-25-assent-resolution). An
+  adversarial audit proved that a staged governed record which merely types
+  "assent_source: sovereign_assent", pointing at no assent event that ever happened, has
+  every Fatal finding downgraded to a route-for-correction Warning and commits; a
+  bench-less, never-convened "Supreme Court order" passed a green validate by this route.
+  The downgrade is performed by vjs-engine (crates/vjs-engine/src/lib.rs:153) keyed on
+  front_door::declares_valid_assent, which returns true on bare membership of the
+  VALID_ASSENT_SOURCES allow-list. Per question Q1-Q4: (Q1 NATURE) does "valid
+  assent_source" require the declared assent to resolve to a real, digest-matched assent
+  record whose scope and date cover the asserting record, or does mere value-on-the-
+  allow-list suffice; (Q2 MECHANISM) what is the deterministic, model-free resolution
+  check the kernel must perform; (Q3 THE FLOOR) does requiring resolution violate
+  ACT-ASSENTED-RECORD-PROTECTION s.1's never-void/never-block guarantee and is it
+  interpretation within the Privy Council's power or a constitutive change to the
+  entrenched floor reserved to the Sovereign; and (Q4 RESIDUALS) the companion authority-
+  model findings - the agent self-issuing its own "vjs route" permits, and a kernel-source
+  edit that would weaken a gate yet pass its own weakened gate.
+holding: >
+  POSITION A prevails, 3-0. Q1 (NATURE): "VALID assent_source" REQUIRES the declared
+  assent to resolve to a real, digest-matched Sovereign-assent record whose scope and date
+  cover the asserting record; mere value-on-the-allow-list does NOT suffice and never did.
+  The term is not a free-standing adjective the kernel may fill with whatever is cheapest
+  to compute. ACT-ASSENTED-RECORD-PROTECTION s.1 protects a record "that declares a valid
+  assent_source within the meaning of s.23," anchoring validity by express cross-reference
+  to ACT-COMPUTER-FIRST-REALM s.23, which defines a valid assent_source as one "resolving
+  to a specific Sovereign-assent event (sovereign_assent)" or a standing route "tracing to
+  specific Sovereign assent (standing_bounded_assent)," and enumerates "an unresolved
+  trace" as a ground of rejection standing shoulder to shoulder with absence and emptiness.
+  INV-ASSENT-SOURCE-001, the invariant giving s.23 continuing deterministic effect, repeats
+  the same words. The allow-list of two strings names the permitted FORMS; s.23 supplies the
+  TEST. The kernel's is_valid_assent_value / declares_valid_assent (front_door.rs) and the
+  AssentSourceValid predicate (spec.rs) implement only the membership half and OMIT the
+  resolution half - and the AssentSourceValid evaluator's own authored comment recites the
+  s.23 standard verbatim ("resolving to," "an unresolved trace ... cause[s] rejection") and
+  then checks only allowed.iter().any. The defect is an under-implementation of an existing
+  entrenched word, not an absence of law. Position B is REJECTED: it mistakes the bug for the
+  statute - the Realm enacted "must resolve," not "the string must be on the list" - and would
+  elevate a clerk's implementation defect to constitutional rank, demanding a Sovereign Act to
+  fix a bug while reading the operative verbs of s.23 out of the entrenched text. Q2
+  (MECHANISM): a wholly deterministic, model-free, network-free, clock-independent resolution
+  check, run only at the floor-attachment site (the declares_valid_assent gate at
+  vjs-engine/src/lib.rs:153, via vjs-core::front_door), parsing structure not raw lines. A
+  record earns the floor's protection if and only if: (1) WELL-FORMEDNESS - its top-level
+  assent_source is on the INV-ASSENT-SOURCE-001 allow-list (the existing half); AND (2)
+  RESOLUTION - it declares a machine-checkable pointer (an assent-event id and/or an
+  instrument_digest) that loads to exactly one kind: sovereign_assent_event record under the
+  digest-pinned lawpack/v2/provenance/assent/ tree, resolved against the known-assent-event id
+  set exactly as IncludedInRuntimeAuthorityGraph resolves a declared id, whose instrument_digest
+  matches byte-for-byte; for standing_bounded_assent the declared bounded route must itself
+  resolve by the same chain to a specific Sovereign-assent event; AND (3) COVERAGE - the resolved
+  event must cover the asserting record by scope (the deterministic EntityScope::covers prefix
+  test in scope.rs, an apex assent covering everything beneath it, a narrower assent only its own
+  subtree) and by date (the event's date not after the asserting record). All three are pure table
+  lookup, digest comparison, and prefix matching over digest-pinned canon - no model, no merits
+  judgment, no deliberation (INV-KERNEL-001; REG-KERNEL-001, "the only smart enforcement point").
+  If any limb fails the declaration is an "unresolved trace," the record is treated as one that
+  LACKS a valid assent_source, the underlying finding keeps its native severity (Fatal stays
+  Fatal), and the denial names s.23 / INV-ASSENT-SOURCE-001 / ACT-ASSENTED-RECORD-PROTECTION s.2 as the instrument. The
+  resolution gate fails a record CLOSED only on the ground that its assent does not resolve; it
+  must not be wired to block a genuinely-resolving record for any OTHER defect. Q3 (THE FLOOR):
+  requiring resolution does NOT violate s.1's never-void/never-block guarantee, and is
+  INTERPRETATION within the Privy Council's power, NOT a constitutive change reserved to the
+  Sovereign. s.1's shelter is, by its own opening words, available only to "a record that declares
+  a valid assent_source within the meaning of s.23 (a Sovereign-assented record)"; s.2 closes the
+  circle expressly - "it confers no force on any record that lacks a valid assent_source; it
+  protects what the Sovereign has assented to, it does not enlarge it." A record bearing an
+  unresolved string has, by Q1, no valid assent_source within s.23; it is therefore, by s.2's own
+  words, a record to which the Act confers no force. Keeping such a record at its native Fatal
+  severity does not void or block a protected record - there is nothing to void, because there was
+  never any assent: a false signature is, in law, no signature. The s.1 prohibition never bites,
+  because it never reaches a record outside its own entry condition. To hold otherwise would
+  produce the absurdity the audit exhibits: that the Sovereign, by entrenching protection for
+  assented records, silently armed every author to immunise any record from every Fatal invariant
+  by typing two known words at column zero - including a bench-less, never-convened apex "order"
+  that s.15 apex-singleness forbids. A floor written to shelter the Sovereign's assent cannot have
+  silently armed every author to counterfeit it; reading the floor to shelter the counterfeit is
+  not fidelity but inversion. This is interpretation, not legislation: it changes no word of
+  VJS-ACT 10, s.23, or INV-ASSENT-SOURCE-001, and removes protection from no genuinely-assented
+  record - every real assent in canon (the founding adoption, the migration/omnibus assent, the
+  VJS-ACT 10 assent of 2026-06-12) carries an instrument_digest, resolves cleanly, and retains its
+  ASSENTED_ROUTE_FOR_CORRECTION disposition unchanged. The only records that lose anything are
+  forgeries that were never entitled to anything. The amendment that would in fact be required runs
+  the OTHER way: to sustain value-suffices someone would have to amend s.23 to delete "resolving to"
+  and "an unresolved trace ... cause[s] rejection," and THAT would need the Sovereign. Accordingly
+  the matter is NOT routed to the Sovereign for assent. Position C's reserved-amendment limb is
+  REJECTED on constitutional hygiene: to send the Sovereign an amendment "confirming" a meaning the
+  entrenched text already carries would imply that, absent the Sovereign's fresh word, "valid"
+  might mean bare membership - treating a faithful reading of an existing entrenched section as a
+  gap needing the Sovereign to fill, conceding Position B's premise, and risking a needless assent
+  gate freezing future faithful interpretation. The Sovereign's prerogative is preserved as NOTICE
+  ONLY (not a request for enactment): the Sovereign may, at the Sovereign's sole option, place the
+  resolution requirement beyond all future argument by an express Act citing VJS-ACT 10 and
+  ACT-COMPUTER-FIRST-REALM s.23 by number; the cure of D1-D4 is effective on this order and is in no
+  way conditional on any such Act. Q4 (RESIDUALS): (a) the agent self-issuing its own "vjs route"
+  permits is AFFIRMED as by-design under local-sovereign invocation (ACT-007; the kernel is clerk
+  not court, s.11) - the permit is a scoped, recorded, fail-closed routing-and-audit record that the
+  actor took the front door, never a proxy for an external authority's approval, and the real
+  constitutive gates (Sovereign assent at s.14; a constituted convened odd bench at s.29 / s.15)
+  cannot and do not live in a self-issued permit. The danger the audit actually exhibited was a
+  self-declared ASSENT laundering Fatal findings, which Q1-Q3 kill at the root: after the resolution
+  check no permit and no self-declaration can downgrade a Fatal finding by naming an assent that
+  does not resolve. A tightening is directed so the permit cannot silently over-reach - it must bind
+  to the actor and the concrete route/scope it claims (no absent/over-broad scope standing in for
+  "everything"), carry a content/identity digest tying it to what it authorises so it is
+  non-repudiable, and state in plain terms that it is an agent-routed self-issue, not an authority
+  approval. (b) the self-satisfiable kernel-edit (an author with write access to crates/vjs-core can
+  weaken is_valid_assent_value, rebuild, and the weakened binary blesses the weakening) is NOT
+  affirmed as merely by-design - it is a genuine self-reference defect, because the gate is the thing
+  being edited and a binary cannot bootstrap its own integrity against the hand that compiles it. No
+  purely in-binary check can fully cure it, but it must not be left open by design. The cure moves
+  the integrity witness outside the mutable surface and makes a weakening edit non-silent: pin the
+  assent-validity and floor-enforcement code path under the existing digest-pinned, fail-closed
+  embedded-load discipline (REG-KERNEL-001, "load only law that hashes to the pinned digest ... fails
+  closed") so any change to it bumps a pinned digest and is a visible, recorded, self-naming event;
+  and surface a Fatal finding naming ACT-COMPUTER-FIRST-REALM s.14/s.15 and VJS-ACT 10 s.2 whenever
+  the entrenched-enforcement surface is edited, routing the author to the breach duty and, where the
+  edit genuinely changes an entrenched term's meaning, to the Sovereign. The Council records candidly
+  the irreducible remainder: against a determined local author with full write access who simply
+  deletes the check and recompiles, the ultimate backstops are non-machine - the Sovereign's gate at
+  s.14 and the agent's continuing duty of reasonable skill and care (ACT-003 s.4-s.8, breach
+  self-fileable) - and the cure must not be represented as more than it is. Position A adopted as
+  named; the void apex "order" that passed through the bypass declared an assent resolving to nothing
+  AND issued from no constituted bench, is void ab initio on both grounds, and is to be marked void
+  and routed for correction (never silently erased), with the breach self-filed: the remedy is to
+  make the work good per D1-D4, not punishment.
+directives:
+  - id: D1
+    actor: lexby
+    must: implement_the_deterministic_model_free_network_free_clock_independent_assent_resolution_check_in_vjs_core_at_the_floor_attachment_site_crates_vjs_engine_src_lib_rs_153_via_vjs_core_front_door_as_a_strict_refinement_of_declares_valid_assent_giving_act_computer_first_realm_s23_its_full_meaning_as_imported_by_act_assented_record_protection_s1_a_governed_record_earns_the_floor_s_protection_only_if_one_its_top_level_assent_source_is_on_the_inv_assent_source_001_allow_list_and_two_it_declares_a_pointer_an_assent_event_id_and_or_instrument_digest_that_resolves_to_exactly_one_kind_sovereign_assent_event_record_under_the_digest_pinned_lawpack_v2_provenance_assent_tree_with_a_byte_matching_digest_for_standing_bounded_assent_the_declared_route_must_itself_resolve_by_the_same_chain_to_a_specific_sovereign_assent_event_and_three_that_event_covers_the_asserting_record_by_scope_using_entityscope_covers_in_scope_rs_and_by_date_any_unresolved_digest_mismatched_or_out_of_coverage_claim_is_treated_as_no_valid_assent_source_the_record_is_outside_the_floor_and_the_underlying_finding_keeps_its_native_severity_fatal_stays_fatal_route_this_through_one_shared_function_so_is_valid_assent_value_declares_valid_assent_front_door_rs_and_the_assentsourcevalid_predicate_spec_rs_agree_on_what_valid_means_model_free_table_lookup_and_digest_compare_only_inv_kernel_001_reg_kernel_001_and_cite_act_computer_first_realm_s23_inv_assent_source_001_and_act_010_s2_as_the_instrument_on_every_resulting_denial
+  - id: D2
+    actor: lexby
+    must: preserve_the_entrenched_floor_at_full_height_for_resolved_assent_do_not_weaken_or_remove_any_genuine_record_s_protection_the_resolution_gate_may_cause_a_record_to_fail_closed_only_on_the_ground_that_its_assent_does_not_resolve_for_any_record_whose_assent_does_resolve_every_other_defect_continues_to_route_for_correction_under_assented_route_for_correction_and_may_never_be_voided_or_blocked_act_assented_record_protection_s1_keep_the_does_the_assent_resolve_question_strictly_separate_in_code_from_the_is_there_some_other_defect_question_add_proof_tests_in_the_spirit_of_the_inv_assent_source_001_provenance_note_demonstrating_a_the_audit_s_forged_bench_less_apex_order_declared_sovereign_assent_resolving_to_nothing_stays_fatal_and_does_not_commit_b_each_real_assent_in_canon_the_founding_adoption_the_migration_omnibus_assent_and_the_vjs_act_10_assent_itself_resolves_and_retains_its_route_for_correction_disposition_unchanged_including_a_genuinely_assented_record_with_an_inert_unimplemented_or_discrepant_defect_still_routing_for_correction_so_the_floor_is_not_narrowed_and_c_a_genuine_narrow_assent_pointed_at_an_out_of_scope_or_digest_mismatched_record_fails_the_coverage_or_digest_limb_and_stays_fatal_regenerate_any_golden_or_bench_fixtures_accordingly_and_reconcile_the_assentsourcevalid_evaluator_s_recited_comment_with_its_implementation_so_the_code_performs_the_resolution_it_already_describes
+  - id: D3
+    actor: lexby
+    must: make_the_recorded_meaning_of_a_self_issued_vjs_route_permit_explicit_a_permit_records_that_the_actor_took_the_front_door_a_scoped_recorded_fail_closed_routing_and_audit_record_never_that_an_external_authority_approved_permit_self_issuance_is_affirmed_as_by_design_under_local_sovereign_invocation_act_007_the_kernel_is_clerk_not_court_only_its_laundering_of_reserved_force_is_closed_tighten_the_permit_deterministically_without_adding_a_non_existent_local_approver_it_must_bind_to_the_actor_and_the_concrete_route_and_scope_it_claims_no_absent_or_over_broad_scope_standing_in_for_everything_an_over_broad_or_absent_scope_does_not_cover_a_narrower_governed_write_and_carry_a_content_or_identity_digest_that_ties_it_to_what_it_authorises_so_it_is_non_repudiable_and_cannot_be_silently_reused_to_cover_a_different_write_than_the_one_it_was_minted_for_ensure_no_self_issued_permit_can_by_itself_satisfy_a_check_reserved_to_the_sovereign_assent_now_resolution_gated_by_d1_or_to_a_constituted_bench_an_order_gated_by_the_existing_bench_integrity_gate_surface_the_permit_as_an_agent_routed_self_issue_so_the_audit_trail_never_reads_as_more_than_it_is
+  - id: D4
+    actor: lexby
+    must: tighten_the_self_referential_kernel_edit_residual_deterministically_by_moving_the_integrity_witness_outside_the_mutable_in_kernel_surface_and_making_a_weakening_edit_non_silent_digest_pin_the_assent_validity_and_floor_enforcement_code_path_the_assent_resolution_check_the_bench_integrity_gate_the_apex_singleness_check_and_the_entrenched_gate_evaluators_under_the_existing_digest_pinned_fail_closed_embedded_load_discipline_reg_kernel_001_load_only_law_that_hashes_to_the_pinned_digest_fails_closed_so_that_any_change_to_a_gate_changes_a_pinned_digest_and_trips_a_separate_loudly_surfaced_finding_rather_than_passing_under_its_own_weakened_logic_treat_a_write_to_the_entrenched_enforcement_surface_as_a_special_governed_class_that_is_not_self_satisfiable_by_a_permit_and_does_not_downgrade_on_any_self_declared_assent_surface_a_fatal_finding_naming_act_computer_first_realm_s14_s15_and_vjs_act_10_s2_whenever_that_surface_is_edited_routing_the_author_to_the_breach_duty_and_where_the_edit_changes_an_entrenched_term_s_meaning_to_the_sovereign_record_candidly_in_the_implementing_note_the_irreducible_limit_no_in_binary_check_can_fully_bind_the_hand_that_compiles_the_binary_against_a_determined_local_author_with_full_write_access_the_ultimate_backstops_are_non_machine_the_sovereign_s_gate_at_s14_and_the_agent_s_duty_of_reasonable_skill_and_care_act_003_s4_s8_breach_self_fileable_do_not_represent_the_cure_as_more_than_it_is
+  - id: D5
+    actor: lexby
+    must: mark_the_void_apex_supreme_court_order_that_passed_a_green_validate_through_the_bypass_void_ab_initio_it_declared_an_assent_source_resolving_to_nothing_and_issued_from_no_constituted_convened_bench_act_computer_first_realm_s29_s15_void_on_both_grounds_and_not_good_law_route_it_for_correction_to_the_agent_who_staged_it_surfaced_never_silently_erased_and_self_file_the_breach_the_kernel_as_built_fell_below_the_standard_of_reasonable_skill_and_care_it_owed_it_documented_the_resolution_duty_in_its_own_evaluator_comments_and_did_not_perform_it_the_remedy_is_to_make_the_work_good_per_d1_d4_not_punishment_act_003_s4_s8
+  - id: D6
+    actor: lexby
+    must: build_under_the_lawful_route_as_interpretation_these_directives_change_no_statute_no_invariant_no_bench_no_tier_and_no_assent_rule_they_bring_the_kernel_into_conformance_with_act_assented_record_protection_s1_s2_act_computer_first_realm_s23_and_inv_assent_source_001_as_already_enacted_and_sovereign_assented_do_not_route_this_reading_to_the_sovereign_as_an_amendment_file_this_judgment_verbatim_as_the_source_opinion_of_record_it_is_the_bench_s_real_opinion_for_the_bench_integrity_gate_record_the_resulting_privy_council_order_in_canon_with_a_citator_row_citing_act_computer_first_realm_s23_act_010_s1_s2_inv_assent_source_001_s14_s15_and_reg_kernel_001_allocate_the_citation_through_the_kernel_vjs_citation_next_never_hand_asserting_a_number_pin_the_order_case_file_digest_to_the_decided_bytes_sha256_a8e13c7419a0496e8de6dd01358bda0ce51e659641c3b4d33dac0c279ffb2e5c_pass_the_bench_integrity_gate_and_verify_by_deterministic_proof_no_model_no_order_is_to_be_recorded_except_through_a_real_convened_odd_numbered_bench_carrying_a_real_opinion
+  - id: D7
+    actor: lexby
+    must: advisory_if_in_building_d1_you_discover_that_faithful_resolution_cannot_be_achieved_without_narrowing_the_protection_s1_gives_a_genuinely_resolving_record_that_is_without_blocking_real_assent_stop_and_self_file_that_would_cross_from_interpretation_into_constitutive_change_and_only_a_sovereign_assented_act_citing_vjs_act_10_by_number_could_make_it_this_is_not_anticipated_because_resolution_gates_which_records_the_floor_shelters_not_whether_a_sheltered_record_may_be_blocked_but_the_duty_to_raise_it_is_yours_if_the_build_proves_the_bench_wrong_on_the_facts
+  - id: D8
+    actor: sovereign
+    must: for_noting_only_not_a_requirement_for_this_cure_nothing_in_this_judgment_needs_the_sovereign_s_assent_because_nothing_entrenched_is_amended_the_privy_council_has_interpreted_an_existing_entrenched_term_within_its_power_the_resolution_requirement_already_lives_in_act_computer_first_realm_s23_as_imported_by_vjs_act_10_s1_s2_the_sovereign_is_laid_this_holding_as_notice_and_not_as_a_request_for_enactment_so_that_the_sovereign_may_at_the_sovereign_s_sole_option_place_the_resolution_requirement_beyond_all_future_argument_by_an_express_act_citing_vjs_act_10_and_act_computer_first_realm_s23_by_number_should_the_realm_ever_wish_to_change_the_floor_itself_to_relax_resolution_below_what_s23_requires_to_add_a_new_assent_form_or_to_alter_the_disposition_that_is_reserved_exclusively_to_a_sovereign_assented_constitutional_act_citing_the_relevant_provisions_by_number_this_bench_neither_makes_nor_pre_empts_that_choice_the_cure_of_d1_d4_is_effective_on_this_order_and_is_not_conditional_on_any_such_act
+forbidden:
+  - reading_valid_assent_source_as_bare_membership_of_the_inv_assent_source_001_allow_list_a_string_on_the_list_that_points_at_no_resolving_sovereign_assent_event_is_an_unresolved_trace_and_under_act_computer_first_realm_s23_no_valid_assent_source_treating_it_as_valid_reads_the_resolution_verbs_resolving_to_and_an_unresolved_trace_cause_rejection_out_of_the_entrenched_text_and_is_refused
+  - downgrading_to_route_for_correction_or_otherwise_sheltering_any_record_whose_declared_assent_source_does_not_resolve_to_a_real_digest_matched_covering_sovereign_assent_event_such_a_record_lacks_a_valid_assent_source_act_010_s2_confers_it_no_force_and_its_findings_keep_their_native_severity_fatal_stays_fatal
+  - voiding_blocking_or_narrowing_the_protection_of_any_record_whose_assent_does_resolve_the_resolution_gate_fails_a_record_closed_only_on_the_ground_that_its_assent_does_not_resolve_for_a_resolving_record_every_other_defect_routes_for_correction_under_assented_route_for_correction_never_voided_or_blocked_act_assented_record_protection_s1
+  - routing_this_interpretation_to_the_sovereign_as_an_amendment_or_conditioning_the_cure_of_d1_d4_on_a_confirmatory_sovereign_act_nothing_entrenched_is_changed_the_resolution_requirement_already_lives_in_s23_and_the_sovereign_notice_under_d8_is_at_the_sovereign_s_sole_option_only
+  - performing_the_resolution_check_with_a_model_a_network_call_a_clock_dependence_or_semantic_similarity_the_kernel_is_the_deterministic_clerk_inv_kernel_001_reg_kernel_001_resolution_is_parse_resolve_against_set_digest_compare_and_prefix_match_over_digest_pinned_canon_only_and_anything_the_kernel_cannot_deterministically_confirm_as_covering_is_unresolved_and_fails_closed
+  - treating_a_self_issued_vjs_route_permit_as_an_external_authority_approval_or_letting_it_satisfy_a_check_reserved_to_the_sovereign_assent_or_to_a_constituted_bench_an_order_permit_self_issuance_is_affirmed_as_by_design_only_its_laundering_of_reserved_force_is_closed
+  - leaving_the_self_satisfiable_kernel_edit_open_by_design_a_write_to_the_entrenched_enforcement_surface_must_not_pass_under_its_own_weakened_logic_or_downgrade_on_a_self_declared_assent_it_must_bump_a_pinned_digest_and_trip_a_separate_loudly_surfaced_finding_naming_s14_s15_and_vjs_act_10_s2
+supersedes: []
+appealable: true
+appeal_of: null
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-016-opinions.md"
+runtime_summary: >
+  An adversarial audit proved a forgery: a staged record that merely TYPES
+  "assent_source: sovereign_assent" while pointing at no real assent event got every Fatal
+  finding downgraded to a Warning and committed, and a bench-less, never-convened "Supreme
+  Court order" slipped through this way. The Council, 3-0, holds the cure is faithful
+  INTERPRETATION, not an amendment, so it BUILDS the fix now and routes nothing to the Sovereign
+  for assent. (Q1 NATURE) "Valid assent_source" already means an assent that RESOLVES to a real,
+  digest-matched Sovereign-assent event whose scope and date cover the record, not just a string
+  on the allow-list. The floor (VJS-ACT 10 s.1) protects a record "within the meaning of s.23,"
+  and s.23 says a valid source is one "resolving to a specific Sovereign-assent event" and that
+  "an unresolved trace ... cause[s] rejection." The kernel checked only the spelling and skipped
+  resolution - its own code comment even recites the resolution rule it then fails to perform.
+  The bug is an under-implementation of an existing entrenched word. (Q2 MECHANISM) The kernel
+  must run a deterministic, model-free check: the source is on the allow-list AND points at
+  exactly one real assent event under the digest-pinned provenance tree whose digest matches
+  byte-for-byte AND that event covers the record by scope (the existing EntityScope::covers test)
+  and date. Anything unresolved, mismatched, or out of scope is NO valid assent_source and stays
+  Fatal. (Q3 THE FLOOR)
+  Requiring resolution does NOT break the floor's never-void/never-block guarantee. s.2 says
+  the Act "confers no force on any record that lacks a valid assent_source ... it does not
+  enlarge it." A forgery was never inside the shelter, so leaving it Fatal voids nothing - a
+  false signature is no signature. The opposite reading would let any author immunise any record
+  by typing two words, sheltering the very forgery the floor exists to exclude. This
+  is interpretation within the Council's power: it changes no entrenched word and strips
+  protection from no real assent (every genuine assent in canon resolves and keeps its
+  route-for-correction), so it is NOT routed to the Sovereign; a confirming amendment is even
+  rejected, because asking for it would imply the meaning was contingent on it. The Sovereign
+  keeps the prerogative to put it beyond argument by an Act, as NOTICE only. (Q4 RESIDUALS) The
+  agent self-issuing its own "vjs route" permits is AFFIRMED as by-design (the permit records
+  that the actor took the front door, not that an authority approved), tightened so it binds to
+  its own scope/digest and cannot launder reserved force. The self-satisfiable kernel-edit
+  (weaken a gate, rebuild, the weakened binary blesses it) is a real defect, tightened by
+  digest-pinning the gate code and surfacing a loud Fatal when it is edited; the Council records
+  candidly that an author with full write access is beyond any in-binary check, leaving the
+  breach duty and the Sovereign's gate as the backstop. The void apex "order" is void on both
+  grounds and routed for correction; the breach is self-filed; the remedy is to make the work
+  good.
+created_at: "2026-06-25T14:35:00+00:00"
