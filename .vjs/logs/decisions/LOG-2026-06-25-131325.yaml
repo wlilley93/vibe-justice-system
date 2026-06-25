@@ -1,0 +1,12 @@
+id: LOG-2026-06-25-131325
+time: 2026-06-25T13:13:25.438835978+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260625-131325
+decision: 'Scope the install-completeness invariant (verify_surface + verify_manifest + hook_tamper) to validate --staged, per PC-13 D4 (at pre_write and validate --staged). A plain vjs validate checks canon validity, not the local developer install surface, so the #1 server-side CI on a fresh checkout (no per-clone git hooks) no longer fails on INSTALL_HOOKS_MISSING'
+basis:
+- PERMIT-1782393205
+risk: low
+reversibility: easy
+court_required: false
+why: 'The #1 canon-enforce CI caught this on its first run: D4 was over-wired to fire on plain validate too; D4''s directive scopes it to --staged. The breach the gate exists for fires at commit/pre_write, unaffected'
