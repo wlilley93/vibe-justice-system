@@ -11,6 +11,7 @@ vjs-core = { path = "../vjs-core" }
 vjs-lawpack = { path = "../vjs-lawpack" }
 vjs-store = { path = "../vjs-store" }
 vjs-redact = { path = "../vjs-redact" }
+vjs-mcp = { path = "../vjs-mcp" }
 sha2.workspace = true
 serde.workspace = true
 serde_json.workspace = true

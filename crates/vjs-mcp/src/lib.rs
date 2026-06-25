@@ -5,8 +5,11 @@ use vjs_core::*;
 use vjs_lawpack::*;
 
 /// VJS MCP Server
-/// Thin JSON-RPC adapter over the deterministic kernel
-/// Exposes only 6 tools: route, lookup, validate, log, file, status
+/// Thin JSON-RPC adapter over the deterministic kernel (the server_of_law posture of
+/// REG-KERNEL-001, adopted as a governed-record front door by [2026] VJS-PC 14).
+/// Exposes 9 tools: route, lookup, validate, log, file, status (the lifecycle) plus
+/// allocate, convene, record (the governed-record-creation verbs, PC-14 D5). The CLI
+/// path stays co-equal; all logic lives in the kernel - these are thin transports.
 pub struct McpServer {
     pub repo_root: std::path::PathBuf,
 }
@@ -27,6 +30,10 @@ impl McpServer {
             "vjs.log" => self.handle_log(req.params)?,
             "vjs.file" => self.handle_file(req.params)?,
             "vjs.status" => self.handle_status(req.params)?,
+            // PC-14 D5: the governed-record-creation verbs, closing the front-door gap.
+            "vjs.allocate" => self.handle_allocate(req.params)?,
+            "vjs.convene" => self.handle_convene(req.params)?,
+            "vjs.record" => self.handle_record(req.params)?,
             _ => {
                 return Err(KernelError::InvalidInput(format!(
                     "Unknown method: {}",
@@ -121,6 +128,160 @@ impl McpServer {
             "vjs_installed": vjs_dir.exists(),
         });
         Ok(status)
+    }
+
+    // ---- PC-14 D5: the record-creation verbs (thin transports to the kernel) ----
+
+    /// allocate -> citation: the next citation in a series from the live register.
+    /// Thin transport to the kernel allocator; the agent cannot hand-pick a number.
+    fn handle_allocate(&self, params: Option<Value>) -> Result<Value, KernelError> {
+        let p = params.ok_or_else(|| KernelError::InvalidInput("params required".into()))?;
+        let series = p
+            .get("series")
+            .and_then(|v| v.as_str())
+            .ok_or_else(|| KernelError::InvalidInput("series required".into()))?
+            .to_ascii_uppercase();
+        let year = p.get("year").and_then(|v| v.as_i64()).unwrap_or_else(|| {
+            chrono::Utc::now()
+                .format("%Y")
+                .to_string()
+                .parse()
+                .unwrap_or(2026)
+        }) as i32;
+        let lawpack_dir = self.repo_root.join("lawpack/v2");
+        let max = if lawpack_dir.exists() {
+            LawpackValidator::live_citation_max(&lawpack_dir, &series, None, year)?
+        } else {
+            0
+        };
+        let n = max + 1;
+        let citation = format!("[{year}] VJS-{series} {n}");
+        Ok(serde_json::json!({ "series": series, "year": year, "n": n, "citation": citation }))
+    }
+
+    /// convene -> court: verify the bench size against the constitution ([2026]
+    /// VJS-SC 2, read by reference - the PC-13 D10 gate) and write the convening with
+    /// a pinned case-file digest. Refuses an under-strength bench.
+    fn handle_convene(&self, params: Option<Value>) -> Result<Value, KernelError> {
+        let p = params.ok_or_else(|| KernelError::InvalidInput("params required".into()))?;
+        let court = p
+            .get("court")
+            .and_then(|v| v.as_str())
+            .ok_or_else(|| KernelError::InvalidInput("court required".into()))?
+            .to_string();
+        let submission = p
+            .get("submission")
+            .and_then(|v| v.as_str())
+            .ok_or_else(|| KernelError::InvalidInput("submission required".into()))?
+            .to_string();
+        let bench: Vec<String> = p
+            .get("bench")
+            .and_then(|v| v.as_array())
+            .map(|a| {
+                a.iter()
+                    .filter_map(|x| x.as_str().map(String::from))
+                    .collect()
+            })
+            .unwrap_or_default();
+        let issue = p.get("issue").and_then(|v| v.as_str()).map(String::from);
+        if bench.is_empty() {
+            return Err(KernelError::InvalidInput(
+                "a convening records at least one seat".into(),
+            ));
+        }
+        // D10 convening half: bench size must be the constituted odd size for the tier.
+        let tier = if court.contains("county") {
+            Some(Court::County)
+        } else if court.contains("privy") {
+            Some(Court::PrivyCouncil)
+        } else if court.contains("supreme") {
+            Some(Court::SupremeCourt)
+        } else {
+            None
+        };
+        let lawpack = load_lawpack(&self.repo_root)?;
+        if let Some(t) = tier
+            && let Some(constitution) = lawpack
+                .orders
+                .iter()
+                .find(|o| o.id == "2026-VJS-COURTS-CONSTITUTION-001")
+            && let Some(allowed) = vjs_core::bench::constituted_sizes(constitution, &t)
+            && !allowed.contains(&bench.len())
+        {
+            return Err(KernelError::InvalidInput(format!(
+                "bench of {} is not the constituted odd size {:?} for '{}' ([2026] VJS-SC 2)",
+                bench.len(),
+                allowed,
+                court
+            )));
+        }
+        let subs = vjs_store::Store::read_submissions(&self.repo_root)?;
+        let sub = subs.iter().find(|s| s.id == submission).ok_or_else(|| {
+            KernelError::InvalidInput(format!("no filed submission {submission}"))
+        })?;
+        let bytes =
+            serde_yaml::to_string(sub).map_err(|e| KernelError::Serialization(e.to_string()))?;
+        use sha2::Digest;
+        let digest = format!(
+            "sha256:{}",
+            hex::encode(sha2::Sha256::digest(bytes.as_bytes()))
+        );
+        let rec = vjs_store::ConveningRecord {
+            id: format!(
+                "CONVENING-{}-{}",
+                court,
+                chrono::Utc::now().format("%Y-%m-%d-%H%M%S")
+            ),
+            court,
+            submission_id: submission,
+            issue,
+            case_file_digest: digest.clone(),
+            bench,
+            convened_at: chrono::Utc::now().to_rfc3339(),
+        };
+        vjs_store::Store::write_convening(&self.repo_root, &rec)?;
+        Ok(serde_json::json!({ "convening": rec.id, "case_file_digest": digest }))
+    }
+
+    /// record -> order: verify bench-integrity (the PC-13 D10 gate) against the
+    /// constitution and write the order. A non-assented bench defect is refused; an
+    /// assented order's defect is left to route-for-correction at validate (the floor).
+    /// The absolute-path commit hook remains the wall; this verb is the door.
+    fn handle_record(&self, params: Option<Value>) -> Result<Value, KernelError> {
+        let p = params.ok_or_else(|| KernelError::InvalidInput("params required".into()))?;
+        let order: Order = serde_json::from_value(p)
+            .map_err(|e| KernelError::InvalidInput(format!("order: {e}")))?;
+        let lawpack = load_lawpack(&self.repo_root)?;
+        if let Some(constitution) = lawpack
+            .orders
+            .iter()
+            .find(|o| o.id == "2026-VJS-COURTS-CONSTITUTION-001")
+        {
+            let opinion_text = order
+                .source_opinion
+                .as_ref()
+                .and_then(|sp| std::fs::read_to_string(self.repo_root.join(sp)).ok());
+            let defects =
+                vjs_core::bench::verify_bench(&order, constitution, opinion_text.as_deref());
+            let assented = order
+                .assent_source
+                .as_ref()
+                .map(|s| !s.trim().is_empty())
+                .unwrap_or(false);
+            if !defects.is_empty() && !assented {
+                return Err(KernelError::InvalidInput(format!(
+                    "bench-integrity defects (non-assented), refused at the door: {:?}",
+                    defects.iter().map(|d| d.code()).collect::<Vec<_>>()
+                )));
+            }
+        }
+        let dir = self.repo_root.join("lawpack/v2/orders");
+        std::fs::create_dir_all(&dir).map_err(|e| KernelError::Io(e.to_string()))?;
+        let path = dir.join(format!("{}.yaml", order.id));
+        let yaml =
+            serde_yaml::to_string(&order).map_err(|e| KernelError::Serialization(e.to_string()))?;
+        std::fs::write(&path, yaml).map_err(|e| KernelError::Io(e.to_string()))?;
+        Ok(serde_json::json!({ "recorded": order.id, "path": path.display().to_string() }))
     }
 }
 
@@ -282,6 +443,51 @@ pub fn get_tool_schemas() -> Vec<McpTool> {
             }),
             output_schema: None,
         },
+        McpTool {
+            name: "vjs.allocate".into(),
+            description: "Allocate the next citation in a series from the live register (allocate->citation). The kernel mints the number; never hand-pick a citation. Returns the canonical citation string.".into(),
+            input_schema: serde_json::json!({
+                "type": "object",
+                "required": ["series"],
+                "properties": {
+                    "series": {"type": "string"},
+                    "year": {"type": "integer"}
+                }
+            }),
+            output_schema: None,
+        },
+        McpTool {
+            name: "vjs.convene".into(),
+            description: "Convene a court over a filed submission (convene->court). The kernel verifies the bench size against the constitution ([2026] VJS-SC 2) and pins the case-file digest. Refuses an under-strength bench.".into(),
+            input_schema: serde_json::json!({
+                "type": "object",
+                "required": ["court", "submission", "bench"],
+                "properties": {
+                    "court": {"type": "string"},
+                    "submission": {"type": "string"},
+                    "bench": {"type": "array", "items": {"type": "string"}},
+                    "issue": {"type": "string"}
+                }
+            }),
+            output_schema: None,
+        },
+        McpTool {
+            name: "vjs.record".into(),
+            description: "Record a court order (record->order). The kernel verifies bench-integrity (size + an opinion per seat) against the constitution and writes the order; a non-assented bench defect is refused at the door. The commit hook remains the wall.".into(),
+            input_schema: serde_json::json!({
+                "type": "object",
+                "required": ["id", "court", "bench"],
+                "properties": {
+                    "id": {"type": "string"},
+                    "court": {"type": "string"},
+                    "citation": {"type": "string"},
+                    "bench": {"type": "array", "items": {"type": "string"}},
+                    "source_opinion": {"type": "string"},
+                    "assent_source": {"type": "string"}
+                }
+            }),
+            output_schema: None,
+        },
     ]
 }
 
@@ -291,4 +497,33 @@ pub struct McpTool {
     pub description: String,
     pub input_schema: Value,
     pub output_schema: Option<Value>,
+}
+
+#[cfg(test)]
+mod front_door_verb_tests {
+    use super::*;
+
+    /// PC-14 D5: the front-door gap is closed - the surface now exposes the
+    /// governed-record-creation verbs (allocate, convene, record) alongside the
+    /// lifecycle six, nine in all.
+    #[test]
+    fn surface_exposes_the_record_creation_verbs() {
+        let names: Vec<String> = get_tool_schemas().into_iter().map(|t| t.name).collect();
+        assert_eq!(
+            names.len(),
+            9,
+            "six lifecycle + three record-creation verbs"
+        );
+        for v in ["vjs.allocate", "vjs.convene", "vjs.record"] {
+            assert!(names.contains(&v.to_string()), "{v} must be exposed");
+        }
+    }
+
+    /// An unknown method is refused - the surface is a closed set, not an open shell.
+    #[test]
+    fn unknown_method_is_refused() {
+        let srv = McpServer::new(std::path::PathBuf::from("."));
+        let req = r#"{"jsonrpc":"2.0","id":1,"method":"vjs.exec","params":{}}"#;
+        assert!(srv.handle_request(req).is_err());
+    }
 }
