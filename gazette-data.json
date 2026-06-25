@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-25T14:08:47.847032497+00:00",
+  "generated_at": "2026-06-25T14:10:16.347057404+00:00",
   "items": [
     {
       "affirmed_by": [],
@@ -4500,6 +4500,6 @@
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "b94b793aea92f9934d79c4ab7cfc37771f0b52e5"
+    "source_commit": "7d27bba893ef637b9c69b6ee3d69a3767c972511"
   }
 }
