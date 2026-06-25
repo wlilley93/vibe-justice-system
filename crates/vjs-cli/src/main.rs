@@ -123,6 +123,14 @@ enum Commands {
     /// (Re)write the atomic install manifest .vjs/install.lock over the current
     /// surface (PC-13 D5). Run after a deliberate surface change to re-lock it.
     InstallLock,
+    /// Full-spectrum conformance audit (PC-13 D11): enumerate every kernel_effect
+    /// duty in canon and report, deterministically, which are bound to a kernel
+    /// gate. Writes the conformance map (the D12 predicate).
+    Audit {
+        /// Write the map here (default docs/conformance-map.md).
+        #[arg(long)]
+        out: Option<PathBuf>,
+    },
     MigrateV1 {
         #[arg(long)]
         v1_path: PathBuf,
@@ -313,6 +321,7 @@ fn main() {
         Commands::Status => cmd_status(&repo, json),
         Commands::NextCitation { series, year } => cmd_next_citation(&repo, series, year, json),
         Commands::InstallLock => cmd_install_lock(&repo, json),
+        Commands::Audit { out } => cmd_audit(&repo, out, json),
         Commands::MigrateV1 { v1_path, out } => cmd_migrate_v1(&v1_path, out, json),
         Commands::Permit { subcmd } => cmd_permit(&repo, subcmd, json),
         Commands::Eval { suite } => cmd_eval(&repo, suite, json),
@@ -2121,6 +2130,73 @@ fn cmd_next_citation(
         println!("Next citation: {}", citation_str);
     }
 
+    Ok(())
+}
+
+fn cmd_audit(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), KernelError> {
+    let lawpack = load_lawpack(repo)?;
+    let report = vjs_lawpack::conformance_audit(&lawpack);
+
+    if json {
+        println!("{}", serde_json::to_string_pretty(&report).unwrap());
+        return Ok(());
+    }
+
+    // Render the conformance map (the D12 factual predicate).
+    let mut md = String::new();
+    md.push_str("# VJS Conformance Map (PC-13 D11)\n\n");
+    md.push_str(
+        "Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty \
+         (must / must_not / prohibits) in every in-force statute and regulation, with \
+         whether it is bound to a deterministic kernel gate. The UNWIRED list is the \
+         factual predicate for the reserved D12 single-front-door instrument.\n\n",
+    );
+    md.push_str(&format!(
+        "- total duties: {}\n- wired: {}\n- unwired: {}\n\n",
+        report.total, report.wired, report.unwired
+    ));
+    md.push_str(
+        "> Triage note: UNWIRED does not mean \"must be gated\". Many unwired duties are \
+         declarative (`defines`-adjacent), one-time/transition acts, or agent-duties that \
+         a deterministic gate cannot or need not enforce. The conservative registry marks a \
+         duty WIRED only when a named, deterministic gate can be pointed at it, so the map \
+         never overstates coverage. D12 triages this list to decide which unwired duties the \
+         single-front-door instrument must bite on.\n\n",
+    );
+
+    md.push_str("## Unwired duties (the side doors)\n\n");
+    md.push_str("| instrument | kind | duty |\n|---|---|---|\n");
+    for d in report.duties.iter().filter(|d| d.gate.is_none()) {
+        md.push_str(&format!(
+            "| {} | {} | {} |\n",
+            d.instrument, d.kind, d.token
+        ));
+    }
+    md.push_str("\n## Wired duties\n\n");
+    md.push_str("| instrument | kind | duty | gate |\n|---|---|---|---|\n");
+    for d in report.duties.iter().filter(|d| d.gate.is_some()) {
+        md.push_str(&format!(
+            "| {} | {} | {} | {} |\n",
+            d.instrument,
+            d.kind,
+            d.token,
+            d.gate.as_deref().unwrap_or("")
+        ));
+    }
+
+    let out_path = out.unwrap_or_else(|| PathBuf::from("docs/conformance-map.md"));
+    if let Some(parent) = out_path.parent() {
+        std::fs::create_dir_all(parent).map_err(|e| KernelError::Io(e.to_string()))?;
+    }
+    std::fs::write(&out_path, &md).map_err(|e| KernelError::Io(e.to_string()))?;
+
+    println!(
+        "Conformance audit: {} duties, {} wired, {} unwired -> {}",
+        report.total,
+        report.wired,
+        report.unwired,
+        out_path.display()
+    );
     Ok(())
 }
 

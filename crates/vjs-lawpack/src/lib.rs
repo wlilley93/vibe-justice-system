@@ -780,6 +780,208 @@ pub struct ValidationFinding {
     pub suggested_fix: Option<String>,
 }
 
+// ---------------------------------------------------------------------------
+// Full-spectrum conformance audit (PC-13 D11).
+//
+// Produced THROUGH the kernel (not by an agent reading context - the disease this
+// line prosecutes): the kernel enumerates every substantive duty (must / must_not
+// / prohibits) in every in-force instrument's kernel_effect, and records,
+// deterministically, whether each is bound to a deterministic kernel gate. The
+// gate binding is a CURATED registry: a duty is "wired" only if a named gate can be
+// pointed at; everything else is honestly reported UNWIRED. The map of unwired
+// duties is the factual predicate for the reserved D12 single-front-door instrument.
+// ---------------------------------------------------------------------------
+
+/// (duty token -> the gate that enforces it). A duty absent here is reported
+/// UNWIRED. Conservative by construction: only a real, named, deterministic gate
+/// earns a "wired" mark, so the map cannot overstate coverage.
+const GATE_REGISTRY: &[(&str, &str)] = &[
+    // D1 canon-write gate (ACT-005:s1/s5, ACT-007:s4)
+    (
+        "publish_private_repo_paths",
+        "D1 canon-write gate (CANON_BOUNDARY_VIOLATION)",
+    ),
+    (
+        "publish_client_facts",
+        "D1 canon-write gate (CANON_BOUNDARY_VIOLATION)",
+    ),
+    (
+        "publish_private_facts_from_contributor_repos",
+        "D1 canon-write gate",
+    ),
+    (
+        "publish_private_facts_from_contributors",
+        "D1 canon-write gate",
+    ),
+    (
+        "local_order_bind_other_repos",
+        "D1 canon-write gate (ACT-007:s4)",
+    ),
+    // D3 cross-repo guard (ACT-007:s3)
+    (
+        "local_law_override_canonical_without_authority",
+        "D3 cross-repo permit guard (CROSS_REPO_PERMIT)",
+    ),
+    // D2 citation uniqueness/allocation (ACT-004:s8)
+    (
+        "check_citation_uniqueness",
+        "D2 citation gate (CITATION_COLLISION)",
+    ),
+    (
+        "allow_duplicate_citations",
+        "D2 citation gate (CITATION_COLLISION)",
+    ),
+    // Deterministic boundary scanner (ACT-005:s3/s7) - high-confidence kinds
+    ("publish_secrets", "RedactScanner (deterministic)"),
+    ("publish_tokens", "RedactScanner (deterministic)"),
+    ("publish_credentials", "RedactScanner (deterministic)"),
+    (
+        "run_boundary_scan_on_public_changes",
+        "RedactScanner at validate",
+    ),
+    ("run_boundary_scan", "RedactScanner at validate"),
+    (
+        "use_llm_for_boundary_check",
+        "RedactScanner is deterministic (no LLM)",
+    ),
+    ("use_deterministic_scanner", "RedactScanner (deterministic)"),
+    // D4/D5 install completeness + manifest (REG-INVOCATION-001, ACT-007:s1)
+    (
+        "install_enforcement_hooks",
+        "D4/D5 install gate (INSTALL_HOOKS_MISSING)",
+    ),
+    (
+        "subscribe_to_a_named_lawpack_and_lock_its_digest",
+        "D4/D5 install gate",
+    ),
+    (
+        "record_a_local_sovereign_invocation",
+        "D4/D5 install gate (INSTALL_INVOCATION_MISSING)",
+    ),
+    (
+        "create_config_toml_on_install",
+        "D4/D5 install gate (INSTALL_CONFIG_MISSING)",
+    ),
+    ("install_hooks_on_init", "D4/D5 install gate"),
+    ("install_validation_hooks", "D4/D5 install gate"),
+    // D7/D10 bench + tier (ACT-002, [2026] VJS-SC 2, REG-COURT-RECORD-001)
+    ("local_order_bind_other_repos_tier", "D7 tier-floor"),
+    // Permit + log + lawpack-lock (existing gates)
+    (
+        "obtain_permit_before_governed_write",
+        "PermitGate (PERMIT-MISSING)",
+    ),
+    ("close_permit_with_proof", "PermitGate obligations"),
+    ("persist_and_close_permits", "PermitGate"),
+    ("write_decision_log", "decision-log obligation gate"),
+    (
+        "evaluate_invariants_mechanically",
+        "invariant evaluator at validate",
+    ),
+    (
+        "wire_invariants_to_validate",
+        "invariant evaluator at validate",
+    ),
+    (
+        "check_lawpack_lock_consistency",
+        "lawpack lock consistency (ACT-007:s7)",
+    ),
+    ("check_incorporation", "lawpack referential integrity"),
+    // Hooks (REG-HOOKS-001) - closed five-event surface, thin adapters
+    (
+        "keep_hooks_short",
+        "REG-HOOKS-001 40-word bound (hook.rs Finding)",
+    ),
+    (
+        "keep_kernel_model_free",
+        "kernel is model-free by construction",
+    ),
+    (
+        "keep_kernel_network_free",
+        "kernel is network-free by construction",
+    ),
+    (
+        "keep_kernel_deterministic",
+        "kernel is deterministic by construction",
+    ),
+];
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct DutyConformance {
+    pub instrument: String,
+    pub section: Option<String>,
+    pub kind: String, // must | must_not | prohibits
+    pub token: String,
+    pub gate: Option<String>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct ConformanceReport {
+    pub total: usize,
+    pub wired: usize,
+    pub unwired: usize,
+    pub duties: Vec<DutyConformance>,
+}
+
+fn classify_token(token: &str) -> Option<String> {
+    GATE_REGISTRY
+        .iter()
+        .find(|(t, _)| *t == token)
+        .map(|(_, g)| g.to_string())
+}
+
+fn push_duties(
+    out: &mut Vec<DutyConformance>,
+    instrument: &str,
+    section: Option<&str>,
+    ke: &KernelEffect,
+) {
+    let mut add = |kind: &str, list: &Option<Vec<String>>| {
+        if let Some(items) = list {
+            for token in items {
+                out.push(DutyConformance {
+                    instrument: instrument.to_string(),
+                    section: section.map(|s| s.to_string()),
+                    kind: kind.to_string(),
+                    token: token.clone(),
+                    gate: classify_token(token),
+                });
+            }
+        }
+    };
+    add("must", &ke.must);
+    add("must_not", &ke.must_not);
+    add("prohibits", &ke.prohibits);
+}
+
+/// Enumerate every kernel_effect duty across in-force statutes and regulations and
+/// classify each against the gate registry. Deterministic and total over the loaded
+/// lawpack. (Order DIRECTIVES are one-time build instructions, not standing duties,
+/// and are deliberately out of scope.)
+pub fn conformance_audit(lawpack: &Lawpack) -> ConformanceReport {
+    let mut duties = Vec::new();
+    for statute in &lawpack.statutes {
+        for section in &statute.sections {
+            if let Some(ke) = &section.kernel_effect {
+                push_duties(&mut duties, &section.id.0, Some(&section.id.0), ke);
+            }
+        }
+    }
+    for reg in &lawpack.regulations {
+        if let Some(ke) = &reg.kernel_effect {
+            push_duties(&mut duties, &reg.id.0, None, ke);
+        }
+    }
+    let wired = duties.iter().filter(|d| d.gate.is_some()).count();
+    let total = duties.len();
+    ConformanceReport {
+        total,
+        wired,
+        unwired: total - wired,
+        duties,
+    }
+}
+
 #[cfg(test)]
 mod citation_tests {
     use super::LawpackValidator as V;
