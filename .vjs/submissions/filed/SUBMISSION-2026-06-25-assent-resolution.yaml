@@ -1,0 +1,80 @@
+id: SUBMISSION-2026-06-25-assent-resolution
+court_requested: privy_council
+jurisdiction: vibe-justice-system
+question: >
+  An independent adversarial audit proved a laundering bypass of the front door: a
+  staged governed record that merely DECLARES `assent_source: sovereign_assent` (an
+  unauthenticated string on the allow-list) has every Fatal finding DOWNGRADED to a
+  route-for-correction Warning and commits - a bench-less, never-convened "Supreme
+  Court order" passed a green validate this way. The downgrade is the entrenched
+  ACT-ASSENTED-RECORD-PROTECTION (VJS-ACT 10) floor: a record declaring a valid
+  assent_source is never voided or blocked, only routed for correction. The kernel
+  reads "valid" as VALUE-ON-THE-ALLOW-LIST (sovereign_assent / standing_bounded_assent
+  per INV-ASSENT-SOURCE-001). Per Q1-Q4: (Q1) does "VALID assent_source" require the
+  declared assent to RESOLVE to a real, digest-matched assent record (provenance),
+  or does the value on the allow-list suffice; (Q2) if resolution is required, what is
+  the deterministic mechanism; (Q3) does requiring resolution VIOLATE the floor's
+  never-block guarantee (or does s2's "confers no protection on a record LACKING a
+  valid assent_source" already exclude a false claim); (Q4) the companion authority-
+  model residuals the audit flagged - the agent self-issues its own permits, and a
+  kernel-source edit can weaken a gate - are these to be tightened, and how, or are
+  they by-design under the local-sovereign invocation.
+facts: >
+  F1. ACT-ASSENTED-RECORD-PROTECTION is entrenched and Sovereign-assented: s1 a record
+  declaring a valid assent_source may never be voided/blocked, only routed for
+  correction; s2 confers NO protection on a record LACKING a valid assent_source, and
+  may be amended only by a Sovereign-assented constitutional Act citing it by number.
+  F2. The kernel's validity test today is value-membership: front_door::
+  is_valid_assent_value / declares_valid_assent check the allow-list only. There is no
+  binding from the declared assent to a real assent EVENT. The audit committed a void
+  apex order by typing the string.
+  F3. Genuine assents in canon ARE recorded: assent events under lawpack/v2/provenance/
+  (e.g. the founding Bill-32 adoption, the migration Sovereign assent), digest-pinned,
+  quoting the Sovereign's word. A resolution check could require the declared
+  assent_source to point at such a record whose digest/date/scope covers the asserting
+  record.
+  F4. ACT-010:s2's own text - "confers no protection on a record lacking a valid
+  assent_source" - is the textual hook: a FALSE claim arguably lacks a *valid* one, so
+  requiring resolution may be INTERPRETATION of the entrenched term, not amendment of
+  the floor. The floor's never-block guarantee bites on a record that GENUINELY carries
+  assent; it was never meant to shelter a forgery.
+  F5. The audit's other residuals: the permit gate proves "an agent chose to route",
+  not "an authority approved" (vjs route self-issues a permit in one command); and a
+  kernel-source edit that weakens a gate would pass its own (weakened) gate. Both are
+  by-design under the local-sovereign invocation (the agent IS the lawful actor) but
+  are self-satisfiable against an adversarial author.
+requested_order: >
+  Determine Q1-Q4. If resolution is required: direct a deterministic resolution check
+  (the floor protects only a record whose declared assent_source resolves to a real,
+  digest-matched assent record covering it; an unresolved claim is NOT a valid
+  assent_source and stays Fatal), built under the lawful route - as INTERPRETATION of
+  ACT-010's "valid" if the bench so holds, or routed to the Sovereign as an amendment
+  if it holds resolution changes the floor. Dispose the Q4 authority-model residuals
+  (tighten, reserve, or affirm by-design) with reasons.
+private_boundary: >
+  Public canon: VJS governance. No subscriber facts, no secrets; the bypass is
+  described abstractly.
+positions:
+  - id: A
+    summary: >
+      REQUIRE RESOLUTION, as INTERPRETATION. "Valid assent_source" (ACT-010) means the
+      declared assent RESOLVES to a real, digest-matched assent record covering the
+      asserting record; a bare allow-listed string that resolves to nothing is NOT a
+      valid assent_source (s2 confers it no protection), so it stays Fatal. This does
+      not amend the floor or block a genuinely-assented record - it reads the
+      entrenched word "valid" faithfully and closes the laundering. Build the check.
+  - id: B
+    summary: >
+      VALUE SUFFICES; any change goes to the SOVEREIGN. The kernel must never
+      second-guess a declared Sovereign assent; "valid" is value-membership, and
+      requiring resolution is a constitutive change to the entrenched floor that only a
+      Sovereign-assented Act citing s5/s2 by number may make. The safeguard against
+      forgery is the surfaced flag + human review + the breach duty, not a kernel block.
+  - id: C
+    summary: >
+      REQUIRE RESOLUTION as a DECLARED interpretation PLUS a reserved amendment: the
+      bench declares resolution the correct reading of "valid" and builds the check,
+      AND drafts (as a void-first-draft) a Sovereign-assent amendment confirming it, so
+      the entrenched term's reading rests on the Sovereign's word, not the bench's
+      alone (the belt-and-braces of [2026] VJS-PC 14's assent discipline).
+word_count: 590

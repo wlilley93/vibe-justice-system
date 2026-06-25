@@ -1,0 +1,12 @@
+id: LOG-2026-06-25-144340
+time: 2026-06-25T14:43:40.766656072+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260625-144146
+decision: 'Record [2026] VJS-PC 16 (The Assent-Resolution Floor), 3-0 Position A. The Privy Council holds that requiring a declared assent_source to RESOLVE to a real, digest-matched, covering Sovereign-assent event is faithful INTERPRETATION of the entrenched term ''valid'' (ACT-COMPUTER-FIRST-REALM s.23, imported by ACT-ASSENTED-RECORD-PROTECTION s.1 ''within the meaning of s.23'', INV-ASSENT-SOURCE-001), NOT an amendment - so it is BUILT now and NOTHING routes to the Sovereign. The kernel''s allow-list check was an under-implementation of an already-entrenched word. 8 directives: D1 deterministic resolution check, D2 floor preserved at full height for resolved assent, D3 self-issued-permit meaning made explicit + tightened, D4 self-satisfiable-kernel-edit digest-pinned + loud, D5 mark the void apex order void ab initio + self-file breach, D6 record as interpretation, D7 advisory self-file if build proves the bench wrong, D8 Sovereign NOTICE-ONLY (no enactment needed).'
+basis:
+- PERMIT-1782398506
+risk: low
+reversibility: easy
+court_required: false
+why: First-impression on the entrenched term; routed to the Privy Council not the Sovereign because the bench found the resolution requirement ALREADY lives in s.23; verified the cited statutory text myself before recording (08-computer-first-realm.yaml:233 + 10-assented-record-protection.yaml:22) - the ruling is grounded in real entrenched text, not per incuriam
