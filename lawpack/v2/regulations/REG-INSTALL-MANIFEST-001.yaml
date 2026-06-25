@@ -1,0 +1,57 @@
+id: REG-INSTALL-MANIFEST-001
+citation: "[2026] VJS-REG 28"
+assent_source: standing_bounded_assent
+title: Install Manifest Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+created_at: "2026-06-25"
+text: >
+  This Regulation prescribes the FORM of a VJS install manifest: the single
+  sha256-locked record that proves a jurisdiction's install surface is complete
+  and unaltered. It is the machinery [2026] VJS-PC 13 (Teeth For The Front Door)
+  directed at D5, made under the s.7 power, no fresh assent: it gives teeth to the
+  existing REG-INVOCATION-001 / ACT-007:s1 duty without legislating a new one, and
+  mirrors the lock pattern REG-ACCESSION-001 and REG-BUNDLE-001 already prescribe.
+  FORM. (1) The manifest: an install is recorded in .vjs/install.lock carrying
+  schema_version, generated_at, config_digest (the sha256 of .vjs/config.toml),
+  invocation (the recorded local_sovereign_invocation path) with invocation_digest
+  (its sha256), lawpack_lock (a reference to .vjs/lawpack.lock), and hooks (the
+  installed enforcement hook names). It enumerates EXACTLY the REG-INVOCATION-001
+  surface and no more.
+  (2) Stable pins only: the manifest pins by digest only the stable limbs
+  (config.toml and the invocation record). The volatile lawpack digest is pinned by
+  reference to .vjs/lawpack.lock, which carries its own consistency check
+  (ACT-007:s7), so a routine canon change never stales the manifest. The hook
+  wrappers are regenerated per clone and so are recorded by name, not by digest.
+  (3) No external key: the lock is sha256 only. No signing-key, keyserver, or
+  external trust dependency is required or permitted to be mandated; the digest
+  lock suffices.
+  (4) The verify: a single, fail-closed verify checks that every surface limb is
+  present and active and that every recorded digest matches the file on disk, and
+  refuses, loudly, citing the instrument behind any missing or stale limb. It runs
+  atomically at install (vjs invoke writes the manifest) and is re-verified at
+  validate --staged and at pre_write (the completeness invariant). The first-class
+  verify is the kernel: `vjs validate` reports the limbs, and `vjs install-lock`
+  re-locks the surface after a deliberate change.
+  (5) Scope: the manifest is repo-scoped (one jurisdiction's own surface); it is
+  not a cross-repo bundle (that is REG-BUNDLE-001). A non-jurisdiction directory
+  (no .vjs/) is exempt. CITES [2026] VJS-PC 13; REG-INVOCATION-001;
+  REG-ACCESSION-001; REG-BUNDLE-001.
+kernel_effect:
+  defines:
+    manifest_file: ".vjs/install.lock"
+    schema_version: 1
+    top_fields: [schema_version, generated_at, config_digest, invocation, invocation_digest, lawpack_lock, hooks]
+    pinned_by_digest: [config_digest, invocation_digest]
+    pinned_by_reference: [lawpack_lock]
+    recorded_by_name: [hooks]
+    verify: single_fail_closed_check_of_surface_presence_and_digests
+    no_external_key: sha256_lock_suffices
+    scope: repo_scoped_not_cross_repo_bundle
+  must:
+    - lock_the_install_surface_atomically_at_invoke
+    - reverify_the_manifest_at_validate_staged_and_pre_write
+    - fail_closed_citing_the_instrument_behind_any_missing_or_stale_limb
+  must_not:
+    - mandate_an_external_signing_key_for_the_install_manifest
+    - enumerate_more_than_the_reg_invocation_001_surface

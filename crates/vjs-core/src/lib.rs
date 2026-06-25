@@ -10,6 +10,7 @@ pub mod error;
 pub mod evals;
 pub mod governance;
 pub mod hook;
+pub mod install;
 pub mod repo;
 pub mod route;
 pub mod spec;

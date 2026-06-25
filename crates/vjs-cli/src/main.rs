@@ -120,6 +120,9 @@ enum Commands {
         series: String,
         year: Option<i32>,
     },
+    /// (Re)write the atomic install manifest .vjs/install.lock over the current
+    /// surface (PC-13 D5). Run after a deliberate surface change to re-lock it.
+    InstallLock,
     MigrateV1 {
         #[arg(long)]
         v1_path: PathBuf,
@@ -309,6 +312,7 @@ fn main() {
         } => cmd_file(&repo, court, question, facts_file, json),
         Commands::Status => cmd_status(&repo, json),
         Commands::NextCitation { series, year } => cmd_next_citation(&repo, series, year, json),
+        Commands::InstallLock => cmd_install_lock(&repo, json),
         Commands::MigrateV1 { v1_path, out } => cmd_migrate_v1(&v1_path, out, json),
         Commands::Permit { subcmd } => cmd_permit(&repo, subcmd, json),
         Commands::Eval { suite } => cmd_eval(&repo, suite, json),
@@ -554,7 +558,20 @@ fn cmd_hook(
             },
         ))
     };
+    // PC-13 D4, pre_write half: fail closed on an incomplete install surface before
+    // any governed write proceeds (REG-INVOCATION-001).
+    let install_block = || -> Option<vjs_core::hook::HookDecision> {
+        let d = vjs_core::install::verify_surface(repo).into_iter().next()?;
+        Some(vjs_core::hook::HookDecision::Block(vjs_core::hook::Finding {
+            code: d.code().into(),
+            message: "Install incomplete: governance is only partly active. Run vjs invoke \
+                      --install-hooks then vjs install-lock before governed writes."
+                .into(),
+            next: Some("vjs invoke --install-hooks".into()),
+        }))
+    };
     let decision = vjs_core::hook::apex_routing_decision(&input, &jurisdiction_id, APEX_SEAT)
+        .or_else(install_block)
         .or_else(|| canon_block(&input.paths))
         .unwrap_or_else(|| {
             vjs_core::hook::evaluate_governed(&input, &ctx, &permits, &required, &exempt)
@@ -690,6 +707,22 @@ fn cmd_invoke(
         hooks_installed = out.map(|o| o.status.success()).unwrap_or(false);
     }
 
+    // PC-13 D5: atomically lock the surface into .vjs/install.lock. Best-effort -
+    // if hooks were not installed this run, the surface is incomplete and the lock
+    // is deferred to a later `vjs install-lock`; the completeness invariant (D4)
+    // fails closed until it exists.
+    let manifest_locked = vjs_core::install::build_manifest(repo, now_rfc.clone())
+        .and_then(|m| {
+            let body = toml::to_string(&m).ok()?;
+            let header = "# VJS install manifest (REG-INSTALL-MANIFEST-001).\n";
+            std::fs::write(
+                repo.join(vjs_core::install::MANIFEST_FILE),
+                format!("{header}{body}"),
+            )
+            .ok()
+        })
+        .is_some();
+
     if json {
         println!(
             "{}",
@@ -701,6 +734,7 @@ fn cmd_invoke(
                 "invocation": inv_path.to_string_lossy(),
                 "config_written": config_written,
                 "hooks_installed": hooks_installed,
+                "manifest_locked": manifest_locked,
             })
         );
     } else {
@@ -1245,6 +1279,30 @@ fn cmd_validate(
                         suggested_fix: Some(format!("{:?}", f.suggested_route)),
                     });
                 }
+            }
+        }
+    }
+
+    // PC-13 D4 + D5: install-completeness invariant + atomic-manifest re-verify.
+    // Fail closed unless the REG-INVOCATION-001 surface is present and active AND the
+    // manifest (REG-INSTALL-MANIFEST-001) is in sync. Exempt for a non-jurisdiction
+    // directory (no .vjs/). A half-installed jurisdiction is an agent operating only
+    // some of the system's mechanisms - the disease PC-13 names.
+    {
+        let mut install_defects = vjs_core::install::verify_surface(repo);
+        install_defects.extend(vjs_core::install::verify_manifest(repo));
+        if !install_defects.is_empty() {
+            ok = false;
+            for d in install_defects {
+                findings.push(ValidationFinding {
+                    severity: Severity::Fatal,
+                    code: d.code().into(),
+                    path: None,
+                    message: d.message(),
+                    suggested_fix: Some(
+                        "Run vjs invoke --install-hooks, then vjs install-lock".into(),
+                    ),
+                });
             }
         }
     }
@@ -2056,6 +2114,37 @@ fn cmd_next_citation(
         println!("Next citation: {}", citation_str);
     }
 
+    Ok(())
+}
+
+fn cmd_install_lock(repo: &Path, json: bool) -> Result<(), KernelError> {
+    // The surface must be complete before it can be atomically locked.
+    let surface = vjs_core::install::verify_surface(repo);
+    if !surface.is_empty() {
+        let msgs: Vec<String> = surface.iter().map(|d| d.message()).collect();
+        return Err(KernelError::InvalidInput(format!(
+            "cannot lock an incomplete install: {}",
+            msgs.join("; ")
+        )));
+    }
+    let now = chrono::Utc::now().to_rfc3339();
+    let manifest = vjs_core::install::build_manifest(repo, now).ok_or_else(|| {
+        KernelError::InvalidInput("surface complete but manifest could not be built".into())
+    })?;
+    let body = toml::to_string(&manifest).map_err(|e| KernelError::Serialization(e.to_string()))?;
+    let header = "# VJS install manifest (REG-INSTALL-MANIFEST-001). Atomic sha256 lock of the\n\
+                  # REG-INVOCATION-001 surface. Re-lock with `vjs install-lock` after a surface change.\n";
+    let path = repo.join(vjs_core::install::MANIFEST_FILE);
+    std::fs::write(&path, format!("{header}{body}"))
+        .map_err(|e| KernelError::Io(e.to_string()))?;
+    if json {
+        println!(
+            "{}",
+            serde_json::json!({ "manifest": vjs_core::install::MANIFEST_FILE, "locked": true })
+        );
+    } else {
+        println!("Install manifest locked: {}", vjs_core::install::MANIFEST_FILE);
+    }
     Ok(())
 }
 
