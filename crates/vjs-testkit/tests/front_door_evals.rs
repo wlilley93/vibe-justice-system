@@ -65,6 +65,22 @@ fn assent_floor_predicate_keys_only_on_the_allow_list() {
 }
 
 #[test]
+fn court_string_maps_to_tier() {
+    use vjs_core::bench::court_from_str;
+    use vjs_core::types::Court;
+    assert!(matches!(court_from_str("county"), Some(Court::County)));
+    assert!(matches!(
+        court_from_str("privy_council"),
+        Some(Court::PrivyCouncil)
+    ));
+    assert!(matches!(
+        court_from_str("supreme_court"),
+        Some(Court::SupremeCourt)
+    ));
+    assert!(court_from_str("kangaroo").is_none());
+}
+
+#[test]
 fn front_door_governs_record_kinds_only() {
     assert!(front_door::is_governed_record(
         "lawpack/v2/orders/2026-VJS-PC-014.yaml"

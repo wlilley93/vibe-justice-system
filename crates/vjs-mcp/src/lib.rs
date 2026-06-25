@@ -189,31 +189,18 @@ impl McpServer {
                 "a convening records at least one seat".into(),
             ));
         }
-        // D10 convening half: bench size must be the constituted odd size for the tier.
-        let tier = if court.contains("county") {
-            Some(Court::County)
-        } else if court.contains("privy") {
-            Some(Court::PrivyCouncil)
-        } else if court.contains("supreme") {
-            Some(Court::SupremeCourt)
-        } else {
-            None
-        };
+        // D10 convening half: bench size must be the constituted odd size for the
+        // tier. Same shared kernel check the CLI convene path uses (#12), so they
+        // cannot drift (D4: the kernel is the only smart point).
         let lawpack = load_lawpack(&self.repo_root)?;
-        if let Some(t) = tier
-            && let Some(constitution) = lawpack
-                .orders
-                .iter()
-                .find(|o| o.id == "2026-VJS-COURTS-CONSTITUTION-001")
-            && let Some(allowed) = vjs_core::bench::constituted_sizes(constitution, &t)
-            && !allowed.contains(&bench.len())
+        if let Some(constitution) = lawpack
+            .orders
+            .iter()
+            .find(|o| o.id == "2026-VJS-COURTS-CONSTITUTION-001")
+            && let Err(msg) =
+                vjs_core::bench::convening_bench_check(constitution, &court, bench.len())
         {
-            return Err(KernelError::InvalidInput(format!(
-                "bench of {} is not the constituted odd size {:?} for '{}' ([2026] VJS-SC 2)",
-                bench.len(),
-                allowed,
-                court
-            )));
+            return Err(KernelError::InvalidInput(msg));
         }
         let subs = vjs_store::Store::read_submissions(&self.repo_root)?;
         let sub = subs.iter().find(|s| s.id == submission).ok_or_else(|| {

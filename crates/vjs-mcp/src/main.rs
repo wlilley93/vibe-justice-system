@@ -4,7 +4,18 @@ use vjs_mcp::*;
 /// VJS MCP stdio transport
 /// Reads JSON-RPC requests from stdin, writes responses to stdout
 fn main() {
-    let repo_root = std::env::current_dir().unwrap_or_else(|_| std::path::PathBuf::from("."));
+    // #18: resolve the repo root from git, not the raw cwd, so the server works when
+    // spawned from a subdirectory; fall back to cwd.
+    let repo_root = std::process::Command::new("git")
+        .args(["rev-parse", "--show-toplevel"])
+        .output()
+        .ok()
+        .filter(|o| o.status.success())
+        .and_then(|o| String::from_utf8(o.stdout).ok())
+        .map(|s| std::path::PathBuf::from(s.trim()))
+        .filter(|p| p.is_dir())
+        .or_else(|| std::env::current_dir().ok())
+        .unwrap_or_else(|| std::path::PathBuf::from("."));
     let server = McpServer::new(repo_root);
 
     let stdin = io::stdin();

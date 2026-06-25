@@ -19,6 +19,46 @@
 
 use crate::types::{Court, Order};
 
+/// Map a court string (as written in a convening or order's `court:`) to its tier.
+/// One definition (#12), shared by the CLI convene path and the MCP convene verb so
+/// they cannot drift.
+pub fn court_from_str(s: &str) -> Option<Court> {
+    let l = s.to_ascii_lowercase();
+    if l.contains("county") {
+        Some(Court::County)
+    } else if l.contains("privy") {
+        Some(Court::PrivyCouncil)
+    } else if l.contains("supreme") {
+        Some(Court::SupremeCourt)
+    } else {
+        None
+    }
+}
+
+/// The D10 convening-time bench-size check, shared (#12): Ok when the tier is
+/// unknown (no constraint) or the bench is a constituted odd size; Err with a
+/// citable message when under- or over-strength. Reads sizes BY REFERENCE from the
+/// constitution.
+pub fn convening_bench_check(
+    constitution: &Order,
+    court_str: &str,
+    bench_len: usize,
+) -> Result<(), String> {
+    let Some(tier) = court_from_str(court_str) else {
+        return Ok(());
+    };
+    let Some(allowed) = constituted_sizes(constitution, &tier) else {
+        return Ok(());
+    };
+    if allowed.contains(&bench_len) {
+        Ok(())
+    } else {
+        Err(format!(
+            "bench of {bench_len} is not the constituted odd size {allowed:?} for '{court_str}' ([2026] VJS-SC 2)"
+        ))
+    }
+}
+
 /// The actor token a tier carries in the VJS-SC 2 constitution directives.
 pub fn court_actor_token(court: &Court) -> &'static str {
     match court {
