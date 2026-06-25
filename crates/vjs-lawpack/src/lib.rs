@@ -640,6 +640,129 @@ impl LawpackValidator {
             })
             .collect())
     }
+
+    /// ACT-004:s8 (D2, [2026] VJS-PC 13): citations are deterministic and unique;
+    /// collisions are fatal. The kernel's `must: check_citation_uniqueness`, given
+    /// teeth here. Scans every canon record's OWN top-level `citation:` field (column
+    /// zero, so references inside holdings/supersedes/basis are not miscounted) and
+    /// fails closed when two distinct records claim the same citation - the class of
+    /// defect that let eleven self-asserted "[2026] VJS-DEC 15..22" citations enter
+    /// canon by hand. Allocation at authoring (vjs citation next) is the affirmative
+    /// half; this is the reconciliation-at-write half. Runs on the full lawpack, so
+    /// it does not depend on a record being staged.
+    pub fn check_citation_uniqueness(
+        lawpack_dir: &Path,
+    ) -> Result<Vec<ValidationFinding>, KernelError> {
+        let mut by_citation: std::collections::BTreeMap<String, Vec<String>> =
+            std::collections::BTreeMap::new();
+
+        for entry in WalkDir::new(lawpack_dir).into_iter().filter_map(|e| e.ok()) {
+            let path = entry.path();
+            if path.extension().and_then(|s| s.to_str()) != Some("yaml") {
+                continue;
+            }
+            let content =
+                std::fs::read_to_string(path).map_err(|e| KernelError::Io(e.to_string()))?;
+            let rel = path
+                .strip_prefix(lawpack_dir)
+                .unwrap_or(path)
+                .to_string_lossy()
+                .to_string();
+            // The record's OWN citation is the top-level `citation:` field (column 0).
+            for line in content.lines() {
+                if let Some(rest) = line.strip_prefix("citation:") {
+                    let cite = rest
+                        .trim()
+                        .trim_matches('"')
+                        .trim_matches('\'')
+                        .trim()
+                        .to_string();
+                    if !cite.is_empty() {
+                        by_citation.entry(cite).or_default().push(rel.clone());
+                    }
+                    break; // one defining citation per record
+                }
+            }
+        }
+
+        Ok(by_citation
+            .into_iter()
+            .filter(|(_, files)| files.len() > 1)
+            .map(|(cite, mut files)| {
+                files.sort();
+                files.dedup();
+                ValidationFinding {
+                    severity: Severity::Fatal,
+                    code: "CITATION_COLLISION".into(),
+                    path: None,
+                    message: format!(
+                        "Citation '{}' is claimed by {} distinct records [{}]. ACT-004:s8: \
+                         citations are unique; collisions are fatal.",
+                        cite,
+                        files.len(),
+                        files.join(", ")
+                    ),
+                    suggested_fix: Some(
+                        "Allocate the citation through the kernel (vjs citation next) so it is \
+                         unique; do not hand-assert a citation number."
+                            .into(),
+                    ),
+                }
+            })
+            .collect())
+    }
+
+    /// Parse a citation string into (year, series_token_uppercase, repo_opt, n).
+    /// Canon form "[YYYY] VJS-<SERIES> N"; subscriber form "[YYYY] VJS-<COURT>-<REPO> N".
+    /// ACT-004:s8 format. Returns None for anything that is not a citation.
+    pub fn parse_citation(s: &str) -> Option<(i32, String, Option<String>, u32)> {
+        let re = regex::Regex::new(r"^\[(\d{4})\]\s+VJS-([A-Za-z]+)(?:-([A-Za-z0-9]+))?\s+(\d+)$")
+            .ok()?;
+        let c = re.captures(s.trim())?;
+        let year: i32 = c.get(1)?.as_str().parse().ok()?;
+        let series = c.get(2)?.as_str().to_ascii_uppercase();
+        let repo = c.get(3).map(|m| m.as_str().to_ascii_uppercase());
+        let n: u32 = c.get(4)?.as_str().parse().ok()?;
+        Some((year, series, repo, n))
+    }
+
+    /// The live register's highest allocated N for (series, repo, year), read by
+    /// scanning every canon record's own top-level citation. This is the persisted
+    /// register D2 requires the allocator to read - the citator INDEX is the count,
+    /// not an empty in-memory registry. Returns 0 when the series is unstarted.
+    pub fn live_citation_max(
+        lawpack_dir: &Path,
+        series: &str,
+        repo: Option<&str>,
+        year: i32,
+    ) -> Result<u32, KernelError> {
+        let want_series = series.to_ascii_uppercase();
+        let want_repo = repo.map(|r| r.to_ascii_uppercase());
+        let mut max = 0u32;
+        for entry in WalkDir::new(lawpack_dir).into_iter().filter_map(|e| e.ok()) {
+            let path = entry.path();
+            if path.extension().and_then(|s| s.to_str()) != Some("yaml") {
+                continue;
+            }
+            let content =
+                std::fs::read_to_string(path).map_err(|e| KernelError::Io(e.to_string()))?;
+            for line in content.lines() {
+                if let Some(rest) = line.strip_prefix("citation:") {
+                    let cite = rest.trim().trim_matches('"').trim_matches('\'').trim();
+                    if let Some((y, s, r, n)) = Self::parse_citation(cite)
+                        && y == year
+                        && s == want_series
+                        && r.as_deref().map(|x| x.to_string()) == want_repo.clone()
+                        && n > max
+                    {
+                        max = n;
+                    }
+                    break; // the record's own citation only
+                }
+            }
+        }
+        Ok(max)
+    }
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -655,4 +778,32 @@ pub struct ValidationFinding {
     pub path: Option<PathBuf>,
     pub message: String,
     pub suggested_fix: Option<String>,
+}
+
+#[cfg(test)]
+mod citation_tests {
+    use super::LawpackValidator as V;
+
+    #[test]
+    fn parses_canon_and_subscriber_citations() {
+        assert_eq!(
+            V::parse_citation("[2026] VJS-PC 13"),
+            Some((2026, "PC".into(), None, 13))
+        );
+        assert_eq!(
+            V::parse_citation("[2026] VJS-DEC 15"),
+            Some((2026, "DEC".into(), None, 15))
+        );
+        assert_eq!(
+            V::parse_citation("[2026] VJS-CC-ACMECO 79"),
+            Some((2026, "CC".into(), Some("ACMECO".into()), 79))
+        );
+    }
+
+    #[test]
+    fn rejects_non_citations() {
+        assert_eq!(V::parse_citation("DEC-ACMECO-UNITARY-001"), None);
+        assert_eq!(V::parse_citation("not a citation"), None);
+        assert_eq!(V::parse_citation("[2026] VJS-PC"), None);
+    }
 }
