@@ -236,9 +236,32 @@ pub fn generate_adapters(repo: &Path) -> std::io::Result<Vec<String>> {
             written.push(name);
         }
     }
+    // #20: a per-runtime registration guide alongside the adapters, so wiring each
+    // runtime to call them is not a manual lookup. Always (re)written.
+    let _ = std::fs::write(dir.join("REGISTRATION.md"), REGISTRATION_MD);
     written.sort();
     Ok(written)
 }
+
+/// Per-runtime registration guide written next to the generated adapters (#20).
+const REGISTRATION_MD: &str = r#"# Registering the VJS hook adapters
+
+Each adapter in this directory is a thin script that calls `vjs hook --event <event>`
+(the kernel decides). Wire your runtime's hook events to the matching adapter.
+
+- **Claude Code** (`settings.json` hooks): PreToolUse -> `claude-pre_write.sh`,
+  SessionStart -> `claude-session_start.sh`, PostToolUse -> `claude-post_action.sh`.
+- **Codex / Gemini / opencode**: point the runtime's pre-write / session-start /
+  post-action hook at `<runtime>-<event>.sh` (stdin-json for codex, --path args for
+  gemini/opencode).
+- **MCP**: the kernel is reached through the `vjs-mcp` server; the `mcp-*.sh` adapters
+  exist for runtimes that also fire shell hooks.
+- **shell / generic**: source or exec `shell-<event>.sh` from your own hook chain.
+
+The git commit hooks (`pre-commit`, `pre-push`) are installed separately by
+`vjs invoke --install-hooks` and are the bypass-proof wall; these adapters are the
+in-session front door (REG-HOOKS-001, REG-FRONT-DOOR-001).
+"#;
 
 /// The adapter filenames currently present under .vjs/hooks/adapters.
 fn present_adapters(repo: &Path) -> Vec<String> {
