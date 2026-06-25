@@ -112,6 +112,19 @@ fn cage_auth_requires_a_matching_token_only_when_configured() {
 }
 
 #[test]
+fn valid_assent_value_is_the_allow_list_not_merely_non_empty() {
+    use vjs_core::front_door::is_valid_assent_value;
+    // The two allow-listed values protect a record; a junk non-empty value does not
+    // (the bug that let `assent_source: made_it_up` soften a bench defect).
+    assert!(is_valid_assent_value("sovereign_assent"));
+    assert!(is_valid_assent_value("standing_bounded_assent"));
+    assert!(is_valid_assent_value("\"sovereign_assent\""));
+    assert!(!is_valid_assent_value("made_it_up"));
+    assert!(!is_valid_assent_value(""));
+    assert!(!is_valid_assent_value("assent"));
+}
+
+#[test]
 fn court_string_maps_to_tier() {
     use vjs_core::bench::court_from_str;
     use vjs_core::types::Court;

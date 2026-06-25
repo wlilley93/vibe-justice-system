@@ -26,6 +26,16 @@ pub const VALID_ASSENT_SOURCES: &[&str] = &["sovereign_assent", "standing_bounde
 /// kernel route-for-correction set; never an Error/Fatal/Block.
 pub const ROUTE_FOR_CORRECTION_CODE: &str = "ASSENTED_ROUTE_FOR_CORRECTION";
 
+/// True when `value` is a valid assent_source per the INV-ASSENT-SOURCE-001 allow-list
+/// (fail-closed). Use this on an order's `assent_source` FIELD - the bench gate and
+/// the MCP record verb formerly accepted any non-empty string, which let a junk value
+/// like `assent_source: made_it_up` soften a bench defect (bug fixed by routing both
+/// through here).
+pub fn is_valid_assent_value(value: &str) -> bool {
+    let v = value.trim().trim_matches('"').trim_matches('\'').trim();
+    VALID_ASSENT_SOURCES.contains(&v)
+}
+
 /// True when `content` declares a top-level `assent_source:` whose value is on the
 /// allow-list. Deterministic, no LLM. Only the record's OWN top-level field counts
 /// (column zero), so an assent_source mentioned inside prose does not protect it.

@@ -138,57 +138,68 @@ pub fn constituted_sizes(constitution: &Order, court: &Court) -> Option<Vec<usiz
 /// bench list owns ~0; a real opinion owns hundreds+.
 const MIN_SEAT_CONTENT: usize = 120;
 
-/// The seat key used to find a seat in the opinion text: the first whitespace-
-/// delimited token of the bench entry (e.g. "Tindale" from "Tindale" or
-/// "Tindale J."), lowercased.
+/// The seat key used to find a seat in the opinion text: the bench entry up to the
+/// first parenthetical descriptor, whitespace-normalised and lowercased. So
+/// "Justice I (separation-of-powers originalist)" keys to "justice i" and
+/// "Tindale J." to "tindale j." - distinct per seat. (The old key took only the
+/// first token, collapsing "Justice I" / "Justice II" / ... to "justice" and
+/// false-flagging a full apex bench - bug fixed here.)
 fn seat_key(entry: &str) -> String {
-    entry
-        .split_whitespace()
-        .next()
-        .unwrap_or(entry)
-        .trim_matches(|c: char| !c.is_alphanumeric())
+    let base = entry.split('(').next().unwrap_or(entry);
+    base.split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ")
         .to_ascii_lowercase()
 }
 
-/// Seats that are absent or silent in `opinion_text`. A seat fails when its key is
-/// absent entirely, or when the text it owns (from its first mention to the next
-/// seat's first mention, in document order) holds less than MIN_SEAT_CONTENT chars
-/// of non-whitespace content beyond the name itself.
+/// The first BOUNDARY position of `key` in `text_lower` (so "justice i" matches
+/// "## justice i" / "justice i," but never the inside of "justice ii"/"justice iii"),
+/// or None if the key never appears at a boundary.
+fn key_first_pos(text_lower: &str, key: &str) -> Option<usize> {
+    if key.is_empty() {
+        return None;
+    }
+    let mut start = 0;
+    while let Some(pos) = text_lower[start..].find(key) {
+        let abs = start + pos;
+        let after = text_lower[abs + key.len()..].chars().next();
+        if after.is_none_or(|c| !c.is_alphanumeric()) {
+            return Some(abs);
+        }
+        start = abs + 1;
+    }
+    None
+}
+
+/// Seats with no present, non-empty opinion in `opinion_text`. A seat fails when its
+/// key is absent (boundary-aware) OR the text it owns (from its boundary position to
+/// the next seat's, in document order) holds less than MIN_SEAT_CONTENT non-whitespace
+/// chars beyond the name. Boundary keys mean "Justice I / II / ... / N" no longer
+/// collapse to one offset (the bug that false-flagged a full apex bench).
 pub fn silent_seats(bench: &[String], opinion_text: &str) -> Vec<String> {
     let lower = opinion_text.to_ascii_lowercase();
-    // Locate each seat's first occurrence.
     let mut located: Vec<(usize, usize)> = Vec::new(); // (offset, bench_index)
-    let mut absent: Vec<String> = Vec::new();
+    let mut silent: Vec<String> = Vec::new();
     for (i, entry) in bench.iter().enumerate() {
-        let key = seat_key(entry);
-        if key.is_empty() {
-            absent.push(entry.clone());
-            continue;
-        }
-        match lower.find(&key) {
+        match key_first_pos(&lower, &seat_key(entry)) {
             Some(off) => located.push((off, i)),
-            None => absent.push(entry.clone()),
+            None => silent.push(entry.clone()),
         }
     }
-    // Attribute spans by document order of first occurrence.
     located.sort_by_key(|(off, _)| *off);
-    let mut silent = absent;
-    for (rank, (off, bench_idx)) in located.iter().enumerate() {
+    for (rank, (off, idx)) in located.iter().enumerate() {
         let end = located
             .get(rank + 1)
-            .map(|(next_off, _)| *next_off)
+            .map(|(next, _)| *next)
             .unwrap_or(lower.len());
-        let span = &opinion_text[*off..end];
-        let key = seat_key(&bench[*bench_idx]);
-        // Content owned by the seat, minus its own name occurrences and whitespace.
-        let content: String = span
-            .to_ascii_lowercase()
+        let key = seat_key(&bench[*idx]);
+        let content: usize = lower[*off..end]
             .replace(&key, " ")
             .chars()
             .filter(|c| !c.is_whitespace())
-            .collect();
-        if content.len() < MIN_SEAT_CONTENT {
-            silent.push(bench[*bench_idx].clone());
+            .count();
+        if content < MIN_SEAT_CONTENT {
+            silent.push(bench[*idx].clone());
         }
     }
     silent
@@ -335,6 +346,30 @@ mod tests {
         );
         let silent = silent_seats(&bench, &text);
         assert_eq!(silent, vec!["Marchmont".to_string()]);
+    }
+
+    #[test]
+    fn roman_numeral_bench_is_not_falsely_flagged() {
+        // The realm's own apex naming: "Justice I (descriptor)" ... "Justice V (...)",
+        // each with a full opinion. The old first-token key collapsed them all to
+        // "justice" and false-flagged four as silent. Must now pass clean.
+        let bench: Vec<String> = (1..=5)
+            .map(|n| {
+                let r = ["I", "II", "III", "IV", "V"][n - 1];
+                format!("Justice {r} (lens {n})")
+            })
+            .collect();
+        let text = (1..=5)
+            .map(|n| {
+                let r = ["I", "II", "III", "IV", "V"][n - 1];
+                format!("## Justice {r}\n{}\n", "opinion ".repeat(40))
+            })
+            .collect::<String>();
+        assert!(
+            silent_seats(&bench, &text).is_empty(),
+            "a full Justice I..V bench must not be flagged: {:?}",
+            silent_seats(&bench, &text)
+        );
     }
 
     #[test]
