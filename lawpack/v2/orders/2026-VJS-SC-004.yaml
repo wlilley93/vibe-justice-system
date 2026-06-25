@@ -6,21 +6,21 @@ court: supreme_court
 jurisdiction: vibe-justice-system
 status: binding
 issue: ratification_act003_s10_s11_unsatisfiable_gate_and_recorded_disposition
-appeal_of: "2026-VJS-CC-ACMECO-079"
+appeal_of: "2026-VJS-CC-SUBSCRIBER-079"
 appealable: false
-affirms: "2026-VJS-CC-ACMECO-079"
-varies: "2026-VJS-SC-ACMECO-001"
+affirms: "2026-VJS-CC-SUBSCRIBER-079"
+varies: "2026-VJS-SC-SUBSCRIBER-001"
 supersedes: []
 question: >
-  On referral up from the acmeco County Court ([2026] VJS-CC-ACMECO 79): should the ACT-003 s10/s11 rule -
+  On referral up from the subscriber's County Court ([2026] VJS-CC-SUBSCRIBER 79): should the ACT-003 s10/s11 rule -
   unsatisfiable-enforcement-gate auto-justiciability + recorded-disposition consultation, applying the VJS-ACT 10
   assented-record/machinery floor to enforcement gates - be ratified, and in what form? And was it correct for a
-  subscribing jurisdiction (acmeco) to record the apex ruling locally as VJS-SC-ACMECO 1?
+  subscribing jurisdiction (a subscriber) to record the apex ruling locally as VJS-SC-SUBSCRIBER 1?
 holding: >
   RATIFIED-AS-AMENDED, 5-0 (RATIFY-WITH-MODIFICATION). A 5-justice constitutional bench delivered judgment IN
   FULL, authored by a counted member (s.18). JURISDICTION: the Supreme Court is SINGULAR and CANONICAL; a
   subscribing jurisdiction may refer a matter UP but may not hold its own Supreme sitting, so the repo-level
-  record [2026] VJS-SC-ACMECO 1 is RE-CHARACTERISED as a referral and this canonical order is the apex ruling
+  record [2026] VJS-SC-SUBSCRIBER 1 is RE-CHARACTERISED as a referral and this canonical order is the apex ruling
   (the latest Supreme citation, the prior latest being VJS-SC 3). The rule is binding apex caselaw effective
   immediately; codifying the amended text into the primary statute ACT-003 (today ending at s9) is reserved to
   Sovereign Assent (s.14; [2026] VJS-SC 3: no court or kernel may originate a primary-law act) and is prepared as
@@ -38,7 +38,7 @@ holding: >
   action stays blocked pending order; a recorded fail-loud pause carries an s.4-8 remit+make-good if the court
   finds the gate WAS satisfiable.
 treatment: >
-  RE-HOMES the mis-filed repo-level [2026] VJS-SC-ACMECO 1 to canon as the singular apex ruling; the acmeco record
+  RE-HOMES the mis-filed repo-level [2026] VJS-SC-SUBSCRIBER 1 to canon as the singular apex ruling; the subscriber's record
   is corrected to a referral. RATIO: a subordinate machinery gate may never compel a breach of an enacted rule,
   an entrenched floor, or a Principal reservation (capability is not authority); when it would, it is
   auto-justiciable and the agent's remedy is the DUTY to litigate it, never the POWER to acquit it. The VJS-ACT
@@ -60,7 +60,7 @@ directives:
     must: extend_vjs_core_hook_rs_and_the_installed_hooks_to_enforce_s10_s11_the_printed_pass_rule_and_apex_routes_up_so_a_subscribing_repo_cannot_record_a_supreme_judgment_locally
   - id: D4
     actor: lexby
-    must: correct_the_acmeco_record_replace_the_misfiled_vjs_sc_acmeco_1_with_a_referral_pointing_to_this_canonical_vjs_sc_4
+    must: correct_the_subscriber_record_replace_the_misfiled_vjs_sc_subscriber_1_with_a_referral_pointing_to_this_canonical_vjs_sc_4
 bench:
   - "Justice I (separation-of-powers originalist)"
   - "Justice II (anti-gaming / audit-integrity)"

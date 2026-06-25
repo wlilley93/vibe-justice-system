@@ -28,7 +28,7 @@
     <category term="canon"/>
     <published>2026-06-25T00:00:00Z</published>
     <updated>2026-06-25T00:00:00Z</updated>
-    <summary type="text">A subscriber (Acmeco) asked canon to build a keystone: an overlay lawpack loader that lets its own local law (Tier-2) extend the canon floors (Tier-1) over runtime business decisions - advancing a matter, charging an invoice, approving a gate - not just code commits.</summary>
+    <summary type="text">A subscriber asked canon to build a keystone: an overlay lawpack loader that lets its own local law (Tier-2) extend the canon floors (Tier-1) over runtime business decisions - advancing a matter, charging an invoice, approving a gate - not just code commits.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-016</id>
