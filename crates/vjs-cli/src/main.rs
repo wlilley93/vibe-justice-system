@@ -737,7 +737,7 @@ fn cmd_invoke(
         // a cargo-built binary is older than the crates/ source it must enforce - a hook
         // that runs STALE law is worse than none (the install-binary gotcha). A shipped
         // bin/vjs (Docker export) has no in-tree source to compare and is trusted as-is.
-        let resolver = "root=\"$(git rev-parse --show-toplevel)\"\nbin=\"\"\nfor c in bin/vjs target/release/vjs target/debug/vjs; do\n  [ -x \"$root/$c\" ] && bin=\"$root/$c\" && break\ndone\n[ -n \"$bin\" ] || bin=vjs\ncase \"$bin\" in\n  \"$root/target/\"*)\n    if [ -n \"$(find \"$root/crates\" -name '*.rs' -newer \"$bin\" -print -quit 2>/dev/null)\" ]; then\n      echo \"vjs gate binary is STALE relative to crates/ source - rebuild: cargo build\" >&2\n      exit 1\n    fi ;;\nesac";
+        let resolver = "root=\"$(git rev-parse --show-toplevel)\"\nbin=\"\"\nfor c in bin/vjs target/release/vjs target/debug/vjs; do\n  [ -x \"$root/$c\" ] && bin=\"$root/$c\" && break\ndone\n[ -n \"$bin\" ] || bin=vjs\ncase \"$bin\" in\n  \"$root/target/\"*)\n    if [ -n \"$(find \"$root/crates\" -path '*/src/*' -name '*.rs' -newer \"$bin\" -print -quit 2>/dev/null)\" ]; then\n      echo \"vjs gate binary is STALE relative to crates/*/src - rebuild: cargo build\" >&2\n      exit 1\n    fi ;;\nesac";
         std::fs::write(
             hooks_dir.join("pre-commit"),
             format!("#!/usr/bin/env bash\n{resolver}\nexec \"$bin\" validate --staged\n"),
