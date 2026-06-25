@@ -1,0 +1,12 @@
+id: LOG-2026-06-25-122413
+time: 2026-06-25T12:24:13.641246776+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260625-122413
+decision: 'Beat 1 correctness cluster: (#2) wire LAWPACK_LOCK_DRIFT check at validate per ACT-007:s7; (#3) court record pins the raw submission FILE digest not the re-serialized struct, closing the seam both benches flagged; (#8) citation-collision emits one finding per file with its path so the assent floor covers it; (#15) unique_convening_id + permit timestamp_millis'
+basis:
+- PERMIT-1782390253
+risk: low
+reversibility: easy
+court_required: false
+why: Teeth on ACT-007:s7 and ACT-004:s8; closes the digest seam the PC-13/PC-14 benches directed fixed; record-reliability hardening
