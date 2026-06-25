@@ -288,10 +288,12 @@ impl McpServer {
                 .and_then(|sp| std::fs::read_to_string(self.repo_root.join(sp)).ok());
             let defects =
                 vjs_core::bench::verify_bench(&order, constitution, opinion_text.as_deref());
+            // Valid assent is the allow-list, not merely non-empty (a junk value must
+            // not let a bench-defective order through the record verb - the fail-open).
             let assented = order
                 .assent_source
-                .as_ref()
-                .map(|s| !s.trim().is_empty())
+                .as_deref()
+                .map(vjs_core::front_door::is_valid_assent_value)
                 .unwrap_or(false);
             if !defects.is_empty() && !assented {
                 return Err(KernelError::InvalidInput(format!(

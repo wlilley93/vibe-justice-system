@@ -1437,10 +1437,12 @@ fn cmd_validate(
                     if defects.is_empty() {
                         continue;
                     }
+                    // Valid assent is the INV-ASSENT-SOURCE-001 allow-list, NOT merely
+                    // non-empty (a junk value must not soften a bench defect).
                     let assented = order
                         .assent_source
-                        .as_ref()
-                        .map(|s| !s.trim().is_empty())
+                        .as_deref()
+                        .map(vjs_core::front_door::is_valid_assent_value)
                         .unwrap_or(false);
                     for d in defects {
                         let (severity, fix) = if assented {

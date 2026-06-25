@@ -17,13 +17,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history, so we can diff against the push base
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
       - name: Build the kernel
         run: cargo build --release --bin vjs
-      - name: Lawpack + invariants + boundary + permit gate (local-ci)
-        run: ./target/release/vjs local-ci
-      - name: Full validate (lawpack lock, citations, install surface)
-        run: ./target/release/vjs validate
+      # Make the runner a complete jurisdiction so the commit gates (which include the
+      # install-surface check) run; the hooks/manifest are ephemeral here.
+      - name: Invoke + lock (complete the install surface)
+        run: |
+          ./target/release/vjs invoke --jurisdiction vjs --principal ci --install-hooks
+          ./target/release/vjs install-lock
+      # The fix for "CI was blind to the staged gates": stage the PUSHED diff against
+      # its base and run the full commit gates (permit, bench, canon-write, apex,
+      # media, assent floor) over it - exactly what `--no-verify` skips locally.
+      - name: Commit gates over the pushed diff
+        run: |
+          BASE="${{ github.event.before }}"
+          [ -n "${{ github.event.pull_request.base.sha }}" ] && BASE="${{ github.event.pull_request.base.sha }}"
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then
+            BASE="HEAD~1"
+          fi
+          echo "diffing against $BASE"
+          git reset --soft "$BASE"
+          ./target/release/vjs validate --staged
+      - name: Canon-wide checks (citations, lock, referential integrity, boundary)
+        run: ./target/release/vjs local-ci && ./target/release/vjs validate
       - name: Workspace tests
         run: cargo test --workspace
