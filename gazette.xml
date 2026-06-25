@@ -53,6 +53,28 @@
     <summary type="text">The bench-integrity gate checks only that an order came from a real, odd, fully-seated bench; it never reads the LAW the order cites.</summary>
   </entry>
   <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-004</id>
+    <title>Unsatisfiable-enforcement-gate Auto-justiciability + Recorded-disposition Consultation (ACT-003 s10/s11 Ratification)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-004"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-004.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-24T00:00:00Z</published>
+    <updated>2026-06-25T00:00:00Z</updated>
+    <summary type="text">Apex ratification (5-0), re-homed to canon from a mis-filed repo-level record.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-005</id>
+    <title>Reference Re Standing-Route Resolution: the Route-class Refinement Is Built Now as Faithful Non-narrowing Interpretation; the Per-instrument Force-gate Is Reserved to the Sovereign</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-005"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-005.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-25T00:00:00Z</published>
+    <updated>2026-06-25T00:00:00Z</updated>
+    <summary type="text">Apex order (7-2 build; 9-0 on the constitutional crux), settling the three-way Privy fracture in [2026] VJS-PC 18 de novo.</summary>
+  </entry>
+  <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-FRONT-DOOR-001</id>
     <title>The Single Governed-Record Front Door Regulation</title>
     <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-FRONT-DOOR-001"/>
@@ -95,17 +117,6 @@
     <published>2026-06-24T00:00:00Z</published>
     <updated>2026-06-24T00:00:00Z</updated>
     <summary type="text">Most of these duties were already law; they just had no gate switched on at the one chokepoint (the kernel, on the write into canon), which is how eleven private files self-asserting fake citations slipped in.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-004</id>
-    <title>Unsatisfiable-enforcement-gate Auto-justiciability + Recorded-disposition Consultation (ACT-003 s10/s11 Ratification)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-004"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-004.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-24T00:00:00Z</published>
-    <updated>2026-06-24T00:00:00Z</updated>
-    <summary type="text">Apex ratification (5-0), re-homed to canon from a mis-filed repo-level record.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-003</id>
