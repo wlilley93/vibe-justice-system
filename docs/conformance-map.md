@@ -2,9 +2,9 @@
 
 Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / must_not / prohibits) in every in-force statute and regulation, with whether it is bound to a deterministic kernel gate. The UNWIRED list is the factual predicate for the reserved D12 single-front-door instrument.
 
-- total duties: 264
-- wired: 22
-- unwired: 242
+- total duties: 281
+- wired: 33
+- unwired: 248
 
 > Triage note: UNWIRED does not mean "must be gated". Many unwired duties are declarative (`defines`-adjacent), one-time/transition acts, or agent-duties that a deterministic gate cannot or need not enforce. The conservative registry marks a duty WIRED only when a named, deterministic gate can be pointed at it, so the map never overstates coverage. D12 triages this list to decide which unwired duties the single-front-door instrument must bite on.
 
@@ -26,7 +26,6 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 | ACT-001:s7 | must | mark_proposed_law_as_draft |
 | ACT-001:s7 | must | require_authorised_adoption_for_binding_force |
 | ACT-001:s7 | must_not | agent_self_authorise_law |
-| ACT-001:s7 | must_not | agent_draft_becomes_binding_by_fact_of_being_written |
 | ACT-001:s8 | must | evaluate_spec_on_governed_changes |
 | ACT-001:s9 | must | principal_assent_for_local_sovereignty_change |
 | ACT-CONSOLIDATION-FRAMEWORK:s4 | prohibits | runtime_force_by_restatement_alone |
@@ -43,12 +42,10 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 | ACT-004:s3 | must_not | use_cosine_for_invariant |
 | ACT-004:s3 | must_not | use_free_form_script_for_invariant |
 | ACT-004:s4 | must | keep_decisions_short |
-| ACT-004:s5 | must_not | act_without_valid_permit |
 | ACT-004:s6 | must | attach_required_proofs |
 | ACT-004:s7 | must | write_log_for_material_decisions |
 | ACT-004:s7 | must_not | delete_logs |
 | ACT-004:s9 | must | record_supersession_explicitly |
-| ACT-004:s9 | must_not | delete_old_records |
 | ACT-004:s10 | must | enforce_word_limits |
 | ACT-006:s1 | must | call_vjs_route |
 | ACT-006:s1 | must | verify_release_authority |
@@ -58,20 +55,15 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 | ACT-006:s3 | must_not | commit_secrets_to_public |
 | ACT-006:s4 | must | human_approval_required |
 | ACT-006:s4 | must | permit_with_human_approval |
-| ACT-006:s4 | must_not | proceed_without_human_approval |
 | ACT-006:s5 | must | use_explicit_authority_for_external |
 | ACT-006:s6 | must | log_release_receipt |
 | ACT-005:s1 | must_not | publish_hostnames |
-| ACT-005:s1 | must_not | publish_logs |
-| ACT-005:s1 | must_not | publish_screenshots |
 | ACT-005:s2 | must | route_private_facts_to_local_store |
 | ACT-005:s3 | must | redact_before_publication |
 | ACT-005:s3 | must | act_on_scanner_flags |
 | ACT-005:s4 | must | use_pointers_for_local_evidence |
 | ACT-005:s4 | must_not | expose_private_detail_in_pointer |
 | ACT-005:s6 | must_not | load_gazette_as_runtime_authority |
-| ACT-ASSENTED-RECORD-PROTECTION:s1 | prohibits | subordinate_validation_voiding_or_blocking_a_sovereign_assented_record |
-| ACT-ASSENTED-RECORD-PROTECTION:s1 | prohibits | silently_excluding_a_sovereign_assented_record_for_a_defect_rather_than_routing_it_for_correction |
 | ACT-ASSENTED-RECORD-PROTECTION:s2 | prohibits | amending_or_disapplying_this_act_other_than_by_a_sovereign_assented_constitutional_act_citing_it_by_number |
 | ACT-ASSENTED-RECORD-PROTECTION:s2 | prohibits | reading_this_act_to_lower_the_external_law_floor_or_any_entrenched_provision |
 | ACT-002:s1 | must_not | create_court_of_appeal_in_v2_mvp |
@@ -90,8 +82,6 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 | ACT-002:s8 | must | enforce_order_word_limits |
 | ACT-002:s9 | must | supreme_court_order_for_overruling |
 | ACT-002:s10 | must | validate_order_format |
-| ACT-002:s10 | must_not | accept_order_without_directives |
-| ACT-002:s10 | must_not | accept_order_without_runtime_summary |
 | ACT-003:s1 | prohibits | agent_self_adjudication |
 | ACT-003:s1 | prohibits | agent_self_authorised_law |
 | ACT-003:s2 | must | call_vjs_route |
@@ -183,6 +173,16 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 | REG-RELEASE-WARRANT-001 | must | privy_council_post_push_review |
 | REG-RELEASE-WARRANT-001 | must_not | require_fresh_royal_assent_to_publish_already_assented_law |
 | REG-RELEASE-WARRANT-001 | must_not | push_on_a_mismatch_or_a_boundary_scan_hit |
+| REG-FRONT-DOOR-001 | must | bring_every_governed_record_into_being_only_through_the_kernel_record_creation_path |
+| REG-FRONT-DOOR-001 | must | refuse_a_non_assented_off_front_door_record_at_the_write_pre_assent |
+| REG-FRONT-DOOR-001 | must | degrade_to_route_for_correction_for_any_record_declaring_a_valid_assent_source |
+| REG-FRONT-DOOR-001 | must | keep_the_absolute_path_commit_hook_the_bypass_proof_backstop_and_sole_guarantee |
+| REG-FRONT-DOOR-001 | must | keep_record_creation_logic_in_the_kernel_with_thin_hooks_and_adapters |
+| REG-FRONT-DOOR-001 | must_not | void_or_block_a_record_declaring_a_valid_assent_source |
+| REG-FRONT-DOOR-001 | must_not | reach_the_duty_surface_at_large_or_key_the_limb_on_the_conformance_map_counts |
+| REG-FRONT-DOOR-001 | must_not | rest_any_enforcement_guarantee_on_mcp_exclusivity_or_treat_mcp_use_as_proof_of_conformance |
+| REG-FRONT-DOOR-001 | must_not | place_record_creation_or_any_kernel_checking_logic_inside_a_hook_or_the_mcp_adapter |
+| REG-FRONT-DOOR-001 | must_not | enact_any_new_substantive_duty_court_tier_jurisdiction_bench_size_or_assent_form |
 | REG-REPOS-HOUSE-001 | must | record_certification_as_kernel_restatement_not_attestation |
 | REG-REPOS-HOUSE-001 | must | route_policy_proposals_through_lawmaking_route |
 | REG-REPOS-HOUSE-001 | must | preserve_v1_ministry_names_as_archive_lineage_only |
@@ -203,7 +203,6 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 | REG-005 | must_not | accept_overlong_records |
 | REG-GAZETTE-CONTINUITY-001 | prohibits | treating_a_gazette_entry_as_runtime_source |
 | REG-GAZETTE-CONTINUITY-001 | prohibits | publishing_private_facts |
-| REG-INSTALL-MANIFEST-001 | must | lock_the_install_surface_atomically_at_invoke |
 | REG-INSTALL-MANIFEST-001 | must | reverify_the_manifest_at_validate_staged_and_pre_write |
 | REG-INSTALL-MANIFEST-001 | must | fail_closed_citing_the_instrument_behind_any_missing_or_stale_limb |
 | REG-INSTALL-MANIFEST-001 | must_not | mandate_an_external_signing_key_for_the_install_manifest |
@@ -254,23 +253,40 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 | REG-CANONICALISATION-MIGRATION-001 | must | record_a_fresh_lock_under_a_commencement_addendum |
 | REG-CANONICALISATION-MIGRATION-001 | prohibits | unstaged_mass_edit_or_blind_move |
 | REG-CANONICALISATION-MIGRATION-001 | prohibits | retro_editing_any_digest_citation_or_id |
+| REG-FRONT-DOOR-DELIVERY-001 | must | deliver_the_server_of_law_as_a_container_and_the_wall_as_a_host_hook |
+| REG-FRONT-DOOR-DELIVERY-001 | must | keep_the_host_commit_hook_the_sole_enforcement_guarantee_never_contingent_on_the_container |
+| REG-FRONT-DOOR-DELIVERY-001 | must | resolve_the_host_kernel_binary_from_the_repo_root_under_either_delivery |
+| REG-FRONT-DOOR-DELIVERY-001 | must | offer_the_host_setup_to_the_principal_never_perform_a_host_mutation_silently |
+| REG-FRONT-DOOR-DELIVERY-001 | must_not | run_the_enforcement_commit_hook_inside_the_container_or_make_it_depend_on_the_container_being_up |
+| REG-FRONT-DOOR-DELIVERY-001 | must_not | treat_the_agent_having_used_the_dockerized_server_as_proof_of_conformance |
+| REG-FRONT-DOOR-DELIVERY-001 | must_not | require_a_rust_toolchain_on_the_host_to_obtain_the_wall_binary |
 
 ## Wired duties
 
 | instrument | kind | duty | gate |
 |---|---|---|---|
+| ACT-001:s7 | must_not | agent_draft_becomes_binding_by_fact_of_being_written | PC-14 front door (REG-FRONT-DOOR-001): law only through the commit gate |
 | ACT-004:s3 | must | evaluate_invariants_mechanically | invariant evaluator at validate |
 | ACT-004:s5 | must | close_permit_with_proof | PermitGate obligations |
+| ACT-004:s5 | must_not | act_without_valid_permit | PermitGate (PERMIT-MISSING) |
 | ACT-004:s8 | must | check_citation_uniqueness | D2 citation gate (CITATION_COLLISION) |
 | ACT-004:s8 | must_not | allow_duplicate_citations | D2 citation gate (CITATION_COLLISION) |
+| ACT-004:s9 | must_not | delete_old_records | improvement #6 (DESTRUCTIVE_RECORD_DELETE surface) |
+| ACT-006:s4 | must_not | proceed_without_human_approval | improvement #6 (DESTRUCTIVE_RECORD_DELETE; permit gate blocks un-permitted) |
 | ACT-005:s1 | must_not | publish_secrets | RedactScanner (deterministic) |
 | ACT-005:s1 | must_not | publish_tokens | RedactScanner (deterministic) |
 | ACT-005:s1 | must_not | publish_private_repo_paths | D1 canon-write gate (CANON_BOUNDARY_VIOLATION) |
 | ACT-005:s1 | must_not | publish_client_facts | D1 canon-write gate (CANON_BOUNDARY_VIOLATION) |
+| ACT-005:s1 | must_not | publish_logs | improvement #7 (BOUNDARY_MEDIA_IN_CANON, ACT-005:s1) |
+| ACT-005:s1 | must_not | publish_screenshots | improvement #7 (BOUNDARY_MEDIA_IN_CANON, ACT-005:s1) |
 | ACT-005:s1 | must_not | publish_credentials | RedactScanner (deterministic) |
 | ACT-005:s5 | must_not | publish_private_facts_from_contributor_repos | D1 canon-write gate |
 | ACT-005:s7 | must | run_boundary_scan_on_public_changes | RedactScanner at validate |
 | ACT-005:s7 | must_not | use_llm_for_boundary_check | RedactScanner is deterministic (no LLM) |
+| ACT-ASSENTED-RECORD-PROTECTION:s1 | prohibits | subordinate_validation_voiding_or_blocking_a_sovereign_assented_record | PC-14 D3 assent floor (downgrades, never voids/blocks) |
+| ACT-ASSENTED-RECORD-PROTECTION:s1 | prohibits | silently_excluding_a_sovereign_assented_record_for_a_defect_rather_than_routing_it_for_correction | PC-14 D3 assent floor (surfaces + routes for correction) |
+| ACT-002:s10 | must_not | accept_order_without_directives | improvement #5 (ORDER_MALFORMED, ACT-002:s10) |
+| ACT-002:s10 | must_not | accept_order_without_runtime_summary | improvement #5 (ORDER_MALFORMED, ACT-002:s10) |
 | ACT-003:s4 | must | write_decision_log | decision-log obligation gate |
 | ACT-007:s1 | must | create_config_toml_on_install | D4/D5 install gate (INSTALL_CONFIG_MISSING) |
 | ACT-007:s3 | must_not | local_law_override_canonical_without_authority | D3 cross-repo permit guard (CROSS_REPO_PERMIT) |
@@ -280,4 +296,5 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 | REG-INVOCATION-001 | must | subscribe_to_a_named_lawpack_and_lock_its_digest | D4/D5 install gate |
 | REG-INVOCATION-001 | must | install_enforcement_hooks | D4/D5 install gate (INSTALL_HOOKS_MISSING) |
 | REG-INVOCATION-001 | must | record_a_local_sovereign_invocation | D4/D5 install gate (INSTALL_INVOCATION_MISSING) |
+| REG-INSTALL-MANIFEST-001 | must | lock_the_install_surface_atomically_at_invoke | D5 install manifest (.vjs/install.lock) |
 | REG-003 | must_not | allow_duplicate_citations | D2 citation gate (CITATION_COLLISION) |

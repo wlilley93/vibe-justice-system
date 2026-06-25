@@ -906,6 +906,56 @@ const GATE_REGISTRY: &[(&str, &str)] = &[
         "keep_kernel_deterministic",
         "kernel is deterministic by construction",
     ),
+    // PC-14 (the single front door) + the post-D11 improvement gates.
+    (
+        "agent_draft_becomes_binding_by_fact_of_being_written",
+        "PC-14 front door (REG-FRONT-DOOR-001): law only through the commit gate",
+    ),
+    ("act_without_valid_permit", "PermitGate (PERMIT-MISSING)"),
+    (
+        "local_law_override_canonical_without_authority",
+        "D3 cross-repo guard + canon-write gate",
+    ),
+    (
+        "subordinate_validation_voiding_or_blocking_a_sovereign_assented_record",
+        "PC-14 D3 assent floor (downgrades, never voids/blocks)",
+    ),
+    (
+        "silently_excluding_a_sovereign_assented_record_for_a_defect_rather_than_routing_it_for_correction",
+        "PC-14 D3 assent floor (surfaces + routes for correction)",
+    ),
+    (
+        "check_lawpack_lock_consistency",
+        "improvement #2 (LAWPACK_LOCK_DRIFT, ACT-007:s7)",
+    ),
+    (
+        "lock_the_install_surface_atomically_at_invoke",
+        "D5 install manifest (.vjs/install.lock)",
+    ),
+    (
+        "accept_order_without_directives",
+        "improvement #5 (ORDER_MALFORMED, ACT-002:s10)",
+    ),
+    (
+        "accept_order_without_runtime_summary",
+        "improvement #5 (ORDER_MALFORMED, ACT-002:s10)",
+    ),
+    (
+        "delete_old_records",
+        "improvement #6 (DESTRUCTIVE_RECORD_DELETE surface)",
+    ),
+    (
+        "proceed_without_human_approval",
+        "improvement #6 (DESTRUCTIVE_RECORD_DELETE; permit gate blocks un-permitted)",
+    ),
+    (
+        "publish_logs",
+        "improvement #7 (BOUNDARY_MEDIA_IN_CANON, ACT-005:s1)",
+    ),
+    (
+        "publish_screenshots",
+        "improvement #7 (BOUNDARY_MEDIA_IN_CANON, ACT-005:s1)",
+    ),
 ];
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
