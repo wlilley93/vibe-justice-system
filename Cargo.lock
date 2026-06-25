@@ -811,6 +811,7 @@ dependencies = [
  "thiserror",
  "tokio",
  "vjs-core",
+ "vjs-engine",
  "vjs-lawpack",
  "vjs-store",
 ]
