@@ -3,7 +3,10 @@ use std::path::Path;
 
 use vjs_core::*;
 
+// This test module sits at the top by design; the lint that wants it last does not
+// apply to a deliberately-led file.
 #[cfg(test)]
+#[allow(clippy::items_after_test_module)]
 mod canon_gate_tests {
     use super::*;
     use std::path::PathBuf;

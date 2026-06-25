@@ -327,7 +327,7 @@ pub fn is_inert_kernel_effect(ke: &KernelEffect) -> bool {
         }
     }
     fn vec_empty(v: &Option<Vec<String>>) -> bool {
-        v.as_ref().map_or(true, |x| x.is_empty())
+        v.as_ref().is_none_or(|x| x.is_empty())
     }
     vec_empty(&ke.must)
         && vec_empty(&ke.may)
@@ -571,8 +571,8 @@ impl LawpackValidator {
             // is routed for correction (never voided). Severity ENTRENCHED as Warning
             // ([2026] VJS-PC 12 D3): never void/block an assented record; amendable
             // only by Sovereign-assented primary law citing s.5.
-            if let Some(ke) = &regulation.kernel_effect {
-                if is_inert_kernel_effect(ke) {
+            if let Some(ke) = &regulation.kernel_effect
+                && is_inert_kernel_effect(ke) {
                     findings.push(ValidationFinding {
                         severity: Severity::Warning,
                         code: "S5_INERT_KERNEL_EFFECT".into(),
@@ -587,7 +587,6 @@ impl LawpackValidator {
                         ),
                     });
                 }
-            }
         }
 
         // Check word limits

@@ -26,6 +26,10 @@ jobs:
       # reproducible (a moving "stable" could silently change what passes).
       - uses: dtolnay/rust-toolchain@1.95.0
       - uses: Swatinem/rust-cache@v2
+      # Quality gate: zero clippy warnings, enforced (now that the toolchain is pinned,
+      # this is reproducible - "0 warnings" stops being an honour system).
+      - name: Clippy (no warnings)
+        run: cargo clippy --workspace --all-targets -- -D warnings
       - name: Build the kernel
         run: cargo build --release --bin vjs
       # Make the runner a complete jurisdiction so the commit gates (which include the
