@@ -64,6 +64,38 @@ fn assent_floor_predicate_keys_only_on_the_allow_list() {
     ));
 }
 
+// #19 behavioral evals: exercise the record-creation verbs end-to-end through the
+// MCP server against the real canon (read-only paths; no record is written).
+fn workspace_root() -> std::path::PathBuf {
+    std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
+}
+
+#[test]
+fn mcp_allocate_reads_the_live_register() {
+    let srv = vjs_mcp::McpServer::new(workspace_root());
+    let resp = srv
+        .handle_request(
+            r#"{"jsonrpc":"2.0","id":1,"method":"vjs.allocate","params":{"series":"pc","year":2026}}"#,
+        )
+        .expect("allocate should succeed");
+    // PC-14 is enacted, so the live max is >= 14 and the next is a real PC citation.
+    assert!(
+        resp.contains("VJS-PC"),
+        "allocate returns the next PC citation from the register: {resp}"
+    );
+}
+
+#[test]
+fn mcp_convene_refuses_an_under_strength_bench() {
+    let srv = vjs_mcp::McpServer::new(workspace_root());
+    // The Privy Council is constituted at 3 ([2026] VJS-SC 2); a bench of 2 is refused
+    // at the door, before any submission lookup or write.
+    let r = srv.handle_request(
+        r#"{"jsonrpc":"2.0","id":1,"method":"vjs.convene","params":{"court":"privy_council","submission":"NONE","bench":["A","B"]}}"#,
+    );
+    assert!(r.is_err(), "an under-strength privy bench must be refused");
+}
+
 #[test]
 fn cage_auth_requires_a_matching_token_only_when_configured() {
     use serde_json::json;

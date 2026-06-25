@@ -7,8 +7,19 @@
 # No enforcement guarantee rests on this image: the bypass-proof, absolute-path commit
 # hook on the host is the sole guarantee and never depends on the container being up.
 
-FROM rust:1-slim-bookworm AS builder
+# cargo-chef caches the dependency build as its own layer (#21), so only a source
+# change rebuilds the workspace, not every crate from crates.io.
+FROM rust:1-slim-bookworm AS chef
+RUN cargo install cargo-chef --locked
 WORKDIR /build
+
+FROM chef AS planner
+COPY . .
+RUN cargo chef prepare --recipe-path recipe.json
+
+FROM chef AS builder
+COPY --from=planner /build/recipe.json recipe.json
+RUN cargo chef cook --release --recipe-path recipe.json
 COPY . .
 RUN cargo build --release --bin vjs --bin vjs-mcp
 
