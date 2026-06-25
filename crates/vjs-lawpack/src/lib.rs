@@ -5,6 +5,8 @@ use walkdir::WalkDir;
 use vjs_core::spec::InvariantRaw;
 use vjs_core::*;
 
+pub mod overlay;
+
 pub struct LawpackLoader;
 
 impl LawpackLoader {

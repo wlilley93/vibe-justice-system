@@ -9,6 +9,7 @@ repository.workspace = true
 [dependencies]
 vjs-core = { path = "../vjs-core" }
 vjs-lawpack = { path = "../vjs-lawpack" }
+vjs-engine = { path = "../vjs-engine" }
 vjs-store = { path = "../vjs-store" }
 vjs-redact = { path = "../vjs-redact" }
 vjs-mcp = { path = "../vjs-mcp" }

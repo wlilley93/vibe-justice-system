@@ -15,6 +15,7 @@ pub mod install;
 pub mod repo;
 pub mod report;
 pub mod route;
+pub mod scope;
 pub mod spec;
 pub mod types;
 

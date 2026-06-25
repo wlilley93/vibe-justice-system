@@ -17,6 +17,8 @@ use vjs_lawpack::{Lawpack, LawpackLoader, LawpackValidator, lawpack_facts};
 use vjs_redact::RedactScanner;
 use vjs_store::Store;
 
+pub mod runtime;
+
 /// Options for a validate run.
 #[derive(Clone, Debug, Default)]
 pub struct ValidateOpts {

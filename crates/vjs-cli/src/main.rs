@@ -164,6 +164,28 @@ enum Commands {
         #[arg(long)]
         out: Option<PathBuf>,
     },
+    /// The deterministic runtime permit clerk ([2026] VJS-PC 15 D5): resolve a runtime
+    /// act (scope + verb) against the two-tier overlay and dispose GRANT / DENY /
+    /// ROUTE_FOR_CORRECTION. A thin transport; the check is in the kernel.
+    SubmitDecision {
+        /// The entity scope as ordered dimension=value pairs, broad->narrow,
+        /// comma-separated (e.g. "a=1,b=2"). Dimension names are subscriber-supplied;
+        /// an empty value is the apex scope where the canon floors bind.
+        #[arg(long, default_value = "")]
+        scope: String,
+        /// The runtime act verb (subscriber-supplied; never canon-enumerated).
+        #[arg(long)]
+        verb: String,
+        /// A declared assent_source (triggers the VJS-ACT 10 floor when allow-listed).
+        #[arg(long)]
+        assent_source: Option<String>,
+        /// Canon Tier-1 floors dir (default: lawpack/v2/overlay-floors).
+        #[arg(long)]
+        floors: Option<PathBuf>,
+        /// Subscriber Tier-2 rules dir (default: .vjs/local-lawpack/rules).
+        #[arg(long)]
+        local: Option<PathBuf>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -326,6 +348,13 @@ fn main() {
         Commands::Permit { subcmd } => cmd_permit(&repo, subcmd, json),
         Commands::Eval { suite } => cmd_eval(&repo, suite, json),
         Commands::Gazette { out } => cmd_gazette(&repo, out, json),
+        Commands::SubmitDecision {
+            scope,
+            verb,
+            assent_source,
+            floors,
+            local,
+        } => cmd_submit_decision(&repo, scope, verb, assent_source, floors, local, json),
     };
 
     if let Err(e) = result {
@@ -1027,6 +1056,66 @@ fn cmd_validate(
     }
     if !report.ok {
         std::process::exit(1);
+    }
+    Ok(())
+}
+
+/// PC-15 D5: a thin transport over the kernel's deterministic runtime clerk. Loads the
+/// two-tier overlay, builds the envelope, calls vjs_engine::runtime::submit_decision,
+/// and prints the disposition. No checking logic lives here.
+fn cmd_submit_decision(
+    repo: &Path,
+    scope: String,
+    verb: String,
+    assent_source: Option<String>,
+    floors: Option<PathBuf>,
+    local: Option<PathBuf>,
+    json: bool,
+) -> Result<(), KernelError> {
+    use vjs_core::scope::EntityScope;
+    use vjs_engine::runtime::{DecisionEnvelope, submit_decision};
+    use vjs_lawpack::overlay::OverlayLoader;
+
+    let floors_dir = floors.unwrap_or_else(|| repo.join("lawpack/v2/overlay-floors"));
+    let local_dir = local.unwrap_or_else(|| repo.join(".vjs/local-lawpack/rules"));
+    let (overlay, load_findings) = OverlayLoader::load(&floors_dir, &local_dir)?;
+
+    // Parse "k=v,k=v" into ordered dims (an empty scope is the apex).
+    let dims: Vec<(String, String)> = scope
+        .split(',')
+        .map(|s| s.trim())
+        .filter(|s| !s.is_empty())
+        .filter_map(|s| {
+            s.split_once('=')
+                .map(|(k, v)| (k.trim().to_string(), v.trim().to_string()))
+        })
+        .collect();
+    let env = DecisionEnvelope {
+        scope: EntityScope::new(dims),
+        verb,
+        assent_source,
+    };
+    let result = submit_decision(&overlay, &env);
+
+    if json {
+        let out = serde_json::json!({
+            "disposition": result.disposition.as_str(),
+            "law_source": result.law_source,
+            "instrument": result.instrument,
+            "load_findings": load_findings.len(),
+        });
+        println!("{}", serde_json::to_string_pretty(&out).unwrap());
+    } else {
+        println!("Decision: {}", result.disposition.as_str());
+        if !result.law_source.is_empty() {
+            println!("  law_source: {}", result.law_source.join(", "));
+        }
+        if let Some(i) = &result.instrument {
+            println!("  instrument: {i}");
+        }
+        for fd in &load_findings {
+            println!("  [{:?}] {}: {}", fd.severity, fd.code, fd.message);
+        }
     }
     Ok(())
 }
@@ -2502,9 +2591,8 @@ fn cmd_gazette(repo: &Path, out: Option<PathBuf>, json: bool) -> Result<(), Kern
                 } else if cite.contains("-PC ")
                     || cite.contains("REALM-PC")
                     || raw == "privy_council"
+                    || raw == "county"
                 {
-                    "pc"
-                } else if raw == "county" {
                     "pc"
                 } else {
                     ""
