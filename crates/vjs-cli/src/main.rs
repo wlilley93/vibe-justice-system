@@ -1522,6 +1522,26 @@ fn cmd_validate(
                 });
             }
         }
+        // #13: a hook whose content no longer matches its pinned digest is a likely
+        // tamper. Advisory Warning (not Fatal) - server-side enforcement (#1) is the
+        // un-bypassable backstop, and a benign drift after an invoke-template change
+        // should not block; re-lock with vjs install-lock.
+        for hook in vjs_core::install::hook_tamper(repo) {
+            findings.push(ValidationFinding {
+                severity: Severity::Warning,
+                code: "HOOK_TAMPERED".into(),
+                path: None,
+                message: format!(
+                    "Hook '.vjs/hooks/{hook}' does not match its pinned digest \
+                     (REG-INSTALL-MANIFEST-001) - possible tamper or post-template-change drift."
+                ),
+                suggested_fix: Some(
+                    "If the change is intended, re-lock with vjs install-lock; otherwise restore \
+                     the hook (vjs invoke --install-hooks)."
+                        .into(),
+                ),
+            });
+        }
     }
 
     // PC-14 D3 assent floor (the consolidating limb's other edge): a record DECLARING

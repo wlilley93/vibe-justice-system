@@ -157,10 +157,39 @@ pub struct InstallManifest {
     pub invocation_digest: String,
     pub lawpack_lock: String,
     pub hooks: Vec<String>,
+    /// sha256 of each hook in `hooks` (parallel), pinned so a tampered hook is
+    /// detected (#13). Default empty for manifests predating it.
+    #[serde(default)]
+    pub hook_digests: Vec<String>,
     /// The agent-runtime thin adapters emitted by invoke (D8), recorded by name so
     /// the manifest is bound to them. Default empty for manifests predating D8.
     #[serde(default)]
     pub adapters: Vec<String>,
+}
+
+/// Hooks whose on-disk content no longer matches the digest pinned in the manifest
+/// (#13) - a likely tamper or a drift after an invoke-template change. Skips a hook
+/// that is absent (verify_surface handles absence) or unpinned (older manifest).
+/// Advisory: the caller emits a Warning, never a block, and improvement #1
+/// (server-side enforcement) is the un-bypassable backstop regardless.
+pub fn hook_tamper(repo: &Path) -> Vec<String> {
+    let mut out = Vec::new();
+    let Ok(text) = std::fs::read_to_string(repo.join(MANIFEST_FILE)) else {
+        return out;
+    };
+    let Ok(manifest) = toml::from_str::<InstallManifest>(&text) else {
+        return out;
+    };
+    for (hook, pinned) in manifest.hooks.iter().zip(manifest.hook_digests.iter()) {
+        if pinned.is_empty() {
+            continue;
+        }
+        let p = repo.join(".vjs/hooks").join(hook);
+        if p.is_file() && digest_file(&p).as_deref() != Some(pinned) {
+            out.push(hook.clone());
+        }
+    }
+    out
 }
 
 /// Emit the thin agent-runtime hook adapters (D8): for every runtime in RUNTIMES
@@ -237,14 +266,20 @@ pub fn build_manifest(repo: &Path, generated_at: String) -> Option<InstallManife
         .to_string_lossy()
         .to_string();
     let mut hooks = Vec::new();
+    let mut hook_digests = Vec::new();
     for h in ["pre-commit", "pre-push"] {
-        if repo.join(".vjs/hooks").join(h).is_file() {
+        let p = repo.join(".vjs/hooks").join(h);
+        if p.is_file() {
             hooks.push(h.to_string());
+            // #13: pin the hook CONTENT so a later tamper (e.g. editing it to exit 0)
+            // is detected. Best-effort digest.
+            hook_digests.push(digest_file(&p).unwrap_or_default());
         }
     }
     Some(InstallManifest {
         schema_version: MANIFEST_SCHEMA_VERSION,
         generated_at,
+        hook_digests,
         config_digest,
         invocation,
         invocation_digest,
