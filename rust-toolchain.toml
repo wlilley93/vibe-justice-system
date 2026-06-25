@@ -1,3 +1,7 @@
+# Pinned to an EXACT toolchain (improvement #6: CI as the trust root). The gate's
+# verdict must be reproducible - a moving "stable" channel means a new compiler or a
+# new clippy lint can silently change what passes. Local and CI build with the same
+# version. Bump deliberately, never by drift.
 [toolchain]
-channel = "stable"
+channel = "1.95.0"
 components = ["rustfmt", "clippy"]
