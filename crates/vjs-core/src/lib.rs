@@ -18,7 +18,6 @@ pub mod spec;
 pub mod types;
 
 pub use authority::*;
-pub use citation::*;
 pub use court::*;
 pub use error::*;
 pub use governance::*;
@@ -68,7 +67,6 @@ impl Default for ContextLimits {
 pub struct AuthorityGraph {
     pub authorities: HashMap<AuthorityId, Authority>,
     pub supersessions: Vec<Supersession>,
-    pub citations: HashMap<Citation, AuthorityId>,
 }
 
 impl Default for AuthorityGraph {
@@ -82,7 +80,6 @@ impl AuthorityGraph {
         Self {
             authorities: HashMap::new(),
             supersessions: Vec::new(),
-            citations: HashMap::new(),
         }
     }
 

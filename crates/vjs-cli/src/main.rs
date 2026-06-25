@@ -2050,30 +2050,16 @@ fn cmd_court(repo: &Path, subcmd: CourtCommands, json: bool) -> Result<(), Kerne
             // BY REFERENCE from [2026] VJS-SC 2. The silent-seat half runs at validate
             // --staged once opinions exist. This refuses a malformed convening (e.g. a
             // privy bench of 2); it does not void any assented record.
-            let court_tier = if court.contains("county") {
-                Some(vjs_core::types::Court::County)
-            } else if court.contains("privy") {
-                Some(vjs_core::types::Court::PrivyCouncil)
-            } else if court.contains("supreme") {
-                Some(vjs_core::types::Court::SupremeCourt)
-            } else {
-                None
-            };
-            if let Some(tier) = court_tier
-                && let Ok(lawpack) = load_lawpack(repo)
+            if let Ok(lawpack) = load_lawpack(repo)
                 && let Some(constitution) = lawpack
                     .orders
                     .iter()
                     .find(|o| o.id == "2026-VJS-COURTS-CONSTITUTION-001")
-                && let Some(allowed) = vjs_core::bench::constituted_sizes(constitution, &tier)
-                && !allowed.contains(&bench.len())
+                && let Err(msg) =
+                    vjs_core::bench::convening_bench_check(constitution, &court, bench.len())
             {
                 return Err(KernelError::InvalidInput(format!(
-                    "bench of {} is not the constituted odd size {:?} for '{}' ([2026] VJS-SC 2). \
-                     A court may not convene under-strength.",
-                    bench.len(),
-                    allowed,
-                    court
+                    "{msg}. A court may not convene under-strength."
                 )));
             }
             let subs = Store::read_submissions(repo)?;

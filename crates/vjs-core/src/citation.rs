@@ -1,65 +1,8 @@
-use crate::error::*;
-use crate::types::*;
-use std::collections::HashMap;
-
-#[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub struct Citation {
-    pub year: i32,
-    pub series: CitationSeries,
-    pub n: u32,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Hash)]
-pub enum CitationSeries {
-    Cc(String),
-    Pc,
-    Sc,
-    Reg,
-    Act,
-}
-
-pub struct CitationRegistry {
-    pub citations: HashMap<Citation, AuthorityId>,
-}
-
-impl Default for CitationRegistry {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
-impl CitationRegistry {
-    pub fn new() -> Self {
-        Self {
-            citations: HashMap::new(),
-        }
-    }
-
-    pub fn next_citation(&self, series: CitationSeries, year: i32) -> Citation {
-        let highest = self
-            .citations
-            .keys()
-            .filter(|c| c.year == year && c.series == series)
-            .map(|c| c.n)
-            .max()
-            .unwrap_or(0);
-
-        Citation {
-            year,
-            series,
-            n: highest + 1,
-        }
-    }
-
-    pub fn register(
-        &mut self,
-        citation: Citation,
-        authority: AuthorityId,
-    ) -> Result<(), KernelError> {
-        if self.citations.contains_key(&citation) {
-            return Err(KernelError::CitationCollision(format!("{:?}", citation)));
-        }
-        self.citations.insert(citation, authority);
-        Ok(())
-    }
-}
+//! Citation allocation (#14).
+//!
+//! The live allocator is `vjs_lawpack::LawpackValidator::live_citation_max` +
+//! `parse_citation`, which reads the LIVE persisted register from the lawpack
+//! (PC-13 D2 / ACT-004:s8). The former in-memory `CitationRegistry` /
+//! `CitationSeries` / `Citation` types always started a series at its genesis (they
+//! never loaded the register) and were superseded by that allocator; they have been
+//! removed to leave one source of truth for citation numbers.

@@ -1,0 +1,12 @@
+id: LOG-2026-06-25-123533
+time: 2026-06-25T12:35:33.208009575+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260625-123533
+decision: 'Beat 3 DRY+cleanup: (#12) new vjs_core::bench::court_from_str + convening_bench_check shared by cmd_court and the MCP convene verb so they cannot drift (D4 one-smart-point); (#14) removed the dead CitationRegistry/CitationSeries/Citation (superseded by vjs_lawpack live allocator) + the dead AuthorityGraph.citations field; (#18) MCP resolves repo_root via git rev-parse, not raw cwd'
+basis:
+- PERMIT-1782390933
+risk: low
+reversibility: easy
+court_required: false
+why: 'D4 (kernel is the only smart point): one shared implementation; one source of truth for citations; robust server cwd'
