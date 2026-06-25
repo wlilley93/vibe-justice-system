@@ -29,6 +29,7 @@ scope:
             &PathBuf::from("lawpack/v2/decisions/DEC-ACMECO-UNITARY-STACK-001.yaml"),
             ACMECO_DECISION,
             "VJS",
+            &[], // empty registry: scope-path corroboration alone must catch it
         );
         assert!(
             is_blocked(&f),
@@ -53,11 +54,42 @@ scope:
             &PathBuf::from("lawpack/v2/decisions/x.yaml"),
             rec,
             "VJS",
+            &[],
         );
         assert!(is_blocked(&f));
         assert!(
             f.iter()
                 .any(|x| matches!(x.kind, BoundaryFindingKind::UnredactedEvidence))
+        );
+    }
+
+    #[test]
+    fn registry_catches_a_foreign_id_code_without_scope_corroboration() {
+        // No scope path, no repo_code field - only the id carries ACMECO. Corroboration
+        // alone would miss it; the federation registry (#11) catches it.
+        let rec = "id: DEC-ACMECO-SNEAKY-001\ncitation: \"[2026] VJS-DEC 98\"\ntitle: x\n";
+        let codes = vec!["ACMECO".to_string()];
+        let (f, code) = RedactScanner::scan_canon_record(
+            &PathBuf::from("lawpack/v2/decisions/y.yaml"),
+            rec,
+            "VJS",
+            &codes,
+        );
+        assert!(
+            is_blocked(&f),
+            "a registered subscriber code in the id must block"
+        );
+        assert_eq!(code.as_deref(), Some("ACMECO"));
+        // Without the registry, the same record (no scope, no repo_code) passes.
+        let (f2, _) = RedactScanner::scan_canon_record(
+            &PathBuf::from("lawpack/v2/decisions/y.yaml"),
+            rec,
+            "VJS",
+            &[],
+        );
+        assert!(
+            !is_blocked(&f2),
+            "uncorroborated, unregistered id-code does not trip"
         );
     }
 
@@ -77,6 +109,7 @@ scope:
             &PathBuf::from("lawpack/v2/regulations/REG-KERNEL-001.yaml"),
             clean,
             "VJS",
+            &["ACMECO".to_string()],
         );
         assert!(
             !is_blocked(&f),
@@ -278,6 +311,7 @@ impl RedactScanner {
         path: &Path,
         content: &str,
         canon_repo_code: &str,
+        subscriber_codes: &[String],
     ) -> (Vec<BoundaryFinding>, Option<String>) {
         let mut findings = Vec::new();
         let mut foreign_code: Option<String> = None;
@@ -337,8 +371,10 @@ impl RedactScanner {
             ));
         }
 
-        // Signal 3: an id carrying a subscriber repo_code, CORROBORATED by a foreign
-        // scope path or repo_code (so canon ids like REG-KERNEL-001 never trip).
+        // Signal 3: an id carrying a subscriber repo_code, established EITHER by
+        // corroboration (a foreign scope path or repo_code, so canon ids like
+        // REG-KERNEL-001 never trip) OR by the federation subscriber registry (#11),
+        // which lets a foreign id-code be caught even without scope corroboration.
         if let Some(id) = get_str("id")
             && let Some(code) = Self::id_code_candidate(&id)
         {
@@ -350,7 +386,10 @@ impl RedactScanner {
             let corroborated_by_rc = foreign_code
                 .as_ref()
                 .is_some_and(|rc| rc.eq_ignore_ascii_case(&code));
-            if (corroborated_by_path || corroborated_by_rc)
+            let in_registry = subscriber_codes
+                .iter()
+                .any(|c| c.eq_ignore_ascii_case(&code));
+            if (corroborated_by_path || corroborated_by_rc || in_registry)
                 && !code.eq_ignore_ascii_case(canon_repo_code)
             {
                 foreign_code = Some(code.clone());
@@ -367,6 +406,28 @@ impl RedactScanner {
         }
 
         (findings, foreign_code)
+    }
+
+    /// The accessioned subscriber repo_codes from the federation registry (#11).
+    /// Empty when the registry is absent or unparseable, so the gate degrades to the
+    /// corroboration signals.
+    fn load_subscriber_codes(repo_root: &Path) -> Vec<String> {
+        let path = repo_root.join("lawpack/v2/federation/subscriber-registry.yaml");
+        let Ok(content) = std::fs::read_to_string(&path) else {
+            return Vec::new();
+        };
+        let Ok(value) = serde_yaml::from_str::<serde_yaml::Value>(&content) else {
+            return Vec::new();
+        };
+        value
+            .get("codes")
+            .and_then(|c| c.as_sequence())
+            .map(|seq| {
+                seq.iter()
+                    .filter_map(|v| v.as_str().map(|s| s.to_string()))
+                    .collect()
+            })
+            .unwrap_or_default()
     }
 
     /// Fire the canon-write gate over a set of repo-relative writes. Filters to
@@ -391,6 +452,11 @@ impl RedactScanner {
         };
         let canon: Vec<&std::path::PathBuf> = rel_paths.iter().filter(|p| in_canon(p)).collect();
 
+        // #11: the accessioned subscriber repo_codes, so a foreign id-code is caught
+        // even without scope-path corroboration. Read from the federation registry;
+        // absent registry => empty (the corroboration signals still apply).
+        let subscriber_codes = Self::load_subscriber_codes(repo_root);
+
         let mut findings = Vec::new();
         let mut foreign_codes: Vec<String> = Vec::new();
         for rel in &canon {
@@ -401,7 +467,8 @@ impl RedactScanner {
                 continue;
             }
             if let Ok(content) = std::fs::read_to_string(&abs) {
-                let (mut fs, code) = Self::scan_canon_record(rel, &content, canon_repo_code);
+                let (mut fs, code) =
+                    Self::scan_canon_record(rel, &content, canon_repo_code, &subscriber_codes);
                 findings.append(&mut fs);
                 if let Some(c) = code {
                     foreign_codes.push(c.to_ascii_lowercase());

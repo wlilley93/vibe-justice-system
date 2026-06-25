@@ -1,0 +1,16 @@
+id: FEDERATION-SUBSCRIBER-REGISTRY
+title: Accessioned subscriber repo_codes
+status: in_force
+basis:
+  - ACT-007:s4
+  - REG-FEDERATION-COORDINATION-001
+text: >
+  The repo_codes of jurisdictions that subscribe to this canon. The D1 canon-write
+  gate (improvement #11) reads this list so a canon record whose id, citation, or
+  repo_code carries one of these subscriber codes is blocked as subscriber-scoped
+  content, even without scope-path corroboration. A code here is NOT an endorsement;
+  it records that the code is a known subscriber so its law cannot masquerade as canon
+  (ACT-007:s4: local law does not bind other repos). Add a code when a subscriber is
+  accessioned; this is canon, system data only, no subscriber facts.
+codes:
+  - ACMECO
