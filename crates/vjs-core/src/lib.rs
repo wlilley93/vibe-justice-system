@@ -6,6 +6,7 @@ pub mod authority;
 pub mod bench;
 pub mod citation;
 pub mod court;
+pub mod enforcement;
 pub mod error;
 pub mod evals;
 pub mod front_door;

@@ -201,6 +201,10 @@ pub fn validate(repo: &Path, opts: &ValidateOpts) -> Result<Report, KernelError>
         }
     }
 
+    // PC-16 D4: the entrenched-enforcement-surface pin. A drift of a pinned gate-source
+    // file from its lock is a loud, blocking finding - a weakening edit is never silent.
+    findings.extend(vjs_core::enforcement::check_drift(repo));
+
     // Install-completeness + atomic manifest, scoped to --staged (the commit gate).
     if opts.staged {
         let mut defects = vjs_core::install::verify_surface(repo);
