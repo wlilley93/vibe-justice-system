@@ -1505,7 +1505,12 @@ fn cmd_validate(
     // manifest (REG-INSTALL-MANIFEST-001) is in sync. Exempt for a non-jurisdiction
     // directory (no .vjs/). A half-installed jurisdiction is an agent operating only
     // some of the system's mechanisms - the disease PC-13 names.
-    {
+    //
+    // Scoped to --staged (the commit gate), per D4's directive ("at pre_write and
+    // validate --staged"): a plain `vjs validate` (e.g. server-side CI on a fresh
+    // checkout where the per-clone git hooks are not yet installed) checks canon
+    // validity, not the LOCAL developer install surface, and must not fail on it.
+    if staged {
         let mut install_defects = vjs_core::install::verify_surface(repo);
         install_defects.extend(vjs_core::install::verify_manifest(repo));
         if !install_defects.is_empty() {
