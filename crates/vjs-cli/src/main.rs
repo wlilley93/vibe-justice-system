@@ -1400,6 +1400,31 @@ fn cmd_validate(
                             ),
                         });
                     }
+                    // #10: a Privy / Supreme order must DECLARE its constituted bench
+                    // ([2026] VJS-SC 2: no court may issue an order until constituted).
+                    // Prospective - it only fires on a staged apex order; the assent
+                    // floor downgrades it for an assented historical order, so nothing
+                    // is retroactively voided. County (a single judge) is exempt.
+                    if matches!(
+                        order.court,
+                        vjs_core::types::Court::PrivyCouncil | vjs_core::types::Court::SupremeCourt
+                    ) && order.bench.is_empty()
+                    {
+                        ok = false;
+                        findings.push(ValidationFinding {
+                            severity: Severity::Fatal,
+                            code: "BENCH_REQUIRED".into(),
+                            path: Some(PathBuf::from(rel)),
+                            message: format!(
+                                "A {:?} order must declare its constituted bench ([2026] VJS-SC 2: \
+                                 no court may issue an order until constituted).",
+                                order.court
+                            ),
+                            suggested_fix: Some(
+                                "Add the bench (the seats that decided) before recording.".into(),
+                            ),
+                        });
+                    }
                     let opinion_text = order
                         .source_opinion
                         .as_ref()
