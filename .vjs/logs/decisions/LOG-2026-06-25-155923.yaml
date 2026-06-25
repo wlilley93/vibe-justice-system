@@ -1,0 +1,12 @@
+id: LOG-2026-06-25-155923
+time: 2026-06-25T15:59:23.737303064+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260625-155813
+decision: 'Record [2026] VJS-PC 17 (Citation-Grounding of an Order''s Operative Authorities), 3-0 Position B. The kernel will deterministically GROUND THE EXISTENCE of the authorities an order cites in its operative parts (holding/directives/forbidden), giving the per-incuriam doctrine teeth - but an unresolved citation is CORRECTABLE, not constitutive: the clerk finds the existence fact and routes for correction; it never brands the order void ab initio (that voidness is a merits conclusion reserved to a court on appeal, REG-KERNEL-001 clerk-not-court). Wired through the PC-16 assent bifurcation (non-assented/non-resolving fails closed; assented-resolving routes for correction, never voided - the entrenched floor untouched). 10 directives incl. existence-not-in-force (D3), three carve-outs (D4: negation/superseded-historical/self-reference), section granularity (D5), and reconciling the lawpack-wide DANGLING_REFERENCE + fixing its line-wrap false positive at the root (D6).'
+basis:
+- PERMIT-1782403093
+risk: low
+reversibility: easy
+court_required: false
+why: First-impression (no on-point citator ratio); routed to the Privy Council because it touches the clerk/court boundary + the entrenched assent floor; the bench held it machinery under s.7 (correctable disposition keeps the floor untouched), nothing to the Sovereign
