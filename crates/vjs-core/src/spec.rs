@@ -69,6 +69,50 @@ pub struct Permit {
     pub obligations: Vec<Obligation>,
     pub expires_at: String,
     pub status: PermitStatus,
+    /// [2026] VJS-PC 16 D3: a permit is an AGENT-ROUTED SELF-ISSUE - it records that the
+    /// actor took the front door, NOT that an external authority approved. A check
+    /// reserved to the Sovereign (assent, now resolution-gated) or to a constituted bench
+    /// (an order) is never satisfiable by a self-issued permit. Defaults true for the
+    /// local-sovereign invocation (ACT-007; the kernel is clerk, not court).
+    #[serde(default = "default_self_issued")]
+    pub self_issued: bool,
+    /// The plain-terms meaning recorded on the permit so the audit trail never reads as
+    /// more than it is.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub meaning: Option<String>,
+    /// A content/identity digest binding the permit to the actor + route + concrete scope
+    /// it claims, so it is non-repudiable and cannot be silently reused to cover a
+    /// different write than the one it was minted for (PC-16 D3).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub intent_digest: Option<String>,
+}
+
+fn default_self_issued() -> bool {
+    true
+}
+
+/// The recorded meaning of a self-issued permit (PC-16 D3): an agent-routed self-issue,
+/// never an authority approval.
+pub const SELF_ISSUED_MEANING: &str =
+    "agent-routed self-issue: records that the actor took the front door (ACT-007 \
+     local-sovereign invocation); NOT an external authority's approval. It cannot satisfy \
+     a check reserved to the Sovereign (assent) or to a constituted bench (an order).";
+
+/// The non-repudiable binding digest over the permit's actor + route + declared scope.
+pub fn permit_intent_digest(actor: &str, route_id: &str, scope: &Option<Scope>) -> String {
+    use sha2::Digest;
+    let mut hasher = sha2::Sha256::new();
+    hasher.update(actor.as_bytes());
+    hasher.update(b"\n");
+    hasher.update(route_id.as_bytes());
+    hasher.update(b"\n");
+    let scope_repr = scope
+        .as_ref()
+        .and_then(|s| s.paths.as_ref())
+        .map(|p| p.join(","))
+        .unwrap_or_default();
+    hasher.update(scope_repr.as_bytes());
+    format!("sha256:{}", hex::encode(hasher.finalize()))
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -580,14 +624,18 @@ pub fn open_permit(route_decision: &RouteDecision, _actor: &str) -> Result<Permi
     let id = PermitId(format!("PERMIT-{}", chrono::Utc::now().timestamp_millis()));
     let expires = chrono::Utc::now() + chrono::Duration::hours(2);
 
+    let route_id = format!("ROUTE-{}", chrono::Utc::now().timestamp());
     Ok(Permit {
         id: id.clone(),
-        route_id: RouteId(format!("ROUTE-{}", chrono::Utc::now().timestamp())),
+        route_id: RouteId(route_id.clone()),
         actor: "lexby".into(),
         scope: None,
         obligations: route_decision.obligations.clone(),
         expires_at: expires.to_rfc3339(),
         status: PermitStatus::Active,
+        self_issued: true,
+        meaning: Some(SELF_ISSUED_MEANING.into()),
+        intent_digest: Some(permit_intent_digest("lexby", &route_id, &None)),
     })
 }
 
