@@ -86,6 +86,20 @@ fn mcp_allocate_reads_the_live_register() {
 }
 
 #[test]
+fn mcp_validate_runs_the_engine_pipeline() {
+    // The MCP validate verb now calls the same vjs-engine pipeline as the CLI/CI;
+    // it returns a Report with an `ok` field over the real canon (which is clean).
+    let srv = vjs_mcp::McpServer::new(workspace_root());
+    let resp = srv
+        .handle_request(r#"{"jsonrpc":"2.0","id":1,"method":"vjs.validate","params":{}}"#)
+        .expect("validate should succeed");
+    assert!(
+        resp.contains("\"ok\""),
+        "validate returns an engine Report: {resp}"
+    );
+}
+
+#[test]
 fn mcp_convene_refuses_an_under_strength_bench() {
     let srv = vjs_mcp::McpServer::new(workspace_root());
     // The Privy Council is constituted at 3 ([2026] VJS-SC 2); a bench of 2 is refused

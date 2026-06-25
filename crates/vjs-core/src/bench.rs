@@ -105,15 +105,13 @@ pub fn court_actor_token(court: &Court) -> &'static str {
     }
 }
 
-/// The first integer appearing after `marker` in `text`, if any.
+/// The integer IMMEDIATELY following `marker` (modulo whitespace) in `text`, if any.
+/// It does not skip over intervening words to a far-away digit, so a directive like
+/// "...odd bench of, see clause 3..." yields None rather than 3 (audit robustness).
 fn int_after(text: &str, marker: &str) -> Option<usize> {
     let idx = text.find(marker)? + marker.len();
-    let tail = &text[idx..];
-    let digits: String = tail
-        .chars()
-        .skip_while(|c| !c.is_ascii_digit())
-        .take_while(|c| c.is_ascii_digit())
-        .collect();
+    let tail = text[idx..].trim_start();
+    let digits: String = tail.chars().take_while(|c| c.is_ascii_digit()).collect();
     digits.parse().ok()
 }
 
