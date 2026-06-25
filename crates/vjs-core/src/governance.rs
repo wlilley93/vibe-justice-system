@@ -1,7 +1,7 @@
 use std::path::{Path, PathBuf};
 
-use crate::types::*;
 use crate::spec::*;
+use crate::types::*;
 
 /// Classify a path relative to repo root against governance rules
 pub struct PathClassifier;
@@ -167,7 +167,8 @@ impl PermitGate {
                             "Governed staged path '{}' is not covered by an active permit.",
                             path.display()
                         ),
-                        remedy: "Run vjs route for this action and stage the resulting permit.".into(),
+                        remedy: "Run vjs route for this action and stage the resulting permit."
+                            .into(),
                     });
                 }
                 Some(permit) => {
@@ -181,10 +182,7 @@ impl PermitGate {
                             severity: Severity::Fatal,
                             code: "PERMIT-EXPIRED".into(),
                             path: Some(path.clone()),
-                            message: format!(
-                                "Matching permit '{}' has expired.",
-                                permit.id.0
-                            ),
+                            message: format!("Matching permit '{}' has expired.", permit.id.0),
                             remedy: "Run vjs route again or renew the permit.".into(),
                         });
                     } else if matches!(permit.status, PermitStatus::Revoked) {
@@ -193,10 +191,7 @@ impl PermitGate {
                             severity: Severity::Fatal,
                             code: "PERMIT-REVOKED".into(),
                             path: Some(path.clone()),
-                            message: format!(
-                                "Matching permit '{}' has been revoked.",
-                                permit.id.0
-                            ),
+                            message: format!("Matching permit '{}' has been revoked.", permit.id.0),
                             remedy: "Run vjs route again to obtain a new permit.".into(),
                         });
                     } else if matches!(permit.status, PermitStatus::Closed) {
@@ -221,14 +216,16 @@ impl PermitGate {
                         && !Self::permit_is_expired(&permit, chrono::Utc::now())
                     {
                         for obligation in &permit.obligations {
-                            if matches!(obligation.due, ObligationDue::BeforeCommit) && obligation.required {
+                            if matches!(obligation.due, ObligationDue::BeforeCommit)
+                                && obligation.required
+                            {
                                 match obligation.kind {
                                     ObligationKind::DecisionLog => {
                                         let log_exists = logs.iter().any(|log| {
-                                        log.id.contains(&permit.id.0) ||
-                                        log.basis.iter().any(|b| b == &permit.id.0) ||
-                                        log.issue.contains(&permit.id.0)
-                                    });
+                                            log.id.contains(&permit.id.0)
+                                                || log.basis.iter().any(|b| b == &permit.id.0)
+                                                || log.issue.contains(&permit.id.0)
+                                        });
                                         if !log_exists {
                                             ok = false;
                                             findings.push(PermitGateFinding {
@@ -244,7 +241,8 @@ impl PermitGate {
                                         }
                                     }
                                     ObligationKind::Proof => {
-                                        let proof_exists = proofs.iter().any(|p| p.permit_id.0 == permit.id.0);
+                                        let proof_exists =
+                                            proofs.iter().any(|p| p.permit_id.0 == permit.id.0);
                                         if !proof_exists {
                                             ok = false;
                                             findings.push(PermitGateFinding {
@@ -283,7 +281,10 @@ impl PermitGate {
                 severity: Severity::Info,
                 code: "PERMIT-GATE".into(),
                 path: None,
-                message: format!("{} governed staged paths have valid permit coverage.", governed_paths.len()),
+                message: format!(
+                    "{} governed staged paths have valid permit coverage.",
+                    governed_paths.len()
+                ),
                 remedy: "".into(),
             });
         }
@@ -302,14 +303,16 @@ impl PermitGate {
     fn scope_covers(permit: &Permit, path_str: &str) -> bool {
         if let Some(ref scope) = permit.scope {
             if let Some(ref paths) = scope.paths {
-                paths.iter().any(|glob| PathClassifier::glob_matches(glob, path_str))
+                paths
+                    .iter()
+                    .any(|glob| PathClassifier::glob_matches(glob, path_str))
             } else {
                 false // a permit with a scope but no paths covers nothing
             }
         } else {
             false // a permit with no scope covers nothing - it must name the
-                  // paths it excuses, or it would blanket-cover every governed
-                  // write (the permit-scoping rule). A route now scopes its permit.
+            // paths it excuses, or it would blanket-cover every governed
+            // write (the permit-scoping rule). A route now scopes its permit.
         }
     }
 
@@ -327,10 +330,7 @@ impl PermitGate {
     /// Prefer a usable (Active, unexpired) permit; otherwise return the first
     /// scope-covering permit so evaluate can report WHY it fails (expired,
     /// revoked, closed) instead of a bare PERMIT-MISSING.
-    fn find_matching_permit(
-        path: &Path,
-        permits: &[Permit],
-    ) -> Option<Permit> {
+    fn find_matching_permit(path: &Path, permits: &[Permit]) -> Option<Permit> {
         let now = chrono::Utc::now();
         let path_str = path.to_string_lossy();
 

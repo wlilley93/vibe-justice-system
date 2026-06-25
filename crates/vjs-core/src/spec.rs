@@ -2,9 +2,9 @@ use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 use std::path::{Path, PathBuf};
 
-use crate::types::*;
-use crate::error::*;
 use crate::court::*;
+use crate::error::*;
+use crate::types::*;
 
 fn default_predicate() -> PredicateExpr {
     PredicateExpr::LawpackValidates
@@ -269,9 +269,15 @@ fn evaluate_predicate(
     facts: &LawpackFacts,
 ) -> bool {
     match rule {
-        PredicateExpr::All { items } => items.iter().all(|item| evaluate_predicate(item, repo_state, scope, facts)),
-        PredicateExpr::Any { items } => items.iter().any(|item| evaluate_predicate(item, repo_state, scope, facts)),
-        PredicateExpr::None { items } => items.iter().all(|item| !evaluate_predicate(item, repo_state, scope, facts)),
+        PredicateExpr::All { items } => items
+            .iter()
+            .all(|item| evaluate_predicate(item, repo_state, scope, facts)),
+        PredicateExpr::Any { items } => items
+            .iter()
+            .any(|item| evaluate_predicate(item, repo_state, scope, facts)),
+        PredicateExpr::None { items } => items
+            .iter()
+            .all(|item| !evaluate_predicate(item, repo_state, scope, facts)),
         PredicateExpr::Not { item } => !evaluate_predicate(item, repo_state, scope, facts),
         PredicateExpr::If { condition, then } => {
             if evaluate_predicate(condition, repo_state, scope, facts) {
@@ -280,18 +286,22 @@ fn evaluate_predicate(
                 true // if condition is false, the implication is vacuously true
             }
         }
-        PredicateExpr::PathChanged { glob } => {
-            repo_state.changed_paths.iter().any(|p| glob_matches(glob, p))
-        }
-        PredicateExpr::FileAdded { pattern } => {
-            repo_state.added_files.iter().any(|p| glob_matches(pattern, p))
-        }
-        PredicateExpr::FileModified { pattern } => {
-            repo_state.modified_files.iter().any(|p| glob_matches(pattern, p))
-        }
-        PredicateExpr::FileDeleted { pattern } => {
-            repo_state.deleted_files.iter().any(|p| glob_matches(pattern, p))
-        }
+        PredicateExpr::PathChanged { glob } => repo_state
+            .changed_paths
+            .iter()
+            .any(|p| glob_matches(glob, p)),
+        PredicateExpr::FileAdded { pattern } => repo_state
+            .added_files
+            .iter()
+            .any(|p| glob_matches(pattern, p)),
+        PredicateExpr::FileModified { pattern } => repo_state
+            .modified_files
+            .iter()
+            .any(|p| glob_matches(pattern, p)),
+        PredicateExpr::FileDeleted { pattern } => repo_state
+            .deleted_files
+            .iter()
+            .any(|p| glob_matches(pattern, p)),
         PredicateExpr::StringContains { value } => repo_state
             .file_contents
             .iter()
@@ -302,24 +312,18 @@ fn evaluate_predicate(
             .iter()
             .filter(|(p, _)| scope_allows(scope, p))
             .any(|(_, content)| content.contains(value)),
-        PredicateExpr::DependencyAdded { name } => {
-            repo_state.dependency_changes.iter().any(|c| c.name == *name && c.added)
-        }
-        PredicateExpr::DependencyRemoved { name } => {
-            repo_state.dependency_changes.iter().any(|c| c.name == *name && c.removed)
-        }
-        PredicateExpr::DecisionLogExists { issue: _ } => {
-            !repo_state.logs.is_empty()
-        }
-        PredicateExpr::PermitExists { id: _ } => {
-            !repo_state.permits.is_empty()
-        }
-        PredicateExpr::ProofExists { kind: _ } => {
-            !repo_state.proofs.is_empty()
-        }
-        PredicateExpr::OrderExists { issue: _ } => {
-            !repo_state.orders.is_empty()
-        }
+        PredicateExpr::DependencyAdded { name } => repo_state
+            .dependency_changes
+            .iter()
+            .any(|c| c.name == *name && c.added),
+        PredicateExpr::DependencyRemoved { name } => repo_state
+            .dependency_changes
+            .iter()
+            .any(|c| c.name == *name && c.removed),
+        PredicateExpr::DecisionLogExists { issue: _ } => !repo_state.logs.is_empty(),
+        PredicateExpr::PermitExists { id: _ } => !repo_state.permits.is_empty(),
+        PredicateExpr::ProofExists { kind: _ } => !repo_state.proofs.is_empty(),
+        PredicateExpr::OrderExists { issue: _ } => !repo_state.orders.is_empty(),
         PredicateExpr::WordCountLte { field: _, max: _ } => {
             // Simplified: always true for now
             true
@@ -382,9 +386,7 @@ fn evaluate_predicate(
                         .unwrap_or(false)
                 })
         }
-        PredicateExpr::PublicNoPrivateFacts => {
-            repo_state.boundary_findings.is_empty()
-        }
+        PredicateExpr::PublicNoPrivateFacts => repo_state.boundary_findings.is_empty(),
         PredicateExpr::CoreNoModelCalls => {
             // SECONDARY defense-in-depth only. The AUTHORITATIVE model-free witness
             // is the dependency closure, fenced by deny.toml (`cargo deny check
@@ -401,13 +403,19 @@ fn evaluate_predicate(
                 }
                 // Skip the evaluator file and test files
                 let path_str = path.to_string_lossy();
-                if path_str.contains("spec.rs") || path_str.contains("test") || path_str.contains("golden") {
+                if path_str.contains("spec.rs")
+                    || path_str.contains("test")
+                    || path_str.contains("golden")
+                {
                     return true;
                 }
                 // Check for actual model API usage patterns
-                let has_model_import = content.contains("use openai::") || content.contains("use anthropic::") ||
-                    content.contains("openai::Client") || content.contains("anthropic::Client") ||
-                    content.contains(".chat.completions") || content.contains("/v1/messages");
+                let has_model_import = content.contains("use openai::")
+                    || content.contains("use anthropic::")
+                    || content.contains("openai::Client")
+                    || content.contains("anthropic::Client")
+                    || content.contains(".chat.completions")
+                    || content.contains("/v1/messages");
                 !has_model_import
             })
         }
@@ -418,11 +426,21 @@ fn evaluate_predicate(
             // what this staged diff happens to touch. This list flags an obvious
             // network crate the moment it is added to the kernel.
             const NET_CRATES: [&str; 8] = [
-                "reqwest", "hyper", "hyper-util", "ureq", "curl", "isahc", "surf",
+                "reqwest",
+                "hyper",
+                "hyper-util",
+                "ureq",
+                "curl",
+                "isahc",
+                "surf",
                 "attohttpc",
             ];
             repo_state.dependency_changes.iter().all(|c| {
-                if !repo_state.changed_paths.iter().any(|p| p.to_string_lossy().contains("vjs-core")) {
+                if !repo_state
+                    .changed_paths
+                    .iter()
+                    .any(|p| p.to_string_lossy().contains("vjs-core"))
+                {
                     return true;
                 }
                 !NET_CRATES.contains(&c.name.as_str())
@@ -448,15 +466,17 @@ fn evaluate_predicate(
                 .iter()
                 .any(|p| matches!(p.status, ProofStatus::Passed))
         }
-        PredicateExpr::LogsStayShort => {
-            repo_state.logs.iter().all(|log| log.why.split_whitespace().count() <= 150)
-        }
+        PredicateExpr::LogsStayShort => repo_state
+            .logs
+            .iter()
+            .all(|log| log.why.split_whitespace().count() <= 150),
         PredicateExpr::LawpackValidates => facts.validates,
         PredicateExpr::NoDuplicateIds => !facts.duplicate_ids,
         PredicateExpr::NoDuplicateCitations => !facts.duplicate_citations,
-        PredicateExpr::OrdersHaveDirectives => {
-            repo_state.orders.iter().all(|order| !order.directives.is_empty())
-        }
+        PredicateExpr::OrdersHaveDirectives => repo_state
+            .orders
+            .iter()
+            .all(|order| !order.directives.is_empty()),
         PredicateExpr::McpLocalFirst => facts.mcp_local_first,
         PredicateExpr::DirectoryRolesResolve => facts.directory_roles_resolve,
         PredicateExpr::V1NotLoadedByDefault => {
@@ -544,10 +564,7 @@ pub struct InvariantFinding {
     pub remedy: String,
 }
 
-pub fn open_permit(
-    route_decision: &RouteDecision,
-    _actor: &str,
-) -> Result<Permit, KernelError> {
+pub fn open_permit(route_decision: &RouteDecision, _actor: &str) -> Result<Permit, KernelError> {
     let id = PermitId(format!("PERMIT-{}", chrono::Utc::now().timestamp()));
     let expires = chrono::Utc::now() + chrono::Duration::hours(2);
 
@@ -576,10 +593,7 @@ pub fn attach_proof(
     }
 }
 
-pub fn close_permit(
-    permit_id: &PermitId,
-    spec_set: &mut SpecSet,
-) -> Result<Receipt, KernelError> {
+pub fn close_permit(permit_id: &PermitId, spec_set: &mut SpecSet) -> Result<Receipt, KernelError> {
     if let Some(permit) = spec_set.permits.get_mut(permit_id) {
         permit.status = PermitStatus::Closed;
 

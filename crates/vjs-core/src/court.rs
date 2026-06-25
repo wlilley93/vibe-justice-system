@@ -52,7 +52,11 @@ fn any_on_point(input: &RouteInput, authorities: &AuthoritySet) -> bool {
 }
 
 pub fn choose_court(input: &RouteInput, _trigger: &CourtTrigger) -> Court {
-    if input.issue_tags.iter().any(|t| t.0.starts_with("constitutional.")) {
+    if input
+        .issue_tags
+        .iter()
+        .any(|t| t.0.starts_with("constitutional."))
+    {
         return Court::SupremeCourt;
     }
 

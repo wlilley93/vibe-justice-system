@@ -40,19 +40,29 @@ fn a_dangling_citation_is_detected_and_a_negated_mention_is_not() {
     let findings = LawpackValidator::check_referential_integrity(&dir, &lawpack).unwrap();
 
     assert!(
-        findings.iter().any(|f| f.message.contains("DEC-DOES-NOT-EXIST-001")),
+        findings
+            .iter()
+            .any(|f| f.message.contains("DEC-DOES-NOT-EXIST-001")),
         "a citation of an undefined object must be reported"
     );
     assert!(
-        !findings.iter().any(|f| f.message.contains("DEC-NEGATED-001")),
+        !findings
+            .iter()
+            .any(|f| f.message.contains("DEC-NEGATED-001")),
         "a negated mention is a statement, not a reference"
     );
     assert!(
-        findings.iter().all(|f| matches!(f.severity, Severity::Warning)),
+        findings
+            .iter()
+            .all(|f| matches!(f.severity, Severity::Warning)),
         "drift is a lawmaking remedy, not a blocked commit"
     );
     // The fixture act itself is defined, so it never self-reports.
-    assert!(!findings.iter().any(|f| f.message.starts_with("'ACT-FIXTURE'")));
+    assert!(
+        !findings
+            .iter()
+            .any(|f| f.message.starts_with("'ACT-FIXTURE'"))
+    );
 
     std::fs::remove_dir_all(&dir).ok();
 }

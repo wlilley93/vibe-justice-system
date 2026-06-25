@@ -17,8 +17,8 @@ impl McpServer {
     }
 
     pub fn handle_request(&self, request: &str) -> Result<String, KernelError> {
-        let req: JsonRpcRequest = serde_json::from_str(request)
-            .map_err(|e| KernelError::InvalidInput(e.to_string()))?;
+        let req: JsonRpcRequest =
+            serde_json::from_str(request).map_err(|e| KernelError::InvalidInput(e.to_string()))?;
 
         let result = match req.method.as_str() {
             "vjs.route" => self.handle_route(req.params)?,
@@ -31,7 +31,7 @@ impl McpServer {
                 return Err(KernelError::InvalidInput(format!(
                     "Unknown method: {}",
                     req.method
-                )))
+                )));
             }
         };
 
@@ -42,29 +42,29 @@ impl McpServer {
             error: None,
         };
 
-        serde_json::to_string(&response)
-            .map_err(|e| KernelError::Serialization(e.to_string()))
+        serde_json::to_string(&response).map_err(|e| KernelError::Serialization(e.to_string()))
     }
 
     fn handle_route(&self, params: Option<Value>) -> Result<Value, KernelError> {
         let params = params.ok_or_else(|| KernelError::InvalidInput("params required".into()))?;
-        let input: RouteInput = serde_json::from_value(params)
-            .map_err(|e| KernelError::InvalidInput(e.to_string()))?;
+        let input: RouteInput =
+            serde_json::from_value(params).map_err(|e| KernelError::InvalidInput(e.to_string()))?;
 
         let ctx = build_context(&self.repo_root)?;
         let decision = route(input, &ctx)?;
 
-        serde_json::to_value(decision)
-            .map_err(|e| KernelError::Serialization(e.to_string()))
+        serde_json::to_value(decision).map_err(|e| KernelError::Serialization(e.to_string()))
     }
 
     fn handle_lookup(&self, params: Option<Value>) -> Result<Value, KernelError> {
         let params = params.ok_or_else(|| KernelError::InvalidInput("params required".into()))?;
         let issue: String = serde_json::from_value(
-            params.get("issue")
+            params
+                .get("issue")
                 .cloned()
-                .ok_or_else(|| KernelError::InvalidInput("issue required".into()))?
-        ).map_err(|e| KernelError::InvalidInput(e.to_string()))?;
+                .ok_or_else(|| KernelError::InvalidInput("issue required".into()))?,
+        )
+        .map_err(|e| KernelError::InvalidInput(e.to_string()))?;
 
         let ctx = build_context(&self.repo_root)?;
         let input = RouteInput {
@@ -83,8 +83,7 @@ impl McpServer {
         };
 
         let authorities = resolve_authority(&input, &ctx.authority_graph)?;
-        serde_json::to_value(authorities)
-            .map_err(|e| KernelError::Serialization(e.to_string()))
+        serde_json::to_value(authorities).map_err(|e| KernelError::Serialization(e.to_string()))
     }
 
     fn handle_validate(&self, params: Option<Value>) -> Result<Value, KernelError> {
@@ -92,30 +91,27 @@ impl McpServer {
         let lawpack = load_lawpack(&self.repo_root)?;
         let report = LawpackValidator::validate(&lawpack)?;
 
-        serde_json::to_value(report)
-            .map_err(|e| KernelError::Serialization(e.to_string()))
+        serde_json::to_value(report).map_err(|e| KernelError::Serialization(e.to_string()))
     }
 
     fn handle_log(&self, params: Option<Value>) -> Result<Value, KernelError> {
         let params = params.ok_or_else(|| KernelError::InvalidInput("params required".into()))?;
-        let log: DecisionLog = serde_json::from_value(params)
-            .map_err(|e| KernelError::InvalidInput(e.to_string()))?;
+        let log: DecisionLog =
+            serde_json::from_value(params).map_err(|e| KernelError::InvalidInput(e.to_string()))?;
 
         vjs_store::Store::write_log(&self.repo_root, &log)?;
 
-        serde_json::to_value(log)
-            .map_err(|e| KernelError::Serialization(e.to_string()))
+        serde_json::to_value(log).map_err(|e| KernelError::Serialization(e.to_string()))
     }
 
     fn handle_file(&self, params: Option<Value>) -> Result<Value, KernelError> {
         let params = params.ok_or_else(|| KernelError::InvalidInput("params required".into()))?;
-        let submission: vjs_store::Submission = serde_json::from_value(params)
-            .map_err(|e| KernelError::InvalidInput(e.to_string()))?;
+        let submission: vjs_store::Submission =
+            serde_json::from_value(params).map_err(|e| KernelError::InvalidInput(e.to_string()))?;
 
         vjs_store::Store::write_submission(&self.repo_root, &submission)?;
 
-        serde_json::to_value(submission)
-            .map_err(|e| KernelError::Serialization(e.to_string()))
+        serde_json::to_value(submission).map_err(|e| KernelError::Serialization(e.to_string()))
     }
 
     fn handle_status(&self, _params: Option<Value>) -> Result<Value, KernelError> {
@@ -163,8 +159,7 @@ fn compute_digest(repo: &std::path::Path) -> Result<String, KernelError> {
     let mut hasher = sha2::Sha256::new();
     let manifest = repo.join("lawpack/v2/manifest.toml");
     if manifest.exists() {
-        let content = std::fs::read(&manifest)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
+        let content = std::fs::read(&manifest).map_err(|e| KernelError::Io(e.to_string()))?;
         hasher.update(&content);
     }
     Ok(format!("sha256:{}", hex::encode(hasher.finalize())))

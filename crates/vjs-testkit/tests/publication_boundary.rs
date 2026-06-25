@@ -49,7 +49,10 @@ fn the_published_gazette_carries_no_denylisted_private_term() {
         .filter(|l| !l.is_empty() && !l.starts_with('#'))
         .map(|l| l.to_string())
         .collect();
-    assert!(!hashes.is_empty(), "the denylist seeds at least one private term");
+    assert!(
+        !hashes.is_empty(),
+        "the denylist seeds at least one private term"
+    );
 
     let text = published_text();
     let mut token = String::new();
@@ -71,5 +74,8 @@ fn the_published_gazette_carries_no_denylisted_private_term() {
         }
     }
     check(&token, &mut hit);
-    assert!(hit.is_none(), "the published Gazette contains a denylisted private term");
+    assert!(
+        hit.is_none(),
+        "the published Gazette contains a denylisted private term"
+    );
 }

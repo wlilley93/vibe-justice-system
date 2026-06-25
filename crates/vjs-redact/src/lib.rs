@@ -79,16 +79,19 @@ impl RedactScanner {
         {
             let path = entry.path();
             if path.is_file()
-                && let Ok(content) = std::fs::read_to_string(path) {
-                    let file_findings = Self::scan_file(path, &content);
-                    findings.extend(file_findings);
-                }
+                && let Ok(content) = std::fs::read_to_string(path)
+            {
+                let file_findings = Self::scan_file(path, &content);
+                findings.extend(file_findings);
+            }
         }
 
         Ok(findings)
     }
 
     pub fn check_public_safe(findings: &[BoundaryFinding]) -> bool {
-        !findings.iter().any(|f| matches!(f.severity, Severity::Fatal | Severity::Error))
+        !findings
+            .iter()
+            .any(|f| matches!(f.severity, Severity::Fatal | Severity::Error))
     }
 }

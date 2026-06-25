@@ -125,7 +125,11 @@ impl From<RuleAtom> for Authority {
             kind: AuthorityKind::Rule,
             rank: AuthorityRank::Regulation,
             status: atom.status,
-            jurisdiction: atom.scope.jurisdictions.as_ref().and_then(|v| v.first().cloned()),
+            jurisdiction: atom
+                .scope
+                .jurisdictions
+                .as_ref()
+                .and_then(|v| v.first().cloned()),
             title: atom.title,
             summary: atom.summary,
             source_path: None,
@@ -172,10 +176,7 @@ fn rank_value(rank: &AuthorityRank) -> u8 {
     }
 }
 
-pub fn remove_superseded(
-    authorities: Vec<Authority>,
-    graph: &AuthorityGraph,
-) -> Vec<Authority> {
+pub fn remove_superseded(authorities: Vec<Authority>, graph: &AuthorityGraph) -> Vec<Authority> {
     let superseded: std::collections::HashSet<AuthorityId> = graph
         .supersessions
         .iter()

@@ -7,7 +7,7 @@
 //! kernel effect and must not be flagged - so the assent floor is never engaged.
 
 use std::path::PathBuf;
-use vjs_lawpack::{is_inert_kernel_effect, KernelEffect, LawpackLoader, LawpackValidator};
+use vjs_lawpack::{KernelEffect, LawpackLoader, LawpackValidator, is_inert_kernel_effect};
 
 fn repo_root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
@@ -58,7 +58,10 @@ fn a_lone_prohibits_is_not_inert() {
 fn a_guard_only_kernel_effect_is_inert() {
     // `when` is a guard, not an effect: a block with only `when` binds to nothing.
     let ke = KernelEffect {
-        when: Some(vjs_lawpack::Condition { any: None, all: Some(vec!["x == true".into()]) }),
+        when: Some(vjs_lawpack::Condition {
+            any: None,
+            all: Some(vec!["x == true".into()]),
+        }),
         ..empty_ke()
     };
     assert!(is_inert_kernel_effect(&ke));
@@ -77,7 +80,11 @@ fn the_real_lawpack_has_no_inert_kernel_effects() {
         .filter(|f| f.code == "S5_INERT_KERNEL_EFFECT")
         .map(|f| &f.message)
         .collect();
-    assert!(inert.is_empty(), "false positives on the real lawpack: {:?}", inert);
+    assert!(
+        inert.is_empty(),
+        "false positives on the real lawpack: {:?}",
+        inert
+    );
 }
 
 #[test]

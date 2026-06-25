@@ -31,15 +31,25 @@ fn a_log_carrying_a_secret_never_reaches_the_record() {
         "deployed with ghp_0123456789abcdefghijklmnopqrstuvwxyzAB on the box at 192.168.50.1",
     );
     let err = Store::write_log(&dir, &bad);
-    assert!(err.is_err(), "a secret-bearing log must fail the boundary scan");
     assert!(
-        !dir.join(".vjs/logs/decisions/LOG-BOUNDARY-SECRET.yaml").exists(),
+        err.is_err(),
+        "a secret-bearing log must fail the boundary scan"
+    );
+    assert!(
+        !dir.join(".vjs/logs/decisions/LOG-BOUNDARY-SECRET.yaml")
+            .exists(),
         "nothing may hit disk on a failed scan"
     );
 
-    let good = log("LOG-BOUNDARY-CLEAN", "routine permit-gate hardening, no private facts");
+    let good = log(
+        "LOG-BOUNDARY-CLEAN",
+        "routine permit-gate hardening, no private facts",
+    );
     assert!(Store::write_log(&dir, &good).is_ok());
-    assert!(dir.join(".vjs/logs/decisions/LOG-BOUNDARY-CLEAN.yaml").exists());
+    assert!(
+        dir.join(".vjs/logs/decisions/LOG-BOUNDARY-CLEAN.yaml")
+            .exists()
+    );
 
     std::fs::remove_dir_all(&dir).ok();
 }

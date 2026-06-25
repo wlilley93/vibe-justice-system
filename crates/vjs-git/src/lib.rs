@@ -96,11 +96,7 @@ impl GitIntegration {
 
     pub fn is_public_remote(repo_root: &Path) -> Result<bool, KernelError> {
         if let Some(url) = Self::read_remote_url(repo_root)? {
-            let public_patterns = [
-                "github.com",
-                "gitlab.com",
-                "bitbucket.org",
-            ];
+            let public_patterns = ["github.com", "gitlab.com", "bitbucket.org"];
             Ok(public_patterns.iter().any(|&p| url.contains(p)))
         } else {
             Ok(false)
@@ -145,10 +141,10 @@ fi
         for name in ["pre-commit", "pre-push"] {
             let p = hooks_dir.join(name);
             if let Ok(meta) = std::fs::symlink_metadata(&p)
-                && meta.file_type().is_symlink() {
-                    std::fs::remove_file(&p)
-                        .map_err(|e| KernelError::Io(e.to_string()))?;
-                }
+                && meta.file_type().is_symlink()
+            {
+                std::fs::remove_file(&p).map_err(|e| KernelError::Io(e.to_string()))?;
+            }
         }
 
         let pre_commit = hooks_dir.join("pre-commit");

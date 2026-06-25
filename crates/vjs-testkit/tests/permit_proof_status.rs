@@ -5,7 +5,7 @@
 //! Active permit, and only a Passed proof, count.
 
 use std::path::PathBuf;
-use vjs_core::spec::{evaluate_invariants, Invariant, LawpackFacts, Permit, Proof, RepoState};
+use vjs_core::spec::{Invariant, LawpackFacts, Permit, Proof, RepoState, evaluate_invariants};
 use vjs_core::types::*;
 
 fn empty_state() -> RepoState {
@@ -86,14 +86,20 @@ fn active_permit_satisfies_governed_writes() {
 fn closed_permit_does_not_satisfy_governed_writes() {
     let mut st = empty_state();
     st.permits.push(permit(PermitStatus::Closed));
-    assert!(!passes(&st, PredicateExpr::GovernedWritesRequirePermit), "a Closed permit must not excuse a governed write");
+    assert!(
+        !passes(&st, PredicateExpr::GovernedWritesRequirePermit),
+        "a Closed permit must not excuse a governed write"
+    );
 }
 
 #[test]
 fn revoked_permit_does_not_satisfy_governed_writes() {
     let mut st = empty_state();
     st.permits.push(permit(PermitStatus::Revoked));
-    assert!(!passes(&st, PredicateExpr::GovernedWritesRequirePermit), "a Revoked permit must not excuse a governed write");
+    assert!(
+        !passes(&st, PredicateExpr::GovernedWritesRequirePermit),
+        "a Revoked permit must not excuse a governed write"
+    );
 }
 
 #[test]
@@ -107,12 +113,18 @@ fn passed_proof_satisfies_close() {
 fn pending_proof_does_not_satisfy_close() {
     let mut st = empty_state();
     st.proofs.push(proof(ProofStatus::Pending));
-    assert!(!passes(&st, PredicateExpr::ProofsExistBeforeClose), "a Pending proof must not discharge the close obligation");
+    assert!(
+        !passes(&st, PredicateExpr::ProofsExistBeforeClose),
+        "a Pending proof must not discharge the close obligation"
+    );
 }
 
 #[test]
 fn failed_proof_does_not_satisfy_close() {
     let mut st = empty_state();
     st.proofs.push(proof(ProofStatus::Failed));
-    assert!(!passes(&st, PredicateExpr::ProofsExistBeforeClose), "a Failed proof must not discharge the close obligation");
+    assert!(
+        !passes(&st, PredicateExpr::ProofsExistBeforeClose),
+        "a Failed proof must not discharge the close obligation"
+    );
 }

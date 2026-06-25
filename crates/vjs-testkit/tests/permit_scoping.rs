@@ -56,5 +56,8 @@ fn a_no_scope_permit_covers_nothing() {
 
 #[test]
 fn an_ungoverned_path_needs_no_permit() {
-    assert!(gate_ok(&["notes/scratch.txt"], &[]), "an ungoverned path passes with no permit");
+    assert!(
+        gate_ok(&["notes/scratch.txt"], &[]),
+        "an ungoverned path passes with no permit"
+    );
 }

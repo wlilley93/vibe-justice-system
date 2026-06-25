@@ -4,7 +4,7 @@
 //! decision and bounded message are asserted, not reviewed by vibes.
 
 use std::path::PathBuf;
-use vjs_core::hook::{evaluate, parse_event, HookDecision, HookEvent, HookInput};
+use vjs_core::hook::{HookDecision, HookEvent, HookInput, evaluate, parse_event};
 use vjs_core::{ContextLimits, KernelContext};
 use vjs_lawpack::LawpackLoader;
 
@@ -59,7 +59,11 @@ fn every_hook_message_is_bounded_and_carries_no_sermon() {
     ] {
         let d = hook(ev, vec!["lawpack/v2/statutes/x.yaml"]);
         let words = d.message().split_whitespace().count();
-        assert!(words <= 40, "REG-HOOKS-001: hook message must be <= 40 words, got {}", words);
+        assert!(
+            words <= 40,
+            "REG-HOOKS-001: hook message must be <= 40 words, got {}",
+            words
+        );
     }
 }
 
@@ -87,14 +91,31 @@ fn post_action_requires_a_log_and_pre_commit_requires_proof() {
 #[test]
 fn governed_surface_is_matched_on_path_components_not_substrings() {
     // Look-alike directories outside the governed surface stay ungoverned.
-    for p in ["lawpack-2/x.yaml", "my-crates/lib.rs", ".vjs_backup/state.json", "a/lawpack_archive/f.txt"] {
+    for p in [
+        "lawpack-2/x.yaml",
+        "my-crates/lib.rs",
+        ".vjs_backup/state.json",
+        "a/lawpack_archive/f.txt",
+    ] {
         let d = hook(HookEvent::PreWrite, vec![p]);
-        assert!(matches!(d, HookDecision::Allow), "{} must not count as governed", p);
+        assert!(
+            matches!(d, HookDecision::Allow),
+            "{} must not count as governed",
+            p
+        );
     }
     // Governed components match wherever they sit, including absolute paths.
-    for p in ["crates/vjs-core/src/lib.rs", "/abs/repo/crates/vjs-core/src/lib.rs", ".vjs/config.toml"] {
+    for p in [
+        "crates/vjs-core/src/lib.rs",
+        "/abs/repo/crates/vjs-core/src/lib.rs",
+        ".vjs/config.toml",
+    ] {
         let d = hook(HookEvent::PreWrite, vec![p]);
-        assert!(matches!(d, HookDecision::RequireRoute(_)), "{} must count as governed", p);
+        assert!(
+            matches!(d, HookDecision::RequireRoute(_)),
+            "{} must count as governed",
+            p
+        );
     }
 }
 
@@ -107,9 +128,18 @@ fn pre_push_blocks_pending_release_authority() {
 
 #[test]
 fn parse_event_accepts_canonical_and_hyphenated_forms() {
-    assert!(matches!(parse_event("pre_write"), Some(HookEvent::PreWrite)));
-    assert!(matches!(parse_event("pre-commit"), Some(HookEvent::PreCommit)));
-    assert!(matches!(parse_event("session_start"), Some(HookEvent::SessionStart)));
+    assert!(matches!(
+        parse_event("pre_write"),
+        Some(HookEvent::PreWrite)
+    ));
+    assert!(matches!(
+        parse_event("pre-commit"),
+        Some(HookEvent::PreCommit)
+    ));
+    assert!(matches!(
+        parse_event("session_start"),
+        Some(HookEvent::SessionStart)
+    ));
     assert!(parse_event("nonsense").is_none());
 }
 
@@ -150,14 +180,29 @@ fn a_permitted_governed_write_passes_and_an_unpermitted_one_fails_closed() {
         tool: None,
     };
 
-    let d = evaluate_with_permits(&input("crates/vjs-core/src/hook.rs"), &ctx, std::slice::from_ref(&permit));
-    assert!(matches!(d, HookDecision::Allow), "an in-scope active permit makes the write lawful");
+    let d = evaluate_with_permits(
+        &input("crates/vjs-core/src/hook.rs"),
+        &ctx,
+        std::slice::from_ref(&permit),
+    );
+    assert!(
+        matches!(d, HookDecision::Allow),
+        "an in-scope active permit makes the write lawful"
+    );
 
-    let d = evaluate_with_permits(&input("crates/vjs-cli/src/main.rs"), &ctx, std::slice::from_ref(&permit));
+    let d = evaluate_with_permits(
+        &input("crates/vjs-cli/src/main.rs"),
+        &ctx,
+        std::slice::from_ref(&permit),
+    );
     assert_eq!(d.exit_code(), 2, "out-of-scope governed write fails closed");
 
     let mut expired = permit.clone();
     expired.expires_at = "2001-01-01T00:00:00+00:00".into();
     let d = evaluate_with_permits(&input("crates/vjs-core/src/hook.rs"), &ctx, &[expired]);
-    assert_eq!(d.exit_code(), 2, "an expired permit excuses nothing at the hook either");
+    assert_eq!(
+        d.exit_code(),
+        2,
+        "an expired permit excuses nothing at the hook either"
+    );
 }

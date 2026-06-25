@@ -22,15 +22,14 @@ fn main() {
 
         let response = match server.handle_request(&request) {
             Ok(r) => r,
-            Err(e) => {
-                serde_json::json!({
-                    "jsonrpc": "2.0",
-                    "error": {
-                        "code": -32603,
-                        "message": e.to_string()
-                    }
-                }).to_string()
-            }
+            Err(e) => serde_json::json!({
+                "jsonrpc": "2.0",
+                "error": {
+                    "code": -32603,
+                    "message": e.to_string()
+                }
+            })
+            .to_string(),
         };
 
         writeln!(stdout, "{}", response).ok();
