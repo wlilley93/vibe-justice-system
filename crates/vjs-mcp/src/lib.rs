@@ -131,11 +131,9 @@ impl McpServer {
         serde_json::to_value(authorities).map_err(|e| KernelError::Serialization(e.to_string()))
     }
 
-    fn handle_validate(&self, params: Option<Value>) -> Result<Value, KernelError> {
-        let _params = params;
-        let lawpack = load_lawpack(&self.repo_root)?;
-        let report = LawpackValidator::validate(&lawpack)?;
-
+    fn handle_validate(&self, _params: Option<Value>) -> Result<Value, KernelError> {
+        // The same engine the CLI and CI call - one validate implementation.
+        let report = vjs_engine::validate(&self.repo_root, &vjs_engine::ValidateOpts::default())?;
         serde_json::to_value(report).map_err(|e| KernelError::Serialization(e.to_string()))
     }
 

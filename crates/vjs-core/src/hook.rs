@@ -239,13 +239,22 @@ fn is_apex_court_order(repo_root: &Path, rel: &Path) -> bool {
         return false; // the read-only subscribed-law mirror, not the jurisdiction's own court function
     }
     let content = std::fs::read_to_string(repo_root.join(rel)).unwrap_or_default();
-    let c = content.to_ascii_lowercase();
-    // Must be an order-shaped record (carries a citation), declaring an apex-tier court.
-    c.contains("citation:")
-        && (c.contains("court: supreme")
-            || c.contains("court: \"supreme")
-            || c.contains("court: privy")
-            || c.contains("court: \"privy"))
+    // Parse the typed YAML and read the `court` field, rather than substring-matching
+    // (which a reformat - two spaces, a flow mapping, a quoted value - could dodge).
+    // Must be an order-shaped record (carries a citation) declaring an apex-tier court.
+    let Ok(val) = serde_yaml::from_str::<serde_yaml::Value>(&content) else {
+        return false;
+    };
+    let Some(map) = val.as_mapping() else {
+        return false;
+    };
+    let has_citation = map.contains_key(serde_yaml::Value::String("citation".into()));
+    let court = map
+        .get(serde_yaml::Value::String("court".into()))
+        .and_then(|v| v.as_str())
+        .unwrap_or("")
+        .to_ascii_lowercase();
+    has_citation && (court.contains("supreme") || court.contains("privy"))
 }
 
 pub fn parse_event(s: &str) -> Option<HookEvent> {

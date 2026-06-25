@@ -18,6 +18,7 @@ path = "src/lib.rs"
 vjs-core = { path = "../vjs-core" }
 vjs-lawpack = { path = "../vjs-lawpack" }
 vjs-store = { path = "../vjs-store" }
+vjs-engine = { path = "../vjs-engine" }
 serde.workspace = true
 serde_json.workspace = true
 serde_yaml.workspace = true
