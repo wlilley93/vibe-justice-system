@@ -1150,6 +1150,72 @@ fn cmd_validate(
                     ),
                 });
             }
+
+            // PC-13 D10 (bench-integrity) + D7 (structural tier-floor): verify each
+            // staged order against the constitution [2026] VJS-SC 2, read BY
+            // REFERENCE (never hard-coded - that would amend the constitution).
+            // Bifurcated by assent under ACT-ASSENTED-RECORD-PROTECTION: a
+            // non-assented defective order hard-blocks (Fatal); a record declaring a
+            // valid assent_source is only ever routed-for-correction (Warning), never
+            // voided. Scoped to staged orders so historical records are not
+            // retroactively re-judged.
+            if let Some(constitution) = lawpack
+                .orders
+                .iter()
+                .find(|o| o.id == "2026-VJS-COURTS-CONSTITUTION-001")
+            {
+                for rel in changed
+                    .iter()
+                    .filter(|p| p.starts_with("lawpack/v2/orders/") && p.ends_with(".yaml"))
+                {
+                    let Ok(content) = std::fs::read_to_string(repo.join(rel)) else {
+                        continue;
+                    };
+                    let Ok(order) = serde_yaml::from_str::<vjs_core::types::Order>(&content) else {
+                        continue;
+                    };
+                    let opinion_text = order
+                        .source_opinion
+                        .as_ref()
+                        .and_then(|p| std::fs::read_to_string(repo.join(p)).ok());
+                    let defects = vjs_core::bench::verify_bench(
+                        &order,
+                        constitution,
+                        opinion_text.as_deref(),
+                    );
+                    if defects.is_empty() {
+                        continue;
+                    }
+                    let assented = order
+                        .assent_source
+                        .as_ref()
+                        .map(|s| !s.trim().is_empty())
+                        .unwrap_or(false);
+                    for d in defects {
+                        let (severity, fix) = if assented {
+                            (
+                                Severity::Warning,
+                                "Assented record: route for correction (never void). Correct the \
+                                 bench size / opinions and re-record.",
+                            )
+                        } else {
+                            ok = false;
+                            (
+                                Severity::Fatal,
+                                "Constitute the bench correctly (constituted odd size + a non-empty \
+                                 opinion per seat) before recording.",
+                            )
+                        };
+                        findings.push(ValidationFinding {
+                            severity,
+                            code: d.code().into(),
+                            path: Some(PathBuf::from(rel)),
+                            message: d.message(),
+                            suggested_fix: Some(fix.into()),
+                        });
+                    }
+                }
+            }
         }
     }
 
@@ -1717,6 +1783,37 @@ fn cmd_court(repo: &Path, subcmd: CourtCommands, json: bool) -> Result<(), Kerne
                 return Err(KernelError::InvalidInput(
                     "a convening records at least one --seat".into(),
                 ));
+            }
+            // PC-13 D10 (court-record half): a convening is not validly constituted
+            // unless its bench size equals the constituted odd size for the tier, read
+            // BY REFERENCE from [2026] VJS-SC 2. The silent-seat half runs at validate
+            // --staged once opinions exist. This refuses a malformed convening (e.g. a
+            // privy bench of 2); it does not void any assented record.
+            let court_tier = if court.contains("county") {
+                Some(vjs_core::types::Court::County)
+            } else if court.contains("privy") {
+                Some(vjs_core::types::Court::PrivyCouncil)
+            } else if court.contains("supreme") {
+                Some(vjs_core::types::Court::SupremeCourt)
+            } else {
+                None
+            };
+            if let Some(tier) = court_tier
+                && let Ok(lawpack) = load_lawpack(repo)
+                && let Some(constitution) = lawpack
+                    .orders
+                    .iter()
+                    .find(|o| o.id == "2026-VJS-COURTS-CONSTITUTION-001")
+                && let Some(allowed) = vjs_core::bench::constituted_sizes(constitution, &tier)
+                && !allowed.contains(&bench.len())
+            {
+                return Err(KernelError::InvalidInput(format!(
+                    "bench of {} is not the constituted odd size {:?} for '{}' ([2026] VJS-SC 2). \
+                     A court may not convene under-strength.",
+                    bench.len(),
+                    allowed,
+                    court
+                )));
             }
             let subs = Store::read_submissions(repo)?;
             let sub = subs.iter().find(|s| s.id == submission).ok_or_else(|| {
