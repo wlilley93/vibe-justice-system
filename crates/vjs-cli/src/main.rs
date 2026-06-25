@@ -733,7 +733,11 @@ fn cmd_invoke(
         // server_of_law Docker image (bin/, REG-FRONT-DOOR-DELIVERY-001), falling back
         // to PATH. It NEVER depends on the MCP container being up - the container is
         // the door, this is the wall.
-        let resolver = "root=\"$(git rev-parse --show-toplevel)\"\nbin=\"\"\nfor c in bin/vjs target/release/vjs target/debug/vjs; do\n  [ -x \"$root/$c\" ] && bin=\"$root/$c\" && break\ndone\n[ -n \"$bin\" ] || bin=vjs";
+        // The resolver finds the kernel binary; the staleness guard then fail-closes if
+        // a cargo-built binary is older than the crates/ source it must enforce - a hook
+        // that runs STALE law is worse than none (the install-binary gotcha). A shipped
+        // bin/vjs (Docker export) has no in-tree source to compare and is trusted as-is.
+        let resolver = "root=\"$(git rev-parse --show-toplevel)\"\nbin=\"\"\nfor c in bin/vjs target/release/vjs target/debug/vjs; do\n  [ -x \"$root/$c\" ] && bin=\"$root/$c\" && break\ndone\n[ -n \"$bin\" ] || bin=vjs\ncase \"$bin\" in\n  \"$root/target/\"*)\n    if [ -n \"$(find \"$root/crates\" -name '*.rs' -newer \"$bin\" -print -quit 2>/dev/null)\" ]; then\n      echo \"vjs gate binary is STALE relative to crates/ source - rebuild: cargo build\" >&2\n      exit 1\n    fi ;;\nesac";
         std::fs::write(
             hooks_dir.join("pre-commit"),
             format!("#!/usr/bin/env bash\n{resolver}\nexec \"$bin\" validate --staged\n"),
