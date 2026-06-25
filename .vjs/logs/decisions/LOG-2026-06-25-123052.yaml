@@ -1,0 +1,12 @@
+id: LOG-2026-06-25-123052
+time: 2026-06-25T12:30:52.651382826+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260625-123052
+decision: 'Beat 2 gate completeness: (#5) ORDER_MALFORMED at validate --staged for staged orders missing holding/directives/runtime_summary (ACT-002:s10), assent-bifurcated; (#6) DESTRUCTIVE_RECORD_DELETE Warning surfacing a staged governed-record deletion (ACT-006:s4/ACT-004:s9) via new GitIntegration::read_staged_deletions; (#7) BOUNDARY_MEDIA_IN_CANON Fatal on a screenshot/log/media FILE in lawpack/v2 or public (ACT-005:s1, extension check not text regex - conservative per ACT-005:s7)'
+basis:
+- PERMIT-1782390652
+risk: low
+reversibility: easy
+court_required: false
+why: Teeth on ACT-002:s10, ACT-005:s1, ACT-006:s4; deterministic + false-positive-free (verified canon has no media files; logs/law that mention the words are text, not media files)

@@ -1254,6 +1254,66 @@ fn cmd_validate(
                 }
             }
 
+            // #7 ACT-005:s1 (publish_screenshots / publish_logs): a binary
+            // screenshot, image, video, or log FILE committed into canon or a public
+            // path is a boundary violation. A path/extension check, NOT a text regex,
+            // so it is deterministic and false-positive-free (ACT-005:s7 conservative
+            // scanner): the law and the logs that merely MENTION these words are .yaml
+            // / .md text, never .png / .log files.
+            for rel in &changed {
+                let low = rel.to_ascii_lowercase();
+                let in_public = low.starts_with("lawpack/v2/") || low.starts_with("public/");
+                let is_media = [
+                    ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp", ".log", ".mp4", ".mov",
+                ]
+                .iter()
+                .any(|e| low.ends_with(e));
+                if in_public && is_media {
+                    ok = false;
+                    findings.push(ValidationFinding {
+                        severity: Severity::Fatal,
+                        code: "BOUNDARY_MEDIA_IN_CANON".into(),
+                        path: Some(PathBuf::from(rel)),
+                        message: format!(
+                            "'{rel}' is a screenshot/log/media file in a public record path \
+                             (ACT-005:s1 must_not publish_screenshots / publish_logs)."
+                        ),
+                        suggested_fix: Some(
+                            "Keep operational evidence in .vjs/private and reference it by pointer \
+                             (ACT-005:s4)."
+                                .into(),
+                        ),
+                    });
+                }
+            }
+
+            // #6 ACT-006:s4 / ACT-004:s9: deleting a governed record is a destructive
+            // act. The permit gate already blocks an un-permitted deletion; this
+            // SURFACES it loudly so a record deletion is never invisible even under a
+            // permit. Warning, so a court-authorised deletion is not wrongly blocked;
+            // the hard block-unless-human-approved limb awaits a permit authority field.
+            if let Ok(deletions) = GitIntegration::read_staged_deletions(repo) {
+                for del in deletions
+                    .iter()
+                    .filter(|d| vjs_core::front_door::is_governed_record(d))
+                {
+                    findings.push(ValidationFinding {
+                        severity: Severity::Warning,
+                        code: "DESTRUCTIVE_RECORD_DELETE".into(),
+                        path: Some(PathBuf::from(del)),
+                        message: format!(
+                            "'{del}' is a governed record being DELETED - a destructive act \
+                             (ACT-006:s4; ACT-004:s9). Confirm it is human-approved and authorised."
+                        ),
+                        suggested_fix: Some(
+                            "Route with --irreversible and record the authority before deleting a \
+                             governed record."
+                                .into(),
+                        ),
+                    });
+                }
+            }
+
             // D3: the thin working-root jurisdiction check. A permit whose scope
             // reaches outside the working root is a true cross-repo permit, lawful
             // under ACT-007:s3 only by privy order / principal assent. No such
@@ -1299,6 +1359,30 @@ fn cmd_validate(
                     let Ok(order) = serde_yaml::from_str::<vjs_core::types::Order>(&content) else {
                         continue;
                     };
+                    // #5 ACT-002:s10: an order must carry holding, directives and a
+                    // runtime_summary. Fatal; the final assent floor downgrades it to
+                    // route-for-correction for an assented order.
+                    for (field, is_empty) in [
+                        ("holding", order.holding.is_empty()),
+                        ("directives", order.directives.is_empty()),
+                        ("runtime_summary", order.runtime_summary.is_empty()),
+                    ] {
+                        if is_empty {
+                            ok = false;
+                            findings.push(ValidationFinding {
+                                severity: Severity::Fatal,
+                                code: "ORDER_MALFORMED".into(),
+                                path: Some(PathBuf::from(rel)),
+                                message: format!(
+                                    "Order is missing required '{field}' (ACT-002:s10: orders bind, \
+                                     and must state their holding, directives, and runtime summary)."
+                                ),
+                                suggested_fix: Some(
+                                    "Add the missing field before recording the order.".into(),
+                                ),
+                            });
+                        }
+                    }
                     let opinion_text = order
                         .source_opinion
                         .as_ref()

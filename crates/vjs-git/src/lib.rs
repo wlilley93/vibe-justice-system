@@ -45,6 +45,24 @@ impl GitIntegration {
         Ok(files)
     }
 
+    /// Staged DELETIONS only (diff-filter=D). Used by the destructive-action gate
+    /// (ACT-006:s4 / ACT-004:s9): deleting a governed record is destructive.
+    pub fn read_staged_deletions(repo_root: &Path) -> Result<Vec<String>, KernelError> {
+        let output = Command::new("git")
+            .args(["diff", "--name-only", "--cached", "--diff-filter=D"])
+            .current_dir(repo_root)
+            .output()
+            .map_err(|e| KernelError::Io(e.to_string()))?;
+        if !output.status.success() {
+            return Ok(Vec::new());
+        }
+        Ok(String::from_utf8_lossy(&output.stdout)
+            .lines()
+            .map(|s| s.to_string())
+            .filter(|s| !s.is_empty())
+            .collect())
+    }
+
     pub fn read_unstaged_files(repo_root: &Path) -> Result<Vec<String>, KernelError> {
         let output = Command::new("git")
             .args(["diff", "--name-only"])
