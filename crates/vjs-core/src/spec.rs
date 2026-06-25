@@ -565,7 +565,9 @@ pub struct InvariantFinding {
 }
 
 pub fn open_permit(route_decision: &RouteDecision, _actor: &str) -> Result<Permit, KernelError> {
-    let id = PermitId(format!("PERMIT-{}", chrono::Utc::now().timestamp()));
+    // Millisecond precision (#15): two permits routed in the same second no longer
+    // share an id, which a seconds-precision stamp allowed.
+    let id = PermitId(format!("PERMIT-{}", chrono::Utc::now().timestamp_millis()));
     let expires = chrono::Utc::now() + chrono::Duration::hours(2);
 
     Ok(Permit {

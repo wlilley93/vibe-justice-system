@@ -685,31 +685,33 @@ impl LawpackValidator {
             }
         }
 
-        Ok(by_citation
-            .into_iter()
-            .filter(|(_, files)| files.len() > 1)
-            .map(|(cite, mut files)| {
-                files.sort();
-                files.dedup();
-                ValidationFinding {
+        // One finding PER colliding file, each carrying that file's repo-relative
+        // path (#8), so the PC-14 D3 assent floor can downgrade the finding on an
+        // assented record while keeping the others Fatal. lawpack_dir is .../lawpack/v2,
+        // so the repo-relative path is lawpack/v2/<file>.
+        let mut findings = Vec::new();
+        for (cite, mut files) in by_citation.into_iter().filter(|(_, f)| f.len() > 1) {
+            files.sort();
+            files.dedup();
+            for f in &files {
+                let others: Vec<&String> = files.iter().filter(|x| *x != f).collect();
+                findings.push(ValidationFinding {
                     severity: Severity::Fatal,
                     code: "CITATION_COLLISION".into(),
-                    path: None,
+                    path: Some(PathBuf::from(format!("lawpack/v2/{f}"))),
                     message: format!(
-                        "Citation '{}' is claimed by {} distinct records [{}]. ACT-004:s8: \
-                         citations are unique; collisions are fatal.",
-                        cite,
-                        files.len(),
-                        files.join(", ")
+                        "Citation '{cite}' is also claimed by {others:?}. ACT-004:s8: \
+                         citations are unique; collisions are fatal."
                     ),
                     suggested_fix: Some(
                         "Allocate the citation through the kernel (vjs citation next) so it is \
                          unique; do not hand-assert a citation number."
                             .into(),
                     ),
-                }
-            })
-            .collect())
+                });
+            }
+        }
+        Ok(findings)
     }
 
     /// Parse a citation string into (year, series_token_uppercase, repo_opt, n).

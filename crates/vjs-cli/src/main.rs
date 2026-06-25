@@ -830,6 +830,25 @@ fn unique_log_id(repo: &Path) -> String {
     id
 }
 
+/// A convening id that does not collide with an existing record (#15): same
+/// second-precision base, with a -N suffix appended on collision so a convening is
+/// never silently overwritten by a sibling sharing its timestamp.
+fn unique_convening_id(repo: &Path, court: &str) -> String {
+    let base = format!(
+        "CONVENING-{}-{}",
+        court,
+        chrono::Utc::now().format("%Y-%m-%d-%H%M%S")
+    );
+    let dir = repo.join(".vjs/court/convenings");
+    let mut id = base.clone();
+    let mut n = 2;
+    while dir.join(format!("{id}.yaml")).exists() {
+        id = format!("{base}-{n}");
+        n += 1;
+    }
+    id
+}
+
 fn cmd_log(repo: &Path, subcmd: LogCommands, json: bool) -> Result<(), KernelError> {
     match subcmd {
         LogCommands::Decision {
@@ -1045,6 +1064,32 @@ fn cmd_validate(
             message: f.message,
             suggested_fix: f.suggested_fix,
         }));
+
+        // ACT-007:s7 (#2): verify the loaded law hashes to the digest pinned in
+        // .vjs/lawpack.lock; fail closed on drift. The digest is over
+        // lawpack/v2/manifest.toml (stable across record additions), so routine canon
+        // edits do not trip it - only an out-of-band lawpack change with a stale lock.
+        if let Ok(Some(lock)) = Store::read_lawpack_lock(repo)
+            && let Ok(computed) = compute_digest(repo)
+            && lock.digest != computed
+        {
+            ok = false;
+            findings.push(ValidationFinding {
+                severity: Severity::Fatal,
+                code: "LAWPACK_LOCK_DRIFT".into(),
+                path: None,
+                message: format!(
+                    "Loaded lawpack does not hash to the pinned lock digest (ACT-007:s7). \
+                     lock={} computed={}.",
+                    lock.digest, computed
+                ),
+                suggested_fix: Some(
+                    "Re-pin the lock (vjs invoke regenerates .vjs/lawpack.lock) only after \
+                     confirming the lawpack change is intended."
+                        .into(),
+                ),
+            });
+        }
     }
 
     // PC-14 D3 assent floor: the set of staged governed records that DECLARE a valid
@@ -1948,24 +1993,22 @@ fn cmd_court(repo: &Path, subcmd: CourtCommands, json: bool) -> Result<(), Kerne
                 )));
             }
             let subs = Store::read_submissions(repo)?;
-            let sub = subs.iter().find(|s| s.id == submission).ok_or_else(|| {
+            let _sub = subs.iter().find(|s| s.id == submission).ok_or_else(|| {
                 KernelError::InvalidInput(format!("no filed submission {}", submission))
             })?;
-            // The case-file digest pins exactly what was before the court.
-            let bytes = serde_yaml::to_string(sub)
-                .map_err(|e| KernelError::Serialization(e.to_string()))?;
+            // The case-file digest pins exactly what was before the court. #3 (the
+            // digest seam both the PC-13 and PC-14 benches flagged): pin the RAW
+            // submission file bytes the bench reads, NOT a re-serialized struct that
+            // silently drops hand-authored fields (e.g. `positions`).
+            let sub_path = repo
+                .join(".vjs/submissions/filed")
+                .join(format!("{submission}.yaml"));
+            let bytes = std::fs::read(&sub_path).map_err(|e| KernelError::Io(e.to_string()))?;
             use sha2::Digest;
-            let digest = format!(
-                "sha256:{}",
-                hex::encode(sha2::Sha256::digest(bytes.as_bytes()))
-            );
+            let digest = format!("sha256:{}", hex::encode(sha2::Sha256::digest(&bytes)));
             let convened_at = chrono::Utc::now().to_rfc3339();
             let rec = vjs_store::ConveningRecord {
-                id: format!(
-                    "CONVENING-{}-{}",
-                    court,
-                    chrono::Utc::now().format("%Y-%m-%d-%H%M%S")
-                ),
+                id: unique_convening_id(repo, &court),
                 court,
                 submission_id: submission,
                 issue,
