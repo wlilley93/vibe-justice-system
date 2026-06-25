@@ -1,0 +1,248 @@
+id: "2026-VJS-PC-017"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-PC 17"
+title: Citation-Grounding of an Order's Operative Authorities
+court: privy_council
+jurisdiction: vibe-justice-system
+status: binding
+issue: whether_the_kernel_should_deterministically_ground_the_authorities_an_order_cites_in_its_operative_parts_and_if_so_whether_an_unresolved_operative_citation_is_a_constitutive_never_softened_void_ab_initio_defect_or_a_correctable_route_for_correction_defect_at_what_scope_and_section_granularity_with_what_carve_outs_distinguishing_a_section_that_never_existed_from_a_real_section_later_superseded_and_at_what_severity_reconciled_with_the_existing_dangling_reference_check_and_its_line_wrap_partial_id_false_positive
+bench:
+  - Mansfield
+  - Coke
+  - Bracton
+vote: >
+  3-0 (Mansfield J., Coke J., Bracton J., unanimous on all four questions): POSITION B -
+  BUILD IT, CORRECTABLE - prevails. The kernel should ground the EXISTENCE of the authorities an
+  order cites in its operative parts deterministically and model-free, as machinery that gives the
+  per-incuriam doctrine teeth (ACT-CONSOLIDATION-FRAMEWORK s.7), but an unresolved operative
+  citation is a Fatal-but-CORRECTABLE defect, NOT a constitutive one. Position A (build it,
+  constitutive, void ab initio, never softened by assent) is REJECTED on two independent grounds:
+  it would have the clerk presume the per-incuriam VOIDNESS conclusion, a merits judgment reserved
+  to a court on appeal (REG-KERNEL-001, clerk not court); and it would block or void a
+  Sovereign-assented order for a non-record-hood content defect, narrowing the entrenched
+  ACT-ASSENTED-RECORD-PROTECTION s.1 floor by machinery, ultra vires ACT-CONSOLIDATION-FRAMEWORK
+  s.7 and s.25 and beyond the power of any machinery this reference may authorise. Position C (do
+  not build; the existing Warning plus a duty to read carefully suffices) is REJECTED on the
+  merits - that is the very regime that failed and had to be rescued by hand when [2026] VJS-PC 16
+  was recorded - but its concerns about over-reach and parser edge-cases are ADOPTED as binding
+  conditions, answered by the operative-only scope, the section-granular whole-token matcher, the
+  three carve-outs, and the existence-fails-closed / in-force-advisory split rather than by
+  declining the gate. No dissent.
+case_file_digest: "sha256:14e26b93381cbb82ed6f17b64f7220b3d3fd714ad35fb9bee1575b25dd42470b"
+convened_at: "2026-06-25T15:43:55.099768252+00:00"
+question: >
+  On the Reference re Citation-Grounding (SUBMISSION-2026-06-25-citation-grounding). The
+  bench-integrity gate (crates/vjs-core/src/bench.rs::verify_bench) checks only that an order
+  issued from a constituted odd bench whose every counted seat carries a present opinion; it never
+  reads the law the order CITES. So an order whose holding, a directive, or a forbidden clause
+  leans on an authority that resolves to no defined instrument in canon - a hallucinated "s.99", a
+  mis-cited Act, a phantom "[2026] VJS-PC 99" - passes validate and enters canon, although the
+  Vibe Procedure Rules hold that a ruling made in ignorance of binding law is per incuriam and
+  void. The integrating writer caught exactly this by hand when recording [2026] VJS-PC 16,
+  manually confirming ACT-COMPUTER-FIRST-REALM s.23 existed and said what the bench claimed. The
+  existing LawpackValidator::check_referential_integrity emits only a non-blocking lawpack-wide
+  DANGLING_REFERENCE Warning over raw physical lines, whose id regex both misses citation-form
+  references entirely and false-positives on a YAML soft-wrapped id (the partial-id head fragment of REG-FEDERATION-COORDINATION-001
+  fragment). Per question Q1-Q4: (Q1 ADOPT) should a deterministic, model-free gate require the
+  authorities an order cites in its operative parts to resolve to real, defined objects in canon,
+  and is that machinery or a new substantive duty; (Q2 DISPOSITION) is an unresolved operative
+  citation a constitutive, never-softened, void-ab-initio defect (Position A) or a correctable,
+  route-for-correction defect (Position B); (Q3 SCOPE) what fields, granularity, and carve-outs
+  govern the gate, and how does it distinguish a section that never existed from a real section
+  later superseded; and (Q4 SEVERITY) at what severity does the gate fire, and how is it
+  reconciled with the existing DANGLING_REFERENCE check and its line-wrap false positive. The
+  positions: A (build it, constitutive), B (build it, correctable), C (do not build).
+holding: >
+  POSITION B prevails, 3-0 (Mansfield J., Coke J., Bracton J., unanimous). Q1 (ADOPT): the kernel
+  SHOULD ground the authorities an order cites in its operative parts, and doing so is MACHINERY,
+  not a new substantive duty. A deterministic, model-free, network-free gate that asks of each
+  authority, section, and case-citation token in an order's operative parts only the structural
+  question "does this resolve to an object the digest-pinned canon actually defines" is a pure
+  table lookup of the same character as the bench-size, citation-uniqueness, and assent-resolution
+  lookups the kernel already performs. It gives teeth to a duty that already exists - the
+  per-incuriam rule of the Vibe Procedure Rules, that a ruling made in ignorance of binding law is
+  void, presumes the cited law is real - and it amends no Act, no bench, no tier, and no assent
+  rule, so it is within ACT-CONSOLIDATION-FRAMEWORK s.7 (the anti-Henry-VIII machinery power), the
+  same posture REG-KERNEL-001 describes for itself. The gate is cut at one joint and no further:
+  per incuriam has three limbs - the cited authority must EXIST, the order must state it
+  FAITHFULLY, and the mis-statement must be MATERIAL to the result - and a deterministic clerk can
+  answer only the first. "Does ACT-X s.23 exist and is it defined" is a lookup; "does s.23 say what
+  the bench claims" is reading; "would the error have changed the holding" is judging the
+  reasoning. The last two are the per-incuriam MERITS, reserved to the bench's duty of care and to
+  a court on appeal, and forbidden to the clerk by REG-KERNEL-001. The gate reaches the EXISTENCE
+  limb only. Within Q1 the Council sharpens a distinction the submission's "real, defined,
+  in-force" framing blurs: EXISTENCE is structural and clerk-safe; IN-FORCE status is not the hard
+  test, because an order legitimately cites a superseded enactment to overrule, distinguish, or
+  narrate it, and policing whether reliance on historical law is apt is merits. Existence fails
+  closed; in-force status drives, at most, a non-blocking advisory. Q2 (DISPOSITION): an unresolved
+  operative citation is a Fatal but CORRECTABLE defect, NOT a constitutive one - Position B, by
+  name; Position A is REJECTED on two independent grounds. First, the clerk limit: detecting that a
+  cited id does not resolve is structural, but concluding that the order is therefore per incuriam
+  and VOID is a conclusion of law that depends on whether the holding DEPENDS on the bad citation.
+  A bench may cite five authorities, four sound and one mistyped, the ratio standing on the four;
+  the phantom may sit in surplusage; "s.99" may be a slip for "s.9" (ACT-002 s.9 calls clerical
+  citation errors expressly correctable). The clerk cannot tell load-bearing from surplusage
+  without weighing the reasoning, which is the merits judgment REG-KERNEL-001 reserves to the bench
+  and a court on appeal. To presume voidness from the bare structural signal is to have the clerk
+  decide the very question - did the error infect the result - that defines an appellate function.
+  Second, and decisively, the entrenched floor: every member of CONSTITUTIVE_CODES (BENCH_REQUIRED,
+  TIER_NOT_CONSTITUTED, BENCH_SIZE_MISMATCH, BENCH_SILENT_SEAT, BENCH_OPINION_MISSING,
+  CITATION_COLLISION, APEX_RECORD_IN_SUBSCRIBING_JURISDICTION) goes to whether the thing IS an
+  order at all - its bench, its tier, its apex-singleness, its unique citation NAME in the
+  register - a defect in the record's own IDENTITY, automatic and merits-free. A hallucinated
+  citation INSIDE the holding is a defect in the CONTENT of what the order points at; the order
+  issued from a real bench, carries a real opinion, bears every required field. Identity is
+  constitutive; reliance is merits. The instructive contrast is CITATION_COLLISION, which IS
+  constitutive because two records claiming one citation is incoherent independent of any
+  reasoning - a defect in the order's NAME, not in what it names. The assent floor confirms it: the
+  constitutive family is the only class that overrides Sovereign assent, because assent to a
+  non-thing is incoherent ("a false signature is no signature", [2026] VJS-PC 16). The membership
+  test is whether the Sovereign could coherently have assented to THIS as an order of its kind; for
+  a real, convened, odd bench that issued a real opinion and cited a hallucinated section in a
+  directive, the answer is yes - the Sovereign can assent to a genuine court's genuine order that
+  contains a citation error, and the error is then corrected. The defect lives in the order's
+  content, exactly the domain ACT-ASSENTED-RECORD-PROTECTION s.1 was entrenched to protect by
+  routing for correction and never voiding. To fold citation-grounding into the constitutive family
+  would let the machine block an assented order over a content defect - the machine enlarging its
+  own override power beyond identity defects, ultra vires the ACT-CONSOLIDATION-FRAMEWORK s.7 / s.25
+  anti-Henry-VIII limit and a breach of the entrenched floor, beyond the power of any machinery this
+  reference may authorise. If the Realm ever wishes to make a phantom citation a record-killing,
+  assent-proof defect, that is reserved to a Sovereign-assented Act citing VJS-ACT 10 by number,
+  which this judgment neither makes nor pre-empts. The disposition therefore bifurcates exactly as
+  the ordinary downgradeable Fatals do: a non-assented order, or one whose declared assent does not
+  resolve under [2026] VJS-PC 16, fails CLOSED - the write-gate declines to FILE a record citing an
+  authority the canon does not contain (ordinary gatekeeping, not a pronouncement of voidness); an
+  order whose assent resolves (the ordinary binding order carries standing_bounded_assent) has the
+  finding SURFACED and is ROUTED FOR CORRECTION, never voided or blocked
+  (ACT-ASSENTED-RECORD-PROTECTION s.1). The clerk's verdict reads "this operative part cites X,
+  which resolves to no defined instrument in canon; correct the citation and re-record", never
+  "this order is void." That branding is for a court on appeal (ACT-002 s.9). Q3 (SCOPE): the gate
+  runs on the OPERATIVE parts only - the holding, each directive's must text, and forbidden, all of
+  which bind under ACT-002 s.7 - and NOT on the issue, vote, runtime_summary, question,
+  source_opinion, or case_file_digest, which are recital or explanation where a stray or historical
+  reference is not load-bearing. Granularity is the SECTION: normalize ":sN", " s.N", and " s N" to
+  one canonical key and require BOTH the instrument AND the named section to be defined, so a real
+  Act cited at a section it does not contain is unresolved - defined_ids already carries both
+  statute and section ids. The gate grounds case-citation tokens ("[YYYY] VJS-SERIES N" and the
+  subscriber form) against the live citator register as well as instrument ids, because the
+  phantom-precedent risk is as real as the phantom-section risk. Three carve-outs must NOT trip the
+  gate: (a) a NEGATED mention ("no", "not", "never", "without", "absent", "no such" governing the
+  token) is a statement about absence, not reliance - generalised from the existing ends_with("no")
+  heuristic and detected robustly on the token boundary, resolving ambiguity toward the carve-out
+  because the dangerous error is a false positive that blocks a valid order; (b) the order's own
+  FORWARD SELF-REFERENCE - at write time the staged order is not yet in committed canon, so its own
+  id and own allocated citation are seeded into the resolved set and always resolve; (c) a
+  defined-but-SUPERSEDED-historical instrument. On (c) the hard distinction the reference asks for:
+  "cites a section that NEVER EXISTED" resolves to nothing and fails closed (non-assented) or routes
+  for correction (assented) - it is the hallucination the gate exists to stop; "cites a REAL
+  section later repealed or superseded" resolves to a defined object whose status is Superseded,
+  Overruled, Revoked, or Spent - it EXISTED, and citing the authority that governed at the material
+  time or that the order distinguishes is ordinary legal work and must NOT fail closed. The
+  fail-close trigger is "resolves to nothing", never "resolves to something no longer in force"; the
+  latter earns at most a non-blocking advisory, because deciding it was relied on as live authority
+  is a merits read out of the clerk's reach. This is how Q1's "in-force" requirement is honoured:
+  existence is hard, in-force is advisory. Q4 (SEVERITY): the new gate and the existing Warning
+  coexist by scope, severity, and de-duplication. The lawpack-wide DANGLING_REFERENCE stays a
+  non-blocking corpus-drift Warning whose remedy is lawmaking, hardened at the root against its
+  line-wrap false positive by scanning PARSED scalar values (folded scalars reassembled), not raw
+  content.lines(), and matching ids on whole, maximal token boundaries (the names_token discipline
+  of assent.rs, where '-' is an id character) so a soft-wrapped id can never present a head fragment
+  as a phantom. The new order gate emits a DISTINCT code, ORDER_CITATION_UNRESOLVED, at Fatal
+  severity, scoped to a staged order's operative parts, registered NOT in CONSTITUTIVE_CODES so the
+  assent floor downgrades it for a resolving order. The two checks share ONE id-extraction and
+  whole-token matcher (single source of truth); the order gate OWNS the operative region of order
+  files and de-duplicates: a DANGLING_REFERENCE for an (order-file, id) pair already adjudicated by
+  the order gate is suppressed, so each defect is reported exactly once at its correct severity. The
+  Council records candidly the gate's bounded reach, as [2026] VJS-PC 16 recorded its remainder: it
+  enforces only the EXISTENCE limb, never the FIDELITY or MATERIALITY limbs, which are merits. And
+  it records the authoring-convention gap - directive citations are presently lossy snake_case
+  tokens ("act_010_s2" does not mechanically resolve to ACT-ASSENTED-RECORD-PROTECTION s.2) that no
+  deterministic clerk can ground - so the gate reliably grounds the holding and any
+  canonically-cited operative text but not the snake_case directive bodies, a known recorded gap,
+  not a silent one. The cure is to move operative citations to a machine-resolvable form; the
+  preferred mechanism, directed because it is additive, reversible, and already proven, is an
+  optional structured cites/authorities list of AuthorityId on the order, mirroring supersedes and
+  its ORPHAN_SUPERSESSION check, with prose kept for humans, so the teeth extend to directives. The
+  cure must not be represented as more than it is. Position A is REJECTED on the merits and as
+  beyond the power of machinery; Position C is REJECTED on the merits but its concerns are adopted
+  as binding conditions; Position B is ADOPTED as named.
+directives:
+  - id: D1
+    actor: lexby
+    must: build_a_deterministic_model_free_network_free_citation_existence_gate_over_a_staged_order_s_operative_parts_only_the_holding_string_each_directive_s_must_text_and_each_forbidden_clause_parsing_the_structured_fields_never_raw_yaml_lines_so_folded_scalars_are_already_reassembled_ground_two_token_classes_instrument_ids_act_dec_inv_obl_spec_reg_optionally_at_section_granularity_against_defined_ids_and_case_citations_year_vjs_series_n_and_the_subscriber_form_against_the_live_citator_register_resolution_means_existence_in_the_digest_pinned_defined_set_and_nothing_more_read_canon_by_reference_as_bench_rs_reads_bench_sizes_so_the_gate_follows_the_lawpack_automatically_a_reference_resolving_to_no_defined_object_is_unresolved_emit_order_citation_unresolved_cite_the_per_incuriam_doctrine_of_the_vibe_procedure_rules_act_002_s7_and_reg_kernel_001_on_every_denial
+  - id: D2
+    actor: lexby
+    must: disposition_is_correctable_not_constitutive_position_b_register_order_citation_unresolved_at_fatal_severity_but_do_not_add_it_to_constitutive_codes_in_crates_vjs_engine_src_assent_rs_wire_it_through_the_existing_assent_bifurcation_a_non_assented_order_or_one_whose_declared_assent_does_not_resolve_under_2026_vjs_pc_16_fails_closed_the_write_gate_declines_to_file_the_record_an_order_whose_assent_resolves_has_the_finding_surfaced_and_routed_for_correction_and_is_never_voided_or_blocked_act_assented_record_protection_s1_the_finding_must_state_the_existence_fact_and_route_for_correction_it_must_not_brand_the_order_void_ab_initio_per_incuriam_voidness_is_reserved_to_a_court_on_appeal_act_002_s9_reg_kernel_001_clerk_not_court_name_vjs_act_10_s1_as_the_instrument_of_the_bifurcation_on_the_assented_path
+  - id: D3
+    actor: lexby
+    must: make_the_constitutive_test_existence_not_in_force_a_token_resolving_to_any_defined_object_passes_whatever_its_status_a_citation_in_an_operative_part_to_a_defined_but_not_in_force_instrument_superseded_overruled_revoked_or_spent_yields_an_advisory_warning_only_suggested_code_order_citation_not_in_force_and_never_blocks_for_assented_or_non_assented_orders_alike_deciding_whether_reliance_on_historical_law_was_apt_is_a_merits_read_and_is_out_of_scope
+  - id: D4
+    actor: lexby
+    must: implement_three_carve_outs_all_model_free_so_no_valid_order_trips_a_a_negated_mention_an_id_governed_by_no_not_never_without_absent_or_no_such_is_a_statement_about_absence_not_reliance_generalise_the_existing_ends_with_no_heuristic_and_detect_negation_robustly_on_the_token_boundary_resolving_ambiguity_toward_the_carve_out_b_a_defined_but_superseded_historical_instrument_which_resolves_on_existence_alone_per_d3_and_is_never_put_to_the_in_force_test_and_c_the_order_s_own_forward_self_reference_by_seeding_the_resolved_set_with_the_staged_order_s_own_id_and_allocated_citation_before_checking_so_it_resolves_to_itself_fail_closed_only_on_resolves_to_nothing_never_on_real_but_no_longer_in_force
+  - id: D5
+    actor: lexby
+    must: resolve_at_section_granularity_normalize_colon_s_n_and_s_dot_n_and_s_space_n_to_one_canonical_key_and_require_both_the_instrument_and_the_named_section_to_be_defined_so_act_x_s99_where_act_x_exists_but_s99_does_not_fails_on_the_section_token_defined_ids_already_carries_both_statute_and_section_ids_parse_the_order_s_structured_operative_fields_not_raw_physical_lines_and_match_ids_as_whole_maximal_tokens_using_the_boundary_matcher_in_crates_vjs_engine_src_assent_rs_names_token_where_hyphen_is_an_id_character_so_a_prefix_of_a_longer_hyphenated_id_can_never_match_and_a_yaml_soft_wrap_cannot_manufacture_a_partial_id_false_positive_of_the_reg_federation_line_wrap_class
+  - id: D6
+    actor: lexby
+    must: reconcile_with_the_lawpack_wide_dangling_reference_keep_it_a_non_blocking_corpus_drift_warning_factor_id_extraction_and_whole_token_boundary_matching_into_one_shared_function_used_by_both_check_referential_integrity_and_the_new_order_gate_single_source_of_truth_fix_its_line_wrap_false_positive_at_the_root_by_scanning_parsed_scalar_values_or_joining_continuations_rather_than_content_lines_and_adopting_boundary_aware_matching_de_duplicate_the_order_operative_gate_owns_the_operative_region_of_order_files_suppress_any_dangling_reference_for_an_order_file_id_pair_already_reported_by_the_order_gate_as_order_citation_unresolved_so_each_defect_is_reported_exactly_once_at_its_correct_severity_add_a_regression_test_reproducing_the_reg_federation_coordination_001_line_wrap_and_proving_it_no_longer_false_positives
+  - id: D7
+    actor: lexby
+    must: record_candidly_the_gate_s_bounded_reach_it_enforces_only_the_existence_limb_of_per_incuriam_it_does_not_and_must_not_enforce_the_fidelity_limb_that_the_order_states_what_the_authority_says_or_the_materiality_limb_that_the_error_changed_the_result_which_are_merits_reserved_to_the_bench_s_duty_of_care_and_the_appeal_court_reg_kernel_001_record_also_the_authoring_convention_gap_directive_citations_are_presently_lossy_snake_case_tokens_no_deterministic_clerk_can_resolve_act_010_s2_does_not_mechanically_resolve_to_act_assented_record_protection_s2_so_the_gate_reliably_grounds_the_holding_and_canonically_cited_operative_text_but_not_snake_case_directive_bodies_a_known_recorded_gap_not_a_silent_one_move_operative_citations_to_a_machine_resolvable_form_the_preferred_mechanism_is_an_optional_structured_cites_authorities_list_of_authorityid_on_the_order_mirroring_supersedes_and_orphan_supersession_with_prose_kept_for_humans_so_the_teeth_extend_to_directives_do_not_represent_the_cure_as_more_than_it_is
+  - id: D8
+    actor: lexby
+    must: refusal_on_the_record_the_gate_verifies_the_existence_and_in_force_status_of_cited_authority_only_it_must_not_read_whether_the_cited_section_says_what_the_order_claims_nor_whether_some_uncited_authority_should_have_changed_the_result_those_are_the_per_incuriam_merits_reserved_to_a_bench_on_appeal_reg_kernel_001_the_kernel_never_judges_merits_if_in_building_d1_you_find_faithful_existence_grounding_cannot_be_achieved_without_judging_whether_the_holding_depends_on_the_bad_citation_stop_and_self_file_that_would_cross_from_clerk_into_court_any_later_proposal_to_have_the_kernel_judge_citation_support_as_opposed_to_existence_or_to_make_a_phantom_citation_a_record_killing_assent_proof_defect_is_reserved_to_a_sovereign_assented_act_citing_vjs_act_10_by_number_and_is_to_be_refused_as_ultra_vires_the_clerk_role_which_this_judgment_neither_makes_nor_pre_empts
+  - id: D9
+    actor: lexby
+    must: build_as_machinery_under_act_consolidation_framework_s7_it_amends_no_statute_no_bench_no_tier_and_no_assent_rule_and_gives_the_existing_per_incuriam_doctrine_and_act_002_s7_a_deterministic_enforcement_point_of_the_same_character_as_the_citation_collision_teeth_route_nothing_to_the_sovereign_the_entrenched_floor_is_untouched_and_deliberately_preserved_by_the_non_constitutive_disposition_file_this_judgment_verbatim_as_the_source_opinion_of_record_record_the_resulting_privy_council_order_through_a_real_convened_odd_bench_carrying_real_opinions_allocate_the_citation_through_the_kernel_vjs_citation_next_never_hand_asserting_a_number_pin_the_case_file_digest_to_sha256_14e26b93381cbb82ed6f17b64f7220b3d3fd714ad35fb9bee1575b25dd42470b_pass_the_bench_integrity_gate_and_verify_by_deterministic_proof_no_model_add_proof_tests_a_hallucinated_s99_or_2026_vjs_pc_99_in_a_holding_stays_fatal_and_fails_closed_on_a_non_assented_order_b_the_same_on_an_assented_resolving_order_routes_for_correction_and_is_not_blocked_or_voided_c_a_negated_mention_a_superseded_but_historical_citation_and_the_order_s_own_self_reference_each_pass_clean_and_d_a_constitutive_bench_defect_on_the_same_record_stays_fatal_regardless_of_assent_so_the_two_families_stay_distinct_in_code_add_a_citator_row_citing_the_per_incuriam_doctrine_act_002_s7_s9_act_004_s8_act_consolidation_framework_s7_s25_reg_kernel_001_act_assented_record_protection_s1_s2_and_2026_vjs_pc_16
+  - id: D10
+    actor: sovereign
+    must: for_noting_only_not_a_requirement_for_this_cure_nothing_in_this_judgment_needs_the_sovereign_s_assent_because_nothing_entrenched_is_amended_the_privy_council_has_given_an_existing_doctrine_a_deterministic_enforcement_point_within_its_power_and_the_disposition_is_deliberately_correctable_so_the_entrenched_act_assented_record_protection_floor_is_untouched_should_the_realm_ever_wish_to_make_a_phantom_operative_citation_a_record_killing_defect_immune_to_sovereign_assent_or_otherwise_narrow_the_floor_below_what_it_now_guarantees_that_is_reserved_exclusively_to_a_sovereign_assented_act_citing_vjs_act_10_and_act_consolidation_framework_s7_s25_by_number_this_bench_neither_makes_nor_pre_empts_that_choice_the_cure_of_d1_d9_is_effective_on_this_order_and_is_not_conditional_on_any_such_act
+forbidden:
+  - having_the_clerk_judge_the_per_incuriam_merits_the_gate_checks_only_whether_a_cited_authority_exists_and_is_defined_it_must_never_read_whether_the_cited_section_says_what_the_order_claims_the_fidelity_limb_nor_whether_the_error_changed_the_result_the_materiality_limb_those_are_merits_reserved_to_the_bench_s_duty_of_care_and_a_court_on_appeal_reg_kernel_001
+  - presuming_an_order_void_ab_initio_for_an_unresolved_operative_citation_per_incuriam_voidness_depends_on_whether_the_holding_depends_on_the_bad_citation_a_conclusion_of_law_reserved_to_a_court_on_appeal_act_002_s9_the_clerk_finds_the_existence_fact_and_routes_for_correction_it_does_not_pronounce_the_order_void
+  - voiding_blocking_or_otherwise_refusing_to_record_any_order_whose_declared_assent_resolves_under_2026_vjs_pc_16_on_the_ground_of_an_unresolved_operative_citation_such_a_record_s_defect_is_in_its_content_not_its_record_hood_and_act_assented_record_protection_s1_commands_it_be_routed_for_correction_never_voided_or_blocked
+  - adding_order_citation_unresolved_or_any_citation_grounding_code_to_constitutive_codes_in_assent_rs_that_would_let_the_machine_override_sovereign_assent_for_a_non_record_hood_content_defect_narrowing_the_entrenched_act_assented_record_protection_floor_by_machinery_ultra_vires_act_consolidation_framework_s7_and_s25
+  - failing_a_record_closed_for_citing_a_real_but_superseded_overruled_revoked_or_spent_instrument_such_a_citation_resolves_to_a_defined_object_and_is_legitimate_historical_legal_work_the_fail_close_trigger_is_resolves_to_nothing_never_resolves_to_something_no_longer_in_force_which_earns_at_most_a_non_blocking_advisory
+  - performing_the_resolution_check_with_a_model_a_network_call_a_clock_dependence_or_semantic_similarity_the_kernel_is_the_deterministic_clerk_reg_kernel_001_resolution_is_parse_resolve_against_the_defined_set_and_the_citator_register_section_granular_whole_token_match_over_digest_pinned_canon_only
+  - tripping_the_gate_on_a_negated_mention_the_order_s_own_forward_self_reference_or_a_defined_but_superseded_historical_instrument_or_manufacturing_a_partial_id_false_positive_from_a_yaml_soft_wrap_by_scanning_raw_physical_lines_instead_of_parsed_scalars_on_whole_token_boundaries
+  - scoping_the_gate_beyond_an_order_s_operative_parts_the_holding_directives_and_forbidden_a_reference_in_the_issue_vote_question_runtime_summary_source_opinion_or_case_file_digest_is_recital_or_explanation_not_load_bearing_and_is_out_of_the_fail_closed_scope
+supersedes: []
+appealable: true
+appeal_of: null
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-017-opinions.md"
+runtime_summary: >
+  The bench-integrity gate checks only that an order came from a real, odd, fully-seated bench; it
+  never reads the LAW the order cites. So an order whose holding, a directive, or a forbidden
+  clause leans on an authority that does not exist - a hallucinated "s.99", a phantom "[2026]
+  VJS-PC 99" - passes validate and enters canon, although our doctrine says a ruling made in
+  ignorance of binding law is per incuriam and void. The integrating writer caught exactly this by
+  hand when recording [2026] VJS-PC 16. The Council, 3-0, ADOPTS a deterministic, model-free gate
+  that grounds the EXISTENCE of an order's operative citations, but makes it CORRECTABLE, not
+  constitutive (Position B). (Q1 ADOPT) Checking whether a cited authority and section resolve to a
+  real, defined object is a table lookup - structural, not merits - and gives teeth to a duty that
+  already exists. It is machinery under ACT-CONSOLIDATION-FRAMEWORK s.7 and amends nothing. Per
+  incuriam has three limbs - the authority must EXIST, be stated FAITHFULLY, and be MATERIAL - and
+  the clerk can answer only the first; fidelity and materiality are merits reserved to a court
+  (REG-KERNEL-001). (Q2 DISPOSITION) An unresolved operative citation is Fatal but CORRECTABLE.
+  Position A (void ab initio, constitutive) is REJECTED twice over: presuming voidness is a
+  conclusion of law about whether the ratio DEPENDS on the bad citation, which only a court may
+  reach; and treating it as constitutive would let the machine BLOCK a Sovereign-assented order for
+  a content defect, narrowing the entrenched ACT-ASSENTED-RECORD-PROTECTION floor - beyond the
+  power of machinery (s.7/s.25). Constitutive defects go to a record's IDENTITY (bench, tier, apex,
+  unique citation name); a hallucinated citation goes to its CONTENT. So: a non-assented order fails
+  CLOSED (the gate declines to file it); an assented, resolving order is SURFACED and ROUTED FOR
+  CORRECTION, never voided or blocked. The clerk says "this cites X, which resolves to nothing; fix
+  it", never "this order is void." (Q3 SCOPE) The gate runs on operative parts only - holding,
+  directives, forbidden - at SECTION granularity (both the instrument and the named section must be
+  defined), grounding case citations against the citator too. Three carve-outs must not trip it: a
+  NEGATED mention; the order's own FORWARD SELF-REFERENCE; and a defined-but-SUPERSEDED instrument.
+  The hard line: "never existed" resolves to nothing and fails closed; "real but repealed" EXISTED
+  and is legitimate - in-force status is advisory only, never a block. (Q4 SEVERITY) The new code
+  ORDER_CITATION_UNRESOLVED is Fatal but NOT in CONSTITUTIVE_CODES, so the assent floor downgrades
+  it for a resolving order. The lawpack-wide DANGLING_REFERENCE stays a Warning, its line-wrap false
+  positive (the partial-id head fragment of REG-FEDERATION-COORDINATION-001 fragment) fixed by scanning PARSED scalars and matching whole
+  tokens; the two share one matcher and de-duplicate. The Council records candidly that the gate
+  grounds the holding but not the lossy snake_case directive tokens; the cure is an optional
+  structured cites/authorities list of AuthorityId, mirroring supersedes. Nothing is routed to the
+  Sovereign; the floor is untouched by design.
+created_at: "2026-06-25T15:50:00+00:00"
