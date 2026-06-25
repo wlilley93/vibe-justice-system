@@ -29,42 +29,42 @@ invariants:
   - id: K-4
     group: capability
     statement: "Unified capability record {subject,resource,rights,effect,issuer,lineage,depth,expiry,uses,status}."
-    vjs: { status: gap, tests: [] }
+    vjs: { status: met, tests: [k4_record_rejects_wildcard_right_and_requires_explicit_rights] }
     opbox: { status: partial, tests: [] }
   - id: K-5
     group: capability
     statement: "Deny-dominance, no hidden precedence."
-    vjs: { status: gap, tests: [] }
+    vjs: { status: met, tests: [k5_deny_dominates_overlapping_allow] }
     opbox: { status: partial, tests: [] }
   - id: K-6
     group: capability
     statement: "One-shot consumed exactly once (reserve-before-effect, refund-on-failure, auto-revoke at zero)."
-    vjs: { status: gap, tests: [] }
+    vjs: { status: met, tests: [k6_one_shot_is_consumed_exactly_once_and_refunds] }
     opbox: { status: partial, tests: [] }
   - id: K-7
     group: capability
     statement: "Attenuating-only delegation; finite-use cannot be delegated; parent revocation kills the child."
-    vjs: { status: gap, tests: [] }
+    vjs: { status: met, tests: [k7_delegation_only_attenuates_and_finite_cannot_delegate] }
     opbox: { status: partial, tests: [] }
   - id: K-8
     group: capability
     statement: "Revocation-on-next-check, re-evaluated against live state (no caching)."
-    vjs: { status: partial, tests: [a_revoked_permit_is_refused_with_the_precise_finding] }
+    vjs: { status: met, tests: [a_revoked_permit_is_refused_with_the_precise_finding, k8_revocation_takes_effect_on_the_next_authorize] }
     opbox: { status: met, tests: [] }
   - id: K-9
     group: capability
     statement: "Typed resources, terminal wildcards, prefix-collision rejection, unknown keys fail closed."
-    vjs: { status: partial, tests: [a_literal_scope_does_not_cover_sibling_files_by_prefix, governed_surface_is_matched_on_path_components_not_substrings, a_recursive_glob_respects_the_path_boundary] }
+    vjs: { status: met, tests: [a_literal_scope_does_not_cover_sibling_files_by_prefix, governed_surface_is_matched_on_path_components_not_substrings, a_recursive_glob_respects_the_path_boundary, k9_typed_resource_prefix_collision_and_terminal_wildcard] }
     opbox: { status: partial, tests: [] }
   - id: K-10
     group: capability
     statement: "Names are not capabilities."
-    vjs: { status: partial, tests: [assent_floor_predicate_keys_only_on_the_allow_list, canon_hard_codes_no_subscriber_dimension_vocabulary] }
+    vjs: { status: met, tests: [assent_floor_predicate_keys_only_on_the_allow_list, canon_hard_codes_no_subscriber_dimension_vocabulary, k10_names_are_not_capabilities] }
     opbox: { status: met, tests: [] }
   - id: K-11
     group: capability
     statement: "Grant is transfer, not minting."
-    vjs: { status: gap, tests: [] }
+    vjs: { status: met, tests: [k11_grant_is_transfer_not_minting] }
     opbox: { status: partial, tests: [] }
   - id: K-12
     group: deterministic

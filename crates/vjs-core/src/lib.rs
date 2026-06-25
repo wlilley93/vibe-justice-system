@@ -4,6 +4,7 @@ use std::path::PathBuf;
 
 pub mod authority;
 pub mod bench;
+pub mod capability;
 pub mod citation;
 pub mod court;
 pub mod enforcement;
