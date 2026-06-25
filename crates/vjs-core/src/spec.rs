@@ -513,16 +513,26 @@ fn evaluate_predicate(
         }
         PredicateExpr::AssentSourceValid { allowed } => {
             // CASE-LAW s. 23(5) ([2026] REALM-SC 10): a record that claims binding
-            // runtime force carries it ONLY if it declares an `assent_source` whose
-            // value resolves to one of the allowed forms (a specific Sovereign-assent
-            // event, or a standing-bounded route tracing to specific assent).
+            // runtime force carries it ONLY if it declares a valid `assent_source`.
+            // s.23 has TWO limbs - well-formedness (the value is an allowed FORM) and
+            // resolution (the form resolves to a specific Sovereign-assent event / a
+            // standing-bounded route tracing to specific assent; "an unresolved trace
+            // causes rejection").
             //
-            // This is an AFFIRMATIVE ALLOW-LIST that FAILS CLOSED: absence of the
-            // field, an empty value, an unrecognised form, or an unresolved trace each
-            // cause rejection. It is NOT a deny-list: a record that merely omits the
-            // field is rejected, never passed (the not-equal-to-self_authorised form is
-            // void as fail-open, s. 23(5)). Deterministic: no model call, no similarity
-            // search.
+            // THIS evaluator is the always-on WELL-FORMEDNESS limb: an AFFIRMATIVE
+            // ALLOW-LIST that FAILS CLOSED over every runtime-force record. Absence of
+            // the field, an empty value, or an unrecognised form cause rejection here.
+            // It is NOT a deny-list (the not-equal-to-self_authorised form is void as
+            // fail-open, s. 23(5)). Deterministic: no model call, no similarity search.
+            //
+            // The RESOLUTION limb ("an unresolved trace causes rejection") is enforced
+            // deterministically at the floor-attachment site, where a STAGED record
+            // claims the assent floor's protection: vjs_engine::assent::assent_resolves
+            // ([2026] VJS-PC 16 D1). A record that types an allowed form but resolves to
+            // no real Sovereign-assent event is well-formed here yet does not earn the
+            // floor, so its findings keep their native severity. The two limbs are kept
+            // separate by design: this one binds all canon every run; resolution binds a
+            // record at the moment it would be sheltered.
             //
             // The witness reads the OPERATIVE top-level `assent_source` field by
             // parsing structure. A raw-line scan read the document as a bag of lines,
