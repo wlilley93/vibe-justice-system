@@ -1,0 +1,21 @@
+# VJS server_of_law (REG-FRONT-DOOR-DELIVERY-001).
+#
+# The MCP server is a stdio front door spawned PER SESSION by the MCP client, not a
+# long-running daemon - so it is driven with `docker compose run`, never `up`:
+#
+#   docker compose run --rm -i vjs-mcp
+#
+# The repo is bind-mounted at /repo; the kernel reads and writes records there. The
+# commit hook on the HOST (scripts/vjs-host-setup.sh) is the bypass-proof wall and is
+# never contingent on this service running.
+services:
+  vjs-mcp:
+    build:
+      context: .
+      target: server
+    image: vjs-mcp:local
+    volumes:
+      - ./:/repo
+    working_dir: /repo
+    stdin_open: true
+    tty: false
