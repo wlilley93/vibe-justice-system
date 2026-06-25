@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 
 pub mod authority;
+pub mod bench;
 pub mod citation;
 pub mod court;
 pub mod error;
