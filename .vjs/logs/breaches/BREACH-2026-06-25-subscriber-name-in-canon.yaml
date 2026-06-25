@@ -1,0 +1,45 @@
+id: BREACH-2026-06-25-subscriber-name-in-canon
+time: "2026-06-25T00:00:00+00:00"
+actor: lexby
+kind: breach_self_report
+issue: public-private-boundary
+self_filed_under: "ACT-005:s1 (public/private boundary); ACT-007:s4 (local law binds local only); ACT-003 s.4-s.8 (duty of care)"
+what_happened: >
+  The [2026] VJS-PC 15 keystone - the one matter about a subscribing jurisdiction - named
+  the subscriber ("Opbox") explicitly throughout its recorded order (10 mentions), its
+  opinions of record (26), and its case-file submission (13), and the order's text was
+  published in the public Gazette. Canon must be a GENERIC governance substrate naming no
+  subscriber (ACT-005:s1, ACT-007:s4); the prior REALM-SC 11 cure established this. The
+  canon-write gate (RedactScanner::scan_canon_record) checked only the record's STRUCTURED
+  fields - scope paths, repo_code, and id - against the federation subscriber registry, so
+  a subscriber named only in the PROSE body (a holding, a directive's must, an opinion)
+  slipped every signal. The keystone's own D7 canon-clean scan checked only the dimension
+  VOCABULARY (org/ws/matter/flow/step as scope keys), never the subscriber's name.
+  Discovered by the Principal on direct inspection of the pushed canon.
+law_breached:
+  - "ACT-005:s1: canon must not publish private/subscriber-identifying content; the PC-15 order + opinions + gazette named the subscriber."
+  - "ACT-007:s4: a subscriber's identity/law belongs in the subscriber's own tree, not in VJS canon."
+discovered_by: "the Principal, on inspection of the pushed public repo + Gazette"
+containment: >
+  The subscriber name is scrubbed to generic ("the subscriber" / "a subscriber") across
+  the PC-15 order, opinions, and submission (substance untouched - the generic overlay
+  machinery is unchanged), the order + convening re-pinned to the anonymised case file,
+  and the pre-existing apex [2026] VJS-SC 4 (which named the subscriber in correcting its
+  mis-filing) anonymised likewise. The Gazette is regenerated and now carries ZERO
+  subscriber names. The federation subscriber-registry retains the code OPBOX BY DESIGN -
+  it is the gate's blocklist ("system data only"), exempt from the new scan, and does not
+  flow into the Gazette.
+remedy:
+  - "RedactScanner::scan_canon_record gains a PROSE limb (Signal 4): any registered subscriber code appearing as a whole word anywhere in a canon record's body is a CANON_BOUNDARY_VIOLATION, with the registry file itself exempt. Closes the prose hole the structured-field checks missed."
+  - "CANON_BOUNDARY_VIOLATION is now CONSTITUTIVE (vjs-engine::assent): foreign subscriber content is not the agent's to ASSENT into canon (ACT-007:s4 goes to canon membership, not a correctable defect), so the PC-16 assent floor never downgrades it - it fails closed even on an otherwise-resolving record."
+  - "scrubbed the published estate (PC-15, SC-4) and regenerated the Gazette to zero subscriber names; re-pinned the affected digests."
+prevention:
+  - "the gate now reads the record's whole body, not just its structured id/citation/repo_code; a subscriber named in canon prose fails closed at the commit gate (proven: a staged order naming the subscriber is blocked)."
+  - "convention: canon refers to 'the subscriber' / 'a subscriber', never the code or name; only the federation registry lists codes."
+deferred:
+  - "the ~57 decision-LOGS under .vjs/logs/ that name the subscriber are the AUDIT TRAIL of past work (records of what was done and for whom), not published law; rewriting the governance audit history is the Principal's call and is not done unilaterally."
+  - "the registry still stores the plaintext code OPBOX; a hashed-code blocklist (store sha256(code), hash candidate words to compare) would keep even the code out of the repo as plaintext - reserved as an optional hardening."
+note: >
+  Remedy is restorative, not punitive (the duty of care). The work is made good and the
+  gap that let it through - a boundary gate that read a record's fields but not its prose -
+  is closed for good with a test in the permanent suite.

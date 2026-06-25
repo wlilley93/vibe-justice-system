@@ -122,6 +122,30 @@ scope:
     }
 
     #[test]
+    fn prose_body_naming_a_subscriber_is_blocked_but_the_registry_is_exempt() {
+        // PC-15 boundary cure: a canon record whose BODY/prose names a registered
+        // subscriber - even with a clean id, citation, and no scope path - is blocked.
+        let codes = vec!["OPBOX".to_string()];
+        let leak = "id: 2026-VJS-PC-099\ncitation: \"[2026] VJS-PC 99\"\nholding: A subscriber (Opbox) asked canon to build a keystone.\n";
+        let (f, _) = RedactScanner::scan_canon_record(
+            &PathBuf::from("lawpack/v2/orders/2026-VJS-PC-099.yaml"),
+            leak,
+            "VJS",
+            &codes,
+        );
+        assert!(is_blocked(&f), "a subscriber named in prose must block");
+        // The registry file itself lists the codes by design - it is exempt.
+        let registry = "id: FEDERATION-SUBSCRIBER-REGISTRY\ncodes:\n  - OPBOX\n";
+        let (rf, _) = RedactScanner::scan_canon_record(
+            &PathBuf::from("lawpack/v2/federation/subscriber-registry.yaml"),
+            registry,
+            "VJS",
+            &codes,
+        );
+        assert!(!is_blocked(&rf), "the registry is exempt: {rf:?}");
+    }
+
+    #[test]
     fn wildcard_and_root_file_scopes_are_canon() {
         for p in ["*", "**", "Cargo.toml", "AGENTS.md", "public/**", "src/**"] {
             assert!(
@@ -408,6 +432,39 @@ impl RedactScanner {
             }
         }
 
+        // Signal 4 (the PROSE limb): a registered subscriber code appearing anywhere in
+        // the record's BODY - not just its structured id/citation/repo_code - is
+        // subscriber-identifying content in canon. The [2026] VJS-PC 15 holding named the
+        // subscriber in its prose and slipped the id-only checks (signals 1-3); this
+        // closes that hole. Canon must be GENERIC (ACT-005:s1; ACT-007:s4): refer to "the
+        // subscriber" / "a subscriber", never the code/name. The registry file itself is
+        // exempt - it IS the list of codes the gate reads.
+        let is_registry = path
+            .to_string_lossy()
+            .replace('\\', "/")
+            .ends_with("federation/subscriber-registry.yaml");
+        if !is_registry {
+            let lower = content.to_ascii_lowercase();
+            for code in subscriber_codes {
+                if code.eq_ignore_ascii_case(canon_repo_code) {
+                    continue;
+                }
+                if contains_word(&lower, &code.to_ascii_lowercase()) {
+                    findings.push(Self::block(
+                        path,
+                        BoundaryFindingKind::UnredactedEvidence,
+                        format!(
+                            "Canon record names subscriber '{code}' in its body/prose. Canon must \
+                             be generic (ACT-005:s1; ACT-007:s4): refer to 'the subscriber' / 'a \
+                             subscriber', never the subscriber's code or name. Only the federation \
+                             subscriber-registry lists codes."
+                        ),
+                    ));
+                    break; // one finding per record is enough to fail closed
+                }
+            }
+        }
+
         (findings, foreign_code)
     }
 
@@ -510,4 +567,26 @@ impl RedactScanner {
 
         findings
     }
+}
+
+/// True when `needle` (lowercase) appears in `hay` (lowercase) as a whole token - bounded
+/// by non-alphanumerics on both sides - so a subscriber code like "opbox" is caught in
+/// prose but never as a substring of a longer word. Deterministic; PC-15 boundary cure.
+fn contains_word(hay: &str, needle: &str) -> bool {
+    if needle.is_empty() {
+        return false;
+    }
+    let bytes = hay.as_bytes();
+    let mut from = 0;
+    while let Some(pos) = hay[from..].find(needle) {
+        let start = from + pos;
+        let end = start + needle.len();
+        let before_ok = start == 0 || !bytes[start - 1].is_ascii_alphanumeric();
+        let after_ok = end >= bytes.len() || !bytes[end].is_ascii_alphanumeric();
+        if before_ok && after_ok {
+            return true;
+        }
+        from = start + 1;
+    }
+    false
 }

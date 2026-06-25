@@ -35,6 +35,11 @@ pub const CONSTITUTIVE_CODES: &[&str] = &[
     "BENCH_OPINION_MISSING",
     "CITATION_COLLISION",
     "APEX_RECORD_IN_SUBSCRIBING_JURISDICTION",
+    // Foreign subscriber content (a subscriber's law, repo_code, or name) is not the
+    // agent's to ASSENT into canon - ACT-007:s4 / ACT-005:s1 go to whether the record
+    // belongs in canon at all, not to a correctable defect. The assent floor never
+    // shelters it (the PC-15 prose-leak cure).
+    "CANON_BOUNDARY_VIOLATION",
 ];
 
 /// True when a finding code goes to constitutive validity (never assent-downgradeable).

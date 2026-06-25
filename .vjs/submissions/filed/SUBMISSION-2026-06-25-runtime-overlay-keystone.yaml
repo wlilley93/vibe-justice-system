@@ -2,8 +2,8 @@ id: SUBMISSION-2026-06-25-runtime-overlay-keystone
 court_requested: privy_council
 jurisdiction: vibe-justice-system
 question: >
-  A subscriber (Opbox), having ratified a model in its OWN local court
-  ([2026] VJS-CC-OPBOX 100 - binding only on Opbox, ACT-007:s4), asks canon VJS to
+  A subscriber, having ratified a model in its OWN local court
+  (the subscriber's local ruling - binding only on the subscriber, ACT-007:s4), asks canon VJS to
   build the keystone canon-side piece: a two-tier overlay lawpack loader so a
   subscriber's local Tier-2 law extends the canon Tier-1 floors for RUNTIME business
   decisions (matter.advance, invoice charge, gate approval), attributable at an
@@ -11,9 +11,9 @@ question: >
   Canon holds the editorial pen on the substrate; a subscriber's request passes the
   inclusion-eligibility gate, it is not built on request. Per Q1-Q6: (Q1) is the
   runtime-operations overlay a canon SUBSTRATE PRIMITIVE (generic, any
-  runtime-governing subscriber benefits) or Opbox-specific (belongs in Opbox's own
+  runtime-governing subscriber benefits) or subscriber-specific (belongs in the subscriber's own
   tree); (Q2) is the entity-scope a generic primitive (arbitrary scope dimensions,
-  the subscriber supplies its own) or is "org/ws/matter/flow/step" Opbox VOCABULARY
+  the subscriber supplies its own) or is "org/ws/matter/flow/step" the subscriber VOCABULARY
   that must NOT be hard-coded into canon; (Q3) is the two-tier design - canon Tier-1
   read-only floors + subscriber Tier-2, cascade most-specific-first, canon-precedence,
   and ANTI-RELAXATION at load (a local rule that relaxes or contradicts a canon floor
@@ -40,14 +40,14 @@ facts: >
   is a second tier (a subscriber's .vjs/local-lawpack/) loaded together, resolved
   most-specific-first up to the canon floors at the apex, canon always winning, with
   a local rule that relaxes a floor VOID at load (the loader sees the floors).
-  F4. The entity keys "org -> ws -> matter -> flow -> step" are Opbox's business
+  F4. The entity keys "org -> ws -> matter -> flow -> step" are the subscriber's business
   hierarchy. A canon Scope hard-coding them would import subscriber vocabulary into
   the substrate - the inclusion-gate's "tenant-config", not "substrate-primitive".
   A GENERIC entity-scope (a map of dimension -> value, the dimensions named by the
   subscriber) is the substrate-eligible form.
-  F5. Opbox's kernel side is built against a stub; the moment the loader lands, Opbox
+  F5. the subscriber's kernel side is built against a stub; the moment the loader lands, the subscriber
   wires its live runtime gate with no further canon ask. The contract lives in the
-  Opbox repo (docs/vjs-server-of-law-contract.md), not canon.
+  the subscriber repo (docs/vjs-server-of-law-contract.md), not canon.
   F6. The same-author hazard: canon must not adopt a subscriber's framing wholesale.
   The requirement-inclusion gate (substrate-primitive / generic-vertical /
   tenant-config / reject) is the editorial discipline; this matter applies it.
@@ -56,13 +56,13 @@ requested_order: >
   (the two-tier canon-precedence overlay loader with anti-relaxation at load; a
   generic entity-scope primitive; a runtime GovernedLoadBearingAct ActionKind and a
   runtime/operations domain; the deterministic submit-decision permit API under
-  REG-KERNEL-001 + VJS-ACT 10), genericising the Opbox vocabulary (Opbox supplies its
+  REG-KERNEL-001 + VJS-ACT 10), genericising the subscriber vocabulary (the subscriber supplies its
   own dimensions in Tier-2), under ACT-CONSOLIDATION-FRAMEWORK:s7 so it amends no
   statute / bench / tier / jurisdiction / assent rule. Reject or reserve any part
-  that is Opbox-specific or insufficiently grounded.
+  that is subscriber-specific or insufficiently grounded.
 private_boundary: >
-  Public canon: VJS governance + a generic federation primitive. No Opbox business
-  facts, no subscriber repo paths or repo_codes appear or may appear; the Opbox
+  Public canon: VJS governance + a generic federation primitive. No the subscriber business
+  facts, no subscriber repo paths or repo_codes appear or may appear; the subscriber
   vocabulary is named only to EXCLUDE it from the substrate.
 positions:
   - id: A
@@ -72,11 +72,11 @@ positions:
       the runtime ActionKind + domain are additive (amend nothing); the submit-decision
       API is the deterministic clerk REG-KERNEL-001 already is, disposed GRANT /
       ROUTE-FOR-CORRECTION per VJS-ACT 10. Build the GENERIC entity-scope (arbitrary
-      dimensions); Opbox supplies org/ws/matter/flow/step in its Tier-2. Build now.
+      dimensions); the subscriber supplies org/ws/matter/flow/step in its Tier-2. Build now.
   - id: B
     summary: >
       REJECT canon-side. Canon governs code; runtime-operations governance is the
-      subscriber's own concern and belongs entirely in Opbox's tree. Building a
+      subscriber's own concern and belongs entirely in the subscriber's tree. Building a
       runtime domain in canon on one subscriber's ratified-locally model is
       substrate creep driven by a tenant.
   - id: C
