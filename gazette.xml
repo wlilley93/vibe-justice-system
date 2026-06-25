@@ -3,11 +3,22 @@
   <title>The VJS Gazette</title>
   <subtitle>The record of the realm: the living canon and the honoured archive</subtitle>
   <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette</id>
-  <updated>2026-06-24T00:00:00Z</updated>
+  <updated>2026-06-25T00:00:00Z</updated>
   <link rel="self" href="https://wlilley93.github.io/vibe-justice-system/gazette.xml"/>
   <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/"/>
   <author><name>Vibe Justice System</name></author>
   <rights>Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001): force comes from the lawpack and the Sovereign's assent, never from publication or syndication.</rights>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REG-INSTALL-MANIFEST-001</id>
+    <title>Install Manifest Regulation</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#REG-INSTALL-MANIFEST-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-INSTALL-MANIFEST-001.yaml"/>
+    <category term="regulation"/>
+    <category term="canon"/>
+    <published>2026-06-25T00:00:00Z</published>
+    <updated>2026-06-25T00:00:00Z</updated>
+    <summary type="text">This Regulation prescribes the FORM of a VJS install manifest: the single sha256-locked record that proves a jurisdiction&apos;s install surface is complete and unaltered.</summary>
+  </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-013</id>
     <title>Teeth for the Front Door</title>
