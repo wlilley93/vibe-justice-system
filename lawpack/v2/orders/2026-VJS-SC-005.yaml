@@ -1,0 +1,150 @@
+id: "2026-VJS-SC-005"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-SC 5"
+title: "Reference re Standing-Route Resolution: the route-class refinement is built now as faithful non-narrowing interpretation; the per-instrument force-gate is reserved to the Sovereign"
+court: supreme_court
+jurisdiction: vibe-justice-system
+status: binding
+issue: standing_route_resolution_route_class_refinement_built_as_interpretation_per_instrument_force_gate_reserved
+appeal_of: "PC-18 (Principal leapfrog)"
+appealable: false
+supersedes:
+  - "[2026] VJS-PC 18"
+question: >
+  On the Principal's leapfrog certificate from the fractured Privy Council ([2026] VJS-PC 18): (Q1, ADOPT or
+  TIGHTEN) should the kernel keep resolving a regulation's standing_bounded_assent on the bare `founded`
+  existence-check, or tighten it to a recorded-route resolution? (Q2, the constitutional crux) is such a
+  tightening faithful INTERPRETATION of ACT-COMPUTER-FIRST-REALM s.23, or does it NARROW the entrenched
+  ACT-ASSENTED-RECORD-PROTECTION s.1 floor and so belong to the Sovereign? (Q3, MECHANISM and MIGRATION) if a
+  tightening is available, by what deterministic mechanism, on what migration, and under what conditions, so that
+  no genuine regulation loses its floor?
+holding: >
+  BUILD THE ROUTE-CLASS REFINEMENT NOW, 7-2 on disposition, UNANIMOUS 9-0 on the constitutional crux. A full
+  constitutional bench of nine sat (s.22(2)) and judgment is delivered IN FULL, every justice's opinion filed
+  verbatim as the source_opinion of record (s.18). This order settles the three-way Privy fracture in
+  [2026] VJS-PC 18 de novo and binds canon as the apex ratio.
+  Q2 (INTERPRETATION vs NARROWING), UNANIMOUS 9-0: resolving a regulation's standing_bounded_assent by a
+  ROUTE-CLASS TRACE, the record's own declared route followed to its class's specific, recorded, digest-pinned
+  terminal Sovereign assent (for the ACT-CONSOLIDATION-FRAMEWORK s.7 class, the Framework Act assent at
+  COMMENCEMENT-V2-0002, framework_act_text_digest sha256:90e843c1...), paired with the established-canon
+  carve-out and route-for-correction, is FAITHFUL INTERPRETATION of ACT-COMPUTER-FIRST-REALM s.23, within this
+  Council's interpretive power, and NON-NARROWING. A PER-INSTRUMENT FORCE-GATE, conditioning a regulation's force
+  on its own separately-recorded enactment-provenance note so the note's absence strips the floor or holds a
+  non-constitutive Fatal at Fatal for a regulation validly made under s.7, invents a gating fact s.7 does not
+  impose and NARROWS ACT-ASSENTED-RECORD-PROTECTION s.1 for a genuine record; it is RESERVED EXCLUSIVELY to a
+  Sovereign-assented constitutional Act. The two machines were fused below; separated, the route-class limb is
+  interpretation and the force-gate limb is narrowing, and the apparent Privy contradiction dissolves.
+  Q1 (ADOPT/TIGHTEN): for ORDERS, AFFIRM (unanimous), the bench-less or never-convened-order vector is already
+  closed at the constitutive rung by the constitutive-validity codes (BENCH_REQUIRED, TIER_NOT_CONSTITUTED,
+  BENCH_SIZE_MISMATCH, BENCH_SILENT_SEAT, BENCH_OPINION_MISSING, CITATION_COLLISION,
+  APEX_RECORD_IN_SUBSCRIBING_JURISDICTION), never softened by any assent claim and proven end-to-end; make it
+  explicit, add no order-specific gate. For REGULATIONS, TIGHTEN (7-2): the bare `founded` predicate is an
+  under-implementation of the entrenched 'tracing' verb, of the family PC-16 condemned next door, and is replaced
+  now by the route-class resolution, built as interpretation.
+  Q3 (MECHANISM/MIGRATION), majority 7-2: build the two-limb, deterministic, model-free, network-free,
+  clock-independent resolution now: limb one established-at-HEAD, short-circuiting, the complete zero-narrowing
+  migration for the entire committed corpus (a true recorded trace to the founding commencement, not a
+  grandfather clause); limb two the record's declared parent authority resolving to its recorded terminal, with
+  NO per-instrument paper required of any regulation; bound by the five non-narrowing conditions and the PC-16 D7
+  tripwire on every future builder.
+  MAJORITY (BUILD NOW): Reid, Diplock, Hoffmann, Steyn, Scarman, Radcliffe, Devlin JJ. CONCURRENCES on emphasis:
+  Diplock and Reid JJ. stress that the s.7 terminal is SHARED and recorded, so a genuine new regulation resolves
+  by class-membership alone with no per-instrument paper; Reid, Hoffmann, Radcliffe and Devlin JJ. record that
+  the regulation-laundering residual is IRREDUCIBLE by lawful machinery (the route-class check raises the forgery
+  bar but a forger may name a real parent or point at the public Framework digest), backstopped by the
+  constitutive codes and the duty of care (ACT-003 s.4 to s.8, breach self-fileable); Steyn and Scarman JJ.
+  additionally hold that a non-resolving NEW regulation keeps native severity only because, by s.2, the floor
+  never attached, and is routed for correction, never voided or blocked.
+  DISSENT ON DISPOSITION (RESERVE), Wilberforce and Simon JJ., who CONCUR in the unanimous Q2 ratio but would
+  build nothing now. Wilberforce J. holds that, built, the route-class check would be strictly MORE narrowing
+  than the status quo at the new-regulation boundary (22 of 28 committed standing regulations carry no
+  per-instrument note, the realm's normal practice) while closing no residual, so the floor-faithful direction of
+  error is to over-shelter and retain the permissive `founded` check. Simon J. holds the `founded` predicate is
+  faithful-but-coarse and NOT the defect PC-16 condemned, because for the regulation class the terminal is single
+  and recorded (terminal-asymmetry), there is no demonstrated need, and floor-error-ordering favours the status
+  quo; he would reserve and record the binding ratio only. Both dissenters would bind the same non-narrowing
+  conditions on any future build. They are OUTVOTED on disposition; the unanimous Q2 ratio and the 7-2 build
+  disposition bind canon. The entrenched floor stands at full height for every resolving record; nothing
+  entrenched is amended; nothing is routed to the Sovereign as a requirement of this cure.
+forbidden:
+  - a_per_instrument_enactment_provenance_force_gate_on_standing_bounded_assent_for_regulations_whose_absence_strips_a_floor_or_holds_a_non_constitutive_fatal_at_fatal_for_a_regulation_validly_made_under_act_consolidation_framework_s7_reserved_exclusively_to_the_sovereign_and_barred_even_on_a_future_regulation_laundering_breach
+  - any_build_in_which_the_established_at_head_carve_out_fails_to_shelter_every_regulation_committed_at_head_so_that_a_genuine_in_force_regulation_loses_its_floor
+  - the_kernel_judging_the_merits_of_valid_making_beyond_the_existence_of_a_recorded_trace_or_anchoring_resolution_on_a_kernel_invented_gate_rather_than_a_recorded_digest_pinned_sovereign_assent
+  - any_assent_claim_or_trace_softening_the_constitutive_validity_codes_so_as_to_launder_an_orders_void_ab_initio_grounds
+  - representing_the_cure_as_closing_the_regulation_laundering_residual_which_is_irreducible_by_lawful_machinery_for_the_regulation_class
+directives:
+  - id: D1
+    actor: lexby
+    must: build_the_route_class_resolution_now_in_crates_vjs_engine_src_assent_rs_replace_the_bare_founded_predicate_on_the_standing_bounded_assent_arm_with_a_deterministic_model_free_network_free_clock_independent_two_limb_resolution_limb_one_established_at_head_evaluated_first_and_short_circuiting_limb_two_the_records_declared_parent_authority_resolving_to_an_in_force_record_whose_own_sovereign_assent_resolves_by_the_pc16_chain_to_a_specific_digest_pinned_sovereign_assent_event_never_weaken_or_remove_the_constitutive_codes_exclusion_cite_act_computer_first_realm_s23_inv_assent_source_001_and_act_assented_record_protection_s2_as_the_instrument_on_every_resulting_denial
+  - id: D2
+    actor: lexby
+    must: extend_the_established_at_head_carve_out_to_the_standing_bounded_assent_branch_as_the_complete_non_narrowing_migration_it_must_be_limb_one_and_must_short_circuit_so_no_committed_regulation_ever_depends_on_parent_authority_resolution_add_a_proof_enumerating_every_current_reg_record_asserting_each_resolves_and_retains_its_route_for_correction_disposition_unchanged_including_a_genuinely_assented_regulation_carrying_an_inert_unimplemented_or_discrepant_non_constitutive_defect_which_must_still_route_for_correction_and_never_be_voided_or_blocked
+  - id: D3
+    actor: lexby
+    must: resolve_a_genuine_new_regulation_by_class_membership_through_its_declared_parent_authority_to_the_shared_recorded_terminal_requiring_no_per_instrument_provenance_note_of_any_regulation_add_the_anti_narrowing_proofs_a_genuine_new_regulation_on_the_s7_route_carrying_no_per_instrument_record_still_resolves_and_keeps_its_floor_at_full_height_and_a_fresh_record_typing_standing_bounded_assent_on_no_recognised_route_carrying_a_non_constitutive_fatal_does_not_resolve_and_keeps_its_native_severity_record_candidly_in_the_implementing_note_the_irreducible_remainder_that_the_check_raises_the_forgery_bar_but_does_not_close_the_residual_backstopped_by_the_constitutive_codes_and_the_duty_of_care_act_003_s4_to_s8_and_do_not_represent_the_cure_as_more_than_it_is
+  - id: D4
+    actor: lexby
+    must: make_the_orders_limb_explicit_and_keep_it_proven_an_orders_standing_route_is_issuance_by_a_constituted_bench_under_act_002_already_enforced_by_the_constitutive_codes_and_never_softened_by_any_assent_claim_add_a_one_line_comment_at_the_standing_bounded_assent_arm_make_no_order_specific_resolution_change_and_keep_forged_fresh_apex_order_stays_fatal_through_the_pipeline_forged_standing_bounded_order_is_still_blocked_and_constitutive_bench_defect_not_downgraded_even_for_an_established_assented_order_green
+  - id: D5
+    actor: lexby
+    must: do_not_implement_a_per_instrument_enactment_provenance_requirement_as_a_force_gate_on_standing_bounded_assent_for_regulations_the_absence_of_such_a_record_may_never_strip_a_floor_or_hold_a_non_constitutive_fatal_at_fatal_for_a_regulation_validly_made_under_act_consolidation_framework_s7_that_gate_narrows_act_assented_record_protection_s1_for_a_genuine_record_is_reserved_exclusively_to_the_sovereign_and_is_barred_even_on_a_future_regulation_laundering_breach_because_the_residual_it_would_close_is_for_the_regulation_class_irreducible_by_lawful_machinery
+  - id: D6
+    actor: lexby
+    must: bind_as_ratio_the_five_conditions_on_any_future_build_one_established_at_head_must_shelter_every_regulation_committed_at_head_two_no_per_instrument_provenance_record_may_be_a_condition_of_force_three_the_terminal_anchor_must_be_a_recorded_digest_pinned_sovereign_assent_never_a_kernel_invented_gate_four_the_check_stays_pure_clerk_recorded_trace_existence_and_digest_compare_only_no_merits_judgment_of_valid_making_five_if_any_genuine_record_cannot_resolve_without_narrowing_the_protection_s1_gives_it_stop_ship_nothing_self_file_and_route_to_the_sovereign_pc16_d7_made_binding_apex_ratio_record_these_in_docs_standing_routes_analysis_md_update_the_deferred_entry_in_breach_2026_06_25_assent_resolution_under_implementation_to_point_at_this_order_and_file_no_breach_because_pc16_lawfully_reserved_this_question_and_this_bench_has_now_decided_it
+  - id: D7
+    actor: lexby
+    must: optional_at_engineering_discretion_compelled_by_no_order_the_kernel_may_surface_an_advisory_warning_route_for_correction_never_fatal_never_a_floor_strip_never_a_downgrade_block_when_a_new_regulation_carries_no_enactment_provenance_attachment_as_a_deterministic_nudge_toward_good_practice_fully_consistent_with_act_assented_record_protection_s1_surface_a_defect_never_void_or_block_the_moment_such_an_advisory_would_strip_a_floor_or_hold_a_fatal_at_fatal_it_is_barred_and_becomes_the_sovereign_reserved_force_gate_of_d5
+  - id: D8
+    actor: lexby
+    must: build_under_the_lawful_route_as_interpretation_this_order_amends_no_statute_invariant_bench_tier_or_assent_rule_and_is_not_routed_to_the_sovereign_as_an_amendment_file_the_full_supreme_council_benchs_opinions_verbatim_as_the_source_opinion_of_record_record_the_resulting_order_in_canon_with_a_citator_row_citing_act_computer_first_realm_s23_and_s14_act_consolidation_framework_s7_and_s25_act_assented_record_protection_s1_and_s2_inv_assent_source_001_reg_kernel_001_and_2026_vjs_pc_16_and_settling_the_fractured_2026_vjs_pc_18_allocate_the_citation_through_vjs_citation_next_never_by_hand_pin_the_case_file_digest_sha256_4344c70a40bde0080ca53e627c7bcd78a61caeae95b7fd6a49b47625e8a0b58c_pass_the_bench_integrity_gate_on_the_convened_constitutional_bench_of_nine_each_seat_carrying_a_real_opinion_and_verify_by_deterministic_proof_no_model
+  - id: D9
+    actor: sovereign
+    must: for_noting_only_not_a_requirement_of_this_cure_nothing_here_needs_the_sovereigns_assent_because_the_route_class_resolution_requirement_already_lives_in_act_computer_first_realm_s23_as_imported_by_act_assented_record_protection_s1_and_s2_and_the_refinement_preserves_the_floor_at_full_height_should_the_realm_ever_wish_to_make_per_instrument_enactment_provenance_a_condition_of_force_for_regulations_so_that_its_absence_strips_the_floor_or_holds_a_non_constitutive_fatal_at_fatal_that_narrows_act_assented_record_protection_s1_for_a_genuinely_made_regulation_and_is_reserved_exclusively_to_a_sovereign_assented_constitutional_act_citing_act_computer_first_realm_s23_and_act_assented_record_protection_by_number_the_sovereign_may_equally_at_sole_option_place_the_route_class_requirement_itself_beyond_future_argument_by_an_express_act_this_bench_neither_requests_nor_pre_empts_either_choice_and_the_cure_of_d1_to_d8_is_in_no_way_conditional_on_any_such_act
+bench:
+  - "Reid"
+  - "Wilberforce"
+  - "Diplock"
+  - "Hoffmann"
+  - "Steyn"
+  - "Scarman"
+  - "Radcliffe"
+  - "Devlin"
+  - "Simon"
+vote: >
+  7-2 BUILD-THE-ROUTE-CLASS-REFINEMENT-NOW on binding non-narrowing conditions (majority: Reid, Diplock,
+  Hoffmann, Steyn, Scarman, Radcliffe, Devlin JJ.); Wilberforce and Simon JJ. dissent on disposition, holding the
+  build should be RESERVED and the permissive `founded` check retained. UNANIMOUS 9-0 on Q2: a route-class trace
+  check, with the established-canon carve-out and route-for-correction, is faithful interpretation of s.23 within
+  this Council's power and non-narrowing, while a per-instrument force-gate narrows ACT-ASSENTED-RECORD-PROTECTION
+  s.1 for a genuinely-made regulation and is reserved exclusively to the Sovereign. UNANIMOUS that the orders and
+  apex limb is already closed at the constitutive rung and needs no assent-resolution change.
+case_file_digest: "sha256:4344c70a40bde0080ca53e627c7bcd78a61caeae95b7fd6a49b47625e8a0b58c"
+source_opinion: ".vjs/submissions/filed/2026-VJS-SC-005-opinions.md"
+convened_at: "2026-06-25T17:06:46.378658937+00:00"
+created_at: "2026-06-25T17:20:00+00:00"
+runtime_summary: >
+  Apex order (7-2 build; 9-0 on the constitutional crux), settling the three-way Privy fracture in
+  [2026] VJS-PC 18 de novo. The kernel resolves a regulation's standing_bounded_assent on a bare `founded`
+  existence-check (true whenever any Sovereign foundation exists anywhere), an under-implementation of the
+  entrenched 'tracing' verb of the family PC-16 condemned for the sister clause. The Council unanimously holds
+  (Q2) that resolving it instead by a ROUTE-CLASS TRACE, the record's own declared route followed to its class's
+  specific, recorded, digest-pinned terminal Sovereign assent (for the s.7 class, the Framework Act assent at
+  COMMENCEMENT-V2-0002), with the established-canon carve-out and route-for-correction, is faithful
+  interpretation and non-narrowing; and that a PER-INSTRUMENT FORCE-GATE (force conditioned on a regulation's own
+  separately-recorded provenance note, its absence stripping the floor) narrows ACT-ASSENTED-RECORD-PROTECTION
+  s.1 for a genuine regulation made under ACT-CONSOLIDATION-FRAMEWORK s.7 and is reserved exclusively to a
+  Sovereign-assented Act. By 7-2 the Council orders lexby to BUILD the route-class refinement now, as
+  interpretation: a two-limb, deterministic, model-free, network-free, clock-independent resolution in assent.rs
+  (limb one established-at-HEAD, short-circuiting, the complete zero-narrowing migration sheltering every
+  committed regulation; limb two the record's declared parent authority resolving to its recorded terminal), with
+  no per-instrument paper required of any regulation, the constitutive-codes exclusion untouched, the orders limb
+  affirmed as already closed and made explicit, and an optional non-narrowing advisory permitted. Five conditions
+  and the PC-16 D7 tripwire bind every future builder against narrowing the floor; the per-instrument force-gate
+  is barred even on a future breach, the regulation-laundering residual being irreducible by lawful machinery and
+  backstopped by the constitutive codes and the duty of care (ACT-003 s.4 to s.8). Wilberforce and Simon JJ.
+  concur in the unanimous Q2 ratio but dissent on disposition, holding the build should be reserved: Wilberforce
+  because, built, it would be strictly more narrowing at the new-regulation boundary while closing no residual;
+  Simon because, on the terminal-asymmetry, `founded` is faithful-but-coarse, not the condemned defect, with no
+  demonstrated need. They are outvoted. Nothing entrenched is amended; the floor stands at full height; nothing
+  is routed to the Sovereign as a requirement. File the full bench, record in canon, allocate the citation
+  through `vjs citation next`, and verify by deterministic proof. Binding apex caselaw now.
