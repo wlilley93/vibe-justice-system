@@ -1,0 +1,89 @@
+id: SUBMISSION-2026-06-25-runtime-overlay-keystone
+court_requested: privy_council
+jurisdiction: vibe-justice-system
+question: >
+  A subscriber (Acmeco), having ratified a model in its OWN local court
+  ([2026] VJS-CC-ACMECO 100 - binding only on Acmeco, ACT-007:s4), asks canon VJS to
+  build the keystone canon-side piece: a two-tier overlay lawpack loader so a
+  subscriber's local Tier-2 law extends the canon Tier-1 floors for RUNTIME business
+  decisions (matter.advance, invoice charge, gate approval), attributable at an
+  entity hierarchy (org -> ws -> matter -> flow -> step) rather than code commits.
+  Canon holds the editorial pen on the substrate; a subscriber's request passes the
+  inclusion-eligibility gate, it is not built on request. Per Q1-Q6: (Q1) is the
+  runtime-operations overlay a canon SUBSTRATE PRIMITIVE (generic, any
+  runtime-governing subscriber benefits) or Acmeco-specific (belongs in Acmeco's own
+  tree); (Q2) is the entity-scope a generic primitive (arbitrary scope dimensions,
+  the subscriber supplies its own) or is "org/ws/matter/flow/step" Acmeco VOCABULARY
+  that must NOT be hard-coded into canon; (Q3) is the two-tier design - canon Tier-1
+  read-only floors + subscriber Tier-2, cascade most-specific-first, canon-precedence,
+  and ANTI-RELAXATION at load (a local rule that relaxes or contradicts a canon floor
+  is VOID; local law may only ADD restrictions) - faithful machinery for
+  REG-FEDERATION-COORDINATION-001 + ACT-007:s3/s4; (Q4) is a runtime
+  GovernedLoadBearingAct ActionKind + a runtime/operations law domain distinct from
+  code-governance ADDITIVE substrate or does it amend a statute/bench/tier/assent
+  rule; (Q5) the deterministic submit-decision permit API (<100ms, no LLM, GRANT
+  carries law_source[]) bound to REG-KERNEL-001 (deterministic clerk) and VJS-ACT 10
+  (GRANT or ROUTE_FOR_CORRECTION, never hard-DENY) - adopt and direct; (Q6) build now
+  or reserve any part.
+facts: >
+  F1. The binding law cited all exists in canon: REG-KERNEL-001 (the kernel is the
+  only smart point; deliberation is the async court), REG-FEDERATION-COORDINATION-001
+  (a subscriber records local precedent + a local lawpack only, never canon),
+  ACT-007:s3 (local law does not override the canon without a Privy order or Principal
+  assent) and s4 (local law binds only the local repo), ACT-ASSENTED-RECORD-PROTECTION
+  / VJS-ACT 10 (an assented act is GRANTed or ROUTED-FOR-CORRECTION, never voided).
+  F2. The federation PRINCIPLE the overlay implements is already canon: a subscriber
+  HAS local law that adds restrictions and never overrides the canon floors. The
+  overlay loader is the mechanism that loads canon + local together and enforces that
+  precedence at load. There is no on-point caselaw; this is first-impression.
+  F3. Today vjs-lawpack::LawpackLoader::load(dir) loads ONE lawpack (canon). The ask
+  is a second tier (a subscriber's .vjs/local-lawpack/) loaded together, resolved
+  most-specific-first up to the canon floors at the apex, canon always winning, with
+  a local rule that relaxes a floor VOID at load (the loader sees the floors).
+  F4. The entity keys "org -> ws -> matter -> flow -> step" are Acmeco's business
+  hierarchy. A canon Scope hard-coding them would import subscriber vocabulary into
+  the substrate - the inclusion-gate's "tenant-config", not "substrate-primitive".
+  A GENERIC entity-scope (a map of dimension -> value, the dimensions named by the
+  subscriber) is the substrate-eligible form.
+  F5. Acmeco's kernel side is built against a stub; the moment the loader lands, Acmeco
+  wires its live runtime gate with no further canon ask. The contract lives in the
+  Acmeco repo (docs/vjs-server-of-law-contract.md), not canon.
+  F6. The same-author hazard: canon must not adopt a subscriber's framing wholesale.
+  The requirement-inclusion gate (substrate-primitive / generic-vertical /
+  tenant-config / reject) is the editorial discipline; this matter applies it.
+requested_order: >
+  Determine Q1-Q6. If adopting: direct the build of the generic substrate pieces
+  (the two-tier canon-precedence overlay loader with anti-relaxation at load; a
+  generic entity-scope primitive; a runtime GovernedLoadBearingAct ActionKind and a
+  runtime/operations domain; the deterministic submit-decision permit API under
+  REG-KERNEL-001 + VJS-ACT 10), genericising the Acmeco vocabulary (Acmeco supplies its
+  own dimensions in Tier-2), under ACT-CONSOLIDATION-FRAMEWORK:s7 so it amends no
+  statute / bench / tier / jurisdiction / assent rule. Reject or reserve any part
+  that is Acmeco-specific or insufficiently grounded.
+private_boundary: >
+  Public canon: VJS governance + a generic federation primitive. No Acmeco business
+  facts, no subscriber repo paths or repo_codes appear or may appear; the Acmeco
+  vocabulary is named only to EXCLUDE it from the substrate.
+positions:
+  - id: A
+    summary: >
+      ADOPT AS SUBSTRATE, genericise the vocabulary. The overlay/cascade/anti-relaxation
+      is teeth on REG-FEDERATION-COORDINATION-001 + ACT-007:s3/s4 (machinery under s7);
+      the runtime ActionKind + domain are additive (amend nothing); the submit-decision
+      API is the deterministic clerk REG-KERNEL-001 already is, disposed GRANT /
+      ROUTE-FOR-CORRECTION per VJS-ACT 10. Build the GENERIC entity-scope (arbitrary
+      dimensions); Acmeco supplies org/ws/matter/flow/step in its Tier-2. Build now.
+  - id: B
+    summary: >
+      REJECT canon-side. Canon governs code; runtime-operations governance is the
+      subscriber's own concern and belongs entirely in Acmeco's tree. Building a
+      runtime domain in canon on one subscriber's ratified-locally model is
+      substrate creep driven by a tenant.
+  - id: C
+    summary: >
+      ADOPT THE OVERLAY PRIMITIVE, RESERVE THE REST. The two-tier canon-precedence
+      overlay with anti-relaxation is clean federation machinery - build it. But
+      RESERVE the runtime ActionKind, the runtime/operations domain, and the
+      submit-decision API until grounded in more than one subscriber (avoid baking a
+      single tenant's runtime shape into the substrate prematurely).
+word_count: 600

@@ -1,0 +1,186 @@
+id: "2026-VJS-PC-015"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-PC 15"
+title: The Runtime-Overlay Keystone
+court: privy_council
+jurisdiction: vibe-justice-system
+status: binding
+issue: two_tier_runtime_overlay_loader_generic_entity_scope_and_deterministic_submit_decision_permit_as_substrate_machinery
+bench:
+  - Tindale
+  - Rowanne
+  - Marchmont
+vote: >
+  3-0 (Tindale J., Rowanne J., Marchmont J., unanimous on all six questions): POSITION
+  A - ADOPT AS SUBSTRATE, GENERICISE THE VOCABULARY, BUILD NOW - prevails on its
+  substance, under ACT-CONSOLIDATION-FRAMEWORK:s7 as subordinate machinery amending no
+  statute, bench, tier, jurisdiction, or assent rule, on the genericisation conditions
+  held as ABSOLUTES. Position B (reject canon-side; code-governance owns canon) and
+  Position C (reserve the runtime pieces until more than one subscriber) both REJECTED.
+  No dissent. Marchmont J. records on the face of the record that the kernel already
+  carries the GovernedLoadBearingAct ActionKind variant and a generic named-dimension
+  Scope, narrowing Q4 to finishing the route-classifier wiring and Q2 to holding canon
+  to its existing vocabulary-free form; the other justices concur in result.
+case_file_digest: "sha256:7eb3fe91200522af3fc6390335a7e41dd3770597dc1546035a55acff64f0811f"
+convened_at: "2026-06-25T13:55:58.921353243+00:00"
+question: >
+  The subscriber's runtime-overlay keystone request (SUBMISSION-2026-06-25-runtime-
+  overlay-keystone), a runtime sibling of PC-14, on the inclusion-eligibility of an
+  overlay lawpack loader and its parts. Per question Q1-Q6: (Q1) is the runtime-
+  operations overlay a canon substrate primitive or Acmeco-specific; (Q2) is the entity-
+  scope a generic primitive or is "org/ws/matter/flow/step" Acmeco vocabulary canon must
+  never hard-code; (Q3) is the two-tier canon-precedence overlay with anti-relaxation-
+  at-load faithful machinery for REG-FEDERATION-COORDINATION-001 + ACT-007:s3/s4, or
+  does it amend anything; (Q4) is a runtime GovernedLoadBearingAct ActionKind plus a
+  runtime/operations law domain additive machinery or a constitutive change beyond s7;
+  (Q5) is the deterministic submit-decision permit API simply REG-KERNEL-001's clerk
+  applied to runtime acts, disposed GRANT / ROUTE-FOR-CORRECTION never hard-DENY per
+  VJS-ACT 10; and (Q6) build the generic primitive now or reserve the ActionKind,
+  domain, and API to more-than-one-subscriber grounding (Position C)?
+holding: >
+  POSITION A's substance prevails, 3-0, on the genericisation conditions held as
+  absolutes. Q1 (NATURE): SUBSTRATE PRIMITIVE, in its generic form only. The principle
+  the overlay mechanises is already canon and already general - a subscriber holds
+  local law that ADDS restriction and never overrides the canon floors (ACT-007:s2/s3/
+  s4; REG-FEDERATION-COORDINATION-001) - and nothing in it is confined to code commits.
+  Loading canon-plus-local together and enforcing canon-precedence at load is federation
+  machinery, indifferent to whether the governed acts are matter-advances, charges, or
+  gate-approvals; every runtime-governing subscriber benefits identically. Eligible as a
+  substrate primitive, conditioned absolutely on Q2 genericisation. Position B REJECTED:
+  canon governs governed acts and inter-jurisdiction coordination, not code; a primitive
+  that worked only for commits would arbitrarily narrow REG-FEDERATION-COORDINATION-001,
+  which is written in terms of "local law," not "local law about code." Q2 (THE SCOPE):
+  the GENERIC named-dimension scope is substrate-eligible; "org/ws/matter/flow/step" is
+  Acmeco VOCABULARY and is REFUSED entry into canon, absolutely. The shape - a scope is
+  an ordered map of dimension to value, resolved most-specific-first - is a generic
+  primitive; the contents are one subscriber's business hierarchy and are tenant-config,
+  not substrate-primitive, under the inclusion gate. Hard-coding those five keys would
+  import a subscriber's facts and vocabulary into the substrate that binds every
+  subscriber, breaching ACT-007:s4 and the public/private boundary the protective floor
+  entrenches (s21), and would REGRESS canon from a form it already has right (the
+  existing Scope carries no business noun). Canon ships the empty frame and the cascade
+  algebra; the subscriber supplies its own dimension names and ordering in its Tier-2.
+  The Acmeco set is named in this record only to EXCLUDE it. Q3 (THE OVERLAY): FAITHFUL
+  MACHINERY; it amends nothing. Canon-precedence is ACT-007:s3 in terms; the void-at-
+  load of a relaxing local rule is the mechanical face of the same words - a local rule
+  relaxing a canon floor WOULD be a local override s3 already forbids and REG-FEDERATION-
+  COORDINATION-001 already lists. The loader does not enact "local may only add
+  restriction"; it reads that existing consequence off the loaded instruments at the one
+  place the floors are visible (load), the deterministic clerk REG-KERNEL-001
+  contemplates. It amends no statute, bench, tier, jurisdiction, or assent rule and is
+  intra vires s7; tested from the other direction, voiding a local relaxation touches no
+  primary Act and, the relaxation carrying no Sovereign assent, does not reach the
+  VJS-ACT 10 floor. Three conditions, refused without them: (i) the void operates ONLY on
+  the offending Tier-2 rule (the relaxation yields to the floor; the floor stands), never
+  on canon and never erasing an assented record - it must name the canon floor it
+  offended (REG-KERNEL-001) and never silently drop law; (ii) it enforces precedence
+  over the floors canon actually enacted, never inventing a floor; (iii) it respects the
+  ACT-007:s3 authority exception - a Tier-2 divergence declaring a Privy order or valid
+  assent_source is an authorised override, not a relaxation to void, and the loader keys
+  on the presence of that authority and never re-adjudicates it. By construction it
+  resolves only toward the floor, so it cannot weaken an entrenched guarantee (s25). Q4
+  (THE KIND): ADDITIVE machinery. The GovernedLoadBearingAct ActionKind variant is
+  already declared in the kernel; wiring it into the route classifier and naming a
+  generic runtime/operations law domain partitions SUBJECT MATTER, not constitutional
+  authority. It creates no court, no apex, no assent path; apex-singleness is untouched
+  and runtime constitutional questions route up as VJS-SC 4 holds for all. The same
+  additive move REG-KERNEL-001 recites for itself ("amends no statute, no bench, no
+  tier, no assent rule"). Conditions: canon ships the CATEGORY and the domain FRAME only,
+  EMPTY; the concrete runtime acts (matter.advance, charge, gate-approval) are
+  subscriber-supplied in Tier-2, never canon-enumerated; and the domain may not become a
+  backdoor by which runtime acts escape the court triggers (ACT-002:s6) or the assent
+  floor (VJS-ACT 10). Q5 (THE CLERK): ADOPTED as REG-KERNEL-001's deterministic clerk
+  applied to runtime acts. A submit-decision API returning in <100ms, no LLM, no network,
+  whose GRANT carries law_source[] (the affirmative twin of "every denial names its
+  instrument"), is that clerk pointed at a runtime act. Terminal dispositions are GRANT
+  or ROUTE_FOR_CORRECTION, bound to the assent bifurcation PC-14 D3 settled: a runtime act
+  carrying a valid assent_source (sovereign_assent or standing_bounded_assent, per the
+  INV-ASSENT-SOURCE-001 fail-closed allow-list) may NEVER be hard-DENIED, voided, or
+  blocked - its sole disposition is ROUTE_FOR_CORRECTION, the defect code registered in
+  the kernel ROUTE_FOR_CORRECTION set, never Error/Fatal/Block, following the entrenched
+  Warning-not-Fatal pattern already used for S5_INERT_KERNEL_EFFECT. An un-assented act
+  that breaches a floor or a Tier-2 addition may still be DENIED a permit with a named
+  instrument - that is the ordinary gate doing its work, not voiding an assented record
+  (ACT-ASSENTED-RECORD-PROTECTION s1; s2 enlarges no record's force). Q6 (THE TIMING):
+  BUILD NOW the generic primitives; Position C REJECTED. C's instinct - do not bake one
+  tenant's shape into the substrate - is the correct instinct and is the very instinct
+  this order enforces, but it mislocates the danger: the thing that would bake a tenant
+  in is the VOCABULARY, already refused at Q2. Once the dimensions, the act catalogue,
+  and the business rules all live in Tier-2 and canon holds only the empty generic
+  shapes, there is no tenant shape left to bake. Reserving generic machinery for want of
+  a second subscriber is no principled test; the "more than one subscriber" test earns
+  its keep against a SPECIFIC vocabulary-bearing design, and does no work against a
+  genericised primitive, substrate-eligible on its generality alone. Reservation would
+  also strand the keystone and, worse, intensify the same-author hazard by inviting the
+  one live subscriber to press the missing half around its own need; and it would leave a
+  live floor-relaxation gap (today a local rule relaxing a canon floor simply loads)
+  open. Following PC-14's Q6 logic, genericisation NOW, not deferral, is the discipline.
+  Position A adopted as named, on the genericisation conditions as absolutes.
+directives:
+  - id: D1
+    actor: lexby
+    must: build_the_two_tier_overlay_loader_extending_vjs_lawpack_lawpackloader_load_as_subordinate_machinery_under_act_consolidation_framework_s7_citing_the_duties_it_gives_teeth_to_act_007_s2_s3_s4_and_reg_federation_coordination_001_it_loads_canon_tier_1_read_only_floors_together_with_a_subscriber_tier_2_vjs_local_lawpack_cascades_most_specific_first_up_to_the_canon_floors_at_the_apex_canon_always_winning_and_the_instrument_recites_that_it_amends_no_statute_bench_tier_jurisdiction_or_assent_rule
+  - id: D2
+    actor: lexby
+    must: implement_anti_relaxation_at_load_a_tier_2_rule_that_relaxes_or_contradicts_a_canon_floor_is_denied_force_void_at_load_yielding_to_the_floor_void_only_the_offending_tier_2_rule_never_canon_never_the_wider_tier_2_and_never_erasing_a_record_bearing_a_valid_assent_source_surface_it_as_a_named_defect_citing_the_floor_and_act_007_s3_in_reg_kernel_001_name_the_instrument_discipline_never_silently_swallowing_the_rule_local_law_may_only_add_restriction_respect_the_act_007_s3_authority_exception_a_tier_2_divergence_declaring_a_privy_council_order_or_valid_principal_assent_source_is_an_authorised_override_not_a_relaxation_to_void_the_loader_keys_on_the_presence_of_that_authority_and_never_re_adjudicates_it_and_where_a_relaxing_rule_itself_bears_valid_assent_route_for_correction_never_void_or_block_it
+  - id: D3
+    actor: lexby
+    must: build_the_entity_scope_as_a_generic_primitive_only_an_ordered_map_of_opaque_subscriber_named_dimension_to_value_with_cascade_specificity_ordering_supplied_by_the_subscriber_in_its_tier_2_hard_code_no_dimension_name_canon_source_must_contain_no_occurrence_of_org_ws_matter_flow_or_step_as_a_scope_level_in_any_canon_type_record_comment_or_test_fixture_except_to_name_them_as_excluded_the_acmeco_business_hierarchy_lives_entirely_in_acmeco_s_tier_2_act_007_s4_protective_floor_s21_public_private_boundary_and_canon_must_not_regress_from_its_existing_vocabulary_free_scope_form
+  - id: D4
+    actor: lexby
+    must: add_the_runtime_governedloadbearingact_actionkind_and_finish_wiring_the_already_declared_variant_into_the_route_classifier_and_name_a_generic_runtime_operations_law_domain_distinct_from_code_governance_as_additive_machinery_under_s7_a_subject_matter_partition_only_conferring_no_new_court_no_new_apex_no_new_assent_path_ship_the_category_and_domain_frame_only_empty_the_catalogue_of_concrete_runtime_acts_matter_advance_charge_gate_approval_is_subscriber_supplied_in_tier_2_and_must_not_be_canon_enumerated_a_runtime_fork_still_routes_to_court_act_002_s6_and_a_runtime_act_on_an_assented_record_stays_under_vjs_act_10_record_it_as_additive_machinery_per_reg_kernel_001_s_own_additive_recital
+  - id: D5
+    actor: lexby
+    must: build_the_deterministic_submit_decision_permit_api_as_the_reg_kernel_001_clerk_applied_to_runtime_acts_deterministic_under_100ms_no_llm_no_network_model_free_every_grant_carrying_law_source_naming_the_instruments_that_permitted_it_every_denial_naming_its_instrument_the_check_lives_in_the_kernel_the_only_smart_point_beside_the_existing_gates_the_api_surface_is_a_thin_transport_reg_kernel_001_reg_hooks_001_with_no_checking_logic_in_the_adapter_terminal_dispositions_are_grant_or_route_for_correction_only
+  - id: D6
+    actor: lexby
+    must: hard_wire_the_assent_bifurcation_into_the_submit_decision_in_continuity_with_pc_14_d3_an_un_assented_runtime_act_that_breaches_a_canon_floor_or_a_tier_2_addition_is_denied_a_permit_with_a_named_instrument_the_ordinary_gate_doing_its_work_not_a_void_of_an_assented_record_any_act_declaring_a_valid_assent_source_sovereign_assent_or_standing_bounded_assent_per_inv_assent_source_001_may_never_be_hard_denied_voided_or_blocked_its_sole_disposition_is_route_for_correction_surface_and_flag_the_defect_code_registered_in_the_kernel_route_for_correction_set_never_as_error_fatal_or_block_following_the_entrenched_warning_not_fatal_pattern_already_used_for_s5_inert_kernel_effect_act_assented_record_protection_s1_act_consolidation_framework_s21_s25
+  - id: D7
+    actor: lexby
+    must: keep_canon_clean_of_subscriber_facts_no_acmeco_repo_paths_repo_codes_hosts_business_facts_or_dimension_names_enter_any_canon_record_type_comment_fixture_or_this_order_s_progeny_the_acmeco_vocabulary_is_named_in_the_record_only_to_exclude_it_the_subscriber_s_contract_document_lives_in_its_own_tree_not_canon_and_the_absence_is_verified_by_a_deterministic_scan_before_the_work_lands
+  - id: D8
+    actor: lexby
+    must: bring_the_enacted_instrument_back_to_record_as_a_privy_council_tier_instrument_constitutional_machinery_at_the_realm_level_act_002_s3_with_its_bench_and_case_file_digest_recorded_per_reg_court_record_001_and_pass_the_bench_integrity_gate_this_opinion_is_the_source_opinion_of_record_before_it_issues_pin_the_order_case_file_digest_to_the_decided_bytes_sha256_7eb3fe91200522af3fc6390335a7e41dd3770597dc1546035a55acff64f0811f_allocate_the_citation_through_the_kernel_vjs_citation_next_never_hand_asserting_a_number_act_004_s8_and_reconcile_any_convening_pin_discrepancy_as_a_clerical_route_for_correction_in_continuity_with_pc_14_d8
+forbidden:
+  - hard_coding_any_subscriber_business_vocabulary_org_ws_matter_flow_step_or_any_tenant_s_business_hierarchy_into_canon_as_a_scope_level_type_record_or_runtime_act_catalogue_such_an_import_is_tenant_config_masquerading_as_a_substrate_primitive_breaches_act_007_s4_and_the_protective_floor_public_private_boundary_s21_and_is_refused_entry_into_canon
+  - any_loader_that_permits_a_local_tier_2_rule_to_relax_or_contradict_a_canon_floor_or_that_silently_drops_a_local_rule_local_law_may_only_add_restriction_a_relaxation_lacks_act_007_s3_authority_and_is_denied_force_at_load_with_a_named_instrument_never_swallowed_in_silence
+  - any_submit_decision_or_loader_path_that_voids_blocks_or_silently_excludes_a_runtime_act_or_record_declaring_a_valid_assent_source_for_any_defect_including_being_off_overlay_the_only_disposition_is_route_for_correction_act_assented_record_protection_s1_act_consolidation_framework_s21_s25_and_vjs_act_10
+  - importing_any_subscriber_fact_repo_path_repo_code_host_or_runtime_act_catalogue_into_canon_or_pre_loading_the_runtime_operations_domain_with_a_tenant_s_business_rules_canon_ships_the_empty_generic_frame_the_subscriber_populates_it_in_tier_2
+  - placing_record_creation_anti_relaxation_or_permit_checking_logic_inside_a_hook_or_the_api_adapter_the_kernel_is_the_only_smart_point_hooks_and_adapters_stay_thin_reg_kernel_001_reg_hooks_001
+  - reserving_the_matter_further_position_c_genericisation_now_not_deferral_is_the_cure_for_the_baking_in_risk_continued_reservation_would_strand_the_keystone_leave_the_live_floor_relaxation_gap_open_and_intensify_the_same_author_hazard
+  - enacting_any_new_substantive_duty_court_tier_jurisdiction_bench_size_or_assent_form_or_amending_the_assent_rule_every_directive_is_teeth_on_existing_law_under_s7_anti_henry_viii
+supersedes: []
+appealable: true
+appeal_of: null
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-015-opinions.md"
+runtime_summary: >
+  A subscriber (Acmeco) asked canon to build a keystone: an overlay lawpack loader that
+  lets its own local law (Tier-2) extend the canon floors (Tier-1) over runtime business
+  decisions - advancing a matter, charging an invoice, approving a gate - not just code
+  commits. The Council, 3-0, ADOPTS it as substrate machinery and BUILDS NOW, on one
+  hard condition: genericise the vocabulary. (Q1) The thing being built is federation
+  plumbing the law already requires - local law adds restriction and never overrides the
+  canon floors - and that is general, not Acmeco's; it is a substrate primitive. (Q2) The
+  SHAPE of a scope (a map of named dimensions, resolved most-specific-first) is generic
+  and allowed; the CONTENTS "org/ws/matter/flow/step" are Acmeco's business hierarchy and
+  are REFUSED into canon - that vocabulary lives only in Acmeco's own tree, and is named
+  here only to exclude it. (Q3) The two-tier loader that loads canon plus local together,
+  lets canon always win, and VOIDS-at-load any local rule that tries to relax a canon
+  floor amends nothing - it just gives teeth at load to a rule (ACT-007:s3) that already
+  exists; it voids only the offending local rule, names the floor it broke, and respects
+  the existing exception where a Privy order or assent authorises a divergence. (Q4) A
+  runtime act-kind (already half-present in the kernel) plus a generic runtime/operations
+  domain are additive - they sort subject matter, create no new court, apex, or assent
+  path; canon ships the empty category, the subscriber fills in its concrete acts. (Q5)
+  The submit-decision permit is the kernel's deterministic clerk pointed at runtime acts
+  - under 100ms, no model, the GRANT naming the law that permitted it - and it can only
+  GRANT or ROUTE-FOR-CORRECTION: an act carrying a valid Sovereign or standing-bounded
+  assent may never be blocked or voided (only routed for correction), while an
+  un-assented act that breaks a floor can still be refused a permit. (Q6) Build now;
+  reserving generic machinery for a second customer is the wrong test, because once the
+  vocabulary is gone there is no tenant shape left to bake in, and waiting would leave a
+  real gap (today a local rule relaxing a floor simply loads) open. Position B (canon is
+  only for code) and Position C (wait) are both rejected. The whole keystone lands as
+  subordinate machinery under s7 and amends no statute, court, tier, jurisdiction, or the
+  assent rule.
+created_at: "2026-06-25T14:00:00+00:00"
