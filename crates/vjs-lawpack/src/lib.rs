@@ -998,6 +998,25 @@ const GATE_REGISTRY: &[(&str, &str)] = &[
         "publish_screenshots",
         "improvement #7 (BOUNDARY_MEDIA_IN_CANON, ACT-005:s1)",
     ),
+    // PC-16 assent-RESOLUTION floor (improvement #5 burndown): a record carries binding
+    // force only if its declared assent_source RESOLVES to a real Sovereign-assent event
+    // (ACT-COMPUTER-FIRST-REALM s.23), the under-implementation [2026] VJS-PC 16 closed.
+    (
+        "binding_force_without_traceable_assent_source",
+        "PC-16 assent-resolution floor (vjs-engine::assent; s.23 traceable-assent)",
+    ),
+    (
+        "require_authorised_adoption_for_binding_force",
+        "PC-16 assent-resolution floor (force only from a resolving adoption)",
+    ),
+    (
+        "agent_self_authorise_law",
+        "PC-16 assent-resolution floor (a self-declared assent resolving to nothing confers no force)",
+    ),
+    (
+        "agent_self_authorised_law",
+        "PC-16 assent-resolution floor (a self-declared assent resolving to nothing confers no force)",
+    ),
 ];
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

@@ -3,8 +3,8 @@
 Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / must_not / prohibits) in every in-force statute and regulation, with whether it is bound to a deterministic kernel gate. The UNWIRED list is the factual predicate for the reserved D12 single-front-door instrument.
 
 - total duties: 281
-- wired: 33
-- unwired: 248
+- wired: 37
+- unwired: 244
 
 > Triage note: UNWIRED does not mean "must be gated". Many unwired duties are declarative (`defines`-adjacent), one-time/transition acts, or agent-duties that a deterministic gate cannot or need not enforce. The conservative registry marks a duty WIRED only when a named, deterministic gate can be pointed at it, so the map never overstates coverage. D12 triages this list to decide which unwired duties the single-front-door instrument must bite on.
 
@@ -24,8 +24,6 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 | ACT-001:s5 | must_not | kernel_replace_human_approval |
 | ACT-001:s6 | must | respect_real_world_law |
 | ACT-001:s7 | must | mark_proposed_law_as_draft |
-| ACT-001:s7 | must | require_authorised_adoption_for_binding_force |
-| ACT-001:s7 | must_not | agent_self_authorise_law |
 | ACT-001:s8 | must | evaluate_spec_on_governed_changes |
 | ACT-001:s9 | must | principal_assent_for_local_sovereignty_change |
 | ACT-CONSOLIDATION-FRAMEWORK:s4 | prohibits | runtime_force_by_restatement_alone |
@@ -83,7 +81,6 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 | ACT-002:s9 | must | supreme_court_order_for_overruling |
 | ACT-002:s10 | must | validate_order_format |
 | ACT-003:s1 | prohibits | agent_self_adjudication |
-| ACT-003:s1 | prohibits | agent_self_authorised_law |
 | ACT-003:s2 | must | call_vjs_route |
 | ACT-003:s3 | must | act_within_permit_scope |
 | ACT-003:s3 | must | attach_required_proof |
@@ -122,7 +119,6 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 | ACT-COMPUTER-FIRST-REALM:s15 | prohibits | lexby_judges_own_cause |
 | ACT-COMPUTER-FIRST-REALM:s15 | prohibits | kernel_constitutes_or_counts_bench |
 | ACT-COMPUTER-FIRST-REALM:s23 | prohibits | deny_list_assent_form |
-| ACT-COMPUTER-FIRST-REALM:s23 | prohibits | binding_force_without_traceable_assent_source |
 | ACT-COMPUTER-FIRST-REALM:s16 | prohibits | publication_creates_runtime_force |
 | ACT-COMPUTER-FIRST-REALM:s16 | prohibits | publication_treated_as_v1_enactment |
 | ACT-COMPUTER-FIRST-REALM:s16 | prohibits | publication_treated_as_v1_incorporation |
@@ -265,6 +261,8 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 
 | instrument | kind | duty | gate |
 |---|---|---|---|
+| ACT-001:s7 | must | require_authorised_adoption_for_binding_force | PC-16 assent-resolution floor (force only from a resolving adoption) |
+| ACT-001:s7 | must_not | agent_self_authorise_law | PC-16 assent-resolution floor (a self-declared assent resolving to nothing confers no force) |
 | ACT-001:s7 | must_not | agent_draft_becomes_binding_by_fact_of_being_written | PC-14 front door (REG-FRONT-DOOR-001): law only through the commit gate |
 | ACT-004:s3 | must | evaluate_invariants_mechanically | invariant evaluator at validate |
 | ACT-004:s5 | must | close_permit_with_proof | PermitGate obligations |
@@ -287,7 +285,9 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 | ACT-ASSENTED-RECORD-PROTECTION:s1 | prohibits | silently_excluding_a_sovereign_assented_record_for_a_defect_rather_than_routing_it_for_correction | PC-14 D3 assent floor (surfaces + routes for correction) |
 | ACT-002:s10 | must_not | accept_order_without_directives | improvement #5 (ORDER_MALFORMED, ACT-002:s10) |
 | ACT-002:s10 | must_not | accept_order_without_runtime_summary | improvement #5 (ORDER_MALFORMED, ACT-002:s10) |
+| ACT-003:s1 | prohibits | agent_self_authorised_law | PC-16 assent-resolution floor (a self-declared assent resolving to nothing confers no force) |
 | ACT-003:s4 | must | write_decision_log | decision-log obligation gate |
+| ACT-COMPUTER-FIRST-REALM:s23 | prohibits | binding_force_without_traceable_assent_source | PC-16 assent-resolution floor (vjs-engine::assent; s.23 traceable-assent) |
 | ACT-007:s1 | must | create_config_toml_on_install | D4/D5 install gate (INSTALL_CONFIG_MISSING) |
 | ACT-007:s3 | must_not | local_law_override_canonical_without_authority | D3 cross-repo permit guard (CROSS_REPO_PERMIT) |
 | ACT-007:s4 | must_not | local_order_bind_other_repos | D1 canon-write gate (ACT-007:s4) |
