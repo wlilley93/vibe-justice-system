@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-25T10:13:47.881875713+00:00",
+  "generated_at": "2026-06-25T11:49:57.891101065+00:00",
   "items": [
     {
       "affirmed_by": [],
@@ -890,6 +890,54 @@
       "ts": "2026-06-09T14:50:25Z",
       "updated": "2026-06-24",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-FEDERATION-COORDINATION-001.yaml",
+      "varied_by": [],
+      "varies": []
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "assent_source": "standing_bounded_assent",
+      "citation": "[2026] VJS-REG 29",
+      "cites": [
+        "2026-VJS-PC-013",
+        "2026-VJS-PC-014",
+        "ACT-002",
+        "ACT-004",
+        "ACT-ASSENTED-RECORD-PROTECTION",
+        "ACT-CONSOLIDATION-FRAMEWORK",
+        "REG-KERNEL-001",
+        "REG-SELF-CONVENE-001"
+      ],
+      "court": "",
+      "date": "2026-06-25",
+      "doc": "law.html#REG-FRONT-DOOR-001",
+      "estate": "v2",
+      "has_text": true,
+      "id": "REG-FRONT-DOOR-001",
+      "kind": "regulation",
+      "lineage": [],
+      "path": "lawpack/v2/regulations/REG-FRONT-DOOR-001.yaml",
+      "points": [
+        "bring every governed record into being only through the kernel record creation path",
+        "refuse a non assented off front door record at the write pre assent",
+        "degrade to route for correction for any record declaring a valid assent source",
+        "keep the absolute path commit hook the bypass proof backstop and sole guarantee",
+        "keep record creation logic in the kernel with thin hooks and adapters",
+        "never void or block a record declaring a valid assent source",
+        "never reach the duty surface at large or key the limb on the conformance map counts",
+        "never rest any enforcement guarantee on mcp exclusivity or treat mcp use as proof of conformance",
+        "never place record creation or any kernel checking logic inside a hook or the mcp adapter",
+        "never enact any new substantive duty court tier jurisdiction bench size or assent form"
+      ],
+      "question": "",
+      "status": "in_force",
+      "summary": "This Regulation gives form to the consolidating instrument [2026] VJS-PC 14 (The Single Governed-Record Front Door) enacted, the D12 follow-on PC-13 reserved and grounded in the D11 conformance map.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "The Single Governed-Record Front Door Regulation",
+      "ts": "2026-06-25T00:00:00Z",
+      "updated": "2026-06-25",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/regulations/REG-FRONT-DOOR-001.yaml",
       "varied_by": [],
       "varies": []
     },
@@ -4344,14 +4392,14 @@
   "meta": {
     "counts": {
       "archive": 37,
-      "canon": 67,
-      "total": 104
+      "canon": 68,
+      "total": 105
     },
     "lawpack": {
       "digest": "sha256:14cdb3337039ffdbe4f007fcb6fc5fd634cb0e7f6218e201555ab5de45868f9f",
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "3e2b5806edc4e7863eecdacaffa7124a63a1736b"
+    "source_commit": "c5abbfbd492aaa9b363642cad1a19bacbebd187c"
   }
 }

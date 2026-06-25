@@ -1,0 +1,76 @@
+id: REG-FRONT-DOOR-001
+citation: "[2026] VJS-REG 29"
+assent_source: standing_bounded_assent
+title: The Single Governed-Record Front Door Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+created_at: "2026-06-25"
+text: >
+  This Regulation gives form to the consolidating instrument [2026] VJS-PC 14 (The
+  Single Governed-Record Front Door) enacted, the D12 follow-on PC-13 reserved and
+  grounded in the D11 conformance map. It is subordinate machinery under the s7
+  power: it amends no statute, bench, tier, jurisdiction, or the assent rule, and
+  enacts no new substantive duty. It gives teeth to existing law - DEC-AGENT-001
+  (the route->permit->obligations->proof->log->validate lifecycle), ACT-004:s8
+  (citations deterministic and unique), ACT-002 (the constituted courts and their
+  record duties), REG-SELF-CONVENE-001 (the fail-closed route gate), and
+  REG-KERNEL-001 (the kernel as the only smart enforcement point, in its
+  server_of_law posture).
+  THE OPERATIVE RULE. No governed record - a law, ruling, citation, order, or
+  permit - may come into being except through the kernel record-creation path:
+  route -> permit, convene -> court, allocate -> citation, record -> order. Any
+  other entry is structurally a breach. The chokepoint is the write/route moment;
+  the existing deterministic gates (the permit gate; the canon-write gate
+  [2026] VJS-PC 13 D1; the citation gate D2; the tier gate D7; the bench-integrity
+  gate D10) are that front door.
+  THE LIMB. The wired-or-void limb bites ONLY on governed-record CREATION at the
+  write/route chokepoint, PRE-ASSENT, and on nothing else. It keys on the KIND of
+  record and whether it passed the door; it never keys on the conformance-map
+  counts or columns, and by construction it does not reach the duty surface at large
+  - a declarative defines-clause, a one-time or transition act, and an
+  agent-judgement duty create no governed-record write event for it to bite on. A
+  non-assented off-door record is refused at the write, never brought into being.
+  THE ASSENT FLOOR. The instant a record declares a valid assent_source
+  (sovereign_assent or standing_bounded_assent, per the fail-closed
+  INV-ASSENT-SOURCE-001 allow-list) the disposition DEGRADES to
+  route-for-correction: the defect is surfaced and flagged, NEVER voided or blocked
+  (ACT-ASSENTED-RECORD-PROTECTION, entrenched). The defect is registered in the
+  kernel route-for-correction set, never as Error, Fatal, or Block.
+  THE FRONT DOOR AND THE WALL (defence in depth). The MCP server_of_law posture
+  REG-KERNEL-001 already names is adopted as a governed-record front door, with the
+  convene, record, and allocate verbs exposed - the well-lit door that makes the
+  lawful path the easy path. It is NOT the sole interface (the CLI path stays
+  co-equal) and it is NOT the wall: an agent with a filesystem may decline it and
+  write a file directly. The bypass-proof backstop and the SOLE seat of the
+  enforcement guarantee is the deterministic, absolute-path commit hook (the PC-13
+  D6 backstop), which calls the kernel by repo-root path and fires on what is
+  actually staged regardless of how the bytes arrived. No enforcement guarantee
+  rests on MCP exclusivity; the agent having used MCP is never proof of conformance
+  - conformance is established only by the record having passed the kernel gate.
+  THE KERNEL IS THE ONLY SMART POINT. The record-creation check lives in the kernel
+  (vjs-core) beside the existing gates; no checking logic enters a hook or the MCP
+  adapter, which stay thin translators that pass a typed event and exit on the
+  verdict; every denial names the instrument that caused it. CITES [2026] VJS-PC 14;
+  [2026] VJS-PC 13; DEC-AGENT-001; REG-KERNEL-001; REG-SELF-CONVENE-001;
+  ACT-ASSENTED-RECORD-PROTECTION.
+kernel_effect:
+  defines:
+    front_door: route_to_permit_convene_to_court_allocate_to_citation_record_to_order
+    governed_record: [law, ruling, citation, order, permit]
+    limb_scope: governed_record_creation_at_write_route_chokepoint_pre_assent_only
+    assent_floor: declared_valid_assent_degrades_to_route_for_correction_never_void_or_block
+    valid_assent_sources: [sovereign_assent, standing_bounded_assent]
+    mcp_posture: server_of_law_front_door_not_sole_interface_not_the_wall
+    enforcement_guarantee: absolute_path_commit_hook_only
+  must:
+    - bring_every_governed_record_into_being_only_through_the_kernel_record_creation_path
+    - refuse_a_non_assented_off_front_door_record_at_the_write_pre_assent
+    - degrade_to_route_for_correction_for_any_record_declaring_a_valid_assent_source
+    - keep_the_absolute_path_commit_hook_the_bypass_proof_backstop_and_sole_guarantee
+    - keep_record_creation_logic_in_the_kernel_with_thin_hooks_and_adapters
+  must_not:
+    - void_or_block_a_record_declaring_a_valid_assent_source
+    - reach_the_duty_surface_at_large_or_key_the_limb_on_the_conformance_map_counts
+    - rest_any_enforcement_guarantee_on_mcp_exclusivity_or_treat_mcp_use_as_proof_of_conformance
+    - place_record_creation_or_any_kernel_checking_logic_inside_a_hook_or_the_mcp_adapter
+    - enact_any_new_substantive_duty_court_tier_jurisdiction_bench_size_or_assent_form

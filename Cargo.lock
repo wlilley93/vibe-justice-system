@@ -839,6 +839,7 @@ dependencies = [
  "thiserror",
  "vjs-core",
  "vjs-lawpack",
+ "vjs-mcp",
  "vjs-redact",
  "vjs-store",
 ]
