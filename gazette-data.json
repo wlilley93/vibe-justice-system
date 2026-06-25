@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-25T14:10:16.347057404+00:00",
+  "generated_at": "2026-06-25T14:43:44.724496277+00:00",
   "items": [
     {
       "affirmed_by": [],
@@ -2644,6 +2644,62 @@
       "affirmed_by": [],
       "affirms": [],
       "assent_source": "standing_bounded_assent",
+      "bench": [
+        "Fenwick",
+        "Garrow",
+        "Holt"
+      ],
+      "case_file_digest": "sha256:a8e13c7419a0496e8de6dd01358bda0ce51e659641c3b4d33dac0c279ffb2e5c",
+      "citation": "[2026] VJS-PC 16",
+      "cites": [
+        "ACT-003",
+        "ACT-007",
+        "ACT-ASSENTED-RECORD-PROTECTION",
+        "ACT-COMPUTER-FIRST-REALM",
+        "REG-KERNEL-001"
+      ],
+      "convened_at": "2026-06-25T14:28:21.919467201+00:00",
+      "court": "pc",
+      "date": "2026-06-25",
+      "doc": "law.html#2026-VJS-PC-016",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-PC-016",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": ".vjs/submissions/filed/2026-VJS-PC-016-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-016-opinions.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-PC-016.yaml",
+      "points": [
+        "implement the deterministic model free network free clock independent assent resolution check in vjs core at the floor attachment site crates vjs engine src lib rs 153 via vjs core front door as a strict refinement of declares valid assent giving act computer first realm s23 its full meaning as imported by act assented record protection s1 a governed record earns the floor s protection only if one its top level assent source is on the inv assent source 001 allow list and two it declares a pointer an assent event id and or instrument digest that resolves to exactly one kind sovereign assent event record under the digest pinned lawpack v2 provenance assent tree with a byte matching digest for standing bounded assent the declared route must itself resolve by the same chain to a specific sovereign assent event and three that event covers the asserting record by scope using entityscope covers in scope rs and by date any unresolved digest mismatched or out of coverage claim is treated as no valid assent source the record is outside the floor and the underlying finding keeps its native severity fatal stays fatal route this through one shared function so is valid assent value declares valid assent front door rs and the assentsourcevalid predicate spec rs agree on what valid means model free table lookup and digest compare only inv kernel 001 reg kernel 001 and cite act computer first realm s23 inv assent source 001 and act 010 s2 as the instrument on every resulting denial",
+        "preserve the entrenched floor at full height for resolved assent do not weaken or remove any genuine record s protection the resolution gate may cause a record to fail closed only on the ground that its assent does not resolve for any record whose assent does resolve every other defect continues to route for correction under assented route for correction and may never be voided or blocked act assented record protection s1 keep the does the assent resolve question strictly separate in code from the is there some other defect question add proof tests in the spirit of the inv assent source 001 provenance note demonstrating a the audit s forged bench less apex order declared sovereign assent resolving to nothing stays fatal and does not commit b each real assent in canon the founding adoption the migration omnibus assent and the vjs act 10 assent itself resolves and retains its route for correction disposition unchanged including a genuinely assented record with an inert unimplemented or discrepant defect still routing for correction so the floor is not narrowed and c a genuine narrow assent pointed at an out of scope or digest mismatched record fails the coverage or digest limb and stays fatal regenerate any golden or bench fixtures accordingly and reconcile the assentsourcevalid evaluator s recited comment with its implementation so the code performs the resolution it already describes",
+        "make the recorded meaning of a self issued vjs route permit explicit a permit records that the actor took the front door a scoped recorded fail closed routing and audit record never that an external authority approved permit self issuance is affirmed as by design under local sovereign invocation act 007 the kernel is clerk not court only its laundering of reserved force is closed tighten the permit deterministically without adding a non existent local approver it must bind to the actor and the concrete route and scope it claims no absent or over broad scope standing in for everything an over broad or absent scope does not cover a narrower governed write and carry a content or identity digest that ties it to what it authorises so it is non repudiable and cannot be silently reused to cover a different write than the one it was minted for ensure no self issued permit can by itself satisfy a check reserved to the sovereign assent now resolution gated by d1 or to a constituted bench an order gated by the existing bench integrity gate surface the permit as an agent routed self issue so the audit trail never reads as more than it is",
+        "tighten the self referential kernel edit residual deterministically by moving the integrity witness outside the mutable in kernel surface and making a weakening edit non silent digest pin the assent validity and floor enforcement code path the assent resolution check the bench integrity gate the apex singleness check and the entrenched gate evaluators under the existing digest pinned fail closed embedded load discipline reg kernel 001 load only law that hashes to the pinned digest fails closed so that any change to a gate changes a pinned digest and trips a separate loudly surfaced finding rather than passing under its own weakened logic treat a write to the entrenched enforcement surface as a special governed class that is not self satisfiable by a permit and does not downgrade on any self declared assent surface a fatal finding naming act computer first realm s14 s15 and vjs act 10 s2 whenever that surface is edited routing the author to the breach duty and where the edit changes an entrenched term s meaning to the sovereign record candidly in the implementing note the irreducible limit no in binary check can fully bind the hand that compiles the binary against a determined local author with full write access the ultimate backstops are non machine the sovereign s gate at s14 and the agent s duty of reasonable skill and care act 003 s4 s8 breach self fileable do not represent the cure as more than it is",
+        "mark the void apex supreme court order that passed a green validate through the bypass void ab initio it declared an assent source resolving to nothing and issued from no constituted convened bench act computer first realm s29 s15 void on both grounds and not good law route it for correction to the agent who staged it surfaced never silently erased and self file the breach the kernel as built fell below the standard of reasonable skill and care it owed it documented the resolution duty in its own evaluator comments and did not perform it the remedy is to make the work good per d1 d4 not punishment act 003 s4 s8",
+        "build under the lawful route as interpretation these directives change no statute no invariant no bench no tier and no assent rule they bring the kernel into conformance with act assented record protection s1 s2 act computer first realm s23 and inv assent source 001 as already enacted and sovereign assented do not route this reading to the sovereign as an amendment file this judgment verbatim as the source opinion of record it is the bench s real opinion for the bench integrity gate record the resulting privy council order in canon with a citator row citing act computer first realm s23 act 010 s1 s2 inv assent source 001 s14 s15 and reg kernel 001 allocate the citation through the kernel vjs citation next never hand asserting a number pin the order case file digest to the decided bytes sha256 a8e13c7419a0496e8de6dd01358bda0ce51e659641c3b4d33dac0c279ffb2e5c pass the bench integrity gate and verify by deterministic proof no model no order is to be recorded except through a real convened odd numbered bench carrying a real opinion",
+        "advisory if in building d1 you discover that faithful resolution cannot be achieved without narrowing the protection s1 gives a genuinely resolving record that is without blocking real assent stop and self file that would cross from interpretation into constitutive change and only a sovereign assented act citing vjs act 10 by number could make it this is not anticipated because resolution gates which records the floor shelters not whether a sheltered record may be blocked but the duty to raise it is yours if the build proves the bench wrong on the facts",
+        "for noting only not a requirement for this cure nothing in this judgment needs the sovereign s assent because nothing entrenched is amended the privy council has interpreted an existing entrenched term within its power the resolution requirement already lives in act computer first realm s23 as imported by vjs act 10 s1 s2 the sovereign is laid this holding as notice and not as a request for enactment so that the sovereign may at the sovereign s sole option place the resolution requirement beyond all future argument by an express act citing vjs act 10 and act computer first realm s23 by number should the realm ever wish to change the floor itself to relax resolution below what s23 requires to add a new assent form or to alter the disposition that is reserved exclusively to a sovereign assented constitutional act citing the relevant provisions by number this bench neither makes nor pre empts that choice the cure of d1 d4 is effective on this order and is not conditional on any such act"
+      ],
+      "question": "On the Reference re Assent Resolution (SUBMISSION-2026-06-25-assent-resolution). An adversarial audit proved that a staged governed record which merely types \"assent_source: sovereign_assent\", pointing at no assent event that ever happened, has every Fatal finding downgraded to a route-for-correction Warning and commits; a bench-less, never-convened \"Supreme Court order\" passed a green validate by this route. The downgrade is performed by vjs-engine (crates/vjs-engine/src/lib.rs:153) keyed on front_door::declares_valid_assent, which returns true on bare membership of the VALID_ASSENT_SOURCES allow-list. Per question Q1-Q4: (Q1 NATURE) does \"valid assent_source\" require the declared assent to resolve to a real, digest-matched assent record whose scope and date cover the asserting record, or does mere value-on-the- allow-list suffice; (Q2 MECHANISM) what is the deterministic, model-free resolution check the kernel must perform; (Q3 THE FLOOR) does requiring resolution violate ACT-ASSENTED-RECORD-PROTECTION s.1's never-void/never-block guarantee and is it interpretation within the Privy Council's power or a constitutive change to the entrenched floor reserved to the Sovereign; and (Q4 RESIDUALS) the companion authority- model findings - the agent self-issuing its own \"vjs route\" permits, and a kernel-source edit that would weaken a gate yet pass its own weakened gate.",
+      "status": "binding",
+      "subject": "whether requiring a declared assent source to resolve to a real digest matched covering sovereign assent event is faithful interpretation of the entrenched term valid within act computer first realm s23 as imported by act assented record protection s1 or an amendment of the entrenched floor reserved to the sovereign with the deterministic resolution mechanism and the companion self issued permit and self satisfiable kernel edit residuals",
+      "summary": "An adversarial audit proved a forgery: a staged record that merely TYPES \"assent_source: sovereign_assent\" while pointing at no real assent event got every Fatal finding downgraded to a Warning and committed, and a bench-less, never-convened \"Supreme Court order\" slipped through this way.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "The Assent-Resolution Floor",
+      "ts": "2026-06-25T14:35:00+00:00",
+      "updated": "2026-06-25",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-016.yaml",
+      "varied_by": [],
+      "varies": [],
+      "vote": "3-0 (Fenwick J., Garrow J., Holt J., unanimous on all four questions): POSITION A - REQUIRE RESOLUTION AS INTERPRETATION - prevails. Requiring a declared assent_source to resolve to a real, digest-matched, covering Sovereign-assent event is faithful interpretation of the entrenched term \"valid\" as ACT-COMPUTER-FIRST-REALM s.23 (imported by ACT-ASSENTED-RECORD-PROTECTION s.1 \"within the meaning of s.23\" and given continuing deterministic effect by INV-ASSENT-SOURCE-001) already defines it, and is within the Privy Council's interpretive power. It is NOT an amendment of the entrenched floor: it changes no word of VJS-ACT 10, s.23, or INV-ASSENT-SOURCE-001, removes protection from no genuinely-assented record, and therefore is NOT routed to the Sovereign for assent. Position B (value-on-the-allow-list suffices; the cure is a Sovereign amendment) is REJECTED as the reading that, contrary to its own claim, would amend the entrenched text by nullifying s.23's resolution verbs. Position C's belt-and-braces reserved-amendment limb is REJECTED on constitutional hygiene (it would imply the entrenched meaning was contingent on a confirming Act, corroding the meaning it confirms); the Sovereign retains the prerogative to place the requirement beyond future argument by an express Act, but the cure is effective on this order and is not conditional on any such Act. No dissent."
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "assent_source": "standing_bounded_assent",
       "citation": "[2026] VJS-SC 1",
       "cites": [
         "2026-VJS-PC-001"
@@ -4492,14 +4548,14 @@
   "meta": {
     "counts": {
       "archive": 37,
-      "canon": 70,
-      "total": 107
+      "canon": 71,
+      "total": 108
     },
     "lawpack": {
       "digest": "sha256:14cdb3337039ffdbe4f007fcb6fc5fd634cb0e7f6218e201555ab5de45868f9f",
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "7d27bba893ef637b9c69b6ee3d69a3767c972511"
+    "source_commit": "e0a48d241f1a5c3fca237cc245f3b4a79d2816e4"
   }
 }
