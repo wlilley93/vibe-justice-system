@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-25T17:02:38.655375170+00:00",
+  "generated_at": "2026-06-25T17:35:20.789289893+00:00",
   "items": [
     {
       "affirmed_by": [],
@@ -2902,11 +2902,73 @@
       "supersedes": [],
       "title": "Unsatisfiable-enforcement-gate Auto-justiciability + Recorded-disposition Consultation (ACT-003 s10/s11 Ratification)",
       "ts": "2026-06-24T08:10:00Z",
-      "updated": "2026-06-24",
+      "updated": "2026-06-25",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-004.yaml",
       "varied_by": [],
       "varies": [],
       "vote": "5-0 RATIFY-WITH-MODIFICATION; the six convergent amendments command a clear majority (most unanimous)."
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "assent_source": "standing_bounded_assent",
+      "bench": [
+        "Reid",
+        "Wilberforce",
+        "Diplock",
+        "Hoffmann",
+        "Steyn",
+        "Scarman",
+        "Radcliffe",
+        "Devlin",
+        "Simon"
+      ],
+      "case_file_digest": "sha256:4344c70a40bde0080ca53e627c7bcd78a61caeae95b7fd6a49b47625e8a0b58c",
+      "citation": "[2026] VJS-SC 5",
+      "cites": [
+        "ACT-003",
+        "ACT-ASSENTED-RECORD-PROTECTION",
+        "ACT-COMPUTER-FIRST-REALM",
+        "ACT-CONSOLIDATION-FRAMEWORK"
+      ],
+      "convened_at": "2026-06-25T17:06:46.378658937+00:00",
+      "court": "sc",
+      "date": "2026-06-25",
+      "doc": "law.html#2026-VJS-SC-005",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-SC-005",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": ".vjs/submissions/filed/2026-VJS-SC-005-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-SC-005-opinions.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-SC-005.yaml",
+      "points": [
+        "build the route class resolution now in crates vjs engine src assent rs replace the bare founded predicate on the standing bounded assent arm with a deterministic model free network free clock independent two limb resolution limb one established at head evaluated first and short circuiting limb two the records declared parent authority resolving to an in force record whose own sovereign assent resolves by the pc16 chain to a specific digest pinned sovereign assent event never weaken or remove the constitutive codes exclusion cite act computer first realm s23 inv assent source 001 and act assented record protection s2 as the instrument on every resulting denial",
+        "extend the established at head carve out to the standing bounded assent branch as the complete non narrowing migration it must be limb one and must short circuit so no committed regulation ever depends on parent authority resolution add a proof enumerating every current reg record asserting each resolves and retains its route for correction disposition unchanged including a genuinely assented regulation carrying an inert unimplemented or discrepant non constitutive defect which must still route for correction and never be voided or blocked",
+        "resolve a genuine new regulation by class membership through its declared parent authority to the shared recorded terminal requiring no per instrument provenance note of any regulation add the anti narrowing proofs a genuine new regulation on the s7 route carrying no per instrument record still resolves and keeps its floor at full height and a fresh record typing standing bounded assent on no recognised route carrying a non constitutive fatal does not resolve and keeps its native severity record candidly in the implementing note the irreducible remainder that the check raises the forgery bar but does not close the residual backstopped by the constitutive codes and the duty of care act 003 s4 to s8 and do not represent the cure as more than it is",
+        "make the orders limb explicit and keep it proven an orders standing route is issuance by a constituted bench under act 002 already enforced by the constitutive codes and never softened by any assent claim add a one line comment at the standing bounded assent arm make no order specific resolution change and keep forged fresh apex order stays fatal through the pipeline forged standing bounded order is still blocked and constitutive bench defect not downgraded even for an established assented order green",
+        "do not implement a per instrument enactment provenance requirement as a force gate on standing bounded assent for regulations the absence of such a record may never strip a floor or hold a non constitutive fatal at fatal for a regulation validly made under act consolidation framework s7 that gate narrows act assented record protection s1 for a genuine record is reserved exclusively to the sovereign and is barred even on a future regulation laundering breach because the residual it would close is for the regulation class irreducible by lawful machinery",
+        "bind as ratio the five conditions on any future build one established at head must shelter every regulation committed at head two no per instrument provenance record may be a condition of force three the terminal anchor must be a recorded digest pinned sovereign assent never a kernel invented gate four the check stays pure clerk recorded trace existence and digest compare only no merits judgment of valid making five if any genuine record cannot resolve without narrowing the protection s1 gives it stop ship nothing self file and route to the sovereign pc16 d7 made binding apex ratio record these in docs standing routes analysis md update the deferred entry in breach 2026 06 25 assent resolution under implementation to point at this order and file no breach because pc16 lawfully reserved this question and this bench has now decided it",
+        "optional at engineering discretion compelled by no order the kernel may surface an advisory warning route for correction never fatal never a floor strip never a downgrade block when a new regulation carries no enactment provenance attachment as a deterministic nudge toward good practice fully consistent with act assented record protection s1 surface a defect never void or block the moment such an advisory would strip a floor or hold a fatal at fatal it is barred and becomes the sovereign reserved force gate of d5",
+        "build under the lawful route as interpretation this order amends no statute invariant bench tier or assent rule and is not routed to the sovereign as an amendment file the full supreme council benchs opinions verbatim as the source opinion of record record the resulting order in canon with a citator row citing act computer first realm s23 and s14 act consolidation framework s7 and s25 act assented record protection s1 and s2 inv assent source 001 reg kernel 001 and 2026 vjs pc 16 and settling the fractured 2026 vjs pc 18 allocate the citation through vjs citation next never by hand pin the case file digest sha256 4344c70a40bde0080ca53e627c7bcd78a61caeae95b7fd6a49b47625e8a0b58c pass the bench integrity gate on the convened constitutional bench of nine each seat carrying a real opinion and verify by deterministic proof no model",
+        "for noting only not a requirement of this cure nothing here needs the sovereigns assent because the route class resolution requirement already lives in act computer first realm s23 as imported by act assented record protection s1 and s2 and the refinement preserves the floor at full height should the realm ever wish to make per instrument enactment provenance a condition of force for regulations so that its absence strips the floor or holds a non constitutive fatal at fatal that narrows act assented record protection s1 for a genuinely made regulation and is reserved exclusively to a sovereign assented constitutional act citing act computer first realm s23 and act assented record protection by number the sovereign may equally at sole option place the route class requirement itself beyond future argument by an express act this bench neither requests nor pre empts either choice and the cure of d1 to d8 is in no way conditional on any such act"
+      ],
+      "question": "On the Principal's leapfrog certificate from the fractured Privy Council ([2026] VJS-PC 18): (Q1, ADOPT or TIGHTEN) should the kernel keep resolving a regulation's standing_bounded_assent on the bare `founded` existence-check, or tighten it to a recorded-route resolution? (Q2, the constitutional crux) is such a tightening faithful INTERPRETATION of ACT-COMPUTER-FIRST-REALM s.23, or does it NARROW the entrenched ACT-ASSENTED-RECORD-PROTECTION s.1 floor and so belong to the Sovereign? (Q3, MECHANISM and MIGRATION) if a tightening is available, by what deterministic mechanism, on what migration, and under what conditions, so that no genuine regulation loses its floor?",
+      "status": "binding",
+      "subject": "standing route resolution route class refinement built as interpretation per instrument force gate reserved",
+      "summary": "Apex order (7-2 build; 9-0 on the constitutional crux), settling the three-way Privy fracture in [2026] VJS-PC 18 de novo.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "Reference Re Standing-Route Resolution: the Route-class Refinement Is Built Now as Faithful Non-narrowing Interpretation; the Per-instrument Force-gate Is Reserved to the Sovereign",
+      "ts": "2026-06-25T17:20:00+00:00",
+      "updated": "2026-06-25",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-005.yaml",
+      "varied_by": [],
+      "varies": [],
+      "vote": "7-2 BUILD-THE-ROUTE-CLASS-REFINEMENT-NOW on binding non-narrowing conditions (majority: Reid, Diplock, Hoffmann, Steyn, Scarman, Radcliffe, Devlin JJ.); Wilberforce and Simon JJ. dissent on disposition, holding the build should be RESERVED and the permissive `founded` check retained. UNANIMOUS 9-0 on Q2: a route-class trace check, with the established-canon carve-out and route-for-correction, is faithful interpretation of s.23 within this Council's power and non-narrowing, while a per-instrument force-gate narrows ACT-ASSENTED-RECORD-PROTECTION s.1 for a genuinely-made regulation and is reserved exclusively to the Sovereign. UNANIMOUS that the orders and apex limb is already closed at the constitutive rung and needs no assent-resolution change."
     },
     {
       "affirmed_by": [],
@@ -4608,14 +4670,14 @@
   "meta": {
     "counts": {
       "archive": 37,
-      "canon": 72,
-      "total": 109
+      "canon": 73,
+      "total": 110
     },
     "lawpack": {
       "digest": "sha256:14cdb3337039ffdbe4f007fcb6fc5fd634cb0e7f6218e201555ab5de45868f9f",
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "2f4f2fe8c43ece3059417b607a921d74928b1796"
+    "source_commit": "4ff93543e38f1387dd7abf938b8edc85c833baf5"
   }
 }
