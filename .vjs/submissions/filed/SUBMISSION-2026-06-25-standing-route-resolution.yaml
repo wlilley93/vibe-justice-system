@@ -1,0 +1,75 @@
+id: SUBMISSION-2026-06-25-standing-route-resolution
+court_requested: privy_council
+jurisdiction: vibe-justice-system
+question: >
+  [2026] VJS-PC 16 settled that a `standing_bounded_assent` record carries force only by
+  "tracing to specific Sovereign assent" (ACT-COMPUTER-FIRST-REALM s.23) and RESERVED the
+  per-class standing-route instruments as a deferred tightening (PC-16 D4/D7). The kernel
+  today resolves `standing_bounded_assent` permissively: it traces to the realm's
+  Sovereign foundation (a `sovereign_assent_event` exists). The high-value forgery vector
+  (a bench-less / never-convened order or apex order) is ALREADY closed independently by
+  the constitutive-validity codes (PC-16: bench-integrity/apex never softened by any
+  assent claim). The narrow residual is laundering a NON-constitutive Fatal on a non-order
+  record (a regulation) by merely typing `standing_bounded_assent`. Per Q1-Q3: (Q1) should
+  the kernel TIGHTEN `standing_bounded_assent` resolution from "the realm is founded" to
+  "the record traces to a RECORDED per-class standing route" - for orders, a constituted
+  bench under ACT-002 (already enforced); for regulations, an enactment-provenance record
+  tracing the regulation under the Framework Act s.7 route to the founding assent; (Q2) is
+  requiring per-instrument enactment provenance for a regulation faithful INTERPRETATION
+  of s.23's "tracing to specific Sovereign assent" (the same character as PC-16's
+  sovereign_assent resolution), or does it NARROW the entrenched floor (a regulation
+  genuinely under the standing route but not yet carrying an explicit provenance record
+  would lose protection - the PC-16 D2 non-narrowing concern); (Q3) the MECHANISM and the
+  MIGRATION - how to record enactment provenance for the existing regulations and seed an
+  established-canon carve-out (as PC-16 D1 did for the founding corpus) so no
+  genuinely-assented regulation is narrowed in the interim.
+facts: >
+  F1. The recognised routes (docs/standing-routes-analysis.md): orders -> constituted
+  bench -> ACT-002 -> Bill 32 (COMMENCEMENT-V2-0001 condition D); regulations ->
+  ACT-CONSOLIDATION-FRAMEWORK s.7 -> Bill 32 + the Framework assent (COMMENCEMENT-V2-0002).
+  F2. The founding corpus is named/lodged by COMMENCEMENT-V2-0001/0002; the
+  post-commencement enactments (the omnibus DECs/INVs, ACT-10, ACT-003 s10/s11) are named
+  by per-instrument provenance/assent events. Many existing REG-* records are NOT
+  individually named by a per-instrument event.
+  F3. PC-16's resolution (vjs-engine::assent::assent_resolves) already uses an
+  established-at-HEAD carve-out so an edit to a commenced record is never narrowed; the
+  same pattern could cover the existing regulations while a per-instrument enactment route
+  is required for NEW ones.
+  F4. The interim backstop is the constitutive-codes exclusion (orders/apex closed) plus
+  the duty of care (ACT-003 s.4-s.8), exactly as PC-16 D4 recorded for the irreducible
+  remainder. The residual exploit surface is small (regulation Fatals are usually advisory
+  Warnings already).
+requested_order: >
+  Determine Q1-Q3. If adopting: direct the deterministic, model-free tightening of
+  `standing_bounded_assent` resolution to a recorded per-class route, with the mechanism
+  and a non-narrowing migration (an enactment-provenance record per route + an
+  established-canon carve-out for existing regulations), under
+  ACT-CONSOLIDATION-FRAMEWORK:s7 so it amends no statute, bench, tier, or assent rule. If
+  it would narrow the entrenched floor, refuse and route to the Sovereign.
+private_boundary: >
+  Public canon: VJS governance. No subscriber facts.
+positions:
+  - id: A
+    summary: >
+      TIGHTEN AS INTERPRETATION. Requiring a `standing_bounded_assent` record to trace to
+      a recorded per-class standing route (orders -> constituted bench; regulations ->
+      Framework s.7 enactment provenance) is faithful interpretation of s.23's "tracing to
+      specific Sovereign assent", the same character as PC-16's sovereign_assent
+      resolution. Build it with an established-canon carve-out so no genuine regulation is
+      narrowed; require enactment provenance for NEW regulations. Closes the residual.
+  - id: B
+    summary: >
+      KEEP THE PERMISSIVE TRACE. The residual is the irreducible remainder PC-16 D4
+      already accepted; the high-value vector is closed by the constitutive codes; the
+      backstop is the breach duty. Tightening risks narrowing a genuinely-assented
+      regulation and is not worth the migration; any change to the entrenched term's
+      resolution that could narrow the floor is reserved to a Sovereign-assented Act.
+  - id: C
+    summary: >
+      TIGHTEN ORDERS ONLY, RESERVE REGULATIONS. Make explicit that an order's
+      `standing_bounded_assent` resolves only via a constituted bench (already enforced by
+      the constitutive codes), and RECORD the regulation enactment-provenance route as the
+      reserved migration, building it only when a genuine need (a recorded
+      regulation-laundering breach) arises - genericisation now, not deferral, being
+      reserved for a demonstrated need (the speclaw-3 test).
+word_count: 660
