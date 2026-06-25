@@ -1,0 +1,12 @@
+id: LOG-2026-06-25-115419
+time: 2026-06-25T11:54:19.849252796+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260625-115358
+decision: 'PC-14 D5/D6 Docker delivery: enact REG-FRONT-DOOR-DELIVERY-001 ([2026] VJS-REG 30); add Dockerfile (server image + host-binary export), docker-compose.yml, scripts/vjs-host-setup.sh, docs/docker-delivery.md; make the commit-hook wrapper resolve the kernel binary from the repo root (bin/ -> target -> PATH) so the wall works under either delivery'
+basis:
+- PERMIT-1782388438
+risk: low
+reversibility: easy
+court_required: false
+why: Delivers the server_of_law as a container (the door) and the bypass-proof commit hook on the host as the wall; no guarantee rests on the container; host binary obtainable with no Rust toolchain

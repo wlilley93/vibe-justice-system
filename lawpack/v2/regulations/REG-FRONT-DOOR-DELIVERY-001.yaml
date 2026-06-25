@@ -1,0 +1,55 @@
+id: REG-FRONT-DOOR-DELIVERY-001
+citation: "[2026] VJS-REG 30"
+assent_source: standing_bounded_assent
+title: Front Door Delivery Regulation
+authority: ACT-CONSOLIDATION-FRAMEWORK:s7
+status: in_force
+created_at: "2026-06-25"
+text: >
+  This Regulation prescribes the FORM in which the single governed-record front door
+  (REG-FRONT-DOOR-001, [2026] VJS-PC 14) is DELIVERED to a subscriber. It is
+  subordinate machinery under s7, giving effect to PC-14 D5/D6 and the REG-KERNEL-001
+  server_of_law posture; it enacts no new duty and amends nothing.
+  THE TWO LIMBS, AND WHY THEY ARE SPLIT. The kernel plays two roles, and they are
+  delivered differently on purpose. (1) The SERVER OF LAW (the front door) is the MCP
+  server - a stdio JSON-RPC adapter exposing the lifecycle and record-creation verbs.
+  It ships as a container image (Dockerfile target: server) and is spawned per session
+  by the MCP client with the repo bind-mounted, so a clone gets the well-lit door with
+  no local build. (2) The WALL (the enforcement guarantee) is the deterministic,
+  absolute-path commit hook on the HOST, which calls a host kernel binary by repo-root
+  path and fires on whatever is staged. It MUST run on the host where git runs, NOT
+  inside the container: an enforcement that depended on the developer choosing to run a
+  container would reintroduce the very skip-the-mechanism gap PC-13 and PC-14 close.
+  NO GUARANTEE ON THE CONTAINER. No enforcement guarantee rests on the MCP container
+  being present or running; the agent having used the dockerized server is never proof
+  of conformance. Conformance is established only by the record having passed the host
+  commit gate. The container is the door; the host hook is the wall.
+  THE HOST BINARY WITHOUT A TOOLCHAIN. The image carries a build EXPORT stage
+  (Dockerfile target: export) that hands the host the `vjs` binary
+  (docker build --target export), so a subscriber installs the wall with no Rust
+  toolchain. The commit hook resolves the binary from the repo root - bin/vjs (the
+  Docker export), then target/release or target/debug (a cargo build), then PATH -
+  so it works under either delivery.
+  PRINCIPAL DEPENDENCY. Per PC-14 (Marchmont J.), installing the host hooks and any
+  host Docker step is a host-environment act outside the repo; it is offered to the
+  Principal (scripts/vjs-host-setup.sh), never performed silently, and the absolute-
+  path hooks remain authoritative however the binary was obtained. CITES
+  [2026] VJS-PC 14; REG-FRONT-DOOR-001; REG-KERNEL-001; REG-INVOCATION-001;
+  REG-INSTALL-MANIFEST-001.
+kernel_effect:
+  defines:
+    server_image: dockerfile_target_server_mcp_stdio_front_door
+    host_binary_export: dockerfile_target_export_no_toolchain_needed
+    wall: absolute_path_commit_hook_on_the_host_calling_a_repo_root_resolved_binary
+    binary_resolution: [bin/vjs, target/release/vjs, target/debug/vjs, PATH]
+    host_setup: scripts/vjs-host-setup.sh
+    guarantee_rests_on: host_commit_hook_only_never_the_container
+  must:
+    - deliver_the_server_of_law_as_a_container_and_the_wall_as_a_host_hook
+    - keep_the_host_commit_hook_the_sole_enforcement_guarantee_never_contingent_on_the_container
+    - resolve_the_host_kernel_binary_from_the_repo_root_under_either_delivery
+    - offer_the_host_setup_to_the_principal_never_perform_a_host_mutation_silently
+  must_not:
+    - run_the_enforcement_commit_hook_inside_the_container_or_make_it_depend_on_the_container_being_up
+    - treat_the_agent_having_used_the_dockerized_server_as_proof_of_conformance
+    - require_a_rust_toolchain_on_the_host_to_obtain_the_wall_binary

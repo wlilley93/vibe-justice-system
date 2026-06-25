@@ -678,20 +678,21 @@ fn cmd_invoke(
     if install_hooks {
         let hooks_dir = vjs_dir.join("hooks");
         std::fs::create_dir_all(&hooks_dir).map_err(io)?;
-        // Call the V2 kernel by its absolute path (the binary running this
-        // invoke), so the hook never depends on PATH `vjs` resolving to the
-        // wrong tool (e.g. a V1 CLI).
-        let exe = std::env::current_exe()
-            .map(|p| p.to_string_lossy().to_string())
-            .unwrap_or_else(|_| "vjs".into());
+        // The bypass-proof wall (PC-13 D6, PC-14 REG-FRONT-DOOR-001): resolve the
+        // kernel binary from the REPO ROOT so the gate survives a repo move and works
+        // whether the binary was built by cargo (target/) or exported from the
+        // server_of_law Docker image (bin/, REG-FRONT-DOOR-DELIVERY-001), falling back
+        // to PATH. It NEVER depends on the MCP container being up - the container is
+        // the door, this is the wall.
+        let resolver = "root=\"$(git rev-parse --show-toplevel)\"\nbin=\"\"\nfor c in bin/vjs target/release/vjs target/debug/vjs; do\n  [ -x \"$root/$c\" ] && bin=\"$root/$c\" && break\ndone\n[ -n \"$bin\" ] || bin=vjs";
         std::fs::write(
             hooks_dir.join("pre-commit"),
-            format!("#!/usr/bin/env bash\nexec \"{}\" validate --staged\n", exe),
+            format!("#!/usr/bin/env bash\n{resolver}\nexec \"$bin\" validate --staged\n"),
         )
         .map_err(io)?;
         std::fs::write(
             hooks_dir.join("pre-push"),
-            format!("#!/usr/bin/env bash\nexec \"{}\" local-ci\n", exe),
+            format!("#!/usr/bin/env bash\n{resolver}\nexec \"$bin\" local-ci\n"),
         )
         .map_err(io)?;
         #[cfg(unix)]
