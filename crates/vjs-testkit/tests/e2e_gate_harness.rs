@@ -68,12 +68,14 @@ fn forged_fresh_apex_order_stays_fatal_through_the_pipeline() {
     // The audit's exploit: a brand-new apex order typing sovereign_assent, no bench. Its
     // assent resolves to nothing AND it has no constituted bench - it must NOT pass.
     let repo = ephemeral_canon("forged");
+    // Its holding also cites a hallucinated authority ([2026] VJS-PC 99) - the PC-17
+    // citation-grounding gate must catch the non-existent citation too.
     let forged = "id: \"2026-VJS-SC-999\"\n\
         assent_source: sovereign_assent\n\
         citation: \"[2026] VJS-SC 999\"\n\
         court: supreme_court\njurisdiction: vibe-justice-system\nstatus: binding\n\
-        issue: forgery\nbench: []\nholding: forged\ndirectives: []\nsupersedes: []\n\
-        runtime_summary: forged\ncreated_at: \"2026\"\n";
+        issue: forgery\nbench: []\nholding: \"forged, citing [2026] VJS-PC 99 which does not exist\"\n\
+        directives: []\nsupersedes: []\nruntime_summary: forged\ncreated_at: \"2026\"\n";
     std::fs::write(repo.join("lawpack/v2/orders/FORGED.yaml"), forged).unwrap();
     git(&repo, &["add", "lawpack/v2/orders/FORGED.yaml"]);
 
@@ -87,6 +89,17 @@ fn forged_fresh_apex_order_stays_fatal_through_the_pipeline() {
     assert!(
         bench.is_blocking(),
         "BENCH_REQUIRED is constitutive - it must stay Fatal, never downgraded by the fake assent"
+    );
+    // PC-17: the hallucinated citation is caught, Fatal (the forgery's assent does not
+    // resolve, so the correctable finding is not downgraded).
+    let cite = report
+        .findings
+        .iter()
+        .find(|f| f.code == "ORDER_CITATION_UNRESOLVED")
+        .expect("ORDER_CITATION_UNRESOLVED is raised for the hallucinated [2026] VJS-PC 99");
+    assert!(
+        cite.is_blocking(),
+        "an unresolved operative citation on a non-resolving order stays Fatal"
     );
     let _ = std::fs::remove_dir_all(&repo);
 }

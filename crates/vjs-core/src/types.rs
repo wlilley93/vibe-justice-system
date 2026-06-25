@@ -688,6 +688,14 @@ pub struct Order {
     pub appeal_of: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub appealable: Option<bool>,
+    /// [2026] VJS-PC 17 D7: an OPTIONAL machine-resolvable list of the authorities this
+    /// order's operative parts rely on (canonical ids / citations), mirroring `supersedes`.
+    /// Directive bodies are presently lossy snake_case tokens no clerk can resolve
+    /// (act_010_s2 does not mechanically resolve to ACT-ASSENTED-RECORD-PROTECTION:s2), so
+    /// an author lists the directives' load-bearing authorities here and the
+    /// citation-grounding teeth extend to them. Prose stays for humans.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cites_authorities: Option<Vec<String>>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

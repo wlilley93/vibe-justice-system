@@ -6,6 +6,7 @@ use vjs_core::spec::InvariantRaw;
 use vjs_core::*;
 
 pub mod overlay;
+pub mod refs;
 
 pub struct LawpackLoader;
 
@@ -372,6 +373,41 @@ pub fn defined_ids(lawpack: &Lawpack) -> std::collections::HashSet<String> {
     defined
 }
 
+/// Every case/instrument citation the lawpack defines (orders, statutes, and
+/// regulations all carry a top-level citation), whitespace-normalised for stable keying
+/// (PC-17 D1, the order citation-grounding gate). A holding citing "[2026] VJS-ACT 10"
+/// (a statute) must resolve as surely as one citing "[2026] VJS-PC 16" (an order).
+pub fn defined_citations(lawpack: &Lawpack) -> std::collections::HashSet<String> {
+    let norm = |c: &str| c.split_whitespace().collect::<Vec<_>>().join(" ");
+    let mut set = std::collections::HashSet::new();
+    for o in &lawpack.orders {
+        if let Some(c) = &o.citation {
+            set.insert(norm(c));
+        }
+    }
+    for s in &lawpack.statutes {
+        if let Some(c) = &s.citation {
+            set.insert(norm(c));
+        }
+    }
+    for r in &lawpack.regulations {
+        if let Some(c) = &r.citation {
+            set.insert(norm(c));
+        }
+    }
+    set
+}
+
+/// The ids any order declares superseded - so a reference to one is defined-but-not-in-
+/// force (an advisory under PC-17 D3), not unresolved.
+pub fn superseded_ids(lawpack: &Lawpack) -> std::collections::HashSet<String> {
+    lawpack
+        .orders
+        .iter()
+        .flat_map(|o| o.supersedes.iter().map(|s| s.0.clone()))
+        .collect()
+}
+
 /// Build the whole-lawpack facts the staged invariant evaluator needs. Reuses
 /// the validator's findings (so a check change in one place changes both) and
 /// reads the repo's `.vjs/config.toml` for the directory-roles and MCP checks.
@@ -598,8 +634,12 @@ impl LawpackValidator {
             if path.extension().and_then(|s| s.to_str()) != Some("yaml") {
                 continue;
             }
-            let content =
+            let raw =
                 std::fs::read_to_string(path).map_err(|e| KernelError::Io(e.to_string()))?;
+            // PC-17 D6: rejoin folded-scalar id splits (shared with the order gate) so a
+            // YAML soft wrap cannot manufacture a partial-id false positive - the
+            // REG-FEDERATION-COORDINATION-001 line-wrap class this session kept tripping.
+            let content = crate::refs::dewrap(&raw);
             let rel = path
                 .strip_prefix(lawpack_dir)
                 .unwrap_or(path)
