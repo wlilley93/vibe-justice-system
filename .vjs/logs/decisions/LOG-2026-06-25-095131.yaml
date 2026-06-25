@@ -1,0 +1,12 @@
+id: LOG-2026-06-25-095131
+time: 2026-06-25T09:51:31.372360681+00:00
+actor: lexby
+kind: decision
+issue: opbox-salvage-principles-inclusion
+decision: 'The 3 salvageable principles distilled from the removed Opbox law (store-consolidation, regulated-data trust boundaries, single-source invariant) are NOT returned to VJS canon. Applying the inclusion-eligibility gate: the consolidation/single-source kernel is ALREADY canon (ACT-CONSOLIDATION-FRAMEWORK, statutes/09); the regulated-data trust-boundary principle is subscriber-domain engineering, belonging in the subscriber''s own .justice/, not the governance-only substrate'
+basis:
+- ACT-CONSOLIDATION-FRAMEWORK
+risk: low
+reversibility: easy
+court_required: false
+why: Returning anonymised subscriber-derived principles would re-import subscriber-flavoured content into a governance-only canon; the generic kernel is already covered, the rest is subscriber-domain - a decisive call on all fours with the existing consolidation framework, not a first-impression fork
