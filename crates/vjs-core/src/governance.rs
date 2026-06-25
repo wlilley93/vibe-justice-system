@@ -111,6 +111,18 @@ pub struct PermitGateFinding {
     pub remedy: String,
 }
 
+/// A permit scope glob "escapes the working root" when it is absolute or climbs out
+/// via `..`/`~` - i.e. it reaches into another repo. Used by the D3 cross-repo guard.
+pub fn path_escapes_root(g: &str) -> bool {
+    let s = g.trim();
+    s.starts_with('/')
+        || s.starts_with('~')
+        || s.starts_with("../")
+        || s.contains("/../")
+        || s == ".."
+        || s.ends_with("/..")
+}
+
 impl PermitGate {
     pub fn evaluate(
         staged_paths: &[PathBuf],
@@ -327,6 +339,31 @@ impl PermitGate {
         })
     }
 
+    /// D3 ([2026] VJS-PC 13 "Teeth For The Front Door"): the thin working-root
+    /// jurisdiction check. A "true cross-repo permit" is one whose scope reaches
+    /// OUTSIDE the working root - an absolute path, or one escaping via `..`/`~`.
+    /// Under ACT-007:s3 a reach into another repo's law is lawful ONLY by a Privy
+    /// Council order or Principal assent; the repo-local permit model carries no
+    /// such authority field, so the kernel FAILS CLOSED. This is a narrow exception
+    /// path folded onto the canon-write gate, not a second gate. It is
+    /// false-positive-free: every lawful permit scopes in-root globs.
+    /// Returns (permit id, offending glob) for each escaping scope path.
+    pub fn cross_repo_reaches(permits: &[Permit]) -> Vec<(String, String)> {
+        let mut out = Vec::new();
+        for p in permits {
+            if let Some(ref scope) = p.scope
+                && let Some(ref paths) = scope.paths
+            {
+                for g in paths {
+                    if path_escapes_root(g) {
+                        out.push((p.id.0.clone(), g.clone()));
+                    }
+                }
+            }
+        }
+        out
+    }
+
     /// Prefer a usable (Active, unexpired) permit; otherwise return the first
     /// scope-covering permit so evaluate can report WHY it fails (expired,
     /// revoked, closed) instead of a bare PERMIT-MISSING.
@@ -344,5 +381,42 @@ impl PermitGate {
             .find(|p| matches!(p.status, PermitStatus::Active) && !Self::permit_is_expired(p, now))
             .or_else(|| covering.first())
             .map(|p| (*p).clone())
+    }
+}
+
+#[cfg(test)]
+mod cross_repo_tests {
+    use super::path_escapes_root;
+
+    #[test]
+    fn in_root_globs_never_escape() {
+        for g in [
+            "crates/**",
+            "lawpack/v2/**",
+            "Cargo.toml",
+            "gazette*",
+            ".vjs/orders/**",
+            "src/main.rs",
+        ] {
+            assert!(
+                !path_escapes_root(g),
+                "{g} is in-root and must not be flagged"
+            );
+        }
+    }
+
+    #[test]
+    fn absolute_or_climbing_globs_escape() {
+        for g in [
+            "/etc/passwd",
+            "/home/other/repo/**",
+            "~/secrets",
+            "../canon/lawpack/**",
+            "crates/../../other/**",
+            "..",
+            "a/b/..",
+        ] {
+            assert!(path_escapes_root(g), "{g} reaches outside the working root");
+        }
     }
 }
