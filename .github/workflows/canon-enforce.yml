@@ -1,11 +1,13 @@
 # VJS canon enforcement (improvement #1, machinery on [2026] VJS-PC 14 /
 # REG-FRONT-DOOR-001).
 #
-# The host commit hook is the local wall, but `git commit --no-verify` bypasses it.
-# This re-runs the SAME deterministic kernel gate on the canonical remote, on every
-# push and pull request, where no --no-verify can reach. It is not a NEW guarantee -
-# it is the front-door gate enforced at a second, un-bypassable point (defence in
-# depth). A push that skipped the local hook fails here.
+# The host commit hook is the local wall, but `git commit --no-verify` bypasses it,
+# and a write-access author can edit a local gate and re-lock it ([2026] VJS-PC 16 D4
+# records that this is beyond any in-binary check). This job is the TRUST ROOT: it
+# re-runs the SAME deterministic kernel gate on the canonical remote, on every push and
+# pull request, on a PINNED toolchain (rust-toolchain.toml), where no --no-verify and no
+# local edit can reach. Make this a REQUIRED status check in branch protection so its
+# verdict - not the committer's say-so - is what admits a change to canon.
 name: canon-enforce
 
 on:
@@ -18,8 +20,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # full history, so we can diff against the push base
-      - uses: dtolnay/rust-toolchain@stable
+          fetch-depth: 0               # full history, so we can diff against the push base
+          persist-credentials: false   # do not leak the checkout token to later steps
+      # Pinned to the exact toolchain in rust-toolchain.toml so the verdict is
+      # reproducible (a moving "stable" could silently change what passes).
+      - uses: dtolnay/rust-toolchain@1.95.0
       - uses: Swatinem/rust-cache@v2
       - name: Build the kernel
         run: cargo build --release --bin vjs
