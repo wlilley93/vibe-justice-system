@@ -160,7 +160,6 @@ pub fn assent_resolves(repo: &Path, rel: &str, content: &str) -> bool {
     }
     let source = top_level(content, "assent_source").unwrap_or_default();
     let (corpus, pinned) = provenance_corpus(repo);
-    let founded = corpus.contains("sovereign_assent_event") || corpus.contains("royal_assent");
 
     match source.as_str() {
         "sovereign_assent" => {
@@ -177,12 +176,86 @@ pub fn assent_resolves(repo: &Path, rel: &str, content: &str) -> bool {
             named || established_at_head(repo, rel)
         }
         "standing_bounded_assent" => {
-            // Traces to the Realm's Sovereign-assent foundation. The constitutive codes
-            // bar a forged order independently of this trace.
-            founded
+            // [2026] VJS-SC 5 (full constitutional bench of nine, 7-2): ROUTE-CLASS
+            // resolution. The bare existence check ("a foundation exists somewhere")
+            // under-implemented s.23's transitive "tracing" verb; this follows the
+            // record's OWN route to a recorded terminal. NO per-instrument provenance is
+            // ever required of a regulation (SC-5 D5: a force-gate would narrow VJS-ACT 10
+            // s.1 for a genuinely-made regulation and is reserved exclusively to the
+            // Sovereign, barred even on a future breach).
+            //
+            // Limb 1 (short-circuit): established at HEAD. The complete, zero-narrowing
+            // migration for the committed corpus - a committed record was brought into
+            // force by the commencement lock under the founding Sovereign assent, so this
+            // IS a true recorded trace, not a grandfather clause (SC-5 D2, unanimous that
+            // the carve-out is load-bearing).
+            if established_at_head(repo, rel) {
+                return true;
+            }
+            // Limb 2 (regulations): the record's declared parent authority resolves to a
+            // defined in-force statute (itself committed and Sovereign-assented, so its
+            // own assent resolves). Follow whatever parent the record declares - not a
+            // hard-coded s.7 (SC-5 D3).
+            if let Some(auth) = top_level(content, "authority") {
+                let parent = auth.split(':').next().unwrap_or("").trim();
+                if !parent.is_empty() && parent_is_defined(repo, parent) {
+                    return true;
+                }
+            }
+            // Limb 3 (orders): an order's standing route is issuance by a constituted
+            // bench under ACT-002. The CONSTITUTIVE_CODES independently bar a bench-less
+            // order, so this never launders a forged order's void-ab-initio grounds; it
+            // only lets a genuine new order's correctable defects route for correction
+            // (SC-5 D4 - an order's standing is borne by the constitutive codes, not this
+            // trace).
+            is_order(rel) && declares_bench(content)
         }
         _ => false,
     }
+}
+
+/// SC-5 D3, limb 2: the declared parent authority (its base id before any `:sN`) is a
+/// defined statute in canon. The parent statutes are committed and Sovereign-assented,
+/// so their own assent resolves; a regulation naming a real parent therefore traces.
+/// Reads the statute's OWN top-level `id:` (column zero), not its indented section ids.
+fn parent_is_defined(repo: &Path, parent: &str) -> bool {
+    let dir = repo.join("lawpack/v2/statutes");
+    let Ok(entries) = std::fs::read_dir(&dir) else {
+        return false;
+    };
+    for entry in entries.flatten() {
+        let p = entry.path();
+        if p.extension().and_then(|s| s.to_str()) != Some("yaml") {
+            continue;
+        }
+        let Ok(content) = std::fs::read_to_string(&p) else {
+            continue;
+        };
+        for line in content.lines() {
+            if let Some(rest) = line.strip_prefix("id:") {
+                let id = rest.trim().trim_matches('"').trim_matches('\'').trim();
+                if id == parent {
+                    return true;
+                }
+            }
+        }
+    }
+    false
+}
+
+/// A staged record under the canon orders tree.
+fn is_order(rel: &str) -> bool {
+    rel.replace('\\', "/").starts_with("lawpack/v2/orders/")
+}
+
+/// SC-5 D4, limb 3: the order declares a non-empty `bench:` (issuance by a constituted
+/// bench). The constitutive codes verify the bench is properly constituted independently;
+/// this only distinguishes a genuine order from a bench-less one for the trace.
+fn declares_bench(content: &str) -> bool {
+    serde_yaml::from_str::<serde_yaml::Value>(content)
+        .ok()
+        .and_then(|v| v.get("bench").and_then(|b| b.as_sequence()).map(|s| !s.is_empty()))
+        .unwrap_or(false)
 }
 
 #[cfg(test)]

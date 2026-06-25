@@ -125,9 +125,12 @@ fn the_text_artifact_is_bijective_with_the_canon_and_renderable() {
     let bytes = std::fs::metadata(repo_root().join("gazette-text.js"))
         .unwrap()
         .len();
+    // Soft guard against a whole-YAML dump (which would be megabytes). Raised from
+    // 400 KB as the realm grew (the PC-15/16/17 and SC-5 orders each carry substantial
+    // holdings); 600 KB still enforces the "summaries, not full YAML" discipline.
     assert!(
-        bytes < 400_000,
-        "gazette-text.js stays under 400 KB, got {}",
+        bytes < 600_000,
+        "gazette-text.js stays under 600 KB, got {}",
         bytes
     );
 }

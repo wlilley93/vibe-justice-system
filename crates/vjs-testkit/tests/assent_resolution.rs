@@ -60,6 +60,81 @@ fn a_junk_or_absent_assent_value_does_not_resolve() {
 }
 
 #[test]
+fn every_committed_standing_regulation_resolves_keeping_its_floor() {
+    // [2026] VJS-SC 5 D2 (unanimous the carve-out is load-bearing): the established-canon
+    // carve-out shelters EVERY regulation committed at HEAD - not one in-force regulation
+    // loses its floor. The complete, zero-narrowing migration.
+    let root = workspace_root();
+    let dir = root.join("lawpack/v2/regulations");
+    let mut checked = 0;
+    for entry in std::fs::read_dir(&dir).unwrap().flatten() {
+        let p = entry.path();
+        if p.extension().and_then(|s| s.to_str()) != Some("yaml") {
+            continue;
+        }
+        let content = std::fs::read_to_string(&p).unwrap();
+        if !content.contains("assent_source: standing_bounded_assent") {
+            continue;
+        }
+        let rel = format!(
+            "lawpack/v2/regulations/{}",
+            p.file_name().unwrap().to_str().unwrap()
+        );
+        assert!(
+            assent_resolves(&root, &rel, &content),
+            "committed regulation {rel} must resolve via limb 1 (established-at-HEAD)"
+        );
+        checked += 1;
+    }
+    assert!(checked >= 10, "expected many standing regulations, got {checked}");
+}
+
+#[test]
+fn a_fresh_regulation_with_a_real_parent_resolves_without_per_instrument_paper() {
+    // SC-5 D3 limb 2: a fresh regulation (a path NOT at HEAD) declaring a real parent
+    // authority resolves by class-route, carrying NO per-instrument provenance.
+    let reg = "id: REG-FRESH-001\nassent_source: standing_bounded_assent\ncitation: \"[2026] VJS-REG 99\"\nauthority: ACT-CONSOLIDATION-FRAMEWORK:s7\n";
+    assert!(assent_resolves(
+        &workspace_root(),
+        "lawpack/v2/regulations/REG-FRESH-NOT-AT-HEAD.yaml",
+        reg
+    ));
+}
+
+#[test]
+fn a_fresh_record_on_no_recognised_route_does_not_resolve() {
+    // SC-5: a fresh standing_bounded_assent record not established, naming no real parent,
+    // and not an order with a bench, has an unresolved trace and does not resolve.
+    let root = workspace_root();
+    let junk = "id: REG-FORGED-001\nassent_source: standing_bounded_assent\ncitation: \"[2026] VJS-REG 98\"\nauthority: ACT-DOES-NOT-EXIST:s1\n";
+    assert!(!assent_resolves(
+        &root,
+        "lawpack/v2/regulations/REG-FORGED-NOT-AT-HEAD.yaml",
+        junk
+    ));
+}
+
+#[test]
+fn a_fresh_order_with_a_constituted_bench_resolves_limb3() {
+    // SC-5 D4 limb 3: a genuine new order (not at HEAD) with a non-empty bench resolves,
+    // so its correctable defects route for correction. A bench-less order is barred
+    // independently by the constitutive codes (proven in the e2e harness).
+    let root = workspace_root();
+    let with_bench = "id: \"2026-VJS-PC-099\"\nassent_source: standing_bounded_assent\ncourt: privy_council\nbench:\n  - A\n  - B\n  - C\n";
+    assert!(assent_resolves(
+        &root,
+        "lawpack/v2/orders/2026-VJS-PC-099-NOT-AT-HEAD.yaml",
+        with_bench
+    ));
+    let bench_less = "id: \"2026-VJS-PC-098\"\nassent_source: standing_bounded_assent\ncourt: privy_council\nbench: []\n";
+    assert!(!assent_resolves(
+        &root,
+        "lawpack/v2/orders/2026-VJS-PC-098-NOT-AT-HEAD.yaml",
+        bench_less
+    ));
+}
+
+#[test]
 fn constitutive_codes_are_the_void_ab_initio_grounds() {
     // Bench-integrity, apex-singleness, and citation collision go to whether the record
     // IS a valid record/order - never softened by assent.
