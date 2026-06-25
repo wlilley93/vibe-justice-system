@@ -1,0 +1,29 @@
+# VJS canon enforcement (improvement #1, machinery on [2026] VJS-PC 14 /
+# REG-FRONT-DOOR-001).
+#
+# The host commit hook is the local wall, but `git commit --no-verify` bypasses it.
+# This re-runs the SAME deterministic kernel gate on the canonical remote, on every
+# push and pull request, where no --no-verify can reach. It is not a NEW guarantee -
+# it is the front-door gate enforced at a second, un-bypassable point (defence in
+# depth). A push that skipped the local hook fails here.
+name: canon-enforce
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  enforce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Build the kernel
+        run: cargo build --release --bin vjs
+      - name: Lawpack + invariants + boundary + permit gate (local-ci)
+        run: ./target/release/vjs local-ci
+      - name: Full validate (lawpack lock, citations, install surface)
+        run: ./target/release/vjs validate
+      - name: Workspace tests
+        run: cargo test --workspace
