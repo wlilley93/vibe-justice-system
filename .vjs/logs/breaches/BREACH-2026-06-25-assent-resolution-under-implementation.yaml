@@ -1,0 +1,51 @@
+id: BREACH-2026-06-25-assent-resolution-under-implementation
+time: "2026-06-25T00:00:00+00:00"
+actor: lexby
+kind: breach_self_report
+issue: kernel-witness-soundness
+self_filed_under: "[2026] VJS-PC 16 D5; ACT-003 s.4-s.8 (duty of reasonable skill and care, breach self-fileable)"
+what_happened: >
+  The assent floor performed only HALF of ACT-COMPUTER-FIRST-REALM s.23. s.23 makes a
+  record's assent valid only if its declared assent_source RESOLVES to a specific
+  Sovereign-assent event (or a standing-bounded route tracing to one), and lists "an
+  unresolved trace" as a ground of rejection alongside absence and emptiness. The kernel
+  checked only allow-list MEMBERSHIP: front_door::declares_valid_assent and the
+  PredicateExpr::AssentSourceValid witness both returned true on the bare string, and the
+  AssentSourceValid evaluator's OWN comment recited the resolution standard ("resolving
+  to", "an unresolved trace ... cause[s] rejection") and then checked only allowed.iter().
+  Two downgrade sites keyed on this membership test - the main assent floor in
+  vjs-engine::validate and the bench gate's own bifurcation - so a staged record that
+  merely TYPED `assent_source: sovereign_assent`, pointing at no real assent event, had
+  every Fatal finding downgraded to a route-for-correction Warning and committed. An
+  adversarial audit proved a bench-less, never-convened "Supreme Court order" passed a
+  green validate by this route: forgery laundering the constitutive bench-integrity and
+  apex-singleness findings the realm exists to enforce.
+law_breached:
+  - "ACT-COMPUTER-FIRST-REALM s.23: a valid assent_source must RESOLVE to a specific Sovereign-assent event; an unresolved trace causes rejection. The kernel implemented only the well-formedness half."
+  - "ACT-ASSENTED-RECORD-PROTECTION (VJS-ACT 10) s.1/s.2: the floor shelters a record only 'within the meaning of s.23'; s.2 confers no force on a record LACKING a valid assent_source. Sheltering an unresolved forgery enlarged the floor beyond what the Sovereign assented to."
+  - "INV-ASSENT-SOURCE-001: the predicate text promised a resolving/traceable source; the code did membership only (text-effect discrepancy) - the continuation of the gap recorded but DEFERRED at BREACH-2026-06-12-assent-gate-raw-line-scan."
+discovered_by: "adversarial audit (a forged bench-less apex order declaring sovereign_assent passed a green validate); adjudicated [2026] VJS-PC 16 (3-0)"
+containment: >
+  The bypass was demonstrated, never left as a committed void order in canon. No forged
+  apex order persists; validate now blocks the class. The void apex "order" that the
+  audit constructed is void ab initio on both grounds (its assent resolves to nothing AND
+  it issued from no constituted bench, ACT-COMPUTER-FIRST-REALM s.29/s.15) and is not good
+  law; it is marked void and routed for correction, never silently erased.
+remedy:
+  - "vjs-engine::assent::assent_resolves: the floor now shelters a staged record only if its declared assent RESOLVES to real Sovereign authority (named in the provenance corpus assent/+founding/, an instrument_digest match, or an established/commenced record), never on bare membership (PC-16 D1)"
+  - "the constitutive-validity codes (bench-integrity, apex-singleness, citation collision) are NEVER softened by any assent claim - fixed at BOTH downgrade sites, including the bench gate's own membership bifurcation (PC-16 D2; 'void ab initio on both grounds')"
+  - "reconciled the AssentSourceValid evaluator comment with its code: it is the well-formedness limb; resolution is enforced at the floor-attachment site (the two limbs separate by design)"
+  - "locked the executed proof as permanent golden vectors (assent_resolution.rs): the forged order stays Fatal; every real assent resolves and keeps route-for-correction"
+prevention:
+  - "the floor-attachment site is the single place a record claims the assent floor; resolution is enforced there, deterministically, against the digest-pinned provenance corpus - never by a membership scan"
+  - "a constitutive-validity finding (whether the record IS a valid record/order of its kind) is structurally excluded from assent downgrade, so no assent claim can launder a record's standing"
+deferred:
+  - "per-class standing-route instruments for standing_bounded_assent (so it gates ordinary defects on a recorded route, not only the realm's foundation) - reserved; the constitutive-code exclusion closes the high-value (order/apex) forgery in the interim (recorded candidly per PC-16 D4)"
+note: >
+  Remedy is restorative, not punitive (the duty of care, ACT-003 s.4-s.8). The work is
+  made good. The gap that let it through - a floor that recited a resolution duty in its
+  own comment and performed only membership - is recorded for the permanent suite. The
+  irreducible remainder (an author with full write access who simply deletes the check
+  and recompiles) is bounded, not cured, by D4's digest-pin of the enforcement surface;
+  the ultimate backstops there are non-machine (the Sovereign's gate and this continuing
+  duty of care), and are not represented as more.

@@ -170,6 +170,9 @@ fn a_permitted_governed_write_passes_and_an_unpermitted_one_fails_closed() {
         obligations: Vec::new(),
         expires_at: "2099-01-01T00:00:00+00:00".into(),
         status: PermitStatus::Active,
+        self_issued: true,
+        meaning: None,
+        intent_digest: None,
     };
     let ctx = build_ctx();
     let input = |p: &str| HookInput {

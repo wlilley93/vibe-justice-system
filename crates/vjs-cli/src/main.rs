@@ -431,27 +431,34 @@ fn cmd_route(
 
     // Save permit if one was created
     if let Some(ref permit_id) = decision.permit_id {
+        let route_id = format!("ROUTE-{}", chrono::Utc::now().format("%Y%m%d-%H%M%S"));
+        let scope = if path_globs.is_empty() {
+            None
+        } else {
+            Some(Scope {
+                paths: Some(path_globs.clone()),
+                jurisdictions: None,
+                action_kinds: None,
+                issue_tags: None,
+                records: None,
+            })
+        };
+        // PC-16 D3: bind the self-issued permit to its actor + route + concrete scope and
+        // record, in plain terms, that it is an agent-routed self-issue (not an authority
+        // approval) so the audit trail never reads as more than it is.
+        let intent_digest =
+            vjs_core::spec::permit_intent_digest("lexby", &route_id, &scope);
         let permit = Permit {
             id: permit_id.clone(),
-            route_id: RouteId(format!(
-                "ROUTE-{}",
-                chrono::Utc::now().format("%Y%m%d-%H%M%S")
-            )),
+            route_id: RouteId(route_id),
             actor: "lexby".into(),
-            scope: if path_globs.is_empty() {
-                None
-            } else {
-                Some(Scope {
-                    paths: Some(path_globs.clone()),
-                    jurisdictions: None,
-                    action_kinds: None,
-                    issue_tags: None,
-                    records: None,
-                })
-            },
+            scope,
             obligations: decision.obligations.clone(),
             expires_at: (chrono::Utc::now() + chrono::Duration::hours(24)).to_rfc3339(),
             status: PermitStatus::Active,
+            self_issued: true,
+            meaning: Some(vjs_core::spec::SELF_ISSUED_MEANING.into()),
+            intent_digest: Some(intent_digest),
         };
         Store::write_permit(repo, &permit)?;
     }

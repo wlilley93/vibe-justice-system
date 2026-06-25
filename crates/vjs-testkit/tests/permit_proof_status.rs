@@ -61,6 +61,9 @@ fn permit(status: PermitStatus) -> Permit {
         obligations: Vec::new(),
         expires_at: "2099-01-01T00:00:00+00:00".into(),
         status,
+        self_issued: true,
+        meaning: None,
+        intent_digest: None,
     }
 }
 
