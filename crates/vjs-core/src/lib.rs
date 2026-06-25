@@ -13,6 +13,7 @@ pub mod governance;
 pub mod hook;
 pub mod install;
 pub mod repo;
+pub mod report;
 pub mod route;
 pub mod spec;
 pub mod types;
