@@ -30,6 +30,9 @@ __pycache__/
 .vjs/hooks/pre-commit
 .vjs/hooks/pre-push
 
+# vjs invoke agent-runtime adapters (thin, regenerated per clone by --install-hooks)
+.vjs/hooks/adapters/
+
 # stray build artifacts
 *.rlib
 

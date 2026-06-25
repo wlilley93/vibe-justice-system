@@ -562,13 +562,15 @@ fn cmd_hook(
     // any governed write proceeds (REG-INVOCATION-001).
     let install_block = || -> Option<vjs_core::hook::HookDecision> {
         let d = vjs_core::install::verify_surface(repo).into_iter().next()?;
-        Some(vjs_core::hook::HookDecision::Block(vjs_core::hook::Finding {
-            code: d.code().into(),
-            message: "Install incomplete: governance is only partly active. Run vjs invoke \
+        Some(vjs_core::hook::HookDecision::Block(
+            vjs_core::hook::Finding {
+                code: d.code().into(),
+                message: "Install incomplete: governance is only partly active. Run vjs invoke \
                       --install-hooks then vjs install-lock before governed writes."
-                .into(),
-            next: Some("vjs invoke --install-hooks".into()),
-        }))
+                    .into(),
+                next: Some("vjs invoke --install-hooks".into()),
+            },
+        ))
     };
     let decision = vjs_core::hook::apex_routing_decision(&input, &jurisdiction_id, APEX_SEAT)
         .or_else(install_block)
@@ -705,6 +707,11 @@ fn cmd_invoke(
             ])
             .output();
         hooks_installed = out.map(|o| o.status.success()).unwrap_or(false);
+
+        // PC-13 D8: emit the thin agent-runtime adapters (pre_write / session_start
+        // / post_action) for every supported runtime. Each only calls the kernel
+        // (REG-HOOKS-001 thin-adapter rule); the logic stays in hook.rs.
+        let _ = vjs_core::install::generate_adapters(repo);
     }
 
     // PC-13 D5: atomically lock the surface into .vjs/install.lock. Best-effort -
@@ -2127,6 +2134,9 @@ fn cmd_install_lock(repo: &Path, json: bool) -> Result<(), KernelError> {
             msgs.join("; ")
         )));
     }
+    // Materialise the thin agent-runtime adapters (D8) before locking, so the
+    // manifest binds them (create-if-absent; never clobbers a customised adapter).
+    let _ = vjs_core::install::generate_adapters(repo);
     let now = chrono::Utc::now().to_rfc3339();
     let manifest = vjs_core::install::build_manifest(repo, now).ok_or_else(|| {
         KernelError::InvalidInput("surface complete but manifest could not be built".into())
@@ -2135,15 +2145,17 @@ fn cmd_install_lock(repo: &Path, json: bool) -> Result<(), KernelError> {
     let header = "# VJS install manifest (REG-INSTALL-MANIFEST-001). Atomic sha256 lock of the\n\
                   # REG-INVOCATION-001 surface. Re-lock with `vjs install-lock` after a surface change.\n";
     let path = repo.join(vjs_core::install::MANIFEST_FILE);
-    std::fs::write(&path, format!("{header}{body}"))
-        .map_err(|e| KernelError::Io(e.to_string()))?;
+    std::fs::write(&path, format!("{header}{body}")).map_err(|e| KernelError::Io(e.to_string()))?;
     if json {
         println!(
             "{}",
             serde_json::json!({ "manifest": vjs_core::install::MANIFEST_FILE, "locked": true })
         );
     } else {
-        println!("Install manifest locked: {}", vjs_core::install::MANIFEST_FILE);
+        println!(
+            "Install manifest locked: {}",
+            vjs_core::install::MANIFEST_FILE
+        );
     }
     Ok(())
 }

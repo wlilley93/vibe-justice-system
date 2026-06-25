@@ -1,0 +1,12 @@
+id: LOG-2026-06-25-094052
+time: 2026-06-25T09:40:52.535071227+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260625-093955
+decision: 'PC-13 D8 (vjs invoke/install-lock emit thin agent-runtime adapters: 6 runtimes x pre_write/session_start/post_action, bound to the manifest) + D9 (affirm the closed five-event surface; prepare-commit-msg/post-checkout rejected)'
+basis:
+- PERMIT-1782380395
+risk: low
+reversibility: easy
+court_required: false
+why: Closes the 'operate from context' gap by making every runtime call the kernel hook; adapters stay thin per REG-HOOKS-001 (logic in hook.rs); the five-event surface is fixed, not extensible by installer convention

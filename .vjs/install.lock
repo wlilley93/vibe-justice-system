@@ -1,9 +1,10 @@
 # VJS install manifest (REG-INSTALL-MANIFEST-001). Atomic sha256 lock of the
 # REG-INVOCATION-001 surface. Re-lock with `vjs install-lock` after a surface change.
 schema_version = 1
-generated_at = "2026-06-25T09:32:37.827437990+00:00"
+generated_at = "2026-06-25T09:39:55.581547768+00:00"
 config_digest = "sha256:87d4487a674b0fea593cb3b32808d6b0d8c85c30e121bf0f6785409a8631ff4f"
 invocation = ".vjs/invocation/20260609-175806-local-sovereign-invocation.yaml"
 invocation_digest = "sha256:1f2ffc16135aa80ced739f856ba4b2a65455389dea6df2daff85355bb190dcbe"
 lawpack_lock = ".vjs/lawpack.lock"
 hooks = ["pre-commit", "pre-push"]
+adapters = ["claude-post_action.sh", "claude-pre_write.sh", "claude-session_start.sh", "codex-post_action.sh", "codex-pre_write.sh", "codex-session_start.sh", "gemini-post_action.sh", "gemini-pre_write.sh", "gemini-session_start.sh", "mcp-post_action.sh", "mcp-pre_write.sh", "mcp-session_start.sh", "opencode-post_action.sh", "opencode-pre_write.sh", "opencode-session_start.sh", "shell-post_action.sh", "shell-pre_write.sh", "shell-session_start.sh"]

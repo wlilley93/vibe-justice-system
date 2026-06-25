@@ -18,6 +18,27 @@ use std::path::Path;
 pub const MANIFEST_FILE: &str = ".vjs/install.lock";
 pub const MANIFEST_SCHEMA_VERSION: u32 = 1;
 
+/// The agent runtimes for which `vjs invoke` emits thin hook adapters (D8). The
+/// flag is true when the runtime passes its hook payload as JSON on stdin.
+pub const RUNTIMES: &[(&str, bool)] = &[
+    ("claude", true),
+    ("codex", true),
+    ("mcp", true),
+    ("gemini", false),
+    ("opencode", false),
+    ("shell", false),
+];
+
+/// The agent-runtime hook events adapters are emitted for (D8/D9). These are three
+/// of the closed five-event surface of REG-HOOKS-001; the other two (pre_commit,
+/// pre_push) are git hooks, installed separately. "prepare-commit-msg" and
+/// "post-checkout" are git names OUTSIDE the closed surface and are never emitted.
+pub const AGENT_EVENTS: &[&str] = &["pre_write", "session_start", "post_action"];
+
+/// The adapter directory under .vjs/hooks (regenerated per clone, like the git
+/// hooks; gitignored).
+pub const ADAPTERS_DIR: &str = ".vjs/hooks/adapters";
+
 /// A missing or inactive limb of the REG-INVOCATION-001 surface. Each names the
 /// instrument behind it, so a denial cites the law (D4).
 #[derive(Clone, Debug, PartialEq)]
@@ -136,6 +157,72 @@ pub struct InstallManifest {
     pub invocation_digest: String,
     pub lawpack_lock: String,
     pub hooks: Vec<String>,
+    /// The agent-runtime thin adapters emitted by invoke (D8), recorded by name so
+    /// the manifest is bound to them. Default empty for manifests predating D8.
+    #[serde(default)]
+    pub adapters: Vec<String>,
+}
+
+/// Emit the thin agent-runtime hook adapters (D8): for every runtime in RUNTIMES
+/// and every event in AGENT_EVENTS, a script .vjs/hooks/adapters/<runtime>-<event>.sh
+/// whose ONLY job is to call `vjs hook --event <event>` - the logic lives in the
+/// kernel (hook.rs), per REG-HOOKS-001's thin-adapter rule. Create-if-absent so a
+/// hand-customised adapter is never clobbered. Returns the adapter filenames.
+pub fn generate_adapters(repo: &Path) -> std::io::Result<Vec<String>> {
+    let dir = repo.join(ADAPTERS_DIR);
+    std::fs::create_dir_all(&dir)?;
+    let mut written = Vec::new();
+    for (runtime, stdin_json) in RUNTIMES {
+        for event in AGENT_EVENTS {
+            let name = format!("{runtime}-{event}.sh");
+            let call = if *stdin_json {
+                format!("exec \"$bin\" hook --event {event} --stdin-json\n")
+            } else {
+                format!(
+                    "args=(); for p in \"$@\"; do args+=(--path \"$p\"); done\n\
+                     exec \"$bin\" hook --event {event} \"${{args[@]}}\"\n"
+                )
+            };
+            let body = format!(
+                "#!/usr/bin/env bash\n\
+                 # Thin adapter (REG-HOOKS-001): the kernel decides; this only points at it.\n\
+                 # Runtime: {runtime}  Event: {event}  (do not add logic here)\n\
+                 bin=\"$(git rev-parse --show-toplevel 2>/dev/null)/target/debug/vjs\"\n\
+                 [ -x \"$bin\" ] || bin=\"vjs\"\n\
+                 {call}"
+            );
+            let path = dir.join(&name);
+            if !path.exists() {
+                std::fs::write(&path, body)?;
+                #[cfg(unix)]
+                {
+                    use std::os::unix::fs::PermissionsExt;
+                    if let Ok(meta) = std::fs::metadata(&path) {
+                        let mut perm = meta.permissions();
+                        perm.set_mode(0o755);
+                        let _ = std::fs::set_permissions(&path, perm);
+                    }
+                }
+            }
+            written.push(name);
+        }
+    }
+    written.sort();
+    Ok(written)
+}
+
+/// The adapter filenames currently present under .vjs/hooks/adapters.
+fn present_adapters(repo: &Path) -> Vec<String> {
+    let dir = repo.join(ADAPTERS_DIR);
+    let mut names: Vec<String> = std::fs::read_dir(&dir)
+        .into_iter()
+        .flatten()
+        .filter_map(|e| e.ok())
+        .filter_map(|e| e.file_name().into_string().ok())
+        .filter(|n| n.ends_with(".sh"))
+        .collect();
+    names.sort();
+    names
 }
 
 /// Build the manifest from the current surface. Returns None if a pinned limb is
@@ -163,6 +250,7 @@ pub fn build_manifest(repo: &Path, generated_at: String) -> Option<InstallManife
         invocation_digest,
         lawpack_lock: ".vjs/lawpack.lock".into(),
         hooks,
+        adapters: present_adapters(repo),
     })
 }
 
@@ -210,6 +298,29 @@ mod tests {
         std::fs::create_dir_all(&dir).unwrap();
         assert!(verify_surface(&dir).is_empty());
         assert!(verify_manifest(&dir).is_empty());
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn adapters_are_emitted_thin_for_every_runtime_and_event() {
+        let dir = std::env::temp_dir().join(format!("vjs_adapters_{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let written = generate_adapters(&dir).unwrap();
+        // Every runtime x every agent event is present.
+        assert_eq!(written.len(), RUNTIMES.len() * AGENT_EVENTS.len());
+        for (runtime, _) in RUNTIMES {
+            for event in AGENT_EVENTS {
+                let name = format!("{runtime}-{event}.sh");
+                let body =
+                    std::fs::read_to_string(dir.join(ADAPTERS_DIR).join(&name)).unwrap_or_default();
+                // Thin: the adapter only calls the kernel for THIS event; no logic.
+                assert!(
+                    body.contains(&format!("hook --event {event}")),
+                    "{name} must call the kernel for {event}"
+                );
+            }
+        }
         let _ = std::fs::remove_dir_all(&dir);
     }
 
