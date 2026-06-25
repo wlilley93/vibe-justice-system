@@ -590,7 +590,7 @@ fn evaluate_predicate(
                     return true;
                 }
                 match top_level_scalar(content, "assent_source") {
-                    Some(v) => allowed.iter().any(|a| *a == v),
+                    Some(v) => allowed.contains(&v),
                     None => false,
                 }
             })

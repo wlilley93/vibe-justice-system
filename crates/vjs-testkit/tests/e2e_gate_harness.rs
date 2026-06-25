@@ -155,7 +155,7 @@ fn constitutive_bench_defect_not_downgraded_even_for_an_established_assented_ord
                 l.to_string()
             }
         })
-        .filter(|l| !l.is_empty() || true)
+        .filter(|l| !l.is_empty()) // drop the emptied seat lines, leaving bench: []
         .collect::<Vec<_>>()
         .join("\n");
     std::fs::write(&path, broken).unwrap();
