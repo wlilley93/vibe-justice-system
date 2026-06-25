@@ -21,7 +21,7 @@ jobs:
       # Actions are SHA-PINNED (immutable commit, not a movable tag) so a compromised
       # or re-tagged action cannot inject code into the trust root. The trailing comment
       # records the human-readable version; bump the SHA deliberately, never by drift.
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5 (node24)
         with:
           fetch-depth: 0               # full history, so we can diff against the push base
           persist-credentials: false   # do not leak the checkout token to later steps
