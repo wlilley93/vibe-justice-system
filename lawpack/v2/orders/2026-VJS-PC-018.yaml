@@ -1,0 +1,230 @@
+id: "2026-VJS-PC-018"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-PC 18"
+title: Standing-Route Resolution of standing_bounded_assent
+court: privy_council
+jurisdiction: vibe-justice-system
+status: superseded
+issue: whether_the_kernel_should_tighten_the_resolution_of_standing_bounded_assent_from_the_present_permissive_check_that_the_realm_is_sovereign_founded_to_a_requirement_that_the_record_trace_to_a_recorded_per_class_standing_route_so_as_to_close_the_residual_by_which_a_non_constitutive_fatal_could_be_laundered_onto_a_non_order_regulation_by_typing_the_entrenched_words_and_if_so_whether_that_tightening_is_faithful_interpretation_achievable_without_narrowing_with_the_established_canon_carve_out_or_a_narrowing_of_the_entrenched_act_assented_record_protection_floor_reserved_to_the_sovereign_and_whether_the_build_should_proceed_now_or_be_reserved_on_the_recorded_interpretive_ratio_route_map_trigger_and_non_narrowing_conditions
+bench:
+  - Atkin
+  - Bingham
+  - Denning
+vote: >
+  2-1 (Atkin J. and Denning J. for the majority; Bingham J. dissenting): POSITION C - RESERVE -
+  prevails on the disposition. The kernel does NOT tighten the standing_bounded_assent resolution for
+  the regulation class now; the orders and apex vector is already closed by the constitutive-validity
+  codes independent of any assent claim, and is affirmed and made explicit. The permissive `founded`
+  trace is retained for regulations as the conservative, floor-safe status quo, because
+  over-sheltering never narrows a genuine record whereas a hasty per-instrument force-gate would. On
+  Q2 a DIFFERENT majority (Bingham J. and Denning J.) holds that requiring a regulation's
+  standing_bounded_assent to trace BY ROUTE-CLASS to the recorded Framework Act s.7 Sovereign assent
+  (COMMENCEMENT-V2-0002) IS faithful interpretation of ACT-COMPUTER-FIRST-REALM s.23 and within this
+  Council's power, and is non-narrowing, PROVIDED the established-canon carve-out shelters every
+  existing in-force regulation and a non-resolving new regulation is routed for correction, not
+  voided; that interpretive ratio and the binding non-narrowing conditions are recorded so a future,
+  triggered build is a bounded refinement, not a fresh constitutional question. Atkin J. concurs in
+  the RESERVE result but DIVIDES on Q2: he holds the residual-closing per-instrument FORCE-GATE would
+  narrow VJS-ACT 10 s.1 for a genuinely-made new regulation and is therefore barred as constitutive
+  change reserved exclusively to the Sovereign, the regulation-laundering residual being irreducible
+  by lawful machinery. Bingham J. DISSENTS on the disposition: he would adopt Position A and BUILD the
+  recorded-route resolution now as interpretation, the build being cheap, symmetric with PC-16, and
+  non-narrowing under the carve-out. The whole bench agrees a per-instrument hard precondition WITHOUT
+  a complete carve-out would narrow the entrenched floor and is reserved exclusively to a
+  Sovereign-assented Act. Nothing is built that narrows; nothing is routed to the Sovereign as a
+  requirement.
+case_file_digest: "sha256:4344c70a40bde0080ca53e627c7bcd78a61caeae95b7fd6a49b47625e8a0b58c"
+convened_at: "2026-06-25T16:33:55.127433337+00:00"
+question: >
+  On the Reference re Standing-Route Resolution (SUBMISSION-2026-06-25-standing-route-resolution), the
+  residual reserved by [2026] VJS-PC 16 at D4/D7. The kernel (crates/vjs-engine/src/assent.rs) today
+  resolves a standing_bounded_assent claim permissively: the `founded` predicate confirms only that
+  the Realm is Sovereign-founded (the corpus contains some sovereign_assent_event or royal_assent
+  anywhere), not that THIS record traces to it. So a non-constitutive Fatal on a non-order regulation
+  could, in principle, be laundered by typing the two entrenched words. The submission asks whether
+  the kernel should tighten that to "the record traces to a recorded per-class standing route", on the
+  model of [2026] VJS-PC 16's treatment of sovereign_assent, so that a regulation must trace to the
+  Framework Act s.7 power terminating at the recorded Sovereign assent (COMMENCEMENT-V2-0002). The
+  stated prize is to close a narrow residual: laundering a non-constitutive Fatal on a non-order
+  regulation by typing the known words. Per question: (Q1 ADOPT/TIGHTEN) should a deterministic,
+  model-free gate require a standing_bounded_assent record to trace to a recorded per-class route, and
+  is that machinery or a new substantive duty; (Q2 INTERPRETATION vs NARROWING) is such a tightening
+  faithful interpretation of ACT-COMPUTER-FIRST-REALM s.23 achievable without narrowing the entrenched
+  ACT-ASSENTED-RECORD-PROTECTION s.1 floor (with the established-canon carve-out), or would it narrow
+  the floor for a genuinely-made regulation and so be reserved to a Sovereign-assented Act; and (Q3
+  MECHANISM + MIGRATION) by what mechanism and migration, and should the build proceed now or be
+  reserved on a recorded interpretive ratio, route map, trigger, and non-narrowing conditions. The
+  positions: A (tighten now, as interpretation), B (do not build; treat the permissive trace as the
+  accepted irreducible remainder, or any narrowing as reserved to the Sovereign), C (reserve the
+  build, recording the route, the interpretive ratio, the trigger, and the non-narrowing conditions).
+holding: >
+  POSITION C prevails on the disposition, 2-1 (Atkin J. and Denning J. for the majority; Bingham J.
+  dissenting). The kernel does NOT tighten the standing_bounded_assent resolution for the regulation
+  class now; it records the route, the interpretive ratio, the trigger, and the binding non-narrowing
+  conditions for a future build, and it changes nothing that narrows the entrenched floor. Nothing is
+  routed to the Sovereign as a requirement.
+
+
+  Q1 (ADOPT/TIGHTEN). For ORDERS the answer is unanimous: the dangerous vector - a bench-less,
+  never-convened, or wrong-tier order, and an apex order in a subscribing jurisdiction - is already
+  closed by the constitutive-validity codes (assent.rs CONSTITUTIVE_CODES: BENCH_REQUIRED,
+  TIER_NOT_CONSTITUTED, BENCH_SIZE_MISMATCH, BENCH_SILENT_SEAT, BENCH_OPINION_MISSING,
+  CITATION_COLLISION, APEX_RECORD_IN_SUBSCRIBING_JURISDICTION), which [2026] VJS-PC 16 held are never
+  softened by any assent claim of either form. That closure is independent of how permissively the
+  trace resolves; it is affirmed and made explicit, and needs no new assent-resolution change. For
+  REGULATIONS the majority DECLINES to tighten now: the permissive `founded` predicate is retained as
+  the conservative, floor-safe status quo. The Council records candidly that `founded` (the corpus
+  contains some sovereign_assent_event or royal_assent anywhere) is an under-faithful reading of
+  s.23's "tracing to specific Sovereign assent" - an existence check standing in for a real trace, of
+  the same family [2026] VJS-PC 16 condemned for sovereign_assent - but it is floor-safe, and it is
+  not below the standard of reasonable skill and care, because PC-16 deliberately and lawfully
+  reserved this very question.
+
+
+  Q2 (INTERPRETATION vs NARROWING). On the interpretive question a majority (Bingham J. and Denning
+  J.) holds that requiring a regulation's standing_bounded_assent to trace, BY ITS ROUTE-CLASS, to the
+  specific recorded Framework Act s.7 Sovereign assent (COMMENCEMENT-V2-0002, framework_act_text_digest
+  sha256:90e843c1dbdcdb2e2c7026d1064a457cf7ea1dbfe80526eff96b1f7e03850470) IS faithful interpretation
+  of ACT-COMPUTER-FIRST-REALM s.23 and within this Council's power, and does NOT narrow
+  ACT-ASSENTED-RECORD-PROTECTION s.1, PROVIDED two absolutes hold together: (i) the established-canon
+  carve-out (the established_at_head pattern PC-16 already uses, today wired only to the
+  sovereign_assent branch) shelters every regulation committed in canon at HEAD, so that not one
+  existing in-force regulation - and the verified facts confirm many genuine REG-* records,
+  REG-KERNEL-001 among them, carry no per-instrument provenance event - loses its floor; and (ii) a
+  non-resolving NEW regulation is ROUTED to record its enactment-provenance trace, never voided or
+  blocked, its underlying finding keeping native severity only because, by s.23, an unresolved trace
+  was never sheltered (s.2 confers no force on a record lacking a valid, resolving assent_source, and
+  does not enlarge it). A regulation's force traces by class to the single shared Framework assent,
+  not to a per-instrument Sovereign event, because under s.7 subordinate law "requires this parent
+  authority", not a fresh assent. Atkin J. concurs in the RESERVE result but DIVIDES on this question:
+  he holds that a recognised-route check is interpretation but does not close the residual, and that
+  the only thing that DOES close it - per-instrument resolution as a CONDITION OF FORCE - would narrow
+  VJS-ACT 10 s.1 for a genuinely-made new regulation that carries real s.7 force but no provenance
+  note, and is therefore barred as constitutive change reserved exclusively to the Sovereign; on his
+  view the regulation-laundering residual is irreducible by lawful machinery. The whole bench agrees
+  on the controlling limit: a per-instrument hard precondition imposed WITHOUT a complete carve-out,
+  or any change that strips the floor from a genuinely-made regulation, would narrow the entrenched
+  floor and is reserved exclusively to a Sovereign-assented constitutional Act citing
+  ACT-COMPUTER-FIRST-REALM s.23 and ACT-ASSENTED-RECORD-PROTECTION by number; and that the clerk can
+  confirm a regulation's form and its pinned terminal but never the legislative WILL that it was made
+  under s.7, so against a determined author with write access the ultimate backstop is non-machine
+  (the Sovereign's gate at ACT-COMPUTER-FIRST-REALM s.14 and the continuing duty of care, ACT-003 s.4
+  to s.8).
+
+
+  Q3 (MECHANISM + MIGRATION). RESERVE, 2-1 (Atkin J. and Denning J.; Bingham J. dissenting). The
+  majority builds no regulation tightening as machinery now and files NO breach - the kernel as built
+  is not below the standard of care, and the speclaw-3 demonstrated-need discipline counsels against
+  genericising machinery in advance of need: there is no recorded regulation-laundering breach, the
+  dangerous order and apex vector is already closed, and the residual is a non-constitutive Fatal on a
+  non-order, a class whose Fatals are usually advisory Warnings already. The order records, for a
+  future triggered build: the route map (orders to a constituted bench under ACT-002, already closed
+  by the constitutive codes; regulations to the Framework s.7 power terminating at the recorded
+  Framework assent; the founding corpus to the commencement records); the interpretive ratio above, so
+  a future build is a bounded refinement and not a fresh constitutional question; the trigger (a
+  recorded regulation-laundering breach, or an express court or Principal direction), not the bench's
+  appetite to tidy a residual; and the binding non-narrowing conditions on ANY future build - the
+  established-canon carve-out must shelter every regulation committed at HEAD; a non-resolving new
+  regulation must be routed for correction, never voided; the terminal anchor must be a specific,
+  recorded, digest-pinned Sovereign assent, never a kernel-invented gate; the check must stay pure
+  clerk (recorded-event lookup, digest compare, scope and date coverage; no merits judgment of valid
+  making, REG-KERNEL-001, INV-KERNEL-001); and if at build time any in-force regulation cannot be
+  sheltered, the builder must STOP and self-file per [2026] VJS-PC 16 D7, the cure being to record
+  that regulation's trace, never to strip its floor. At most, an OPTIONAL non-narrowing advisory
+  Warning (route-for-correction, never Fatal, never a floor strip) may be built to nudge a new
+  regulation toward carrying its provenance; it must never void, block, or downgrade-block any record.
+
+
+  DISSENT. Bingham J. would adopt POSITION A and BUILD the recorded-route resolution now, as
+  interpretation: he holds the permissive check is an under-implementation of an entrenched term that
+  the Council should not leave standing after condemning the identical defect next door; the build is
+  cheap, symmetric with PC-16, and non-narrowing under the established-canon carve-out; and the
+  meaning of an entrenched term is not contingent on a breach occurring, so reservation is unwarranted.
+  The majority answers that the floor's own ordering of errors prefers over-sheltering (which never
+  narrows a genuine record) to a hasty tightening (which can), and that no demonstrated need is shown.
+
+
+  Nothing in this judgment amends any statute, invariant, bench, tier, or assent rule; the permissive
+  check stays, the entrenched floor stands at full height for every record, and nothing is routed to
+  the Sovereign as a requirement. Position A is the dissent; Position B (treating the permissive check
+  as the faithful reading, or any narrowing as a present requirement) is REJECTED - the permissive
+  check is under-faithful, not faithful, and no narrowing is enacted; Position C is ADOPTED as named.
+directives:
+  - id: D1
+    actor: lexby
+    must: affirm_and_make_explicit_in_canon_that_an_order_s_standing_bounded_assent_never_shelters_a_constitutive_defect_the_constitutive_codes_bench_required_tier_not_constituted_bench_size_mismatch_bench_silent_seat_bench_opinion_missing_citation_collision_apex_record_in_subscribing_jurisdiction_are_the_operative_closure_for_the_order_class_and_are_never_assent_downgradeable_no_kernel_change_is_required_beyond_a_one_line_comment_in_crates_vjs_engine_src_assent_rs_at_the_standing_bounded_assent_arm_noting_that_an_order_s_standing_is_borne_by_the_constitutive_validity_codes_not_by_this_permissive_trace_so_the_trace_cannot_launder_an_order_s_void_ab_initio_grounds_keep_the_existing_end_to_end_proofs_green_forged_standing_bounded_order_is_still_blocked_and_constitutive_bench_defect_not_downgraded_even_for_an_established_assented_order
+  - id: D2
+    actor: lexby
+    must: do_not_tighten_the_kernel_s_standing_bounded_assent_resolution_for_the_regulation_class_at_this_time_position_c_reserve_leave_assent_rs_assent_resolves_unchanged_in_its_regulation_handling_and_build_no_new_narrowing_gate_the_permissive_founded_trace_stays_as_the_conservative_floor_safe_status_quo_because_over_sheltering_never_narrows_a_genuine_record_whereas_a_hasty_per_instrument_force_gate_would_and_a_substantial_set_of_in_force_regulations_reg_kernel_001_among_them_carry_no_per_instrument_provenance_event_record_this_reservation_citing_2026_vjs_pc_16_d4_and_d7
+  - id: D3
+    actor: lexby
+    must: record_the_interpretive_ratio_of_this_order_so_a_future_triggered_build_is_a_bounded_refinement_not_a_fresh_constitutional_question_a_majority_bingham_j_and_denning_j_holds_that_requiring_a_regulation_s_standing_bounded_assent_to_trace_by_route_class_to_the_specific_recorded_framework_act_s7_sovereign_assent_commencement_v2_0002_framework_act_text_digest_sha256_90e843c1dbdcdb2e2c7026d1064a457cf7ea1dbfe80526eff96b1f7e03850470_is_faithful_interpretation_of_act_computer_first_realm_s23_and_within_this_council_s_power_and_non_narrowing_provided_the_established_canon_carve_out_shelters_every_existing_in_force_regulation_and_a_non_resolving_new_regulation_is_routed_for_correction_record_also_atkin_j_s_concurrence_in_the_result_that_the_residual_closing_per_instrument_force_gate_would_narrow_vjs_act_10_s1_for_a_genuinely_made_new_regulation_and_is_reserved_to_the_sovereign_the_residual_being_irreducible_by_lawful_machinery_the_present_permissive_check_is_recorded_as_under_faithful_but_floor_safe_and_retained_on_that_footing
+  - id: D4
+    actor: lexby
+    must: record_the_route_map_and_the_trigger_for_the_reserved_build_in_docs_standing_routes_analysis_md_the_routes_are_orders_to_a_constituted_bench_under_act_002_already_closed_by_the_constitutive_codes_regulations_to_the_framework_s7_power_terminating_at_the_recorded_framework_assent_and_the_founding_corpus_to_the_commencement_records_the_trigger_under_the_speclaw_3_demonstrated_need_test_is_a_recorded_regulation_laundering_breach_a_non_constitutive_fatal_actually_downgraded_on_a_non_genuine_regulation_via_standing_bounded_assent_or_an_express_court_or_principal_direction_not_the_bench_s_appetite_to_tidy_a_residual_update_the_deferred_breach_record_breach_2026_06_25_assent_resolution_under_implementation_to_point_its_deferred_entry_at_this_order
+  - id: D5
+    actor: lexby
+    must: bind_as_conditions_on_any_future_build_so_a_later_builder_cannot_narrow_the_floor_one_the_established_canon_carve_out_established_at_head_must_shelter_every_regulation_committed_in_canon_at_head_so_not_one_existing_in_force_regulation_loses_its_floor_two_a_non_resolving_new_regulation_must_be_routed_to_record_its_enactment_provenance_trace_never_voided_or_blocked_the_underlying_finding_keeping_native_severity_only_because_by_s23_an_unresolved_trace_was_never_sheltered_three_the_terminal_anchor_must_be_a_specific_recorded_digest_pinned_sovereign_assent_the_framework_assent_for_the_s7_route_never_a_kernel_invented_gate_four_the_check_must_stay_pure_clerk_recorded_event_lookup_digest_compare_existing_scope_and_date_coverage_with_no_merits_judgment_of_valid_making_beyond_the_recorded_trace_s_existence_reg_kernel_001_inv_kernel_001_and_five_if_at_build_time_any_in_force_regulation_cannot_be_sheltered_by_the_carve_out_stop_and_self_file_per_2026_vjs_pc_16_d7_the_cure_being_to_record_that_regulation_s_trace_never_to_strip_its_floor
+  - id: D6
+    actor: lexby
+    must: optional_at_engineering_discretion_and_compelled_by_no_court_order_the_kernel_may_surface_an_advisory_warning_route_for_correction_never_fatal_never_a_floor_strip_when_a_new_regulation_carries_no_enactment_provenance_attachment_as_a_deterministic_nudge_toward_the_good_practice_fully_consistent_with_vjs_act_10_surface_a_defect_never_void_or_block_if_built_it_must_be_a_warning_only_and_must_never_downgrade_block_void_or_strip_any_record_s_floor_the_moment_it_would_strip_a_floor_it_is_barred
+  - id: D7
+    actor: lexby
+    must: apply_the_demonstrated_need_speclaw_3_discipline_build_no_regulation_tightening_as_machinery_now_and_file_no_breach_on_this_point_the_kernel_as_built_is_not_below_the_standard_of_reasonable_skill_and_care_pc_16_deliberately_and_lawfully_reserved_this_question_and_this_bench_has_now_decided_to_reserve_it_change_nothing_that_narrows_the_floor_build_under_the_lawful_route_amending_no_statute_no_invariant_no_bench_no_tier_and_no_assent_rule_and_route_nothing_to_the_sovereign_as_an_amendment_file_this_judgment_and_the_opinions_of_the_full_bench_verbatim_as_the_source_opinion_of_record_record_the_resulting_privy_council_order_in_canon_through_a_real_convened_odd_bench_of_three_each_carrying_a_real_opinion_allocate_the_citation_through_the_kernel_vjs_citation_next_never_hand_asserting_a_number_pin_the_case_file_digest_to_sha256_4344c70a40bde0080ca53e627c7bcd78a61caeae95b7fd6a49b47625e8a0b58c_pass_the_bench_integrity_gate_and_verify_by_deterministic_proof_no_model_add_a_citator_row_citing_act_computer_first_realm_s23_and_s10_act_consolidation_framework_s7_and_s25_act_assented_record_protection_s1_and_s2_inv_assent_source_001_reg_kernel_001_and_2026_vjs_pc_16
+  - id: D8
+    actor: sovereign
+    must: for_noting_only_not_a_requirement_of_this_cure_nothing_in_this_judgment_needs_the_sovereign_s_assent_because_nothing_entrenched_is_amended_the_floor_stands_at_full_height_and_the_retained_permissive_check_errs_only_toward_over_sheltering_never_toward_narrowing_a_genuine_record_should_the_realm_ever_wish_to_make_per_instrument_enactment_provenance_a_condition_of_force_for_regulations_so_that_its_absence_strips_the_floor_or_holds_a_fatal_at_fatal_or_otherwise_to_narrow_the_floor_below_what_it_now_guarantees_that_alters_what_tracing_to_specific_sovereign_assent_requires_for_the_regulation_class_and_is_reserved_exclusively_to_a_sovereign_assented_constitutional_act_citing_act_computer_first_realm_s23_and_act_assented_record_protection_by_number_this_bench_neither_requests_nor_pre_empts_that_choice_and_the_cure_of_d1_to_d7_is_effective_on_this_order_and_is_not_conditional_on_any_such_act
+forbidden:
+  - tightening_the_regulation_class_standing_bounded_assent_resolution_now_building_genericised_machinery_in_advance_of_a_demonstrated_need_there_is_no_recorded_regulation_laundering_breach_the_dangerous_order_and_apex_vector_is_already_closed_and_the_residual_is_a_non_constitutive_fatal_on_a_non_order_a_class_whose_fatals_are_usually_advisory_warnings_speclaw_3_and_reg_kernel_001
+  - narrowing_by_machinery_the_act_assented_record_protection_s1_floor_for_a_genuinely_made_regulation_a_per_instrument_enactment_provenance_requirement_imposed_as_a_condition_of_force_without_a_complete_established_canon_carve_out_would_strip_the_floor_from_genuine_in_force_regulations_and_is_reserved_exclusively_to_a_sovereign_assented_act_citing_vjs_act_10_by_number
+  - voiding_blocking_or_otherwise_refusing_to_record_any_order_or_regulation_whose_standing_bounded_assent_resolves_on_the_ground_of_an_unresolved_or_absent_per_instrument_provenance_trace_act_assented_record_protection_s1_commands_such_a_record_be_routed_for_correction_never_voided_or_blocked
+  - adding_any_citation_or_provenance_grounding_code_to_constitutive_codes_in_assent_rs_that_would_let_the_machine_override_sovereign_assent_for_a_non_record_hood_defect_narrowing_the_entrenched_floor_ultra_vires_act_consolidation_framework_s7_and_s25
+  - in_any_future_build_stripping_the_floor_from_a_regulation_committed_in_canon_at_head_the_established_canon_carve_out_must_shelter_every_existing_in_force_regulation_and_if_it_cannot_the_builder_must_stop_and_self_file_per_2026_vjs_pc_16_d7
+  - voiding_or_erasing_a_non_resolving_new_regulation_instead_of_routing_it_for_correction_to_record_its_enactment_provenance_trace_the_underlying_finding_keeps_native_severity_only_because_an_unresolved_trace_was_never_sheltered_the_record_is_never_destroyed
+  - letting_the_optional_advisory_become_a_fatal_a_downgrade_block_a_void_or_any_floor_strip_it_may_only_surface_a_defect_and_route_for_correction_consistent_with_vjs_act_10
+  - routing_this_reading_to_the_sovereign_as_an_amendment_or_treating_the_cure_as_conditional_on_a_sovereign_act_nothing_entrenched_is_amended_and_the_disposition_is_deliberately_reserved_so_the_entrenched_floor_is_untouched
+  - performing_the_resolution_check_with_a_model_a_network_call_a_clock_dependence_or_semantic_similarity_the_kernel_is_the_deterministic_clerk_reg_kernel_001_resolution_is_recorded_event_lookup_digest_compare_and_scope_and_date_coverage_over_digest_pinned_canon_only
+supersedes: []
+appealable: true
+appeal_of: null
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-018-opinions.md"
+runtime_summary: >
+  The kernel today resolves a standing_bounded_assent claim permissively: assent.rs's `founded` check
+  confirms only that the Realm is Sovereign-founded (some sovereign_assent_event exists somewhere),
+  not that THIS record traces to it. So a non-constitutive Fatal on a non-order regulation could be
+  laundered by typing the entrenched words. The Reference - the residual PC-16 reserved at D4/D7 -
+  asks whether to tighten that to "the record traces to a recorded per-class standing route". The
+  Council, 2-1 (Atkin J. and Denning J. for the majority; Bingham J. dissenting), adopts POSITION C -
+  RESERVE.
+
+  (Q1 ADOPT) For ORDERS the answer is unanimous: a bench-less, never-convened, or wrong-tier order,
+  and an apex order in a subscribing jurisdiction, are barred by the
+  constitutive-validity codes, never softened by any assent claim. That vector is closed independent
+  of the trace; it is affirmed, no new gate needed. For REGULATIONS the majority DECLINES to tighten
+  now. The permissive `founded` check is recorded candidly as under-faithful to s.23's "tracing" verb,
+  but it is floor-safe and is kept on that footing.
+
+  (Q2 INTERPRETATION vs NARROWING) A majority (Bingham and Denning) holds that requiring a regulation
+  to trace BY ROUTE-CLASS to the recorded Framework Act s.7 Sovereign assent (COMMENCEMENT-V2-0002) IS
+  faithful interpretation of s.23 and non-narrowing, PROVIDED (i) the established-canon carve-out
+  shelters every regulation already in canon - many genuine ones, REG-KERNEL-001 included, carry no
+  provenance note - and (ii) a non-resolving NEW regulation is routed for correction, never voided.
+  Atkin J. divides here: he holds the residual-closing per-instrument FORCE-GATE would narrow the
+  floor for a genuinely-made new regulation and is barred as constitutive change reserved to the
+  Sovereign, the residual being irreducible by lawful machinery. The whole bench agrees a hard
+  precondition WITHOUT a complete carve-out narrows the floor and is reserved to a Sovereign-assented
+  Act, and that the clerk can never confirm the legislative WILL behind a regulation, so the ultimate
+  backstop is non-machine (the Sovereign's gate at s.14 and the duty of care).
+
+  (Q3 MECHANISM + MIGRATION) RESERVE. The majority builds no regulation tightening now and files no
+  breach: there is no recorded laundering breach, the dangerous vector is closed, and the residual is
+  tiny (regulation Fatals are usually advisory). The order records the route map, the interpretive
+  ratio (so a future build is a bounded refinement), the trigger (a recorded breach or an express
+  court or Principal direction), and binding non-narrowing conditions on any future build: the
+  carve-out must shelter every existing regulation; a non-resolving new one must be routed, not
+  voided; the anchor must be a recorded digest-pinned Sovereign assent; the check must stay pure
+  clerk; and a builder who cannot shelter an in-force regulation must STOP and self-file (PC-16 D7).
+  At most an OPTIONAL advisory Warning may nudge new regulations toward provenance; it may never void,
+  block, or strip a floor. Bingham J. dissents: he would BUILD now (Position A). Nothing entrenched is
+  amended; the floor stands at full height; nothing is routed to the Sovereign as a requirement.
+created_at: "2026-06-25T16:40:00+00:00"
