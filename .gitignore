@@ -33,6 +33,10 @@ __pycache__/
 # vjs invoke agent-runtime adapters (thin, regenerated per clone by --install-hooks)
 .vjs/hooks/adapters/
 
+# host kernel binary exported from the Docker image (REG-FRONT-DOOR-DELIVERY-001);
+# the wall's binary, regenerated per host by scripts/vjs-host-setup.sh
+bin/
+
 # stray build artifacts
 *.rlib
 
