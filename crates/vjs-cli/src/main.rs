@@ -960,6 +960,24 @@ fn cmd_validate(
                     suggested_fix: f.suggested_fix,
                 }),
         );
+
+        // ACT-004:s8 (PC-13 D2): citation uniqueness, collisions fatal. The
+        // reconciliation-at-write half - no two canon records may claim the same
+        // citation, closing the hand-asserted-citation vector.
+        let citation_findings = LawpackValidator::check_citation_uniqueness(&lawpack_dir)?;
+        if citation_findings
+            .iter()
+            .any(|f| matches!(f.severity, Severity::Fatal | Severity::Error))
+        {
+            ok = false;
+        }
+        findings.extend(citation_findings.into_iter().map(|f| ValidationFinding {
+            severity: f.severity,
+            code: f.code,
+            path: f.path,
+            message: f.message,
+            suggested_fix: f.suggested_fix,
+        }));
     }
 
     if staged {
@@ -1903,39 +1921,36 @@ fn cmd_next_citation(
     json: bool,
 ) -> Result<(), KernelError> {
     let y = year.unwrap_or_else(|| chrono::Utc::now().year());
-    // Bind the Cc series to THIS repo's code (the bug fix: it was hardcoded "REPO", ignoring --repo).
     let repo_code = resolve_repo_code(repo);
-    let citation_series = match series.as_str() {
-        "cc" => CitationSeries::Cc(repo_code.clone()),
-        "pc" => CitationSeries::Pc,
-        "sc" => CitationSeries::Sc,
-        "reg" => CitationSeries::Reg,
-        "act" => CitationSeries::Act,
-        _ => CitationSeries::Cc(repo_code.clone()),
-    };
+    let s = series.to_ascii_uppercase();
 
-    let registry = CitationRegistry::new();
-    let next = registry.next_citation(citation_series, y);
-
-    // Canonical citation string. The Cc series renders as VJS-CC-<REPO> (matching the citator records);
-    // the other series render VJS-<SERIES>. NOTE: the registry is empty here, so `n` is the series
-    // genesis - this helper binds the repo + series, not the live count (the citator INDEX is the count).
-    let citation_str = match series.as_str() {
-        "pc" => format!("[{}] VJS-PC {}", next.year, next.n),
-        "sc" => format!("[{}] VJS-SC {}", next.year, next.n),
-        "reg" => format!("[{}] VJS-REG {}", next.year, next.n),
-        "act" => format!("[{}] VJS-ACT {}", next.year, next.n),
-        _ => format!("[{}] VJS-CC-{} {}", next.year, repo_code, next.n),
+    // PC-13 D2: allocate from the LIVE persisted register (the citator index), not
+    // an empty in-memory registry. The Cc series is bound to THIS repo's code; canon
+    // series (PC/SC/REG/ACT/DEC/SPEC/INV/COA/...) carry no repo segment. The next
+    // number is one past the current max, so a hand-asserted number cannot mint a
+    // citation - validate --staged reconciles and fails closed on any collision.
+    let lawpack_dir = repo.join("lawpack/v2");
+    let (repo_for_lookup, repo_segment): (Option<&str>, String) = if s == "CC" {
+        (Some(repo_code.as_str()), format!("-{}", repo_code))
+    } else {
+        (None, String::new())
     };
+    let max = if lawpack_dir.exists() {
+        LawpackValidator::live_citation_max(&lawpack_dir, &s, repo_for_lookup, y)?
+    } else {
+        0
+    };
+    let n = max + 1;
+    let citation_str = format!("[{}] VJS-{}{} {}", y, s, repo_segment, n);
 
     if json {
         println!(
             "{}",
             serde_json::to_string_pretty(&serde_json::json!({
-                "year": next.year,
-                "series": series,
+                "year": y,
+                "series": s,
                 "repoCode": repo_code,
-                "n": next.n,
+                "n": n,
                 "citation": citation_str
             }))
             .unwrap()
