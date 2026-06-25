@@ -65,6 +65,21 @@ fn assent_floor_predicate_keys_only_on_the_allow_list() {
 }
 
 #[test]
+fn cage_auth_requires_a_matching_token_only_when_configured() {
+    use serde_json::json;
+    // Dev default: no token configured -> every call is allowed.
+    assert!(vjs_mcp::auth_satisfied("", None));
+    assert!(vjs_mcp::auth_satisfied("", Some(&json!({}))));
+    // Cage mode: a token is configured -> a matching _token is required.
+    let p_ok = json!({"_token": "s3cr3t"});
+    let p_bad = json!({"_token": "wrong"});
+    assert!(vjs_mcp::auth_satisfied("s3cr3t", Some(&p_ok)));
+    assert!(!vjs_mcp::auth_satisfied("s3cr3t", Some(&p_bad)));
+    assert!(!vjs_mcp::auth_satisfied("s3cr3t", Some(&json!({}))));
+    assert!(!vjs_mcp::auth_satisfied("s3cr3t", None));
+}
+
+#[test]
 fn court_string_maps_to_tier() {
     use vjs_core::bench::court_from_str;
     use vjs_core::types::Court;

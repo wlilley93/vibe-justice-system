@@ -23,24 +23,32 @@ impl McpServer {
         let req: JsonRpcRequest =
             serde_json::from_str(request).map_err(|e| KernelError::InvalidInput(e.to_string()))?;
 
+        // #17 auth: when a token is configured (the cage, #16), every call must carry
+        // a matching `_token`; otherwise (the dev default) no auth.
+        if let Err(e) = self.check_auth(&req) {
+            self.audit(&req.method, "auth_denied");
+            return Err(e);
+        }
+
         let result = match req.method.as_str() {
-            "vjs.route" => self.handle_route(req.params)?,
-            "vjs.lookup" => self.handle_lookup(req.params)?,
-            "vjs.validate" => self.handle_validate(req.params)?,
-            "vjs.log" => self.handle_log(req.params)?,
-            "vjs.file" => self.handle_file(req.params)?,
-            "vjs.status" => self.handle_status(req.params)?,
+            "vjs.route" => self.handle_route(req.params),
+            "vjs.lookup" => self.handle_lookup(req.params),
+            "vjs.validate" => self.handle_validate(req.params),
+            "vjs.log" => self.handle_log(req.params),
+            "vjs.file" => self.handle_file(req.params),
+            "vjs.status" => self.handle_status(req.params),
             // PC-14 D5: the governed-record-creation verbs, closing the front-door gap.
-            "vjs.allocate" => self.handle_allocate(req.params)?,
-            "vjs.convene" => self.handle_convene(req.params)?,
-            "vjs.record" => self.handle_record(req.params)?,
-            _ => {
-                return Err(KernelError::InvalidInput(format!(
-                    "Unknown method: {}",
-                    req.method
-                )));
-            }
+            "vjs.allocate" => self.handle_allocate(req.params),
+            "vjs.convene" => self.handle_convene(req.params),
+            "vjs.record" => self.handle_record(req.params),
+            other => Err(KernelError::InvalidInput(format!(
+                "Unknown method: {other}"
+            ))),
         };
+
+        // #17 audit: append every call and its outcome to the append-only trail.
+        self.audit(&req.method, if result.is_ok() { "ok" } else { "error" });
+        let result = result?;
 
         let response = JsonRpcResponse {
             jsonrpc: "2.0".into(),
@@ -50,6 +58,36 @@ impl McpServer {
         };
 
         serde_json::to_string(&response).map_err(|e| KernelError::Serialization(e.to_string()))
+    }
+
+    /// #17 / #16 cage auth: if VJS_MCP_TOKEN is set in the server's environment,
+    /// every request must carry a matching `_token` param (fail closed); if it is
+    /// unset or empty, there is no auth (the trusting dev default).
+    fn check_auth(&self, req: &JsonRpcRequest) -> Result<(), KernelError> {
+        let expected = std::env::var("VJS_MCP_TOKEN").unwrap_or_default();
+        if auth_satisfied(&expected, req.params.as_ref()) {
+            Ok(())
+        } else {
+            Err(KernelError::InvalidInput(
+                "unauthenticated: a matching _token is required (VJS_MCP_TOKEN set)".into(),
+            ))
+        }
+    }
+
+    /// #17 audit: append-only trail of every MCP call (.vjs/audit/mcp-audit.log,
+    /// gitignored via *.log). Best-effort; an audit-write failure never blocks a call.
+    fn audit(&self, method: &str, outcome: &str) {
+        let dir = self.repo_root.join(".vjs/audit");
+        let _ = std::fs::create_dir_all(&dir);
+        let line = format!("{}\t{method}\t{outcome}\n", chrono::Utc::now().to_rfc3339());
+        use std::io::Write;
+        if let Ok(mut f) = std::fs::OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(dir.join("mcp-audit.log"))
+        {
+            let _ = f.write_all(line.as_bytes());
+        }
     }
 
     fn handle_route(&self, params: Option<Value>) -> Result<Value, KernelError> {
@@ -270,6 +308,19 @@ impl McpServer {
         std::fs::write(&path, yaml).map_err(|e| KernelError::Io(e.to_string()))?;
         Ok(serde_json::json!({ "recorded": order.id, "path": path.display().to_string() }))
     }
+}
+
+/// The pure cage-auth decision (#17/#16): when `expected` is empty there is no auth
+/// (the dev default); otherwise the request must carry a matching `_token`. Pure, so
+/// it is testable without touching the process environment.
+pub fn auth_satisfied(expected: &str, params: Option<&Value>) -> bool {
+    if expected.is_empty() {
+        return true;
+    }
+    params
+        .and_then(|p| p.get("_token"))
+        .and_then(|t| t.as_str())
+        == Some(expected)
 }
 
 fn build_context(repo: &std::path::Path) -> Result<KernelContext, KernelError> {
