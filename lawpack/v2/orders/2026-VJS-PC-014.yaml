@@ -1,0 +1,162 @@
+id: "2026-VJS-PC-014"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-PC 14"
+title: The Single Governed-Record Front Door
+court: privy_council
+jurisdiction: vibe-justice-system
+status: binding
+issue: single_front_door_consolidating_instrument_grounded_in_d11_conformance_map
+bench:
+  - Tindale
+  - Rowanne
+  - Marchmont
+vote: >
+  3-0 (Tindale J., Rowanne J., Marchmont J., unanimous on all five questions): the
+  PC-13 D12 follow-on is RIPE; ENACT the consolidating "single front door, no other
+  entry" instrument now, narrowly cut, under ACT-CONSOLIDATION-FRAMEWORK:s7. Position
+  A's mechanism and timing prevail, disciplined by Position B's reservation (no
+  guarantee rests on MCP; the absolute-path commit hook is the bypass-proof
+  backstop). Position C (still reserve) and a plenary Position A (a void limb reaching
+  the duty surface at large) both REJECTED. No dissent. All three justices
+  independently recorded that the convening pin (sha256:42cdb3f6...) does not resolve
+  to the decided bytes (sha256:4304d766...) and direct re-pinning as a clerical
+  route-for-correction.
+case_file_digest: "sha256:4304d766e6aef1dfc3752896f0eaf1cc3060973a9dd33942c88432c8e5883b8d"
+convened_at: "2026-06-25T10:02:14.296900741+00:00"
+question: >
+  The PC-13 D12 follow-on, returned to this Council grounded in the now-complete D11
+  conformance map (264 kernel-effect duties; 22 wired; 242 unwired). Per question
+  Q1-Q5: (Q1) is the matter ripe to ENACT the consolidating single-front-door
+  instrument now or does PC-13's reservation still bind; (Q2) is the MCP
+  server_of_law posture, made the governed-record front door, adopted, narrowed, or
+  rejected; (Q3) what does the wired-or-void limb bite on, given the 242 unwired
+  duties are mostly declarative, one-time/transition, or agent-duties a deterministic
+  gate cannot and need not enforce; (Q4) does the instrument honour as ABSOLUTES the
+  anti-Henry-VIII limit (s7/s25), the ACT-ASSENTED-RECORD-PROTECTION floor, and
+  REG-KERNEL-001 (thin hooks, kernel the only smart point); and (Q5) must the
+  absolute-path commit hook remain the bypass-proof backstop, with no enforcement
+  guarantee resting on MCP?
+holding: >
+  POSITION A's mechanism and timing, 3-0, disciplined by Position B's MCP
+  reservation. Q1 (RIPENESS): RIPE; ENACT NOW. PC-13 D12 reserved the consolidating
+  instrument on one named contingency - that it be grounded in a conformance map that
+  did not then exist. The D11 map (produced THROUGH the kernel by vjs audit)
+  discharges that contingency; PC-13's ratio, honoured, now points to enactment, not
+  continued silence. Ripeness is SCOPED, not plenary: the map makes the matter ripe
+  for a CHOKEPOINT instrument and un-ripe for any master rule biting on the duty
+  surface at large. Position A prevails; Position C (still reserve) REJECTED -
+  reserving now would refuse the very condition PC-13 attached and leave the F6
+  disease (governed records minted outside route->court->record) structurally
+  uncured; its legitimate read-across fear is answered by a precise cut, not by
+  indefinite silence. Q2 (MECHANISM): the MCP server_of_law posture is ADOPTED as a
+  front door and NARROWED. It amends nothing - REG-KERNEL-001 already names
+  server_of_law as an in-force posture, so naming it the live interface is the
+  thinnest machinery. It is the right SHAPE (it turns record-creation from a file an
+  agent writes into a server-adjudicated act, removing the affordance the eleven
+  self-asserted citations exploited). But MCP is a front door, not a wall: an agent
+  with a filesystem can decline MCP and write a YAML file directly, so the claim that
+  MCP is the SOLE interface, and any reliance on it as the enforcement guarantee, is
+  REJECTED; the CLI record-creation path stays co-equal. Position A's mechanism
+  prevails as narrowed; Position B's instinct (do not rest a constitutional rule on
+  an incomplete interface) is honoured by the stronger route of not resting the rule
+  on MCP AT ALL. Q3 (THE LIMB): the wired-or-void limb bites ONLY on GOVERNED-RECORD
+  CREATION - the bringing-into-being of a law, ruling, citation, order, or permit -
+  at the write/route chokepoint, PRE-ASSENT, and NOWHERE ELSE. This is the right and
+  the only safe cut. It matches the disease exactly (F6: the breach was a record
+  minted outside the door, not a duty left ungated in the abstract). By construction
+  it does not intersect the 242 unwired duties: a declarative defines-clause, a
+  one-time/transition act, and an agent-judgement duty create no governed-record
+  write event for the limb to bite on. The Court REFUSES, as void to the extent of
+  the inconsistency, any limb drafted to void "any unwired duty" - such a limb would
+  collide with valid declarative law, with assented law, and (fatally) would scan
+  across the assented-record-protection prohibitions that themselves sit unwired,
+  purporting to void the floor that forbids voiding. The limb keys on the KIND of
+  record and whether it passed the door, NEVER on the conformance map's counts or
+  columns. Q4 (THE THREE ABSOLUTES): the instrument, so cut, honours all three as
+  absolute limits, and the Court would refuse it if it did not. (a) Anti-Henry-VIII
+  (s7/s25): the instrument amends no statute, bench, tier, jurisdiction, or assent
+  rule; it adds machinery that refuses to let an un-routed, un-assented record
+  masquerade as law - a gate that refuses an unlawful record ENFORCES, it does not
+  amend; it is intra vires s7. (b) ACT-ASSENTED-RECORD-PROTECTION (entrenched): held
+  as an ABSOLUTE - the limb bites pre-assent, in the gap before any assent_source can
+  attach; the instant a record declares a valid assent_source (sovereign_assent or
+  standing_bounded_assent, per the INV-ASSENT-SOURCE-001 fail-closed allow-list) the
+  disposition DEGRADES to route-for-correction and may NEVER void or block; the
+  defect code is registered in the kernel ROUTE_FOR_CORRECTION set, never as
+  Error/Fatal/Block. (c) REG-KERNEL-001: the record-creation check lives in the
+  kernel (the only smart point) beside the D1-D10 gates; the commit hook and the MCP
+  adapter are thin translators that pass a typed event and exit on the verdict; no
+  checking logic enters a hook or the MCP transport, and every denial names its
+  instrument. Q5 (THE HONEST LIMIT): YES, unconditionally. The deterministic,
+  absolute-path commit hook (the PC-13 D6 backstop), calling the kernel by repo-root
+  path, bypass-proof of PATH, firing on the write/staged event regardless of how the
+  bytes arrived, REMAINS the bypass-proof backstop and the SOLE seat of the
+  enforcement guarantee. No enforcement guarantee rests on MCP exclusivity; "the
+  agent used MCP" is never proof of conformance - conformance is established only by
+  the record having passed the kernel gate. The MCP convene/record/allocate gap (the
+  surface today exposes exactly route/lookup/validate/log/file/status, with no
+  convene, record, or allocate verb) is directed CLOSED as a front-door improvement,
+  not as the guarantee. The unifying principle PC-13 declared - no governed record
+  may come into being except through the front door - is now given its consolidating
+  instrument, defence in depth: MCP the well-lit door that makes the lawful path the
+  easy path; the kernel record-creation check at the chokepoint the wall that holds
+  whether or not the door was used.
+directives:
+  - id: D1
+    actor: lexby
+    must: enact_now_as_subordinate_machinery_under_act_consolidation_framework_s7_a_single_governed_record_front_door_regulation_amending_no_statute_bench_tier_jurisdiction_or_the_assent_rule_citing_the_duties_it_gives_teeth_to_dec_agent_001_act_004_s8_act_002_s10_reg_self_convene_001_and_reg_kernel_001_server_of_law_its_operative_rule_a_governed_record_law_ruling_citation_order_or_permit_may_come_into_being_only_through_the_kernel_record_creation_path_route_to_permit_convene_to_court_allocate_to_citation_record_to_order_grounded_in_the_completed_d11_conformance_map
+  - id: D2
+    actor: lexby
+    must: cut_the_wired_or_void_limb_to_bite_only_on_governed_record_creation_at_the_write_route_chokepoint_pre_assent_and_on_nothing_else_it_does_not_reach_the_duty_surface_at_large_and_by_construction_does_not_intersect_the_242_unwired_duties_in_particular_not_declarative_defines_clauses_one_time_or_transition_acts_agent_judgement_duties_or_the_floor_s_own_anti_amendment_prohibitions_the_limb_must_be_incapable_of_reaching_a_non_record_creation_duty_keying_on_the_kind_of_record_and_whether_it_passed_the_door_never_on_the_conformance_map_counts_or_columns_it_must_not_be_drafted_as_any_unwired_duty_voids_the_record
+  - id: D3
+    actor: lexby
+    must: hard_wire_the_assent_bifurcation_into_the_limb_for_a_record_carrying_no_valid_assent_source_the_off_front_door_creation_is_refused_at_the_write_never_brought_into_being_for_any_record_declaring_a_valid_assent_source_sovereign_assent_or_standing_bounded_assent_per_inv_assent_source_001_the_disposition_degrades_to_route_for_correction_only_surface_and_flag_never_void_block_or_silently_exclude_registering_the_post_assent_defect_code_in_the_kernel_route_for_correction_set_never_as_error_fatal_or_block_consistent_with_act_assented_record_protection_s1_and_the_existing_kernel_effect_gate_discipline
+  - id: D4
+    actor: lexby
+    must: keep_the_kernel_the_only_smart_point_and_hooks_thin_the_record_creation_check_lives_in_vjs_core_beside_the_d1_to_d10_gates_no_checking_logic_enters_any_hook_or_the_mcp_adapter_reg_kernel_001_and_reg_hooks_001_the_hook_passes_a_typed_event_pre_write_pre_commit_validate_staged_and_exits_on_the_kernel_verdict_at_most_forty_words_no_model_call_no_long_context_and_every_denial_names_the_instrument_that_caused_it
+  - id: D5
+    actor: lexby
+    must: adopt_the_mcp_server_of_law_posture_reg_kernel_001_already_names_as_a_governed_record_front_door_not_the_sole_interface_and_close_the_gap_by_adding_convene_record_and_allocate_citation_as_mcp_verbs_to_the_vjs_mcp_surface_presently_six_tools_route_lookup_validate_log_file_status_each_verb_a_thin_transport_to_the_kernel_record_creation_path_subject_to_reg_007_validated_input_audit_log_no_arbitrary_shell_no_direct_file_write_tool_and_reg_hooks_001_reg_kernel_001_thin_adapter_all_logic_in_the_kernel_the_cli_record_creation_path_remains_co_equal_and_the_instrument_recites_that_adopting_an_already_named_posture_amends_nothing
+  - id: D6
+    actor: lexby
+    must: name_on_the_face_of_the_instrument_the_deterministic_absolute_path_commit_hook_the_pc_13_d6_backstop_calling_the_kernel_by_repo_root_path_firing_at_validate_staged_or_pre_commit_on_what_is_actually_staged_bypass_proof_of_path_as_the_bypass_proof_backstop_and_the_sole_seat_of_the_enforcement_guarantee_and_state_in_terms_that_no_enforcement_guarantee_rests_on_mcp_exclusivity_mcp_cannot_fully_cage_an_agent_that_may_write_a_file_directly_so_the_guarantee_stands_whether_or_not_mcp_was_used_or_present_and_the_agent_having_used_mcp_is_never_proof_of_conformance_defence_in_depth_the_front_door_at_mcp_the_wall_at_the_hook
+  - id: D7
+    actor: lexby
+    must: bring_the_enacted_instrument_back_to_record_as_a_privy_council_tier_instrument_constitutional_machinery_at_the_realm_level_act_002_s3_with_its_bench_and_case_file_digest_recorded_per_reg_court_record_001_and_verified_by_the_pc_13_d10_bench_integrity_gate_before_it_issues
+  - id: D8
+    actor: lexby
+    must: reconcile_the_case_file_digest_before_this_order_is_recorded_the_bytes_actually_decided_hash_to_sha256_4304d766e6aef1dfc3752896f0eaf1cc3060973a9dd33942c88432c8e5883b8d_not_the_pinned_sha256_42cdb3f6_re_pin_the_order_case_file_digest_to_the_decided_bytes_or_re_file_the_convening_with_the_matching_digest_so_the_recorded_order_pins_the_bytes_actually_decided_reg_court_record_001_a_clerical_route_for_correction_no_disposition_rests_on_any_byte_the_discrepancy_could_have_altered_and_correct_the_conformance_map_wired_count_so_its_wired_table_and_its_stated_wired_n_agree_so_no_future_limb_or_audit_can_key_on_a_contradicted_number
+forbidden:
+  - any_limb_voiding_any_unwired_duty_or_otherwise_reaching_the_declarative_one_time_transition_agent_judgement_or_floor_protecting_duties_among_the_242_unwired_such_a_limb_collides_with_valid_declarative_and_assented_law_is_ultra_vires_s7_and_is_void_to_the_extent_of_the_inconsistency
+  - any_gate_that_voids_blocks_or_silently_excludes_a_record_declaring_a_valid_assent_source_for_any_defect_including_being_off_front_door_the_only_disposition_is_route_for_correction_act_assented_record_protection_s1_act_consolidation_framework_s21_s25
+  - resting_any_enforcement_guarantee_on_mcp_exclusivity_or_treating_the_agent_used_mcp_as_proof_of_conformance_or_declaring_mcp_the_sole_governed_record_interface_mcp_is_the_front_door_not_the_wall
+  - placing_record_creation_or_any_kernel_checking_logic_inside_a_hook_or_the_mcp_adapter_the_kernel_is_the_only_smart_point_hooks_and_adapters_stay_thin_reg_kernel_001_reg_hooks_001
+  - reserving_the_matter_further_position_c_the_d11_map_discharges_the_sole_contingency_pc_13_d12_attached_continued_reservation_would_refuse_that_condition_and_leave_the_f6_disease_uncured
+  - enacting_any_new_substantive_duty_court_tier_jurisdiction_bench_size_or_assent_form_or_amending_the_assent_rule_every_directive_is_teeth_on_existing_law_under_s7
+supersedes: []
+appealable: true
+appeal_of: "2026-VJS-PC-013"
+source_opinion: ".vjs/submissions/filed/2026-VJS-PC-014-opinions.md"
+runtime_summary: >
+  PC-13 reserved the master "single front door" rule until there was a complete map
+  of which duties have a kernel gate and which do not. That map now exists (264
+  duties, 22 wired, 242 unwired, produced through the kernel), so this Council
+  enacts the rule now - but narrowly. The rule is subordinate machinery under s7: it
+  amends no statute, court, tier, or the assent rule; it just enforces a duty that
+  already exists - no governed record (law, ruling, citation, order, permit) may come
+  into being except through route->court->record. Crucially, the "void it" edge bites
+  ONLY on creating one of those records at the write moment, BEFORE assent. It does
+  NOT touch the 242 unwired duties (most are declarative, one-time, or agent-judgement
+  duties no deterministic gate should or can enforce) - they have no record-creation
+  event for it to bite on. The instant a record carries a valid Sovereign or
+  standing-bounded assent_source, the edge softens to "route for correction" and may
+  never block or void it. The MCP "server of law" is adopted as the well-lit front
+  door (and its missing convene/record/allocate verbs are to be added), but the rule
+  rests NO guarantee on MCP, because an agent can always write a file directly. The
+  real enforcer is the absolute-path commit hook that calls the kernel on whatever is
+  staged, no matter which path the bytes took - that is the wall; MCP is the door. All
+  checking logic stays in the kernel; hooks and the MCP adapter stay thin. All three
+  justices noted that the case file's pinned hash (42cdb3f6...) does not match its
+  actual bytes (4304d766...) and direct re-pinning to the decided bytes - itself a
+  small live proof of why the front door is needed.
+created_at: "2026-06-25T10:05:00+00:00"
