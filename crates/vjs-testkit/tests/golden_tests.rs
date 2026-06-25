@@ -42,8 +42,14 @@ fn test_invariant_evaluation() {
     let report = evaluate_invariants(&repo_state, &lawpack.invariants, &facts).unwrap();
 
     let failures: Vec<_> = report.findings.iter().filter(|f| !f.passed).collect();
-    assert!(failures.is_empty(), "All invariants should pass: failures: {:?}", 
-        failures.iter().map(|f| &f.invariant_id.0).collect::<Vec<_>>());
+    assert!(
+        failures.is_empty(),
+        "All invariants should pass: failures: {:?}",
+        failures
+            .iter()
+            .map(|f| &f.invariant_id.0)
+            .collect::<Vec<_>>()
+    );
 }
 
 #[test]
@@ -52,7 +58,12 @@ fn test_validate_command() {
     let lawpack = LawpackLoader::load(&repo.join("lawpack/v2")).unwrap();
     let report = LawpackValidator::validate(&lawpack).unwrap();
     assert!(report.ok);
-    assert!(!report.findings.iter().any(|f| matches!(f.severity, Severity::Fatal | Severity::Error)));
+    assert!(
+        !report
+            .findings
+            .iter()
+            .any(|f| matches!(f.severity, Severity::Fatal | Severity::Error))
+    );
 }
 
 #[test]
@@ -61,7 +72,11 @@ fn test_citation_uniqueness() {
     let lawpack = LawpackLoader::load(&repo.join("lawpack/v2")).unwrap();
     let mut seen = std::collections::HashSet::new();
     for order in &lawpack.orders {
-        assert!(seen.insert(order.id.clone()), "Duplicate order citation: {}", order.id);
+        assert!(
+            seen.insert(order.id.clone()),
+            "Duplicate order citation: {}",
+            order.id
+        );
     }
 }
 
@@ -100,9 +115,20 @@ fn orders_load_with_the_new_optional_fields() {
     let repo = repo_root();
     let lawpack = LawpackLoader::load(&repo.join("lawpack/v2")).unwrap();
     // The existing orders still load (the new fields are optional)...
-    assert!(lawpack.orders.len() >= 22, "all orders load: {}", lawpack.orders.len());
+    assert!(
+        lawpack.orders.len() >= 22,
+        "all orders load: {}",
+        lawpack.orders.len()
+    );
     // ...and the citation the orders already carried is now a real field.
-    let pc7 = lawpack.orders.iter().find(|o| o.id == "2026-VJS-PC-007").unwrap();
+    let pc7 = lawpack
+        .orders
+        .iter()
+        .find(|o| o.id == "2026-VJS-PC-007")
+        .unwrap();
     assert_eq!(pc7.citation.as_deref(), Some("[2026] VJS-PC 7"));
-    assert_eq!(pc7.assent_source.as_deref(), Some("standing_bounded_assent"));
+    assert_eq!(
+        pc7.assent_source.as_deref(),
+        Some("standing_bounded_assent")
+    );
 }

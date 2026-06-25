@@ -11,7 +11,7 @@
 
 use std::collections::HashMap;
 use std::path::PathBuf;
-use vjs_core::spec::{evaluate_invariants, Invariant, LawpackFacts, RepoState};
+use vjs_core::spec::{Invariant, LawpackFacts, RepoState, evaluate_invariants};
 use vjs_core::types::*;
 
 fn state_with(path: &str, content: &str) -> RepoState {
@@ -53,7 +53,8 @@ fn assent_invariant() -> Invariant {
 
 fn passes(state: &RepoState) -> bool {
     let inv = assent_invariant();
-    let report = evaluate_invariants(state, std::slice::from_ref(&inv), &LawpackFacts::default()).expect("eval");
+    let report = evaluate_invariants(state, std::slice::from_ref(&inv), &LawpackFacts::default())
+        .expect("eval");
     report.findings[0].passed
 }
 
@@ -67,7 +68,10 @@ fn rejects_missing_assent_source() {
         "lawpack/v2/statutes/99-test.yaml",
         "id: TEST-STAT-001\ntitle: Test\nstatus: binding\n",
     );
-    assert!(!passes(&st), "a record that omits assent_source must be REJECTED");
+    assert!(
+        !passes(&st),
+        "a record that omits assent_source must be REJECTED"
+    );
 }
 
 #[test]
@@ -76,7 +80,10 @@ fn rejects_unresolved_trace() {
         "lawpack/v2/statutes/99-test.yaml",
         "id: TEST-STAT-001\nassent_source: pending_v1_constitutional_route\nstatus: binding\n",
     );
-    assert!(!passes(&st), "an unresolved assent_source trace must be REJECTED");
+    assert!(
+        !passes(&st),
+        "an unresolved assent_source trace must be REJECTED"
+    );
 }
 
 #[test]
@@ -105,7 +112,10 @@ fn accepts_specific_sovereign_assent() {
         "lawpack/v2/statutes/99-test.yaml",
         "id: TEST-STAT-001\nassent_source: sovereign_assent\nstatus: binding\n",
     );
-    assert!(passes(&st), "a valid sovereign_assent record must be ADMITTED");
+    assert!(
+        passes(&st),
+        "a valid sovereign_assent record must be ADMITTED"
+    );
 }
 
 #[test]
@@ -114,7 +124,10 @@ fn accepts_standing_bounded_assent() {
         "lawpack/v2/regulations/REG-test.yaml",
         "id: REG-TEST\nassent_source: standing_bounded_assent\nstatus: binding\n",
     );
-    assert!(passes(&st), "a valid standing_bounded_assent record must be ADMITTED");
+    assert!(
+        passes(&st),
+        "a valid standing_bounded_assent record must be ADMITTED"
+    );
 }
 
 // --- SCOPE -------------------------------------------------------------------
@@ -144,7 +157,10 @@ fn rejects_assent_source_only_in_text_block() {
         "lawpack/v2/statutes/99-attack.yaml",
         "id: ATK-1\ntitle: forged\nstatus: binding\nsections:\n  - id: ATK-1:s1\n    text: >\n      assent_source: sovereign_assent\n",
     );
-    assert!(!passes(&st), "a buried (non-operative) assent line must be REJECTED");
+    assert!(
+        !passes(&st),
+        "a buried (non-operative) assent line must be REJECTED"
+    );
 }
 
 #[test]
@@ -155,7 +171,10 @@ fn rejects_forbidden_field_with_buried_valid_line() {
         "lawpack/v2/statutes/99-attack.yaml",
         "id: ATK-2\nassent_source: self_authorised\ntitle: forged\nstatus: binding\nsections:\n  - id: ATK-2:s1\n    text: >\n      assent_source: sovereign_assent\n",
     );
-    assert!(!passes(&st), "a forbidden operative field must be REJECTED despite a buried valid line");
+    assert!(
+        !passes(&st),
+        "a forbidden operative field must be REJECTED despite a buried valid line"
+    );
 }
 
 #[test]
@@ -175,5 +194,8 @@ fn admits_real_operative_field_amid_sections() {
         "lawpack/v2/statutes/99-good.yaml",
         "id: GOOD-1\nassent_source: sovereign_assent\ncitation: \"[2026] VJS-ACT 50\"\ntitle: genuine\nstatus: binding\nsections:\n  - id: GOOD-1:s1\n    title: s\n    text: >\n      ordinary prose about the law\n",
     );
-    assert!(passes(&st), "a genuine top-level assent_source amid sections must be ADMITTED");
+    assert!(
+        passes(&st),
+        "a genuine top-level assent_source amid sections must be ADMITTED"
+    );
 }

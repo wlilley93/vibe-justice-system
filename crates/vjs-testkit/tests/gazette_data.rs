@@ -48,13 +48,23 @@ fn every_law_object_is_published_and_every_edge_resolves() {
         serde_json::from_str(&text_raw[tstart..=tend].replace("<\\/", "</")).unwrap();
     let scheduled: HashSet<String> = texts["REG-REALM-INVARIANTS-001"]["schedules"]
         .as_array()
-        .map(|a| a.iter().map(|s| s["id"].as_str().unwrap().to_string()).collect())
+        .map(|a| {
+            a.iter()
+                .map(|s| s["id"].as_str().unwrap().to_string())
+                .collect()
+        })
         .unwrap_or_default();
 
     let lawpack = repo_root().join("lawpack/v2");
     for (dir, machinery) in [
-        ("statutes", false), ("regulations", false), ("rules", true), ("orders", false),
-        ("specs", true), ("invariants", true), ("decisions", true), ("obligations", true),
+        ("statutes", false),
+        ("regulations", false),
+        ("rules", true),
+        ("orders", false),
+        ("specs", true),
+        ("invariants", true),
+        ("decisions", true),
+        ("obligations", true),
     ] {
         let d = lawpack.join(dir);
         if !d.exists() {
@@ -78,7 +88,11 @@ fn every_law_object_is_published_and_every_edge_resolves() {
                     id,
                     p.display()
                 );
-                assert!(!ids.contains(&id), "machinery '{}' must not be a separate register item", id);
+                assert!(
+                    !ids.contains(&id),
+                    "machinery '{}' must not be a separate register item",
+                    id
+                );
             } else {
                 assert!(
                     ids.contains(&id),
@@ -104,8 +118,12 @@ fn every_law_object_is_published_and_every_edge_resolves() {
                     key,
                     edge
                 );
-                *degree.entry(item["id"].as_str().unwrap().to_string()).or_default() += 1;
-                *degree.entry(edge.as_str().unwrap().to_string()).or_default() += 1;
+                *degree
+                    .entry(item["id"].as_str().unwrap().to_string())
+                    .or_default() += 1;
+                *degree
+                    .entry(edge.as_str().unwrap().to_string())
+                    .or_default() += 1;
             }
         }
         // Every V2 source path exists; every URL is branch-correct (the public
@@ -119,7 +137,11 @@ fn every_law_object_is_published_and_every_edge_resolves() {
                 item["id"],
                 path
             );
-            assert!(url.contains("/blob/master/"), "v2 url on wrong branch: {}", url);
+            assert!(
+                url.contains("/blob/master/"),
+                "v2 url on wrong branch: {}",
+                url
+            );
         } else {
             // The honoured archive spans the frozen V1-lineage repos (the
             // vibe-justice-system v1 branch and agent-universe); each item
@@ -130,7 +152,11 @@ fn every_law_object_is_published_and_every_edge_resolves() {
                 url
             );
         }
-        assert!(!url.contains("/blob/main/"), "the remote has no main branch: {}", url);
+        assert!(
+            !url.contains("/blob/main/"),
+            "the remote has no main branch: {}",
+            url
+        );
 
         // The reading surface is real: a title, a summary, a date, a source.
         assert!(!item["title"].as_str().unwrap().is_empty());
@@ -144,7 +170,11 @@ fn every_law_object_is_published_and_every_edge_resolves() {
 
     for item in &items {
         assert!(
-            degree.get(item["id"].as_str().unwrap()).copied().unwrap_or(0) > 0,
+            degree
+                .get(item["id"].as_str().unwrap())
+                .copied()
+                .unwrap_or(0)
+                > 0,
             "item '{}' is an orphan star: no citation or lineage edge touches it",
             item["id"]
         );
@@ -158,16 +188,26 @@ fn treatment_inverses_make_a_varied_order_show_its_treatment() {
     // so PC-12 carries `varied_by: SC-3`. (Edges to off-gazette County orders, in
     // .vjs/court/orders, resolve away and do not appear - that is expected.)
     let items = gazette_items();
-    let by_id: HashMap<String, &serde_json::Value> =
-        items.iter().map(|i| (i["id"].as_str().unwrap().to_string(), i)).collect();
+    let by_id: HashMap<String, &serde_json::Value> = items
+        .iter()
+        .map(|i| (i["id"].as_str().unwrap().to_string(), i))
+        .collect();
     let arr = |v: &serde_json::Value, k: &str| -> Vec<String> {
         v[k].as_array()
-            .map(|a| a.iter().filter_map(|x| x.as_str().map(String::from)).collect())
+            .map(|a| {
+                a.iter()
+                    .filter_map(|x| x.as_str().map(String::from))
+                    .collect()
+            })
             .unwrap_or_default()
     };
 
-    let pc = by_id.get("2026-VJS-PC-012").expect("PC-12 is a gazette item");
-    let sc = by_id.get("2026-VJS-SC-003").expect("SC-3 is a gazette item");
+    let pc = by_id
+        .get("2026-VJS-PC-012")
+        .expect("PC-12 is a gazette item");
+    let sc = by_id
+        .get("2026-VJS-SC-003")
+        .expect("SC-3 is a gazette item");
 
     assert!(
         arr(sc, "varies").contains(&"2026-VJS-PC-012".to_string()),
@@ -188,12 +228,18 @@ fn every_v1_node_carries_the_migration_edge_to_the_v2_canon() {
     // relation, not per-ruling court treatment - so it is the SAME edge on every
     // V1 node, and both targets must resolve to real V2 statutes (live links).
     let items = gazette_items();
-    let ids: HashSet<String> =
-        items.iter().map(|i| i["id"].as_str().unwrap().to_string()).collect();
+    let ids: HashSet<String> = items
+        .iter()
+        .map(|i| i["id"].as_str().unwrap().to_string())
+        .collect();
     let arr = |v: &serde_json::Value, k: &str| -> Vec<String> {
         v.get(k)
             .and_then(|x| x.as_array())
-            .map(|a| a.iter().filter_map(|x| x.as_str().map(String::from)).collect())
+            .map(|a| {
+                a.iter()
+                    .filter_map(|x| x.as_str().map(String::from))
+                    .collect()
+            })
             .unwrap_or_default()
     };
 

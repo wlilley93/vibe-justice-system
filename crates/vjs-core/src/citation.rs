@@ -1,5 +1,5 @@
-use crate::types::*;
 use crate::error::*;
+use crate::types::*;
 use std::collections::HashMap;
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash)]
@@ -51,12 +51,13 @@ impl CitationRegistry {
         }
     }
 
-    pub fn register(&mut self, citation: Citation, authority: AuthorityId) -> Result<(), KernelError> {
+    pub fn register(
+        &mut self,
+        citation: Citation,
+        authority: AuthorityId,
+    ) -> Result<(), KernelError> {
         if self.citations.contains_key(&citation) {
-            return Err(KernelError::CitationCollision(format!(
-                "{:?}",
-                citation
-            )));
+            return Err(KernelError::CitationCollision(format!("{:?}", citation)));
         }
         self.citations.insert(citation, authority);
         Ok(())

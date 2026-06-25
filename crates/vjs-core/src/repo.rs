@@ -2,9 +2,9 @@ use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
-use crate::types::*;
 use crate::error::*;
 use crate::spec::*;
+use crate::types::*;
 
 pub struct RepoScanner;
 
@@ -56,9 +56,10 @@ impl RepoScanner {
             }
             let full_path = repo_root.join(path);
             if full_path.exists()
-                && let Ok(content) = std::fs::read_to_string(&full_path) {
-                    state.file_contents.insert(path.clone(), content);
-                }
+                && let Ok(content) = std::fs::read_to_string(&full_path)
+            {
+                state.file_contents.insert(path.clone(), content);
+            }
         }
 
         // Read dependency changes from Cargo.toml
@@ -90,10 +91,7 @@ impl RepoScanner {
         }
 
         let stdout = String::from_utf8_lossy(&output.stdout);
-        Ok(stdout
-            .lines()
-            .map(PathBuf::from)
-            .collect())
+        Ok(stdout.lines().map(PathBuf::from).collect())
     }
 
     fn parse_cargo_changes(cargo_toml: &str) -> Vec<DependencyChange> {
@@ -123,9 +121,10 @@ impl RepoScanner {
             let path = entry.path();
             if path.extension().and_then(|s| s.to_str()) == Some("yaml")
                 && let Ok(content) = std::fs::read_to_string(&path)
-                    && let Ok(log) = serde_yaml::from_str::<DecisionLog>(&content) {
-                        logs.push(log);
-                    }
+                && let Ok(log) = serde_yaml::from_str::<DecisionLog>(&content)
+            {
+                logs.push(log);
+            }
         }
         Ok(logs)
     }
@@ -142,9 +141,10 @@ impl RepoScanner {
             let path = entry.path();
             if path.extension().and_then(|s| s.to_str()) == Some("yaml")
                 && let Ok(content) = std::fs::read_to_string(&path)
-                    && let Ok(order) = serde_yaml::from_str::<Order>(&content) {
-                        orders.push(order);
-                    }
+                && let Ok(order) = serde_yaml::from_str::<Order>(&content)
+            {
+                orders.push(order);
+            }
         }
         Ok(orders)
     }
@@ -161,9 +161,10 @@ impl RepoScanner {
             let path = entry.path();
             if path.extension().and_then(|s| s.to_str()) == Some("yaml")
                 && let Ok(content) = std::fs::read_to_string(&path)
-                    && let Ok(permit) = serde_yaml::from_str::<Permit>(&content) {
-                        permits.push(permit);
-                    }
+                && let Ok(permit) = serde_yaml::from_str::<Permit>(&content)
+            {
+                permits.push(permit);
+            }
         }
         Ok(permits)
     }
@@ -180,9 +181,10 @@ impl RepoScanner {
             let path = entry.path();
             if path.extension().and_then(|s| s.to_str()) == Some("yaml")
                 && let Ok(content) = std::fs::read_to_string(&path)
-                    && let Ok(proof) = serde_yaml::from_str::<Proof>(&content) {
-                        proofs.push(proof);
-                    }
+                && let Ok(proof) = serde_yaml::from_str::<Proof>(&content)
+            {
+                proofs.push(proof);
+            }
         }
         Ok(proofs)
     }

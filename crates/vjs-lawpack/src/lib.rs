@@ -2,8 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
 use walkdir::WalkDir;
 
-use vjs_core::*;
 use vjs_core::spec::InvariantRaw;
+use vjs_core::*;
 
 pub struct LawpackLoader;
 
@@ -102,8 +102,7 @@ impl LawpackLoader {
                         .map_err(|e| KernelError::Io(e.to_string()))?;
                     let raw: InvariantRaw = serde_yaml::from_str(&content)
                         .map_err(|e| KernelError::Serialization(e.to_string()))?;
-                    let invariant = raw.to_invariant()
-                        .map_err(KernelError::Serialization)?;
+                    let invariant = raw.to_invariant().map_err(KernelError::Serialization)?;
                     invariants.push(invariant);
                 }
             }
@@ -375,10 +374,15 @@ pub fn defined_ids(lawpack: &Lawpack) -> std::collections::HashSet<String> {
 /// the validator's findings (so a check change in one place changes both) and
 /// reads the repo's `.vjs/config.toml` for the directory-roles and MCP checks.
 pub fn lawpack_facts(repo_root: &Path, lawpack: &Lawpack) -> LawpackFacts {
-    let report = LawpackValidator::validate(lawpack)
-        .unwrap_or(ValidationReport { ok: false, findings: Vec::new() });
+    let report = LawpackValidator::validate(lawpack).unwrap_or(ValidationReport {
+        ok: false,
+        findings: Vec::new(),
+    });
     let duplicate_ids = report.findings.iter().any(|f| f.code == "DUPLICATE_ID");
-    let duplicate_citations = report.findings.iter().any(|f| f.code == "CITATION_COLLISION");
+    let duplicate_citations = report
+        .findings
+        .iter()
+        .any(|f| f.code == "CITATION_COLLISION");
     let config = std::fs::read_to_string(repo_root.join(".vjs/config.toml")).unwrap_or_default();
     // Every quoted path value under the roles config must stay inside the repo
     // (no `..` escape, no absolute path outside the tree).
@@ -592,8 +596,8 @@ impl LawpackValidator {
             if path.extension().and_then(|s| s.to_str()) != Some("yaml") {
                 continue;
             }
-            let content = std::fs::read_to_string(path)
-                .map_err(|e| KernelError::Io(e.to_string()))?;
+            let content =
+                std::fs::read_to_string(path).map_err(|e| KernelError::Io(e.to_string()))?;
             let rel = path
                 .strip_prefix(lawpack_dir)
                 .unwrap_or(path)
@@ -606,7 +610,10 @@ impl LawpackValidator {
                     if negated || defined.contains(id) {
                         continue;
                     }
-                    dangling.entry(id.to_string()).or_default().push(rel.clone());
+                    dangling
+                        .entry(id.to_string())
+                        .or_default()
+                        .push(rel.clone());
                 }
             }
         }

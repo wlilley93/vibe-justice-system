@@ -64,7 +64,10 @@ fn an_expired_status_permit_is_refused_with_the_precise_finding() {
     p.status = PermitStatus::Expired;
     let r = gate(&["crates/vjs-core/src/route.rs"], &[p], &[], &[]);
     assert!(!r.ok);
-    assert!(has_finding(&r, "PERMIT-EXPIRED"), "expired permit must surface PERMIT-EXPIRED, not PERMIT-MISSING");
+    assert!(
+        has_finding(&r, "PERMIT-EXPIRED"),
+        "expired permit must surface PERMIT-EXPIRED, not PERMIT-MISSING"
+    );
 }
 
 #[test]
@@ -81,7 +84,10 @@ fn a_closed_permit_does_not_excuse_new_staged_changes() {
     let mut p = permit(vec!["crates/**"]);
     p.status = PermitStatus::Closed;
     let r = gate(&["crates/vjs-core/src/route.rs"], &[p], &[], &[]);
-    assert!(!r.ok, "a closed permit covering new work would also skip its obligations - a bypass");
+    assert!(
+        !r.ok,
+        "a closed permit covering new work would also skip its obligations - a bypass"
+    );
     assert!(has_finding(&r, "PERMIT-CLOSED"));
 }
 
@@ -91,7 +97,10 @@ fn an_active_unexpired_permit_is_preferred_over_a_dead_one_covering_the_same_pat
     dead.status = PermitStatus::Closed;
     let live = permit(vec!["crates/**"]);
     let r = gate(&["crates/vjs-core/src/route.rs"], &[dead, live], &[], &[]);
-    assert!(r.ok, "a live permit must win even when a dead permit also covers the path");
+    assert!(
+        r.ok,
+        "a live permit must win even when a dead permit also covers the path"
+    );
 }
 
 // --- expiry timestamp enforcement (fail closed) ------------------------------
@@ -110,7 +119,10 @@ fn an_unparseable_expiry_never_excuses_a_write() {
     let mut p = permit(vec!["crates/**"]);
     p.expires_at = "not-a-timestamp".into();
     let r = gate(&["crates/vjs-core/src/route.rs"], &[p], &[], &[]);
-    assert!(!r.ok, "fail closed: a corrupt expiry must not grant indefinite validity");
+    assert!(
+        !r.ok,
+        "fail closed: a corrupt expiry must not grant indefinite validity"
+    );
     assert!(has_finding(&r, "PERMIT-EXPIRED"));
 }
 
@@ -121,7 +133,12 @@ fn a_decision_log_obligation_blocks_commit_until_a_log_exists() {
     let mut p = permit(vec!["crates/**"]);
     p.obligations.push(obligation(ObligationKind::DecisionLog));
 
-    let r = gate(&["crates/vjs-core/src/route.rs"], std::slice::from_ref(&p), &[], &[]);
+    let r = gate(
+        &["crates/vjs-core/src/route.rs"],
+        std::slice::from_ref(&p),
+        &[],
+        &[],
+    );
     assert!(!r.ok);
     assert!(has_finding(&r, "PERMIT-OBLIGATION-MISSING"));
 
@@ -147,7 +164,12 @@ fn a_proof_obligation_blocks_commit_until_a_proof_exists() {
     let mut p = permit(vec!["crates/**"]);
     p.obligations.push(obligation(ObligationKind::Proof));
 
-    let r = gate(&["crates/vjs-core/src/route.rs"], std::slice::from_ref(&p), &[], &[]);
+    let r = gate(
+        &["crates/vjs-core/src/route.rs"],
+        std::slice::from_ref(&p),
+        &[],
+        &[],
+    );
     assert!(!r.ok);
     assert!(has_finding(&r, "PERMIT-PROOF-MISSING"));
 
@@ -160,7 +182,10 @@ fn a_proof_obligation_blocks_commit_until_a_proof_exists() {
         captured_at: "2026-06-09T00:00:00+00:00".into(),
     };
     let r = gate(&["crates/vjs-core/src/route.rs"], &[p], &[], &[proof]);
-    assert!(r.ok, "a proof attached to the permit satisfies the obligation");
+    assert!(
+        r.ok,
+        "a proof attached to the permit satisfies the obligation"
+    );
 }
 
 // --- glob boundary semantics --------------------------------------------------
@@ -172,32 +197,65 @@ fn a_literal_scope_does_not_cover_sibling_files_by_prefix() {
     assert!(r.ok, "the named file itself is covered");
     // Cargo.toml.bak is ungoverned under the required globs, so prove the
     // bypass at the matcher itself: the literal scope must not cover it.
-    assert!(!PathClassifier::glob_matches("Cargo.toml", "Cargo.toml.bak"));
+    assert!(!PathClassifier::glob_matches(
+        "Cargo.toml",
+        "Cargo.toml.bak"
+    ));
     assert!(!PathClassifier::glob_matches("README.md", "README.md.old"));
 }
 
 #[test]
 fn a_recursive_glob_respects_the_path_boundary() {
-    assert!(PathClassifier::glob_matches("crates/**", "crates/vjs-core/src/lib.rs"));
+    assert!(PathClassifier::glob_matches(
+        "crates/**",
+        "crates/vjs-core/src/lib.rs"
+    ));
     assert!(PathClassifier::glob_matches("crates/**", "crates"));
-    assert!(!PathClassifier::glob_matches("crates/**", "crates-evil/src/lib.rs"));
-    assert!(!PathClassifier::glob_matches("lawpack/**", "lawpack2/x.yaml"));
+    assert!(!PathClassifier::glob_matches(
+        "crates/**",
+        "crates-evil/src/lib.rs"
+    ));
+    assert!(!PathClassifier::glob_matches(
+        "lawpack/**",
+        "lawpack2/x.yaml"
+    ));
 }
 
 #[test]
 fn an_infix_recursive_glob_matches_zero_or_more_dirs_on_boundaries() {
-    assert!(PathClassifier::glob_matches("crates/**/Cargo.toml", "crates/vjs-core/Cargo.toml"));
-    assert!(PathClassifier::glob_matches("crates/**/Cargo.toml", "crates/Cargo.toml"));
-    assert!(!PathClassifier::glob_matches("crates/**/Cargo.toml", "crates/vjs-core/NotCargo.toml"));
-    assert!(!PathClassifier::glob_matches("crates/**/Cargo.toml", "crates2/x/Cargo.toml"));
+    assert!(PathClassifier::glob_matches(
+        "crates/**/Cargo.toml",
+        "crates/vjs-core/Cargo.toml"
+    ));
+    assert!(PathClassifier::glob_matches(
+        "crates/**/Cargo.toml",
+        "crates/Cargo.toml"
+    ));
+    assert!(!PathClassifier::glob_matches(
+        "crates/**/Cargo.toml",
+        "crates/vjs-core/NotCargo.toml"
+    ));
+    assert!(!PathClassifier::glob_matches(
+        "crates/**/Cargo.toml",
+        "crates2/x/Cargo.toml"
+    ));
 }
 
 #[test]
 fn a_single_star_stays_within_one_path_segment() {
-    assert!(PathClassifier::glob_matches("crates/*/Cargo.toml", "crates/vjs-core/Cargo.toml"));
-    assert!(!PathClassifier::glob_matches("crates/*/Cargo.toml", "crates/a/b/Cargo.toml"));
+    assert!(PathClassifier::glob_matches(
+        "crates/*/Cargo.toml",
+        "crates/vjs-core/Cargo.toml"
+    ));
+    assert!(!PathClassifier::glob_matches(
+        "crates/*/Cargo.toml",
+        "crates/a/b/Cargo.toml"
+    ));
     // The old implementation rewrote ** to .* and then mangled it again via
     // the single-star pass; this pins the mixed form.
-    assert!(PathClassifier::glob_matches("**/*.yaml", "lawpack/v2/orders/x.yaml"));
+    assert!(PathClassifier::glob_matches(
+        "**/*.yaml",
+        "lawpack/v2/orders/x.yaml"
+    ));
     assert!(!PathClassifier::glob_matches("*.yaml", "lawpack/x.yaml"));
 }

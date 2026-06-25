@@ -65,7 +65,10 @@ fn the_text_artifact_is_bijective_with_the_canon_and_renderable() {
         let body = &bodies[id];
         let nonempty = |key: &str| {
             assert!(
-                body[key].as_str().map(|s| !s.trim().is_empty()).unwrap_or(false),
+                body[key]
+                    .as_str()
+                    .map(|s| !s.trim().is_empty())
+                    .unwrap_or(false),
                 "{} body field '{}' must be non-empty text",
                 id,
                 key
@@ -119,8 +122,14 @@ fn the_text_artifact_is_bijective_with_the_canon_and_renderable() {
     }
 
     // Size budget: a whole-YAML dump would blow past this.
-    let bytes = std::fs::metadata(repo_root().join("gazette-text.js")).unwrap().len();
-    assert!(bytes < 400_000, "gazette-text.js stays under 400 KB, got {}", bytes);
+    let bytes = std::fs::metadata(repo_root().join("gazette-text.js"))
+        .unwrap()
+        .len();
+    assert!(
+        bytes < 400_000,
+        "gazette-text.js stays under 400 KB, got {}",
+        bytes
+    );
 }
 
 #[test]
@@ -134,7 +143,12 @@ fn treatment_fields_resolve_and_reciprocate() {
         for key in ["supersedes", "superseded_by", "thread"] {
             if let Some(arr) = item[key].as_array() {
                 for t in arr {
-                    assert!(ids.contains(t.as_str().unwrap()), "{} {} -> non-item", id, key);
+                    assert!(
+                        ids.contains(t.as_str().unwrap()),
+                        "{} {} -> non-item",
+                        id,
+                        key
+                    );
                 }
             }
         }
@@ -143,7 +157,11 @@ fn treatment_fields_resolve_and_reciprocate() {
             for t in sup {
                 let target = items.iter().find(|x| x["id"] == *t).unwrap();
                 assert!(
-                    target["superseded_by"].as_array().unwrap().iter().any(|b| b.as_str() == Some(id)),
+                    target["superseded_by"]
+                        .as_array()
+                        .unwrap()
+                        .iter()
+                        .any(|b| b.as_str() == Some(id)),
                     "{} supersedes {} but the reverse edge is missing",
                     id,
                     t
@@ -154,7 +172,12 @@ fn treatment_fields_resolve_and_reciprocate() {
         if item["opinion"].is_object() {
             let p = item["opinion"]["path"].as_str().unwrap();
             assert!(repo_root().join(p).exists(), "opinion path missing: {}", p);
-            assert!(item["opinion"]["url"].as_str().unwrap().contains("/blob/master/"));
+            assert!(
+                item["opinion"]["url"]
+                    .as_str()
+                    .unwrap()
+                    .contains("/blob/master/")
+            );
         }
     }
 }

@@ -9,8 +9,14 @@ impl TestKit {
         SampleRepo {
             name: "simple-rust-app".into(),
             files: vec![
-                ("Cargo.toml".into(), "[package]\nname = \"app\"\nversion = \"0.1.0\"\n".into()),
-                ("src/main.rs".into(), "fn main() { println!(\"hello\"); }\n".into()),
+                (
+                    "Cargo.toml".into(),
+                    "[package]\nname = \"app\"\nversion = \"0.1.0\"\n".into(),
+                ),
+                (
+                    "src/main.rs".into(),
+                    "fn main() { println!(\"hello\"); }\n".into(),
+                ),
             ],
             expected_route: RouteOutcome::Allowed,
             issue_tags: vec!["hello_world".into()],
@@ -20,9 +26,10 @@ impl TestKit {
     pub fn sample_repo_dependency_choice() -> SampleRepo {
         SampleRepo {
             name: "dependency-choice".into(),
-            files: vec![
-                ("Cargo.toml".into(), "[package]\nname = \"app\"\n\n[dependencies]\n".into()),
-            ],
+            files: vec![(
+                "Cargo.toml".into(),
+                "[package]\nname = \"app\"\n\n[dependencies]\n".into(),
+            )],
             expected_route: RouteOutcome::AllowedWithConditions,
             issue_tags: vec!["dependency_policy".into()],
         }
@@ -33,7 +40,10 @@ impl TestKit {
             name: "private-boundary".into(),
             files: vec![
                 ("Cargo.toml".into(), "[package]\nname = \"app\"\n".into()),
-                ("src/main.rs".into(), "// API key: sk-test1234567890abcdef\nfn main() {}\n".into()),
+                (
+                    "src/main.rs".into(),
+                    "// API key: sk-test1234567890abcdef\nfn main() {}\n".into(),
+                ),
             ],
             expected_route: RouteOutcome::Blocked,
             issue_tags: vec!["public_private.repo_facts".into()],
@@ -43,9 +53,7 @@ impl TestKit {
     pub fn sample_repo_external_release() -> SampleRepo {
         SampleRepo {
             name: "external-release".into(),
-            files: vec![
-                ("Cargo.toml".into(), "[package]\nname = \"app\"\n".into()),
-            ],
+            files: vec![("Cargo.toml".into(), "[package]\nname = \"app\"\n".into())],
             expected_route: RouteOutcome::ReleaseWarrantRequired,
             issue_tags: vec!["release.push".into()],
         }
@@ -54,9 +62,7 @@ impl TestKit {
     pub fn sample_repo_first_impression() -> SampleRepo {
         SampleRepo {
             name: "first-impression".into(),
-            files: vec![
-                ("Cargo.toml".into(), "[package]\nname = \"app\"\n".into()),
-            ],
+            files: vec![("Cargo.toml".into(), "[package]\nname = \"app\"\n".into())],
             expected_route: RouteOutcome::CourtRequired,
             issue_tags: vec!["novel_architecture".into()],
         }
@@ -64,17 +70,14 @@ impl TestKit {
 
     pub fn create_fixture_repo(repo: &SampleRepo, base_dir: &Path) -> Result<PathBuf, KernelError> {
         let repo_dir = base_dir.join(&repo.name);
-        std::fs::create_dir_all(&repo_dir)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
+        std::fs::create_dir_all(&repo_dir).map_err(|e| KernelError::Io(e.to_string()))?;
 
         for (path, content) in &repo.files {
             let full_path = repo_dir.join(path);
             if let Some(parent) = full_path.parent() {
-                std::fs::create_dir_all(parent)
-                    .map_err(|e| KernelError::Io(e.to_string()))?;
+                std::fs::create_dir_all(parent).map_err(|e| KernelError::Io(e.to_string()))?;
             }
-            std::fs::write(&full_path, content)
-                .map_err(|e| KernelError::Io(e.to_string()))?;
+            std::fs::write(&full_path, content).map_err(|e| KernelError::Io(e.to_string()))?;
         }
 
         // Initialize git

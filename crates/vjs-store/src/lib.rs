@@ -1,16 +1,15 @@
 use serde::{Deserialize, Serialize};
 use std::path::Path;
 
-use vjs_core::*;
 use vjs_core::spec::{Permit, Proof};
+use vjs_core::*;
 
 pub struct Store;
 
 impl Store {
     pub fn init_repo(repo_root: &Path) -> Result<(), KernelError> {
         let vjs_dir = repo_root.join(".vjs");
-        std::fs::create_dir_all(&vjs_dir)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
+        std::fs::create_dir_all(&vjs_dir).map_err(|e| KernelError::Io(e.to_string()))?;
 
         let dirs = [
             "orders",
@@ -33,17 +32,15 @@ impl Store {
         let config_path = vjs_dir.join("config.toml");
         if !config_path.exists() {
             let config = default_config();
-            let content = toml::to_string(&config)
-                .map_err(|e| KernelError::Serialization(e.to_string()))?;
-            std::fs::write(&config_path, content)
-                .map_err(|e| KernelError::Io(e.to_string()))?;
+            let content =
+                toml::to_string(&config).map_err(|e| KernelError::Serialization(e.to_string()))?;
+            std::fs::write(&config_path, content).map_err(|e| KernelError::Io(e.to_string()))?;
         }
 
         let private_readme = vjs_dir.join("private/README.md");
         if !private_readme.exists() {
             let content = "# Private Working Papers\n\nThis directory contains unredacted local evidence, operational notes, and private working papers. Do not commit to public repositories.\n";
-            std::fs::write(&private_readme, content)
-                .map_err(|e| KernelError::Io(e.to_string()))?;
+            std::fs::write(&private_readme, content).map_err(|e| KernelError::Io(e.to_string()))?;
         }
 
         Ok(())
@@ -51,13 +48,12 @@ impl Store {
 
     pub fn write_log(repo_root: &Path, log: &DecisionLog) -> Result<(), KernelError> {
         let logs_dir = repo_root.join(".vjs/logs/decisions");
-        std::fs::create_dir_all(&logs_dir)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
+        std::fs::create_dir_all(&logs_dir).map_err(|e| KernelError::Io(e.to_string()))?;
 
         let filename = format!("{}.yaml", log.id);
         let path = logs_dir.join(&filename);
-        let content = serde_yaml::to_string(log)
-            .map_err(|e| KernelError::Serialization(e.to_string()))?;
+        let content =
+            serde_yaml::to_string(log).map_err(|e| KernelError::Serialization(e.to_string()))?;
 
         // Decision logs are part of the public record; the boundary scan runs
         // BEFORE the bytes hit disk, not post-hoc in validate. Fail closed:
@@ -72,38 +68,33 @@ impl Store {
             )));
         }
 
-        std::fs::write(&path, content)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
+        std::fs::write(&path, content).map_err(|e| KernelError::Io(e.to_string()))?;
 
         Ok(())
     }
 
     pub fn write_order(repo_root: &Path, order: &Order) -> Result<(), KernelError> {
         let orders_dir = repo_root.join(".vjs/orders");
-        std::fs::create_dir_all(&orders_dir)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
+        std::fs::create_dir_all(&orders_dir).map_err(|e| KernelError::Io(e.to_string()))?;
 
         let filename = format!("{}.yaml", order.id);
         let path = orders_dir.join(&filename);
-        let content = serde_yaml::to_string(order)
-            .map_err(|e| KernelError::Serialization(e.to_string()))?;
-        std::fs::write(&path, content)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
+        let content =
+            serde_yaml::to_string(order).map_err(|e| KernelError::Serialization(e.to_string()))?;
+        std::fs::write(&path, content).map_err(|e| KernelError::Io(e.to_string()))?;
 
         Ok(())
     }
 
     pub fn write_submission(repo_root: &Path, submission: &Submission) -> Result<(), KernelError> {
         let submissions_dir = repo_root.join(".vjs/submissions/filed");
-        std::fs::create_dir_all(&submissions_dir)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
+        std::fs::create_dir_all(&submissions_dir).map_err(|e| KernelError::Io(e.to_string()))?;
 
         let filename = format!("{}.yaml", submission.id);
         let path = submissions_dir.join(&filename);
         let content = serde_yaml::to_string(submission)
             .map_err(|e| KernelError::Serialization(e.to_string()))?;
-        std::fs::write(&path, content)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
+        std::fs::write(&path, content).map_err(|e| KernelError::Io(e.to_string()))?;
 
         Ok(())
     }
@@ -116,13 +107,12 @@ impl Store {
             return Ok(logs);
         }
 
-        for entry in std::fs::read_dir(&logs_dir)
-            .map_err(|e| KernelError::Io(e.to_string()))? {
+        for entry in std::fs::read_dir(&logs_dir).map_err(|e| KernelError::Io(e.to_string()))? {
             let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
             let path = entry.path();
             if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
-                let content = std::fs::read_to_string(&path)
-                    .map_err(|e| KernelError::Io(e.to_string()))?;
+                let content =
+                    std::fs::read_to_string(&path).map_err(|e| KernelError::Io(e.to_string()))?;
                 let log: DecisionLog = serde_yaml::from_str(&content)
                     .map_err(|e| KernelError::Serialization(e.to_string()))?;
                 logs.push(log);
@@ -134,15 +124,13 @@ impl Store {
 
     pub fn write_permit(repo_root: &Path, permit: &Permit) -> Result<(), KernelError> {
         let permits_dir = repo_root.join(".vjs/permits");
-        std::fs::create_dir_all(&permits_dir)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
+        std::fs::create_dir_all(&permits_dir).map_err(|e| KernelError::Io(e.to_string()))?;
 
         let filename = format!("{}.yaml", permit.id.0);
         let path = permits_dir.join(&filename);
-        let content = serde_yaml::to_string(permit)
-            .map_err(|e| KernelError::Serialization(e.to_string()))?;
-        std::fs::write(&path, content)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
+        let content =
+            serde_yaml::to_string(permit).map_err(|e| KernelError::Serialization(e.to_string()))?;
+        std::fs::write(&path, content).map_err(|e| KernelError::Io(e.to_string()))?;
 
         Ok(())
     }
@@ -155,13 +143,12 @@ impl Store {
             return Ok(permits);
         }
 
-        for entry in std::fs::read_dir(&permits_dir)
-            .map_err(|e| KernelError::Io(e.to_string()))? {
+        for entry in std::fs::read_dir(&permits_dir).map_err(|e| KernelError::Io(e.to_string()))? {
             let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
             let path = entry.path();
             if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
-                let content = std::fs::read_to_string(&path)
-                    .map_err(|e| KernelError::Io(e.to_string()))?;
+                let content =
+                    std::fs::read_to_string(&path).map_err(|e| KernelError::Io(e.to_string()))?;
                 let permit: Permit = serde_yaml::from_str(&content)
                     .map_err(|e| KernelError::Serialization(e.to_string()))?;
                 permits.push(permit);
@@ -173,15 +160,13 @@ impl Store {
 
     pub fn write_proof(repo_root: &Path, proof: &Proof) -> Result<(), KernelError> {
         let proofs_dir = repo_root.join(".vjs/proofs");
-        std::fs::create_dir_all(&proofs_dir)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
+        std::fs::create_dir_all(&proofs_dir).map_err(|e| KernelError::Io(e.to_string()))?;
 
         let filename = format!("{}.yaml", proof.id.0);
         let path = proofs_dir.join(&filename);
-        let content = serde_yaml::to_string(proof)
-            .map_err(|e| KernelError::Serialization(e.to_string()))?;
-        std::fs::write(&path, content)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
+        let content =
+            serde_yaml::to_string(proof).map_err(|e| KernelError::Serialization(e.to_string()))?;
+        std::fs::write(&path, content).map_err(|e| KernelError::Io(e.to_string()))?;
 
         Ok(())
     }
@@ -194,8 +179,7 @@ impl Store {
             return Ok(proofs);
         }
 
-        for entry in std::fs::read_dir(&proofs_dir)
-            .map_err(|e| KernelError::Io(e.to_string()))? {
+        for entry in std::fs::read_dir(&proofs_dir).map_err(|e| KernelError::Io(e.to_string()))? {
             let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
             let path = entry.path();
             if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
@@ -204,8 +188,9 @@ impl Store {
                 // as an unmet obligation, or worse, mask a tampered record).
                 let content = std::fs::read_to_string(&path)
                     .map_err(|e| KernelError::Io(format!("{}: {}", path.display(), e)))?;
-                let proof: Proof = serde_yaml::from_str(&content)
-                    .map_err(|e| KernelError::Serialization(format!("{}: {}", path.display(), e)))?;
+                let proof: Proof = serde_yaml::from_str(&content).map_err(|e| {
+                    KernelError::Serialization(format!("{}: {}", path.display(), e))
+                })?;
                 proofs.push(proof);
             }
         }
@@ -216,8 +201,8 @@ impl Store {
         let dir = repo_root.join(".vjs/court/convenings");
         std::fs::create_dir_all(&dir).map_err(|e| KernelError::Io(e.to_string()))?;
         let path = dir.join(format!("{}.yaml", rec.id));
-        let content = serde_yaml::to_string(rec)
-            .map_err(|e| KernelError::Serialization(e.to_string()))?;
+        let content =
+            serde_yaml::to_string(rec).map_err(|e| KernelError::Serialization(e.to_string()))?;
         // Convening records are public record: the boundary scan runs first.
         let findings = vjs_redact::RedactScanner::scan_file(&path, &content);
         if !vjs_redact::RedactScanner::check_public_safe(&findings) {
@@ -239,8 +224,8 @@ impl Store {
         for entry in std::fs::read_dir(&dir).map_err(|e| KernelError::Io(e.to_string()))? {
             let path = entry.map_err(|e| KernelError::Io(e.to_string()))?.path();
             if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
-                let content = std::fs::read_to_string(&path)
-                    .map_err(|e| KernelError::Io(e.to_string()))?;
+                let content =
+                    std::fs::read_to_string(&path).map_err(|e| KernelError::Io(e.to_string()))?;
                 if let Ok(rec) = serde_yaml::from_str::<ConveningRecord>(&content) {
                     out.push(rec);
                 }
@@ -258,8 +243,8 @@ impl Store {
         for entry in std::fs::read_dir(&dir).map_err(|e| KernelError::Io(e.to_string()))? {
             let path = entry.map_err(|e| KernelError::Io(e.to_string()))?.path();
             if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
-                let content = std::fs::read_to_string(&path)
-                    .map_err(|e| KernelError::Io(e.to_string()))?;
+                let content =
+                    std::fs::read_to_string(&path).map_err(|e| KernelError::Io(e.to_string()))?;
                 if let Ok(sub) = serde_yaml::from_str::<Submission>(&content) {
                     out.push(sub);
                 }
@@ -276,13 +261,12 @@ impl Store {
             return Ok(orders);
         }
 
-        for entry in std::fs::read_dir(&orders_dir)
-            .map_err(|e| KernelError::Io(e.to_string()))? {
+        for entry in std::fs::read_dir(&orders_dir).map_err(|e| KernelError::Io(e.to_string()))? {
             let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
             let path = entry.path();
             if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
-                let content = std::fs::read_to_string(&path)
-                    .map_err(|e| KernelError::Io(e.to_string()))?;
+                let content =
+                    std::fs::read_to_string(&path).map_err(|e| KernelError::Io(e.to_string()))?;
                 let order: Order = serde_yaml::from_str(&content)
                     .map_err(|e| KernelError::Serialization(e.to_string()))?;
                 orders.push(order);
@@ -307,10 +291,9 @@ impl Store {
             generated_at: chrono::Utc::now().to_rfc3339(),
             locked_by: None,
         };
-        let content = toml::to_string(&lock)
-            .map_err(|e| KernelError::Serialization(e.to_string()))?;
-        std::fs::write(&lock_path, content)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
+        let content =
+            toml::to_string(&lock).map_err(|e| KernelError::Serialization(e.to_string()))?;
+        std::fs::write(&lock_path, content).map_err(|e| KernelError::Io(e.to_string()))?;
         Ok(())
     }
 
@@ -319,10 +302,10 @@ impl Store {
         if !config_path.exists() {
             return Ok(None);
         }
-        let content = std::fs::read_to_string(&config_path)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
-        let config: JurisdictionConfig = toml::from_str(&content)
-            .map_err(|e| KernelError::Serialization(e.to_string()))?;
+        let content =
+            std::fs::read_to_string(&config_path).map_err(|e| KernelError::Io(e.to_string()))?;
+        let config: JurisdictionConfig =
+            toml::from_str(&content).map_err(|e| KernelError::Serialization(e.to_string()))?;
         Ok(Some(config))
     }
 
@@ -331,10 +314,10 @@ impl Store {
         if !lock_path.exists() {
             return Ok(None);
         }
-        let content = std::fs::read_to_string(&lock_path)
-            .map_err(|e| KernelError::Io(e.to_string()))?;
-        let lock: LawpackLock = toml::from_str(&content)
-            .map_err(|e| KernelError::Serialization(e.to_string()))?;
+        let content =
+            std::fs::read_to_string(&lock_path).map_err(|e| KernelError::Io(e.to_string()))?;
+        let lock: LawpackLock =
+            toml::from_str(&content).map_err(|e| KernelError::Serialization(e.to_string()))?;
         // The version handshake (Bug C): refuse, loudly and at load time, any law
         // newer than this kernel understands - never crash mid-eval or, worse,
         // parse partially. For law, strict is the only correct posture.
@@ -521,4 +504,3 @@ fn default_governance() -> GovernanceConfig {
         ],
     }
 }
-

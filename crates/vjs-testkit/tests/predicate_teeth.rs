@@ -7,7 +7,7 @@
 use std::collections::HashSet;
 use std::path::PathBuf;
 
-use vjs_core::spec::{evaluate_invariants, Invariant, LawpackFacts, RepoState};
+use vjs_core::spec::{Invariant, LawpackFacts, RepoState, evaluate_invariants};
 use vjs_lawpack::LawpackLoader;
 
 fn repo_root() -> PathBuf {
@@ -64,30 +64,66 @@ fn staged_runtime_state(content: &str) -> RepoState {
 fn no_duplicate_ids_has_teeth() {
     let inv = invariant("INV-002");
     let state = staged_runtime_state("id: REG-FIXTURE\nstatus: in_force\n");
-    let good = LawpackFacts { duplicate_ids: false, ..Default::default() };
-    let bad = LawpackFacts { duplicate_ids: true, ..Default::default() };
-    assert!(passes(&inv, &state, &good), "INV-002 passes when ids are unique");
-    assert!(!passes(&inv, &state, &bad), "INV-002 must fail on a duplicate id");
+    let good = LawpackFacts {
+        duplicate_ids: false,
+        ..Default::default()
+    };
+    let bad = LawpackFacts {
+        duplicate_ids: true,
+        ..Default::default()
+    };
+    assert!(
+        passes(&inv, &state, &good),
+        "INV-002 passes when ids are unique"
+    );
+    assert!(
+        !passes(&inv, &state, &bad),
+        "INV-002 must fail on a duplicate id"
+    );
 }
 
 #[test]
 fn no_duplicate_citations_has_teeth() {
     let inv = invariant("INV-003");
     let state = staged_runtime_state("id: REG-FIXTURE\nstatus: in_force\n");
-    let good = LawpackFacts { duplicate_citations: false, ..Default::default() };
-    let bad = LawpackFacts { duplicate_citations: true, ..Default::default() };
-    assert!(passes(&inv, &state, &good), "INV-003 passes when citations are unique");
-    assert!(!passes(&inv, &state, &bad), "INV-003 must fail on a citation collision");
+    let good = LawpackFacts {
+        duplicate_citations: false,
+        ..Default::default()
+    };
+    let bad = LawpackFacts {
+        duplicate_citations: true,
+        ..Default::default()
+    };
+    assert!(
+        passes(&inv, &state, &good),
+        "INV-003 passes when citations are unique"
+    );
+    assert!(
+        !passes(&inv, &state, &bad),
+        "INV-003 must fail on a citation collision"
+    );
 }
 
 #[test]
 fn lawpack_validates_has_teeth() {
     let inv = invariant("INV-001");
     let state = staged_runtime_state("id: REG-FIXTURE\nstatus: in_force\n");
-    let good = LawpackFacts { validates: true, ..Default::default() };
-    let bad = LawpackFacts { validates: false, ..Default::default() };
-    assert!(passes(&inv, &state, &good), "INV-001 passes when the lawpack validates");
-    assert!(!passes(&inv, &state, &bad), "INV-001 must fail when validation fails");
+    let good = LawpackFacts {
+        validates: true,
+        ..Default::default()
+    };
+    let bad = LawpackFacts {
+        validates: false,
+        ..Default::default()
+    };
+    assert!(
+        passes(&inv, &state, &good),
+        "INV-001 passes when the lawpack validates"
+    );
+    assert!(
+        !passes(&inv, &state, &bad),
+        "INV-001 must fail when validation fails"
+    );
 }
 
 #[test]
@@ -104,7 +140,10 @@ fn required_fields_has_teeth() {
     let bad_passes = passes(&inv, &bad, &facts);
     let good_passes = passes(&inv, &good, &facts);
     assert!(good_passes, "INV-LAWMAKING-001 passes a complete record");
-    assert!(!bad_passes, "INV-LAWMAKING-001 must fail a record missing a required field");
+    assert!(
+        !bad_passes,
+        "INV-LAWMAKING-001 must fail a record missing a required field"
+    );
 }
 
 #[test]
@@ -113,29 +152,62 @@ fn draft_law_is_not_binding_has_teeth() {
     // A staged record whose id is in the graph but marked draft must fail.
     let mut all_ids = HashSet::new();
     all_ids.insert("REG-FIXTURE".to_string());
-    let facts = LawpackFacts { all_ids, ..Default::default() };
+    let facts = LawpackFacts {
+        all_ids,
+        ..Default::default()
+    };
     let draft = staged_runtime_state("id: REG-FIXTURE\nstatus: draft\n");
     let in_force = staged_runtime_state("id: REG-FIXTURE\nstatus: in_force\n");
-    assert!(!passes(&inv, &draft, &facts), "INV-LAWMAKING-002 must fail a draft in the runtime graph");
-    assert!(passes(&inv, &in_force, &facts), "INV-LAWMAKING-002 passes an in-force record");
+    assert!(
+        !passes(&inv, &draft, &facts),
+        "INV-LAWMAKING-002 must fail a draft in the runtime graph"
+    );
+    assert!(
+        passes(&inv, &in_force, &facts),
+        "INV-LAWMAKING-002 passes an in-force record"
+    );
 }
 
 #[test]
 fn directory_roles_resolve_has_teeth() {
     let inv = invariant("INV-012");
     let state = empty_state();
-    let good = LawpackFacts { directory_roles_resolve: true, ..Default::default() };
-    let bad = LawpackFacts { directory_roles_resolve: false, ..Default::default() };
-    assert!(passes(&inv, &state, &good), "INV-012 passes when roles resolve in-repo");
-    assert!(!passes(&inv, &state, &bad), "INV-012 must fail when a role path escapes the repo");
+    let good = LawpackFacts {
+        directory_roles_resolve: true,
+        ..Default::default()
+    };
+    let bad = LawpackFacts {
+        directory_roles_resolve: false,
+        ..Default::default()
+    };
+    assert!(
+        passes(&inv, &state, &good),
+        "INV-012 passes when roles resolve in-repo"
+    );
+    assert!(
+        !passes(&inv, &state, &bad),
+        "INV-012 must fail when a role path escapes the repo"
+    );
 }
 
 #[test]
 fn mcp_local_first_has_teeth() {
     let inv = invariant("INV-011");
     let state = empty_state();
-    let good = LawpackFacts { mcp_local_first: true, ..Default::default() };
-    let bad = LawpackFacts { mcp_local_first: false, ..Default::default() };
-    assert!(passes(&inv, &state, &good), "INV-011 passes when MCP is local-first");
-    assert!(!passes(&inv, &state, &bad), "INV-011 must fail on a public MCP bind");
+    let good = LawpackFacts {
+        mcp_local_first: true,
+        ..Default::default()
+    };
+    let bad = LawpackFacts {
+        mcp_local_first: false,
+        ..Default::default()
+    };
+    assert!(
+        passes(&inv, &state, &good),
+        "INV-011 passes when MCP is local-first"
+    );
+    assert!(
+        !passes(&inv, &state, &bad),
+        "INV-011 must fail on a public MCP bind"
+    );
 }

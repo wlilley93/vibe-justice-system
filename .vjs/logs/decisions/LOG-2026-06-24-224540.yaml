@@ -1,0 +1,12 @@
+id: LOG-2026-06-24-224540
+time: 2026-06-24T22:45:40.097408568+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260624-224540
+decision: Regenerate gazette to publish PC-13 in the public register
+basis:
+- PERMIT-1782341140
+risk: low
+reversibility: easy
+court_required: false
+why: 'REG-GAZETTE-CONTINUITY-001: the rendered register must reflect the in-force ruling'

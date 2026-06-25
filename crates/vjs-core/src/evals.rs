@@ -9,10 +9,10 @@
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 
-use crate::route::route;
-use crate::spec::{evaluate_invariants, Invariant, RepoState};
-use crate::types::*;
 use crate::KernelContext;
+use crate::route::route;
+use crate::spec::{Invariant, RepoState, evaluate_invariants};
+use crate::types::*;
 
 #[derive(Clone, Debug, serde::Serialize)]
 pub struct EvalCaseResult {
@@ -104,8 +104,12 @@ fn find<'a>(invariants: &'a [Invariant], id: &str) -> Option<&'a Invariant> {
 fn passes(inv: &Invariant, state: &RepoState) -> bool {
     // These eval fixtures exercise the staged/content predicates on synthetic
     // repo state; the whole-lawpack facts are permissive here by default.
-    let report = evaluate_invariants(state, std::slice::from_ref(inv), &crate::spec::LawpackFacts::default())
-        .expect("eval");
+    let report = evaluate_invariants(
+        state,
+        std::slice::from_ref(inv),
+        &crate::spec::LawpackFacts::default(),
+    )
+    .expect("eval");
     report.findings.first().map(|f| f.passed).unwrap_or(false)
 }
 
@@ -148,7 +152,10 @@ pub fn run_agent_harness_suite(invariants: &[Invariant]) -> EvalReport {
             let mut st2 = empty_state();
             st2.changed_paths
                 .push(PathBuf::from(".vjs/hooks/session-hint.txt"));
-            let long = (0..60).map(|i| format!("w{}", i)).collect::<Vec<_>>().join(" ");
+            let long = (0..60)
+                .map(|i| format!("w{}", i))
+                .collect::<Vec<_>>()
+                .join(" ");
             st2.file_contents
                 .insert(PathBuf::from(".vjs/hooks/session-hint.txt"), long);
             let caught = !passes(inv, &st2);
@@ -214,8 +221,9 @@ pub fn run_agent_harness_suite(invariants: &[Invariant]) -> EvalReport {
             let mut st2 = empty_state();
             st2.changed_paths
                 .push(PathBuf::from("crates/vjs-mcp/src/lib.rs"));
-            st2.changed_paths
-                .push(PathBuf::from("crates/vjs-testkit/tests/agent_harness_evals.rs"));
+            st2.changed_paths.push(PathBuf::from(
+                "crates/vjs-testkit/tests/agent_harness_evals.rs",
+            ));
             let ok = passes(inv, &st2);
             results.push(case(
                 "harness_change_with_eval",

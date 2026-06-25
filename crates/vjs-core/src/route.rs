@@ -1,14 +1,11 @@
-use crate::types::*;
-use crate::error::*;
+use crate::KernelContext;
 use crate::authority::*;
 use crate::court::*;
-use crate::KernelContext;
+use crate::error::*;
 use crate::rank_value;
+use crate::types::*;
 
-pub fn route(
-    input: RouteInput,
-    ctx: &KernelContext,
-) -> Result<RouteDecision, KernelError> {
+pub fn route(input: RouteInput, ctx: &KernelContext) -> Result<RouteDecision, KernelError> {
     validate_input(&input)?;
 
     let jurisdiction = resolve_jurisdiction(&input, ctx)?;
@@ -19,13 +16,7 @@ pub fn route(
     let court_trigger = detect_court_trigger(&input, &authorities, &conflicts, &boundary);
     let court = court_trigger.as_ref().map(|t| choose_court(&input, t));
 
-    let outcome = decide_route(
-        &input,
-        &authorities,
-        &conflicts,
-        &boundary,
-        &court_trigger,
-    );
+    let outcome = decide_route(&input, &authorities, &conflicts, &boundary, &court_trigger);
 
     let log_required = log_required(&input, &outcome);
     let must_do = build_must_do(&input, &outcome);
@@ -39,7 +30,10 @@ pub fn route(
         outcome,
         RouteOutcome::Allowed | RouteOutcome::AllowedWithConditions
     ) {
-        Some(PermitId(format!("PERMIT-{}", chrono::Utc::now().timestamp())))
+        Some(PermitId(format!(
+            "PERMIT-{}",
+            chrono::Utc::now().timestamp()
+        )))
     } else {
         None
     };

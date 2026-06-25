@@ -4,8 +4,8 @@
 //! validate_obligations reports real satisfaction instead of hardcoded false.
 
 use std::path::{Path, PathBuf};
+use vjs_core::spec::{Permit, Proof, SpecSet, validate_obligations};
 use vjs_core::*;
-use vjs_core::spec::{validate_obligations, Permit, Proof, SpecSet};
 use vjs_lawpack::*;
 
 fn build_kernel_context(repo: &Path) -> Result<KernelContext, vjs_core::error::KernelError> {
@@ -46,7 +46,10 @@ fn a_court_required_route_walks_away_without_a_permit() {
     let mut input = route_input(RiskLevel::Critical, Some("default"));
     input.issue_tags = vec![IssueTag("zz-no-authority-mentions-this-zz".into())];
     let decision = route(input, &ctx).unwrap();
-    assert!(decision.court_required, "precondition: this route must go to court");
+    assert!(
+        decision.court_required,
+        "precondition: this route must go to court"
+    );
     assert!(
         decision.permit_id.is_none(),
         "a matter routed to court must not walk off with a permit id"
@@ -77,7 +80,12 @@ fn scoped_authority(jurisdictions: Vec<&str>) -> Authority {
         issue_tags: Vec::new(),
         scope: Some(Scope {
             paths: None,
-            jurisdictions: Some(jurisdictions.into_iter().map(|j| JurisdictionId(j.into())).collect()),
+            jurisdictions: Some(
+                jurisdictions
+                    .into_iter()
+                    .map(|j| JurisdictionId(j.into()))
+                    .collect(),
+            ),
             action_kinds: None,
             issue_tags: None,
             records: None,
@@ -110,7 +118,10 @@ fn a_jurisdiction_scoped_authority_rejects_an_input_with_no_jurisdiction() {
 #[test]
 fn a_wildcard_jurisdiction_scope_accepts_any_input() {
     assert_eq!(
-        resolve_with(scoped_authority(vec!["*"]), &route_input(RiskLevel::Low, None)),
+        resolve_with(
+            scoped_authority(vec!["*"]),
+            &route_input(RiskLevel::Low, None)
+        ),
         1
     );
     assert_eq!(
@@ -164,7 +175,11 @@ fn proof_exists_takes_its_kind_from_proof_kind_not_id() {
     };
     match raw.to_predicate().unwrap() {
         PredicateExpr::ProofExists { kind } => {
-            assert_eq!(kind.as_deref(), Some("test_result"), "kind must come from proof_kind, not id");
+            assert_eq!(
+                kind.as_deref(),
+                Some("test_result"),
+                "kind must come from proof_kind, not id"
+            );
         }
         other => panic!("expected ProofExists, got {:?}", other),
     }
@@ -262,7 +277,10 @@ fn a_failed_proof_does_not_satisfy_a_proof_obligation() {
     specs.proofs.insert(proof.id.clone(), proof);
 
     let report = validate_obligations(&permit_id, &specs, &[]).unwrap();
-    assert!(!report.findings[0].satisfied, "a failed proof is not performance");
+    assert!(
+        !report.findings[0].satisfied,
+        "a failed proof is not performance"
+    );
 }
 
 fn repo_root() -> PathBuf {

@@ -39,14 +39,20 @@ fn the_meta_block_binds_the_publication_to_the_record() {
     );
 
     let items = d["items"].as_array().unwrap();
-    assert_eq!(meta["counts"]["total"].as_u64().unwrap() as usize, items.len());
+    assert_eq!(
+        meta["counts"]["total"].as_u64().unwrap() as usize,
+        items.len()
+    );
 }
 
 #[test]
 fn assent_is_echoed_from_the_law_never_minted() {
     let d = data();
-    const ALLOWED: [&str; 3] =
-        ["sovereign_assent", "standing_bounded_assent", "pending_v1_constitutional_route"];
+    const ALLOWED: [&str; 3] = [
+        "sovereign_assent",
+        "standing_bounded_assent",
+        "pending_v1_constitutional_route",
+    ];
     for item in d["items"].as_array().unwrap() {
         if item["estate"] != "v2" {
             continue;
@@ -65,7 +71,12 @@ fn assent_is_echoed_from_the_law_never_minted() {
                     "{}: published assent must equal the law's",
                     item["id"]
                 );
-                assert!(ALLOWED.contains(&v.as_str()), "{}: '{}' not an allowed form", item["id"], v);
+                assert!(
+                    ALLOWED.contains(&v.as_str()),
+                    "{}: '{}' not an allowed form",
+                    item["id"],
+                    v
+                );
             }
             None => assert!(
                 item.get("assent_source").is_none(),
@@ -104,7 +115,11 @@ fn the_atom_feed_is_complete_inert_and_dateworthy() {
 
     assert!(xml.starts_with("<?xml"));
     assert!(xml.contains(r#"xmlns="http://www.w3.org/2005/Atom""#));
-    assert_eq!(xml.matches("<entry>").count(), items.len(), "every item is an entry");
+    assert_eq!(
+        xml.matches("<entry>").count(),
+        items.len(),
+        "every item is an entry"
+    );
     assert!(
         xml.contains("REG-GAZETTE-CONTINUITY-001"),
         "the inertness clause rides the feed itself"
@@ -117,7 +132,11 @@ fn the_atom_feed_is_complete_inert_and_dateworthy() {
             assert!(seen.insert(id.to_string()), "duplicate feed id: {}", id);
         }
     }
-    assert_eq!(seen.len(), items.len() + 1, "one feed id plus one per entry");
+    assert_eq!(
+        seen.len(),
+        items.len() + 1,
+        "one feed id plus one per entry"
+    );
 
     // The feed's updated is the max entry updated (regeneration on unchanged
     // law is byte-identical; generation time never leaks into the feed).
@@ -132,7 +151,10 @@ fn the_atom_feed_is_complete_inert_and_dateworthy() {
         .unwrap()
         .trim_end_matches("</updated>");
     assert_eq!(feed_updated, format!("{}T00:00:00Z", max_updated));
-    assert!(!xml.contains(&d["generated_at"].as_str().unwrap()[..16]), "no generation timestamp in the feed");
+    assert!(
+        !xml.contains(&d["generated_at"].as_str().unwrap()[..16]),
+        "no generation timestamp in the feed"
+    );
 }
 
 #[test]
@@ -144,13 +166,19 @@ fn the_pages_are_archival_offline_and_self_hosted() {
             "{}: a record must not load script from a third party",
             page
         );
-        assert!(html.contains("<noscript"), "{}: noscript trust statement", page);
+        assert!(
+            html.contains("<noscript"),
+            "{}: noscript trust statement",
+            page
+        );
         assert!(html.contains("application/atom+xml"), "{}: feed link", page);
         assert!(html.contains("og:image"), "{}: social metadata", page);
     }
     let vendored = repo_root().join("assets/vendor/force-graph.min.js");
     assert!(
-        std::fs::metadata(&vendored).map(|m| m.len() > 50_000).unwrap_or(false),
+        std::fs::metadata(&vendored)
+            .map(|m| m.len() > 50_000)
+            .unwrap_or(false),
         "vendored force-graph present and non-trivial"
     );
 }
@@ -174,10 +202,20 @@ fn court_orders_render_as_text_and_the_machine_record() {
             id
         );
         // it renders from its committed text body
-        assert_eq!(item["has_text"], serde_json::json!(true), "{}: order has renderable text", id);
+        assert_eq!(
+            item["has_text"],
+            serde_json::json!(true),
+            "{}: order has renderable text",
+            id
+        );
         // the machine YAML the page links as secondary is a real committed file
         let path = item["path"].as_str().unwrap_or_default();
-        assert!(repo_root().join(path).exists(), "{}: the machine record exists at {}", id, path);
+        assert!(
+            repo_root().join(path).exists(),
+            "{}: the machine record exists at {}",
+            id,
+            path
+        );
     }
 }
 
@@ -217,8 +255,17 @@ fn the_workplan_order_terms_hold_on_the_register() {
                 item["id"]
             );
             if !pdf.is_empty() {
-                assert!(repo_root().join(pdf).exists(), "{}: carried PDF exists at {}", item["id"], pdf);
-                assert!(!pdf.starts_with("http"), "{}: the Gazette serves its own PDFs", item["id"]);
+                assert!(
+                    repo_root().join(pdf).exists(),
+                    "{}: carried PDF exists at {}",
+                    item["id"],
+                    pdf
+                );
+                assert!(
+                    !pdf.starts_with("http"),
+                    "{}: the Gazette serves its own PDFs",
+                    item["id"]
+                );
             }
         }
     }
@@ -234,7 +281,11 @@ fn the_jsonld_graph_mirrors_the_register() {
         serde_json::from_str(&html[s..e].replace("<\\/", "</")).expect("jsonld parses");
     let graph = ld["@graph"].as_array().unwrap();
     let items = data()["items"].as_array().unwrap().len();
-    assert_eq!(graph.len(), items + 1, "one Periodical plus one Legislation per item");
+    assert_eq!(
+        graph.len(),
+        items + 1,
+        "one Periodical plus one Legislation per item"
+    );
     assert!(graph.iter().skip(1).all(|n| n["@type"] == "Legislation"));
     assert!(
         !html[s..e].contains("legislationLegalForce"),

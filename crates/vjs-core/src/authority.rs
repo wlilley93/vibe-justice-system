@@ -1,9 +1,9 @@
-use crate::types::*;
-use crate::error::*;
-use crate::AuthorityGraph;
 use crate::Authority;
+use crate::AuthorityGraph;
+use crate::error::*;
 use crate::remove_superseded;
 use crate::sort_by_rank_then_specificity_then_date;
+use crate::types::*;
 
 pub fn resolve_authority(
     input: &RouteInput,
@@ -13,7 +13,12 @@ pub fn resolve_authority(
         .authorities
         .values()
         .filter(|a| a.status.is_live())
-        .filter(|a| a.scope.as_ref().map(|s| scope_matches(s, input)).unwrap_or(true))
+        .filter(|a| {
+            a.scope
+                .as_ref()
+                .map(|s| scope_matches(s, input))
+                .unwrap_or(true)
+        })
         .cloned()
         .collect();
 
@@ -57,14 +62,16 @@ fn scope_matches(scope: &Scope, input: &RouteInput) -> bool {
     }
 
     if let Some(ref action_kinds) = scope.action_kinds
-        && !action_kinds.contains(&input.action_kind) {
-            return false;
-        }
+        && !action_kinds.contains(&input.action_kind)
+    {
+        return false;
+    }
 
     if let Some(ref issue_tags) = scope.issue_tags
-        && !input.issue_tags.iter().any(|it| issue_tags.contains(it)) {
-            return false;
-        }
+        && !input.issue_tags.iter().any(|it| issue_tags.contains(it))
+    {
+        return false;
+    }
 
     true
 }
