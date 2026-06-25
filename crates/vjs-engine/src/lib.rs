@@ -435,6 +435,14 @@ fn staged_gates(
         .iter()
         .find(|o| o.id == "2026-VJS-COURTS-CONSTITUTION-001")
     {
+        // PC-17 D1 corpus: every defined id (incl. section ids), every defined citation,
+        // and the in-force subset (defined minus superseded). Computed once.
+        let defined_ids = vjs_lawpack::defined_ids(lawpack);
+        let defined_citations = vjs_lawpack::defined_citations(lawpack);
+        let superseded = vjs_lawpack::superseded_ids(lawpack);
+        let in_force: std::collections::HashSet<String> =
+            defined_ids.difference(&superseded).cloned().collect();
+
         for rel in changed
             .iter()
             .filter(|p| p.starts_with("lawpack/v2/orders/") && p.ends_with(".yaml"))
@@ -464,6 +472,83 @@ fn staged_gates(
                         .at(PathBuf::from(rel))
                         .fix("Add the missing field before recording the order."),
                     );
+                }
+            }
+            // PC-17 D1-D5: citation-grounding over the order's OPERATIVE parts (holding +
+            // each directive's must + each forbidden clause). Existence-only; never reads
+            // what the cited authority says (D7/D8). Self-reference (D4(c)): seed the
+            // order's own id + citation so a forward self-reference resolves to itself.
+            {
+                let mut operative = order.holding.clone();
+                for d in &order.directives {
+                    operative.push('\n');
+                    operative.push_str(&d.must);
+                }
+                if let Some(forbidden) = &order.forbidden {
+                    for clause in forbidden {
+                        operative.push('\n');
+                        operative.push_str(clause);
+                    }
+                }
+                // D7: explicitly-listed operative authorities (the machine-resolvable
+                // mechanism that extends the teeth past lossy snake_case directive bodies).
+                if let Some(cites) = &order.cites_authorities {
+                    for a in cites {
+                        operative.push('\n');
+                        operative.push_str(a);
+                    }
+                }
+                let mut defined_self = defined_ids.clone();
+                defined_self.insert(order.id.clone());
+                let mut cites_self = defined_citations.clone();
+                let mut in_force_self = in_force.clone();
+                in_force_self.insert(order.id.clone());
+                if let Some(c) = &order.citation {
+                    let norm = c.split_whitespace().collect::<Vec<_>>().join(" ");
+                    cites_self.insert(norm.clone());
+                    in_force_self.insert(norm);
+                }
+                for (tok, grounding) in vjs_lawpack::refs::ground_operative(
+                    &operative,
+                    &defined_self,
+                    &cites_self,
+                    &in_force_self,
+                ) {
+                    match grounding {
+                        // D2: Fatal but CORRECTABLE (not constitutive) - the existing
+                        // assent floor routes it for correction on a resolving order and
+                        // leaves it Fatal otherwise. The finding states the existence
+                        // fact; it never brands the order void (per-incuriam voidness is
+                        // for a court on appeal, REG-KERNEL-001 clerk-not-court).
+                        vjs_lawpack::refs::Grounding::Unresolved => findings.push(
+                            f(
+                                Severity::Fatal,
+                                "ORDER_CITATION_UNRESOLVED",
+                                format!(
+                                    "Operative citation '{tok}' resolves to no defined authority \
+                                     (per-incuriam existence limb; ACT-002:s7, REG-KERNEL-001). \
+                                     Routed for correction, not voided."
+                                ),
+                            )
+                            .at(PathBuf::from(rel))
+                            .citing("ACT-002:s7")
+                            .fix("Correct the citation to a defined authority, or remove it."),
+                        ),
+                        // D3: defined-but-not-in-force is advisory only, never blocks.
+                        vjs_lawpack::refs::Grounding::NotInForce => findings.push(
+                            f(
+                                Severity::Warning,
+                                "ORDER_CITATION_NOT_IN_FORCE",
+                                format!(
+                                    "Operative citation '{tok}' resolves to a defined but \
+                                     superseded/spent authority (existence satisfied; aptness of \
+                                     relying on historical law is out of scope, PC-17 D3)."
+                                ),
+                            )
+                            .at(PathBuf::from(rel)),
+                        ),
+                        vjs_lawpack::refs::Grounding::Resolved => {}
+                    }
                 }
             }
             // #9 subject-tier advisory.

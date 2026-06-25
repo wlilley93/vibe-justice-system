@@ -78,4 +78,8 @@ fn constitutive_codes_are_the_void_ab_initio_grounds() {
     assert!(!is_constitutive("S5_INERT_KERNEL_EFFECT"));
     assert!(!is_constitutive("ORDER_MALFORMED"));
     assert!(!is_constitutive("DANGLING_REFERENCE"));
+    // [2026] VJS-PC 17 D2: an unresolved operative citation is Fatal but CORRECTABLE - it
+    // must NOT be constitutive, so a resolving order's citation defect routes for
+    // correction rather than voiding the order (per-incuriam voidness is for a court).
+    assert!(!is_constitutive("ORDER_CITATION_UNRESOLVED"));
 }
