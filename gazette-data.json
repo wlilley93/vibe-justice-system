@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-25T17:41:34.253458958+00:00",
+  "generated_at": "2026-06-25T20:14:24.317455953+00:00",
   "items": [
     {
       "affirmed_by": [],
@@ -2760,6 +2760,65 @@
       "affirmed_by": [],
       "affirms": [],
       "assent_source": "standing_bounded_assent",
+      "bench": [
+        "Atkin",
+        "Bingham",
+        "Denning"
+      ],
+      "case_file_digest": "sha256:4344c70a40bde0080ca53e627c7bcd78a61caeae95b7fd6a49b47625e8a0b58c",
+      "citation": "[2026] VJS-PC 18",
+      "cites": [
+        "2026-VJS-PC-016",
+        "ACT-002",
+        "ACT-003",
+        "ACT-ASSENTED-RECORD-PROTECTION",
+        "ACT-COMPUTER-FIRST-REALM",
+        "REG-KERNEL-001"
+      ],
+      "convened_at": "2026-06-25T16:33:55.127433337+00:00",
+      "court": "pc",
+      "date": "2026-06-25",
+      "doc": "law.html#2026-VJS-PC-018",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-PC-018",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": ".vjs/submissions/filed/2026-VJS-PC-018-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-018-opinions.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-PC-018.yaml",
+      "points": [
+        "affirm and make explicit in canon that an order s standing bounded assent never shelters a constitutive defect the constitutive codes bench required tier not constituted bench size mismatch bench silent seat bench opinion missing citation collision apex record in subscribing jurisdiction are the operative closure for the order class and are never assent downgradeable no kernel change is required beyond a one line comment in crates vjs engine src assent rs at the standing bounded assent arm noting that an order s standing is borne by the constitutive validity codes not by this permissive trace so the trace cannot launder an order s void ab initio grounds keep the existing end to end proofs green forged standing bounded order is still blocked and constitutive bench defect not downgraded even for an established assented order",
+        "do not tighten the kernel s standing bounded assent resolution for the regulation class at this time position c reserve leave assent rs assent resolves unchanged in its regulation handling and build no new narrowing gate the permissive founded trace stays as the conservative floor safe status quo because over sheltering never narrows a genuine record whereas a hasty per instrument force gate would and a substantial set of in force regulations reg kernel 001 among them carry no per instrument provenance event record this reservation citing 2026 vjs pc 16 d4 and d7",
+        "record the interpretive ratio of this order so a future triggered build is a bounded refinement not a fresh constitutional question a majority bingham j and denning j holds that requiring a regulation s standing bounded assent to trace by route class to the specific recorded framework act s7 sovereign assent commencement v2 0002 framework act text digest sha256 90e843c1dbdcdb2e2c7026d1064a457cf7ea1dbfe80526eff96b1f7e03850470 is faithful interpretation of act computer first realm s23 and within this council s power and non narrowing provided the established canon carve out shelters every existing in force regulation and a non resolving new regulation is routed for correction record also atkin j s concurrence in the result that the residual closing per instrument force gate would narrow vjs act 10 s1 for a genuinely made new regulation and is reserved to the sovereign the residual being irreducible by lawful machinery the present permissive check is recorded as under faithful but floor safe and retained on that footing",
+        "record the route map and the trigger for the reserved build in docs standing routes analysis md the routes are orders to a constituted bench under act 002 already closed by the constitutive codes regulations to the framework s7 power terminating at the recorded framework assent and the founding corpus to the commencement records the trigger under the speclaw 3 demonstrated need test is a recorded regulation laundering breach a non constitutive fatal actually downgraded on a non genuine regulation via standing bounded assent or an express court or principal direction not the bench s appetite to tidy a residual update the deferred breach record breach 2026 06 25 assent resolution under implementation to point its deferred entry at this order",
+        "bind as conditions on any future build so a later builder cannot narrow the floor one the established canon carve out established at head must shelter every regulation committed in canon at head so not one existing in force regulation loses its floor two a non resolving new regulation must be routed to record its enactment provenance trace never voided or blocked the underlying finding keeping native severity only because by s23 an unresolved trace was never sheltered three the terminal anchor must be a specific recorded digest pinned sovereign assent the framework assent for the s7 route never a kernel invented gate four the check must stay pure clerk recorded event lookup digest compare existing scope and date coverage with no merits judgment of valid making beyond the recorded trace s existence reg kernel 001 inv kernel 001 and five if at build time any in force regulation cannot be sheltered by the carve out stop and self file per 2026 vjs pc 16 d7 the cure being to record that regulation s trace never to strip its floor",
+        "optional at engineering discretion and compelled by no court order the kernel may surface an advisory warning route for correction never fatal never a floor strip when a new regulation carries no enactment provenance attachment as a deterministic nudge toward the good practice fully consistent with vjs act 10 surface a defect never void or block if built it must be a warning only and must never downgrade block void or strip any record s floor the moment it would strip a floor it is barred",
+        "apply the demonstrated need speclaw 3 discipline build no regulation tightening as machinery now and file no breach on this point the kernel as built is not below the standard of reasonable skill and care pc 16 deliberately and lawfully reserved this question and this bench has now decided to reserve it change nothing that narrows the floor build under the lawful route amending no statute no invariant no bench no tier and no assent rule and route nothing to the sovereign as an amendment file this judgment and the opinions of the full bench verbatim as the source opinion of record record the resulting privy council order in canon through a real convened odd bench of three each carrying a real opinion allocate the citation through the kernel vjs citation next never hand asserting a number pin the case file digest to sha256 4344c70a40bde0080ca53e627c7bcd78a61caeae95b7fd6a49b47625e8a0b58c pass the bench integrity gate and verify by deterministic proof no model add a citator row citing act computer first realm s23 and s10 act consolidation framework s7 and s25 act assented record protection s1 and s2 inv assent source 001 reg kernel 001 and 2026 vjs pc 16",
+        "for noting only not a requirement of this cure nothing in this judgment needs the sovereign s assent because nothing entrenched is amended the floor stands at full height and the retained permissive check errs only toward over sheltering never toward narrowing a genuine record should the realm ever wish to make per instrument enactment provenance a condition of force for regulations so that its absence strips the floor or holds a fatal at fatal or otherwise to narrow the floor below what it now guarantees that alters what tracing to specific sovereign assent requires for the regulation class and is reserved exclusively to a sovereign assented constitutional act citing act computer first realm s23 and act assented record protection by number this bench neither requests nor pre empts that choice and the cure of d1 to d7 is effective on this order and is not conditional on any such act"
+      ],
+      "question": "On the Reference re Standing-Route Resolution (SUBMISSION-2026-06-25-standing-route-resolution), the residual reserved by [2026] VJS-PC 16 at D4/D7. The kernel (crates/vjs-engine/src/assent.rs) today resolves a standing_bounded_assent claim permissively: the `founded` predicate confirms only that the Realm is Sovereign-founded (the corpus contains some sovereign_assent_event or royal_assent anywhere), not that THIS record traces to it. So a non-constitutive Fatal on a non-order regulation could, in principle, be laundered by typing the two entrenched words. The submission asks whether the kernel should tighten that to \"the record traces to a recorded per-class standing route\", on the model of [2026] VJS-PC 16's treatment of sovereign_assent, so that a regulation must trace to the Framework Act s.7 power terminating at the recorded Sovereign assent (COMMENCEMENT-V2-0002). The stated prize is to close a narrow residual: laundering a non-constitutive Fatal on a non-order regulation by typing the known words. Per question: (Q1 ADOPT/TIGHTEN) should a deterministic, model-free gate require a standing_bounded_assent record to trace to a recorded per-class route, and is that machinery or a new substantive duty; (Q2 INTERPRETATION vs NARROWING) is such a tightening faithful interpretation of ACT-COMPUTER-FIRST-REALM s.23 achievable without narrowing the entrenched ACT-ASSENTED-RECORD-PROTECTION s.1 floor (with the established-canon carve-out), or would it narrow the floor for a genuinely-made regulation and so be reserved to a Sovereign-assented Act; and (Q3 MECHANISM + MIGRATION) by what mechanism and migration, and should the build proceed now or be reserved on a recorded interpretive ratio, route map, trigger, and non-narrowing conditions. The positions: A (tighten now, as interpretation), B (do not build; treat the permissive trace as the accepted irreducible remainder, or any narrowing as reserved to the Sovereign), C (reserve the build, recording the route, the interpretive ratio, the trigger, and the non-narrowing conditions).",
+      "status": "superseded",
+      "subject": "whether the kernel should tighten the resolution of standing bounded assent from the present permissive check that the realm is sovereign founded to a requirement that the record trace to a recorded per class standing route so as to close the residual by which a non constitutive fatal could be laundered onto a non order regulation by typing the entrenched words and if so whether that tightening is faithful interpretation achievable without narrowing with the established canon carve out or a narrowing of the entrenched act assented record protection floor reserved to the sovereign and whether the build should proceed now or be reserved on the recorded interpretive ratio route map trigger and non narrowing conditions",
+      "summary": "The kernel today resolves a standing_bounded_assent claim permissively: assent.rs's `founded` check confirms only that the Realm is Sovereign-founded (some sovereign_assent_event exists somewhere), not that THIS record traces to it.",
+      "superseded_by": [
+        "2026-VJS-SC-005"
+      ],
+      "supersedes": [],
+      "title": "Standing-Route Resolution of Standing_bounded_assent",
+      "ts": "2026-06-25T16:40:00+00:00",
+      "updated": "2026-06-25",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-018.yaml",
+      "varied_by": [],
+      "varies": [],
+      "vote": "2-1 (Atkin J. and Denning J. for the majority; Bingham J. dissenting): POSITION C - RESERVE - prevails on the disposition. The kernel does NOT tighten the standing_bounded_assent resolution for the regulation class now; the orders and apex vector is already closed by the constitutive-validity codes independent of any assent claim, and is affirmed and made explicit. The permissive `founded` trace is retained for regulations as the conservative, floor-safe status quo, because over-sheltering never narrows a genuine record whereas a hasty per-instrument force-gate would. On Q2 a DIFFERENT majority (Bingham J. and Denning J.) holds that requiring a regulation's standing_bounded_assent to trace BY ROUTE-CLASS to the recorded Framework Act s.7 Sovereign assent (COMMENCEMENT-V2-0002) IS faithful interpretation of ACT-COMPUTER-FIRST-REALM s.23 and within this Council's power, and is non-narrowing, PROVIDED the established-canon carve-out shelters every existing in-force regulation and a non-resolving new regulation is routed for correction, not voided; that interpretive ratio and the binding non-narrowing conditions are recorded so a future, triggered build is a bounded refinement, not a fresh constitutional question. Atkin J. concurs in the RESERVE result but DIVIDES on Q2: he holds the residual-closing per-instrument FORCE-GATE would narrow VJS-ACT 10 s.1 for a genuinely-made new regulation and is therefore barred as constitutive change reserved exclusively to the Sovereign, the regulation-laundering residual being irreducible by lawful machinery. Bingham J. DISSENTS on the disposition: he would adopt Position A and BUILD the recorded-route resolution now as interpretation, the build being cheap, symmetric with PC-16, and non-narrowing under the carve-out. The whole bench agrees a per-instrument hard precondition WITHOUT a complete carve-out would narrow the entrenched floor and is reserved exclusively to a Sovereign-assented Act. Nothing is built that narrows; nothing is routed to the Sovereign as a requirement."
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "assent_source": "standing_bounded_assent",
       "citation": "[2026] VJS-SC 1",
       "cites": [
         "2026-VJS-PC-001"
@@ -2926,6 +2985,7 @@
       "case_file_digest": "sha256:4344c70a40bde0080ca53e627c7bcd78a61caeae95b7fd6a49b47625e8a0b58c",
       "citation": "[2026] VJS-SC 5",
       "cites": [
+        "2026-VJS-PC-018",
         "ACT-003",
         "ACT-ASSENTED-RECORD-PROTECTION",
         "ACT-COMPUTER-FIRST-REALM",
@@ -2961,7 +3021,9 @@
       "subject": "standing route resolution route class refinement built as interpretation per instrument force gate reserved",
       "summary": "Apex order (7-2 build; 9-0 on the constitutional crux), settling the three-way Privy fracture in [2026] VJS-PC 18 de novo.",
       "superseded_by": [],
-      "supersedes": [],
+      "supersedes": [
+        "2026-VJS-PC-018"
+      ],
       "title": "Reference Re Standing-Route Resolution: the Route-class Refinement Is Built Now as Faithful Non-narrowing Interpretation; the Per-instrument Force-gate Is Reserved to the Sovereign",
       "ts": "2026-06-25T17:20:00+00:00",
       "updated": "2026-06-25",
@@ -4670,14 +4732,14 @@
   "meta": {
     "counts": {
       "archive": 37,
-      "canon": 73,
-      "total": 110
+      "canon": 74,
+      "total": 111
     },
     "lawpack": {
       "digest": "sha256:14cdb3337039ffdbe4f007fcb6fc5fd634cb0e7f6218e201555ab5de45868f9f",
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "b084d61d4774f4ebaf296c8a9bd7f3ee0b668049"
+    "source_commit": "919974ceb41330b4788c4a02871f27e5ad9e48fe"
   }
 }

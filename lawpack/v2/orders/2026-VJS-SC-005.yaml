@@ -9,7 +9,7 @@ issue: standing_route_resolution_route_class_refinement_built_as_interpretation_
 appeal_of: "PC-18 (Principal leapfrog)"
 appealable: false
 supersedes:
-  - "[2026] VJS-PC 18"
+  - "2026-VJS-PC-018"
 question: >
   On the Principal's leapfrog certificate from the fractured Privy Council ([2026] VJS-PC 18): (Q1, ADOPT or
   TIGHTEN) should the kernel keep resolving a regulation's standing_bounded_assent on the bare `founded`

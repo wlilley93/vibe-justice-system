@@ -53,6 +53,17 @@
     <summary type="text">The bench-integrity gate checks only that an order came from a real, odd, fully-seated bench; it never reads the LAW the order cites.</summary>
   </entry>
   <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-018</id>
+    <title>Standing-Route Resolution of Standing_bounded_assent</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-018"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-018.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-25T00:00:00Z</published>
+    <updated>2026-06-25T00:00:00Z</updated>
+    <summary type="text">The kernel today resolves a standing_bounded_assent claim permissively: assent.rs&apos;s `founded` check confirms only that the Realm is Sovereign-founded (some sovereign_assent_event exists somewhere), not that THIS record traces to it.</summary>
+  </entry>
+  <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-004</id>
     <title>Unsatisfiable-enforcement-gate Auto-justiciability + Recorded-disposition Consultation (ACT-003 s10/s11 Ratification)</title>
     <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-004"/>

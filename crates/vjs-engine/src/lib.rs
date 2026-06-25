@@ -440,8 +440,41 @@ fn staged_gates(
         let defined_ids = vjs_lawpack::defined_ids(lawpack);
         let defined_citations = vjs_lawpack::defined_citations(lawpack);
         let superseded = vjs_lawpack::superseded_ids(lawpack);
-        let in_force: std::collections::HashSet<String> =
+        let mut in_force: std::collections::HashSet<String> =
             defined_ids.difference(&superseded).cloned().collect();
+        // A CITATION is in force when its owning record is in force (status binding/
+        // in_force, not superseded). Without this a citation token - never an id - would
+        // always read NOT_IN_FORCE, falsely flagging a reference to a binding order.
+        let norm = |c: &str| c.split_whitespace().collect::<Vec<_>>().join(" ");
+        let live = |st: &vjs_core::types::AuthorityStatus| {
+            matches!(
+                st,
+                vjs_core::types::AuthorityStatus::Binding
+                    | vjs_core::types::AuthorityStatus::InForce
+            )
+        };
+        for o in &lawpack.orders {
+            if let Some(c) = &o.citation
+                && live(&o.status)
+                && !superseded.contains(&o.id)
+            {
+                in_force.insert(norm(c));
+            }
+        }
+        for s in &lawpack.statutes {
+            if let Some(c) = &s.citation
+                && live(&s.status)
+            {
+                in_force.insert(norm(c));
+            }
+        }
+        for r in &lawpack.regulations {
+            if let Some(c) = &r.citation
+                && live(&r.status)
+            {
+                in_force.insert(norm(c));
+            }
+        }
 
         for rel in changed
             .iter()
