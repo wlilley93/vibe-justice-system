@@ -64,9 +64,9 @@ fn all_fn_names(root: &Path) -> BTreeSet<String> {
 #[test]
 fn global_invariants_are_bound_and_debt_ratchets_down() {
     // The VJS binding debt may only DECREASE. Lower this as invariants are bound to tests
-    // (K-30). 27 in-scope invariants (30 minus 3 n/a); 15 bound, 12 unbound after binding
-    // K-12 (determinism fence), K-25 (surface pin), K-27 (CI trust root) with real tests.
-    const VJS_DEBT_BASELINE: usize = 12;
+    // (K-30). 27 in-scope invariants (30 minus 3 n/a); 20 bound, 7 unbound after building the
+    // unified capability primitive (K-4..K-11) and binding K-12/K-25/K-27 with real tests.
+    const VJS_DEBT_BASELINE: usize = 7;
 
     let root = workspace_root();
     let yaml = std::fs::read_to_string(root.join("docs/global-invariants.yaml"))
