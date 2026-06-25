@@ -1,0 +1,7 @@
+# VJS entrenched-enforcement-surface pin (PC-16 D4). A drift from these digests
+# is a loud, blocking finding. Re-lock with `vjs enforcement-lock` ONLY after a
+# deliberate, recorded gate change (and self-file the rationale).
+crates/vjs-engine/src/assent.rs sha256:beff09d4172a91734b322f6b3722c4e13428edae08d346ddde235861dcc20ccf
+crates/vjs-core/src/front_door.rs sha256:b2eeb309b63d0ebe50914bbedc58b4bba0a53c3a3ccc661c7bc68f80c6dc1dd9
+crates/vjs-core/src/bench.rs sha256:b4b0c936f45e9f5d6618fef67aa94b93397b50d162cfc892fccb2694de0c26e8
+crates/vjs-core/src/enforcement.rs sha256:55cd7a40d166271923c9e9dc791c66a429bf22a16f334fe125c3f20dbf5580fa

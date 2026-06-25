@@ -123,6 +123,10 @@ enum Commands {
     /// (Re)write the atomic install manifest .vjs/install.lock over the current
     /// surface (PC-13 D5). Run after a deliberate surface change to re-lock it.
     InstallLock,
+    /// (Re)pin the entrenched-enforcement surface .vjs/enforcement-surface.lock over the
+    /// current gate-source digests (PC-16 D4). Run ONLY after a deliberate, recorded gate
+    /// change - the re-pin is the visible acknowledgment that a gate moved.
+    EnforcementLock,
     /// Full-spectrum conformance audit (PC-13 D11): enumerate every kernel_effect
     /// duty in canon and report, deterministically, which are bound to a kernel
     /// gate. Writes the conformance map (the D12 predicate).
@@ -343,6 +347,15 @@ fn main() {
         Commands::Status => cmd_status(&repo, json),
         Commands::NextCitation { series, year } => cmd_next_citation(&repo, series, year, json),
         Commands::InstallLock => cmd_install_lock(&repo, json),
+        Commands::EnforcementLock => match vjs_core::enforcement::write_lock(&repo) {
+            Ok(()) => {
+                println!(
+                    "Pinned the entrenched-enforcement surface (.vjs/enforcement-surface.lock)."
+                );
+                Ok(())
+            }
+            Err(e) => Err(KernelError::Io(e.to_string())),
+        },
         Commands::Audit { out } => cmd_audit(&repo, out, json),
         Commands::MigrateV1 { v1_path, out } => cmd_migrate_v1(&v1_path, out, json),
         Commands::Permit { subcmd } => cmd_permit(&repo, subcmd, json),
