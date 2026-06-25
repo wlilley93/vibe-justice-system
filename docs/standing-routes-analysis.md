@@ -48,3 +48,42 @@ entrenched term** - the same character as PC-16 itself, and therefore a matter f
 Privy Council, not a decisive call. It is reserved on that footing. The interim backstop
 is the constitutive-codes exclusion (above) plus the continuing duty of care
 (ACT-003 s.4-s.8), exactly as PC-16 D4 recorded for the irreducible remainder.
+
+## Resolved: [2026] VJS-SC 5 (apex, 9-justice, 7-2) - built now
+
+The reserved tightening was leapfrogged to the Supreme Council on the Principal's
+certificate and decided de novo (settling the fractured PC-18). UNANIMOUS 9-0 on the
+crux: a ROUTE-CLASS trace check, with the established-canon carve-out and route-for-
+correction, is faithful INTERPRETATION of ACT-COMPUTER-FIRST-REALM s.23 and
+NON-NARROWING; a PER-INSTRUMENT FORCE-GATE narrows ACT-ASSENTED-RECORD-PROTECTION s.1
+for a genuinely-made regulation and is RESERVED EXCLUSIVELY to the Sovereign. 7-2 to
+BUILD now (Wilberforce + Simon JJ. dissenting for reserve).
+
+Built (`vjs-engine::assent`, the `standing_bounded_assent` arm): a three-limb,
+deterministic, model-free resolution.
+ - Limb 1 (short-circuit): `established_at_head` - the complete zero-narrowing migration
+   for the committed corpus (committed canon traces to the commencement lock under the
+   founding Sovereign assent, a true recorded trace).
+ - Limb 2 (regulations): the record's declared `authority:` parent resolves to a defined
+   in-force statute (whatever parent the record declares, not a hard-coded s.7).
+ - Limb 3 (orders): a non-empty `bench:` (the constituted-bench route); the constitutive
+   codes independently bar a bench-less order, so this never launders a forged order.
+ - NO per-instrument provenance is required of any regulation.
+
+The five binding non-narrowing conditions on any future builder (apex ratio):
+ 1. `established_at_head` MUST shelter every regulation committed at HEAD - not one loses
+    its floor (proven by the enumerating test over all standing regulations).
+ 2. NO per-instrument provenance record may ever be a CONDITION OF FORCE; its absence may
+    never strip a floor or hold a non-constitutive Fatal at Fatal.
+ 3. The terminal anchor MUST be a specific, recorded, digest-pinned Sovereign assent,
+    never a kernel-invented gate.
+ 4. The check MUST stay pure clerk (recorded-trace existence + digest compare; no merits
+    judgment of valid-making).
+ 5. The PC-16 D7 tripwire is live and absolute: if any genuine record would lose the
+    floor s.1 gives it, STOP, ship nothing, self-file, and route to the Sovereign.
+
+The candid remainder (unanimous): the route-class check raises the forgery bar but does
+NOT close the regulation-laundering residual - a forger may name a real parent - which is
+irreducible by lawful machinery for the regulation class. The backstops are the
+constitutive codes (orders/apex), the Sovereign's gate (s.14), and the duty of care
+(ACT-003 s.4-s.8). The per-instrument force-gate that alone would close it is barred.
