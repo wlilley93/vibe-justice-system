@@ -8,6 +8,7 @@ pub mod citation;
 pub mod court;
 pub mod error;
 pub mod evals;
+pub mod front_door;
 pub mod governance;
 pub mod hook;
 pub mod install;

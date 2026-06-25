@@ -1046,6 +1046,11 @@ fn cmd_validate(
         }));
     }
 
+    // PC-14 D3 assent floor: the set of staged governed records that DECLARE a valid
+    // assent_source. A defect on one of these may never block - it is degraded to
+    // route-for-correction (ACT-ASSENTED-RECORD-PROTECTION), applied as a final pass.
+    let mut assented_record_paths: std::collections::HashSet<String> =
+        std::collections::HashSet::new();
     if staged {
         let changed = GitIntegration::read_staged_files(repo)?;
         if changed.is_empty() {
@@ -1057,6 +1062,14 @@ fn cmd_validate(
                 suggested_fix: None,
             });
         } else {
+            for rel in &changed {
+                if vjs_core::front_door::is_governed_record(rel)
+                    && let Ok(content) = std::fs::read_to_string(repo.join(rel))
+                    && vjs_core::front_door::declares_valid_assent(&content)
+                {
+                    assented_record_paths.insert(rel.clone());
+                }
+            }
             findings.push(ValidationFinding {
                 severity: Severity::Info,
                 code: "STAGED_FILES".into(),
@@ -1337,6 +1350,34 @@ fn cmd_validate(
                 });
             }
         }
+    }
+
+    // PC-14 D3 assent floor (the consolidating limb's other edge): a record DECLARING
+    // a valid assent_source may NEVER be voided or blocked - the instant assent
+    // attaches, every block on that record DEGRADES to route-for-correction
+    // (ACT-ASSENTED-RECORD-PROTECTION; entrenched). Surfaced and flagged, never
+    // silently passed. The non-assented off-door record stays blocked; this only ever
+    // softens, never hardens, and keys solely on the record declaring valid assent.
+    if !assented_record_paths.is_empty() {
+        for f in &mut findings {
+            if matches!(f.severity, Severity::Fatal | Severity::Error)
+                && let Some(p) = &f.path
+                && assented_record_paths.contains(&p.to_string_lossy().to_string())
+            {
+                f.severity = Severity::Warning;
+                f.message = format!(
+                    "[{}: assented record routed for correction, never blocked - ACT-ASSENTED-RECORD-PROTECTION] {}",
+                    vjs_core::front_door::ROUTE_FOR_CORRECTION_CODE,
+                    f.message
+                );
+            }
+        }
+        // After the floor, ok reflects only genuinely blocking findings, so the
+        // downgrade actually unblocks the assented record (every gate that set
+        // ok=false also pushed a Fatal/Error finding).
+        ok = !findings
+            .iter()
+            .any(|f| matches!(f.severity, Severity::Fatal | Severity::Error));
     }
 
     let result = ValidationResult { ok, findings };
