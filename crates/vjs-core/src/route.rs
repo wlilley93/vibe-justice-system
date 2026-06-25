@@ -119,7 +119,9 @@ fn log_required(input: &RouteInput, outcome: &RouteOutcome) -> bool {
         | ActionKind::PublicRecordChange
         | ActionKind::ExternalAct
         | ActionKind::SecuritySensitiveAct
-        | ActionKind::ReleaseOrPush => true,
+        | ActionKind::ReleaseOrPush
+        // PC-15 D4: a governed load-bearing runtime act is always logged.
+        | ActionKind::GovernedLoadBearingAct => true,
         _ => matches!(outcome, RouteOutcome::AllowedWithConditions),
     }
 }

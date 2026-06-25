@@ -858,6 +858,7 @@ dependencies = [
  "sha2",
  "thiserror",
  "vjs-core",
+ "vjs-engine",
  "vjs-lawpack",
  "vjs-mcp",
  "vjs-redact",

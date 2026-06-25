@@ -89,6 +89,32 @@ pub enum ActionKind {
     GovernedLoadBearingAct,
 }
 
+/// [2026] VJS-PC 15 D4: a generic subject-matter partition - the law that governs
+/// CODE changes versus the law that governs RUNTIME operations. ADDITIVE machinery
+/// under ACT-CONSOLIDATION-FRAMEWORK:s7: it sorts subject matter only and confers no
+/// new court, no new apex, and no new assent path. Canon ships the CATEGORY frame
+/// EMPTY; the concrete runtime acts a subscriber governs are supplied in its Tier-2,
+/// never canon-enumerated. A runtime fork still routes to court (ACT-002:s6) and a
+/// runtime act on an assented record stays under VJS-ACT 10.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum LawDomain {
+    CodeGovernance,
+    RuntimeOperations,
+}
+
+impl LawDomain {
+    /// The domain an action falls in. The one runtime-act category
+    /// (`GovernedLoadBearingAct`) sorts to RuntimeOperations; every code-governance
+    /// kind sorts to CodeGovernance. A partition, not a new authority.
+    pub fn of(kind: &ActionKind) -> LawDomain {
+        match kind {
+            ActionKind::GovernedLoadBearingAct => LawDomain::RuntimeOperations,
+            _ => LawDomain::CodeGovernance,
+        }
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum RiskLevel {
