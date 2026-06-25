@@ -1,0 +1,12 @@
+id: LOG-2026-06-25-184025-3
+time: 2026-06-25T18:40:25.066225374+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260625-170432
+decision: Post-hoc decision log fulfilling the OBL-LOG-001 obligation this implementation_decision permit minted. The substantive decision and its full rationale are recorded in the corresponding git commit (the route authorized a machinery/build/court-recording step that landed in canon, validated and pushed).
+basis:
+- PERMIT-1782407072
+risk: low
+reversibility: easy
+court_required: false
+why: The OBL-LOG-001 decision-log obligation must be fulfilled for every implementation_decision route (ACT-004); these permits authorized real committed work but the log was not written at the time. The CI trust-root caught the gap (the permit-obligation gate over the full working tree); cured here.
