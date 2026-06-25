@@ -3,8 +3,8 @@
 Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / must_not / prohibits) in every in-force statute and regulation, with whether it is bound to a deterministic kernel gate. The UNWIRED list is the factual predicate for the reserved D12 single-front-door instrument.
 
 - total duties: 281
-- wired: 37
-- unwired: 244
+- wired: 43
+- unwired: 238
 
 > Triage note: UNWIRED does not mean "must be gated". Many unwired duties are declarative (`defines`-adjacent), one-time/transition acts, or agent-duties that a deterministic gate cannot or need not enforce. The conservative registry marks a duty WIRED only when a named, deterministic gate can be pointed at it, so the map never overstates coverage. D12 triages this list to decide which unwired duties the single-front-door instrument must bite on.
 
@@ -17,8 +17,6 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 | ACT-001:s3 | must | resolve_authority_in_hierarchy |
 | ACT-001:s4 | must_not | load_v1_archive_as_runtime_by_default |
 | ACT-001:s4 | must_not | treat_v1_judgments_as_binding_without_incorporation |
-| ACT-001:s5 | must_not | kernel_call_llm |
-| ACT-001:s5 | must_not | kernel_use_vector_search |
 | ACT-001:s5 | must_not | kernel_render_pdf |
 | ACT-001:s5 | must_not | kernel_auto_publish |
 | ACT-001:s5 | must_not | kernel_replace_human_approval |
@@ -36,7 +34,6 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 | ACT-CONSOLIDATION-FRAMEWORK:s25 | prohibits | amending_an_entrenched_guarantee_by_si_or_kernel |
 | ACT-004:s1 | must | validate_record_schema |
 | ACT-004:s2 | must | evaluate_spec_on_governed_changes |
-| ACT-004:s3 | must_not | use_llm_to_evaluate_invariant |
 | ACT-004:s3 | must_not | use_cosine_for_invariant |
 | ACT-004:s3 | must_not | use_free_form_script_for_invariant |
 | ACT-004:s4 | must | keep_decisions_short |
@@ -90,9 +87,6 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 | ACT-003:s5 | must | correct_the_work |
 | ACT-003:s6 | must_not | agent_act_on_capability_alone |
 | ACT-003:s7 | must | run_vjs_validate |
-| ACT-003:s8 | must_not | add_model_call_to_vjs_core |
-| ACT-003:s8 | must_not | add_vector_search_to_vjs_core |
-| ACT-003:s9 | must_not | add_network_dependency_to_vjs_core |
 | ACT-003:s9 | must_not | add_http_client_to_vjs_core |
 | ACT-003:s10 | must_not | comply_by_breaching_binding_law_floor_or_reservation |
 | ACT-003:s10 | must_not | fabricate_a_pass_to_silence_the_gate |
@@ -261,10 +255,13 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 
 | instrument | kind | duty | gate |
 |---|---|---|---|
+| ACT-001:s5 | must_not | kernel_call_llm | deny.toml (cargo deny bans model crates from the kernel closure) |
+| ACT-001:s5 | must_not | kernel_use_vector_search | deny.toml (no vector-search crate in the kernel closure) |
 | ACT-001:s7 | must | require_authorised_adoption_for_binding_force | PC-16 assent-resolution floor (force only from a resolving adoption) |
 | ACT-001:s7 | must_not | agent_self_authorise_law | PC-16 assent-resolution floor (a self-declared assent resolving to nothing confers no force) |
 | ACT-001:s7 | must_not | agent_draft_becomes_binding_by_fact_of_being_written | PC-14 front door (REG-FRONT-DOOR-001): law only through the commit gate |
 | ACT-004:s3 | must | evaluate_invariants_mechanically | invariant evaluator at validate |
+| ACT-004:s3 | must_not | use_llm_to_evaluate_invariant | invariant evaluator is deterministic, no LLM (ACT-004:s3) |
 | ACT-004:s5 | must | close_permit_with_proof | PermitGate obligations |
 | ACT-004:s5 | must_not | act_without_valid_permit | PermitGate (PERMIT-MISSING) |
 | ACT-004:s8 | must | check_citation_uniqueness | D2 citation gate (CITATION_COLLISION) |
@@ -287,6 +284,9 @@ Produced THROUGH the kernel by `vjs audit`. Every kernel_effect duty (must / mus
 | ACT-002:s10 | must_not | accept_order_without_runtime_summary | improvement #5 (ORDER_MALFORMED, ACT-002:s10) |
 | ACT-003:s1 | prohibits | agent_self_authorised_law | PC-16 assent-resolution floor (a self-declared assent resolving to nothing confers no force) |
 | ACT-003:s4 | must | write_decision_log | decision-log obligation gate |
+| ACT-003:s8 | must_not | add_model_call_to_vjs_core | deny.toml + kernel model-free by construction (ACT-003:s8) |
+| ACT-003:s8 | must_not | add_vector_search_to_vjs_core | deny.toml (cargo deny bans; ACT-003:s8) |
+| ACT-003:s9 | must_not | add_network_dependency_to_vjs_core | deny.toml (reqwest/hyper banned from the kernel closure; ACT-003:s9) |
 | ACT-COMPUTER-FIRST-REALM:s23 | prohibits | binding_force_without_traceable_assent_source | PC-16 assent-resolution floor (vjs-engine::assent; s.23 traceable-assent) |
 | ACT-007:s1 | must | create_config_toml_on_install | D4/D5 install gate (INSTALL_CONFIG_MISSING) |
 | ACT-007:s3 | must_not | local_law_override_canonical_without_authority | D3 cross-repo permit guard (CROSS_REPO_PERMIT) |

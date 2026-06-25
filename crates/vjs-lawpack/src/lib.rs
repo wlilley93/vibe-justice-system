@@ -1016,6 +1016,33 @@ const GATE_REGISTRY: &[(&str, &str)] = &[
         "agent_self_authorised_law",
         "PC-16 assent-resolution floor (a self-declared assent resolving to nothing confers no force)",
     ),
+    // D12 triage: the model-free / network-free kernel prohibitions are enforced by
+    // deny.toml (cargo deny check bans), the authoritative dependency-closure witness
+    // added at BREACH-2026-06-12 - a capability REMOVED, not merely prohibited.
+    (
+        "kernel_call_llm",
+        "deny.toml (cargo deny bans model crates from the kernel closure)",
+    ),
+    (
+        "kernel_use_vector_search",
+        "deny.toml (no vector-search crate in the kernel closure)",
+    ),
+    (
+        "add_model_call_to_vjs_core",
+        "deny.toml + kernel model-free by construction (ACT-003:s8)",
+    ),
+    (
+        "add_vector_search_to_vjs_core",
+        "deny.toml (cargo deny bans; ACT-003:s8)",
+    ),
+    (
+        "add_network_dependency_to_vjs_core",
+        "deny.toml (reqwest/hyper banned from the kernel closure; ACT-003:s9)",
+    ),
+    (
+        "use_llm_to_evaluate_invariant",
+        "invariant evaluator is deterministic, no LLM (ACT-004:s3)",
+    ),
 ];
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
