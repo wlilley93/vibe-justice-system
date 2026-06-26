@@ -1,0 +1,91 @@
+id: SPEC-FILECLOUD-001
+title: Filecloud file browser component
+version: "3"
+status: active
+
+scope:
+  paths:
+    - projects/filecloud/**
+  action_kinds:
+    - implementation_decision
+    - dependency_change
+    - security_sensitive_act
+    - governed_load_bearing_act
+
+owner: principal
+
+purpose: >
+  Filecloud is a React component embedded in the Opbox frontend at /files.
+  It replaces FilesBrowserPage. Files are stored in Opbox's S3 bucket and
+  accessed exclusively via the Opbox kernel's verb API (file.put, file.get,
+  file.list, file.delete, file.replace_bytes). The kernel handles AEAD
+  encryption before bytes reach S3 - filecloud never handles ciphertext.
+  Decrypted bytes are served via /api/stored-files/[key]. Auth is Opbox's
+  existing NextAuth session. Persistent state (tags, share links, recent,
+  starred) lives in Opbox Postgres via the kernel or existing API routes.
+  The S3 backend (ReservedBackend) is fail-closed pending a VJS court record
+  unlock (DEC-FC-017). Stack: React component within the Opbox frontend build.
+  Onyx design system, all five themes inherited from the Opbox html class.
+
+decisions:
+  - DEC-FC-001
+  - DEC-FC-002
+  - DEC-FC-004
+  - DEC-FC-005
+  - DEC-FC-007
+  - DEC-FC-008
+  - DEC-FC-009
+  - DEC-FC-010
+  - DEC-FC-011
+  - DEC-FC-012
+  - DEC-FC-015
+  - DEC-FC-016
+  - DEC-FC-017
+  - DEC-FC-018
+  - DEC-FC-019
+  - DEC-FC-020
+
+superseded_decisions:
+  - id: DEC-FC-003
+    note: No separate SQLite. Opbox Postgres is the data layer.
+  - id: DEC-FC-006
+    note: No port. Filecloud is a component, not a server.
+  - id: DEC-FC-013
+    note: No ffmpeg. Video served via /api/stored-files/[key] with range requests.
+  - id: DEC-FC-014
+    note: No .filecloud-trash/ directory. Soft-delete flag in Opbox Postgres.
+
+invariants:
+  - INV-FC-001
+  - INV-FC-002
+  - INV-FC-003
+  - INV-FC-004
+  - INV-FC-005
+  - INV-FC-006
+  - INV-FC-007
+
+obligations:
+  - OBL-FC-LOG-001
+  - OBL-FC-LOG-002
+  - OBL-FC-SEC-001
+  - OBL-FC-SEC-002
+  - OBL-FC-PREREQ-001
+  - OBL-FC-ADAPTER-001
+  - OBL-FC-ADAPTER-002
+
+open_unknowns:
+  - U-11: Does a file.list verb exist in the kernel, or must filecloud use /api/files/browse?
+  - U-12: Does the kernel have a file.delete verb, and what does it do to the S3 object?
+  - U-13: Does the kernel have a tagging verb, or does that go via a separate API route?
+  - U-14: What S3 provider and credentials will be used? (Not yet configured - see DEC-FC-017)
+  - U-15: Does file.put support folder paths/hierarchy, or is it flat (key-prefix convention)?
+  - U-16: Is there a bulk download (zip) API route in Opbox already?
+  - U-17: What is the 50MiB blob cap in file.put - is there a chunked upload path?
+  - U-18: Does Opbox already have a calendar surface? If so, what route is it at and what does it accept (date, event ID)?
+
+review_triggers:
+  - dependency_added
+  - network_capability_added
+  - permit_bypassed
+  - proof_missing
+  - kernel_external_capability_required
