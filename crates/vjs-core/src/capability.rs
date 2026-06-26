@@ -1,13 +1,11 @@
 //! The unified capability primitive (global invariants K-4..K-11).
 //!
-//! One authority record, generic over an OPAQUE subscriber-supplied resource vocabulary, so
-//! canon never learns what a `kind` means (the canon-boundary stays intact - PC-15 EntityScope
-//! discipline). Deterministic, model-free, network-free (REG-KERNEL-001). A VJS permit and an
-//! Acmeco bearer-grant both become profiles of this record. Synthesized from Agent kernelB's
-//! capability engine; granted by the PC-19 keystone reference (K2) on the non-narrowing
-//! conditions that it stay generic and that the entrenched assent floor dominate every
-//! capability decision (a capability governs PROSPECTIVE authorisation only; it may never void
-//! or downgrade an assented record).
+//! One authority record, generic over an OPAQUE subscriber-supplied resource vocabulary (the
+//! `Resource` trait), so canon never learns what a resource MEANS (the canon-boundary stays intact,
+//! per PC-15 EntityScope discipline and PC-19 K2). Deterministic, model-free, network-free
+//! (REG-KERNEL-001). The built-in `TypedResource` is one vocabulary; a caller supplies its own (the
+//! VJS permit gate supplies a path-glob `PathScope` in governance.rs, so a permit BECOMES a profile
+//! of this record, the primitive being the live pre-write authorization engine, not shelf-ware).
 //!
 //! Properties (each bound to a test below):
 //!  - K-4  the record shape; `*` as a right is rejected; rights are explicit.
@@ -50,6 +48,16 @@ pub enum Status {
     Disabled,
 }
 
+/// The resource vocabulary the capability primitive is generic over. The primitive never learns a
+/// subscriber's resource SEMANTICS (PC-19 K2): it only asks a vocabulary two deterministic
+/// questions. `covers` - does this capability PATTERN match a concrete REQUEST. `within` - is this
+/// child pattern an attenuation of (no wider than) the parent, used for delegation. `TypedResource`
+/// is the built-in typed vocabulary; the VJS permit gate supplies a path-glob `PathScope`.
+pub trait Resource: Clone + std::fmt::Debug {
+    fn covers(&self, req: &Self) -> bool;
+    fn within(&self, parent: &Self) -> bool;
+}
+
 /// A typed, canonical resource `kind:body`. As a capability PATTERN, `body` may be `*`
 /// (whole kind) or end `/*` (a subtree); a concrete REQUEST is always exact.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -76,10 +84,12 @@ impl TypedResource {
             body: body.to_string(),
         })
     }
+}
 
+impl Resource for TypedResource {
     /// Does this pattern COVER a concrete requested resource? Prefix-collision-safe:
     /// `k:src/*` covers `k:src/main` but NOT `k:src2/main`.
-    pub fn covers(&self, req: &TypedResource) -> bool {
+    fn covers(&self, req: &TypedResource) -> bool {
         if self.kind != req.kind {
             return false;
         }
@@ -93,7 +103,7 @@ impl TypedResource {
     }
 
     /// Is `self` (a child pattern) within `parent` (no widening)? Used for delegation attenuation.
-    pub fn within(&self, parent: &TypedResource) -> bool {
+    fn within(&self, parent: &TypedResource) -> bool {
         if self.kind != parent.kind {
             return false;
         }
@@ -109,10 +119,10 @@ impl TypedResource {
 }
 
 #[derive(Debug, Clone)]
-pub struct Capability {
+pub struct Capability<R: Resource> {
     pub cap_id: String,
     pub subject: String,
-    pub resource: TypedResource,
+    pub resource: R,
     pub rights: BTreeSet<String>,
     pub effect: Effect,
     pub issuer: String,
@@ -125,7 +135,7 @@ pub struct Capability {
     pub constraints: BTreeMap<String, String>,
 }
 
-impl Capability {
+impl<R: Resource> Capability<R> {
     fn is_finite(&self) -> bool {
         self.uses_remaining.is_some()
     }
@@ -164,13 +174,21 @@ pub struct Reservation {
     revoked_by_this: bool,
 }
 
-#[derive(Default)]
-pub struct CapabilityStore {
-    caps: Vec<Capability>,
+pub struct CapabilityStore<R: Resource> {
+    caps: Vec<Capability<R>>,
     next: u64,
 }
 
-impl CapabilityStore {
+impl<R: Resource> Default for CapabilityStore<R> {
+    fn default() -> Self {
+        Self {
+            caps: Vec::new(),
+            next: 0,
+        }
+    }
+}
+
+impl<R: Resource> CapabilityStore<R> {
     pub fn new() -> Self {
         Self::default()
     }
@@ -180,15 +198,15 @@ impl CapabilityStore {
         format!("cap-{}", self.next)
     }
 
-    fn get(&self, id: &str) -> Option<&Capability> {
+    fn get(&self, id: &str) -> Option<&Capability<R>> {
         self.caps.iter().find(|c| c.cap_id == id)
     }
-    fn get_mut(&mut self, id: &str) -> Option<&mut Capability> {
+    fn get_mut(&mut self, id: &str) -> Option<&mut Capability<R>> {
         self.caps.iter_mut().find(|c| c.cap_id == id)
     }
 
     /// A capability and its whole ancestor chain are Active (parent revoke transitively kills).
-    fn chain_active(&self, cap: &Capability) -> bool {
+    fn chain_active(&self, cap: &Capability<R>) -> bool {
         if cap.status != Status::Active {
             return false;
         }
@@ -210,18 +228,17 @@ impl CapabilityStore {
     pub fn issue_root(
         &mut self,
         subject: &str,
-        resource: &str,
+        resource: R,
         rights: &[&str],
         effect: Effect,
         uses_remaining: Option<u32>,
     ) -> Result<String, CapError> {
-        let res = TypedResource::parse(resource)?;
         let rights = checked_rights(rights)?;
         let id = self.mint_id();
         self.caps.push(Capability {
             cap_id: id.clone(),
             subject: subject.to_string(),
-            resource: res,
+            resource,
             rights,
             effect,
             issuer: "root".to_string(),
@@ -241,14 +258,13 @@ impl CapabilityStore {
         &mut self,
         actor: &str,
         subject: &str,
-        resource: &str,
+        resource: R,
         rights: &[&str],
         effect: Effect,
     ) -> Result<String, CapError> {
         if effect != Effect::Allow {
             return Err(CapError::CannotMintRestrictive);
         }
-        let res = TypedResource::parse(resource)?;
         let wanted = checked_rights(rights)?;
         // the actor must hold a covering active allow for every right being transferred
         for right in &wanted {
@@ -256,7 +272,7 @@ impl CapabilityStore {
                 c.subject == actor
                     && c.effect == Effect::Allow
                     && self.chain_active(c)
-                    && c.resource.covers(&res)
+                    && c.resource.covers(&resource)
                     && c.rights.contains(right)
                     && !c.is_finite()
             });
@@ -268,7 +284,7 @@ impl CapabilityStore {
         self.caps.push(Capability {
             cap_id: id.clone(),
             subject: subject.to_string(),
-            resource: res,
+            resource,
             rights: wanted,
             effect: Effect::Allow,
             issuer: actor.to_string(),
@@ -288,19 +304,21 @@ impl CapabilityStore {
         &mut self,
         parent_id: &str,
         child_subject: &str,
-        resource: &str,
+        resource: R,
         rights: &[&str],
     ) -> Result<String, CapError> {
-        let parent = self.get(parent_id).ok_or(CapError::NotADelegableAllow)?.clone();
+        let parent = self
+            .get(parent_id)
+            .ok_or(CapError::NotADelegableAllow)?
+            .clone();
         if parent.effect != Effect::Allow || !self.chain_active(&parent) {
             return Err(CapError::NotADelegableAllow);
         }
         if parent.is_finite() {
             return Err(CapError::FiniteCannotDelegate);
         }
-        let res = TypedResource::parse(resource)?;
         let want = checked_rights(rights)?;
-        if !res.within(&parent.resource) {
+        if !resource.within(&parent.resource) {
             return Err(CapError::NotAttenuating);
         }
         if !want.is_subset(&parent.rights) {
@@ -314,7 +332,7 @@ impl CapabilityStore {
         self.caps.push(Capability {
             cap_id: id.clone(),
             subject: child_subject.to_string(),
-            resource: res,
+            resource,
             rights: want,
             effect: Effect::Allow,
             issuer: parent.subject.clone(),
@@ -339,13 +357,9 @@ impl CapabilityStore {
     /// Authorize a concrete (subject, resource, right). Deny-dominance (K-5); reserve-before-
     /// effect on a finite Allow (K-6); re-evaluated against live state (K-8). A bare id/name
     /// confers nothing - only a matching capability does (K-10).
-    pub fn authorize(&mut self, subject: &str, resource: &str, right: &str) -> Decision {
-        let Ok(req) = TypedResource::parse(resource) else {
-            return Decision::Denied {
-                reason: DenyReason::NoCapability,
-            };
-        };
-        let matches = |c: &Capability| {
+    pub fn authorize(&mut self, subject: &str, resource: R, right: &str) -> Decision {
+        let req = resource;
+        let matches = |c: &Capability<R>| {
             c.subject == subject
                 && c.resource.covers(&req)
                 && c.rights.contains(right)
@@ -416,6 +430,11 @@ impl CapabilityStore {
 mod tests {
     use super::*;
 
+    /// Build a TypedResource pattern/request for the typed-vocabulary tests.
+    fn tr(s: &str) -> TypedResource {
+        TypedResource::parse(s).unwrap()
+    }
+
     fn allowed(d: &Decision) -> bool {
         matches!(d, Decision::Allowed { .. })
     }
@@ -424,73 +443,91 @@ mod tests {
     fn k4_record_rejects_wildcard_right_and_requires_explicit_rights() {
         let mut s = CapabilityStore::new();
         assert_eq!(
-            s.issue_root("a", "fs:src/main", &["*"], Effect::Allow, None),
+            s.issue_root("a", tr("fs:src/main"), &["*"], Effect::Allow, None),
             Err(CapError::WildcardRight)
         );
         assert_eq!(
-            s.issue_root("a", "fs:src/main", &[], Effect::Allow, None),
+            s.issue_root("a", tr("fs:src/main"), &[], Effect::Allow, None),
             Err(CapError::NoRights)
         );
-        assert!(s.issue_root("a", "fs:src/main", &["read"], Effect::Allow, None).is_ok());
+        assert!(
+            s.issue_root("a", tr("fs:src/main"), &["read"], Effect::Allow, None)
+                .is_ok()
+        );
     }
 
     #[test]
     fn k5_deny_dominates_overlapping_allow() {
         let mut s = CapabilityStore::new();
-        s.issue_root("a", "fs:*", &["read"], Effect::Allow, None).unwrap();
-        s.issue_root("a", "fs:secret", &["read"], Effect::Deny, None).unwrap();
-        assert!(allowed(&s.authorize("a", "fs:public", "read")));
+        s.issue_root("a", tr("fs:*"), &["read"], Effect::Allow, None)
+            .unwrap();
+        s.issue_root("a", tr("fs:secret"), &["read"], Effect::Deny, None)
+            .unwrap();
+        assert!(allowed(&s.authorize("a", tr("fs:public"), "read")));
         assert!(matches!(
-            s.authorize("a", "fs:secret", "read"),
-            Decision::Denied { reason: DenyReason::ExplicitDeny }
+            s.authorize("a", tr("fs:secret"), "read"),
+            Decision::Denied {
+                reason: DenyReason::ExplicitDeny
+            }
         ));
     }
 
     #[test]
     fn k6_one_shot_is_consumed_exactly_once_and_refunds() {
         let mut s = CapabilityStore::new();
-        let _ = s.issue_root("a", "fs:f", &["write"], Effect::Allow, Some(1)).unwrap();
+        let _ = s
+            .issue_root("a", tr("fs:f"), &["write"], Effect::Allow, Some(1))
+            .unwrap();
         // reserve-before-effect: first authorize consumes and auto-revokes
-        let d1 = s.authorize("a", "fs:f", "write");
+        let d1 = s.authorize("a", tr("fs:f"), "write");
         assert!(allowed(&d1));
         // a second concurrent attempt cannot cross again
         assert!(matches!(
-            s.authorize("a", "fs:f", "write"),
-            Decision::Denied { reason: DenyReason::Revoked | DenyReason::NoCapability | DenyReason::Exhausted }
+            s.authorize("a", tr("fs:f"), "write"),
+            Decision::Denied {
+                reason: DenyReason::Revoked | DenyReason::NoCapability | DenyReason::Exhausted
+            }
         ));
         // refund on provider failure restores the one-shot
-        if let Decision::Allowed { reservation: Some(r) } = d1 {
+        if let Decision::Allowed {
+            reservation: Some(r),
+        } = d1
+        {
             s.refund(r);
         }
-        assert!(allowed(&s.authorize("a", "fs:f", "write")));
+        assert!(allowed(&s.authorize("a", tr("fs:f"), "write")));
     }
 
     #[test]
     fn k7_delegation_only_attenuates_and_finite_cannot_delegate() {
         let mut s = CapabilityStore::new();
-        let parent = s.issue_root("a", "fs:src/*", &["read", "write"], Effect::Allow, None).unwrap();
+        let parent = s
+            .issue_root("a", tr("fs:src/*"), &["read", "write"], Effect::Allow, None)
+            .unwrap();
         // widening rights or resource is refused
         assert_eq!(
-            s.delegate(&parent, "b", "fs:src/*", &["read", "write", "delete"]),
+            s.delegate(&parent, "b", tr("fs:src/*"), &["read", "write", "delete"]),
             Err(CapError::NotAttenuating)
         );
         assert_eq!(
-            s.delegate(&parent, "b", "fs:*", &["read"]),
+            s.delegate(&parent, "b", tr("fs:*"), &["read"]),
             Err(CapError::NotAttenuating)
         );
         // a faithful attenuation is allowed
-        s.delegate(&parent, "b", "fs:src/lib", &["read"]).unwrap();
-        assert!(allowed(&s.authorize("b", "fs:src/lib", "read")));
+        s.delegate(&parent, "b", tr("fs:src/lib"), &["read"]).unwrap();
+        assert!(allowed(&s.authorize("b", tr("fs:src/lib"), "read")));
         // parent revocation transitively kills the child
         s.revoke(&parent);
         assert!(matches!(
-            s.authorize("b", "fs:src/lib", "read"),
+            s.authorize("b", tr("fs:src/lib"), "read"),
             Decision::Denied { .. }
         ));
         // a finite-use capability cannot be delegated onward
-        let finite = s.issue_root("a", "fs:g", &["read"], Effect::Allow, Some(2)).unwrap();
+        let finite = s
+            .issue_root("a", tr("fs:g"), &["read"], Effect::Allow, Some(2))
+            .unwrap();
         assert_eq!(
-            s.delegate(&finite, "b", "fs:g", &["read"]),
+            s.delegate(&finite, "b", tr("fs:g"), &["read"]),
             Err(CapError::FiniteCannotDelegate)
         );
     }
@@ -498,12 +535,16 @@ mod tests {
     #[test]
     fn k8_revocation_takes_effect_on_the_next_authorize() {
         let mut s = CapabilityStore::new();
-        let c = s.issue_root("a", "fs:f", &["read"], Effect::Allow, None).unwrap();
-        assert!(allowed(&s.authorize("a", "fs:f", "read")));
+        let c = s
+            .issue_root("a", tr("fs:f"), &["read"], Effect::Allow, None)
+            .unwrap();
+        assert!(allowed(&s.authorize("a", tr("fs:f"), "read")));
         s.revoke(&c);
         assert!(matches!(
-            s.authorize("a", "fs:f", "read"),
-            Decision::Denied { reason: DenyReason::NoCapability }
+            s.authorize("a", tr("fs:f"), "read"),
+            Decision::Denied {
+                reason: DenyReason::NoCapability
+            }
         ));
     }
 
@@ -511,7 +552,10 @@ mod tests {
     fn k9_typed_resource_prefix_collision_and_terminal_wildcard() {
         assert_eq!(TypedResource::parse("*"), Err(CapError::BareWildcard));
         assert_eq!(TypedResource::parse("untyped"), Err(CapError::Untyped));
-        assert_eq!(TypedResource::parse("fs:sr*c"), Err(CapError::NonTerminalWildcard));
+        assert_eq!(
+            TypedResource::parse("fs:sr*c"),
+            Err(CapError::NonTerminalWildcard)
+        );
         let pat = TypedResource::parse("fs:src/*").unwrap();
         assert!(pat.covers(&TypedResource::parse("fs:src/main").unwrap()));
         assert!(!pat.covers(&TypedResource::parse("fs:src2/main").unwrap())); // prefix-collision
@@ -523,31 +567,40 @@ mod tests {
         let mut s = CapabilityStore::new();
         // 'a' holds nothing; merely naming a real-looking resource/id grants nothing.
         assert!(matches!(
-            s.authorize("a", "fs:src/main", "read"),
-            Decision::Denied { reason: DenyReason::NoCapability }
+            s.authorize("a", tr("fs:src/main"), "read"),
+            Decision::Denied {
+                reason: DenyReason::NoCapability
+            }
         ));
         // even after a capability exists for ANOTHER subject, the name doesn't carry to 'a'.
-        s.issue_root("owner", "fs:src/main", &["read"], Effect::Allow, None).unwrap();
+        s.issue_root("owner", tr("fs:src/main"), &["read"], Effect::Allow, None)
+            .unwrap();
         assert!(matches!(
-            s.authorize("a", "fs:src/main", "read"),
-            Decision::Denied { reason: DenyReason::NoCapability }
+            s.authorize("a", tr("fs:src/main"), "read"),
+            Decision::Denied {
+                reason: DenyReason::NoCapability
+            }
         ));
     }
 
     #[test]
     fn k11_grant_is_transfer_not_minting() {
         let mut s = CapabilityStore::new();
-        s.issue_root("a", "fs:src/*", &["read"], Effect::Allow, None).unwrap();
+        s.issue_root("a", tr("fs:src/*"), &["read"], Effect::Allow, None)
+            .unwrap();
         // transfer a right the actor holds: ok
-        assert!(s.grant_by_transfer("a", "b", "fs:src/lib", &["read"], Effect::Allow).is_ok());
+        assert!(
+            s.grant_by_transfer("a", "b", tr("fs:src/lib"), &["read"], Effect::Allow)
+                .is_ok()
+        );
         // transfer a right the actor does NOT hold: refused
         assert_eq!(
-            s.grant_by_transfer("a", "b", "fs:src/lib", &["write"], Effect::Allow),
+            s.grant_by_transfer("a", "b", tr("fs:src/lib"), &["write"], Effect::Allow),
             Err(CapError::TransferExceedsHeld)
         );
         // minting a restrictive (deny/ask) record via grant: refused
         assert_eq!(
-            s.grant_by_transfer("a", "b", "fs:src/lib", &["read"], Effect::Deny),
+            s.grant_by_transfer("a", "b", tr("fs:src/lib"), &["read"], Effect::Deny),
             Err(CapError::CannotMintRestrictive)
         );
     }

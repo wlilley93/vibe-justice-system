@@ -1,7 +1,32 @@
 use std::path::{Path, PathBuf};
 
+use crate::capability::{CapabilityStore, Decision, Effect, Resource};
 use crate::spec::*;
 use crate::types::*;
+
+/// The subject under which permits are projected into capabilities. `PermitGate::covers` asks
+/// "is this path covered by SOME active permit" - actor-agnostic, exactly as the legacy matcher -
+/// so every projected permit shares this one subject and `covers` authorizes against it.
+const PERMIT_SUBJECT: &str = "permit-holder";
+
+/// A permit's path-glob scope, as a capability RESOURCE vocabulary (capability.rs is generic over
+/// `Resource`; PC-19 K2). `covers` delegates to the kernel's ONE glob semantics
+/// (PathClassifier::glob_matches), so a capability-backed permit decision is IDENTICAL to the legacy
+/// scope match BY CONSTRUCTION - no glob translation, no edge-case (gazette*, trailing-slash, `**`)
+/// risk. A pattern is a permit glob; a concrete request is an exact path.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct PathScope(pub String);
+
+impl Resource for PathScope {
+    fn covers(&self, req: &PathScope) -> bool {
+        PathClassifier::glob_matches(&self.0, &req.0)
+    }
+    fn within(&self, parent: &PathScope) -> bool {
+        // Permits do not delegate today; a sound-conservative attenuation check (never widens):
+        // equal globs, or a parent whose glob covers the child glob's own form.
+        self.0 == parent.0 || parent.covers(self)
+    }
+}
 
 /// Classify a path relative to repo root against governance rules
 pub struct PathClassifier;
@@ -328,15 +353,51 @@ impl PermitGate {
         }
     }
 
-    /// A usable permit covers the path: Active, unexpired, in scope. This is
-    /// the question a pre-write hook asks before the work happens.
+    /// Project the USABLE permits (Active + unexpired) into a capability store. The permit gate
+    /// owns the clock here (capability.rs is deterministic + clock-free); each in-scope glob of a
+    /// usable permit becomes an Allow `PathScope` capability under the actor-agnostic subject. The
+    /// unified capability primitive (K-4..K-11) thus becomes the live pre-write authorization
+    /// engine - a permit IS a profile of a capability - and deny-dominance is available to it,
+    /// which path-permits alone could never express.
+    fn permit_capability_store(
+        permits: &[Permit],
+        now: chrono::DateTime<chrono::Utc>,
+    ) -> CapabilityStore<PathScope> {
+        let mut store = CapabilityStore::new();
+        for p in permits {
+            let usable =
+                matches!(p.status, PermitStatus::Active) && !Self::permit_is_expired(p, now);
+            if !usable {
+                continue;
+            }
+            if let Some(scope) = &p.scope
+                && let Some(paths) = &scope.paths
+            {
+                for glob in paths {
+                    // rights are fixed (&["write"]) so issue_root never errors here.
+                    let _ = store.issue_root(
+                        PERMIT_SUBJECT,
+                        PathScope(glob.clone()),
+                        &["write"],
+                        Effect::Allow,
+                        None,
+                    );
+                }
+            }
+        }
+        store
+    }
+
+    /// A usable permit covers the path: Active, unexpired, in scope. This is the question a
+    /// pre-write hook asks before the work happens. Now routed THROUGH the unified capability
+    /// primitive: identical to the legacy scope match by construction (PathScope::covers delegates
+    /// to the same glob semantics + the same usable filter), with deny-dominance now available.
     pub fn covers(path: &str, permits: &[Permit]) -> bool {
-        let now = chrono::Utc::now();
-        permits.iter().any(|p| {
-            matches!(p.status, PermitStatus::Active)
-                && !Self::permit_is_expired(p, now)
-                && Self::scope_covers(p, path)
-        })
+        let mut store = Self::permit_capability_store(permits, chrono::Utc::now());
+        matches!(
+            store.authorize(PERMIT_SUBJECT, PathScope(path.to_string()), "write"),
+            Decision::Allowed { .. }
+        )
     }
 
     /// D3 ([2026] VJS-PC 13 "Teeth For The Front Door"): the thin working-root
@@ -418,5 +479,152 @@ mod cross_repo_tests {
         ] {
             assert!(path_escapes_root(g), "{g} reaches outside the working root");
         }
+    }
+}
+
+#[cfg(test)]
+mod permit_capability_tests {
+    use super::*;
+    use crate::capability::DenyReason;
+
+    fn permit(globs: &[&str], status: PermitStatus, expires: &str) -> Permit {
+        Permit {
+            id: PermitId("PERMIT-test".into()),
+            route_id: RouteId("ROUTE-test".into()),
+            actor: "lexby".into(),
+            scope: Some(Scope {
+                paths: Some(globs.iter().map(|g| g.to_string()).collect()),
+                jurisdictions: None,
+                action_kinds: None,
+                issue_tags: None,
+                records: None,
+            }),
+            obligations: vec![],
+            expires_at: expires.into(),
+            status,
+            self_issued: true,
+            meaning: None,
+            intent_digest: None,
+        }
+    }
+
+    /// The legacy covers logic, reconstructed from PUBLIC primitives, kept inline so the
+    /// capability-backed `covers` is held to it exactly (fail-closed expiry, same glob semantics).
+    fn legacy_covers(path: &str, permits: &[Permit]) -> bool {
+        let now = chrono::Utc::now();
+        permits.iter().any(|p| {
+            let active = matches!(p.status, PermitStatus::Active);
+            let unexpired = chrono::DateTime::parse_from_rfc3339(&p.expires_at)
+                .map(|e| now < e.with_timezone(&chrono::Utc))
+                .unwrap_or(false); // unparseable expiry never excuses a write
+            let in_scope = p
+                .scope
+                .as_ref()
+                .and_then(|s| s.paths.as_ref())
+                .map(|paths| paths.iter().any(|g| PathClassifier::glob_matches(g, path)))
+                .unwrap_or(false);
+            active && unexpired && in_scope
+        })
+    }
+
+    /// K-1 integration: routing `covers` through the unified capability primitive is IDENTICAL to
+    /// the legacy glob match for every path - across the real permit glob forms, including the edge
+    /// cases (mid-segment `gazette*`, prefix-collision `crates-evil`, the `Cargo.toml.bak` literal
+    /// trap, and an expired permit's exclusion). The primitive is now the live decision engine.
+    #[test]
+    fn the_capability_backed_covers_is_identical_to_the_legacy_glob_match() {
+        let future = "2099-01-01T00:00:00Z";
+        let past = "2000-01-01T00:00:00Z";
+        let permits = vec![
+            permit(&["crates/**"], PermitStatus::Active, future),
+            permit(&["Cargo.toml"], PermitStatus::Active, future),
+            permit(&["gazette*"], PermitStatus::Active, future),
+            permit(
+                &["lawpack/v2/decisions/DEC-X.yaml"],
+                PermitStatus::Active,
+                future,
+            ),
+            permit(&["scripts/**"], PermitStatus::Expired, past), // excluded (expired)
+            permit(&["README.md"], PermitStatus::Revoked, future), // excluded (revoked)
+        ];
+        for path in [
+            "crates/vjs-core/src/lib.rs", // covered by crates/**
+            "crates-evil/x",              // prefix collision - NOT covered
+            "Cargo.toml",                 // literal hit
+            "Cargo.toml.bak",             // literal must not prefix-match
+            "gazette-2026.html",          // mid-segment glob hit
+            "gazettes/x",                 // gazette* must not cross a slash
+            "lawpack/v2/decisions/DEC-X.yaml",
+            "scripts/run.sh", // expired permit -> not covered
+            "README.md",      // revoked permit -> not covered
+            "unknown/path",
+        ] {
+            assert_eq!(
+                PermitGate::covers(path, &permits),
+                legacy_covers(path, &permits),
+                "capability-backed covers diverged from the legacy match on {path}"
+            );
+        }
+    }
+
+    /// K-2 (Visibility != Authority): a GOVERNED, visible path with no covering permit confers no
+    /// authority - the primitive denies with NoCapability. Seeing the governed surface grants
+    /// nothing; only a permit-projected capability does.
+    #[test]
+    fn a_governed_path_with_no_permit_capability_is_denied_at_the_primitive() {
+        let permits = vec![permit(&["crates/**"], PermitStatus::Active, "2099-01-01T00:00:00Z")];
+        // a governed order path is visible to the gate but uncovered:
+        assert!(!PermitGate::covers(
+            "lawpack/v2/orders/2026-VJS-PC-099.yaml",
+            &permits
+        ));
+        let mut store = PermitGate::permit_capability_store(&permits, chrono::Utc::now());
+        assert!(matches!(
+            store.authorize(
+                PERMIT_SUBJECT,
+                PathScope("lawpack/v2/orders/x.yaml".into()),
+                "write"
+            ),
+            Decision::Denied {
+                reason: DenyReason::NoCapability
+            }
+        ));
+    }
+
+    /// Deny-dominance is now reachable for permits via the primitive - a capability path-permits
+    /// alone could never express. A Deny on a sensitive subtree beats a broad allow.
+    #[test]
+    fn a_deny_capability_dominates_an_allowing_permit_in_the_permit_context() {
+        let permits = vec![permit(&["lawpack/v2/**"], PermitStatus::Active, "2099-01-01T00:00:00Z")];
+        let mut store = PermitGate::permit_capability_store(&permits, chrono::Utc::now());
+        store
+            .issue_root(
+                PERMIT_SUBJECT,
+                PathScope("lawpack/v2/orders/**".into()),
+                &["write"],
+                Effect::Deny,
+                None,
+            )
+            .unwrap();
+        // an ordinary path under the broad allow still passes
+        assert!(matches!(
+            store.authorize(
+                PERMIT_SUBJECT,
+                PathScope("lawpack/v2/specs/s.yaml".into()),
+                "write"
+            ),
+            Decision::Allowed { .. }
+        ));
+        // the denied subtree is refused even though the broad allow covers it (deny dominates)
+        assert!(matches!(
+            store.authorize(
+                PERMIT_SUBJECT,
+                PathScope("lawpack/v2/orders/o.yaml".into()),
+                "write"
+            ),
+            Decision::Denied {
+                reason: DenyReason::ExplicitDeny
+            }
+        ));
     }
 }

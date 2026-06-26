@@ -137,8 +137,8 @@ absent. (Agent kernelB shown as the reference column.)
 
 | # | Invariant | kernelB | VJS | Acmeco |
 |---|---|---|---|---|
-| K-1 | Sole mediated path | MET | PARTIAL (commit-time only; overlay advisory) | PARTIAL (in-proc yes; system-level: BD-5 unattached, frontend 2nd writer) |
-| K-2 | Visibility != Authority | MET | GAP | PARTIAL (present, unnamed) |
+| K-1 | Sole mediated path | MET | PARTIAL (commit-time; pre-write `covers` now routed THROUGH the capability primitive) | PARTIAL (in-proc yes; system-level: BD-5 unattached, frontend 2nd writer) |
+| K-2 | Visibility != Authority | MET | **MET** (a governed/visible path with no permit-capability is denied at the primitive) | PARTIAL (present, unnamed) |
 | K-3 | Identity by construction | MET | n/a (author=principal) | MET |
 | K-4 | Unified capability record | MET | GAP (permits not caps) | PARTIAL (bearer close; 2 models) |
 | K-5 | Deny-dominance | MET | GAP | PARTIAL (gates, no cap deny) |
