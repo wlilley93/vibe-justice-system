@@ -13,12 +13,23 @@ directives:
     actor: agent
     must: use_county_privy_supreme
     when: court_required
-forbidden:
-  - create_court_of_appeal
-  - route_to_court_of_appeal
+# The create_court_of_appeal / route_to_court_of_appeal prohibitions were STRUCK by
+# [2026] VJS-SC 6 D1: spent / pro tanto superseded by COURTS-CONSTITUTION-001 ([2026]
+# VJS-SC 2) D4 (the Court of Appeal persists in law and may be convened on an odd bench of
+# 3 if an appeal arises) and operationalised by [2026] VJS-PC 19 (the canon convenes it). A
+# flat denylist would have blanket-blocked a constitutionally-authorised convening.
+forbidden: []
+superseded_in_part_by:
+  - "[2026] VJS-SC 2"
+  - "[2026] VJS-PC 19"
 exceptions:
   - principal_discretion
 supersedes: []
 source_opinion: null
-runtime_summary: The Court of Appeal is not carried forward in V2 MVP. Appeals may be handled by the Privy Council or Supreme Court at the Principal's discretion.
+runtime_summary: >
+  The Court of Appeal is administratively non-convened in the V2 MVP (it is NOT abolished -
+  it persists in law as a tier per COURTS-CONSTITUTION-001 D4, convenable on an odd bench of
+  3 at the canon if an appeal arises, per [2026] VJS-PC 19). This order's create/route
+  prohibition is spent pro tanto ([2026] VJS-SC 6 D1); its surviving effect is the MVP
+  non-convened default. Abolition would require express s.10 amendment by number.
 created_at: "2026-06-08T00:00:00Z"
