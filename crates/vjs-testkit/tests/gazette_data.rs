@@ -67,10 +67,12 @@ fn every_law_object_is_published_and_every_edge_resolves() {
         ("obligations", true),
     ] {
         let d = lawpack.join(dir);
-        if !d.exists() {
+        // Tolerate a dir that is absent or vanished under a concurrent test (parallel
+        // `cargo test`); skip rather than `.unwrap()` panicking on a transient NotFound.
+        let Ok(rd) = std::fs::read_dir(&d) else {
             continue;
-        }
-        for entry in std::fs::read_dir(&d).unwrap().filter_map(|e| e.ok()) {
+        };
+        for entry in rd.filter_map(|e| e.ok()) {
             let p = entry.path();
             if p.extension().and_then(|x| x.to_str()) != Some("yaml") {
                 continue;
