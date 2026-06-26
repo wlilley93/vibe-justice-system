@@ -30,10 +30,14 @@ fn excluded_dimension_keys() -> Vec<String> {
 }
 
 fn walk_collect(dir: &Path, exts: &[&str], out: &mut Vec<PathBuf>) {
-    if !dir.exists() {
+    // A canon scanner walks the live repo tree while `cargo test --workspace` runs many tests
+    // in parallel; a sibling test creating/removing a temp dir under the tree can make a subdir
+    // vanish between this read and the recursion. Skip an unreadable dir rather than `.unwrap()`
+    // panicking - a dir that vanished under us is not canon. (Was a flaky NotFound panic.)
+    let Ok(entries) = std::fs::read_dir(dir) else {
         return;
-    }
-    for entry in std::fs::read_dir(dir).unwrap().flatten() {
+    };
+    for entry in entries.flatten() {
         let path = entry.path();
         if path.is_dir() {
             // skip build artefacts
