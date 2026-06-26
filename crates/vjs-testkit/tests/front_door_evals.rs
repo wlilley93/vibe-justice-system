@@ -32,6 +32,34 @@ fn mcp_surface_exposes_the_nine_verbs() {
 }
 
 #[test]
+fn mcp_tool_schemas_survive_the_module_split() {
+    // The tool surface moved out of lib.rs into schemas.rs (a behavior-preserving split
+    // to keep each file under the structural-cleanliness ceiling). Guard that the move
+    // changed no schema: every verb still carries a non-empty object input_schema, and
+    // allocate still advertises the repo-segment `repo` property added in audit #10.
+    let tools = vjs_mcp::get_tool_schemas();
+    for t in &tools {
+        assert!(
+            t.input_schema.get("type") == Some(&serde_json::json!("object")),
+            "{} must keep an object input_schema after the split",
+            t.name
+        );
+    }
+    let allocate = tools
+        .iter()
+        .find(|t| t.name == "vjs.allocate")
+        .expect("allocate present");
+    assert!(
+        allocate
+            .input_schema
+            .get("properties")
+            .and_then(|p| p.get("repo"))
+            .is_some(),
+        "allocate must keep its repo-segment property after the split"
+    );
+}
+
+#[test]
 fn unknown_mcp_method_is_refused() {
     let srv = vjs_mcp::McpServer::new(std::path::PathBuf::from("."));
     let req = r#"{"jsonrpc":"2.0","id":1,"method":"vjs.exec","params":{}}"#;
