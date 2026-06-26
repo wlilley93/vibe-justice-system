@@ -1,0 +1,12 @@
+id: LOG-2026-06-26-092359
+time: 2026-06-26T09:23:59.963695649+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260626-092343
+decision: 'Record [2026] VJS-PC 19: the Court of Appeal sits at the canonical jurisdiction; subscribers seat only First Instance and refer up. Unanimous Privy Council (Reid/Wilberforce/Hoffmann).'
+basis:
+- PERMIT-1782465823
+risk: low
+reversibility: easy
+court_required: false
+why: Opbox (subscriber) consulted on federation appellate procedure - a first-impression constitutional question the canon was silent on (CoA tier placement). Convened the Privy Council (constitutional first instance, bench of 3) per VJS-SC 2 D2; unanimous for Construction B grounded in REG-FEDERATION-COORDINATION-001, VJS-SC 4, VJS-PC 6/10, ACT-005, ACT-004. Permission to appeal to the Supreme Court granted on the routing ratio.
