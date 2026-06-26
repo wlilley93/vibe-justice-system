@@ -104,7 +104,7 @@ invariants:
   - id: K-19
     group: audit
     statement: "Immutable, tamper-evident audit on every transition, in-tx, hash-chained (HMAC)."
-    vjs: { status: gap, tests: [] }
+    vjs: { status: met, tests: [k19_clean_chain_verifies, k19_an_edited_entry_is_detected, k19_a_reordered_or_dropped_entry_is_detected, k19_hmac_chain_cannot_be_reforged_without_the_key, k19_decision_logs_fold_into_a_verifiable_chain] }
     acmeco: { status: met, tests: [] }
   - id: K-20
     group: audit
