@@ -162,9 +162,9 @@ absent. (Agent kernelB shown as the reference column.)
 | K-23 | Effect reversibility class | MET | **MET** (effects.rs: 3 classes, unclassifiable refused) | GAP |
 | K-24 | Durable approval queue + one-shot human | MET | **MET** (effects.rs: blocks, decided-once, consumed-once) | PARTIAL (MFA/gate.propose) |
 | K-25 | Digest-pinned enforcement surface | GAP | **MET** | GAP |
-| K-26 | Compile-time fail-closed | PARTIAL | PARTIAL (stale-binary) | MET |
+| K-26 | Compile-time fail-closed | PARTIAL | **MET** (no env toggle, no feature bypass; scaffolding is cfg(test)-only) | MET |
 | K-27 | Required-CI trust root (same gate) | PARTIAL | **MET** | PARTIAL |
-| K-28 | Derived drift-proof attributes | PARTIAL | PARTIAL | MET |
+| K-28 | Derived drift-proof attributes | PARTIAL | **MET** (lawpack digest: deterministic, content-drift detected) | MET |
 | K-29 | Invariant->test binding meta-gate | **MET** | GAP (advisory map) | PARTIAL (citation not proof) |
 | K-30 | No silent stubs / ratchet | PARTIAL | PARTIAL | MET |
 

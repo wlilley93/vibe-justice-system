@@ -139,7 +139,7 @@ invariants:
   - id: K-26
     group: surface
     statement: "Compile-time fail-closed; dev/no-engine/full-privilege paths excised from release binaries."
-    vjs: { status: partial, tests: [] }
+    vjs: { status: met, tests: [the_enforcement_crates_have_no_runtime_toggle_or_feature_bypass] }
     acmeco: { status: met, tests: [] }
   - id: K-27
     group: surface
@@ -149,7 +149,7 @@ invariants:
   - id: K-28
     group: surface
     statement: "Derived, drift-proof attributes; CI fails on undeclared egress/stub/schema."
-    vjs: { status: partial, tests: [] }
+    vjs: { status: met, tests: [the_lawpack_digest_is_a_deterministic_derived_attribute_and_drift_is_detected] }
     acmeco: { status: met, tests: [] }
   - id: K-29
     group: meta
