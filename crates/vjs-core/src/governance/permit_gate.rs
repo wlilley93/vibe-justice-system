@@ -1,5 +1,14 @@
+//! The permit gate: the live pre-write authorization for governed paths.
+//!
+//! `PermitGate::evaluate` is the full staged-paths check (governed vs ungoverned, permit status,
+//! before-commit obligations); `PermitGate::covers` is the thin pre-write question, routed THROUGH
+//! the unified capability primitive (`PathScope` is a permit glob as a capability `Resource`), so the
+//! decision is identical to the legacy scope match by construction, with deny-dominance now available.
+//! `cross_repo_reaches` is the D3 working-root jurisdiction guard (fail-closed on an escaping scope).
+
 use std::path::{Path, PathBuf};
 
+use super::path_class::{PathClassification, PathClassifier};
 use crate::capability::{CapabilityStore, Decision, Effect, Resource};
 use crate::spec::*;
 use crate::types::*;
@@ -25,96 +34,6 @@ impl Resource for PathScope {
         // Permits do not delegate today; a sound-conservative attenuation check (never widens):
         // equal globs, or a parent whose glob covers the child glob's own form.
         self.0 == parent.0 || parent.covers(self)
-    }
-}
-
-/// Classify a path relative to repo root against governance rules
-pub struct PathClassifier;
-
-#[derive(Clone, Debug, Eq, PartialEq)]
-pub enum PathClassification {
-    Governed,
-    Exempt,
-    Ungoverned,
-}
-
-impl PathClassifier {
-    pub fn classify(
-        path: &Path,
-        permit_required: &[String],
-        permit_exempt: &[String],
-    ) -> PathClassification {
-        let path_str = path.to_string_lossy();
-
-        // Check exempt first
-        if Self::matches_glob_any(&path_str, permit_exempt) {
-            return PathClassification::Exempt;
-        }
-
-        // Check required
-        if Self::matches_glob_any(&path_str, permit_required) {
-            return PathClassification::Governed;
-        }
-
-        PathClassification::Ungoverned
-    }
-
-    fn matches_glob_any(path: &str, globs: &[String]) -> bool {
-        globs.iter().any(|g| Self::glob_matches(g, path))
-    }
-
-    pub fn glob_matches(glob: &str, path: &str) -> bool {
-        if let Some(prefix) = glob.strip_suffix("/**") {
-            // Boundary-aware: "crates/**" covers crates and crates/..., never
-            // crates-evil/... (a bare starts_with let sibling dirs through).
-            path == prefix || path.starts_with(&format!("{}/", prefix))
-        } else if glob.contains("/**/") {
-            let parts: Vec<&str> = glob.split("/**/").collect();
-            if parts.len() == 2 {
-                let (prefix, suffix) = (parts[0], parts[1]);
-                // "a/**/b" matches a/b and a/x/y/b, with both edges on a
-                // path-separator boundary so "a2/b" and "a/xb" stay out.
-                (path == format!("{}/{}", prefix, suffix))
-                    || (path.starts_with(&format!("{}/", prefix))
-                        && path.ends_with(&format!("/{}", suffix)))
-            } else {
-                false
-            }
-        } else if glob.contains('*') {
-            regex::Regex::new(&Self::glob_to_regex(glob))
-                .map(|re| re.is_match(path))
-                .unwrap_or(false)
-        } else {
-            // A literal glob names exactly one path. starts_with here let
-            // "Cargo.toml.bak" ride on a permit scoped to "Cargo.toml"; a
-            // directory scope must be written as "dir/**".
-            path == glob
-        }
-    }
-
-    fn glob_to_regex(glob: &str) -> String {
-        let mut re = String::from("^");
-        let mut chars = glob.chars().peekable();
-        while let Some(c) = chars.next() {
-            match c {
-                '*' => {
-                    if chars.peek() == Some(&'*') {
-                        chars.next();
-                        re.push_str(".*");
-                    } else {
-                        re.push_str("[^/]*");
-                    }
-                }
-                '?' => re.push_str("[^/]"),
-                c if r"\.+()[]{}^$|".contains(c) => {
-                    re.push('\\');
-                    re.push(c);
-                }
-                c => re.push(c),
-            }
-        }
-        re.push('$');
-        re
     }
 }
 
@@ -572,7 +491,11 @@ mod permit_capability_tests {
     /// nothing; only a permit-projected capability does.
     #[test]
     fn a_governed_path_with_no_permit_capability_is_denied_at_the_primitive() {
-        let permits = vec![permit(&["crates/**"], PermitStatus::Active, "2099-01-01T00:00:00Z")];
+        let permits = vec![permit(
+            &["crates/**"],
+            PermitStatus::Active,
+            "2099-01-01T00:00:00Z",
+        )];
         // a governed order path is visible to the gate but uncovered:
         assert!(!PermitGate::covers(
             "lawpack/v2/orders/2026-VJS-PC-099.yaml",
@@ -595,7 +518,11 @@ mod permit_capability_tests {
     /// alone could never express. A Deny on a sensitive subtree beats a broad allow.
     #[test]
     fn a_deny_capability_dominates_an_allowing_permit_in_the_permit_context() {
-        let permits = vec![permit(&["lawpack/v2/**"], PermitStatus::Active, "2099-01-01T00:00:00Z")];
+        let permits = vec![permit(
+            &["lawpack/v2/**"],
+            PermitStatus::Active,
+            "2099-01-01T00:00:00Z",
+        )];
         let mut store = PermitGate::permit_capability_store(&permits, chrono::Utc::now());
         store
             .issue_root(
