@@ -1,0 +1,121 @@
+id: "2026-VJS-PC-019"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-PC 19"
+title: Federation appellate-tier placement and up-referral procedure
+court: privy_council
+jurisdiction: vibe-justice-system
+status: in_force
+issue: where_the_court_of_appeal_sits_in_the_federation_whether_a_subscribing_jurisdiction_may_seat_its_own_intermediate_court_of_appeal_or_whether_every_tier_above_first_instance_refers_up_to_the_canonical_jurisdiction_and_the_consequential_procedure_for_anonymised_up_referral_abstract_precedent_citation_the_server_of_law_mechanism_and_the_kernel_enforcement
+bench:
+  - Reid
+  - Wilberforce
+  - Hoffmann
+vote: >
+  3-0 (Reid J. for the bench, Wilberforce J. and Hoffmann J. concurring). The Court of Appeal sits
+  at the CANONICAL jurisdiction (Construction B). A subscriber seats only its First Instance (County
+  Court) line; everything above First Instance on a question of canon meaning or federation-wide
+  effect refers up. Construction A (a subscriber-seated Court of Appeal) is rejected: subscriber
+  authority is positive-grant, not residual-liberty, and an under-inclusive kernel gate is a gap to
+  close, not a jurisdiction to occupy. Permission to appeal to the Supreme Court GRANTED on the
+  routing ratio (R1, R2, R7).
+case_file_digest: "sha256:77b9346c881495088363e8272d75dc55d5cdbd032c9d2ba460eb0098e4112e19"
+convened_at: "2026-06-26T12:00:00+00:00"
+question: >
+  A subscriber, a subscribing V2 jurisdiction on canonical lawpack vjs-v2, consulted the
+  canonical jurisdiction on federation appellate procedure before recording an appeal. The canon
+  settles that the apex (supreme/privy) is singular and canonical and that subscribers must refer up
+  (REG-FEDERATION-COORDINATION-001; [2026] VJS-SC 4), and that the Court of Appeal persists in law as
+  a tier but is administratively non-convened in the V2 MVP, to sit as an odd bench of 3 when an
+  appeal arises ([2026] VJS-SC 2 D4; ACT-COMPUTER-FIRST-REALM s29). The canon is SILENT on whether
+  that intermediate Court of Appeal sits at the subscriber level or the canonical level, and the
+  kernel apex-routing gate (apex_routing_decision in crates/vjs-core/src/hook.rs) blocks only a
+  court field containing "supreme" or "privy", while the Court enum (crates/vjs-core/src/types.rs)
+  carries no CourtOfAppeal variant. The reference asks: (Q1) where the Court of Appeal sits; (Q2)
+  whether the rationale is "for the benefit of all" - one consistent jurisprudence, not N divergent
+  local appeal lines; (Q3) where the First Instance / appeal boundary lies and whether a subscriber's
+  repo-local First Instance (the CC-SUBSCRIBER County Court line) is correct; (Q4) whether an up-referral
+  must be fully anonymised (abstract question + redacted facts + pointer, no subscriber-specific
+  facts) per ACT-005; (Q5) whether the canonical ruling returns as an abstract precedent the
+  subscriber cites, never a repo-local CA-SUBSCRIBER; (Q6) the mechanism (server_of_law allocate/convene/
+  record) and who convenes the canonical bench; and (Q7) how the answer is enforced at the kernel.
+holding: >
+  UNANIMOUS (3-0). Q1: the Court of Appeal sits at the CANONICAL jurisdiction. A subscriber seats only
+  its First Instance (County Court) line; everything above First Instance on a question turning on the
+  meaning of canonical law, or generalisable / federation-wide in effect, refers up to the canonical
+  jurisdiction (vjs), which alone convenes and records appellate and apex benches. This follows from
+  REG-FEDERATION-COORDINATION-001 ("one continued apex ... Every other (subscribing) jurisdiction must
+  refer up"; it prohibits a root asserting an apex or final court function), from [2026] VJS-SC 4 (the
+  apex is singular and canonical; a subscriber may refer up but may not hold its own apex sitting),
+  and from [2026] VJS-PC 10 (every binding question on the MEANING of canonical law resolves to the
+  one citation series and single apex; no parallel series, local apex, or per-domain citator). Only
+  the County Court is expressly designated repo-local ([2026] VJS-SC 2 D1); the silence as to the
+  Court of Appeal is filled by the unity-of-apex architecture, not against it. The rival construction
+  - that the kernel gate naming only supreme/privy leaves a subscriber Court of Appeal unblocked - is
+  rejected: that enumeration is the worst case the gate was built to catch, not an exhaustive licence;
+  capability is not authority; and the controlling principle that taking an appeal creates no new
+  tier, seat, apex, or citation series leaves the single apex undisturbed.
+
+
+  Q2: CONFIRMED as design intent. An appellate ruling on a generalisable question binds and benefits
+  the whole federation - one consistent jurisprudence - rather than N divergent local appeal lines,
+  which would be the parallel series and per-domain citator forbidden by [2026] VJS-PC 10. Q3:
+  CONFIRMED. A subscriber's repo-local First Instance (the County Court line) applying canon to local
+  facts and binding repo-local precedent is lawful ([2026] VJS-SC 2 D1); the boundary sits at the top
+  of First Instance, and the subscriber's repo-local precedent binds itself only, never a peer and
+  never canon meaning. Q4: CONFIRMED. A subscriber's up-referral crossing into the canonical record
+  must be fully anonymised - the abstract legal question, redacted facts, and a pointer, with no
+  subscriber-specific facts (no repo paths, client facts, or concrete schema/verb identifiers) - per
+  ACT-005, subject only to retaining facts material to the legal question. Q5: CONFIRMED. The
+  canonical ruling returns as an abstract precedent in the one central series that the subscriber
+  cites and may mirror read-only; it is never recorded as a repo-local appellate order. Q6: the
+  subscriber files an anonymised referral; the canonical jurisdiction (vjs), not the subscriber,
+  convenes the bench and drives server_of_law allocate (kernel-minted citation, never hand-picked,
+  ACT-004), convene (bench size verified against [2026] VJS-SC 2; under-strength refused), and record
+  (bench-integrity verified). Q7: the kernel today under-enforces the rule and must be conformed - the
+  apex-routing gate must block any above-County court record staged by a non-apex jurisdiction, and
+  the Court enum must gain a CourtOfAppeal variant, the block operating as a refer-up /
+  route-for-correction and never a void. Permission to appeal to the Supreme Court is GRANTED on the
+  routing ratio (Q1, Q2, Q7), the question being constitutional, first-impression, and
+  federation-binding; the underlying merits are referred up for separate canonical disposition.
+directives:
+  - id: D1
+    actor: lexby
+    must: record_as_the_binding_ratio_that_the_court_of_appeal_and_the_apex_sit_at_the_canonical_jurisdiction_and_that_a_subscriber_seats_only_its_first_instance_county_court_line_everything_above_first_instance_on_a_canon_meaning_or_federation_wide_question_refers_up_grounding_this_in_reg_federation_coordination_001_2026_vjs_sc_4_and_2026_vjs_pc_10_and_in_the_express_repo_local_designation_of_the_county_court_alone_at_2026_vjs_sc_2_d1
+  - id: D2
+    actor: lexby
+    must: confirm_that_the_rationale_is_for_the_benefit_of_all_one_consistent_federation_jurisprudence_not_n_divergent_local_appeal_lines_and_that_a_subscriber_up_referral_must_be_fully_anonymised_the_abstract_legal_question_redacted_facts_and_a_pointer_with_no_subscriber_specific_facts_per_act_005_and_that_the_canonical_ruling_returns_as_an_abstract_precedent_in_the_one_central_series_the_subscriber_cites_and_may_mirror_read_only_never_a_repo_local_appellate_order
+  - id: D3
+    actor: lexby
+    must: record_the_mechanism_the_subscriber_files_an_anonymised_referral_and_the_canonical_jurisdiction_vjs_not_the_subscriber_convenes_the_bench_and_drives_server_of_law_allocate_convene_and_record_the_citation_being_kernel_minted_never_hand_picked_act_004_the_bench_size_verified_against_2026_vjs_sc_2_and_the_subscriber_constituting_no_bench_of_its_own
+  - id: D4
+    actor: lexby
+    must: conform_the_kernel_to_this_ruling_as_machinery_giving_effect_to_enacted_law_2026_vjs_sc_2_d4_extend_apex_routing_decision_in_crates_vjs_core_src_hook_rs_so_that_a_non_apex_jurisdiction_staging_any_above_county_court_record_court_of_appeal_or_appeal_in_addition_to_supreme_or_privy_is_blocked_and_routed_up_preserving_the_county_court_and_referral_pointer_and_lawpack_mirror_carve_outs_and_add_a_court_of_appeal_variant_to_the_court_enum_in_crates_vjs_core_src_types_rs_the_block_operating_as_a_refer_up_route_for_correction_and_never_a_void_so_it_respects_the_assented_record_floor_bind_a_test_for_the_new_predicate
+  - id: D5
+    actor: lexby
+    must: record_this_order_in_canon_through_a_real_convened_odd_bench_of_three_each_seat_carrying_a_present_attributed_opinion_in_source_opinion_allocate_the_citation_through_the_kernel_vjs_next_citation_never_hand_asserting_a_number_pass_the_bench_integrity_gate_and_add_a_citator_row_citing_reg_federation_coordination_001_2026_vjs_sc_4_2026_vjs_sc_2_2026_vjs_pc_6_2026_vjs_pc_10_act_005_and_act_004
+forbidden:
+  - a_subscribing_jurisdiction_seating_its_own_court_of_appeal_or_minting_a_local_appellate_citation_series_on_a_question_of_canon_meaning_contrary_to_reg_federation_coordination_001_and_2026_vjs_pc_10
+  - recording_a_canonical_appellate_ruling_as_a_repo_local_order_instead_of_citing_the_central_series_precedent_2026_vjs_pc_10
+  - a_subscriber_convening_or_constituting_any_bench_above_its_own_first_instance_the_synthesiser_bar
+  - publishing_un_anonymised_subscriber_specific_facts_client_facts_repo_paths_or_schema_or_verb_identifiers_into_an_up_referral_or_the_public_record_act_005
+  - the_kernel_conformance_voiding_or_blocking_an_assented_record_rather_than_routing_it_for_correction
+supersedes: []
+appealable: true
+appeal_of: null
+source_opinion: "lawpack/v2/judgments/2026-VJS-PC-19-opinion.md"
+runtime_summary: >
+  The Court of Appeal sits at the CANONICAL jurisdiction, not the subscriber. A subscribing
+  jurisdiction (e.g. the subscriber) seats only its repo-local First Instance (its County Court line);
+  everything above First Instance on a question of canon meaning or federation-wide effect refers up
+  to vjs, which alone convenes and records appellate (VJS-CA) and apex (VJS-SC) benches. Rationale:
+  one consistent federation jurisprudence, not N divergent local appeal lines (unity of citator and
+  apex). A subscriber's repo-local County Court precedent is lawful but binds itself only. An
+  up-referral must be fully anonymised (abstract question + redacted facts + pointer, no
+  subscriber-specific facts) per ACT-005; the canonical ruling returns as an abstract central-series
+  precedent the subscriber cites and may mirror read-only, never a repo-local CA-SUBSCRIBER. Mechanism:
+  the subscriber files an anonymised referral; vjs convenes and drives server_of_law
+  allocate/convene/record (citation kernel-minted). Kernel enforcement: the apex-routing gate must be
+  extended to block any above-County court record staged by a non-apex jurisdiction (not only
+  supreme/privy), and the Court enum must gain a CourtOfAppeal variant; the block routes up, never
+  voids. Permission to appeal to the Supreme Court is granted on the routing ratio.
+created_at: "2026-06-26T12:00:00+00:00"
