@@ -25,7 +25,7 @@ impl LawpackLoader {
             for entry in WalkDir::new(&statutes_dir).max_depth(1) {
                 let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
                 let path = entry.path();
-                if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
+                if is_lawpack_yaml(path) {
                     let content = std::fs::read_to_string(path)
                         .map_err(|e| KernelError::Io(e.to_string()))?;
                     let statute: Statute = serde_yaml::from_str(&content)
@@ -40,7 +40,7 @@ impl LawpackLoader {
             for entry in WalkDir::new(&regulations_dir).max_depth(1) {
                 let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
                 let path = entry.path();
-                if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
+                if is_lawpack_yaml(path) {
                     let content = std::fs::read_to_string(path)
                         .map_err(|e| KernelError::Io(e.to_string()))?;
                     let regulation: Regulation = serde_yaml::from_str(&content)
@@ -55,7 +55,7 @@ impl LawpackLoader {
             for entry in WalkDir::new(&rules_dir).max_depth(1) {
                 let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
                 let path = entry.path();
-                if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
+                if is_lawpack_yaml(path) {
                     let content = std::fs::read_to_string(path)
                         .map_err(|e| KernelError::Io(e.to_string()))?;
                     let rule: RuleAtom = serde_yaml::from_str(&content)
@@ -70,7 +70,7 @@ impl LawpackLoader {
             for entry in WalkDir::new(&orders_dir).max_depth(2) {
                 let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
                 let path = entry.path();
-                if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
+                if is_lawpack_yaml(path) {
                     let content = std::fs::read_to_string(path)
                         .map_err(|e| KernelError::Io(e.to_string()))?;
                     let order: Order = serde_yaml::from_str(&content)
@@ -85,7 +85,7 @@ impl LawpackLoader {
             for entry in WalkDir::new(&specs_dir).max_depth(1) {
                 let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
                 let path = entry.path();
-                if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
+                if is_lawpack_yaml(path) {
                     let content = std::fs::read_to_string(path)
                         .map_err(|e| KernelError::Io(e.to_string()))?;
                     let spec: Spec = serde_yaml::from_str(&content)
@@ -100,7 +100,7 @@ impl LawpackLoader {
             for entry in WalkDir::new(&invariants_dir).max_depth(1) {
                 let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
                 let path = entry.path();
-                if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
+                if is_lawpack_yaml(path) {
                     let content = std::fs::read_to_string(path)
                         .map_err(|e| KernelError::Io(e.to_string()))?;
                     let raw: InvariantRaw = serde_yaml::from_str(&content)
@@ -117,7 +117,7 @@ impl LawpackLoader {
             for entry in WalkDir::new(&obligations_dir).max_depth(1) {
                 let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
                 let path = entry.path();
-                if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
+                if is_lawpack_yaml(path) {
                     let content = std::fs::read_to_string(path)
                         .map_err(|e| KernelError::Io(e.to_string()))?;
                     let obligation: LawpackObligation = serde_yaml::from_str(&content)
@@ -132,7 +132,7 @@ impl LawpackLoader {
             for entry in WalkDir::new(&decisions_dir).max_depth(1) {
                 let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
                 let path = entry.path();
-                if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
+                if is_lawpack_yaml(path) {
                     let content = std::fs::read_to_string(path)
                         .map_err(|e| KernelError::Io(e.to_string()))?;
                     let decision: Decision = serde_yaml::from_str(&content)
@@ -445,7 +445,6 @@ pub fn lawpack_facts(repo_root: &Path, lawpack: &Lawpack) -> LawpackFacts {
     }
 }
 
-
 mod conformance;
 mod report;
 mod validator;
@@ -479,5 +478,32 @@ mod citation_tests {
         assert_eq!(V::parse_citation("DEC-ACMECO-UNITARY-001"), None);
         assert_eq!(V::parse_citation("not a citation"), None);
         assert_eq!(V::parse_citation("[2026] VJS-PC"), None);
+    }
+}
+
+#[cfg(test)]
+mod yml_seam_tests {
+    use super::LawpackLoader;
+
+    /// The governed-record gate (`front_door`) and the apex bright-line (`hook`) both
+    /// accept `.yaml` AND `.yml`; the loader must too, or a `.yml` order is gated and
+    /// apex-routed on write yet never loaded or validated. This proves the loader now
+    /// picks up a `.yml` order, closing the seam.
+    #[test]
+    fn loader_picks_up_a_yml_order_not_just_yaml() {
+        let dir = std::env::temp_dir().join(format!("vjs_yml_seam_{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        let orders = dir.join("orders");
+        std::fs::create_dir_all(&orders).unwrap();
+        let order = "id: 2026-VJS-TEST-001\ncourt: county\njurisdiction: default\nrepo_code: VJS\nstatus: binding\nissue: yml-seam\nholding: a .yml order must load\ndirectives: []\nforbidden: []\nexceptions: []\nsupersedes: []\nsource_opinion: null\nruntime_summary: proves the loader accepts the .yml extension the gate already governs\ncreated_at: \"2026-06-26T00:00:00Z\"\n";
+        // Deliberately the .yml extension, not .yaml.
+        std::fs::write(orders.join("2026-VJS-TEST-001.yml"), order).unwrap();
+
+        let lawpack = LawpackLoader::load(&dir).expect("load");
+        assert!(
+            lawpack.orders.iter().any(|o| o.id == "2026-VJS-TEST-001"),
+            "a .yml order must be loaded, not silently skipped"
+        );
+        let _ = std::fs::remove_dir_all(&dir);
     }
 }

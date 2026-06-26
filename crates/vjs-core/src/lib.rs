@@ -33,6 +33,22 @@ pub use route::*;
 pub use spec::*;
 pub use types::*;
 
+/// The canonical "is this a lawpack/canon YAML file" test, used by the law LOADER and
+/// VALIDATOR so they recognise exactly the set the governed-record gate does. The front
+/// door (`front_door::is_governed_record`) and the apex bright-line (`hook`) both accept
+/// `.yaml` AND `.yml`; if the loader keyed on `.yaml` only, a `.yml` order would be
+/// permit-gated and apex-routed on write yet never loaded, validated, dup-checked, or
+/// citation-grounded - a record the gate protects but the validator never sees. Keeping
+/// one shared extension set closes that seam (the loaded/validated set equals the
+/// governed set). Runtime artifacts the kernel authors itself (.vjs/logs, permits,
+/// proofs, invocations) are always written `.yaml` and are NOT this law-loading seam.
+pub fn is_lawpack_yaml(path: &std::path::Path) -> bool {
+    matches!(
+        path.extension().and_then(|s| s.to_str()),
+        Some("yaml") | Some("yml")
+    )
+}
+
 pub struct KernelContext {
     pub authority_graph: AuthorityGraph,
     pub limits: ContextLimits,
@@ -350,5 +366,27 @@ mod deterministic_sort_tests {
                 "input permutation {perm:?} produced a non-deterministic order"
             );
         }
+    }
+}
+
+#[cfg(test)]
+mod yaml_ext_tests {
+    use super::is_lawpack_yaml;
+    use std::path::Path;
+
+    /// The loader/validator extension set must match the governed-record gate, which
+    /// accepts BOTH `.yaml` and `.yml`. A loader that took `.yaml` only would leave a
+    /// `.yml` order gated-but-unvalidated.
+    #[test]
+    fn accepts_both_yaml_and_yml_and_nothing_else() {
+        assert!(is_lawpack_yaml(Path::new(
+            "lawpack/v2/orders/2026-VJS-PC-001.yaml"
+        )));
+        assert!(is_lawpack_yaml(Path::new(
+            "lawpack/v2/orders/2026-VJS-PC-001.yml"
+        )));
+        assert!(!is_lawpack_yaml(Path::new("README.md")));
+        assert!(!is_lawpack_yaml(Path::new("notes.yaml.txt")));
+        assert!(!is_lawpack_yaml(Path::new("no-extension")));
     }
 }
