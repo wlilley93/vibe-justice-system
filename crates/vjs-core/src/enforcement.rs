@@ -30,6 +30,7 @@ pub const ENFORCEMENT_SURFACE: &[&str] = &[
     "crates/vjs-core/src/hook.rs",     // the apex/federation bright-line (apex_routing_decision)
     "crates/vjs-core/src/governance/permit_gate.rs", // the pre-write permit authorization gate
     "crates/vjs-redact/src/lib.rs",    // the canon-write boundary + secret/identity scanner
+    "crates/vjs-redact/src/tests.rs", // the scanner's binding proofs (split out of lib.rs; still witnessed)
     "crates/vjs-core/src/enforcement.rs", // this witness itself
 ];
 
@@ -140,6 +141,9 @@ mod tests {
             "crates/vjs-core/src/hook.rs",
             "crates/vjs-core/src/governance/permit_gate.rs",
             "crates/vjs-redact/src/lib.rs",
+            // the redact tests were split out of lib.rs but remain a binding proof, so
+            // they stay pinned - weakening the scanner's coverage must be non-silent.
+            "crates/vjs-redact/src/tests.rs",
         ] {
             assert!(ENFORCEMENT_SURFACE.contains(&gate), "unpinned gate: {gate}");
         }
