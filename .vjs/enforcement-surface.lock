@@ -3,5 +3,8 @@
 # deliberate, recorded gate change (and self-file the rationale).
 crates/vjs-engine/src/assent.rs sha256:aeef91cf1dfa9aca4301b7d9c103aec2b9ae3a9710fbd8615583a4ca991b3193
 crates/vjs-core/src/front_door.rs sha256:b2eeb309b63d0ebe50914bbedc58b4bba0a53c3a3ccc661c7bc68f80c6dc1dd9
-crates/vjs-core/src/bench.rs sha256:2ea63a13c1ff805f70c56c6bb985359f00fbebb9d8c248bd56e0fd00e7247f42
-crates/vjs-core/src/enforcement.rs sha256:55cd7a40d166271923c9e9dc791c66a429bf22a16f334fe125c3f20dbf5580fa
+crates/vjs-core/src/bench.rs sha256:2831cf4c618ddabcbe89d53d186bf8664a5c320a9ba6537cd9677a0625679393
+crates/vjs-core/src/hook.rs sha256:dec6bfd97739a3d6d167a1d5a3f21c707145aab9eb49ba31988f651480c20302
+crates/vjs-core/src/governance/permit_gate.rs sha256:6e5e149431baa2142d0ab7b6baef343fc462d625505e1e0017a4f4fff039f7e3
+crates/vjs-redact/src/lib.rs sha256:f2ead5f737604c02be4b819e8abd79be0dd24ec5bb17e137b200daf56e3a6225
+crates/vjs-core/src/enforcement.rs sha256:7541ea5eefe1f3be9b96b281307be82e5f0628048f0de985c1ee663c20a2261e

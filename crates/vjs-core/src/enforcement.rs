@@ -27,6 +27,9 @@ pub const ENFORCEMENT_SURFACE: &[&str] = &[
     "crates/vjs-engine/src/assent.rs", // the resolution check + the constitutive codes
     "crates/vjs-core/src/front_door.rs", // the assent allow-list + governed-record kinds
     "crates/vjs-core/src/bench.rs",    // bench-integrity (verify_bench, constituted_sizes)
+    "crates/vjs-core/src/hook.rs",     // the apex/federation bright-line (apex_routing_decision)
+    "crates/vjs-core/src/governance/permit_gate.rs", // the pre-write permit authorization gate
+    "crates/vjs-redact/src/lib.rs",    // the canon-write boundary + secret/identity scanner
     "crates/vjs-core/src/enforcement.rs", // this witness itself
 ];
 
@@ -128,7 +131,17 @@ mod tests {
 
     #[test]
     fn surface_lists_the_focused_gates() {
-        assert!(ENFORCEMENT_SURFACE.contains(&"crates/vjs-engine/src/assent.rs"));
-        assert!(ENFORCEMENT_SURFACE.contains(&"crates/vjs-core/src/bench.rs"));
+        // Every bright-line gate fired by the commit pipeline must be pinned so a weakening
+        // edit is non-silent. (Audit 2026-06-26: hook/permit_gate/redact were unpinned.)
+        for gate in [
+            "crates/vjs-engine/src/assent.rs",
+            "crates/vjs-core/src/front_door.rs",
+            "crates/vjs-core/src/bench.rs",
+            "crates/vjs-core/src/hook.rs",
+            "crates/vjs-core/src/governance/permit_gate.rs",
+            "crates/vjs-redact/src/lib.rs",
+        ] {
+            assert!(ENFORCEMENT_SURFACE.contains(&gate), "unpinned gate: {gate}");
+        }
     }
 }
