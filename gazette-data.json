@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-26T10:37:45.669192401+00:00",
+  "generated_at": "2026-06-26T13:54:56.363608194+00:00",
   "items": [
     {
       "affirmed_by": [],
@@ -2471,6 +2471,7 @@
       "case_file_digest": "sha256:6c6597a679e798be72bc48a6fb3d4031549248f9b19f97e7786937b666ce5601",
       "citation": "[2026] VJS-PC 13",
       "cites": [
+        "2026-VJS-COURTS-CONSTITUTION-001",
         "2026-VJS-PC-006",
         "ACT-002",
         "ACT-004",
@@ -2827,6 +2828,8 @@
       "case_file_digest": "sha256:77b9346c881495088363e8272d75dc55d5cdbd032c9d2ba460eb0098e4112e19",
       "citation": "[2026] VJS-PC 19",
       "cites": [
+        "2026-VJS-COURTS-CONSTITUTION-001",
+        "2026-VJS-PC-006",
         "2026-VJS-PC-010",
         "2026-VJS-SC-004",
         "ACT-004",
@@ -3039,6 +3042,7 @@
       "case_file_digest": "sha256:4344c70a40bde0080ca53e627c7bcd78a61caeae95b7fd6a49b47625e8a0b58c",
       "citation": "[2026] VJS-SC 5",
       "cites": [
+        "2026-VJS-PC-016",
         "2026-VJS-PC-018",
         "ACT-003",
         "ACT-ASSENTED-RECORD-PROTECTION",
@@ -4794,6 +4798,6 @@
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "57683270655b2beea07c71c1b89f2bd15f3d7fe3"
+    "source_commit": "edbf93f6ad0419cd48493607158b25b66b95f4d8"
   }
 }
