@@ -45,6 +45,33 @@ impl GitIntegration {
         Ok(files)
     }
 
+    /// The set of paths committed at HEAD, as ONE deterministic git read. Replaces the former
+    /// per-record `git cat-file -e HEAD:<rel>` shell-out in the assent resolver, which spawned a
+    /// subprocess for every governed record in every validate (and every test), so a transient
+    /// fork/exec failure under load was silently mapped to "not established" - stripping a
+    /// genuinely-assented record of its floor (an ACT-010 breach) and making the assent check
+    /// non-deterministic (a REG-KERNEL-001 violation). One read, with the sibling error contract:
+    /// a genuine spawn failure propagates as a loud `Io` error (never a silent floor-strip); a
+    /// non-success exit (e.g. no HEAD on a fresh repo) yields the empty set, so nothing is
+    /// established - the correct reading when there is no committed history.
+    pub fn tracked_at_head(
+        repo_root: &Path,
+    ) -> Result<std::collections::HashSet<String>, KernelError> {
+        let output = Command::new("git")
+            .args(["ls-tree", "-r", "--name-only", "HEAD"])
+            .current_dir(repo_root)
+            .output()
+            .map_err(|e| KernelError::Io(e.to_string()))?;
+        if !output.status.success() {
+            return Ok(std::collections::HashSet::new());
+        }
+        Ok(String::from_utf8_lossy(&output.stdout)
+            .lines()
+            .map(|s| s.to_string())
+            .filter(|s| !s.is_empty())
+            .collect())
+    }
+
     /// Staged DELETIONS only (diff-filter=D). Used by the destructive-action gate
     /// (ACT-006:s4 / ACT-004:s9): deleting a governed record is destructive.
     pub fn read_staged_deletions(repo_root: &Path) -> Result<Vec<String>, KernelError> {

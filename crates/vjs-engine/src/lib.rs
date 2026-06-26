@@ -148,6 +148,11 @@ pub fn validate(repo: &Path, opts: &ValidateOpts) -> Result<Report, KernelError>
                 "No staged files to validate".into(),
             ));
         } else {
+            // ONE deterministic git read of the committed tree, not a per-record subprocess:
+            // whether a governed record is established at HEAD (an edit vs a fresh insertion)
+            // is now a pure fact handed to the resolver. A genuine git failure surfaces here
+            // as a loud error, never a silent per-record floor-strip (ACT-010 / REG-KERNEL-001).
+            let head_set = GitIntegration::tracked_at_head(repo)?;
             for rel in &changed {
                 // PC-16 D1: the floor shelters a staged record only if its declared
                 // assent_source RESOLVES to real Sovereign authority - not merely names
@@ -155,7 +160,7 @@ pub fn validate(repo: &Path, opts: &ValidateOpts) -> Result<Report, KernelError>
                 // to nothing is left at its native severity.
                 if vjs_core::front_door::is_governed_record(rel)
                     && let Ok(content) = std::fs::read_to_string(repo.join(rel))
-                    && crate::assent::assent_resolves(repo, rel, &content)
+                    && crate::assent::assent_resolves(repo, rel, &content, head_set.contains(rel))
                 {
                     assented_record_paths.insert(rel.clone());
                 }
