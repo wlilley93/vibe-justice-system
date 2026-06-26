@@ -374,8 +374,8 @@ pub enum AuthorityRank {
     Primary,
     Regulation,
     SupremeCourt,
-    CourtOfAppeal,
     PrivyCouncil,
+    CourtOfAppeal,
     CountyCourt,
     Log,
 }

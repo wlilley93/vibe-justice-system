@@ -177,8 +177,11 @@ fn rank_value(rank: &AuthorityRank) -> u8 {
         AuthorityRank::Primary => 2,
         AuthorityRank::Regulation => 3,
         AuthorityRank::SupremeCourt => 4,
-        AuthorityRank::CourtOfAppeal => 5,
-        AuthorityRank::PrivyCouncil => 6,
+        // Privy Council outranks the Court of Appeal: the Privy Council grants leave to the
+        // Supreme Court and holds interpretive power over entrenched terms (PC-10/PC-16), so it
+        // sits second only to the apex; the CoA is the intermediate merits tier above County.
+        AuthorityRank::PrivyCouncil => 5,
+        AuthorityRank::CourtOfAppeal => 6,
         AuthorityRank::CountyCourt => 7,
         AuthorityRank::Log => 8,
     }
@@ -208,4 +211,20 @@ pub struct RuleDelta {
     pub added: Vec<RuleAtom>,
     pub varied: Vec<RuleAtom>,
     pub superseded: Vec<AuthorityId>,
+}
+
+#[cfg(test)]
+mod rank_tests {
+    use super::rank_value;
+    use crate::types::AuthorityRank;
+
+    #[test]
+    fn privy_council_outranks_the_court_of_appeal() {
+        // PC-10/PC-16: the Privy Council sits second only to the apex; the Court of Appeal is
+        // the intermediate merits tier above County. Lower rank_value = higher precedence.
+        // (PR #21 had inverted this, ranking CoA above the Privy Council.)
+        assert!(rank_value(&AuthorityRank::SupremeCourt) < rank_value(&AuthorityRank::PrivyCouncil));
+        assert!(rank_value(&AuthorityRank::PrivyCouncil) < rank_value(&AuthorityRank::CourtOfAppeal));
+        assert!(rank_value(&AuthorityRank::CourtOfAppeal) < rank_value(&AuthorityRank::CountyCourt));
+    }
 }

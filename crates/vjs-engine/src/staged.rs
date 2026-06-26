@@ -355,7 +355,9 @@ pub(crate) fn staged_gates(
             // #10 apex order must declare its bench.
             if matches!(
                 order.court,
-                vjs_core::types::Court::PrivyCouncil | vjs_core::types::Court::SupremeCourt
+                vjs_core::types::Court::CourtOfAppeal
+                    | vjs_core::types::Court::PrivyCouncil
+                    | vjs_core::types::Court::SupremeCourt
             ) && order.bench.is_empty()
             {
                 findings.push(

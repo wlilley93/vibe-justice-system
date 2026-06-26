@@ -30,6 +30,11 @@ pub fn court_from_str(s: &str) -> Option<Court> {
         Some(Court::PrivyCouncil)
     } else if l.contains("supreme") {
         Some(Court::SupremeCourt)
+    } else if l.contains("appeal") {
+        // PC-19 + VJS-SC 2 D4: the Court of Appeal tier. "court_of_appeal" carries no
+        // county/privy/supreme token, so without this arm it fell through to None and
+        // convening_bench_check silently SKIPPED the bench-size check for a CoA convening.
+        Some(Court::CourtOfAppeal)
     } else {
         None
     }
@@ -319,6 +324,10 @@ mod tests {
                 "supreme_court",
                 "sit as an odd bench of 5, expandable to 9 for foundational questions",
             ),
+            dir(
+                "court_of_appeal",
+                "may be convened on an odd bench of 3 if and when an appeal arises",
+            ),
         ];
         o
     }
@@ -332,6 +341,24 @@ mod tests {
             constituted_sizes(&c, &Court::SupremeCourt),
             Some(vec![5, 9])
         );
+    }
+
+    #[test]
+    fn court_of_appeal_convening_is_bench_checked() {
+        // Regression (PC-19 D4 / VJS-SC 2): court_from_str must map "court_of_appeal" so the
+        // convene-time bench-size check actually FIRES for a CoA. It was silently skipped
+        // because the appeal arm was missing and the tier resolved to None (no constraint).
+        assert_eq!(
+            court_from_str("court_of_appeal"),
+            Some(Court::CourtOfAppeal)
+        );
+        let c = constitution();
+        assert_eq!(constituted_sizes(&c, &Court::CourtOfAppeal), Some(vec![3]));
+        // an even / under- / over-strength CoA bench is REJECTED ...
+        assert!(convening_bench_check(&c, "court_of_appeal", 2).is_err());
+        assert!(convening_bench_check(&c, "court_of_appeal", 4).is_err());
+        // ... and the constituted odd bench of 3 is accepted.
+        assert!(convening_bench_check(&c, "court_of_appeal", 3).is_ok());
     }
 
     #[test]

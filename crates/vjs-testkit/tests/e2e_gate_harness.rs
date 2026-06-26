@@ -105,6 +105,33 @@ fn forged_fresh_apex_order_stays_fatal_through_the_pipeline() {
 }
 
 #[test]
+fn bench_less_court_of_appeal_order_is_fatal() {
+    // Regression (PC-19 D4 / VJS-SC 2): a Court of Appeal order recorded with NO bench must
+    // be caught by the #10 "apex order must declare its bench" gate. CoA was missing from the
+    // matches! set, so a bench-less CoA order evaded both that gate AND verify_bench (which
+    // early-returns on an empty bench) - an unconstituted CoA order would have been accepted.
+    let repo = ephemeral_canon("coa-benchless");
+    let order = "id: \"2026-VJS-CA-001\"\n\
+        court: court_of_appeal\njurisdiction: vibe-justice-system\nstatus: binding\n\
+        issue: an appeal\nbench: []\nholding: \"a CoA order recorded without its constituted bench\"\n\
+        directives: []\nsupersedes: []\nruntime_summary: x\ncreated_at: \"2026\"\n";
+    std::fs::write(repo.join("lawpack/v2/orders/COA.yaml"), order).unwrap();
+    git(&repo, &["add", "lawpack/v2/orders/COA.yaml"]);
+
+    let report = validate_staged(&repo);
+    let bench = report
+        .findings
+        .iter()
+        .find(|f| f.code == "BENCH_REQUIRED")
+        .expect("BENCH_REQUIRED must be raised for the bench-less Court of Appeal order");
+    assert!(
+        bench.is_blocking(),
+        "BENCH_REQUIRED is constitutive - a bench-less CoA order must stay Fatal"
+    );
+    let _ = std::fs::remove_dir_all(&repo);
+}
+
+#[test]
 fn forged_standing_bounded_order_is_still_blocked() {
     // The standing_bounded_assent path is permissive (PC-16 reserved per-class routes),
     // but the HIGH-VALUE order/apex vector is closed independently by the constitutive
