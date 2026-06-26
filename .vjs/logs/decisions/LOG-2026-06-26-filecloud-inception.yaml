@@ -1,0 +1,34 @@
+id: LOG-2026-06-26-filecloud-inception
+time: "2026-06-26T00:00:00Z"
+actor: principal
+kind: implementation_decision
+issue: filecloud_inception
+decision: >
+  Establish filecloud as a cleanroom personal file browser project within VJS.
+  Stack: Node.js + Hono + React + Vite + SQLite. Replaces Nextcloud on Beelink
+  for single-user file browse, search, preview, upload, share links, and tagging.
+  Served from /home/jellytot/Documents/The-Atrophied-Mind/ on port 3000 over Tailscale.
+  Onyx dark theme throughout. Ten founding decisions recorded (DEC-FC-001 to DEC-FC-010).
+basis:
+  - DEC-FC-001
+  - DEC-FC-002
+  - DEC-FC-003
+  - DEC-FC-004
+  - DEC-FC-005
+  - DEC-FC-006
+  - DEC-FC-007
+  - DEC-FC-008
+  - DEC-FC-009
+  - DEC-FC-010
+  - SPEC-FILECLOUD-001
+risk: low
+reversibility: reversible
+court_required: false
+why: >
+  Nextcloud is a PHP monolith that is slow on Beelink ARM64 and visually mismatched
+  with the Onyx stack. A cleanroom Node.js build is leaner, faster, and can be
+  styled exactly to the Onyx design language. The founding documents (REQUIREMENTS.md,
+  DESIGN-SPEC.md, METACOGNITION.md, DECISION-LEDGER.md) establish the full scope,
+  design system mapping, open questions, and rationale before any code is written.
+  Key open questions (tree size, MKV support, Tailscale HTTPS, thumbnail complexity)
+  are recorded in METACOGNITION.md and will be resolved before implementation begins.

@@ -1,0 +1,98 @@
+id: SUBMISSION-2026-06-25-cross-kernel-capability-hardening
+filed: "2026-06-25"
+filed_by: lexby
+tier_requested: privy_council
+kind: reference
+title: "Reference re Cross-Kernel Capability Hardening (the four keystones K1-K4)"
+
+summary: >
+  A connected, first-impression architectural reference on whether to adopt, across
+  BOTH kernels (the VJS law kernel and the Opbox runtime kernel), a single
+  capability-controlled interposition model drawn from Agent libOS (Yingqi Zhang,
+  arXiv 2606.03895), grounded in the cloned repo at ~/Projects/Agent-libOS. Four
+  keystone questions are put together because they form one coherent model; each is
+  decided on its own, and the bench may grant any and refuse any.
+
+grounding:
+  reference_substrate: "Agent libOS, ~/Projects/Agent-libOS (read the actual mechanisms, not the paper abstraction)"
+  read_first:
+    - "docs/architecture.md, docs/runtime_model.md (the layered interposition: tools -> libos runtime -> resource providers)"
+    - "docs/capabilities.md (the capability record; deny-dominance; one-shot uses_remaining; attenuating delegation; resource typing; ask->human approval)"
+    - "docs/invariants.md + tests/invariants.yaml (machine-checked invariant->test map; 656 test fns)"
+    - "docs/artifact_anonymity.md (the double-blind content-scan: tenant/account ids, private endpoints, absolute paths, secrets)"
+    - "agent_libos/runtime/syscall_router.py, runtime/syscalls.py (the syscall chokepoint)"
+    - "agent_libos/capability/manager.py, capability/resources.py, capability/rules.py (authorize(); issue/delegate/revoke)"
+    - "agent_libos/primitives/{filesystem,shell,git,clock,jsonrpc}.py (authority enforced at the primitive, not the wrapper)"
+    - "agent_libos/runtime/audit_manager.py, models/audit.py, models/external_effect.py (bounded audit; ExternalEffectRollbackClass)"
+    - "agent_libos/human/manager.py (blocking, queued, decided-exactly-once human approval)"
+  vjs_context:
+    - "The VJS front door (route->permit->log->validate->commit), enforced at pre-commit + pre-write + REQUIRED CI; vjs-engine the smart point (REG-KERNEL-001)."
+    - "PC-15 runtime overlay: submit_decision returns GRANT/DENY/ROUTE-FOR-CORRECTION; the subscriber is TRUSTED to honour it (advisory)."
+    - "Permits today: scope + obligations, no use-count/delegation/explicit-revocation; they accumulated as 'active' until CI caught unfulfilled log obligations (2026-06-25)."
+    - "Decision logs can name the subscriber (~26 do); the boundary-prose gate covers canon records, not the whole audit estate."
+    - "The entrenched floor: ACT-ASSENTED-RECORD-PROTECTION (VJS-ACT 10) - machinery may never narrow a genuine record's protection; reserved to the Sovereign."
+
+questions:
+  K1:
+    title: "Visibility / Invocation / Authority as a kernel invariant"
+    issue: >
+      Agent libOS separates three decisions and holds "tool visibility does not imply
+      resource authority": Visibility (may the agent SEE the verb schema), Invocation
+      (may it SUBMIT the call), Authority (may the operation TOUCH the resource). Both
+      VJS (closed MCP verb surface + permit gate) and the Opbox overlay conflate these.
+    options:
+      - "A: adopt the three-decision split as a binding kernel invariant in BOTH kernels, test-locked"
+      - "B: adopt in the Opbox runtime kernel only (VJS is commit-time; a different chokepoint)"
+      - "C: reject; keep the current flat see-or-not / permitted-or-not model"
+  K2:
+    title: "A unified capability primitive"
+    issue: >
+      Whether VJS permits and Opbox-kernel grants become ONE capability record:
+      {subject, resource(typed), rights, effect(allow/deny/ask), issuer, issuer_cap_id/
+      parent_cap_id(lineage), delegation_depth, issued_at/expires_at, uses_remaining,
+      status, rules, constraints}, with one-shot = uses_remaining:1 consumed once,
+      deny-dominance, attenuating-only delegation, and revocation effective on the next
+      check. "Names are not capabilities."
+    options:
+      - "A: one shared capability primitive across both kernels (vjs-core), permits become a profile of it"
+      - "B: align the record SHAPE but keep two implementations"
+      - "C: keep permits and grants distinct"
+  K3:
+    title: "The sole-syscall-surface mandate (Opbox kernel)"
+    issue: >
+      Whether the Opbox kernel chokepoint must be the ONLY path to tenant resources
+      (DB, files, outbound), so the agent has no door but the gate and revocation takes
+      effect on the next call - i.e. structural interposition, not an advisory
+      submit_decision the subscriber may route around. This is the difference between
+      "the agent asks permission" and "the agent cannot act except through the gate."
+    options:
+      - "A: mandate the sole-syscall-surface (unbypassable), proven by a red-team that fails closed"
+      - "B: keep advisory submit_decision + best-effort enforcement"
+      - "C: hybrid - sole surface for high-risk/irreversible verbs, advisory for low-risk reads"
+  K4:
+    title: "One-shot capability + durable human-approval queue for irreversible outward actions"
+    issue: >
+      Whether irreversible outward actions (deploy, send, spend, publish) must BLOCK on
+      a durable approval queue, resume on a Principal one-shot grant consumed exactly
+      once, and be reversibility-classified (irreversible | rollbackable | none), as in
+      Agent libOS human/manager + ExternalEffectRollbackClass - replacing the current
+      ad-hoc "Lexby narrates a route to the Principal in chat."
+    options:
+      - "A: adopt the blocking durable queue + one-shot grant + reversibility classification"
+      - "B: keep ad-hoc Principal routing"
+      - "C: reversibility classification only, no blocking queue"
+
+constraints_as_absolutes:
+  - "The entrenched VJS-ACT 10 floor: nothing adopted may narrow a genuine record's protection by machinery; that is reserved to the Sovereign. If a faithful grant required narrowing it, reserve to the Sovereign and say so."
+  - "REG-KERNEL-001 / INV-KERNEL-001: the kernel is the deterministic clerk - no model, no merits; capability checks must be deterministic, model-free, network-free."
+  - "Machinery amends no statute, bench, tier, or assent rule (ACT-CONSOLIDATION-FRAMEWORK s.7, s.25)."
+  - "VJS is the policy/law; the substrate is the boundary. Adopting a substrate model must not import a subscriber's vocabulary or identity into canon (the canon-boundary gate stands)."
+
+disposition_sought: >
+  Per keystone: GRANT (adopt; direct lexby to build under binding non-narrowing
+  conditions), REFUSE (keep status quo, with the recorded ratio), or RESERVE-TO-SOVEREIGN
+  (if a grant would narrow the floor). Record which option (A/B/C) the bench adopts for
+  each, the binding conditions, and any escalation recommendation if a question is in
+  truth constitutional (Supreme). The decisive-call builds (shared audit envelope,
+  reversibility tagging, permit lifecycle hygiene) proceed regardless and are noted, not
+  decided, here.
