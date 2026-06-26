@@ -258,13 +258,19 @@ impl RawPredicate {
                 issue: self.issue.clone(),
             }),
             "word_count_lte" => {
-                let field = self
-                    .field
-                    .as_ref()
-                    .ok_or("word_count_lte requires field")?
-                    .clone();
-                let max = self.max.ok_or("word_count_lte requires max")?;
-                Ok(PredicateExpr::WordCountLte { field, max })
+                // FAIL-CLOSED at parse. `word_count_lte` has no faithful evaluator
+                // (RepoState carries no structured per-field record to count words on),
+                // and its old evaluator returned `true` unconditionally - a check that
+                // reads as enforced but always passes. Reject it so a lawpack can never
+                // silently wire a dead enforcement; rejecting at parse (not at evaluate)
+                // also keeps it immune to `not`/`none` inversion. Re-enable only once a
+                // real evaluator and its data source exist. For file-level word limits
+                // use `file_words_lte`; for decision-log brevity use `logs_stay_short`.
+                Err(
+                    "word_count_lte is not implemented (it would silently always pass); \
+                     use file_words_lte or logs_stay_short instead"
+                        .to_string(),
+                )
             }
             "file_words_lte" => {
                 let glob = self

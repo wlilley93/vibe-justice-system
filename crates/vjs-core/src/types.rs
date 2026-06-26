@@ -26,7 +26,13 @@ impl AuthorityStatus {
     pub fn is_live(&self) -> bool {
         matches!(
             self,
-            AuthorityStatus::Binding | AuthorityStatus::InForce | AuthorityStatus::Proposed
+            // Proposed is PRE-ENACTMENT (statute ACT-001:s7: "Proposed law must be
+            // marked draft. Binding law requires authorised adoption."), parallel to
+            // Draft and Stayed which are also excluded - it confers no binding force and
+            // must not resolve as live law (RouteDecision.binding) or suppress a
+            // FirstImpression court trigger (court.rs::any_on_point). Only an adopted
+            // authority is live - matching the in-force test in vjs-engine staged.rs.
+            AuthorityStatus::Binding | AuthorityStatus::InForce
         )
     }
 }
