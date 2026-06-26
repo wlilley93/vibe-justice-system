@@ -63,13 +63,13 @@ fn all_fn_names(root: &Path) -> BTreeSet<String> {
 
 #[test]
 fn global_invariants_are_bound_and_debt_ratchets_down() {
-    // The VJS binding debt may only DECREASE. Lower this as invariants are bound to tests
-    // (K-30). 27 in-scope invariants (30 minus 3 n/a); 25 bound, 2 unbound after the unified
-    // capability primitive (K-4..K-11), K-12/K-25/K-27, the hash-chained audit (K-19), the
-    // reversibility-class + decided-once approval queue (K-23/K-24, effects.rs), the
-    // deterministic risk-downgrade (K-14, risk.rs), and the K-1 capability->permit integration
-    // that also binds K-2 (visibility != authority, governance.rs). Remaining: K-26, K-28.
-    const VJS_DEBT_BASELINE: usize = 2;
+    // The VJS binding debt may only DECREASE. 27 in-scope invariants (30 minus 3 n/a); ALL 27
+    // now bound to deterministic tests (debt 0) - the capability primitive (K-4..K-11) load-bearing
+    // on the permit path (K-1/K-2), determinism (K-12/K-14), the entrenched floor (K-15..K-18),
+    // hash-chained audit (K-19/K-20), reversibility + approval queue (K-23/K-24, effects.rs),
+    // surface integrity + trust root + compile-time fail-closed + drift-proof attrs (K-25..K-28).
+    // The ratchet is now at the floor: any new/loosened invariant must arrive with its test.
+    const VJS_DEBT_BASELINE: usize = 0;
 
     let root = workspace_root();
     let yaml = std::fs::read_to_string(root.join("docs/global-invariants.yaml"))
@@ -126,8 +126,12 @@ fn global_invariants_are_bound_and_debt_ratchets_down() {
         in_scope - debt
     );
 
+    // The ratchet has reached its floor: the baseline is 0, so `debt <= 0` means `debt == 0`.
+    // That `<= min` shape is intentional (the general ratchet is `<=`, now pinned at the floor).
+    #[allow(clippy::absurd_extreme_comparisons)]
+    let within_ratchet = debt <= VJS_DEBT_BASELINE;
     assert!(
-        debt <= VJS_DEBT_BASELINE,
+        within_ratchet,
         "K-30 ratchet: VJS binding debt rose to {debt} (baseline {VJS_DEBT_BASELINE}). \
          Bind a test to the new/loosened invariant; the debt may only decrease."
     );
