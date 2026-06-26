@@ -6,5 +6,5 @@ crates/vjs-core/src/front_door.rs sha256:b2eeb309b63d0ebe50914bbedc58b4bba0a53c3
 crates/vjs-core/src/bench.rs sha256:2831cf4c618ddabcbe89d53d186bf8664a5c320a9ba6537cd9677a0625679393
 crates/vjs-core/src/hook.rs sha256:dec6bfd97739a3d6d167a1d5a3f21c707145aab9eb49ba31988f651480c20302
 crates/vjs-core/src/governance/permit_gate.rs sha256:6e5e149431baa2142d0ab7b6baef343fc462d625505e1e0017a4f4fff039f7e3
-crates/vjs-redact/src/lib.rs sha256:f2ead5f737604c02be4b819e8abd79be0dd24ec5bb17e137b200daf56e3a6225
+crates/vjs-redact/src/lib.rs sha256:6c9d0439a6097a25c45a809224d519fbc57f12002ed51ef4846a7e29bd465919
 crates/vjs-core/src/enforcement.rs sha256:7541ea5eefe1f3be9b96b281307be82e5f0628048f0de985c1ee663c20a2261e

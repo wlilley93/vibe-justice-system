@@ -67,6 +67,58 @@ scope:
     }
 
     #[test]
+    fn canon_secret_scan_blocks_credentials_but_only_warns_on_hostnames() {
+        // Audit 2026-06-26: scan_file never ran over the canon tree, so a credential
+        // committed into a lawpack/v2 record reached the public repo undetected. Now it
+        // runs in scan_canon_writes - credentials HARD-BLOCK, boundary-example hostnames warn.
+        let base =
+            std::env::temp_dir().join(format!("vjs-redact-canonscan-{}", std::process::id()));
+        let dir = base.join("lawpack/v2/decisions");
+        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::write(
+            dir.join("cred.yaml"),
+            "id: DEC-X\ntoken: ghp_0123456789abcdefghijABCDEFGHIJ0123456\n",
+        )
+        .unwrap();
+        std::fs::write(
+            dir.join("host.yaml"),
+            "id: DEC-Y\nexample: private_store.local\n",
+        )
+        .unwrap();
+
+        let creds = RedactScanner::scan_canon_writes(
+            &base,
+            &[PathBuf::from("lawpack/v2/decisions/cred.yaml")],
+            "VJS",
+        );
+        assert!(
+            !RedactScanner::check_public_safe(&creds),
+            "a GitHub token in a canon record must hard-block"
+        );
+        assert!(
+            creds
+                .iter()
+                .any(|f| matches!(f.kind, BoundaryFindingKind::Token))
+        );
+
+        let hosts = RedactScanner::scan_canon_writes(
+            &base,
+            &[PathBuf::from("lawpack/v2/decisions/host.yaml")],
+            "VJS",
+        );
+        assert!(
+            RedactScanner::check_public_safe(&hosts),
+            "a .local boundary example must surface as a non-blocking Warning, not block canon"
+        );
+        assert!(
+            hosts
+                .iter()
+                .any(|f| matches!(f.kind, BoundaryFindingKind::PrivateHostname)),
+        );
+        let _ = std::fs::remove_dir_all(&base);
+    }
+
+    #[test]
     fn registry_catches_a_foreign_id_code_without_scope_corroboration() {
         // No scope path, no repo_code field - only the id carries OPBOX. Corroboration
         // alone would miss it; the federation registry (#11) catches it.
@@ -530,6 +582,21 @@ impl RedactScanner {
                 let (mut fs, code) =
                     Self::scan_canon_record(rel, &content, canon_repo_code, &subscriber_codes);
                 findings.append(&mut fs);
+                // Secret/PII scan over the canon record (audit 2026-06-26: scan_file never ran
+                // over the canon tree, so a credential committed into a lawpack/v2 record reached
+                // the public repo's git history undetected by both the local gate and CI). Real
+                // credentials (Token/Secret) HARD-BLOCK; the noisier Email / private-hostname
+                // patterns surface as non-blocking Warnings (canon prose legitimately carries
+                // boundary examples, e.g. "private_store.local" in statute 05).
+                for mut sf in Self::scan_file(rel, &content) {
+                    if !matches!(
+                        sf.kind,
+                        BoundaryFindingKind::Token | BoundaryFindingKind::Secret
+                    ) {
+                        sf.severity = Severity::Warning;
+                    }
+                    findings.push(sf);
+                }
                 if let Some(c) = code {
                     foreign_codes.push(c.to_ascii_lowercase());
                 }
