@@ -29,7 +29,7 @@ invariants:
   - id: K-4
     group: capability
     statement: "Unified capability record {subject,resource,rights,effect,issuer,lineage,depth,expiry,uses,status}."
-    vjs: { status: met, tests: [k4_record_rejects_wildcard_right_and_requires_explicit_rights] }
+    vjs: { status: met, tests: [k4_record_rejects_wildcard_right_and_requires_explicit_rights, k5_deny_dominates_overlapping_allow, k6_one_shot_is_consumed_exactly_once_and_refunds, k7_delegation_only_attenuates_and_finite_cannot_delegate] }
     opbox: { status: partial, tests: [] }
   - id: K-5
     group: capability
@@ -69,7 +69,7 @@ invariants:
   - id: K-12
     group: deterministic
     statement: "Deterministic, model-free, network-free decisions."
-    vjs: { status: met, tests: [the_kernel_closure_bans_network_and_model_crates] }
+    vjs: { status: met, tests: [the_kernel_closure_bans_network_and_model_crates, no_banned_network_or_model_crate_is_in_the_lockfile] }
     opbox: { status: met, tests: [] }
   - id: K-13
     group: deterministic
@@ -134,7 +134,7 @@ invariants:
   - id: K-25
     group: surface
     statement: "Enforcement surface digest-pinned outside the witnessed code; any gate edit is non-silent."
-    vjs: { status: met, tests: [the_committed_enforcement_surface_matches_its_pin, surface_lists_the_focused_gates] }
+    vjs: { status: met, tests: [the_committed_enforcement_surface_matches_its_pin, surface_lists_the_focused_gates, check_drift_flags_an_edited_gate] }
     opbox: { status: gap, tests: [] }
   - id: K-26
     group: surface

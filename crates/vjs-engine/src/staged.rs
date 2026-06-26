@@ -124,30 +124,9 @@ pub(crate) fn staged_gates(
         }
     }
 
-    // #7 media-file-in-canon (ACT-005:s1).
-    for rel in changed {
-        let low = rel.to_ascii_lowercase();
-        let in_public = low.starts_with("lawpack/v2/") || low.starts_with("public/");
-        let is_media = [
-            ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp", ".log", ".mp4", ".mov",
-        ]
-        .iter()
-        .any(|e| low.ends_with(e));
-        if in_public && is_media {
-            findings.push(
-                f(
-                    Severity::Fatal,
-                    "BOUNDARY_MEDIA_IN_CANON",
-                    format!(
-                        "'{rel}' is a screenshot/log/media file in a public record path \
-                         (ACT-005:s1 must_not publish_screenshots / publish_logs)."
-                    ),
-                )
-                .at(PathBuf::from(rel))
-                .fix("Keep operational evidence in .vjs/private and reference it by pointer (ACT-005:s4)."),
-            );
-        }
-    }
+    // #7 media-file-in-canon (ACT-005:s1). Extracted to media_in_canon_findings so this
+    // Fatal gate has a direct behavioral test (it is a pinned enforcement-surface gate).
+    findings.extend(media_in_canon_findings(changed));
 
     // #6 destructive governed-record deletion (ACT-006:s4 / ACT-004:s9).
     if let Ok(deletions) = GitIntegration::read_staged_deletions(repo) {
@@ -400,4 +379,73 @@ pub(crate) fn staged_gates(
     }
 
     Ok(())
+}
+
+/// ACT-005:s1: a screenshot / log / media file staged into a public record path must not be
+/// published; that is a Fatal canon-boundary violation. Pure over the changed-path list, so it
+/// is directly testable (the goal-completion audit, 2026-06-26, found this inline gate had no
+/// behavioral test while living in an unpinned file).
+pub(crate) fn media_in_canon_findings(changed: &[String]) -> Vec<Finding> {
+    let mut out = Vec::new();
+    for rel in changed {
+        let low = rel.to_ascii_lowercase();
+        let in_public = low.starts_with("lawpack/v2/") || low.starts_with("public/");
+        let is_media = [
+            ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp", ".log", ".mp4", ".mov",
+        ]
+        .iter()
+        .any(|e| low.ends_with(e));
+        if in_public && is_media {
+            out.push(
+                f(
+                    Severity::Fatal,
+                    "BOUNDARY_MEDIA_IN_CANON",
+                    format!(
+                        "'{rel}' is a screenshot/log/media file in a public record path \
+                         (ACT-005:s1 must_not publish_screenshots / publish_logs)."
+                    ),
+                )
+                .at(PathBuf::from(rel))
+                .fix("Keep operational evidence in .vjs/private and reference it by pointer (ACT-005:s4)."),
+            );
+        }
+    }
+    out
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn boundary_media_in_canon_fires_fatal() {
+        // A screenshot/log/media file in a public canon path is a Fatal BOUNDARY_MEDIA_IN_CANON.
+        let flagged = media_in_canon_findings(&[
+            "lawpack/v2/orders/2026-VJS-PC-099-screenshot.png".to_string(),
+            "public/evidence.log".to_string(),
+        ]);
+        assert_eq!(
+            flagged.len(),
+            2,
+            "both media-in-canon paths must be flagged"
+        );
+        assert!(
+            flagged
+                .iter()
+                .all(|fnd| fnd.code == "BOUNDARY_MEDIA_IN_CANON"
+                    && matches!(fnd.severity, Severity::Fatal)),
+            "each must be a Fatal BOUNDARY_MEDIA_IN_CANON: {:?}",
+            flagged.iter().map(|fnd| &fnd.code).collect::<Vec<_>>()
+        );
+        // A yaml order is not media; a media file OUTSIDE the public canon path is not flagged.
+        let clean = media_in_canon_findings(&[
+            "lawpack/v2/orders/2026-VJS-PC-099.yaml".to_string(),
+            ".vjs/private/screenshot.png".to_string(),
+        ]);
+        assert!(
+            clean.is_empty(),
+            "a yaml canon record and a .vjs/private media file must not be flagged: {:?}",
+            clean.iter().map(|fnd| &fnd.code).collect::<Vec<_>>()
+        );
+    }
 }

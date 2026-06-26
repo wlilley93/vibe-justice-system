@@ -31,7 +31,12 @@ pub const ENFORCEMENT_SURFACE: &[&str] = &[
     "crates/vjs-core/src/governance/permit_gate.rs", // the pre-write permit authorization gate
     "crates/vjs-redact/src/lib.rs",    // the canon-write boundary + secret/identity scanner
     "crates/vjs-redact/src/tests.rs", // the scanner's binding proofs (split out of lib.rs; still witnessed)
-    "crates/vjs-core/src/enforcement.rs", // this witness itself
+    // The staged-commit pipeline fires more bright-line gates than the assent/bench/apex set:
+    // these three were unpinned until the 2026-06-26 goal-completion audit found them.
+    "crates/vjs-engine/src/staged.rs", // the staged-commit gate set (BOUNDARY_MEDIA_IN_CANON, destructive-delete, cross-repo reach)
+    "crates/vjs-lawpack/src/validator.rs", // citation uniqueness (CITATION_COLLISION) + duplicate-id + grounding checks
+    "crates/vjs-lawpack/src/refs.rs",      // the citation-grounding teeth (ground_operative)
+    "crates/vjs-core/src/enforcement.rs",  // this witness itself
 ];
 
 const LOCK_PATH: &str = ".vjs/enforcement-surface.lock";
@@ -133,7 +138,10 @@ mod tests {
     #[test]
     fn surface_lists_the_focused_gates() {
         // Every bright-line gate fired by the commit pipeline must be pinned so a weakening
-        // edit is non-silent. (Audit 2026-06-26: hook/permit_gate/redact were unpinned.)
+        // edit is non-silent. This is the AUDITED gate set: the commit pipeline's gates are
+        // inline Rust, not a registry, so the list is curated, but it must stay complete.
+        // (Audit 2026-06-26: hook/permit_gate/redact were unpinned in the first pass; the
+        // goal-completion audit then found staged.rs/validator.rs/refs.rs also unpinned.)
         for gate in [
             "crates/vjs-engine/src/assent.rs",
             "crates/vjs-core/src/front_door.rs",
@@ -144,8 +152,45 @@ mod tests {
             // the redact tests were split out of lib.rs but remain a binding proof, so
             // they stay pinned - weakening the scanner's coverage must be non-silent.
             "crates/vjs-redact/src/tests.rs",
+            // the staged-commit pipeline's own gate set + the lawpack validation/grounding
+            // gates it relies on (the goal-completion audit found these three unpinned).
+            "crates/vjs-engine/src/staged.rs",
+            "crates/vjs-lawpack/src/validator.rs",
+            "crates/vjs-lawpack/src/refs.rs",
         ] {
             assert!(ENFORCEMENT_SURFACE.contains(&gate), "unpinned gate: {gate}");
         }
+    }
+
+    #[test]
+    fn check_drift_flags_an_edited_gate() {
+        // K-25's LOAD-BEARING direction: an edit to a pinned gate is non-silent. The earlier
+        // tests only proved the no-drift happy path; the goal-completion audit (2026-06-26)
+        // found the positive direction (want != got -> Fatal) was asserted nowhere. Pin a
+        // digest for a gate file that does not exist at this repo root, so the current digest
+        // (None) cannot match the pin -> exactly the drift a weakening edit would produce.
+        let tmp = std::env::temp_dir().join(format!("vjs-enf-drift-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&tmp);
+        std::fs::create_dir_all(tmp.join(".vjs")).unwrap();
+        std::fs::write(
+            tmp.join(LOCK_PATH),
+            "# test pin\ncrates/vjs-core/src/bench.rs sha256:0000000000000000000000000000000000000000000000000000000000000000\n",
+        )
+        .unwrap();
+        let findings = check_drift(&tmp);
+        assert!(
+            findings
+                .iter()
+                .any(|f| f.code == "ENFORCEMENT_SURFACE_DRIFT"),
+            "an edited/absent pinned gate must produce a Fatal ENFORCEMENT_SURFACE_DRIFT finding, got: {:?}",
+            findings.iter().map(|f| &f.code).collect::<Vec<_>>()
+        );
+        assert!(
+            findings
+                .iter()
+                .any(|f| matches!(f.severity, Severity::Fatal)),
+            "the drift finding must be Fatal"
+        );
+        let _ = std::fs::remove_dir_all(&tmp);
     }
 }

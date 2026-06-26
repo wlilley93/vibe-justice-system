@@ -367,6 +367,29 @@ mod tests {
             constituted_sizes(&c, &Court::SupremeCourt),
             Some(vec![5, 9])
         );
+
+        // Adversarial (K-18, goal-completion audit 2026-06-26): prove the sizes are read FROM
+        // the record, not a hard-coded table. Feed OFF-canonical sizes and require the function
+        // to return THEM - a `match court { County => 1, .. }` hard-coding would still return
+        // the canonical 1/3/5,9 here and fail, so this distinguishes by-reference from baked-in.
+        let mut off = constitution();
+        off.directives = vec![
+            dir("county_court", "sit as an odd bench of 7 over repo matters"),
+            dir("privy_council", "sit as an odd bench of 11"),
+            dir(
+                "supreme_court",
+                "sit as an odd bench of 13, expandable to 21 for foundational questions",
+            ),
+        ];
+        assert_eq!(constituted_sizes(&off, &Court::County), Some(vec![7]));
+        assert_eq!(
+            constituted_sizes(&off, &Court::PrivyCouncil),
+            Some(vec![11])
+        );
+        assert_eq!(
+            constituted_sizes(&off, &Court::SupremeCourt),
+            Some(vec![13, 21])
+        );
     }
 
     #[test]
