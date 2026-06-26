@@ -150,7 +150,7 @@ absent. (Agent kernelB shown as the reference column.)
 | K-11 | Grant is transfer | MET | GAP | PARTIAL |
 | K-12 | Deterministic / model-free | MET | MET | MET |
 | K-13 | Fail-closed default | MET | MET | MET |
-| K-14 | Deterministic risk + downgrade | MET | PARTIAL | PARTIAL |
+| K-14 | Deterministic risk + downgrade | MET | **MET** (risk.rs: metasyntax/destructive classes; elevated auto-allow downgrades) | PARTIAL |
 | K-15 | Entrenched floor (self-protected) | GAP | **MET** | GAP (overlay inert) |
 | K-16 | Constitutive vs correctable | GAP | **MET** | GAP |
 | K-17 | Denial names instrument | PARTIAL | **MET** | PARTIAL (receipt can't refuse) |
