@@ -106,7 +106,7 @@ fn load_yaml_dir<T: DeserializeOwned>(dir: &Path) -> Result<Vec<T>, KernelError>
     for entry in WalkDir::new(dir).max_depth(1) {
         let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
         let path = entry.path();
-        if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
+        if vjs_core::is_lawpack_yaml(path) {
             let content =
                 std::fs::read_to_string(path).map_err(|e| KernelError::Io(e.to_string()))?;
             let item: T = serde_yaml::from_str(&content)

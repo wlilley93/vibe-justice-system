@@ -13,20 +13,64 @@ impl LawpackValidator {
         let mut findings = Vec::new();
         let mut ok = true;
 
-        // Check for duplicate IDs
-        let mut ids = std::collections::HashSet::new();
-        for statute in &lawpack.statutes {
-            for section in &statute.sections {
-                if !ids.insert(section.id.0.clone()) {
-                    findings.push(ValidationFinding {
-                        severity: Severity::Error,
-                        code: "DUPLICATE_ID".into(),
-                        path: None,
-                        message: format!("Duplicate authority ID: {}", section.id.0),
-                        suggested_fix: Some("Change the ID to a unique value".into()),
-                    });
-                    ok = false;
+        // Duplicate authority-id detection across the WHOLE lawpack, not statute
+        // sections alone. An id is how a reference (supersedes / cites_authorities / a
+        // predicate's authority arg) resolves to exactly ONE authority; if two
+        // authorities of ANY kind share an id, that resolution is silently ambiguous.
+        // Members are walked in a fixed kind order so the findings are deterministic.
+        // Pure order-vs-order collisions are owned by the constitutive CITATION_COLLISION
+        // check below (and so not double-reported here); every other repeat - statute,
+        // section, regulation, rule, spec, invariant, decision, obligation, and any
+        // cross-kind reuse (e.g. an order id reused as an invariant id) - is DUPLICATE_ID.
+        let mut members: Vec<(&str, &'static str)> = Vec::new();
+        for s in &lawpack.statutes {
+            members.push((s.id.0.as_str(), "statute"));
+            for sec in &s.sections {
+                members.push((sec.id.0.as_str(), "statute-section"));
+            }
+        }
+        for r in &lawpack.regulations {
+            members.push((r.id.0.as_str(), "regulation"));
+        }
+        for ru in &lawpack.rules {
+            members.push((ru.id.0.as_str(), "rule"));
+        }
+        for sp in &lawpack.specs {
+            members.push((sp.id.0.as_str(), "spec"));
+        }
+        for inv in &lawpack.invariants {
+            members.push((inv.id.0.as_str(), "invariant"));
+        }
+        for d in &lawpack.decisions {
+            members.push((d.id.0.as_str(), "decision"));
+        }
+        for ob in &lawpack.obligations {
+            members.push((ob.id.as_str(), "obligation"));
+        }
+        for o in &lawpack.orders {
+            members.push((o.id.as_str(), "order"));
+        }
+        let mut seen: std::collections::HashMap<&str, &'static str> =
+            std::collections::HashMap::new();
+        for (id, kind) in members {
+            if let Some(prev) = seen.insert(id, kind) {
+                // The order-vs-order namespace is the constitutive CITATION_COLLISION
+                // check's domain; do not double-report it here.
+                if prev == "order" && kind == "order" {
+                    continue;
                 }
+                findings.push(ValidationFinding {
+                    severity: Severity::Error,
+                    code: "DUPLICATE_ID".into(),
+                    path: None,
+                    message: format!(
+                        "Duplicate authority ID {id}: claimed by a {prev} and a {kind} (an id must resolve to exactly one authority)"
+                    ),
+                    suggested_fix: Some(
+                        "Give each authority a unique id (use vjs next-citation for orders)".into(),
+                    ),
+                });
+                ok = false;
             }
         }
 
@@ -193,7 +237,7 @@ impl LawpackValidator {
 
         for entry in WalkDir::new(lawpack_dir).into_iter().filter_map(|e| e.ok()) {
             let path = entry.path();
-            if path.extension().and_then(|s| s.to_str()) != Some("yaml") {
+            if !is_lawpack_yaml(path) {
                 continue;
             }
             let raw = std::fs::read_to_string(path).map_err(|e| KernelError::Io(e.to_string()))?;
@@ -261,7 +305,7 @@ impl LawpackValidator {
 
         for entry in WalkDir::new(lawpack_dir).into_iter().filter_map(|e| e.ok()) {
             let path = entry.path();
-            if path.extension().and_then(|s| s.to_str()) != Some("yaml") {
+            if !is_lawpack_yaml(path) {
                 continue;
             }
             let content =
@@ -346,7 +390,7 @@ impl LawpackValidator {
         let mut max = 0u32;
         for entry in WalkDir::new(lawpack_dir).into_iter().filter_map(|e| e.ok()) {
             let path = entry.path();
-            if path.extension().and_then(|s| s.to_str()) != Some("yaml") {
+            if !is_lawpack_yaml(path) {
                 continue;
             }
             let content =
@@ -367,5 +411,94 @@ impl LawpackValidator {
             }
         }
         Ok(max)
+    }
+}
+
+#[cfg(test)]
+mod dup_id_coverage_tests {
+    use super::*;
+
+    fn empty_lawpack() -> Lawpack {
+        Lawpack {
+            statutes: vec![],
+            regulations: vec![],
+            rules: vec![],
+            orders: vec![],
+            specs: vec![],
+            invariants: vec![],
+            decisions: vec![],
+            obligations: vec![],
+        }
+    }
+
+    fn regulation(id: &str) -> Regulation {
+        Regulation {
+            id: AuthorityId(id.into()),
+            citation: None,
+            title: "t".into(),
+            authority: "a".into(),
+            status: AuthorityStatus::Binding,
+            text: "binding text".into(),
+            kernel_effect: None,
+        }
+    }
+
+    fn obligation(id: &str) -> LawpackObligation {
+        LawpackObligation {
+            id: id.into(),
+            title: "t".into(),
+            status: "open".into(),
+            kind: "k".into(),
+            due: "2026-12-31".into(),
+            required: false,
+            text: "obligation text".into(),
+            basis: vec![],
+        }
+    }
+
+    fn dup_id_count(report: &ValidationReport) -> usize {
+        report
+            .findings
+            .iter()
+            .filter(|f| f.code == "DUPLICATE_ID")
+            .count()
+    }
+
+    /// The old check covered statute sections ONLY: a regulation and an obligation could
+    /// share an id with no complaint, even though a reference to that id then resolves
+    /// ambiguously. The global namespace catches the cross-kind collision now.
+    #[test]
+    fn duplicate_id_across_previously_unchecked_kinds_is_caught() {
+        let mut lp = empty_lawpack();
+        lp.regulations.push(regulation("DUP-X"));
+        lp.obligations.push(obligation("DUP-X"));
+        let report = LawpackValidator::validate(&lp).unwrap();
+        assert_eq!(
+            dup_id_count(&report),
+            1,
+            "cross-kind id reuse must be one DUPLICATE_ID"
+        );
+        assert!(!report.ok, "a duplicate id is a hard error");
+    }
+
+    /// Intra-kind duplicates among a kind that was never checked before (obligations).
+    #[test]
+    fn duplicate_id_within_an_unchecked_kind_is_caught() {
+        let mut lp = empty_lawpack();
+        lp.obligations.push(obligation("OB-DUP"));
+        lp.obligations.push(obligation("OB-DUP"));
+        let report = LawpackValidator::validate(&lp).unwrap();
+        assert_eq!(dup_id_count(&report), 1);
+        assert!(!report.ok);
+    }
+
+    /// Distinct ids across kinds stay clean - no false positive.
+    #[test]
+    fn distinct_ids_across_kinds_are_clean() {
+        let mut lp = empty_lawpack();
+        lp.regulations.push(regulation("REG-A"));
+        lp.obligations.push(obligation("OB-B"));
+        let report = LawpackValidator::validate(&lp).unwrap();
+        assert_eq!(dup_id_count(&report), 0);
     }
 }
