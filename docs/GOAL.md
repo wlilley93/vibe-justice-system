@@ -48,45 +48,49 @@ evals measure, the kernel governs.
   (`dependency_fence.rs`), not merely asserted in config.
 - **K-29 binding debt: 0.** 27 in-scope invariants (30 minus 3 n/a), all 27 bound to
   deterministic tests; the ratchet is at its floor.
-- **26 of 27 in-scope invariants are `met`; one (K-1) is honestly `partial`** (see below).
-- **Forks:** doctrinal contradictions disposed by [2026] VJS-SC 6 (full bench), recorded in
-  the citator; reversible calls were decisive-call + work-log.
+- **26 of 27 in-scope invariants are `met`; K-1 is `met-modulo-remainder`** (a status ruled into
+  existence by [2026] VJS-SC 7 - see below). Zero `partial`, zero `gap`, 3 `n/a` by layer.
+- **Forks:** doctrinal contradictions disposed by [2026] VJS-SC 6 (full bench) and the K-1
+  terminal-status question by [2026] VJS-SC 7 (full bench), both recorded in the citator;
+  reversible calls were decisive-call + work-log.
 
-### The honest continuing edge — one partial, not papered over
+### K-1 and the ruled status `met-modulo-remainder`
 
 A goal-completion audit (an adversarial multi-agent sweep, 2026-06-26) re-verified every
 criterion AND audited binding QUALITY (the K-29 ratchet checks a test exists, not that it
 proves its claim). Its real findings were all closed: the two criteria that were manual
 snapshots became machine-checks; the unpinned gates were pinned; the weak bindings (K-4, K-12,
-K-18) were strengthened; and the two closeable partials were genuinely closed:
+K-18) were strengthened; and the two closeable partials (K-17, K-20) were genuinely closed.
 
-- **K-17 ("every grant carries its law_source") -> met.** A self-issued permit now records its
-  `law_source` (the route's binding authorities) at issue time, in both issue paths.
-- **K-20 ("no raw identity stored by default") -> met.** Proven that the store boundary blocks
-  identity (email / internal hostname), not only secrets - both fail closed at write.
+That left K-1. Its statement is a conjunction of two different kinds of claim, and the question
+of how to record it was put to the Supreme Council, which ruled in **[2026] VJS-SC 7** (5-0 on
+the core, 4-1 on the remedy; Everand J. dissenting in part):
 
-- **K-1 (chokepoint) stays `partial` - deliberately, and now precisely.** K-1's statement is
-  a conjunction of two different kinds of claim:
-  - The ENUMERABLE conjuncts - "every action passes through one chokepoint" + the two front
-    doors are thin transports that cannot drift - are bound (forged-order fail-closed,
-    governed-record classification, capability equivalence, deny-dominance, MCP apex routing).
-    A post-v1 hardening then made the commit-time integrity gate cover EVERY governed record
-    (`front_door::is_governed_record`), not just the lawpack canon tree - closing a real
-    coverage gap - and bound it with a content-driven-mediation test (a governed order written
-    raw, skipping every verb, is still gated) and a coverage no-drift test (the gate's set is
-    derived from the front door, so it cannot silently diverge).
-  - The UNIVERSAL-NEGATIVE conjunct - "no path around it" - is not settleable by any finite
-    test (a coverage test proves the modeled paths, never the absence of an unmodeled bypass),
-    AND the kernel's own `crates/vjs-core/src/enforcement.rs` candidly records an irreducible
-    remainder: an author with full write access who edits a gate and re-locks is beyond any
-    in-binary check; the backstop is the Sovereign's gate + the duty of reasonable care, which
-    are NON-machine. You cannot mark `met` an invariant your own enforcement surface says has
-    a standing remainder.
-  So K-1 stays `partial` - not as a vague edge but as a principled one. Promoting it to `met`
-  would be exactly the paper-claim the audit warned against. If a `met` status is ever sought,
-  that is a first-impression doctrinal question (can an invariant with a universal-negative
-  conjunct ever be `met`?) for the court, not a unilateral call. This is the strength of the v1
-  record, not a gap in it.
+- The ENUMERABLE conjuncts - "every action passes through one chokepoint" + the two front doors
+  are thin transports that cannot drift, with the commit-time integrity gate now covering EVERY
+  governed record (`front_door::is_governed_record`), a real coverage gap closed and bound by a
+  content-driven-mediation test and a coverage no-drift test - are proven to the binding-quality
+  standard. This **core is `met`.**
+- The UNIVERSAL-NEGATIVE conjunct - "no path around it" - is not settleable by any finite test
+  (a coverage test proves the modeled paths, never the absence of an unmodeled bypass), and the
+  kernel's own `crates/vjs-core/src/enforcement.rs` records an irreducible author-edits-and-relocks
+  remainder backstopped by NON-machine means (the Sovereign's gate + the duty of reasonable care).
+
+The Council held the "met or partial?" question a **false binary**: bare `met` would overclaim
+the negative (a paper claim the binding-quality standard forbids); bare `partial` would falsely
+signal unfinished work where the core is complete and the residue is unprovable BY NATURE (an
+inverse overclaim). It decomposed the invariant, recorded the core `met`, severed "no path around
+it" as a named non-machine-backstopped remainder, and ruled a new status into existence:
+**`met-modulo-remainder`** - the machine-checkable content proven to the binding-quality standard,
+plus a named, recorded, unprovable-by-nature remainder. It is fenced (SC-7 D3): the status issues
+only on full proof of the checkable conjuncts, a named recorded residue, and a finding that the
+residue is unprovable by nature, not merely unfinished. Effort-closable residue stays `partial` or
+`gap`; K-29/K-30 are undisturbed. The prospective drafting rule (SC-7 D4): no invariant statement
+may assert a universal negative as a conjunct claimed-proven.
+
+So K-1 is `met-modulo-remainder` by ruling, not `partial` by default. The open question is closed:
+the universal negative is recorded as exactly what it is, neither overclaimed nor mislabelled as
+unfinished. This is the strength of the record, not a gap in it.
 
 ## Boundaries
 

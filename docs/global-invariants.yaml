@@ -8,19 +8,32 @@
 #      only decrease - levelling the kernel up toward full invariant->test coverage.
 # The acmeco side is tracked here as the shared record; it is gated in the Acmeco repo.
 #
-# status: met | partial | gap | n/a   (n/a = out of this kernel's layer, excluded from debt)
+# status: met | met-modulo-remainder | partial | gap | n/a   (n/a = out of this kernel's layer, excluded from debt)
+#   met-modulo-remainder ([2026] VJS-SC 7): every machine-checkable conjunct is bound and proven to the
+#   binding-quality standard, AND the residue is a named, recorded, non-machine-backstopped remainder that
+#   is unprovable BY NATURE (a universal negative or an irreducible claim-internal trust root), not merely
+#   unfinished. Counts as bound (it carries proving tests), so it is NOT binding debt. Issues only on an
+#   express showing of (i) full proof of the checkable conjuncts, (ii) a named residue recorded on the
+#   enforcement surface, (iii) the residue being unprovable by nature; effort-closable residue stays partial/gap.
 
 invariants:
   - id: K-1
     group: chokepoint
     statement: "Sole mediated path: every action passes through one chokepoint; no path around it."
-    # The enumerable conjuncts (mediation correctness, front-door equivalence, and the
-    # content-driven gate covering EVERY governed record - not just the lawpack tree) are
-    # bound. The remaining "no path around it" is a universal negative no finite test
-    # settles, and enforcement.rs records an irreducible author-edits-and-relocks remainder
-    # backstopped by the Sovereign + duty of care (non-machine) - so this stays `partial`
-    # honestly rather than overclaim `met`. See docs/GOAL.md.
-    vjs: { status: partial, tests: [forged_fresh_apex_order_stays_fatal_through_the_pipeline, front_door_governs_record_kinds_only, the_capability_backed_covers_is_identical_to_the_legacy_glob_match, a_deny_capability_dominates_an_allowing_permit_in_the_permit_context, mcp_record_refers_a_subscribers_above_county_order_up, governed_order_outside_lawpack_hits_bench_integrity_raw_write, order_gate_coverage_is_derived_from_the_front_door_and_excludes_convenings] }
+    # Status ruled by [2026] VJS-SC 7 (5-0 core, 4-1 remedy). The question "can a universal-negative
+    # conjunct ever be `met`?" was held a FALSE BINARY: bare `met` would overclaim the negative (a paper
+    # claim), bare `partial` falsely signals unfinished work where the core is complete and the residue is
+    # unprovable BY NATURE. Decomposed: the enumerable mediation-and-coverage CORE (mediation correctness,
+    # front-door equivalence, content-driven gate covering EVERY governed record) is proven to the
+    # binding-quality standard and is `met` (the tests below). The "no path around it" conjunct is SEVERED
+    # and carried as a named remainder (see `remainder` below). The integrated invariant therefore carries
+    # `met-modulo-remainder`, not bare `met` and not `partial`.
+    remainder:
+      claim: "no path around it (the universal-negative conjunct)"
+      why_irreducible: "a universal negative over an open domain; no finite test proves the absence of an unmodeled bypass. Additionally the gate-edit-and-relock hole: an author with full write access who edits a gate AND re-locks the digest pin is beyond any in-binary check."
+      recorded_at: "crates/vjs-core/src/enforcement.rs (the irreducible-remainder note)"
+      backstop: "non-machine: the Sovereign's gate (ACT-COMPUTER-FIRST-REALM) and the continuing duty of reasonable skill and care (ACT-003)"
+    vjs: { status: met-modulo-remainder, tests: [forged_fresh_apex_order_stays_fatal_through_the_pipeline, front_door_governs_record_kinds_only, the_capability_backed_covers_is_identical_to_the_legacy_glob_match, a_deny_capability_dominates_an_allowing_permit_in_the_permit_context, mcp_record_refers_a_subscribers_above_county_order_up, governed_order_outside_lawpack_hits_bench_integrity_raw_write, order_gate_coverage_is_derived_from_the_front_door_and_excludes_convenings] }
     acmeco: { status: partial, tests: [] }
   - id: K-2
     group: chokepoint

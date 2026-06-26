@@ -74,7 +74,8 @@ fn global_invariants_are_bound_and_debt_ratchets_down() {
     let root = workspace_root();
     let yaml = std::fs::read_to_string(root.join("docs/global-invariants.yaml"))
         .expect("docs/global-invariants.yaml must exist");
-    let doc: serde_yaml::Value = serde_yaml::from_str(&yaml).expect("global-invariants.yaml parses");
+    let doc: serde_yaml::Value =
+        serde_yaml::from_str(&yaml).expect("global-invariants.yaml parses");
     let invs = doc["invariants"]
         .as_sequence()
         .expect("invariants is a sequence");
@@ -109,6 +110,11 @@ fn global_invariants_are_bound_and_debt_ratchets_down() {
         if status == "n/a" {
             continue;
         }
+        // `met-modulo-remainder` ([2026] VJS-SC 7) is in-scope and counts as BOUND iff it carries
+        // proving tests - exactly the debt rule below. The status quarantines only a residue that is
+        // unprovable BY NATURE; SC-7 D3 forbids it papering over unfinished checkable work, and this
+        // gate is the enforcement point: a met-modulo-remainder entry with NO tests is still debt,
+        // so the new status cannot be used to dodge the ratchet for the enumerable conjuncts.
         in_scope += 1;
         if tests.is_empty() {
             debt += 1;

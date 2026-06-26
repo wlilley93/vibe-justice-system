@@ -1,0 +1,89 @@
+id: "2026-VJS-SC-007"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-SC 7"
+title: Reference re the terminal status of an invariant containing a universal-negative conjunct (K-1, "no path around it") under the binding discipline
+court: supreme_court
+jurisdiction: vibe-justice-system
+status: binding
+issue: decide_whether_an_invariant_whose_statement_contains_a_universal_negative_conjunct_can_be_recorded_met_or_is_terminally_partial_and_fix_the_status_vocabulary
+bench: [Aldermere, Brightwater, Calderon, Donhill, Everand]
+source_opinion: "lawpack/v2/judgments/2026-VJS-SC-7-opinion.md"
+appealable: false
+supersedes: []
+question: >
+  On a reference by the Principal to close the VJS workstream (2026-06-26). Under the K-29/K-30 binding
+  discipline, can an invariant whose statement contains a UNIVERSAL-NEGATIVE conjunct - specifically K-1
+  ("Sole mediated path: every action passes through one chokepoint; NO PATH AROUND IT") - ever be recorded
+  with status `met`, or is such an invariant terminally `partial`? The enumerable mediation-and-coverage
+  conjunct is bound and proven to the binding-quality standard (content-driven gate over the staged diff,
+  coverage derived from a single predicate so it cannot drift, raw-write-skips-every-verb still gated,
+  the one discovered coverage gap closed); the universal-negative conjunct "no path around it" is, on the
+  record, unprovable in-binary, the kernel's own enforcement surface candidly recording the irreducible
+  edit-and-relock remainder backstopped by non-machine means. Position 1: K-1 is terminally `partial`.
+  Position 2: some form of `met` is defensible, or the four-term vocabulary is wrong.
+holding: >
+  UNANIMOUS (5-0) on the core ratio; by MAJORITY (4-1, Everand J. dissenting in part) on the vocabulary
+  remedy. A five-justice constitutional bench (Aldermere, Brightwater, Calderon, Donhill, Everand)
+  delivered judgment IN FULL, each opinion authored by a counted member (s.18); Brightwater J. delivered
+  the leading judgment. The question presents a FALSE BINARY. (1) K-1 as written may carry neither bare
+  `met` nor terminal `partial`: bare `met` would certify a universal negative no finite test proves (the
+  paper claim the binding-quality standard forbids), and terminal `partial` falsely signals unfinished
+  effort where the machine-checkable work is complete and the residue is unprovable BY NATURE (the inverse
+  overclaim, equally offending the honest-remainder principle and corroding the K-30 ratchet's signal).
+  (2) The invariant is DECOMPOSED: its enumerable mediation-and-coverage core is proven to the
+  binding-quality standard and is `met`; the universal-negative conjunct is SEVERED and recorded as a
+  named, non-machine-backstopped remainder (the gate-edit-and-relock hole; backstops named: the Sovereign's
+  gate and the continuing duty of reasonable care). (3) By majority the integrated invariant carries a new
+  status `met-modulo-remainder`; Everand J. would instead sever under the existing four codes plus an
+  annotation duty. (4) The new status is fenced (the anti-laundromat gate): it issues only on full proof of
+  every machine-checkable conjunct to the binding-quality standard, a named recorded residue, and a
+  demonstrated finding that the residue is unprovable by nature, not merely unfinished. (5) Prospective
+  drafting rule: no binding-eligible invariant statement may assert a universal negative as a conjunct
+  claimed-proven; it is decomposed and its residue recorded with a named non-machine backstop.
+treatment: >
+  ANSWERS the reference and AMENDS the status vocabulary. RATIO: a status is a predicate over the invariant's
+  statement as written; `met` means proven to the binding-quality standard, `partial` means provable work
+  remains. An invariant whose statement welds an enumerable claim to a universal-negative claim is
+  miscompounded: bare `met` overclaims the negative (a paper claim) and bare `partial` misdescribes the
+  finished core as unfinished (an inverse overclaim). The cure is decomposition: the machine-checkable core
+  is proven and `met`; the universal negative is severed and recorded as a named, non-machine-backstopped
+  remainder, never claimed-proven and never silently amputated. The integrated row carries the new status
+  `met-modulo-remainder` (machine-checkable content proven to binding-quality plus a named recorded residue
+  unprovable by nature), gated on an express showing that the residue is unprovable by nature and not merely
+  unfinished; effort-closable residue stays `partial` or `gap`; K-29/K-30 are undisturbed for every
+  enumerable conjunct and binding debt 0 remains necessary and not sufficient. Ambient trust shared by all
+  claims (compiler, hardware, key-holder) is not asserted in any statement and does not bar `met`; only a
+  universal negative written into a statement does. The assented-record floor ([2026] VJS-SC 6 theme) is
+  persuasive on machine humility: the ledger records the limit of its own competence and names the human
+  backstop, rather than overclaiming reach or pretending the residue is its own unfinished business.
+forbidden:
+  - recording_an_invariant_whose_statement_contains_an_unproven_universal_negative_conjunct_as_bare_met
+  - pinning_an_invariant_at_partial_by_ruling_where_its_machine_checkable_work_is_complete_and_the_residue_is_unprovable_by_nature
+  - issuing_met_modulo_remainder_for_a_residue_that_is_merely_unfinished_rather_than_unprovable_by_nature_or_for_a_residue_that_is_not_named_and_recorded
+  - relaxing_the_k29_binding_quality_standard_or_the_k30_coverage_ratchet_for_any_enumerable_conjunct_under_cover_of_the_new_status
+  - silently_re_scoping_or_amputating_a_universal_negative_conjunct_out_of_an_invariant_statement_to_manufacture_a_bare_met
+directives:
+  - id: D1
+    actor: lexby
+    must: amend_the_invariant_status_vocabulary_to_met_then_met_modulo_remainder_then_partial_then_gap_then_n_a_defining_met_modulo_remainder_as_every_machine_checkable_conjunct_bound_and_proven_to_the_binding_quality_standard_plus_a_named_recorded_non_machine_backstopped_remainder_unprovable_by_nature
+  - id: D2
+    actor: lexby
+    must: record_k1_as_met_modulo_remainder_its_enumerable_mediation_and_coverage_core_proven_to_the_binding_quality_standard_and_the_no_path_around_it_residue_recorded_as_a_named_remainder_the_gate_edit_and_relock_hole_backstopped_by_the_sovereigns_gate_and_the_continuing_duty_of_reasonable_care_the_remainder_travelling_with_the_row_never_a_silent_asterisk
+  - id: D3
+    actor: lexby
+    must: gate_the_new_status_on_an_express_recorded_showing_of_full_proof_of_every_machine_checkable_conjunct_a_named_residue_recorded_on_the_enforcement_surface_and_a_finding_that_the_residue_is_unprovable_by_nature_not_merely_unfinished_effort_closable_residue_remaining_partial_or_gap_and_k29_k30_undisturbed
+  - id: D4
+    actor: lexby
+    must: adopt_the_prospective_drafting_rule_that_no_binding_eligible_invariant_statement_asserts_a_universal_negative_as_a_conjunct_claimed_proven_such_a_conjunct_being_decomposed_into_enumerable_test_provable_claims_with_its_irreducible_residue_recorded_in_the_honest_remainder_register_with_a_named_non_machine_backstop
+runtime_summary: >
+  Unanimous (5-0) core ratio, 4-1 on the remedy (Everand J. dissenting in part). The K-1 question is a
+  false binary: bare `met` would certify a universal negative no test proves (a paper claim), and terminal
+  `partial` falsely signals unfinished work where the core is complete and the residue is unprovable by
+  nature (an inverse overclaim). HELD: decompose - the mediation-and-coverage core is proven and `met`; the
+  "no path around it" conjunct is severed and recorded as a named, non-machine-backstopped remainder (the
+  edit-and-relock hole; backstops: the Sovereign's gate + the continuing duty of reasonable care). The
+  integrated invariant carries a new status `met-modulo-remainder`, fenced so it issues only for a residue
+  proven unprovable-by-nature (not unfinished), with K-29/K-30 undisturbed. Future rule: no invariant
+  statement asserts a universal negative as a conjunct claimed-proven; decompose and record the residue with
+  a named backstop. K-1 is recorded `met-modulo-remainder`.
+created_at: "2026-06-26"
