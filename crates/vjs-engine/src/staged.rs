@@ -212,10 +212,20 @@ pub(crate) fn staged_gates(
             }
         }
 
-        for rel in changed
-            .iter()
-            .filter(|p| p.starts_with("lawpack/v2/orders/") && p.ends_with(".yaml"))
-        {
+        // K-1 (sole mediated path): the staged bench/tier/citation-integrity gate covers
+        // EVERY governed record (front_door::is_governed_record), not just the lawpack canon
+        // order tree. A governed order written to .vjs/orders/ or .vjs/court/orders/
+        // (Store::write_order, or any RAW write that skips every verb) now passes the SAME
+        // commit-time gate as a canon order - no verb and no path is a side door. The typed
+        // Order parse below is the content-driven discriminator: a convening (which DOES carry
+        // a `bench:` field) or a non-order instrument lacks Order's required fields, fails to
+        // parse, and is skipped, so its bench is never verified. Deriving the set from
+        // is_governed_record means the gate coverage can never silently drift from the front
+        // door (a future governed-record kind is auto-covered).
+        for rel in changed.iter().filter(|p| {
+            (p.ends_with(".yaml") || p.ends_with(".yml"))
+                && vjs_core::front_door::is_governed_record(p)
+        }) {
             let Ok(content) = std::fs::read_to_string(repo.join(rel)) else {
                 continue;
             };
@@ -446,6 +456,51 @@ mod tests {
             clean.is_empty(),
             "a yaml canon record and a .vjs/private media file must not be flagged: {:?}",
             clean.iter().map(|fnd| &fnd.code).collect::<Vec<_>>()
+        );
+    }
+
+    #[test]
+    fn order_gate_coverage_is_derived_from_the_front_door_and_excludes_convenings() {
+        use vjs_core::front_door::is_governed_record;
+        // K-1 no-drift: the staged order-integrity gate selects records with the SAME predicate
+        // the front door uses to define a governed record (is_governed_record), then scopes to
+        // ACTUAL orders by parsing the typed Order. Pinning both stages means the gate's coverage
+        // can never silently drift from the front door, and a convening (which carries a `bench:`
+        // field) is never subjected to order bench-integrity.
+
+        // Stage 1: the gap paths the front door governs are now selected by the gate filter -
+        // not just the lawpack canon tree (the K-1 coverage gap this change closes).
+        for p in [
+            "lawpack/v2/orders/2026-VJS-PC-001.yaml", // canon (always covered)
+            ".vjs/orders/2026-VJS-CC-ACMECO-001.yaml", // Store::write_order target (was the GAP)
+            ".vjs/court/orders/2026-VJS-CC-001.yaml", // court order store (was the GAP)
+        ] {
+            assert!(
+                is_governed_record(p),
+                "{p} is a governed-record order store; the gate filter must select it"
+            );
+        }
+        assert!(!is_governed_record("crates/vjs-engine/src/staged.rs"));
+
+        // Stage 2: the typed Order parse is the content-driven order/non-order discriminator.
+        let order = "id: x\ncourt: county\njurisdiction: vjs\nstatus: binding\nissue: i\n\
+            holding: h\ndirectives: []\nsupersedes: []\nruntime_summary: s\ncreated_at: \"2026\"\n";
+        assert!(
+            serde_yaml::from_str::<vjs_core::types::Order>(order).is_ok(),
+            "an order-shaped governed record must parse as Order (and be gated)"
+        );
+        // A convening IS a governed record and carries a `bench:`, but must NOT parse as Order
+        // (it lacks holding/directives/jurisdiction/runtime_summary), so verify_bench never runs
+        // on a convening's bench. This is why iterating is_governed_record is safe.
+        let convening = "id: CONVENING-supreme_court-x\ncourt: supreme_court\n\
+            submission_id: S-1\nissue: i\ncase_file_digest: sha256:deadbeef\n\
+            bench:\n  - Vexmoor J.\n  - Halworth J.\nconvened_at: 2026-06-12T13:15:15Z\n";
+        assert!(is_governed_record(
+            ".vjs/court/convenings/CONVENING-supreme_court-x.yaml"
+        ));
+        assert!(
+            serde_yaml::from_str::<vjs_core::types::Order>(convening).is_err(),
+            "a convening must NOT parse as Order - its bench is not an order bench"
         );
     }
 }

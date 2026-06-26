@@ -65,12 +65,28 @@ K-18) were strengthened; and the two closeable partials were genuinely closed:
 - **K-20 ("no raw identity stored by default") -> met.** Proven that the store boundary blocks
   identity (email / internal hostname), not only secrets - both fail closed at write.
 
-- **K-1 (chokepoint, "no path around it") stays `partial` - deliberately.** It is bound by five
-  real chokepoint tests (forged-order fail-closed, governed-record classification, capability
-  equivalence, deny-dominance, MCP apex routing), but "no path around it" is a UNIVERSAL claim:
-  proving the absence of any bypass is not a single test. Forcing it to `met` would be exactly
-  the paper-claim the audit warned against, so it is recorded truthfully as the one remaining
-  edge. This is the honest state of a v1, not a gap in it.
+- **K-1 (chokepoint) stays `partial` - deliberately, and now precisely.** K-1's statement is
+  a conjunction of two different kinds of claim:
+  - The ENUMERABLE conjuncts - "every action passes through one chokepoint" + the two front
+    doors are thin transports that cannot drift - are bound (forged-order fail-closed,
+    governed-record classification, capability equivalence, deny-dominance, MCP apex routing).
+    A post-v1 hardening then made the commit-time integrity gate cover EVERY governed record
+    (`front_door::is_governed_record`), not just the lawpack canon tree - closing a real
+    coverage gap - and bound it with a content-driven-mediation test (a governed order written
+    raw, skipping every verb, is still gated) and a coverage no-drift test (the gate's set is
+    derived from the front door, so it cannot silently diverge).
+  - The UNIVERSAL-NEGATIVE conjunct - "no path around it" - is not settleable by any finite
+    test (a coverage test proves the modeled paths, never the absence of an unmodeled bypass),
+    AND the kernel's own `crates/vjs-core/src/enforcement.rs` candidly records an irreducible
+    remainder: an author with full write access who edits a gate and re-locks is beyond any
+    in-binary check; the backstop is the Sovereign's gate + the duty of reasonable care, which
+    are NON-machine. You cannot mark `met` an invariant your own enforcement surface says has
+    a standing remainder.
+  So K-1 stays `partial` - not as a vague edge but as a principled one. Promoting it to `met`
+  would be exactly the paper-claim the audit warned against. If a `met` status is ever sought,
+  that is a first-impression doctrinal question (can an invariant with a universal-negative
+  conjunct ever be `met`?) for the court, not a unilateral call. This is the strength of the v1
+  record, not a gap in it.
 
 ## Boundaries
 

@@ -14,7 +14,13 @@ invariants:
   - id: K-1
     group: chokepoint
     statement: "Sole mediated path: every action passes through one chokepoint; no path around it."
-    vjs: { status: partial, tests: [forged_fresh_apex_order_stays_fatal_through_the_pipeline, front_door_governs_record_kinds_only, the_capability_backed_covers_is_identical_to_the_legacy_glob_match, a_deny_capability_dominates_an_allowing_permit_in_the_permit_context, mcp_record_refers_a_subscribers_above_county_order_up] }
+    # The enumerable conjuncts (mediation correctness, front-door equivalence, and the
+    # content-driven gate covering EVERY governed record - not just the lawpack tree) are
+    # bound. The remaining "no path around it" is a universal negative no finite test
+    # settles, and enforcement.rs records an irreducible author-edits-and-relocks remainder
+    # backstopped by the Sovereign + duty of care (non-machine) - so this stays `partial`
+    # honestly rather than overclaim `met`. See docs/GOAL.md.
+    vjs: { status: partial, tests: [forged_fresh_apex_order_stays_fatal_through_the_pipeline, front_door_governs_record_kinds_only, the_capability_backed_covers_is_identical_to_the_legacy_glob_match, a_deny_capability_dominates_an_allowing_permit_in_the_permit_context, mcp_record_refers_a_subscribers_above_county_order_up, governed_order_outside_lawpack_hits_bench_integrity_raw_write, order_gate_coverage_is_derived_from_the_front_door_and_excludes_convenings] }
     acmeco: { status: partial, tests: [] }
   - id: K-2
     group: chokepoint

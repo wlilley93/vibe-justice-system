@@ -148,7 +148,10 @@ fn forged_standing_bounded_order_is_still_blocked() {
     git(&repo, &["add", "lawpack/v2/orders/FORGED2.yaml"]);
 
     let report = validate_staged(&repo);
-    assert!(!report.ok, "the forged standing_bounded order must not pass");
+    assert!(
+        !report.ok,
+        "the forged standing_bounded order must not pass"
+    );
     assert!(
         report
             .findings
@@ -197,6 +200,45 @@ fn constitutive_bench_defect_not_downgraded_even_for_an_established_assented_ord
         bench_fatal,
         "an established, resolving order's bench-integrity defect must STILL be Fatal \
          (constitutive, never assent-downgraded). Findings: {:?}",
+        report
+            .findings
+            .iter()
+            .map(|f| (&f.code, &f.severity))
+            .collect::<Vec<_>>()
+    );
+    let _ = std::fs::remove_dir_all(&repo);
+}
+
+#[test]
+fn governed_order_outside_lawpack_hits_bench_integrity_raw_write() {
+    // K-1 (sole mediated path): a governed order placed in the staged set by a RAW filesystem
+    // write + `git add` - no `vjs route`, no `vjs record` verb, and OUTSIDE lawpack/v2/orders/
+    // (the path Store::write_order targets) - must still hit the SAME verify_bench gate as a
+    // canon order. County is below the apex-routing bright-line, so the order-integrity block
+    // is the only gate that can catch it; before this change that block filtered to
+    // lawpack/v2/orders/ and never saw this file. A county bench must be an odd 1, so a bench
+    // of 2 is BENCH_SIZE_MISMATCH (constitutive, never assent-downgraded).
+    let repo = ephemeral_canon("raw-vjs-bench");
+    let forged = "id: \"2026-VJS-CC-ACMECO-777\"\n\
+        citation: \"[2026] VJS-CC 777\"\n\
+        court: county\njurisdiction: vibe-justice-system\nstatus: binding\n\
+        issue: side_door\n\
+        bench:\n  - Alpha CCJ\n  - Beta CCJ\n\
+        holding: \"a county order with an even bench of two, written straight to .vjs\"\n\
+        directives:\n  - id: D1\n    actor: lexby\n    must: do_x\n\
+        supersedes: []\nruntime_summary: raw\ncreated_at: \"2026\"\n";
+    std::fs::create_dir_all(repo.join(".vjs/orders")).unwrap();
+    std::fs::write(repo.join(".vjs/orders/2026-VJS-CC-ACMECO-777.yaml"), forged).unwrap();
+    git(&repo, &["add", ".vjs/orders/2026-VJS-CC-ACMECO-777.yaml"]);
+
+    let report = validate_staged(&repo);
+    assert!(
+        report
+            .findings
+            .iter()
+            .any(|f| f.code == "BENCH_SIZE_MISMATCH" && f.is_blocking()),
+        "the staged bench-integrity gate must fire on a governed order OUTSIDE \
+         lawpack/v2/orders/ (K-1 sole mediated path); findings: {:?}",
         report
             .findings
             .iter()
