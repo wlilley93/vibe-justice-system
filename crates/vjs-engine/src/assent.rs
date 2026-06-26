@@ -120,23 +120,6 @@ fn provenance_corpus(repo: &Path) -> (String, Vec<String>) {
     (text, digests)
 }
 
-/// True when `rel` already exists in committed canon at HEAD - i.e. the staged change is
-/// an EDIT to an established (already-assented, commenced) record, not a fresh insertion.
-/// A forged new record fails this (it has no committed history). Deterministic git query.
-fn established_at_head(repo: &Path, rel: &str) -> bool {
-    std::process::Command::new("git")
-        .arg("-C")
-        .arg(repo)
-        .arg("cat-file")
-        .arg("-e")
-        .arg(format!("HEAD:{rel}"))
-        .stdout(std::process::Stdio::null())
-        .stderr(std::process::Stdio::null())
-        .status()
-        .map(|s| s.success())
-        .unwrap_or(false)
-}
-
 /// PC-16 D1: does a staged governed record's declared assent_source RESOLVE to real
 /// Sovereign authority? (1) well-formed (allow-list, via front_door) AND (2) the trace
 /// resolves:
@@ -154,7 +137,14 @@ fn established_at_head(repo: &Path, rel: &str) -> bool {
 /// An unresolved declaration is treated as one that LACKS a valid assent_source: the
 /// record stays outside the floor and its findings keep their native severity (Fatal
 /// stays Fatal). Deterministic, model-free.
-pub fn assent_resolves(repo: &Path, rel: &str, content: &str) -> bool {
+///
+/// `established_at_head` is a PURE FACT supplied by the caller (computed ONCE from
+/// `GitIntegration::tracked_at_head`): whether `rel` is committed at HEAD - an edit to an
+/// established record, not a fresh insertion. It is passed in (not read here) so this
+/// resolver has no subprocess and is deterministic given its inputs: a transient git
+/// failure can never silently strip an established record of its floor (ACT-010), and the
+/// same inputs always produce the same answer (REG-KERNEL-001).
+pub fn assent_resolves(repo: &Path, rel: &str, content: &str, established_at_head: bool) -> bool {
     if !vjs_core::front_door::declares_valid_assent(content) {
         return false;
     }
@@ -173,7 +163,7 @@ pub fn assent_resolves(repo: &Path, rel: &str, content: &str) -> bool {
                 || (!citation.is_empty() && names_token(&corpus, &citation));
             // Named by a Sovereign-assent provenance record, OR an edit to an established
             // (commenced) record - never narrow a genuinely-assented record (D2).
-            named || established_at_head(repo, rel)
+            named || established_at_head
         }
         "standing_bounded_assent" => {
             // [2026] VJS-SC 5 (full constitutional bench of nine, 7-2): ROUTE-CLASS
@@ -189,7 +179,7 @@ pub fn assent_resolves(repo: &Path, rel: &str, content: &str) -> bool {
             // force by the commencement lock under the founding Sovereign assent, so this
             // IS a true recorded trace, not a grandfather clause (SC-5 D2, unanimous that
             // the carve-out is load-bearing).
-            if established_at_head(repo, rel) {
+            if established_at_head {
                 return true;
             }
             // Limb 2 (regulations): the record's declared parent authority resolves to a
