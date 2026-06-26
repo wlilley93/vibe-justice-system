@@ -11,9 +11,18 @@ plan. The goal: both our kernels best-in-class on one shared, machine-checked in
 Each kernel mastered a different plane, and each is weak exactly where another is strong. A
 best-in-class kernel is the union, not any one of them.
 
-| Plane | Owner (gold standard) | What it contributes |
+A clarification that matters for how this document is read: **all three kernels already carry a
+capability primitive.** VJS has permits (its real authorization path) and now `capability.rs`; the
+Acmeco kernel has an authenticated bearer/grant model with scope fences and RLS at the verb
+chokepoint. Agent kernelB is the **reference exemplar** for a few specific properties of that
+primitive (deny-dominance, one-shot reserve/consume, attenuating-only delegation, typed
+prefix-collision resources), not the sole holder of the concept. "Reference" below means the
+cleanest hand-written exemplar of a property we harvested - not an owner the others lack. The
+column reads "reference exemplar", not "owner".
+
+| Plane | Reference exemplar | What it contributes |
 |---|---|---|
-| Capability primitive | **Agent kernelB** | the full capability record, deny-dominance, one-shot, attenuating delegation, revocation-on-next-check, typed resources, names-aren't-capabilities |
+| Capability primitive (all three have one) | **Agent kernelB** (cleanest of three) | the full capability record, deny-dominance, one-shot, attenuating delegation, revocation-on-next-check, typed resources, names-aren't-capabilities - the properties we harvested into the unified primitive |
 | Invariant->test binding | **Agent kernelB** | the meta-gate that fails the build if any claim lacks a deterministic test (the discipline that makes everything else real) |
 | Irreversible-effect + human authority | **Agent kernelB** | effect reversibility classification + blocking, one-shot, decided-once approval queue |
 | Runtime chokepoint + identity | **Acmeco** | one in-process dispatch, identity authenticated-by-construction, door-stamped immutable source |
@@ -22,10 +31,11 @@ best-in-class kernel is the union, not any one of them.
 | Entrenched floor + record validity | **VJS** | a floor machinery may not soften (protected from itself), constitutive-vs-correctable, every-denial-names-its-instrument, read-policy-by-reference |
 | Enforcement-surface integrity + trust root | **VJS** | digest-pinned gate surface outside the witnessed code, required-CI trust root re-running the same deterministic gate |
 
-The synthesis: **take the capability primitive + the invariant->test gate + reversibility/approval
-from Agent kernelB; the runtime chokepoint + identity + RLS + audit + compile-time fail-closed from
-Acmeco; the entrenched floor + constitutive split + instrument-naming + digest-pin from VJS; and weld
-them under one invariant->test binding meta-gate.**
+The synthesis: **harvest the cleanest capability properties + the invariant->test gate +
+reversibility/approval from Agent kernelB (the reference exemplar, since all three already carry a
+capability primitive at differing maturity); the runtime chokepoint + identity + RLS + audit +
+compile-time fail-closed from Acmeco; the entrenched floor + constitutive split + instrument-naming +
+digest-pin from VJS; and weld them under one invariant->test binding meta-gate.**
 
 ## Part I - The layered model
 
@@ -183,9 +193,10 @@ Ordered by leverage. Each item names the target kernel and the invariants it clo
 4. **[VJS] Resolve the runtime chokepoint (K-1, K-2, K-3).** VJS is commit-time by nature; cede runtime
    enforcement to the Acmeco action plane (VJS as the consulted policy engine) rather than pretending the
    advisory overlay is a boundary. Adopt the Visibility/Invocation/Authority split in commit vocabulary.
-5. **[BOTH] Adopt the unified capability primitive (K-4..K-11)** from Agent kernelB (Part III), generic over an
-   opaque resource vocabulary. VJS permits and Acmeco bearers become profiles of it. Closes the largest cluster
-   of gaps and removes the permit-accumulation defect class at the root.
+5. **[BOTH] Converge on the unified capability primitive (K-4..K-11)** (Part III), generic over an opaque
+   resource vocabulary, harvesting the cleanest properties from Agent kernelB's exemplar. All three kernels
+   already hold a capability primitive; this unifies them so VJS permits and Acmeco bearers become profiles of
+   one record. Closes the largest cluster of gaps and removes the permit-accumulation defect class at the root.
 6. **[BOTH] Reversibility classification + durable approval queue (K-23, K-24).** Adopt `external_effect`
    classification and the blocking one-shot human-approval queue for irreversible outward actions.
 7. **[VJS] Bounded-observability audit + hash-chain (K-19, K-20).** Extend the boundary content-scan over the
