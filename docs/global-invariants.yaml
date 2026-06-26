@@ -14,7 +14,7 @@ invariants:
   - id: K-1
     group: chokepoint
     statement: "Sole mediated path: every action passes through one chokepoint; no path around it."
-    vjs: { status: partial, tests: [forged_fresh_apex_order_stays_fatal_through_the_pipeline, front_door_governs_record_kinds_only, the_capability_backed_covers_is_identical_to_the_legacy_glob_match, a_deny_capability_dominates_an_allowing_permit_in_the_permit_context] }
+    vjs: { status: partial, tests: [forged_fresh_apex_order_stays_fatal_through_the_pipeline, front_door_governs_record_kinds_only, the_capability_backed_covers_is_identical_to_the_legacy_glob_match, a_deny_capability_dominates_an_allowing_permit_in_the_permit_context, mcp_record_refers_a_subscribers_above_county_order_up] }
     acmeco: { status: partial, tests: [] }
   - id: K-2
     group: chokepoint
