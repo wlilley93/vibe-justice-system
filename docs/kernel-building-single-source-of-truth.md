@@ -155,7 +155,7 @@ absent. (Agent libOS shown as the reference column.)
 | K-16 | Constitutive vs correctable | GAP | **MET** | GAP |
 | K-17 | Denial names instrument | PARTIAL | **MET** | PARTIAL (receipt can't refuse) |
 | K-18 | Read-policy-by-reference | PARTIAL | **MET** | PARTIAL |
-| K-19 | Hash-chained audit in tx | PARTIAL | PARTIAL (logs, no chain) | **MET** |
+| K-19 | Hash-chained audit in tx | PARTIAL | **MET** (audit.rs: sha256/HMAC chain; edit, reorder, drop detected) | **MET** |
 | K-20 | Bounded-observability audit | MET | GAP (subscriber-in-logs) | PARTIAL (redaction inv) |
 | K-21 | Encrypt-before-write + AAD | n/a | n/a | MET |
 | K-22 | Per-principal isolation (RLS) | n/a | n/a | MET |

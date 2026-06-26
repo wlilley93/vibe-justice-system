@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path::PathBuf;
 
+pub mod audit;
 pub mod authority;
 pub mod bench;
 pub mod capability;
