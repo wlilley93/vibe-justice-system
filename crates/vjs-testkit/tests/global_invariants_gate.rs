@@ -64,11 +64,12 @@ fn all_fn_names(root: &Path) -> BTreeSet<String> {
 #[test]
 fn global_invariants_are_bound_and_debt_ratchets_down() {
     // The VJS binding debt may only DECREASE. Lower this as invariants are bound to tests
-    // (K-30). 27 in-scope invariants (30 minus 3 n/a); 24 bound, 3 unbound after the unified
+    // (K-30). 27 in-scope invariants (30 minus 3 n/a); 25 bound, 2 unbound after the unified
     // capability primitive (K-4..K-11), K-12/K-25/K-27, the hash-chained audit (K-19), the
-    // reversibility-class + decided-once approval queue (K-23/K-24, effects.rs), and the
-    // deterministic risk-downgrade (K-14, crates/vjs-core/src/risk.rs).
-    const VJS_DEBT_BASELINE: usize = 3;
+    // reversibility-class + decided-once approval queue (K-23/K-24, effects.rs), the
+    // deterministic risk-downgrade (K-14, risk.rs), and the K-1 capability->permit integration
+    // that also binds K-2 (visibility != authority, governance.rs). Remaining: K-26, K-28.
+    const VJS_DEBT_BASELINE: usize = 2;
 
     let root = workspace_root();
     let yaml = std::fs::read_to_string(root.join("docs/global-invariants.yaml"))
