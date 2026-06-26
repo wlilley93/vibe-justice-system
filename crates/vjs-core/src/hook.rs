@@ -182,14 +182,16 @@ pub fn evaluate_governed(
     }
 }
 
-/// The kernel-checkable bright-line of REG-FEDERATION-COORDINATION-001 (giving effect to [2026] VJS-SC 1):
-/// a federated/subscribing jurisdiction lives "under one continued apex" and may NOT assert an apex or final
-/// court function. Recording a supreme/privy (apex-tier) court ORDER is asserting that function. This returns
-/// `Some(Block)` when a staged path is an apex-tier court order AND this repo's jurisdiction is NOT the apex
-/// seat - the remedy is to file a referral UP. It returns `None` (no opinion) otherwise; the caller then falls
-/// through to the ordinary event evaluation. The apex seat itself may record apex orders. This makes the
-/// [2026] VJS-SC-ACMECO 1 class of mis-filing (a subscribing repo recording its own Supreme ruling) structurally
-/// impossible rather than merely remembered.
+/// The kernel-checkable bright-line of REG-FEDERATION-COORDINATION-001 (giving effect to [2026] VJS-SC 1)
+/// and [2026] VJS-PC 19: a federated/subscribing jurisdiction lives "under one continued apex" and may NOT
+/// assert an apex or final court function. [2026] VJS-PC 19 D4 settled that the Court of Appeal also sits at
+/// the canonical jurisdiction, so a subscriber may locally record ONLY a County (first-instance) order;
+/// anything above County (court of appeal, privy, or supreme) refers up. This returns `Some(Block)` when a
+/// staged path is an above-County court order AND this repo's jurisdiction is NOT the apex seat - the remedy
+/// is to file a referral UP. It returns `None` (no opinion) otherwise; the caller then falls through to the
+/// ordinary event evaluation. The apex seat itself may record appellate/apex orders. This makes the
+/// subscriber-self-records-an-appellate-or-apex-ruling class of mis-filing structurally impossible rather
+/// than merely remembered.
 pub fn apex_routing_decision(
     input: &HookInput,
     jurisdiction_id: &str,
@@ -206,7 +208,7 @@ pub fn apex_routing_decision(
     let offender = input
         .paths
         .iter()
-        .find(|p| is_apex_court_order(&input.repo_root, p))?;
+        .find(|p| is_above_county_court_order(&input.repo_root, p))?;
     let name = offender
         .file_name()
         .map(|f| f.to_string_lossy().to_string())
@@ -214,23 +216,25 @@ pub fn apex_routing_decision(
     Some(HookDecision::Block(Finding {
         code: "APEX_RECORD_IN_SUBSCRIBING_JURISDICTION".into(),
         message: format!(
-            "{name} records an apex (supreme/privy) court ruling, but '{jurisdiction_id}' is a subscribing \
-             jurisdiction. Refer up to the apex seat '{apex_seat}'."
+            "{name} records an above-County court ruling (court of appeal, privy, or supreme), but \
+             '{jurisdiction_id}' is a subscribing jurisdiction. Refer up to the apex seat '{apex_seat}'."
         ),
         next: Some("vjs file (referral up)".into()),
     }))
 }
 
-/// A staged path is an apex-tier court ORDER when it is a YAML record that DECLARES itself a supreme or privy
-/// court ruling (a `court:` field of that tier). Content-based, so it is robust to the filename; a record that
-/// merely references an apex citation (e.g. a referral with `court: county`) is not caught.
+/// A staged path is an above-County court ORDER when it is a YAML record that DECLARES itself a court of
+/// appeal, privy, or supreme ruling (a `court:` field of any tier above County). Content-based, so it is
+/// robust to the filename; a record that merely references an apex/appellate citation (e.g. a referral with
+/// `court: county`) is not caught, and a subscriber's own County order is not caught ([2026] VJS-PC 19: the
+/// subscriber may locally record only its first-instance County line; everything above it refers up).
 ///
 /// The lawpack is the SUBSCRIBED-LAW MIRROR (read-only canon): a subscribing jurisdiction MIRRORING a canon
 /// apex order into its `lawpack/` is lawful and is NOT an assertion of an apex court function - so lawpack
 /// paths are excluded here. The bright-line fires only on a jurisdiction's OWN court-record store (its
 /// `.vjs/orders` / court trees). Lawpack integrity (a mirror that diverges from canon) is a separate concern,
 /// guarded by the lawpack pin/validation, not by this rule.
-fn is_apex_court_order(repo_root: &Path, rel: &Path) -> bool {
+fn is_above_county_court_order(repo_root: &Path, rel: &Path) -> bool {
     let name = rel.to_string_lossy().to_ascii_lowercase();
     if !(name.ends_with(".yaml") || name.ends_with(".yml")) {
         return false;
@@ -254,7 +258,11 @@ fn is_apex_court_order(repo_root: &Path, rel: &Path) -> bool {
         .and_then(|v| v.as_str())
         .unwrap_or("")
         .to_ascii_lowercase();
-    has_citation && (court.contains("supreme") || court.contains("privy"))
+    // Above-County tiers: supreme, privy, and (per [2026] VJS-PC 19) court of appeal. `appeal`
+    // matches the snake_case `court_of_appeal`. County (the subscriber's lawful first-instance
+    // tier) carries none of these tokens and so is never caught.
+    has_citation
+        && (court.contains("supreme") || court.contains("privy") || court.contains("appeal"))
 }
 
 pub fn parse_event(s: &str) -> Option<HookEvent> {
@@ -392,6 +400,47 @@ mod apex_routing_tests {
         );
         let _ = fs::remove_dir_all(&dir);
     }
+    #[test]
+    fn subscribing_repo_recording_a_court_of_appeal_order_is_blocked() {
+        // [2026] VJS-PC 19 D4: the Court of Appeal sits at the canonical jurisdiction; a subscriber
+        // recording its OWN above-County order (here a court of appeal) must refer up, exactly as for
+        // a supreme/privy order. This is the gap the ruling identified and ordered closed.
+        let dir = std::env::temp_dir().join(format!("vjs_coa_block_{}", std::process::id()));
+        let _ = fs::remove_dir_all(&dir);
+        let rel = write(
+            &dir,
+            ".vjs/orders/2026-VJS-CA-ACMECO-001.yaml",
+            "id: x\ncitation: \"[2026] VJS-CA-ACMECO 1\"\ncourt: court_of_appeal\nstatus: binding\n",
+        );
+        let inp = input(&dir, HookEvent::PreCommit, vec![rel]);
+        assert!(
+            matches!(
+                apex_routing_decision(&inp, "acmeco", "vjs"),
+                Some(HookDecision::Block(_))
+            ),
+            "a subscribing jurisdiction must not record its own court-of-appeal order; it refers up"
+        );
+        let _ = fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn apex_seat_recording_a_court_of_appeal_order_is_allowed() {
+        // The canonical seat MAY convene and record a Court of Appeal order ([2026] VJS-PC 19).
+        let dir = std::env::temp_dir().join(format!("vjs_coa_seat_{}", std::process::id()));
+        let _ = fs::remove_dir_all(&dir);
+        let rel = write(
+            &dir,
+            ".vjs/orders/2026-VJS-CA-001.yaml",
+            "id: x\ncitation: \"[2026] VJS-CA 1\"\ncourt: court_of_appeal\nstatus: binding\n",
+        );
+        let inp = input(&dir, HookEvent::PreCommit, vec![rel]);
+        assert!(
+            apex_routing_decision(&inp, "vjs", "vjs").is_none(),
+            "the canonical seat may record a court-of-appeal order"
+        );
+        let _ = fs::remove_dir_all(&dir);
+    }
+
     #[test]
     fn mirroring_a_canon_apex_order_into_the_lawpack_is_allowed() {
         let dir = std::env::temp_dir().join(format!("vjs_apex_mirror_{}", std::process::id()));

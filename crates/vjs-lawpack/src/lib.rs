@@ -233,6 +233,7 @@ impl Lawpack {
                 kind: AuthorityKind::Order,
                 rank: match order.court {
                     Court::SupremeCourt => AuthorityRank::SupremeCourt,
+                    Court::CourtOfAppeal => AuthorityRank::CourtOfAppeal,
                     Court::PrivyCouncil => AuthorityRank::PrivyCouncil,
                     Court::County => AuthorityRank::CountyCourt,
                 },
@@ -572,8 +573,9 @@ impl LawpackValidator {
             // ([2026] VJS-PC 12 D3): never void/block an assented record; amendable
             // only by Sovereign-assented primary law citing s.5.
             if let Some(ke) = &regulation.kernel_effect
-                && is_inert_kernel_effect(ke) {
-                    findings.push(ValidationFinding {
+                && is_inert_kernel_effect(ke)
+            {
+                findings.push(ValidationFinding {
                         severity: Severity::Warning,
                         code: "S5_INERT_KERNEL_EFFECT".into(),
                         path: None,
@@ -586,7 +588,7 @@ impl LawpackValidator {
                                 .into(),
                         ),
                     });
-                }
+            }
         }
 
         // Check word limits
@@ -633,8 +635,7 @@ impl LawpackValidator {
             if path.extension().and_then(|s| s.to_str()) != Some("yaml") {
                 continue;
             }
-            let raw =
-                std::fs::read_to_string(path).map_err(|e| KernelError::Io(e.to_string()))?;
+            let raw = std::fs::read_to_string(path).map_err(|e| KernelError::Io(e.to_string()))?;
             // PC-17 D6: rejoin folded-scalar id splits (shared with the order gate) so a
             // YAML soft wrap cannot manufacture a partial-id false positive - the
             // REG-FEDERATION-COORDINATION-001 line-wrap class this session kept tripping.

@@ -177,9 +177,10 @@ fn rank_value(rank: &AuthorityRank) -> u8 {
         AuthorityRank::Primary => 2,
         AuthorityRank::Regulation => 3,
         AuthorityRank::SupremeCourt => 4,
-        AuthorityRank::PrivyCouncil => 5,
-        AuthorityRank::CountyCourt => 6,
-        AuthorityRank::Log => 7,
+        AuthorityRank::CourtOfAppeal => 5,
+        AuthorityRank::PrivyCouncil => 6,
+        AuthorityRank::CountyCourt => 7,
+        AuthorityRank::Log => 8,
     }
 }
 
