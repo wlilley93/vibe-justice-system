@@ -168,3 +168,65 @@ fn front_door_governs_record_kinds_only() {
     ));
     assert!(!front_door::is_governed_record("docs/conformance-map.md"));
 }
+
+// audit #10 harness hardening: the three record-creation verbs are measured here so a
+// change to crates/vjs-mcp does not rely on review-by-vibes (INV-AGENT-EVALS-001).
+
+#[test]
+fn mcp_allocate_segments_cc_citations_by_repo() {
+    let srv = vjs_mcp::McpServer::new(workspace_root());
+    // The Cc series is bound to a specific repo's code, so it carries a `-<REPO>`
+    // segment; a caller allocating a subscriber's Cc line passes `repo` explicitly.
+    let acmeco = srv
+        .handle_request(
+            r#"{"jsonrpc":"2.0","id":1,"method":"vjs.allocate","params":{"series":"CC","repo":"acmeco","year":2026}}"#,
+        )
+        .expect("allocate cc");
+    assert!(
+        acmeco.contains("VJS-CC-ACMECO"),
+        "a Cc allocation must carry the repo segment: {acmeco}"
+    );
+    // With no `repo`, the segment defaults to this server's own repo_code (VJS).
+    let here = srv
+        .handle_request(
+            r#"{"jsonrpc":"2.0","id":1,"method":"vjs.allocate","params":{"series":"cc","year":2026}}"#,
+        )
+        .expect("allocate cc default");
+    assert!(
+        here.contains("VJS-CC-VJS"),
+        "a repo-less Cc allocation defaults to the server's repo_code: {here}"
+    );
+    // A canon series stays unsegmented.
+    let canon = srv
+        .handle_request(
+            r#"{"jsonrpc":"2.0","id":1,"method":"vjs.allocate","params":{"series":"PC","year":2026}}"#,
+        )
+        .expect("allocate pc");
+    assert!(
+        canon.contains("VJS-PC") && !canon.contains("VJS-PC-"),
+        "a canon series carries no repo segment: {canon}"
+    );
+}
+
+#[test]
+fn mcp_record_refers_a_subscribers_above_county_order_up() {
+    // PC-19 apex routing in the record verb: a subscribing jurisdiction may record only
+    // its first-instance County order; an above-County ruling refers up to the apex seat.
+    // The commit hook's path scan excludes lawpack/, so this verb is the chokepoint.
+    let dir = std::env::temp_dir().join(format!("vjs_tk_apex_{}", std::process::id()));
+    let _ = std::fs::remove_dir_all(&dir);
+    std::fs::create_dir_all(dir.join(".vjs")).unwrap();
+    std::fs::write(
+        dir.join(".vjs/config.toml"),
+        "version = \"2\"\njurisdiction_id = \"acmeco\"\nrepo_code = \"ACMECO\"\nlawpack = \"vjs-v2@0.1.0\"\n\n[paths]\norders = \".vjs/orders\"\nlogs = \".vjs/logs\"\nsubmissions = \".vjs/submissions\"\nspecs = \"lawpack/v2/specs\"\ndecisions = \"lawpack/v2/decisions\"\nproofs = \".vjs/proofs\"\npermits = \".vjs/permits\"\nprivate = \".vjs/private\"\ncache = \".vjs/cache\"\n\n[paths.public]\nenabled = false\n",
+    )
+    .unwrap();
+    let srv = vjs_mcp::McpServer::new(dir.clone());
+    let supreme = r#"{"jsonrpc":"2.0","id":1,"method":"vjs.record","params":{"id":"TK-SUP-1","court":"supreme_court","jurisdiction":"acmeco","repo_code":"ACMECO","status":"binding","issue":"tk/apex","holding":"x","directives":[],"forbidden":null,"exceptions":null,"supersedes":[],"source_opinion":null,"runtime_summary":"t","created_at":"2026-06-26"}}"#;
+    let r = srv.handle_request(supreme);
+    assert!(
+        r.is_err() && format!("{r:?}").contains("refers up"),
+        "a subscriber's above-County record must refer up: {r:?}"
+    );
+    let _ = std::fs::remove_dir_all(&dir);
+}
