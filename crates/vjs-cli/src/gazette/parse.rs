@@ -162,6 +162,11 @@ pub(crate) fn textual_refs(content: &str) -> Vec<String> {
     .expect("static regex");
     let cite_re =
         regex::Regex::new(r"\[(\d{4})\]\s+(VJS|REALM)-([A-Z]{2})\s+(\d+)").expect("static regex");
+    // Directive `must:` fields are long snake_case strings; their citations appear as
+    // "2026_vjs_pc_6" / "2026_vjs_sc_2", never the human "[YYYY] XXX N" form, so cite_re
+    // misses them (e.g. PC-19 D5's mandated VJS-PC 6, cited only inside its must:).
+    let snake_re =
+        regex::Regex::new(r"(\d{4})_(vjs|realm)_([a-z]{2})_(\d+)").expect("static regex");
     for line in content.lines() {
         for m in id_re.find_iter(line) {
             if !line[..m.start()].trim_end().ends_with("no") {
@@ -172,13 +177,33 @@ pub(crate) fn textual_refs(content: &str) -> Vec<String> {
             let (year, realm, court, n) = (&c[1], &c[2], &c[3], &c[4]);
             out.push(match realm {
                 // "[2026] VJS-PC 5" -> the order id "2026-VJS-PC-005"
-                "VJS" => format!("{}-VJS-{}-{:0>3}", year, court, n),
+                "VJS" => vjs_order_id(year, court, n),
                 // "[2026] REALM-SC 10" -> the archive item id "REALM-SC-10"
+                _ => format!("REALM-{}-{}", court, n),
+            });
+        }
+        for c in snake_re.captures_iter(line) {
+            let (year, realm, court, n) = (&c[1], &c[2], &c[3], &c[4]);
+            let court = court.to_ascii_uppercase();
+            out.push(match realm {
+                "vjs" => vjs_order_id(year, &court, n),
                 _ => format!("REALM-{}-{}", court, n),
             });
         }
     }
     out
+}
+
+/// The order id a VJS citation resolves to, applying the one descriptive-id alias: VJS-SC 2
+/// is recorded under [2026] VJS-COURTS-CONSTITUTION-001, not "2026-VJS-SC-002", so a bare
+/// "[2026] VJS-SC 2" / "2026_vjs_sc_2" would otherwise resolve to a non-existent id and drop.
+fn vjs_order_id(year: &str, court: &str, n: &str) -> String {
+    let id = format!("{}-VJS-{}-{:0>3}", year, court, n);
+    if id == "2026-VJS-SC-002" {
+        COURTS_ORDER.to_string()
+    } else {
+        id
+    }
 }
 
 pub(crate) fn title_case(t: &str) -> String {
