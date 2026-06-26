@@ -18,6 +18,7 @@ pub mod hook;
 pub mod install;
 pub mod repo;
 pub mod report;
+pub mod risk;
 pub mod route;
 pub mod scope;
 pub mod spec;

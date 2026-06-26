@@ -79,7 +79,7 @@ invariants:
   - id: K-14
     group: deterministic
     statement: "Risk is a deterministic local fact; ambiguous auto-allows downgrade to approval."
-    vjs: { status: gap, tests: [] }
+    vjs: { status: met, tests: [k14_destructive_commands_are_critical_risk, k14_shell_metasyntax_is_elevated_risk, k14_an_ambiguous_high_risk_auto_allow_downgrades_to_approval, k14_classification_is_deterministic] }
     opbox: { status: partial, tests: [] }
   - id: K-15
     group: floor
