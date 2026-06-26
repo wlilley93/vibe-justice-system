@@ -184,14 +184,37 @@ impl McpServer {
                 .parse()
                 .unwrap_or(2026)
         }) as i32;
+        // The Cc series is bound to a SPECIFIC repo's code and so carries a repo segment
+        // (`VJS-CC-OPBOX 7`); the canon series (PC/SC/REG/ACT/DEC/SPEC/INV/COA/...) are
+        // seat-wide and carry none. The repo defaults to this server's own repo_code; a
+        // caller allocating a subscriber's Cc line passes `repo` explicitly. The max is
+        // looked up scoped to that segment, so two repos' Cc registers never collide and
+        // the segment-less lookup (which mixed them) cannot under-count. Mirrors the CLI
+        // cmd_next_citation exactly (D4: one shared meaning across both front doors).
+        let default_repo_code = vjs_store::Store::read_repo_config(&self.repo_root)?
+            .map(|c| {
+                c.repo_code
+                    .unwrap_or_else(|| c.jurisdiction_id.to_uppercase())
+            })
+            .unwrap_or_else(|| "VJS".to_string());
+        let repo_code = p
+            .get("repo")
+            .and_then(|v| v.as_str())
+            .map(|s| s.to_ascii_uppercase())
+            .unwrap_or(default_repo_code);
+        let (repo_for_lookup, repo_segment): (Option<&str>, String) = if series == "CC" {
+            (Some(repo_code.as_str()), format!("-{repo_code}"))
+        } else {
+            (None, String::new())
+        };
         let lawpack_dir = self.repo_root.join("lawpack/v2");
         let max = if lawpack_dir.exists() {
-            LawpackValidator::live_citation_max(&lawpack_dir, &series, None, year)?
+            LawpackValidator::live_citation_max(&lawpack_dir, &series, repo_for_lookup, year)?
         } else {
             0
         };
         let n = max + 1;
-        let citation = format!("[{year}] VJS-{series} {n}");
+        let citation = format!("[{year}] VJS-{series}{repo_segment} {n}");
         Ok(serde_json::json!({ "series": series, "year": year, "n": n, "citation": citation }))
     }
 
@@ -239,16 +262,23 @@ impl McpServer {
             return Err(KernelError::InvalidInput(msg));
         }
         let subs = vjs_store::Store::read_submissions(&self.repo_root)?;
-        let sub = subs.iter().find(|s| s.id == submission).ok_or_else(|| {
+        let _sub = subs.iter().find(|s| s.id == submission).ok_or_else(|| {
             KernelError::InvalidInput(format!("no filed submission {submission}"))
         })?;
-        let bytes =
-            serde_yaml::to_string(sub).map_err(|e| KernelError::Serialization(e.to_string()))?;
+        // Pin the case file by the digest of the RAW bytes on disk, exactly as the CLI
+        // convene path does (lifecycle.rs). Re-serialising the parsed struct would hash
+        // a kernel-normalised form, not the document the parties actually filed - field
+        // reordering, dropped unknown keys, or comment loss would all change the bytes
+        // and break the pin. The whole point of a case-file digest is byte-faithfulness.
+        let sub_path = self
+            .repo_root
+            .join(".vjs/submissions/filed")
+            .join(format!("{submission}.yaml"));
+        let bytes = std::fs::read(&sub_path).map_err(|e| {
+            KernelError::Io(format!("reading filed submission {}: {e}", sub_path.display()))
+        })?;
         use sha2::Digest;
-        let digest = format!(
-            "sha256:{}",
-            hex::encode(sha2::Sha256::digest(bytes.as_bytes()))
-        );
+        let digest = format!("sha256:{}", hex::encode(sha2::Sha256::digest(&bytes)));
         let rec = vjs_store::ConveningRecord {
             id: format!(
                 "CONVENING-{}-{}",
@@ -274,6 +304,29 @@ impl McpServer {
         let p = params.ok_or_else(|| KernelError::InvalidInput("params required".into()))?;
         let order: Order = serde_json::from_value(p)
             .map_err(|e| KernelError::InvalidInput(format!("order: {e}")))?;
+        // PC-19 apex routing, in the typed record verb. Only the apex seat ("vjs") may
+        // RECORD an above-County order; a subscribing jurisdiction records only its
+        // first-instance County line and refers anything higher up. The commit hook's
+        // path scan (hook.rs) DELIBERATELY excludes lawpack/ paths, so this verb - which
+        // writes straight into lawpack/v2/orders - is the one chokepoint where that gap
+        // must be closed on the typed `order.court`, not by path. Mirrors front.rs's
+        // APEX_SEAT and apex_routing_decision: same rule, same shared meaning (D4).
+        const APEX_SEAT: &str = "vjs";
+        let jurisdiction_id = vjs_store::Store::read_repo_config(&self.repo_root)?
+            .map(|c| c.jurisdiction_id)
+            .unwrap_or_else(|| APEX_SEAT.to_string());
+        let above_county = matches!(
+            order.court,
+            Court::CourtOfAppeal | Court::PrivyCouncil | Court::SupremeCourt
+        );
+        if above_county && jurisdiction_id != APEX_SEAT {
+            return Err(KernelError::InvalidInput(format!(
+                "jurisdiction '{jurisdiction_id}' is a subscribing seat and may record only a \
+                 first-instance County order; an above-County ruling ({:?}) refers up to the \
+                 apex seat '{APEX_SEAT}' ([2026] VJS-PC 19)",
+                order.court
+            )));
+        }
         let lawpack = load_lawpack(&self.repo_root)?;
         if let Some(constitution) = lawpack
             .orders
@@ -286,16 +339,16 @@ impl McpServer {
                 .and_then(|sp| std::fs::read_to_string(self.repo_root.join(sp)).ok());
             let defects =
                 vjs_core::bench::verify_bench(&order, constitution, opinion_text.as_deref());
-            // Valid assent is the allow-list, not merely non-empty (a junk value must
-            // not let a bench-defective order through the record verb - the fail-open).
-            let assented = order
-                .assent_source
-                .as_deref()
-                .map(vjs_core::front_door::is_valid_assent_value)
-                .unwrap_or(false);
-            if !defects.is_empty() && !assented {
+            // Bench-integrity (a constituted odd size; no silent seat) is a CONSTITUTIVE
+            // code, not an assent-protected one: it is what makes the order a real court
+            // ruling at all. The assented-record floor routes-for-correction the codes it
+            // protects, but constitutive codes (bench, citation collision, apex, canon
+            // boundary) are never assent-downgraded. So a bench defect is refused at the
+            // door regardless of assent - assent cannot manufacture a quorum that the
+            // constitution did not seat ([2026] VJS-SC 2; the assent-floor carve-out).
+            if !defects.is_empty() {
                 return Err(KernelError::InvalidInput(format!(
-                    "bench-integrity defects (non-assented), refused at the door: {:?}",
+                    "bench-integrity defects, refused at the door (constitutive - not assent-softenable): {:?}",
                     defects.iter().map(|d| d.code()).collect::<Vec<_>>()
                 )));
             }
@@ -483,13 +536,14 @@ pub fn get_tool_schemas() -> Vec<McpTool> {
         },
         McpTool {
             name: "vjs.allocate".into(),
-            description: "Allocate the next citation in a series from the live register (allocate->citation). The kernel mints the number; never hand-pick a citation. Returns the canonical citation string.".into(),
+            description: "Allocate the next citation in a series from the live register (allocate->citation). The kernel mints the number; never hand-pick a citation. The Cc series is repo-scoped and carries a repo segment (VJS-CC-<REPO> n) - pass `repo` to allocate a subscriber's Cc line, else it defaults to this server's repo_code. Returns the canonical citation string.".into(),
             input_schema: serde_json::json!({
                 "type": "object",
                 "required": ["series"],
                 "properties": {
                     "series": {"type": "string"},
-                    "year": {"type": "integer"}
+                    "year": {"type": "integer"},
+                    "repo": {"type": "string"}
                 }
             }),
             output_schema: None,
@@ -563,5 +617,99 @@ mod front_door_verb_tests {
         let srv = McpServer::new(std::path::PathBuf::from("."));
         let req = r#"{"jsonrpc":"2.0","id":1,"method":"vjs.exec","params":{}}"#;
         assert!(srv.handle_request(req).is_err());
+    }
+
+    fn scratch_dir(tag: &str) -> std::path::PathBuf {
+        let d = std::env::temp_dir().join(format!("vjs_mcp_{tag}_{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&d);
+        std::fs::create_dir_all(&d).unwrap();
+        d
+    }
+
+    /// allocate: the Cc series is repo-scoped and must carry the `-<REPO>` segment, the
+    /// canon series must NOT. A caller-supplied `repo` selects a subscriber's Cc line;
+    /// absent it, the segment defaults to this server's own repo_code. (Audit #10: the
+    /// verb was minting segment-less Cc citations that collide across repos.)
+    #[test]
+    fn allocate_scopes_cc_to_a_repo_segment_and_leaves_canon_unsegmented() {
+        let dir = scratch_dir("alloc"); // no config.toml -> repo_code defaults to VJS
+        let srv = McpServer::new(dir.clone());
+
+        let cc_named = srv
+            .handle_allocate(Some(serde_json::json!({"series":"CC","year":2026,"repo":"opbox"})))
+            .unwrap();
+        assert_eq!(cc_named["citation"], "[2026] VJS-CC-OPBOX 1");
+
+        let cc_default = srv
+            .handle_allocate(Some(serde_json::json!({"series":"cc","year":2026})))
+            .unwrap();
+        assert_eq!(cc_default["citation"], "[2026] VJS-CC-VJS 1");
+
+        let canon = srv
+            .handle_allocate(Some(serde_json::json!({"series":"PC","year":2026})))
+            .unwrap();
+        assert_eq!(canon["citation"], "[2026] VJS-PC 1");
+
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    /// record: PC-19 apex routing in the typed verb. A subscribing jurisdiction (here
+    /// "opbox") may record only its first-instance County order; an above-County ruling
+    /// refers up to the apex seat. The commit hook's path scan excludes lawpack/, so this
+    /// verb is the chokepoint. The refusal fires BEFORE the lawpack is loaded, so the
+    /// fixture needs only the config. (Audit #10: the verb had no apex check at all.)
+    #[test]
+    fn record_refuses_an_above_county_order_from_a_subscriber() {
+        let dir = scratch_dir("apex");
+        std::fs::create_dir_all(dir.join(".vjs")).unwrap();
+        std::fs::write(
+            dir.join(".vjs/config.toml"),
+            "version = \"2\"\njurisdiction_id = \"opbox\"\nrepo_code = \"OPBOX\"\nlawpack = \"vjs-v2@0.1.0\"\n\n[paths]\norders = \".vjs/orders\"\nlogs = \".vjs/logs\"\nsubmissions = \".vjs/submissions\"\nspecs = \"lawpack/v2/specs\"\ndecisions = \"lawpack/v2/decisions\"\nproofs = \".vjs/proofs\"\npermits = \".vjs/permits\"\nprivate = \".vjs/private\"\ncache = \".vjs/cache\"\n\n[paths.public]\nenabled = false\n",
+        )
+        .unwrap();
+        let srv = McpServer::new(dir.clone());
+
+        let order = serde_json::json!({
+            "id": "TEST-SUPREME-1",
+            "court": "supreme_court",
+            "jurisdiction": "opbox",
+            "repo_code": "OPBOX",
+            "status": "binding",
+            "issue": "test/apex",
+            "holding": "a subscriber tries to record an apex order",
+            "directives": [],
+            "forbidden": null,
+            "exceptions": null,
+            "supersedes": [],
+            "source_opinion": null,
+            "runtime_summary": "test",
+            "created_at": "2026-06-26"
+        });
+        let err = srv.handle_record(Some(order)).unwrap_err();
+        let msg = format!("{err:?}");
+        assert!(
+            msg.contains("refers up") && msg.contains("VJS-PC 19"),
+            "subscriber apex record must refer up, got: {msg}"
+        );
+
+        // And a County order from the same subscriber is NOT refused by the apex gate
+        // (it falls through to the ordinary bench/lawpack path - a different failure, or
+        // success, but never the apex refusal).
+        let county = serde_json::json!({
+            "id": "TEST-COUNTY-1", "court": "county", "jurisdiction": "opbox",
+            "repo_code": "OPBOX", "status": "binding", "issue": "test/county",
+            "holding": "first-instance", "directives": [], "forbidden": null,
+            "exceptions": null, "supersedes": [], "source_opinion": null,
+            "runtime_summary": "test", "created_at": "2026-06-26"
+        });
+        let county_res = srv.handle_record(Some(county));
+        if let Err(e) = county_res {
+            assert!(
+                !format!("{e:?}").contains("refers up"),
+                "a County order must never trip the apex refusal"
+            );
+        }
+
+        let _ = std::fs::remove_dir_all(&dir);
     }
 }
