@@ -3,6 +3,8 @@ assent_source: standing_bounded_assent
 citation: "[2026] VJS-PC 7"
 title: Assent construction for the Realm Invariants and Machinery Instrument 2026
 court: privy_council
+# bench back-filled from the named opinion ([2026] VJS-SC 6 D2: ministerial, non-constitutive)
+bench: ["Justice A", "Justice B", "Justice C"]
 jurisdiction: vibe-justice-system
 status: binding
 issue: assent_construction

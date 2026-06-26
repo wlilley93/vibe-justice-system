@@ -1,6 +1,9 @@
 id: 2026-VJS-SC-001
+citation: "[2026] VJS-SC 1"
 assent_source: standing_bounded_assent
 court: supreme_court
+# bench back-filled from the named opinion ([2026] VJS-SC 6 D2: ministerial, non-constitutive)
+bench: ["Ashworth CJ", "Bellamy J", "Cardoso J", "Driscoll J", "Ellory J", "Fenwick J", "Goswell J", "Harlan J", "Pelham J"]
 jurisdiction: default
 repo_code: VJS
 status: binding
