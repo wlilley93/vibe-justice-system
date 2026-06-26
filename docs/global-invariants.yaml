@@ -124,12 +124,12 @@ invariants:
   - id: K-23
     group: effects
     statement: "Effect reversibility classification (irreversible|rollbackable|none); provider classifies, fail closed."
-    vjs: { status: gap, tests: [] }
+    vjs: { status: met, tests: [k23_classifies_the_three_classes, k23_an_unknown_or_absent_class_is_refused_fail_closed] }
     opbox: { status: gap, tests: [] }
   - id: K-24
     group: effects
     statement: "Irreversible outward actions block on a durable approval queue; one-shot human grant, decided once, audited."
-    vjs: { status: gap, tests: [] }
+    vjs: { status: met, tests: [k24_an_irreversible_outward_action_blocks_until_granted, k24_a_rollbackable_or_no_effect_action_does_not_block, k24_a_grant_is_decided_once_and_consumed_once, k24_a_denied_request_never_authorises] }
     opbox: { status: partial, tests: [] }
   - id: K-25
     group: surface

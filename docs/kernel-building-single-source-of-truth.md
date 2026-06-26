@@ -159,8 +159,8 @@ absent. (Agent libOS shown as the reference column.)
 | K-20 | Bounded-observability audit | MET | GAP (subscriber-in-logs) | PARTIAL (redaction inv) |
 | K-21 | Encrypt-before-write + AAD | n/a | n/a | MET |
 | K-22 | Per-principal isolation (RLS) | n/a | n/a | MET |
-| K-23 | Effect reversibility class | MET | GAP | GAP |
-| K-24 | Durable approval queue + one-shot human | MET | GAP (ad-hoc) | PARTIAL (MFA/gate.propose) |
+| K-23 | Effect reversibility class | MET | **MET** (effects.rs: 3 classes, unclassifiable refused) | GAP |
+| K-24 | Durable approval queue + one-shot human | MET | **MET** (effects.rs: blocks, decided-once, consumed-once) | PARTIAL (MFA/gate.propose) |
 | K-25 | Digest-pinned enforcement surface | GAP | **MET** | GAP |
 | K-26 | Compile-time fail-closed | PARTIAL | PARTIAL (stale-binary) | MET |
 | K-27 | Required-CI trust root (same gate) | PARTIAL | **MET** | PARTIAL |
