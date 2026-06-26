@@ -1,0 +1,83 @@
+id: "2026-VJS-SC-006"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-SC 6"
+title: Reference re two recorded contradictions - the Court of Appeal (BOOT-003 vs the constitution) and the constitutive-bench question for legacy empty-bench orders
+court: supreme_court
+jurisdiction: vibe-justice-system
+status: binding
+issue: reconcile_boot003_vs_courts_constitution_on_the_court_of_appeal_and_decide_whether_an_empty_bench_field_voids_nine_legacy_apex_orders_including_the_constitution
+bench: [Bingham, Hale, Reed, Sumption, Carnwath]
+source_opinion: "lawpack/v2/judgments/2026-VJS-SC-6-opinion.md"
+appealable: false
+supersedes: []
+question: >
+  On a reference by the Principal following a whole-repo audit (2026-06-26). Q1: BOOT-003 ("No Court of Appeal in
+  V2 MVP"; forbidden create/route to the Court of Appeal) appears to contradict COURTS-CONSTITUTION-001 ([2026]
+  VJS-SC 2) D4 (the Court of Appeal persists in law, is administratively non-convened in the MVP, is NOT
+  abolished, and may be convened on an odd bench of 3 if an appeal arises) and [2026] VJS-PC 19 (the Court of
+  Appeal sits at the canon; the canon convenes it) - is BOOT-003 superseded, and how is the record made honest?
+  Q2: nine legacy apex orders (PC-001..007, SC-001, and COURTS-CONSTITUTION-001 itself) carry an EMPTY structured
+  bench field while their opinions name fully constituted benches - are they valid or void ab initio under the
+  constitutive-bench rule ([2026] VJS-PC 13 / PC 16 / SC 5), reconciled with the validity-neutral, prospective
+  record-field rule of [2026] VJS-PC 8?
+holding: >
+  UNANIMOUS (5-0), Construction A on both questions; a five-justice constitutional bench (Bingham, Hale, Reed,
+  Sumption, Carnwath) delivered judgment IN FULL, each opinion authored by a counted member (s.18); Reed J. was
+  charged to press the strict constitutive reading to its limit and concluded it self-refutes. Q1: there is a
+  facial/citator conflict but no live substantive contradiction. BOOT-003's "No Court of Appeal in the V2 MVP"
+  means administratively non-convened, which is the constitution's own position (VJS-SC 2 D4); on the only
+  residual margin (BOOT-003's flat create/route prohibition against D4's reserved power to convene on an appeal)
+  the entrenched, sovereign-assented, later and more specific constitution controls by lex superior reinforced by
+  lex posterior, and reading BOOT-003 as a permanent bar would work abolition-by-starvation of a tier the
+  constitution lets be abolished only by express s.10 amendment by number. BOOT-003's create/route limb is SPENT
+  / pro tanto superseded; it survives only as the MVP non-convened default. PC-19 operationalises D4 and is GOOD
+  LAW, NOT per incuriam. Q2: the nine legacy orders, INCLUDING THE CONSTITUTION, are VALID. PC-13/PC-16/SC-5 make
+  the SUBSTANTIVE constitution of the deciding bench constitutive (a genuinely benchless order - no panel, an even
+  bench, a synthesiser-on-top - is void ab initio and never softened, of ANY vintage); PC-8 makes the STRUCTURED
+  bench field validity-neutral, prospective, and grandfathers legacy orders. These govern different objects.
+  "Benchless" is a substantive condition proved by the whole record (the opinion included), not the emptiness of
+  one metadata cell. Each of the nine names a full bench in its opinion, so none is benchless; the empty field is
+  an under-recording governed by PC-8. The constitution is additionally insulated: a rule enacted under the
+  constitutional order cannot annul its own founding norm, and a sovereign-assented entrenched instrument is
+  route-for-correction, never machine-voided. The constitutive-bench rule binds PROSPECTIVELY on staged orders;
+  the diff-time/staged gate is the prospective boundary and is affirmed.
+treatment: >
+  RECONCILES BOOT-003 with COURTS-CONSTITUTION-001 D4 and PC-19 (Q1) and reconciles PC-8 with PC-13/PC-16/SC-5
+  (Q2) on the substance/field distinction. RATIO Q1: an earlier subordinate order is pro tanto superseded by a
+  later, higher, sovereign-assented, entrenched constitutional instrument occupying the same field; such
+  supersession is automatic and requires honest annotation, not re-enactment; an entrenchment clause permitting
+  abolition only by express numbered amendment forbids any reading of a lower order that would accomplish that
+  abolition by prohibiting the institution's convening; a precedent that operationalises the reserved power is
+  consistent, not per incuriam. RATIO Q2: a ruling that newly makes a record field constitutive operates
+  prospectively only and does not retroactively void instruments valid when made under the prior regime;
+  "benchless = void ab initio, never softened" condemns the absence of a properly constituted panel (of any
+  vintage), not the absence of a structured field where the proper bench is recorded in the opinion; the latter is
+  a curable under-recording; an entrenched sovereign-assented constituting instrument may be undone only by its
+  prescribed manner; and no legal order may retroactively void the instrument that constitutes its own authority.
+forbidden:
+  - reading_boot003_as_abolishing_or_permanently_barring_the_court_of_appeal_tier_which_the_constitution_entrenches_against_abolition_save_by_express_s10_amendment_by_number
+  - holding_pc19_per_incuriam_of_boot003_or_requiring_an_s10_amendment_to_recognise_the_court_of_appeal_persists
+  - voiding_any_of_the_nine_legacy_orders_or_the_constitution_for_an_empty_bench_field_where_the_opinion_names_a_fully_constituted_bench
+  - re_pointing_the_diff_time_constitutive_bench_gate_at_committed_legacy_orders_or_treating_the_bench_field_back_fill_as_a_validity_cure_or_a_revalidation
+  - making_the_structured_bench_field_itself_constitutive_of_validity_other_than_by_a_supreme_court_order_or_primary_law_expressly_naming_pc8
+directives:
+  - id: D1
+    actor: lexby
+    must: annotate_boot003_in_the_citator_as_superseded_in_part_by_2026_vjs_sc_2_d4_and_2026_vjs_pc_19_its_court_of_appeal_create_route_limb_spent_pro_tanto_and_strike_create_court_of_appeal_and_route_to_court_of_appeal_from_its_forbidden_list_so_the_diff_time_denylist_stops_blanket_blocking_a_constitutionally_authorised_convening
+  - id: D2
+    actor: lexby
+    must: declare_the_nine_legacy_empty_bench_orders_pc001_to_007_sc001_and_courts_constitution_001_valid_and_back_fill_their_bench_field_from_the_benches_named_in_their_opinions_as_a_ministerial_non_constitutive_route_for_correction_never_a_validity_cure_or_a_void
+  - id: D3
+    actor: lexby
+    must: affirm_the_constitutive_bench_rule_pc13_pc16_sc5_as_prospective_on_staged_orders_the_substantive_bench_proved_by_the_whole_record_the_committed_staged_line_being_the_legacy_boundary_a_substantively_benchless_staged_order_remaining_void_ab_initio_never_softened
+runtime_summary: >
+  Unanimous (5-0). Q1: BOOT-003's Court-of-Appeal create/route prohibition is spent / pro tanto
+  superseded by [2026] VJS-SC 2 (COURTS-CONSTITUTION-001) D4 and [2026] VJS-PC 19; the tier persists,
+  administratively non-convened in the MVP, convenable on an odd bench of 3 at the canon if an appeal
+  arises; PC-19 is good law, not per incuriam; remedy is a citator supersession annotation + striking the
+  two CoA tokens from BOOT-003's forbidden list (no s.10 amendment). Q2: the nine legacy empty-bench
+  orders, including the constitution, are VALID - bench-integrity (the substantive panel, named in each
+  opinion) is constitutive, the structured bench field is validity-neutral and prospective (PC-8); the
+  constitutive rule binds prospectively on staged orders; remedy is a ministerial non-constitutive
+  back-fill of the bench field from the named opinions, never a void.
+created_at: "2026-06-26"

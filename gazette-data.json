@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-26T13:54:56.363608194+00:00",
+  "generated_at": "2026-06-26T14:50:28.135271705+00:00",
   "items": [
     {
       "affirmed_by": [],
@@ -1536,7 +1536,11 @@
       "affirms": [],
       "assent_source": "sovereign_assent",
       "citation": "[2026] VJS-BOOT 3",
-      "cites": [],
+      "cites": [
+        "2026-VJS-COURTS-CONSTITUTION-001",
+        "2026-VJS-PC-019",
+        "2026-VJS-SC-006"
+      ],
       "court": "pc",
       "date": "2026-06-08",
       "doc": "law.html#2026-VJS-BOOT-003",
@@ -3089,6 +3093,55 @@
       "varied_by": [],
       "varies": [],
       "vote": "7-2 BUILD-THE-ROUTE-CLASS-REFINEMENT-NOW on binding non-narrowing conditions (majority: Reid, Diplock, Hoffmann, Steyn, Scarman, Radcliffe, Devlin JJ.); Wilberforce and Simon JJ. dissent on disposition, holding the build should be RESERVED and the permissive `founded` check retained. UNANIMOUS 9-0 on Q2: a route-class trace check, with the established-canon carve-out and route-for-correction, is faithful interpretation of s.23 within this Council's power and non-narrowing, while a per-instrument force-gate narrows ACT-ASSENTED-RECORD-PROTECTION s.1 for a genuinely-made regulation and is reserved exclusively to the Sovereign. UNANIMOUS that the orders and apex limb is already closed at the constitutive rung and needs no assent-resolution change."
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "assent_source": "standing_bounded_assent",
+      "bench": [
+        "Bingham",
+        "Hale",
+        "Reed",
+        "Sumption",
+        "Carnwath"
+      ],
+      "citation": "[2026] VJS-SC 6",
+      "cites": [
+        "2026-VJS-COURTS-CONSTITUTION-001",
+        "2026-VJS-PC-008",
+        "2026-VJS-PC-013",
+        "2026-VJS-PC-019"
+      ],
+      "court": "sc",
+      "date": "2026-06-26",
+      "doc": "law.html#2026-VJS-SC-006",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-SC-006",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": "lawpack/v2/judgments/2026-VJS-SC-6-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-SC-6-opinion.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-SC-006.yaml",
+      "points": [
+        "annotate boot003 in the citator as superseded in part by 2026 vjs sc 2 d4 and 2026 vjs pc 19 its court of appeal create route limb spent pro tanto and strike create court of appeal and route to court of appeal from its forbidden list so the diff time denylist stops blanket blocking a constitutionally authorised convening",
+        "declare the nine legacy empty bench orders pc001 to 007 sc001 and courts constitution 001 valid and back fill their bench field from the benches named in their opinions as a ministerial non constitutive route for correction never a validity cure or a void",
+        "affirm the constitutive bench rule pc13 pc16 sc5 as prospective on staged orders the substantive bench proved by the whole record the committed staged line being the legacy boundary a substantively benchless staged order remaining void ab initio never softened"
+      ],
+      "question": "On a reference by the Principal following a whole-repo audit (2026-06-26). Q1: BOOT-003 (\"No Court of Appeal in V2 MVP\"; forbidden create/route to the Court of Appeal) appears to contradict COURTS-CONSTITUTION-001 ([2026] VJS-SC 2) D4 (the Court of Appeal persists in law, is administratively non-convened in the MVP, is NOT abolished, and may be convened on an odd bench of 3 if an appeal arises) and [2026] VJS-PC 19 (the Court of Appeal sits at the canon; the canon convenes it) - is BOOT-003 superseded, and how is the record made honest? Q2: nine legacy apex orders (PC-001..007, SC-001, and COURTS-CONSTITUTION-001 itself) carry an EMPTY structured bench field while their opinions name fully constituted benches - are they valid or void ab initio under the constitutive-bench rule ([2026] VJS-PC 13 / PC 16 / SC 5), reconciled with the validity-neutral, prospective record-field rule of [2026] VJS-PC 8?",
+      "status": "binding",
+      "subject": "reconcile boot003 vs courts constitution on the court of appeal and decide whether an empty bench field voids nine legacy apex orders including the constitution",
+      "summary": "Unanimous (5-0).",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "Reference Re Two Recorded Contradictions - The Court of Appeal (BOOT-003 Vs the Constitution) and the Constitutive-bench Question for Legacy Empty-bench Orders",
+      "ts": "2026-06-26T00:00:00Z",
+      "updated": "2026-06-26",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-006.yaml",
+      "varied_by": [],
+      "varies": []
     },
     {
       "affirmed_by": [],
@@ -4790,14 +4843,14 @@
   "meta": {
     "counts": {
       "archive": 37,
-      "canon": 75,
-      "total": 112
+      "canon": 76,
+      "total": 113
     },
     "lawpack": {
       "digest": "sha256:14cdb3337039ffdbe4f007fcb6fc5fd634cb0e7f6218e201555ab5de45868f9f",
       "id": "vjs-v2@0.1.0",
       "locked_at": "2026-06-09T17:58:06.052896283+00:00"
     },
-    "source_commit": "edbf93f6ad0419cd48493607158b25b66b95f4d8"
+    "source_commit": "6f0849f17b1060aee63caca66e216fe8e7c75192"
   }
 }
