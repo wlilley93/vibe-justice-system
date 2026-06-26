@@ -35,6 +35,10 @@ impl AuthorityStatus {
 #[serde(rename_all = "snake_case")]
 pub enum Court {
     County,
+    /// The intermediate appellate tier. Persists in law (s.10; [2026] VJS-SC 2 D4) and is now
+    /// representable at the canonical seat so vjs can convene and record a Court of Appeal order
+    /// ([2026] VJS-PC 19). Serialises as `court_of_appeal`.
+    CourtOfAppeal,
     PrivyCouncil,
     SupremeCourt,
 }
@@ -370,6 +374,7 @@ pub enum AuthorityRank {
     Primary,
     Regulation,
     SupremeCourt,
+    CourtOfAppeal,
     PrivyCouncil,
     CountyCourt,
     Log,

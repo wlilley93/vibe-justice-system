@@ -100,6 +100,7 @@ pub fn subject_tier_advisory(issue: &str, court: &Court) -> Option<String> {
 pub fn court_actor_token(court: &Court) -> &'static str {
     match court {
         Court::County => "county_court",
+        Court::CourtOfAppeal => "court_of_appeal",
         Court::PrivyCouncil => "privy_council",
         Court::SupremeCourt => "supreme_court",
     }
