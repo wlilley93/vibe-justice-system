@@ -90,6 +90,20 @@ fn top_level_scalar(content: &str, key: &str) -> Option<String> {
     value.get(key)?.as_str().map(|s| s.to_string())
 }
 
+/// The canonical snake_case token for a proof kind, matching the lawpack wire form
+/// (`proof_kind:` in a `proof_exists` predicate). Explicit and total so the match is
+/// deterministic, and so a new `ProofKind` variant fails to COMPILE until it is given a
+/// token here, rather than silently never matching.
+fn proof_kind_token(kind: &ProofKind) -> &'static str {
+    match kind {
+        ProofKind::CommandResult => "command_result",
+        ProofKind::DecisionLog => "decision_log",
+        ProofKind::TestResult => "test_result",
+        ProofKind::PublicPrivateScan => "public_private_scan",
+        ProofKind::ValidationReport => "validation_report",
+    }
+}
+
 fn evaluate_predicate(
     rule: &PredicateExpr,
     repo_state: &RepoState,
@@ -148,13 +162,40 @@ fn evaluate_predicate(
             .dependency_changes
             .iter()
             .any(|c| c.name == *name && c.removed),
-        PredicateExpr::DecisionLogExists { issue: _ } => !repo_state.logs.is_empty(),
-        PredicateExpr::PermitExists { id: _ } => !repo_state.permits.is_empty(),
-        PredicateExpr::ProofExists { kind: _ } => !repo_state.proofs.is_empty(),
-        PredicateExpr::OrderExists { issue: _ } => !repo_state.orders.is_empty(),
-        PredicateExpr::WordCountLte { field: _, max: _ } => {
-            // Simplified: always true for now
-            true
+        // Existence predicates honour their OPTIONAL argument: a `None` arg keeps the
+        // bare existence check (the form the live invariants use), but a `Some` arg MUST
+        // match a specific record. Before this the arg was discarded - so a lawpack author
+        // who wired `decision_log_exists{issue: X}`, a permit by id, a proof of a specific
+        // kind, or an order on an issue got a silent always-pass satisfied by ANY record.
+        // Match the arg so a check that READS as targeted IS targeted. Deterministic: a
+        // pure scan of the staged records, no model call/network/clock (DEC-KERNEL-001).
+        PredicateExpr::DecisionLogExists { issue } => match issue {
+            Some(want) => repo_state.logs.iter().any(|l| l.issue == *want),
+            None => !repo_state.logs.is_empty(),
+        },
+        PredicateExpr::PermitExists { id } => match id {
+            Some(want) => repo_state.permits.iter().any(|p| p.id.0 == *want),
+            None => !repo_state.permits.is_empty(),
+        },
+        PredicateExpr::ProofExists { kind } => match kind {
+            Some(want) => repo_state
+                .proofs
+                .iter()
+                .any(|p| proof_kind_token(&p.kind) == want.as_str()),
+            None => !repo_state.proofs.is_empty(),
+        },
+        PredicateExpr::OrderExists { issue } => match issue {
+            Some(want) => repo_state.orders.iter().any(|o| o.issue.0 == *want),
+            None => !repo_state.orders.is_empty(),
+        },
+        PredicateExpr::WordCountLte { .. } => {
+            // FAIL-CLOSED. RepoState carries no structured per-field record to count
+            // words on, so this cannot be implemented faithfully here. The parser
+            // (RawPredicate::to_predicate) rejects `word_count_lte` so a lawpack can
+            // never LOAD one; if one is ever constructed directly it must not give false
+            // assurance, so it fails rather than silently passing. Use `file_words_lte`
+            // for file-level word limits or `logs_stay_short` for decision-log brevity.
+            false
         }
         PredicateExpr::FileWordsLte { glob, max } => {
             // Deterministic: every file in scope (matched by glob, among the
@@ -169,8 +210,11 @@ fn evaluate_predicate(
             })
         }
         PredicateExpr::CitationUnique => {
-            // Simplified: always true for now
-            true
+            // The whole-lawpack uniqueness fact (computed by the validator's
+            // check_citation_uniqueness, handed in via LawpackFacts). "Citation unique"
+            // == "no duplicate citations", so this shares the real witness with
+            // NoDuplicateCitations instead of always passing.
+            !facts.duplicate_citations
         }
         PredicateExpr::RequiredFields { fields } => {
             // Every staged in-scope record must declare each required field

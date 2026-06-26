@@ -153,6 +153,48 @@ fn a_jurisdiction_scoped_authority_matches_only_its_jurisdiction() {
 
 // --- proof_exists predicate field mapping ---------------------------------------
 
+// --- a merely Proposed authority is pre-enactment, not live binding law ---------
+
+fn authority_with_status(status: AuthorityStatus) -> Authority {
+    Authority {
+        id: AuthorityId("TEST-PROPOSED-001".into()),
+        kind: AuthorityKind::Rule,
+        rank: AuthorityRank::Primary,
+        status,
+        jurisdiction: None,
+        title: "Test proposed authority".into(),
+        summary: "test".into(),
+        source_path: None,
+        issue_tags: Vec::new(),
+        scope: None,
+        supersedes: Vec::new(),
+    }
+}
+
+#[test]
+fn a_proposed_authority_does_not_resolve_as_live_binding_law() {
+    // ACT-001:s7: a merely PROPOSED authority is pre-enactment (counsel's draft) and
+    // confers no binding force. It must not resolve into the AuthoritySet, or it would
+    // leak into RouteDecision.binding and silence a FirstImpression court trigger.
+    assert!(
+        !AuthorityStatus::Proposed.is_live(),
+        "a pre-enactment Proposed authority must not be live"
+    );
+    let input = route_input(RiskLevel::Low, Some("default"));
+    // Control: the identical record marked Binding resolves.
+    assert_eq!(
+        resolve_with(authority_with_status(AuthorityStatus::Binding), &input),
+        1,
+        "control: a Binding authority resolves as live"
+    );
+    // The same record marked Proposed must be filtered out entirely.
+    assert_eq!(
+        resolve_with(authority_with_status(AuthorityStatus::Proposed), &input),
+        0,
+        "a merely Proposed (pre-enactment) authority must not resolve as live binding law"
+    );
+}
+
 #[test]
 fn proof_exists_takes_its_kind_from_proof_kind_not_id() {
     let raw = RawPredicate {

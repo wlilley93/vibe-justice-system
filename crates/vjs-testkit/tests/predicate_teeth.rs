@@ -211,3 +211,59 @@ fn mcp_local_first_has_teeth() {
         "INV-011 must fail on a public MCP bind"
     );
 }
+
+#[test]
+fn decision_log_exists_honours_its_issue_arg() {
+    // Regression for the [predicate-stubs] fix: before it, the evaluator discarded the
+    // `issue` arg and passed on ANY decision log; a check that reads as targeted at a
+    // specific issue was a silent always-pass. Now a log for a DIFFERENT issue must fail,
+    // and only a matching log passes.
+    use vjs_core::types::{DecisionLog, InvariantId, PredicateExpr, RiskLevel, Severity};
+
+    fn inv_requiring_issue(issue: &str) -> Invariant {
+        Invariant {
+            id: InvariantId("INV-TEST-DLE".into()),
+            title: "decision log for a specific issue".into(),
+            basis: Vec::new(),
+            scope: None,
+            rule: PredicateExpr::DecisionLogExists {
+                issue: Some(issue.to_string()),
+            },
+            severity: Severity::Error,
+            remedy: "record a decision log for the issue".into(),
+        }
+    }
+
+    fn log_for(issue: &str) -> DecisionLog {
+        DecisionLog {
+            id: "LOG-1".into(),
+            time: "2026-01-01T00:00:00Z".into(),
+            actor: "tester".into(),
+            kind: "decision".into(),
+            issue: issue.to_string(),
+            decision: "did the thing".into(),
+            basis: Vec::new(),
+            risk: RiskLevel::Low,
+            reversibility: "reversible".into(),
+            court_required: false,
+            why: "because".into(),
+        }
+    }
+
+    let inv = inv_requiring_issue("ISSUE-WANTED");
+    let facts = LawpackFacts::default();
+
+    let mut wrong = empty_state();
+    wrong.logs.push(log_for("ISSUE-OTHER"));
+    assert!(
+        !passes(&inv, &wrong, &facts),
+        "a log for a DIFFERENT issue must not satisfy decision_log_exists{{issue: WANTED}}"
+    );
+
+    let mut right = empty_state();
+    right.logs.push(log_for("ISSUE-WANTED"));
+    assert!(
+        passes(&inv, &right, &facts),
+        "a log for the WANTED issue satisfies the predicate"
+    );
+}

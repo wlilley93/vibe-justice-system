@@ -166,9 +166,47 @@ pub fn sort_by_rank_then_specificity_then_date(
         if rank_cmp != std::cmp::Ordering::Equal {
             return rank_cmp;
         }
-        std::cmp::Ordering::Equal
+        // Lex specialis: of two authorities at the same rank, the one that
+        // constrains more scope dimensions is the more specific and wins.
+        // Higher specificity must sort earlier, so compare in reverse.
+        let spec_cmp = specificity_score(b).cmp(&specificity_score(a));
+        if spec_cmp != std::cmp::Ordering::Equal {
+            return spec_cmp;
+        }
+        // Final total, deterministic tiebreaker on the authority id so that
+        // equal-rank, equal-specificity authorities have one fixed order
+        // regardless of HashMap iteration (REG-KERNEL-001 determinism).
+        a.id.0.cmp(&b.id.0)
     });
     authorities
+}
+
+/// A lex-specialis specificity score: the number of scope dimensions an
+/// authority actually constrains. A higher score means a narrower, more
+/// specific authority, which outranks a more general one of equal rank.
+fn specificity_score(authority: &Authority) -> usize {
+    match authority.scope {
+        Some(ref scope) => {
+            let mut score = 0;
+            if scope.paths.as_ref().is_some_and(|v| !v.is_empty()) {
+                score += 1;
+            }
+            if scope.jurisdictions.as_ref().is_some_and(|v| !v.is_empty()) {
+                score += 1;
+            }
+            if scope.action_kinds.as_ref().is_some_and(|v| !v.is_empty()) {
+                score += 1;
+            }
+            if scope.issue_tags.as_ref().is_some_and(|v| !v.is_empty()) {
+                score += 1;
+            }
+            if scope.records.as_ref().is_some_and(|v| !v.is_empty()) {
+                score += 1;
+            }
+            score
+        }
+        None => 0,
+    }
 }
 
 fn rank_value(rank: &AuthorityRank) -> u8 {
@@ -223,8 +261,94 @@ mod rank_tests {
         // PC-10/PC-16: the Privy Council sits second only to the apex; the Court of Appeal is
         // the intermediate merits tier above County. Lower rank_value = higher precedence.
         // (PR #21 had inverted this, ranking CoA above the Privy Council.)
-        assert!(rank_value(&AuthorityRank::SupremeCourt) < rank_value(&AuthorityRank::PrivyCouncil));
-        assert!(rank_value(&AuthorityRank::PrivyCouncil) < rank_value(&AuthorityRank::CourtOfAppeal));
-        assert!(rank_value(&AuthorityRank::CourtOfAppeal) < rank_value(&AuthorityRank::CountyCourt));
+        assert!(
+            rank_value(&AuthorityRank::SupremeCourt) < rank_value(&AuthorityRank::PrivyCouncil)
+        );
+        assert!(
+            rank_value(&AuthorityRank::PrivyCouncil) < rank_value(&AuthorityRank::CourtOfAppeal)
+        );
+        assert!(
+            rank_value(&AuthorityRank::CourtOfAppeal) < rank_value(&AuthorityRank::CountyCourt)
+        );
+    }
+}
+
+#[cfg(test)]
+mod deterministic_sort_tests {
+    use super::{
+        Authority, AuthorityGraph, AuthorityKind, sort_by_rank_then_specificity_then_date,
+    };
+    use crate::types::{
+        AuthorityId, AuthorityRank, AuthorityStatus, IssueTag, JurisdictionId, Scope,
+    };
+
+    fn auth(id: &str, rank: AuthorityRank, scope: Option<Scope>) -> Authority {
+        Authority {
+            id: AuthorityId(id.into()),
+            kind: AuthorityKind::Rule,
+            rank,
+            status: AuthorityStatus::Binding,
+            jurisdiction: None,
+            title: id.into(),
+            summary: String::new(),
+            source_path: None,
+            issue_tags: Vec::new(),
+            scope,
+            supersedes: Vec::new(),
+        }
+    }
+
+    fn specific_scope() -> Scope {
+        Scope {
+            paths: None,
+            jurisdictions: Some(vec![JurisdictionId("uk".into())]),
+            action_kinds: None,
+            issue_tags: Some(vec![IssueTag("data".into())]),
+            records: None,
+        }
+    }
+
+    fn ids(authorities: &[Authority]) -> Vec<String> {
+        authorities.iter().map(|a| a.id.0.clone()).collect()
+    }
+
+    fn build(perm: &[&str]) -> Vec<Authority> {
+        perm.iter()
+            .map(|id| match *id {
+                // C is a Regulation that constrains two scope dimensions, so it
+                // is more specific than the bare Regulations A and B.
+                "C" => auth("C", AuthorityRank::Regulation, Some(specific_scope())),
+                // D is the only Constitutional authority (highest rank).
+                "D" => auth("D", AuthorityRank::Constitutional, None),
+                other => auth(other, AuthorityRank::Regulation, None),
+            })
+            .collect()
+    }
+
+    #[test]
+    fn equal_rank_order_is_total_and_deterministic_over_shuffles() {
+        let graph = AuthorityGraph::new();
+        // Expected order, independent of input order:
+        //   D -> Constitutional (highest rank)
+        //   C -> Regulation, more specific (lex specialis) than A/B
+        //   A -> Regulation, general; id tiebreaker puts "A" before "B"
+        //   B -> Regulation, general
+        let expected = vec!["D", "C", "A", "B"];
+
+        let permutations = [
+            vec!["A", "B", "C", "D"],
+            vec!["D", "C", "B", "A"],
+            vec!["B", "D", "A", "C"],
+            vec!["C", "A", "D", "B"],
+        ];
+
+        for perm in permutations {
+            let sorted = sort_by_rank_then_specificity_then_date(build(&perm), &graph);
+            assert_eq!(
+                ids(&sorted),
+                expected,
+                "input permutation {perm:?} produced a non-deterministic order"
+            );
+        }
     }
 }
