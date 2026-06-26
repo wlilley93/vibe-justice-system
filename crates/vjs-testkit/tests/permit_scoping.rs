@@ -26,6 +26,7 @@ fn permit(scope_paths: Option<Vec<&str>>) -> Permit {
         self_issued: true,
         meaning: None,
         intent_digest: None,
+        law_source: Vec::new(),
     }
 }
 

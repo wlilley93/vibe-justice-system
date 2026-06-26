@@ -173,6 +173,7 @@ fn a_permitted_governed_write_passes_and_an_unpermitted_one_fails_closed() {
         self_issued: true,
         meaning: None,
         intent_digest: None,
+        law_source: Vec::new(),
     };
     let ctx = build_ctx();
     let input = |p: &str| HookInput {

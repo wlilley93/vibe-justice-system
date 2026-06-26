@@ -55,6 +55,46 @@ fn a_log_carrying_a_secret_never_reaches_the_record() {
 }
 
 #[test]
+fn a_log_carrying_raw_identity_never_reaches_the_record() {
+    // K-20 (the IDENTITY half): "no raw sensitive content/IDENTITY stored by default".
+    // The store boundary fails closed on identity, not only secrets - an email address or
+    // an internal hostname in a log's `why` is an Error-severity boundary finding and the
+    // log never hits disk. (The goal-completion audit, 2026-06-26, observed the canon-write
+    // path downgrades identity to Warning; this proves the STORE path - the one K-20 is
+    // about - blocks it.)
+    let dir = std::env::temp_dir().join(format!("vjs-store-id-test-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+
+    let email = log(
+        "LOG-BOUNDARY-EMAIL",
+        "decided after a call with alice.smith@example.com about the rollout",
+    );
+    assert!(
+        Store::write_log(&dir, &email).is_err(),
+        "a log carrying a raw email address must fail the boundary scan (identity)"
+    );
+    assert!(
+        !dir.join(".vjs/logs/decisions/LOG-BOUNDARY-EMAIL.yaml").exists(),
+        "an identity-bearing log must not hit disk"
+    );
+
+    let host = log(
+        "LOG-BOUNDARY-HOST",
+        "routed via the box at fileserver.internal during the migration",
+    );
+    assert!(
+        Store::write_log(&dir, &host).is_err(),
+        "a log naming an internal hostname must fail the boundary scan (identity)"
+    );
+    assert!(
+        !dir.join(".vjs/logs/decisions/LOG-BOUNDARY-HOST.yaml").exists(),
+        "an internal-hostname log must not hit disk"
+    );
+
+    std::fs::remove_dir_all(&dir).ok();
+}
+
+#[test]
 fn a_corrupt_proof_is_an_error_not_a_silent_absence() {
     let dir = std::env::temp_dir().join(format!("vjs-proof-test-{}", std::process::id()));
     std::fs::create_dir_all(dir.join(".vjs/proofs")).unwrap();

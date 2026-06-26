@@ -65,6 +65,32 @@ fn an_allowed_route_mints_a_permit() {
     assert!(decision.permit_id.is_some());
 }
 
+#[test]
+fn a_granted_permit_carries_its_law_source() {
+    // K-17 (the grant half): "every grant carries its law_source". A self-issued permit
+    // minted by open_permit records the binding authorities the route grounded it in - not
+    // merely its route_id - so a grant is auditable to the law it rests on, mirroring a
+    // DecisionLog's basis. The goal-completion audit (2026-06-26) found this half
+    // effectively unimplemented; this proves it end to end through the real route.
+    let repo = repo_root();
+    let ctx = build_kernel_context(&repo).unwrap();
+    let decision = route(route_input(RiskLevel::Low, Some("default")), &ctx).unwrap();
+    assert!(
+        !decision.binding.is_empty(),
+        "precondition: an allowed route over the real canon resolves binding authorities"
+    );
+    let permit = vjs_core::spec::open_permit(&decision, "lexby").unwrap();
+    assert!(
+        !permit.law_source.is_empty(),
+        "a granted permit must carry its law_source (the binding authorities), not an empty list"
+    );
+    let expected: Vec<String> = decision.binding.iter().map(|a| a.id.0.clone()).collect();
+    assert_eq!(
+        permit.law_source, expected,
+        "law_source must be exactly the route's binding authorities"
+    );
+}
+
 // --- jurisdiction scope filtering ----------------------------------------------
 
 fn scoped_authority(jurisdictions: Vec<&str>) -> Authority {
@@ -241,6 +267,7 @@ fn permit_with(obligations: Vec<Obligation>) -> Permit {
         self_issued: true,
         meaning: None,
         intent_digest: None,
+        law_source: Vec::new(),
     }
 }
 
