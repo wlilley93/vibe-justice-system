@@ -160,54 +160,76 @@ fn seat_key(entry: &str) -> String {
         .to_ascii_lowercase()
 }
 
-/// The first BOUNDARY position of `key` in `text_lower` (so "justice i" matches
-/// "## justice i" / "justice i," but never the inside of "justice ii"/"justice iii"),
-/// or None if the key never appears at a boundary.
-fn key_first_pos(text_lower: &str, key: &str) -> Option<usize> {
+/// All BOUNDARY positions of `key` in `text_lower`, in order (so "justice i" matches
+/// "## justice i" / "justice i," but never the inside of "justice ii"). Empty if absent.
+fn key_positions(text_lower: &str, key: &str) -> Vec<usize> {
+    let mut out = Vec::new();
     if key.is_empty() {
-        return None;
+        return out;
     }
     let mut start = 0;
     while let Some(pos) = text_lower[start..].find(key) {
         let abs = start + pos;
         let after = text_lower[abs + key.len()..].chars().next();
         if after.is_none_or(|c| !c.is_alphanumeric()) {
-            return Some(abs);
+            out.push(abs);
         }
         start = abs + 1;
     }
-    None
+    out
 }
 
-/// Seats with no present, non-empty opinion in `opinion_text`. A seat fails when its
-/// key is absent (boundary-aware) OR the text it owns (from its boundary position to
-/// the next seat's, in document order) holds less than MIN_SEAT_CONTENT non-whitespace
-/// chars beyond the name. Boundary keys mean "Justice I / II / ... / N" no longer
-/// collapse to one offset (the bug that false-flagged a full apex bench).
+/// Seats with no present, non-empty opinion in `opinion_text`. A seat fails when its key
+/// is absent (boundary-aware) OR the LARGEST block it owns - from one of its boundary
+/// occurrences to the next occurrence of a DIFFERENT seat (or end of text) - holds less
+/// than MIN_SEAT_CONTENT non-whitespace chars beyond the name. Taking the max over ALL of
+/// a seat's occurrences (not just its first) fixes the coram false positive (audit 2026-06-26):
+/// a leading "Before: A, B, C" line clusters every seat's FIRST occurrence adjacently, so the
+/// earlier seats would falsely own only the tiny coram gap; but their real section occurrence
+/// owns the whole section, so they pass, while a seat that only ever appears in the coram
+/// cluster still fails. Boundary keys keep "Justice I / II / ... / N" from collapsing to one
+/// offset (the bug that earlier false-flagged a full apex bench).
 pub fn silent_seats(bench: &[String], opinion_text: &str) -> Vec<String> {
     let lower = opinion_text.to_ascii_lowercase();
-    let mut located: Vec<(usize, usize)> = Vec::new(); // (offset, bench_index)
-    let mut silent: Vec<String> = Vec::new();
+    // Every boundary occurrence of any seat: (offset, bench_index), in document order.
+    let mut occ: Vec<(usize, usize)> = Vec::new();
+    let mut present = vec![false; bench.len()];
     for (i, entry) in bench.iter().enumerate() {
-        match key_first_pos(&lower, &seat_key(entry)) {
-            Some(off) => located.push((off, i)),
-            None => silent.push(entry.clone()),
+        for off in key_positions(&lower, &seat_key(entry)) {
+            occ.push((off, i));
+            present[i] = true;
         }
     }
-    located.sort_by_key(|(off, _)| *off);
-    for (rank, (off, idx)) in located.iter().enumerate() {
-        let end = located
-            .get(rank + 1)
-            .map(|(next, _)| *next)
-            .unwrap_or(lower.len());
-        let key = seat_key(&bench[*idx]);
-        let content: usize = lower[*off..end]
-            .replace(&key, " ")
-            .chars()
-            .filter(|c| !c.is_whitespace())
-            .count();
-        if content < MIN_SEAT_CONTENT {
-            silent.push(bench[*idx].clone());
+    occ.sort_by_key(|(off, _)| *off);
+    let mut silent: Vec<String> = Vec::new();
+    for (i, entry) in bench.iter().enumerate() {
+        if !present[i] {
+            silent.push(entry.clone());
+            continue;
+        }
+        let key = seat_key(entry);
+        // The largest block this seat owns across all its occurrences. A coram-only seat
+        // owns only clustered scraps; a real section owns the whole section.
+        let mut best = 0usize;
+        for (rank, (off, idx)) in occ.iter().enumerate() {
+            if *idx != i {
+                continue;
+            }
+            let end = occ
+                .iter()
+                .skip(rank + 1)
+                .find(|(_, j)| *j != i)
+                .map(|(o, _)| *o)
+                .unwrap_or(lower.len());
+            let content: usize = lower[*off..end]
+                .replace(&key, " ")
+                .chars()
+                .filter(|c| !c.is_whitespace())
+                .count();
+            best = best.max(content);
+        }
+        if best < MIN_SEAT_CONTENT {
+            silent.push(entry.clone());
         }
     }
     silent
@@ -425,5 +447,39 @@ mod tests {
             "z".repeat(200)
         );
         assert!(silent_seats(&bench, &text).is_empty());
+    }
+
+    #[test]
+    fn a_leading_coram_line_does_not_false_flag_seats_with_real_sections() {
+        // Audit 2026-06-26: a "Before:" coram line listing all seats adjacently clustered
+        // each seat's FIRST occurrence, so the earlier seats were falsely flagged silent
+        // (it bit the SC-6 recording). With max-block-across-all-occurrences they pass,
+        // because each has a real section below.
+        let bench = vec!["Adair J".into(), "Calloway J".into(), "Devereux J".into()];
+        let text = format!(
+            "Before: Adair J, Calloway J, Devereux J\n\n\
+             ## Opinion of Adair J\n{}\n## Opinion of Calloway J\n{}\n## Opinion of Devereux J\n{}",
+            "a".repeat(300),
+            "b".repeat(300),
+            "c".repeat(300),
+        );
+        assert!(
+            silent_seats(&bench, &text).is_empty(),
+            "a coram line + three real sections must NOT flag any seat: {:?}",
+            silent_seats(&bench, &text)
+        );
+
+        // A seat named ONLY in the coram (no section) is still correctly flagged silent.
+        let text2 = format!(
+            "Before: Adair J, Calloway J, Devereux J\n\n\
+             ## Opinion of Adair J\n{}\n## Opinion of Calloway J\n{}\n",
+            "a".repeat(300),
+            "b".repeat(300),
+        );
+        assert_eq!(
+            silent_seats(&bench, &text2),
+            vec!["Devereux J".to_string()],
+            "a seat present only in the coram cluster must still be silent"
+        );
     }
 }

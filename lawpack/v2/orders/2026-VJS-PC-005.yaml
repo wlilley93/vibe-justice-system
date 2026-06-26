@@ -1,6 +1,9 @@
 id: 2026-VJS-PC-005
+citation: "[2026] VJS-PC 5"
 assent_source: standing_bounded_assent
 court: privy_council
+# bench back-filled from the named opinion ([2026] VJS-SC 6 D2: ministerial, non-constitutive)
+bench: ["Adair J", "Calloway J", "Devereux J"]
 jurisdiction: default
 repo_code: VJS
 status: binding
