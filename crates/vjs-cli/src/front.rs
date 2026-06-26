@@ -92,6 +92,9 @@ pub(crate) fn cmd_route(
             self_issued: true,
             meaning: Some(vjs_core::spec::SELF_ISSUED_MEANING.into()),
             intent_digest: Some(intent_digest),
+            // K-17: the grant carries its law_source (the binding authorities the route
+            // grounded it in), not merely its route_id.
+            law_source: decision.binding.iter().map(|a| a.id.0.clone()).collect(),
         };
         Store::write_permit(repo, &permit)?;
     }

@@ -424,6 +424,7 @@ mod permit_capability_tests {
             self_issued: true,
             meaning: None,
             intent_digest: None,
+            law_source: Vec::new(),
         }
     }
 

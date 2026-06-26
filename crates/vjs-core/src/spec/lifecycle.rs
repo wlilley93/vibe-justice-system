@@ -26,6 +26,13 @@ pub fn open_permit(route_decision: &RouteDecision, _actor: &str) -> Result<Permi
         self_issued: true,
         meaning: Some(SELF_ISSUED_MEANING.into()),
         intent_digest: Some(permit_intent_digest("lexby", &route_id, &None)),
+        // K-17: record the law the route grounded this self-issue in (the binding
+        // authorities' ids), so the grant carries its law_source, not just its route_id.
+        law_source: route_decision
+            .binding
+            .iter()
+            .map(|a| a.id.0.clone())
+            .collect(),
     })
 }
 

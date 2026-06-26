@@ -94,7 +94,7 @@ invariants:
   - id: K-17
     group: floor
     statement: "Every denial names its instrument; every grant carries its law_source."
-    vjs: { status: partial, tests: [overlay_loader_voids_a_relaxing_local_rule_with_a_named_defect] }
+    vjs: { status: met, tests: [overlay_loader_voids_a_relaxing_local_rule_with_a_named_defect, submit_decision_never_hard_denies_an_assented_act, a_granted_permit_carries_its_law_source] }
     opbox: { status: partial, tests: [] }
   - id: K-18
     group: floor
@@ -109,7 +109,7 @@ invariants:
   - id: K-20
     group: audit
     statement: "Bounded-observability audit; no raw sensitive content/identity stored by default."
-    vjs: { status: partial, tests: [a_log_carrying_a_secret_never_reaches_the_record] }
+    vjs: { status: met, tests: [a_log_carrying_a_secret_never_reaches_the_record, a_log_carrying_raw_identity_never_reaches_the_record] }
     opbox: { status: partial, tests: [] }
   - id: K-21
     group: audit

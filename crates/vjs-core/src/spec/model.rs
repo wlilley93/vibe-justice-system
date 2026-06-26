@@ -88,6 +88,14 @@ pub struct Permit {
     /// different write than the one it was minted for (PC-16 D3).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub intent_digest: Option<String>,
+    /// K-17 ("every grant carries its law_source"): the binding authorities the route
+    /// grounded this self-issue in (their ids / citations). It records WHICH law the
+    /// agent's front-door routing rested on - complementing `self_issued` (PC-16 D3: a
+    /// permit is a self-issue, not an external approval; this records the legal basis of
+    /// that issue, mirroring a DecisionLog's `basis`). Defaulted so permits written
+    /// before this field still load.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub law_source: Vec<String>,
 }
 
 fn default_self_issued() -> bool {
