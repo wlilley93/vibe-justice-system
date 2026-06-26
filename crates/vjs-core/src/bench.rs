@@ -53,7 +53,11 @@ pub fn convening_bench_check(
         return Ok(());
     };
     let Some(allowed) = constituted_sizes(constitution, &tier) else {
-        return Ok(());
+        // a RECOGNISED tier the constitution does not constitute is a defect, not "no
+        // constraint" - mirror verify_bench's TierNotConstituted (fail-closed, audit 2026-06-26).
+        return Err(format!(
+            "court '{court_str}' ({tier:?}) is not constituted by the constitution ([2026] VJS-SC 2)"
+        ));
     };
     if allowed.contains(&bench_len) {
         Ok(())
@@ -359,6 +363,19 @@ mod tests {
         assert!(convening_bench_check(&c, "court_of_appeal", 4).is_err());
         // ... and the constituted odd bench of 3 is accepted.
         assert!(convening_bench_check(&c, "court_of_appeal", 3).is_ok());
+    }
+
+    #[test]
+    fn convening_for_an_unconstituted_tier_fails_closed() {
+        // Audit 2026-06-26: convening_bench_check fail-OPENED (returned Ok) for a recognised
+        // tier the constitution does not constitute, where verify_bench fails CLOSED. Now both
+        // fail closed.
+        let mut bare = constitution();
+        bare.directives.clear();
+        assert!(convening_bench_check(&bare, "privy_council", 3).is_err());
+        assert!(convening_bench_check(&bare, "supreme_court", 5).is_err());
+        // an UNRECOGNISED court label still imposes no constraint (it is no known tier).
+        assert!(convening_bench_check(&bare, "moot_court", 1).is_ok());
     }
 
     #[test]
