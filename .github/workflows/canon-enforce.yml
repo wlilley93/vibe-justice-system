@@ -61,3 +61,8 @@ jobs:
         run: ./target/release/vjs local-ci && ./target/release/vjs validate
       - name: Workspace tests
         run: cargo test --workspace
+      # Publication boundary: fail-closed full-tree scan on every push/PR (trust root).
+      # Records are IN scope now - the 2026-06-10 leak came from records the old gate
+      # skipped. Make this a REQUIRED status check in branch protection.
+      - name: Publication boundary scan (fail-closed)
+        run: bash scripts/boundary-scan.sh

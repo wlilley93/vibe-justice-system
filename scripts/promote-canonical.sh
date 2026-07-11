@@ -107,6 +107,8 @@ VJS=${VJS:-target/release/vjs}; [ -x "$VJS" ] || VJS=target/debug/vjs
 "$VJS" validate >/dev/null && echo "   Validation: OK"
 
 # --- the promotion: fast-forward only ---
+echo "-- boundary scan over the promoted range (records included)"
+bash scripts/boundary-scan.sh "$RANGE" || { echo "FAIL: boundary scan blocked the promotion"; exit 1; }
 git push origin "$MASTER:refs/heads/vjs-canonical"
 echo "promoted: vjs-canonical -> $MASTER"
 
