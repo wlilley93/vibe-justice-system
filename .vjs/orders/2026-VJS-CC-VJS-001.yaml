@@ -38,7 +38,7 @@ directives:
   when: null
 - id: D7
   actor: lexby
-  must: rebuild_and_reinstall_from_landed_source_and_verify_the subscriber_cc_122_the subscriber_sc_refuses_canon_cc_vjs_1_canon_sc_7_canon_pc_20
+  must: rebuild_and_reinstall_from_landed_source_and_verify_that_a_subscriber_county_series_allocates_one_past_its_citator_max_that_a_subscriber_canon_series_refuses_and_that_the_canon_series_are_unchanged
   when: null
 - id: D8
   actor: lexby

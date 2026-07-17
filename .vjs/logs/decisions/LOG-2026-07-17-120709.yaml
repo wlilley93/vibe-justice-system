@@ -1,0 +1,12 @@
+id: LOG-2026-07-17-120709
+time: 2026-07-17T12:07:09.741697586+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260717-120709
+decision: Repair the corrupted D7 duty token in [2026] VJS-CC-VJS 1
+basis:
+- PERMIT-1784290029
+risk: low
+reversibility: easy
+court_required: false
+why: The genericisation ordered by condition (canon must not name a subscriber) was applied with a blanket string replace, which put spaces inside a snake_case duty token. Ceremonial text and machine-checkable effect must agree (ACT-COMPUTER-FIRST-REALM:s5). Order re-validated and re-applied.
