@@ -1,0 +1,12 @@
+id: LOG-2026-07-17-105803
+time: 2026-07-17T10:58:03.228295340+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260717-105754
+decision: 'Land [2026] VJS-CC-VJS 1: allocator reads the union of lawpack + order store + citator-as-floor; CorrectedToReferral added; both grammars counted; canon series refused at a subscriber seat'
+basis:
+- PERMIT-1784285874
+risk: low
+reversibility: easy
+court_required: false
+why: 'County Court at canon, First Instance, GRANT ON CONDITIONS 1-5, all complied. Not first-impression: ACT-004:s8 and VJS-PC 13 D2 bind; VJS-PC 19 disposes the subscriber limb. Verified: opbox CC 122, opbox SC refuses, canon CC-VJS 1, canon SC 7, canon PC 20. Workspace tests green.'

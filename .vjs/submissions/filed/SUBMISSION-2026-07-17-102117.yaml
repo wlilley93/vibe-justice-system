@@ -1,0 +1,55 @@
+id: SUBMISSION-2026-07-17-102117
+court_requested: county
+jurisdiction: default
+question: May the citation allocator read the union of lawpack, the order store and the prose citator as a one-directional floor; may CorrectedToReferral be added; and must a subscriber seat refuse to mint a canon series?
+facts: |
+  # Case file: the citation allocator mints collisions
+
+  ## Facts
+  `vjs next-citation CC` at the opbox subscriber seat returned `[2026] VJS-CC-OPBOX 1`,
+  silently, every time, against a citator recording rulings to 121. `vjs next-citation SC`
+  at that same seat offered `[2026] VJS-SC 6`, which canon holds as good law, in a string
+  indistinguishable from canon's own.
+
+  Cause: the allocator read only `lawpack/v2`. That is correct at canon but blind at a
+  subscriber, which records its local series in `.vjs/orders/` and its citator and does not
+  mirror them into the lawpack. The scan legitimately found nothing, so max stayed 0.
+  Reading the order store too is insufficient: order-store max is 84 while citator row-max
+  is 121, so lawpack plus orders alone allocates 85, into occupied numbers.
+
+  Separately, `AuthorityStatus` cannot express `corrected_to_referral`, a status the
+  correction mechanism already writes (an erroneous local Supreme sitting, re-homed to
+  canon as [2026] VJS-SC 4, retained per the assented-record floor).
+
+  ## Questions
+  1. May the allocator read the union of every store within reach, including the prose
+     citator `.justice/INDEX.md`?
+  2. May `CorrectedToReferral` be added?
+  3. Must a subscriber seat refuse to mint a canon series?
+
+  ## For
+  ACT-004:s8: "Citations are deterministic and unique. Collisions are fatal." VJS-PC 13 D2
+  directs allocation from the live persisted register. The allocator's number OVERRIDES the
+  bench's guess, so a wrong number is trusted over a right one. A clerk must not issue a
+  number it can see is taken, and the law does not ask where the knowledge came from. A
+  status the kernel writes must be a status the kernel can represent.
+
+  ## Against
+  `.justice/INDEX.md` is prose: hand-maintained, outside the lawpack, schema-checked by
+  nothing. The kernel's claim is that live law is compact, schema-valid, machine-checkable
+  records. Making a prose file load-bearing kernel input offends that. The real defect may
+  be the data, not the code: teaching the reader to tolerate a broken register entrenches
+  the breakage. And the operator installed a patched binary before any authority, so the
+  kernel in force differs from the kernel of record.
+
+  ## Counts
+  Contested and not relied on. Verified only: order-store max 84; citator row-max 121.
+
+  ## Reserved
+  Which register is authoritative for a subscriber's local series (PC-13 D2's singular
+  "the live persisted CitationRegistry") is federation topology and belongs at canon,
+  Privy Council. Fail-closed on an unreadable store travels with it: a rule to refuse when
+  a required store is absent presupposes knowing which stores are required.
+requested_order: TBD
+private_boundary: local
+word_count: 439

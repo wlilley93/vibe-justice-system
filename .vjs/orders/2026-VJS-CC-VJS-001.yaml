@@ -1,0 +1,65 @@
+id: 2026-VJS-CC-VJS-001
+court: county
+jurisdiction: vibe-justice-system
+repo_code: null
+status: binding
+issue: citation_allocator_fail_open_collision
+holding: |
+  NOT first-impression. ACT-004:s8 ("Citations are deterministic and unique. Collisions are fatal") and [2026] VJS-PC 13 D2 (allocate from the live persisted register, collisions fatal) already bind and dispose of the core; [2026] VJS-PC 19 ("capability is not authority; an under-inclusive gate is a gap to close, not a jurisdiction to occupy") disposes of the subscriber/canon limb. The stated convening trigger was false on both limbs: the permits were active, not expired, and the kernel found no court obligation. Venue corrected: the patch is to canon crates with federation-wide effect, so the matter is canon's and this court sits at canon in the CC-VJS line. The defect was noticed at that seat; that confers no jurisdiction on the subscriber.
+  (a) The `CorrectedToReferral` variant: GRANT, on corrected reasoning. The fix's own account of itself was false: the allocator never deserialises an Order (`live_citation_max` is a line-prefix text scan), so AuthorityStatus is not in its call graph and the enum could not have caused the fail-open. They are two independent defects found in one session. The variant lands on an independent ground: a status the correction mechanism WRITES must be a status the kernel can REPRESENT, since retaining a record that bricks the store it is retained in is retention in form and destruction in effect. The store is NOT certified readable: `vjs status` still fails with `missing field 'holding'`. Necessary, not sufficient.
+  (b) Reading the order store: GRANT. Governed, schema-shaped, machine-checkable YAML is the paradigm of a persisted register.
+  (c) Reading the markdown citator: GRANT, as a ONE-DIRECTIONAL FLOOR ONLY. The respondent is right about what the file is (prose, hand-maintained, schema-checked by nothing, carrying at least three incompatible row formats). But the respondent's remedy would cause the very collision the statute calls fatal: a structured parse of that file misses row 121 and allocates 104, into occupied good-law. The unanchored scrape is safe BECAUSE it over-matches: over-matching raises max, raising max skips numbers, and skipping is not fatal while colliding is. The kernel is not taking prose as LAW; it is taking prose as EVIDENCE OF OCCUPANCY, in the one direction where misreading is harmless. The entrenchment objection fails on its facts: the divergence between the stores is bidirectional, neither dominates, and a sunset ordered today would mandate a collision. Declared a floor, not a register, which preserves the pressure without commanding the harm.
+  (d) The legacy-grammar skip: REFUSED as drafted, on a premise found false by the court and made by neither party. The two grammars are ONE sequence re-spelled, not two sequences: ruling 23 exists exactly once. The safety direction was backwards. COUNTING legacy can only raise max (safe); SKIPPING it can under-allocate into occupied ground (fatal). This is canon code running at every subscriber, so the skip is a realm-wide latent collision generator.
+  (e) A canon series at a subscriber seat: ORDERED as a condition. Both parties mischaracterised it; the fix neither causes nor cures it, so it could not ground a refusal. But it is real, live and fatal: the subscriber mints `[2026] VJS-SC 6`, which canon holds as good law, in a string indistinguishable from canon's own. PC-19 is on all fours and following binding law is within First Instance competence.
+directives:
+- id: D1
+  actor: lexby
+  must: strike_the_false_ceremonial_text_as_a_condition_of_grant_the_enum_to_fail_open_causation_the_only_store_that_sees_every_ruling_and_the_two_run_as_separate_sequences_state_the_two_defects_as_independent
+  when: null
+- id: D2
+  actor: lexby
+  must: correct_the_pre_existing_false_record_in_committed_source_admin_rs_and_validator_rs_both_claimed_to_allocate_from_the_live_persisted_register_the_citator_index_and_both_were_false_when_written_the_code_never_opened_the_citator_so_the_kernel_was_certifying_a_pc_13_d2_compliance_it_did_not_have
+  when: null
+- id: D3
+  actor: lexby
+  must: record_only_verifiable_figures_order_store_max_84_and_citator_row_max_121_and_never_restate_a_contested_count_as_fact
+  when: null
+- id: D4
+  actor: lexby
+  must: count_both_citator_grammars_in_the_allocator_scan_because_they_are_one_sequence_re_spelled_and_skipping_the_legacy_grammar_is_a_realm_wide_latent_collision_generator_in_canon_code
+  when: null
+- id: D5
+  actor: lexby
+  must: refuse_to_mint_a_canon_series_at_a_subscriber_seat_per_2026_vjs_pc_19_capability_is_not_authority_next_citation_sc_or_pc_at_a_subscriber_must_error_not_offer_a_number
+  when: null
+- id: D6
+  actor: lexby
+  must: land_with_the_decision_log_this_judgment_constitutes_discharging_obl_log_001_filing_in_the_canon_county_line_with_the_citation_minted_by_the_allocator_and_never_chosen_by_hand
+  when: null
+- id: D7
+  actor: lexby
+  must: rebuild_and_reinstall_from_landed_source_and_verify_the subscriber_cc_122_the subscriber_sc_refuses_canon_cc_vjs_1_canon_sc_7_canon_pc_20
+  when: null
+- id: D8
+  actor: lexby
+  must: self_file_the_s4_to_s8_breach_for_the_binary_source_divergence_interval_which_must_not_survive_the_next_commit_to_canon_breach_being_civil_with_the_only_remedy_to_make_the_work_good
+  when: null
+- id: D9
+  actor: lexby
+  must: route_the_reserved_register_authority_and_fail_closed_on_an_unreadable_store_questions_together_to_canon_privy_council_because_they_cannot_be_decided_apart_and_route_the_order_less_rulings_and_stale_subscriber_lawpack_mirror_as_local_reconciliation_at_the_subscriber
+  when: null
+forbidden: null
+exceptions: null
+supersedes: []
+source_opinion: .justice/judgments/county-court/2026-VJS-CC-VJS-1-opinion.md
+runtime_summary: |
+  A deterministic allocator must read the union of every store within its reach that evidences an allocation, and must never issue an identifier it can see is taken. An ungoverned prose store may be read only as a one-directional floor: able to raise the next value, never to lower it, never to establish that a value is free. Where the allocator's reach over a series is definitionally partial (a subscriber asked for a canon series), it must refuse to mint rather than allocate from what it can see.
+created_at: 2026-07-17T10:21:21+00:00
+citation: '[2026] VJS-CC-VJS 1'
+assent_source: standing_bounded_assent
+bench:
+- county-judge-first-instance-at-canon
+case_file_digest: sha256:b68bc529a56ccedaa7914c8f2fd9c7aa69ced709cd003cfebfe55311bfc969cd
+convened_at: 2026-07-17T10:21:21+00:00
+vote: |
+  1-0 (First Instance, sitting alone at canon on a symmetric record with a researched intake leg and adversarial claimant/respondent submissions). GRANT ON CONDITIONS 1-5.

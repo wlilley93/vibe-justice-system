@@ -9,6 +9,6 @@ crates/vjs-core/src/governance/permit_gate.rs sha256:21c0e35bd55d7aaeeb319bf0366
 crates/vjs-redact/src/lib.rs sha256:3c89948523c76886c778fb2a44653e40296b81c88f70fa304bbf25e94228d2fe
 crates/vjs-redact/src/tests.rs sha256:2528ab622cbb3f655708a1887be3fb4d4f11402794274d293146c64961e2bea3
 crates/vjs-engine/src/staged.rs sha256:f62e697c973f66ce8fb5eadc134d2ac2277f50694a1951811e10a333346c2a53
-crates/vjs-lawpack/src/validator.rs sha256:c5c0a896f6070e541f9c5e0b1130b8c3e7d6729c90483c9e7e4435d9e4525b83
+crates/vjs-lawpack/src/validator.rs sha256:2c18cec098db6e1a59bc450791f10c32cbb074729806bf185f53a987169e5f1c
 crates/vjs-lawpack/src/refs.rs sha256:53ec740a33185f04dfdf673e6f659864fd63bc27027a0eb7be1037eb1b1589e6
 crates/vjs-core/src/enforcement.rs sha256:9d92d5c5574784476b09dd1dd96e33d443a05110735b02622e00a31f51a343d4

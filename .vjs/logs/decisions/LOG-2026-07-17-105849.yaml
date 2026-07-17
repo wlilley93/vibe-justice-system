@@ -1,0 +1,12 @@
+id: LOG-2026-07-17-105849
+time: 2026-07-17T10:58:49.241281781+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260717-105746
+decision: Land [2026] VJS-CC-VJS 1 on the citation allocator
+basis:
+- PERMIT-1784285866
+risk: low
+reversibility: easy
+court_required: false
+why: 'County Court at canon, First Instance: GRANT ON CONDITIONS 1-5, all complied and verified. Not first-impression; ACT-004:s8 and VJS-PC 13 D2 bind, VJS-PC 19 disposes the subscriber limb.'

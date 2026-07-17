@@ -20,6 +20,32 @@ pub enum AuthorityStatus {
     Revoked,
     Spent,
     Void,
+    /// A record that was routed for correction into a referral upward: it was
+    /// recorded at the wrong seat, and the matter was re-homed to the court that
+    /// actually had jurisdiction. The record is RETAINED, never deleted (the
+    /// assented-record floor: an assented record is never voided, only routed for
+    /// correction).
+    ///
+    /// Added 2026-07-17 on the ground that A STATUS THE KERNEL WRITES MUST BE A STATUS
+    /// THE KERNEL CAN REPRESENT. The correction mechanism already writes it (e.g. opbox
+    /// `.vjs/orders/2026-VJS-SC-OPBOX-001.yaml`, an erroneous local Supreme sitting
+    /// re-homed to canon as [2026] VJS-SC 4), but the enum could not express it, so
+    /// deserialising a store containing one failed. Retaining a record that bricks the
+    /// store it is retained in is retention in form and destruction in effect.
+    ///
+    /// This variant is NOT connected to the citation allocator's fail-open defect
+    /// fixed in the same change. They are two independent defects found in one session:
+    /// the allocator never deserialises an Order (live_citation_max is a line-prefix
+    /// text scan), so AuthorityStatus is not in its call graph and this status could
+    /// not have caused that bug.
+    ///
+    /// Adding the variant does NOT make the order store readable, and nothing here
+    /// should be read as certifying that it is: `vjs status` still fails with
+    /// `missing field 'holding'`, because the retained referral record does not satisfy
+    /// the full Order shape. Whether it must is reserved.
+    ///
+    /// Never live: is_live() admits only Binding and InForce.
+    CorrectedToReferral,
 }
 
 impl AuthorityStatus {

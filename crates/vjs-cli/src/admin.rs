@@ -2,6 +2,9 @@
 
 use super::*;
 
+/// The canon seat's repo code. Only canon may mint a canon series ([2026] VJS-PC 19).
+const CANON_REPO_CODE: &str = "VJS";
+
 pub(crate) fn cmd_next_citation(
     repo: &Path,
     series: String,
@@ -12,22 +15,75 @@ pub(crate) fn cmd_next_citation(
     let repo_code = resolve_repo_code(repo);
     let s = series.to_ascii_uppercase();
 
-    // PC-13 D2: allocate from the LIVE persisted register (the citator index), not
-    // an empty in-memory registry. The Cc series is bound to THIS repo's code; canon
-    // series (PC/SC/REG/ACT/DEC/SPEC/INV/COA/...) carry no repo segment. The next
-    // number is one past the current max, so a hand-asserted number cannot mint a
-    // citation - validate --staged reconciles and fails closed on any collision.
+    // ACT-004:s8 - "Citations are deterministic and unique. Collisions are fatal."
+    // [2026] VJS-PC 13 D2 - allocate from the live persisted register, collisions fatal.
+    //
+    // CORRECTION 2026-07-17: the comment previously here claimed this allocated from
+    // "the LIVE persisted register (the citator index)". That was FALSE WHEN WRITTEN.
+    // The code read `lawpack/v2` and nothing else; it never opened the citator. The
+    // kernel was certifying a D2 compliance it did not have. That false record, not any
+    // later patch, is the gravest ceremonial/effect discrepancy on this path
+    // (ACT-COMPUTER-FIRST-REALM:s5). It is corrected here rather than restated.
+    //
+    // The CC series is bound to THIS repo's code; canon series (PC/SC/REG/ACT/DEC/
+    // SPEC/INV/COA/...) carry no repo segment and are NOT this seat's to mint unless
+    // this seat IS canon - see the refusal below.
     let lawpack_dir = repo.join("lawpack/v2");
     let (repo_for_lookup, repo_segment): (Option<&str>, String) = if s == "CC" {
         (Some(repo_code.as_str()), format!("-{}", repo_code))
     } else {
         (None, String::new())
     };
-    let max = if lawpack_dir.exists() {
-        LawpackValidator::live_citation_max(&lawpack_dir, &s, repo_for_lookup, y)?
-    } else {
-        0
-    };
+    // REFUSE a canon series at a subscriber seat ([2026] VJS-PC 19: capability is not
+    // authority; an under-inclusive gate is a gap to close, not a jurisdiction to
+    // occupy). A subscriber's reach over a canon series is DEFINITIONALLY partial: it
+    // holds only a mirror. Allocating from what it can see is how opbox came to offer
+    // `[2026] VJS-SC 6`, which canon already holds as good law, in a string
+    // indistinguishable from canon's own. Where reach is partial, refuse; do not guess.
+    if s != "CC" && repo_code != CANON_REPO_CODE {
+        return Err(KernelError::InvalidInput(format!(
+            "refusing to mint the canon series {s} at the subscriber seat {repo_code}: this seat holds \
+             only a mirror of that series, so any number it offers may collide with canon good-law \
+             ([2026] VJS-PC 19: capability is not authority). Mint {s} at canon, or refer the matter up."
+        )));
+    }
+
+    // The register is the UNION of every store within the allocator's reach that
+    // evidences an allocation. This is compelled by ACT-004:s8, not chosen: a clerk
+    // must not issue a number it can see is taken, and the law does not ask where the
+    // clerk's knowledge came from.
+    //
+    // Reading only lawpack/v2 made the clerk fail OPEN at a SUBSCRIBING seat. A
+    // subscriber records its local series in `.vjs/orders/` and its citator and does
+    // NOT mirror them into lawpack/v2 (which carries the canon it subscribes to), so
+    // the scan legitimately found nothing, max stayed 0, and the clerk returned n=1 -
+    // offering a citation that collides with existing good-law, silently, every time.
+    // That is the worst failure available to this component: ACT-004:s8 makes the
+    // allocator's number authoritative, so a wrong number is trusted OVER a right guess.
+    //
+    // Verified figures only (contested counts deliberately not restated): at opbox the
+    // order-store max is 84 and the citator row-max is 121, both good law. So lawpack
+    // plus orders ALONE would still allocate 85, into occupied numbers. The citator
+    // read is what makes the allocation safe, not a nicety.
+    let mut max = 0u32;
+    for dir in [lawpack_dir, repo.join(".vjs/orders")] {
+        if dir.exists() {
+            let m = LawpackValidator::live_citation_max(&dir, &s, repo_for_lookup, y)?;
+            if m > max {
+                max = m;
+            }
+        }
+    }
+    // The citator is prose: hand-maintained markdown, outside the lawpack, schema-checked
+    // by nothing. It is read as a ONE-DIRECTIONAL FLOOR ONLY - able to raise the next
+    // value, never to lower it, and never to establish that a value is free. The kernel
+    // is not taking prose as LAW; it is taking prose as EVIDENCE OF OCCUPANCY, in the one
+    // direction where misreading is harmless. The scan is deliberately UNANCHORED and
+    // over-matching: over-matching can only raise max, and skipping a number is not
+    // fatal while colliding is. A rigorous structured parse would be the unsafe choice -
+    // the citator carries at least three incompatible row formats, and a strict parse
+    // misses row 121 entirely and allocates 104, straight into occupied good-law.
+    max = max.max(citator_citation_max(repo, &s, repo_for_lookup, y)?);
     let n = max + 1;
     let citation_str = format!("[{}] VJS-{}{} {}", y, s, repo_segment, n);
 
@@ -246,4 +302,66 @@ pub(crate) fn cmd_migrate_v1(
     }
 
     Ok(())
+}
+
+/// The highest N already recorded in this repo's citator for (series, repo, year).
+///
+/// The citator is a markdown index of rows, not lawpack YAML, so its citations appear
+/// inline (`[2026] VJS-CC-OPBOX 121`) rather than on a `citation:` key.
+///
+/// It is NOT "the only store that sees every ruling" - an earlier draft said so and that
+/// was false. The divergence is BIDIRECTIONAL: citator numbers exist with no order file,
+/// AND order files exist that the current-grammar citator does not list. Neither store
+/// dominates, which is exactly why the union is the only safe read available today.
+/// Verified figures only: order-store max 84, citator row-max 121, both good law.
+///
+/// BOTH grammars are counted: the current `[2026] VJS-CC-OPBOX 121` and the legacy
+/// pre-Bill-16 `[2026] CC-OPBOX 23` (no `VJS-` segment).
+///
+/// An earlier draft skipped legacy rows, reasoning that "the two run as separate
+/// sequences". THAT PREMISE IS FALSE. They are ONE sequence, re-spelled: ruling 23
+/// exists exactly once (order file `2026-VJS-CC-OPBOX-023.yaml`), recorded in the
+/// citator under the legacy spelling. Bill 16 s.7 replaced a FORM, it did not open a
+/// second sequence.
+///
+/// The safety direction is the opposite of what that draft assumed. COUNTING legacy can
+/// only RAISE max, which is safe (skipping a number is not fatal). SKIPPING legacy is
+/// what can UNDER-allocate into occupied ground, which is fatal (ACT-004:s8). This is
+/// canon code running at every subscriber, so wherever a seat's legacy max exceeds its
+/// current max, the skip would mint a collision. Harmless at opbox today (legacy row-max
+/// is below the current max, so the union is unchanged), but the trap is realm-wide.
+fn citator_citation_max(
+    repo: &Path,
+    series: &str,
+    repo_code: Option<&str>,
+    year: i32,
+) -> Result<u32, KernelError> {
+    let index = repo.join(".justice/INDEX.md");
+    if !index.exists() {
+        return Ok(0);
+    }
+    let content = std::fs::read_to_string(&index).map_err(|e| KernelError::Io(e.to_string()))?;
+    // `VJS-` optional: match both grammars. Deliberately unanchored (see the floor note
+    // at the call site) - over-matching raises max, which is the safe direction.
+    let re = regex::Regex::new(r"\[(\d{4})\]\s+(?:VJS-)?([A-Za-z]+)(?:-([A-Za-z0-9]+))?\s+(\d+)")
+        .map_err(|e| KernelError::Io(e.to_string()))?;
+    let want_series = series.to_ascii_uppercase();
+    let want_repo = repo_code.map(|r| r.to_ascii_uppercase());
+    let mut max = 0u32;
+    for c in re.captures_iter(&content) {
+        let y: i32 = match c.get(1).and_then(|m| m.as_str().parse().ok()) {
+            Some(v) => v,
+            None => continue,
+        };
+        let s = c.get(2).map(|m| m.as_str().to_ascii_uppercase());
+        let r = c.get(3).map(|m| m.as_str().to_ascii_uppercase());
+        let n: u32 = match c.get(4).and_then(|m| m.as_str().parse().ok()) {
+            Some(v) => v,
+            None => continue,
+        };
+        if y == year && s.as_deref() == Some(want_series.as_str()) && r == want_repo && n > max {
+            max = n;
+        }
+    }
+    Ok(max)
 }

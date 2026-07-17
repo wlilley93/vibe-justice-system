@@ -375,10 +375,25 @@ impl LawpackValidator {
         Some((year, series, repo, n))
     }
 
-    /// The live register's highest allocated N for (series, repo, year), read by
-    /// scanning every canon record's own top-level citation. This is the persisted
-    /// register D2 requires the allocator to read - the citator INDEX is the count,
-    /// not an empty in-memory registry. Returns 0 when the series is unstarted.
+    /// The highest allocated N for (series, repo, year) IN THE GIVEN DIRECTORY, read by
+    /// scanning each record's own top-level `citation:` line. Returns 0 when the series
+    /// is unstarted IN THAT DIRECTORY.
+    ///
+    /// CORRECTION 2026-07-17: this docstring previously claimed "This is the persisted
+    /// register D2 requires the allocator to read - the citator INDEX is the count".
+    /// That was FALSE WHEN WRITTEN and is the root of a real fail-open: this function
+    /// never opened the citator, and its only caller passed `lawpack/v2`, which at a
+    /// subscriber seat holds none of that seat's local series. The result was an
+    /// allocator that returned 1 against a citator running to 121.
+    ///
+    /// This function is ONE PARTIAL SOURCE, not "the register". Whether a single store
+    /// is authoritative under PC-13 D2 is reserved to canon/Privy Council. Callers must
+    /// take the max across every store within reach (ACT-004:s8: collisions are fatal).
+    ///
+    /// Note it deliberately ignores `status`: a citation once issued is spent forever,
+    /// and an overruled ruling still occupies its number. "Live" in D2 modifies the
+    /// REGISTER (live and persisted, as against an empty in-memory registry), not the
+    /// authorities within it. The name invites the opposite reading and is misleading.
     pub fn live_citation_max(
         lawpack_dir: &Path,
         series: &str,

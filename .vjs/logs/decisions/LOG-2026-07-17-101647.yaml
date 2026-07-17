@@ -1,0 +1,12 @@
+id: LOG-2026-07-17-101647
+time: 2026-07-17T10:16:47.064690920+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260717-095752
+decision: 'Fix the citation allocator''s fail-open: union-max over lawpack + .vjs/orders + the citator read as a one-directional floor; add CorrectedToReferral; count both citator grammars; refuse a canon series at a subscriber seat'
+basis:
+- PERMIT-1784282272
+risk: low
+reversibility: easy
+court_required: false
+why: 'County Court at canon, First Instance: GRANT ON CONDITIONS 1-5. Not first-impression - ACT-004:s8 (collisions are fatal) and VJS-PC 13 D2 (allocate from the live persisted register) already bind, and VJS-PC 19 (capability is not authority) disposes of the subscriber/canon limb. Conditions complied with: (1) false ceremonial text struck; (2) the pre-existing false D2-compliance claims in admin.rs and validator.rs corrected; (3) contested counts not restated; (4) both citator grammars counted - the legacy skip was refused on a false premise, they are one sequence re-spelled; (5) a canon series at a subscriber seat now errors. Verified: opbox CC 122, opbox SC refuses, canon CC-VJS 1, canon SC 7, canon PC 20.'

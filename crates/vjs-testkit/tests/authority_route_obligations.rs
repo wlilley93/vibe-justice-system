@@ -361,3 +361,40 @@ fn repo_root() -> PathBuf {
     // lawpack-backed assertion would pass vacuously over an empty lawpack.
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
 }
+
+#[test]
+fn a_corrected_to_referral_status_is_representable_and_not_live() {
+    // Regression, 2026-07-17. The correction mechanism writes `corrected_to_referral`
+    // for a record recorded at the wrong seat and re-homed to the court that actually
+    // had jurisdiction (the assented-record floor retains such a record rather than
+    // deleting it). AuthorityStatus could not express that status, so deserialising a
+    // store containing one failed.
+    //
+    // CORRECTION: an earlier version of this comment tied the missing variant to the
+    // citation allocator's fail-open. That was wrong. The allocator never deserialises
+    // an Order (live_citation_max is a line-prefix text scan), so AuthorityStatus is
+    // not in its call graph. They are two independent defects found in one session.
+    //
+    // The ground for this variant is narrower and stands on its own: a status the
+    // kernel WRITES must be a status the kernel can REPRESENT. Adding it does not make
+    // the store readable - `vjs status` still fails on `missing field 'holding'` - and
+    // this test does not assert that it does.
+    let parsed: AuthorityStatus = serde_yaml::from_str("corrected_to_referral")
+        .expect("corrected_to_referral must deserialize: the store cannot be read otherwise");
+    assert_eq!(parsed, AuthorityStatus::CorrectedToReferral);
+
+    // A re-homed record is spent at this seat: it must never resolve as live law.
+    assert!(
+        !AuthorityStatus::CorrectedToReferral.is_live(),
+        "a record corrected into a referral upward must not be live at the seat that lost it"
+    );
+    let input = route_input(RiskLevel::Low, Some("default"));
+    assert_eq!(
+        resolve_with(
+            authority_with_status(AuthorityStatus::CorrectedToReferral),
+            &input
+        ),
+        0,
+        "a corrected-to-referral authority must not resolve into the AuthoritySet"
+    );
+}

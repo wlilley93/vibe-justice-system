@@ -1,0 +1,12 @@
+id: LOG-2026-07-17-105944
+time: 2026-07-17T10:59:44.270393436+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260717-105944
+decision: 'Land [2026] VJS-CC-VJS 1: correct the false D2-compliance record on live_citation_max'
+basis:
+- PERMIT-1784285984
+risk: low
+reversibility: easy
+court_required: false
+why: 'County Court at canon, First Instance: GRANT ON CONDITIONS 1-5. Condition 2 orders this correction.'
