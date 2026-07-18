@@ -1,0 +1,78 @@
+id: "2026-VJS-CC-CODEX-SEQUENCING-002"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-CC-VJS 2"
+title: Sequencing to multiplayer-reliable Codex; a production-walled trusted read-only mint is lawful, so prove the shared path first then harden
+court: county
+jurisdiction: vibe-justice-system
+status: binding
+issue: codex_multiplayer_sequencing
+question: >
+  In what order should Boltrig reach multiplayer-reliable Codex - trusted single-tenant read-only
+  first (minting a per-cell scoped bearer from the child's real process identity WITHOUT the
+  SO_PEERCRED cross-check, hard-walled from production) then harden into the full SO_PEERCRED
+  multi-tenant isolation, or build the whole prod-safe SO_PEERCRED spine before Codex runs at all -
+  and is a trusted dev-mode bearer mint without SO_PEERCRED lawful when hard-walled from production,
+  or does the forbidden list of [2026] VJS-CC-VJS 1 bind the dev path too?
+holding: >
+  Trusted-first prevails, and the trusted mint is lawful when fenced. On Q2 the court reads
+  [2026] VJS-CC-VJS 1 as PRODUCTION-SCOPED: its holding, directives, and risk analysis are expressly
+  framed for production authentication and address a co-located UNTRUSTED peer in a multi-tenant
+  setting. A forbidden item is not free-standing; it gives teeth to the holding it enforces. The
+  mischief the SO_PEERCRED requirement defends against is an untrusted peer obtaining a bearer by
+  asserting its own identity. A single-uid, dev-auth-gated, production-refusing OPERATOR path, where
+  the operator is the trusted party and the real key stays isolated in the proxy, is outside that
+  mischief and does not surrender the enacted guarantee (no key in the cell). It is therefore lawful,
+  but ONLY under the mandatory, test-enforced fencing in the directives; absent any fence it is
+  forbidden. On Q1 the duty of reasonable skill and care favours validating each brick against real
+  use before building the layers that depend on it. Option B builds the entire security spine against
+  zero real-use feedback and is itself blocked on the undesigned bearer-delivery channel (a separate
+  fork); its only advantage - one identity model ever - is preserved another way, because the trusted
+  path yields NO security guarantee (the key stays isolated regardless) and maps one-to-one onto the
+  SO_PEERCRED swap, so it is a foundation, not throwaway. Where a weaker-identity path preserves the
+  enacted security guarantee, is provably unreachable in production, and maps onto the strong path
+  without rework, the correct sequence is to prove the shared path in trusted mode first and then
+  harden. This authority is scoped to the read-only reasoning cutover; write/effects stay PR8-gated.
+directives:
+  - id: D1
+    actor: lexby
+    must: gate_the_trusted_runtime_on_dev_auth_and_a_dedicated_trusted_flag_and_make_it_fail_closed_refuse_under_any_production_or_staging_signal_or_any_real_ingress_posture_oidc_cf_access_session_enforced_by_test
+  - id: D2
+    actor: lexby
+    must: never_place_the_real_upstream_key_in_the_cell_environment_the_proxy_injects_it_server_side_and_the_cell_holds_only_the_short_ttl_scoped_bearer_assert_by_test_the_child_process_environment_has_no_upstream_key
+  - id: D3
+    actor: lexby
+    must: build_the_cell_scope_from_the_childs_real_proc_identity_never_fabricated_and_record_in_code_and_docstring_that_the_only_thing_absent_versus_production_is_the_so_peercred_cross_check_so_the_value_is_never_mistaken_for_attested
+  - id: D4
+    actor: lexby
+    must: keep_production_ready_and_the_config_production_ready_flag_false_and_run_the_trusted_runtime_under_the_existing_allow_test_only_runtime_gate_for_its_stated_purpose_not_by_flipping_any_production_gate
+  - id: D5
+    actor: lexby
+    must: build_the_trusted_path_so_it_maps_onto_the_so_peercred_swap_without_rework_identical_auth_command_and_delivery_contract_and_keep_bearer_file_delivery_to_a_single_service_uid_never_widen_file_permissions_to_bridge_distinct_uid_cells
+  - id: D6
+    actor: lexby
+    must: scope_this_authority_to_the_read_only_reasoning_cutover_and_route_any_write_effects_authority_to_the_pr8_gate_and_carry_the_full_so_peercred_ingress_helper_registration_and_attestations_as_the_deferred_multiplayer_hardening_track
+forbidden:
+  - running_the_trusted_codex_path_under_any_production_or_staging_signal_or_with_any_real_ingress_posture_configured
+  - placing_the_real_upstream_model_key_in_the_cell_environment
+  - flipping_production_ready_or_the_config_production_ready_flag_to_claim_production_readiness_on_the_trusted_path
+  - widening_bearer_file_permissions_to_serve_distinct_uid_cells_in_place_of_the_so_peercred_socket
+  - fabricating_any_cell_scope_identity_field_rather_than_reading_the_childs_real_proc_identity
+  - extending_this_read_only_authority_to_the_write_effects_phase_without_the_pr8_gate
+supersedes: []
+created_at: "2026-07-18T17:30:00Z"
+bench:
+  - Ledgerward CCJ
+vote: "1-0 (Ledgerward CCJ)"
+convened_at: "2026-07-18T17:30:00Z"
+case_file_digest: "sha256:bb30b754ebe9cb5af758de2b37c2a8a9276b01fa3007dfacdf5c3047e1acda74"
+appeal_of: ""
+appealable: true
+runtime_summary: >
+  Sequencing to multiplayer Codex: trusted-first prevails and a production-walled trusted read-only
+  bearer mint (from the child's real /proc identity, no SO_PEERCRED cross-check) is LAWFUL because
+  [2026] VJS-CC-VJS 1 is production-scoped and the trusted path preserves the no-key-in-cell
+  guarantee - but only under mandatory test-enforced fencing: dev-auth + trusted flag + fail-closed
+  under any prod signal (D1); no real key in the cell, proxy injects it (D2); real /proc identity,
+  never fabricated, marked non-attested (D3); production_ready stays False under allow_test_only
+  (D4); maps 1:1 onto the SO_PEERCRED swap, single-uid only (D5); read-only, PR8-gated writes (D6).
+  Build the shared path in trusted mode first, then harden to full SO_PEERCRED multi-tenant isolation.

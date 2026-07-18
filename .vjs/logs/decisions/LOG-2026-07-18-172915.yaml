@@ -1,0 +1,12 @@
+id: LOG-2026-07-18-172915
+time: 2026-07-18T17:29:15.378071141+00:00
+actor: lexby
+kind: architecture_strategy
+issue: codex_multiplayer_sequencing
+decision: Trusted-first prevails; a production-walled trusted read-only bearer mint without SO_PEERCRED is lawful under mandatory test-enforced fencing. [2026] VJS-CC-VJS 1 is production-scoped.
+basis:
+- '[2026] VJS-CC-VJS 2'
+risk: high
+reversibility: easy
+court_required: false
+why: Duty of care favours validating each brick by real use; trusted path yields no security guarantee (key stays isolated in proxy) and maps 1:1 onto the SO_PEERCRED swap so it is a foundation not throwaway; the forbidden item gives teeth to a holding aimed at untrusted multi-tenant peers, not a single-uid trusted operator.
