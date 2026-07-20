@@ -1,0 +1,131 @@
+id: 2026-VJS-CC-CODEX-CELL-UID-CAPABILITY-006
+court: county
+jurisdiction: vibe-justice-system
+repo_code: null
+status: binding
+issue: codex_cell_uid_capability_grant_for_config_toml_protection
+holding: |
+  Application REFUSED on the current record, with liberty to re-apply. A Linux capability is a last
+  resort and this applicant has not reached the last resort. The court accepts the s.4 evidence that
+  table-valued -c overrides MERGE rather than REPLACE, and that the root-owned managed layer at
+  /etc/codex/managed_config.toml merges the same way, so an attacker who can write a config.toml
+  defeats argv pinning by ADDING keys. That disposes of the applicant's first no-capability theory
+  and no more. The merge defect bites only where a hostile party holds a WRITABLE FILE IN THE CONFIG
+  LOAD PATH. The applicant tested whether a hostile config.toml could be NEUTRALISED; it did not
+  test whether a hostile config.toml could be made IMPOSSIBLE.
+  FACT FOUND (material, and it decides the case): the assertion that config.toml "must" live in a
+  cell-uid-owned CODEX_HOME is Boltrig's own constraint, not the runtime's. codex_cell_policy
+  validate_cell_layout REQUIRES CODEX_HOME to be a 0700 directory owned by this account inside the
+  cell root; the applicant imposed that rule and can lift it. On the rendered document in
+  codex_runtime_config_toml the ONLY per-cell varying values are cell_id and socket_name (inside
+  auth.args), proxy_port (inside base_url), model_id, reasoning_effort and skills.config, and
+  codex_cell_provisioning ships selected_skills empty on this lane. Every one of those is a LEAF,
+  and s.4 findings 1 to 3 prove on the applicant's own evidence that leaves are argv-pinnable and
+  that argv wins. There is therefore an untested Option E: ONE root-owned mode-0555 CODEX_HOME on
+  the read-only image mount, shared by all cells, holding no config.toml or a constant one, with
+  every per-cell value on argv. Under it no cell can write any file any cell loads, so there is
+  nothing to add keys to, and the boundary is the SAME boundary this court already accepted for G2.
+  It costs no capability. The court verified that the pinned 0.144.3 binary tolerates an unwritable
+  CODEX_HOME far enough to report config.load ok, warning only that it could not create PATH
+  aliases. Whether app-server survives a full session that way is an open question of FACT, cheaply
+  answered by experiment, and unanswered.
+  HELD FURTHER, and part of the ratio: the s.6 CAP_SETUID objection is GOOD and CONDITIONS rather
+  than defeats Option A. Capabilities are cleared on setuid only across a transition out of uid 0;
+  a non-root process holding CAP_SETUID that moves from one non-zero uid to another RETAINS it and
+  can setuid back, or sideways into a sibling cell's uid. no-new-privileges does not answer this:
+  PR_SET_NO_NEW_PRIVS constrains what execve may GRANT and does nothing about capabilities already
+  held. The case file's premise that the two interact so as to make dropping one-way is WRONG.
+  HELD FURTHER: the pleaded grant is not the minimum sufficient grant, it is an insufficient one.
+  The cell tmpfs is mode 0700 uid 10001 and an unprivileged uid cannot give a file away, so per-cell
+  uid ownership additionally requires CAP_CHOWN or a layout redesign. The applicant's "MINIMUM
+  grant" submission is wrong on its own facts.
+  HELD FURTHER: Option D does not discharge G3, for the TOCTOU reason pleaded, but the applicant is
+  wrong to deploy the VJS-CC-VJS 5 G6 prohibition against it. That prohibition forbids ARGUMENT as a
+  substitute for the adversarial test; it is not a prohibition on layered detection that is itself
+  tested. Free hardening is to be taken whether or not it discharges a directive.
+  The refusal is EVIDENTIAL, not doctrinal. The court does not hold that CAP_SETUID may never be
+  granted on this lane.
+directives:
+- id: H1
+  actor: lexby
+  must: test_option_e_before_re_applying_a_single_root_owned_mode_0555_codex_home_on_the_read_only_image_mount_shared_by_every_cell_with_no_writable_config_toml_anywhere_in_the_load_path_and_every_per_cell_value_on_argv
+  when: null
+- id: H2
+  actor: lexby
+  must: record_as_a_finding_of_fact_whether_the_pinned_app_server_completes_a_full_read_only_session_under_an_unwritable_codex_home_and_where_its_session_history_and_log_writes_land_since_the_court_verified_only_that_config_load_reports_ok
+  when: null
+- id: H3
+  actor: lexby
+  must: correct_the_false_necessity_claim_in_codex_cell_boundary_and_codex_trusted_proxy_provider_that_config_toml_must_sit_in_a_cell_uid_owned_codex_home_it_is_a_boltrig_policy_constraint_imposed_by_validate_cell_layout_not_a_runtime_requirement
+  when: null
+- id: H4
+  actor: lexby
+  must: withdraw_the_submission_that_no_userspace_boundary_is_achievable_on_this_runtime_it_is_unproved_on_the_filed_evidence_and_no_future_filing_may_rely_on_it_without_the_h1_and_h2_experiments
+  when: null
+- id: H5
+  actor: lexby
+  must: apply_the_argv_and_etc_codex_pinning_of_s4_anyway_as_defence_in_depth_for_model_provider_auth_command_base_url_approval_policy_sandbox_mode_and_features_since_it_is_free_and_independent_of_this_refusal
+  when: null
+- id: H6
+  actor: lexby
+  must: if_re_applying_for_cap_setuid_plead_the_complete_grant_including_cap_chown_or_the_layout_that_avoids_it_and_not_repeat_the_claim_that_cap_setuid_and_cap_setgid_alone_are_the_minimum_sufficient_grant
+  when: null
+- id: H7
+  actor: lexby
+  must: if_any_capability_is_ever_granted_clear_it_from_the_cell_childs_permitted_inheritable_and_bounding_sets_after_the_uid_change_and_before_execve_and_never_rely_on_no_new_privileges_to_make_a_privilege_drop_one_way
+  when: null
+- id: H8
+  actor: lexby
+  must: prove_any_such_clearing_by_an_adversarial_test_in_which_a_spawned_cell_attempts_to_setuid_back_to_the_supervisor_uid_and_sideways_into_a_sibling_cells_uid_and_fails_at_the_kernel
+  when: null
+- id: H9
+  actor: lexby
+  must: prove_whatever_boundary_is_finally_enacted_by_the_g6_adversarial_test_in_its_named_config_toml_form_two_live_cells_hostile_a_with_full_write_access_to_everything_its_credentials_can_reach_must_not_obtain_bs_bearer_by_the_config_toml_vector
+  when: null
+- id: H10
+  actor: lexby
+  must: assert_the_enacted_boundary_at_startup_on_the_g4_pattern_naming_its_mechanism_verifying_it_against_the_kernel_and_failing_closed_including_a_check_that_per_cell_uids_are_actually_distinct_if_that_is_the_mechanism_chosen
+  when: null
+- id: H11
+  actor: lexby
+  must: stop_pleading_noexec_on_the_codex_cells_tmpfs_as_an_enacted_control_the_compose_file_states_only_mode_uid_and_gid_and_the_property_rests_on_a_runtime_default_write_it_explicitly_or_drop_the_claim
+  when: null
+- id: H12
+  actor: lexby
+  must: keep_production_ready_and_the_config_flag_false_on_this_lane_and_route_any_flip_to_court_afresh_under_vjs_cc_vjs_4_f9_this_judgment_is_not_that_permission
+  when: null
+- id: H13
+  actor: lexby
+  must: keep_this_authority_scoped_to_the_read_only_reasoning_lane_and_leave_write_effects_pr8_gated
+  when: null
+forbidden:
+- granting_cap_setuid_cap_setgid_cap_sys_admin_or_any_other_capability_to_the_kernel_container_on_the_strength_of_this_judgment_the_application_is_refused
+- re_applying_for_a_capability_without_the_h1_and_h2_experimental_findings_filed_as_evidence_whichever_way_they_come_out
+- treating_a_self_imposed_boltrig_policy_constraint_as_a_property_of_the_pinned_runtime_in_any_submission_to_this_court
+- asserting_that_no_new_privileges_prevents_a_process_holding_cap_setuid_from_regaining_or_assuming_another_identity_it_does_not
+- discharging_g3_or_g6_by_read_back_detection_alone_the_toctou_is_conceded_and_detection_is_defence_in_depth_not_a_boundary
+- relying_on_this_refusal_to_claim_that_the_present_single_uid_arrangement_is_safe_or_that_g3_is_discharged_it_is_neither
+- running_mutually_distrusting_cells_concurrently_while_config_toml_protected_is_false
+summary: |
+  Application for CAP_SETUID/CAP_SETGID REFUSED on the record, liberty to re-apply. The merge defect
+  in -c overrides only bites where an attacker holds a writable file in the config load path; the
+  applicant tested neutralising a hostile config.toml, never abolishing it. The claim that config.toml
+  must live in a cell-owned CODEX_HOME is Boltrig's own rule in validate_cell_layout, not the
+  runtime's, and every per-cell value in the rendered document is an argv-pinnable leaf. An untested
+  no-capability route therefore exists: one root-owned read-only CODEX_HOME shared by all cells, all
+  per-cell values on argv, the same boundary already accepted for G2. The pinned binary tolerates an
+  unwritable CODEX_HOME far enough to load config. Separately, the s.6 objection is good: setuid
+  between two non-zero uids does not clear capabilities and no-new-privileges does not help, so
+  Option A as pleaded is cosmetic; and the pleaded grant is incomplete, since chown-ing per-cell trees
+  needs CAP_CHOWN too. Pinning and detection are ordered anyway as free defence in depth.
+  production_ready stays False.
+created_at: 2026-07-20T00:00:00Z
+citation: '[2026] VJS-CC-VJS 6'
+assent_source: standing_bounded_assent
+bench:
+- Marchbanks CCJ
+case_file_digest: sha256:f7e3e644830928b138300cf5c51b1ba95e097662585ec6a16c8f83bfb5f13ea2
+convened_at: 2026-07-20T00:00:00Z
+vote: 1-0 (Marchbanks CCJ)
+appeal_of: ''
+appealable: true
