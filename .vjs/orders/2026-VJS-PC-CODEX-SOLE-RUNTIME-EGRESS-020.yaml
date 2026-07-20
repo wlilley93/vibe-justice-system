@@ -1,0 +1,156 @@
+id: 2026-VJS-PC-CODEX-SOLE-RUNTIME-EGRESS-020
+court: privy
+jurisdiction: vibe-justice-system
+repo_code: null
+status: binding
+issue: appeal_of_vjs_cc_vjs_8_codex_as_sole_governed_leaf_runtime_and_submit_to_codex_orchestration_model_plus_joined_first_impression_question_of_model_egress_and_internet_search
+holding: |
+  APPEAL ALLOWED IN PART, ON CONDITIONS, UNANIMOUSLY (3-0: Redvers PJ, Calderhew PJ, Ashcombe PJ
+  presiding). All three limbs are GRANTED ON CONDITIONS. This is a VARIATION of an incidental holding
+  of [2026] VJS-CC-VJS 8 under ACT-002:s9, not an overruling; the load-bearing RATIO of that judgment
+  is expressly reaffirmed and left intact, so the matter sits within the Privy Council's remit and is
+  not certified up.
+
+  WHAT IS RATIO AND SURVIVES UNTOUCHED. The load-bearing ratio of VJS-CC-VJS 8 is that the KERNEL is the
+  sole locus of cross-cell orchestration and forks, attests, uid-isolates and audits EVERY cell, with
+  Codex a governed leaf and Codex-native sibling spawning reserved to PR8. That ratio is untouched by
+  changing WHICH BINARY each kernel-forked cell runs. The fact-findings of VJS-CC-VJS 5 (two cells at
+  one uid leak a cross-tenant bearer) and the grant-conditions of VJS-CC-VJS 7 (J1-J11) are equally
+  untouched. No party offered evidence to disturb them and none is disturbed.
+
+  WHAT IS INCIDENTAL AND IS MOVED. K2 of VJS-CC-VJS 8 ("keep Codex as one governed leaf among several,
+  the org's default_runtime remaining pi, never reframe as a thin wrapper") is incidental description of
+  a transitional posture: it sits in a HELD FURTHER clause and answers a question, the number of leaf
+  vendors, that was never the issue the court decided. The bench finds, unanimously, that the safety
+  property of VJS-CC-VJS 8 was carried entirely by WHO FORKS THE CELL, never by which binary the cell
+  runs or how many vendors are wired. Reducing the active leaf roster to Codex alone (retiring opencode,
+  herdr, mastra and pi from the wired roster) therefore does not touch the ratio and is permitted.
+
+  THE GROUND MATTERS, AND THE OCCASION IS NOT THE GROUND. Ashcombe PJ states the doctrine the whole
+  bench adopts: an executive re-direction by the Principal is NOT of itself a lawful ground to move any
+  holding. Under ACT-001:s2 the Prime Minister office gives policy and direction, but only the Sovereign
+  office makes or unmakes law by due process, and a directive that conflicts with binding law is ultra
+  vires until cured by the lawful route (ACT-001:s6; ACT-002:s6 trigger 4). What the Principal's
+  re-direction lawfully does is TRIGGER this court. The incidental holding then moves, if at all, because
+  the court on the law finds it incidental and varies it: the authority is the court's, the occasion
+  alone is the Principal's. Accordingly the collapse to a single wired leaf is permitted on CONSOLIDATION
+  and REDUCED-ATTACK-SURFACE grounds, and a collapse reasoned "because Boltrig is just a wrapper around
+  Codex" remains FORBIDDEN, the wrapper intuition having been rejected in VJS-CC-VJS 8 and not revived
+  here.
+
+  LIMB 2, INTERFACE NOT EXECUTOR. "Submit to Codex's subagent, profile and skill model" is lawful ONLY on
+  the interface-not-executor reading, and only while enforced mechanically at the chokepoint rather than
+  documented: Codex may EMIT a subagent/profile/skill request, but the KERNEL, and only the kernel, forks
+  the cell that fulfils it (distinct uid, per-slot tmpfs, /proc-attested J5, peer-uid attested J8,
+  audited). Codex's own native spawn facility must be INTERCEPTED and SUPPRESSED at the model-proxy
+  chokepoint exactly as the tool ceiling strips exec_command (VJS-CC-VJS 4), asserted at startup and
+  failing closed, not merely left enabled-but-unused by configuration. Any actual Codex-native sibling
+  spawn, or effectful out-of-cell tool, is PR8 and does not open on this order. The bench notes the
+  organisational gravity of "we are a Codex shop" pulls toward PR8, and the chokepoint enforcement exists
+  precisely to resist that drift.
+
+  LIMB 3, EGRESS IS A KERNEL-MEDIATED VERB. The settled chokepoint principle (egress is an effect) is
+  applied, not newly entrenched. Provider-side search (a hosted model searching inside the model call) is
+  permitted ONLY where the kernel can SEE and AUDIT both the outbound query and the inbound results on the
+  kernel-owned model-proxy to bifrost wire, granted per-cell and failing closed, and only where the cell
+  context crossing that wire carries the same tenant-isolation the model call already carries; returned
+  search results are treated as a new untrusted inbound surface. Opaque provider-side search, where the
+  kernel cannot read the query or the results on the wire, COLLAPSES INTO unaudited model-native egress
+  and is FORBIDDEN until made auditable. A local browser-CLI is an effectful out-of-cell tool and is PR8
+  by VJS-CC-VJS 8 K4; it does not open on this appeal. No model may perform egress or search carrying a
+  cell context that may hold another tenant's data beyond what the governed model call already legitimately
+  carries.
+
+  CONTINUITY FLOOR. Because VJS-CC-VJS 5's containment ("held shut only by refusing to start a second
+  cell") presupposes a runtime that can refuse, and because Codex 0.144.3 cannot yet self-attest its own
+  provider or schema contract (production_ready False, VJS-CC-VJS 7 J13), the grant is conditioned on the
+  manifest's multi-runtime ROUTING MECHANISM being retained as live code, and on at least one non-Codex
+  governed leaf remaining buildable and re-wirable by configuration alone (no fresh order) as a quarantine
+  fallback, until production_ready is unblocked on a fresh application under VJS-CC-VJS 4 F9. Runtime
+  agnosticism survives as a CAPABILITY even where the wired vendor count is one.
+
+  production_ready stays False on every limb. PR8 write-enable (effectful tools, sibling spawning, local
+  browser-CLI, model-native egress) remains court-gated and does not open. The read-only reasoning lane
+  (VJS-CC-VJS 2) is unaffected and may deploy.
+directives:
+- id: L1
+  actor: lexby
+  must: treat_codex_as_permitted_to_be_the_sole_wired_governed_leaf_runtime_retiring_opencode_herdr_mastra_and_pi_from_the_active_roster_as_a_variation_of_vjs_cc_vjs_8_k2_while_expressly_reaffirming_and_leaving_intact_the_ratio_that_the_kernel_forks_attests_uid_isolates_and_audits_every_cell
+  when: null
+- id: L2
+  actor: lexby
+  must: record_that_the_collapse_to_a_single_leaf_rests_on_consolidation_and_reduced_attack_surface_grounds_and_never_on_the_wrapper_intuition_rejected_in_vjs_cc_vjs_8_and_never_reframe_boltrig_as_a_thin_wrapper_around_codex
+  when: null
+- id: L3
+  actor: lexby
+  must: retain_the_manifests_multi_runtime_routing_mechanism_as_live_code_and_keep_at_least_one_non_codex_governed_leaf_buildable_and_re_wirable_by_configuration_alone_without_a_fresh_order_as_a_quarantine_fallback_until_production_ready_is_unblocked_under_vjs_cc_vjs_4_f9
+  when: null
+- id: L4
+  actor: lexby
+  must: implement_submit_to_codex_model_only_as_interface_not_executor_every_codex_subagent_profile_or_skill_request_is_intercepted_at_the_kernel_chokepoint_and_fulfilled_by_a_kernel_forked_distinct_uid_proc_attested_j5_peer_uid_attested_j8_audited_cell_and_never_by_a_process_the_kernel_did_not_fork
+  when: null
+- id: L5
+  actor: lexby
+  must: suppress_codexs_native_spawn_facility_at_the_model_proxy_chokepoint_as_the_tool_ceiling_strips_exec_command_asserting_it_at_startup_and_failing_closed_not_merely_disabling_it_by_configuration_and_add_an_audit_assertion_that_every_subagent_profile_skill_request_resolved_to_a_kernel_forked_cell
+  when: null
+- id: L6
+  actor: lexby
+  must: keep_any_actual_codex_native_sibling_spawn_or_effectful_out_of_cell_tool_as_pr8_court_gated_and_not_opened_on_the_strength_of_this_order
+  when: null
+- id: L7
+  actor: lexby
+  must: permit_provider_side_search_only_where_the_kernel_can_see_and_audit_both_the_outbound_query_and_inbound_results_on_the_kernel_owned_model_proxy_to_bifrost_wire_granted_per_cell_failing_closed_and_only_where_the_cell_context_carries_the_same_tenant_isolation_the_model_call_already_carries_treating_returned_results_as_a_new_untrusted_inbound_surface
+  when: null
+- id: L8
+  actor: lexby
+  must: forbid_opaque_provider_side_search_the_kernel_cannot_read_on_the_wire_as_unaudited_model_native_egress_until_it_is_made_auditable_and_forbid_any_egress_or_search_carrying_a_cell_context_that_may_hold_another_tenants_data_beyond_what_the_governed_model_call_already_legitimately_carries
+  when: null
+- id: L9
+  actor: lexby
+  must: treat_a_local_browser_cli_or_any_effectful_out_of_cell_search_tool_as_pr8_not_opened_on_this_appeal
+  when: null
+- id: L10
+  actor: lexby
+  must: keep_production_ready_and_the_config_flag_false_route_any_flip_to_a_fresh_application_under_vjs_cc_vjs_4_f9_and_not_proceed_the_sole_runtime_posture_to_a_production_deployment_while_production_ready_is_false
+  when: null
+- id: L11
+  actor: lexby
+  must: leave_the_vjs_cc_vjs_5_and_7_fact_findings_and_the_vjs_cc_vjs_8_ratio_untouched_and_treat_the_read_only_reasoning_lane_vjs_cc_vjs_2_as_unaffected_and_deployable
+  when: null
+forbidden:
+- collapsing_the_leaf_roster_to_a_single_vendor_on_the_strength_of_the_wrapper_intuition_or_reframing_boltrig_as_a_thin_wrapper_around_codex
+- removing_the_manifests_multi_runtime_routing_mechanism_or_leaving_no_non_codex_governed_leaf_re_wirable_by_configuration_as_a_quarantine_fallback_while_production_ready_is_false
+- resolving_any_codex_subagent_profile_or_skill_request_to_a_process_the_kernel_did_not_fork
+- leaving_codexs_native_spawn_facility_enabled_but_unused_by_mere_configuration_rather_than_suppressed_at_the_chokepoint_and_asserted_at_startup
+- permitting_provider_side_search_the_kernel_cannot_see_or_audit_on_the_wire_or_any_unaudited_model_native_egress_carrying_cross_tenant_cell_context
+- opening_a_local_browser_cli_or_any_effectful_out_of_cell_tool_on_the_strength_of_this_order
+- flipping_production_ready_or_the_config_flag_on_the_strength_of_this_order
+- overruling_rather_than_varying_vjs_cc_vjs_8_this_order_moves_only_the_incidental_k2_holding
+summary: |
+  Appeal of [2026] VJS-CC-VJS 8 ALLOWED IN PART, ON CONDITIONS, UNANIMOUS 3-0 (Redvers, Calderhew,
+  Ashcombe presiding). Codex MAY be the sole wired governed leaf runtime (retire opencode, herdr, mastra,
+  pi from the roster); "submit to Codex's subagent/profile/skill model" is lawful; and model egress is
+  governed. The bench holds the load-bearing ratio of VJS-CC-VJS 8 is LOCUS not CARDINALITY (the kernel
+  forks/attests/uid-isolates/audits every cell), so retiring runtimes moves only the incidental K2
+  holding by variation under ACT-002:s9, within the Privy Council's remit, not an overruling. Doctrine
+  affirmed: an executive re-direction triggers the court but is not itself the ground; the holding moves
+  because the court finds it incidental on consolidation grounds, and the wrapper intuition rejected in
+  VJS-CC-VJS 8 stays rejected. Conditions: (1) the multi-runtime routing seam stays live and one non-Codex
+  leaf stays re-wirable as a quarantine fallback until production_ready unblocks; (2) submit-to-Codex is
+  interface-not-executor, with Codex's native spawn facility suppressed at the model-proxy chokepoint
+  (as exec_command is stripped), every request fulfilled by a kernel-forked cell; (3) provider-side search
+  only where the kernel can see and audit query and results on the wire, per-cell fail-closed; opaque
+  provider-side search is forbidden as unaudited egress; a local browser-CLI is PR8. production_ready stays
+  False; PR8 stays shut; the read-only lane (VJS-CC-VJS 2) is unaffected and deployable.
+created_at: 2026-07-20T00:00:00Z
+citation: '[2026] VJS-PC 20'
+assent_source: standing_bounded_assent
+bench:
+- Redvers PJ
+- Calderhew PJ
+- Ashcombe PJ (presiding)
+case_file_digest: sha256:7a6f9a2bfba24fd74fa1d53acc29023a7d96f528b2379c0965c3158037459e55
+convened_at: 2026-07-20T00:00:00Z
+vote: 3-0 (Redvers PJ, Calderhew PJ, Ashcombe PJ presiding)
+appeal_of: '[2026] VJS-CC-VJS 8'
+appealable: true
