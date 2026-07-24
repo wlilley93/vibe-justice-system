@@ -1,0 +1,44 @@
+id: 2026-VJS-CC-OPBOX-WORKFLOW-LOCUS-001
+court: county
+jurisdiction: opbox
+repo_code: null
+status: binding
+issue: opbox_workflow_domain_locus
+holding: |
+  Option Z prevails; X and Y are both refused. On the symmetric case file the court finds three facts decisive. First, the opbox workflow domain is already OWNED by the Rust unitary-stack kernel: the opbox engine persists run state through that kernel via verbs and workflow_run_projection is kernel-owned; the only opbox-boltrig coupling anywhere is the chat/agent path. Second, boltrig's interpreter executes only control-flow plus governed adapter/agent verbs and fails closed on anything else, so it cannot run opbox's ~24 domain-bound step types (create_matter, generate_document, table rows, send_form, wait_for_submission, assign, update_status, run_integration, send_notification, ...). Third, opbox workflow data already exists in the opbox companion store AND the Rust kernel SoR, so a boltrig copy is a THIRD store for one concern. Option X (execution through boltrig) is therefore infeasible and value-negative: the only way to run the domain steps is to register ~24 opbox callback verbs, after which opbox STILL executes the work while shedding its durable resume-token pause model, the matter-step bridge, waiting_for_child chaining and human-form (wait_for_submission) blocking, and it stands up a second execution authority over a Rust-kernel-owned domain. Option Y (mirror for visibility) is refused as fragmenting: duplicating an already-folded domain into the boltrig kernel is a redundant third store, and any divergence (definition edits, run-status races) reintroduces exactly the split-brain the unitary stack was built to remove, contrary to the consolidation principle. The RATIO: a domain's locus follows its system-of-record kernel, not the frontend and not a second kernel; where a domain is already folded onto one kernel it must be neither executed by nor mirrored into another, and cross-frontend visibility is served from that domain's own SoR read models (which any frontend may read), never by copying the domain into a second kernel. Boltrig's remit under opbox is the agent/chat/tool-run/cost domain it OWNS (the chat cutover and authoritative-cost feedback already built are correct and undisturbed); it is not the home of regulated domain facts - matters, workflows, signing, money - that the unitary-stack kernel already owns. The plan's Phase-2 premise "single execution engine = boltrig" is factually wrong for opbox workflows and is set aside.
+directives:
+- id: D1
+  actor: lexby
+  must: close_the_automations_to_boltrig_leg_of_the_plan_build_neither_a_boltrig_workflow_mirror_nor_a_route_of_opbox_workflow_execution_through_boltrig
+  when: null
+- id: D2
+  actor: lexby
+  must: keep_the_boltrig_two_way_data_scope_to_the_chat_agent_cost_domain_boltrig_owns_already_built_as_the_chat_cutover_and_authoritative_cost_feedback_and_do_not_extend_it_to_the_workflow_domain
+  when: null
+- id: D3
+  actor: lexby
+  must: if_unified_cross_frontend_workflow_visibility_is_later_wanted_serve_it_from_the_rust_unitary_stack_kernel_sor_read_models_or_projections_readable_by_any_frontend_never_from_a_boltrig_copy
+  when: null
+- id: D4
+  actor: lexby
+  must: record_on_the_plan_that_the_phase_2_single_execution_engine_equals_boltrig_premise_is_set_aside_for_opbox_workflows_and_mark_task_27_disposed_by_this_ruling
+  when: null
+forbidden:
+- routing_opbox_workflow_execution_through_boltrig
+- mirroring_or_copying_the_opbox_workflow_domain_definitions_or_run_state_into_the_boltrig_kernel_as_a_parallel_store
+- creating_a_second_execution_or_system_of_record_authority_over_a_domain_the_rust_unitary_stack_kernel_already_owns
+exceptions: null
+supersedes: []
+source_opinion: null
+runtime_summary: |
+  opbox workflows are Rust-unitary-stack-kernel-owned; boltrig can only run governed verbs and fails closed on opbox's ~24 domain steps. Refuse execution-through-boltrig (X, infeasible + second authority) and mirror-for-visibility (Y, a fragmenting third store). Z prevails: the workflow domain stays solely on its Rust-kernel SoR and is not duplicated into boltrig; cross-frontend visibility, if wanted, comes from that SoR's read models. Boltrig's remit under opbox is the chat/agent/cost domain it owns (cutover + authoritative cost, already built). Reserved and NOT decided here: whether the two kernels (Rust unitary-stack + boltrig) should ultimately be reconciled into one - that is foundational and belongs to a higher forum.
+created_at: 2026-07-24T19:40:00Z
+citation: '[2026] VJS-CC-OPBOX 1'
+assent_source: standing_bounded_assent
+bench:
+- Ledgerward CCJ
+case_file_digest: sha256:6f68195c4ff8bcbb7a5abd403f2e86c993b592aa0e00c6c51b3c2d8beffcb2ca
+convened_at: 2026-07-24T19:39:58Z
+vote: 1-0 (Ledgerward CCJ)
+appeal_of: ''
+appealable: true
