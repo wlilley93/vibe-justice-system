@@ -1,0 +1,129 @@
+id: 2026-VJS-CC-OPBOX-DESIGN-KERNEL-LOCUS-003
+court: county
+jurisdiction: opbox
+repo_code: null
+status: binding
+issue: opbox_design_kernel_locus
+holding: |
+  None of the three near authorities is on all fours. CC-OPBOX 1's prohibition bites only on
+  a domain "already folded onto one kernel"; no kernel owns design tokens, so the precondition
+  is unmet and the prohibition does not fire. But the first limb of that same ratio decides
+  the remedy: the question is not whether to add a fourth artifact, it is which artifact IS
+  the record. CC-OPBOX 2 expressly reserved "which of the Figma file or the repository is the
+  source of truth for --border" as a separate matter; this is that matter, so a County Court
+  is competent and CC-OPBOX 2's directives stand undisturbed. PC-13 and PC-14 do not reach
+  this substrate on their own express words: PC-14 Q3 cuts the wired-or-void limb to
+  governed-record creation, "a law, ruling, citation, order, or permit", and NOWHERE ELSE. A
+  design token is none of those.
+
+  Q1: a design kernel is not per se the second authority CC-OPBOX 1 forbids, because there is
+  no first. The governing distinction is between an artifact that STORES token values and one
+  that DERIVES and enforces over a named record. The first is an authority and here would be
+  the fourth; the second is a gate and is no authority at all. Only the second form is lawful.
+
+  Q3: A, B and C are all declined as filed, and I say plainly that I craft a different
+  disposition, because each option's own factual premise failed on inspection. B rests on "the
+  gate already works" and on the 173 specs carrying file:line pointers. Neither holds. The
+  gate's drift limb CANNOT FAIL today: of 34 mapped tokens 32 are `migrating` and 2 are
+  `floor`, both of which the checker skips, and none is `aligned`, so the printed "figma
+  drift: PASS" is vacuous. The gate is invoked by nothing: no workflow, no package.json
+  script, neither githook. Only 16 of 173 specs carry a file:line pointer and 45 name no
+  source file at all. Separately the CC-OPBOX 2 D3 ledger is derived solely from the drawing
+  corpus and holds ZERO rows for src/ or app/, so 3,820 drawing sites are classified and no
+  shipped paint site is: a live shortfall against a binding order. A is refused in its storing
+  form, and its generation limb is unproven on the filer's own concession. C is not mine to
+  order: a spend is reserved to the Principal under ACT-001:s2.
+
+  The strongest case against me is A's: a gate is a discipline and disciplines fail, whereas
+  one artifact owning the values makes drift structurally impossible. I accept the premise and
+  reject the inference. This record is not of a gate that failed but of a gate nobody switched
+  on, over a contract in which no row is in an enforceable state. A fourth store inherits that
+  defect and adds one. Consolidation is right; it is achieved by naming the record and wiring
+  the derivation, not by adding a store.
+
+  Q4: severable, and severed. The contract limb enforces duties that already exist over values
+  already in the repo; the generation limb is speculative and needs the very verification layer
+  that does not exist.
+
+  The RATIO: where a domain has no system of record the prohibition on a second authority does
+  not fire, and the remedy is to name the artifact that already is the record and derive over
+  it, never to add a further artifact storing the same values; a governed-record front-door
+  instrument whose operative limb is expressly cut to an enumerated list of record kinds does
+  not reach a non-governed substrate by its own force; and a gate that no build invokes, over a
+  contract in which no row is in an enforceable state, is not enforcement and cannot be relied
+  on as the reason not to consolidate.
+directives:
+- id: D1
+  actor: lexby
+  must: record_in_goal_md_that_globals_css_is_the_system_of_record_for_the_shipped_value_and_the_geist_figma_file_for_the_decided_target_with_the_snapshot_a_derived_one_way_pin_between_them
+  when: null
+- id: D2
+  actor: lexby
+  must: wire_the_token_gate_into_githooks_pre_push_and_the_build_so_a_non_zero_exit_actually_blocks_and_add_a_regression_test_seeding_drift_and_asserting_exit_code_1
+  when: null
+- id: D3
+  actor: lexby
+  must: make_the_gate_print_aligned_migrating_and_floor_counts_and_replace_the_bare_drift_pass_with_the_number_of_rows_actually_enforced_emitting_a_vacuous_warning_while_zero_tokens_are_aligned
+  when: null
+- id: D4
+  actor: lexby
+  must: extend_the_contrast_check_to_every_selector_defining_border_control_including_sign_layout_at_globals_css_7259_and_teach_it_to_measure_oklch
+  when: null
+- id: D5
+  actor: lexby
+  must: self_file_under_act_003_s5_and_make_good_the_cc_opbox_2_d3_shortfall_by_extending_the_boundary_ledger_beyond_the_drawing_corpus_to_production_paint_sites_in_src_and_app
+  when: null
+- id: D6
+  actor: lexby
+  must: correct_the_overstated_figures_in_goal_md_to_state_that_16_of_173_specs_carry_file_line_pointers_and_45_name_no_source_file_and_re_derive_or_withdraw_the_130_files_and_2_06_to_1_figures
+  when: null
+- id: D7
+  actor: lexby
+  must: reconcile_the_contradiction_between_contrast_audit_md_asserting_26_of_52_dark_variables_unresolved_and_the_gate_asserting_all_52_resolved_and_record_which_figma_file_the_snapshot_contract_pins
+  when: null
+- id: D8
+  actor: lexby
+  must: sever_the_code_generation_limb_proceed_with_the_contract_limb_only_and_present_code_connect_to_the_principal_as_a_priced_scoped_option_never_as_a_precondition
+  when: null
+forbidden:
+- creating_a_fourth_artifact_that_stores_design_token_values_beside_globals_css_the_figma_file_and_the_derived_snapshot
+- building_any_design_kernel_in_a_storing_rather_than_deriving_and_enforcing_form
+- treating_a_printed_drift_pass_as_evidence_of_parity_while_no_token_is_in_the_aligned_state
+- relying_on_the_gate_as_enforcement_until_a_build_or_hook_actually_invokes_it_and_a_test_proves_the_non_zero_exit
+- classifying_a_production_border_paint_site_by_a_ledger_derived_only_from_the_drawing_corpus
+- asserting_that_the_173_route_specs_are_a_precise_transfer_artifact_while_only_16_carry_file_line_pointers
+- building_frame_to_component_code_generation_before_a_verification_layer_can_prove_a_generated_component_against_its_spec
+- committing_or_ordering_the_code_connect_spend_without_principal_authorisation_under_act_001_s2
+exceptions: null
+supersedes: []
+source_opinion: null
+runtime_summary: |
+  Do not build a design kernel that holds token values: name the record instead.
+  app/globals.css is the system of record for what ships, the Geist Figma file for what is
+  decided, and the committed snapshot is a derived one-way pin between them. The seam is not
+  as sound as the filing claimed, so harden it for real: the drift check cannot currently fail
+  (32 of 34 tokens are migrating, 2 floor, none aligned, and both branches skip), the gate is
+  invoked by no build or hook, the contrast check covers one token across five selectors while
+  .sign-layout at globals.css:7259 is an unparsed sixth scope, and the CC-OPBOX 2 D3 ledger
+  classifies 3,820 drawing sites and zero production sites. Wire the gate so a non-zero exit
+  blocks, report enforced rows rather than a bare PASS, extend it to every selector defining
+  --border-control, and extend the ledger to src/ and app/. Sever code generation and reserve
+  it; put Code Connect to the Principal as a priced option, never as a precondition.
+created_at: 2026-07-25T09:41:00Z
+citation: '[2026] VJS-CC-OPBOX 3'
+assent_source: standing_bounded_assent
+bench:
+- Seam CCJ
+case_file_digest: sha256:4a54e6e6eec2a4058ed61b207d7f10f09f85d2d4e1faf25ac151e4a9271b2e99
+convened_at: 2026-07-25T09:40:59Z
+vote: 1-0 (Seam CCJ)
+appeal_of: ''
+appealable: true
+permission_to_appeal: true
+reserved:
+- whether the PC-13/PC-14 front-door principle reaches non-governed substrates generally; a boundary question ACT-002:s3 routes to the Privy Council, cognate to the reservation already made in CC-OPBOX 2
+- whether Code Connect should be bought; a spend reserved to the Principal under ACT-001:s2, recorded as available and neither ordered nor refused
+- the code-generation limb, severed and reserved until a verification layer exists
+- which Figma file is the correct contract pin; a fact to be established under D7, not adjudicated here
+- every reservation in CC-OPBOX 2, which stands undisturbed; its stated premise on the dark border value is now contested, and the route is a fresh reference once D7 establishes the fact, not variation of that order
+- whether the two Figma files should be consolidated, and whether the drawing corpus should continue to exist at all; neither was referred

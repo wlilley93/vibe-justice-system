@@ -1,0 +1,62 @@
+id: SUBMISSION-2026-07-25-083724
+court_requested: county
+jurisdiction: default
+question: 'Dark surface #000000 is darker than dark bg #0a0a0a at 1.06:1, contradicting the documented dark elevation rule: swap polarity (A), change the rule (B), or settle the whole dark palette (C)?'
+facts: |
+  # Dark-plane inversion (audit finding F2)
+
+  Filed under [2026] VJS-CC-OPBOX 2 D8, which reserved this defect and directed it be
+  referenced rather than lost. No recommendation is carried.
+
+  ## Facts
+
+  Dark `surface` is `#000000`. Dark `bg` is `#0a0a0a`. The raised plane is therefore DARKER
+  than the canvas it sits on, at **1.06:1**.
+
+  `DESIGN_SYSTEM_ARCHITECTURE.md` L49 states the opposite rule: "In dark mode elevation
+  reads as a lighter surface + stronger border, never a heavier shadow." The token values
+  contradict the system's own documented rule.
+
+  So a dark panel has neither a fill delta (1.06:1) nor a usable edge, dark `border` having
+  no recorded value in the Figma token set. `_fixBlack.js` exists because frames render
+  black: a symptom of this inversion, not its cause. 26 of 52 dark variables have no value
+  anywhere, so dark mode is untested rather than passing.
+
+  Production is healthier: `.dark` sets `--bg-primary: #1a1a1a`, `--bg-secondary: #141414`,
+  `--bg-tertiary: #262626`, so the shipped planes are not inverted. The defect is in the
+  Geist Edition token set.
+
+  [2026] VJS-CC-OPBOX 2 D9 already binds a floor: any dark `border` later resolved must
+  clear 3:1 against both dark planes where it bounds an operable control. That order decided
+  the floor and reserved the value.
+
+  ## Options
+
+  **A - swap the polarity.** Make `surface` the lighter raised plane and recompute the dark
+  neutrals against the new pair. *For:* restores the documented rule, gives panels a real
+  fill delta, and removes the reason `_fixBlack` exists. *Against:* it changes the darkest
+  surface in the system, so every dark screen shifts, and the 26 unresolved variables mean
+  the recomputation cannot be fully checked on this record.
+
+  **B - change the rule to match the values.** Document that elevation in this system reads
+  as a DARKER surface. *For:* the values may be a deliberate OLED-black aesthetic, and the
+  architecture doc may simply be stale; changing prose is cheaper than changing 52 tokens.
+  *Against:* at 1.06:1 the plane edge is imperceptible either way, so it legitimises a
+  boundary nobody can see rather than fixing it.
+
+  **C - resolve the dark palette as one exercise.** Treat the inversion as one symptom of an
+  unfinished palette and settle all 52 dark variables together. *For:* patching two tokens
+  inside a palette where half the values do not exist risks a second inconsistency.
+  *Against:* it is much larger, blocks the inversion fix behind it, and nothing forces the
+  whole palette to be settled before this contradiction is removed.
+
+  ## Questions
+
+  Q1 Which of A, B or C? Q2 Does the fix bind the Figma token set only, or also the shipped
+  `.dark` theme, which is not inverted? Q3 Are the 26 unresolved dark variables in scope, or
+  a separate matter? Q4 Appealable or reserved?
+
+  Nothing is changed by this reference.
+requested_order: TBD
+private_boundary: local
+word_count: 488
