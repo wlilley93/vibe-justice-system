@@ -376,11 +376,20 @@ impl LawpackValidator {
     }
 
     /// The live register's highest allocated N for (series, repo, year), read by
-    /// scanning every canon record's own top-level citation. This is the persisted
+    /// scanning every governed record's own top-level citation. This is the persisted
     /// register D2 requires the allocator to read - the citator INDEX is the count,
     /// not an empty in-memory registry. Returns 0 when the series is unstarted.
+    ///
+    /// TAKES ALL THE ROOTS, and that is the whole point of the signature. It used to
+    /// take `lawpack/v2` alone. That directory holds 86 defining citations and NOT ONE
+    /// of them is County, so `vjs next-citation CC 2026` returned `1` unconditionally
+    /// while the series stood at 8, and the canon PC series mis-allocated the same way,
+    /// offering `[2026] VJS-PC 20` while that citation was held by a live order. The
+    /// D2 ruling this implements was recorded, and then the allocator was pointed at one
+    /// register of three, so the ruling read as satisfied while the defect was live.
+    /// Callers pass `front_door::governed_record_roots`.
     pub fn live_citation_max(
-        lawpack_dir: &Path,
+        roots: &[PathBuf],
         series: &str,
         repo: Option<&str>,
         year: i32,
@@ -388,25 +397,27 @@ impl LawpackValidator {
         let want_series = series.to_ascii_uppercase();
         let want_repo = repo.map(|r| r.to_ascii_uppercase());
         let mut max = 0u32;
-        for entry in WalkDir::new(lawpack_dir).into_iter().filter_map(|e| e.ok()) {
-            let path = entry.path();
-            if !is_lawpack_yaml(path) {
-                continue;
-            }
-            let content =
-                std::fs::read_to_string(path).map_err(|e| KernelError::Io(e.to_string()))?;
-            for line in content.lines() {
-                if let Some(rest) = line.strip_prefix("citation:") {
-                    let cite = rest.trim().trim_matches('"').trim_matches('\'').trim();
-                    if let Some((y, s, r, n)) = Self::parse_citation(cite)
-                        && y == year
-                        && s == want_series
-                        && r.as_deref().map(|x| x.to_string()) == want_repo.clone()
-                        && n > max
-                    {
-                        max = n;
+        for root in roots {
+            for entry in WalkDir::new(root).into_iter().filter_map(|e| e.ok()) {
+                let path = entry.path();
+                if !is_lawpack_yaml(path) {
+                    continue;
+                }
+                let content =
+                    std::fs::read_to_string(path).map_err(|e| KernelError::Io(e.to_string()))?;
+                for line in content.lines() {
+                    if let Some(rest) = line.strip_prefix("citation:") {
+                        let cite = rest.trim().trim_matches('"').trim_matches('\'').trim();
+                        if let Some((y, s, r, n)) = Self::parse_citation(cite)
+                            && y == year
+                            && s == want_series
+                            && r.as_deref().map(|x| x.to_string()) == want_repo.clone()
+                            && n > max
+                        {
+                            max = n;
+                        }
+                        break; // the record's own citation only
                     }
-                    break; // the record's own citation only
                 }
             }
         }
@@ -500,5 +511,40 @@ mod dup_id_coverage_tests {
         lp.obligations.push(obligation("OB-B"));
         let report = LawpackValidator::validate(&lp).unwrap();
         assert_eq!(dup_id_count(&report), 0);
+    }
+}
+
+#[cfg(test)]
+mod live_register_tests {
+    use super::*;
+
+    /// The allocator must read EVERY governed-record root, not just `lawpack/v2`.
+    ///
+    /// This is the regression lock for a live defect: `lawpack/v2` holds 86 defining
+    /// citations and not one of them is County, so a single-root read returned 1 for
+    /// every CC request while the series stood at 8. The canon PC series mis-allocated
+    /// the same way, offering `[2026] VJS-PC 20` while a live order held it.
+    ///
+    /// BOTH series are asserted deliberately. A test that only measured CC would have
+    /// passed against the PC half of the very same defect.
+    #[test]
+    fn reads_orders_and_court_registers_not_only_the_lawpack() {
+        let tmp = std::env::temp_dir().join(format!("vjs-live-reg-{}", std::process::id()));
+        let orders = tmp.join(".vjs/orders");
+        let court = tmp.join(".vjs/court/orders");
+        std::fs::create_dir_all(&orders).unwrap();
+        std::fs::create_dir_all(&court).unwrap();
+        // Deliberately NO lawpack/v2: a missing register is not evidence that a series
+        // is unstarted, and the old code short-circuited that case straight to 0.
+        std::fs::write(orders.join("a.yaml"), "id: a\ncitation: '[2026] VJS-CC-TK 4'\n").unwrap();
+        std::fs::write(court.join("b.yaml"), "id: b\ncitation: \"[2026] VJS-PC 20\"\n").unwrap();
+
+        let roots = vjs_core::front_door::governed_record_roots(&tmp);
+        let cc = LawpackValidator::live_citation_max(&roots, "CC", Some("TK"), 2026).unwrap();
+        let pc = LawpackValidator::live_citation_max(&roots, "PC", None, 2026).unwrap();
+        std::fs::remove_dir_all(&tmp).ok();
+
+        assert_eq!(cc, 4, "the County register under .vjs/orders was not read");
+        assert_eq!(pc, 20, "the canon register under .vjs/court was not read");
     }
 }

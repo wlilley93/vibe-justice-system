@@ -207,12 +207,11 @@ impl McpServer {
         } else {
             (None, String::new())
         };
-        let lawpack_dir = self.repo_root.join("lawpack/v2");
-        let max = if lawpack_dir.exists() {
-            LawpackValidator::live_citation_max(&lawpack_dir, &series, repo_for_lookup, year)?
-        } else {
-            0
-        };
+        // Same roots as the CLI front door, in the same change. D4 requires one
+        // shared meaning across both doors, and two doors reading different
+        // registers is precisely how they come apart.
+        let roots = front_door::governed_record_roots(&self.repo_root);
+        let max = LawpackValidator::live_citation_max(&roots, &series, repo_for_lookup, year)?;
         let n = max + 1;
         let citation = format!("[{year}] VJS-{series}{repo_segment} {n}");
         Ok(serde_json::json!({ "series": series, "year": year, "n": n, "citation": citation }))
