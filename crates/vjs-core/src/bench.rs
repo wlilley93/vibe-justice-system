@@ -228,11 +228,57 @@ pub fn silent_seats(bench: &[String], opinion_text: &str) -> Vec<String> {
                 .count();
             best = best.max(content);
         }
-        if best < MIN_SEAT_CONTENT {
+        // [2026] VJS-PC 21 D4. `best` measures BREVITY, not participation, and the Board
+        // held unanimously that the two cannot be treated as the same thing. A judge who
+        // writes "I agree with Atkin and have nothing to add" has not been silent:
+        // concurrence without separate reasons is ordinary and often the most disciplined
+        // form of agreement, and a rule under which a short concurrence voids the order
+        // would require every judge to pad. Reporting such a seat as having "no present,
+        // non-empty opinion" states more than was computed, which is the CC-VJS 11 vice.
+        //
+        // So an EXPRESS CONCURRENCE counts as speech regardless of length. A seat that
+        // neither writes at length nor expressly concurs is the only one now reported.
+        // What follows for such a seat is expressly LEFT OPEN by PC 21 and must not be
+        // read out of this code.
+        if best < MIN_SEAT_CONTENT && !expressly_concurs(&lower, &key) {
             silent.push(entry.clone());
         }
     }
     silent
+}
+
+/// The concurrence forms a seat may use instead of separate reasons (PC 21 D4).
+///
+/// Deliberately a closed, explicit list rather than a fuzzy match. A seat is taken to
+/// have spoken only when the document says so in terms; anything looser would let a
+/// passing mention of the word "concur" anywhere near a name count as participation,
+/// which would be the same over-claim in the opposite direction.
+const CONCURRENCE_FORMS: &[&str] = &[
+    "concur",
+    "i agree",
+    "agrees",
+    "agreeing",
+    "nothing to add",
+    "dissent",       // a recorded dissent is participation, not silence
+    "dissenting",
+];
+
+/// True when, in the window this seat owns, the document expressly records the seat
+/// concurring, agreeing, or dissenting. Searched from the seat's own mentions outward so
+/// a concurrence attached to a DIFFERENT judge cannot be borrowed.
+fn expressly_concurs(lower: &str, key: &str) -> bool {
+    // The window is deliberately tight: a concurrence is written beside the name it
+    // belongs to. 200 chars comfortably covers "X, concurring." and "I agree with Y and
+    // have nothing to add. - X" without reaching the next judge's section.
+    const WINDOW: usize = 200;
+    key_positions(lower, key).into_iter().any(|off| {
+        let start = off.saturating_sub(WINDOW);
+        let end = (off + key.len() + WINDOW).min(lower.len());
+        let Some(window) = lower.get(start..end) else {
+            return false;
+        };
+        CONCURRENCE_FORMS.iter().any(|f| window.contains(f))
+    })
 }
 
 /// A bench/tier defect found on an order.
@@ -270,7 +316,7 @@ impl BenchDefect {
                 "Recorded bench of {got} does not match the constituted odd size {allowed:?} for '{court}' ([2026] VJS-SC 2; REG-COURT-RECORD-001)."
             ),
             BenchDefect::SilentSeats { seats } => format!(
-                "Counted seat(s) {seats:?} have no present, non-empty opinion in source_opinion; a named-but-silent seat fails ([2026] VJS-SC 2; REG-COURT-RECORD-001)."
+                "Counted seat(s) {seats:?} neither write reasons nor expressly concur in source_opinion, so the record does not evidence their participation ([2026] VJS-SC 2; REG-COURT-RECORD-001; [2026] VJS-PC 21 D4). This states what was measured: a brief but EXPRESS concurrence counts as speech and is not reported here."
             ),
             BenchDefect::MissingOpinionSource => {
                 "Order declares a bench but no source_opinion to verify each seat against (REG-COURT-RECORD-001).".into()

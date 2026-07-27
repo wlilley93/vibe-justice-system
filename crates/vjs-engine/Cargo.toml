@@ -11,6 +11,7 @@ repository.workspace = true
 # record-creation - the "only smart point" of REG-KERNEL-001, in one place the CLI,
 # the MCP server, and CI all call.
 [dependencies]
+walkdir.workspace = true
 vjs-core = { path = "../vjs-core" }
 vjs-lawpack = { path = "../vjs-lawpack" }
 vjs-store = { path = "../vjs-store" }

@@ -193,11 +193,12 @@ pub(crate) fn staged_gates(
         // have the gate announce that a binding County order is spent, which is a false
         // statement by an instrument whose whole job is to be believed.
         let mut governed_citations: Vec<(String, bool)> = Vec::new();
+        // RECURSE: `governed_record_roots` yields `.vjs/court`, not `.vjs/court/orders`,
+        // so a flat read_dir sees only subdirectories and no record. Same bug, found in the
+        // correction-register stage and fixed in both places rather than one.
         for root in vjs_core::front_door::governed_record_roots(repo) {
-            let Ok(entries) = std::fs::read_dir(&root) else {
-                continue;
-            };
-            for path in entries.filter_map(|e| e.ok()).map(|e| e.path()) {
+            for entry in walkdir::WalkDir::new(&root).into_iter().filter_map(|e| e.ok()) {
+                let path = entry.path().to_path_buf();
                 if path.extension().and_then(|s| s.to_str()) != Some("yaml") {
                     continue;
                 }

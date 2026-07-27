@@ -11,6 +11,7 @@ name = "vjs"
 path = "src/main.rs"
 
 [dependencies]
+walkdir.workspace = true
 vjs-core = { path = "../vjs-core" }
 vjs-lawpack = { path = "../vjs-lawpack" }
 vjs-store = { path = "../vjs-store" }

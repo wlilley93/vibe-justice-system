@@ -71,14 +71,14 @@ pub(crate) fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
     // code. D2 adds that check. The scope is deliberately UNCHANGED: `lawpack.orders`
     // only. That is not an oversight and must not be "fixed" casually.
     //
-    // No County order has ever been in this stage's scope, in any run, in any clone,
-    // because County orders live under .vjs and this reads the lawpack. Thirteen binding
-    // records carry a bench with no opinion. Widening to the .vjs roots would turn every
-    // push red on them, so D3 STAYS that widening until the higher court disposes of
-    // whether those records are void or routed for correction (SUBMISSION-2026-07-27-201553).
-    // Widening early would decide by remedy a question this court referred up.
+    // No County order had ever been in this stage's scope, in any run, in any clone,
+    // because County orders live under .vjs and this reads the lawpack. CC-VJS 11 D3
+    // STAYED the widening while it was undecided whether the thirteen flagged records were
+    // void; widening then would have decided that by remedy. [2026] VJS-PC 21 has since
+    // answered it, so the stay is SPENT and the .vjs roots are handled by their own stage
+    // below, on their own footing: flagged, not fatal.
     //
-    // The stage name and message therefore say CANON, so a pass here is never read as
+    // This stage still says CANON, and keeps its own scope, so a pass here is never read as
     // "every order in the estate is valid", which is the exact overclaim D4 forbids.
     let mut order_findings: Vec<String> = Vec::new();
     let constitution = lawpack
@@ -109,27 +109,23 @@ pub(crate) fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
             None => order_findings.push(format!("{}: BENCH_UNCHECKED", order.id)),
         }
     }
-    // The two canon bench defects this check found on its FIRST EVER run, pinned exactly.
+    // Held sub judice: EMPTY, and that is the whole story.
     //
-    // Both are real and both are serious. On [2026] VJS-PC 8, Tindale is named on a
-    // three-seat bench and owns 29 characters of the opinion while the other two own ~930
-    // each. On [2026] VJS-PC 19, Wilberforce is mentioned once and owns 51 characters of a
-    // 16,080-character opinion. A named seat that never spoke means a three-seat order was
-    // decided by two, which is not the constituted size.
+    // This check found two canon defects on its first ever run, PC-8 and PC-19, both
+    // BENCH_SILENT_SEAT. They were pinned here rather than failed closed, because failing
+    // closed would have decided the then-pending referral in favour of VOID by default.
     //
-    // They are NOT suppressed and they are NOT excused. Whether a pre-existing constitutive
-    // bench defect voids its order is REFERRED UP (SUBMISSION-2026-07-27-201553), and
-    // [2026] VJS-CC-VJS 11 holds that a repair must not "convert a referral into a
-    // stoppage" nor achieve by remedy what First Instance cannot order directly. Failing
-    // this gate closed on them would DECIDE that referral in favour of void, by default,
-    // which is the one outcome this court was told it could not reach. So they are pinned
-    // as a ratchet on the same discipline as the structural exemptions: compared EXACTLY,
-    // so a NEW defect fails and a FIXED one also fails until it is removed from this list.
-    // The list may only shrink. It is deleted entirely when the higher court rules.
-    const KNOWN_CANON_BENCH_DEFECTS: &[&str] = &[
-        "2026-VJS-PC-008: BENCH_SILENT_SEAT",
-        "2026-VJS-PC-019: BENCH_SILENT_SEAT",
-    ];
+    // [2026] VJS-PC 21 then held the check could not ground a void, and correcting it per
+    // D4 showed both findings were FALSE POSITIVES. Tindale and Wilberforce each wrote a
+    // full concurring opinion. They were flagged because a seat's owned block ends at the
+    // next colleague NAMED, so "I join Marchmont" and "I concur in full with Reid J."
+    // handed each judge's own opinion to the colleague they credited. The heuristic
+    // punished the courteous style that good judgments use.
+    //
+    // The list stays as a mechanism with nothing in it. Compared EXACTLY, so a new defect
+    // fails AND a pin that is no longer real also fails until removed. That second limb is
+    // what forced this entry to be deleted rather than left to rot, which is the point.
+    const KNOWN_CANON_BENCH_DEFECTS: &[&str] = &[];
     let mut known: Vec<&str> = KNOWN_CANON_BENCH_DEFECTS.to_vec();
     known.sort_unstable();
     let mut found: Vec<&str> = order_findings.iter().map(|s| s.as_str()).collect();
@@ -171,6 +167,120 @@ pub(crate) fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
         },
     });
     if !order_ok {
+        ok = false;
+    }
+
+    // Step 4b: the correction register ([2026] VJS-PC 21 D2/D3).
+    //
+    // The thirteen flagged records are BINDING AND FLAGGED: in force, relied upon, and
+    // carrying a visible obligation to supply the missing opinion. They are NOT void, NOT
+    // stayed and NOT deleted, so this stage must never fail merely because they exist.
+    // What it fails on is the REGISTER drifting from reality, in either direction:
+    //
+    //   * a newly flagged record that is not on the register (an obligation nobody recorded)
+    //   * a register row whose record is no longer flagged (an obligation nobody discharged
+    //     from the list, which is how a register becomes a place obligations go to be
+    //     forgotten)
+    //
+    // Deliberately a separate stage from canon_order_validate, and named for what it does.
+    // Folding .vjs findings into a stage called "canon" would be the same overclaim PC 21
+    // and CC-VJS 11 both condemn.
+    let register_path = repo.join(".vjs/court/correction-register.tsv");
+    let register: std::collections::BTreeSet<String> = std::fs::read_to_string(&register_path)
+        .unwrap_or_default()
+        .lines()
+        .filter(|l| !l.starts_with('#') && !l.starts_with("order_id"))
+        .filter_map(|l| l.split('\t').next())
+        .filter(|s| !s.trim().is_empty())
+        .map(|s| s.to_string())
+        .collect();
+
+    let mut flagged: std::collections::BTreeSet<String> = std::collections::BTreeSet::new();
+    let mut by_id: std::collections::BTreeMap<String, (Vec<String>, Option<String>)> =
+        std::collections::BTreeMap::new();
+    // RECURSE. `governed_record_roots` yields `.vjs/court`, NOT `.vjs/court/orders`, so a
+    // flat read_dir here sees only subdirectories and no order at all. That bug hid
+    // 2026-VJS-CC-ROUTE-EVAL-001, which exists ONLY under .vjs/court/orders, and the
+    // register caught the disagreement. Walk the tree.
+    for root in vjs_core::front_door::governed_record_roots(repo) {
+        for entry in walkdir::WalkDir::new(&root).into_iter().filter_map(|e| e.ok()) {
+            let path = entry.path().to_path_buf();
+            if path.extension().and_then(|s| s.to_str()) != Some("yaml") {
+                continue;
+            }
+            // ORDERS ONLY. A convening record also carries a `bench:` and has no
+            // source_opinion by design, so a bench-shaped scan sweeps all 30-odd of them in
+            // as flagged records. They are not orders and owe no opinion. Keying on the
+            // containing directory is the precise test: orders live under an `orders/` dir
+            // in every root, convenings under `convenings/`.
+            if !path.parent().is_some_and(|d| d.ends_with("orders")) {
+                continue;
+            }
+            let Ok(text) = std::fs::read_to_string(&path) else { continue };
+            let top = |k: &str| -> Option<String> {
+                text.lines().find_map(|l| {
+                    l.strip_prefix(k)
+                        .map(|r| r.trim().trim_matches('"').trim_matches('\'').trim().to_string())
+                })
+            };
+            let Some(id) = top("id:").filter(|s| !s.is_empty()) else { continue };
+            let bench: Vec<String> = text
+                .lines()
+                .skip_while(|l| !l.starts_with("bench:"))
+                .skip(1)
+                .take_while(|l| l.starts_with("  - ") || l.starts_with("- "))
+                .map(|l| l.trim_start_matches(['-', ' ']).trim().to_string())
+                .collect();
+            let opinion = top("source_opinion:").filter(|s| !s.is_empty() && s != "null");
+            // The court copy is authoritative ([2026] VJS-CC-VJS 9), so it wins the slot.
+            let is_court = path.to_string_lossy().contains(".vjs/court/");
+            if is_court || !by_id.contains_key(&id) {
+                by_id.insert(id, (bench, opinion));
+            }
+        }
+    }
+    for (id, (bench, opinion)) in &by_id {
+        if bench.is_empty() {
+            continue;
+        }
+        let has_opinion = opinion
+            .as_ref()
+            .map(|p| repo.join(p).is_file())
+            .unwrap_or(false);
+        if !has_opinion {
+            flagged.insert(id.clone());
+        }
+    }
+    let unrecorded: Vec<&String> = flagged.difference(&register).collect();
+    let discharged: Vec<&String> = register.difference(&flagged).collect();
+    let register_ok = unrecorded.is_empty() && discharged.is_empty();
+    steps.push(CiStep {
+        name: "correction_register".into(),
+        passed: register_ok,
+        message: if register_ok {
+            format!(
+                "{} record(s) binding-and-flagged, all on the register (PC 21 D2/D3); \
+                 flagged is not fatal, register drift is",
+                flagged.len()
+            )
+        } else {
+            let mut m = String::new();
+            if !unrecorded.is_empty() {
+                m.push_str(&format!(
+                    "flagged but NOT on the register, add them with today's date: {:?}. ",
+                    unrecorded
+                ));
+            }
+            if !discharged.is_empty() {
+                m.push_str(&format!(
+                    "on the register but no longer flagged, remove the row: {:?}. ",
+                    discharged
+                ));
+            }
+            m
+        },
+    });
+    if !register_ok {
         ok = false;
     }
 

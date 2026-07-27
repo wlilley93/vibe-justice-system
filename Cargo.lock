@@ -732,6 +732,7 @@ dependencies = [
  "vjs-lawpack",
  "vjs-redact",
  "vjs-store",
+ "walkdir",
 ]
 
 [[package]]
@@ -765,6 +766,7 @@ dependencies = [
  "vjs-lawpack",
  "vjs-redact",
  "vjs-store",
+ "walkdir",
 ]
 
 [[package]]

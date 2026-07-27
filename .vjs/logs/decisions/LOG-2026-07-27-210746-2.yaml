@@ -1,0 +1,12 @@
+id: LOG-2026-07-27-210746-2
+time: 2026-07-27T21:07:46.904229743+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260727-210734
+decision: Added walkdir to vjs-cli and vjs-engine.
+basis:
+- PERMIT-1785186454
+risk: low
+reversibility: easy
+court_required: false
+why: Both crates must walk the governed-record roots recursively. governed_record_roots yields .vjs/court, not .vjs/court/orders, so the flat read_dir I first wrote saw only subdirectories and no order at all. It hid 2026-VJS-CC-ROUTE-EVAL-001, which exists ONLY under .vjs/court/orders, and the correction register caught the disagreement between what it listed and what the gate found. The same latent bug was present in the citation-grounding widening in staged.rs and is fixed in both places rather than one. walkdir is already a workspace dependency used by vjs-lawpack, so this adds no new third-party surface.
