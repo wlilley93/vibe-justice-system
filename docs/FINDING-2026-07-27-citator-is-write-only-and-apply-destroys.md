@@ -91,3 +91,31 @@ implementation details:
 Until then: **do not run `vjs order apply` on a filed order.** It is not needed for the order to be
 good law - 005 was binding, validated and committed before `apply` was ever run, and the four orders
 before it appear never to have been applied at all.
+
+---
+
+## Resolved, same day
+
+All three defects are fixed and pushed (`cfe6cfb`). The two forks this document left open were
+answered by the code rather than needing a bench, because neither turned out to be a genuine choice:
+
+1. **Should `lookup`/`route` return orders?** `ACT-001:s3` already ranks County Court orders in the
+   authority hierarchy. The resolver was not implementing its own statute, so this was a bug, not a
+   design question. Orders are overlaid onto the authority graph with their `issue` as a tag;
+   `resolve_authority` hoists on-point authority so it survives route's truncation, and route still
+   *displays* by the s3 rank hierarchy. Inclusion is guaranteed, presentation stays lawful.
+
+2. **Should `apply` be non-destructive?** Losing `fact_corrections` and `reserved` is data loss that
+   nobody would design, so there was nothing to weigh. `#[serde(flatten)]` makes any unknown key
+   round-trip; verified by applying an order and comparing parsed YAML (zero keys lost, zero values
+   changed). Chosen over naming the missing fields because the existing comment above `citation`
+   shows that cure already failed once - it leaves the next author of the next field to remember.
+
+**A third defect was found only because the fix was made loud.** Six of fourteen filed orders did
+not parse at all (`missing field supersedes`, `missing field runtime_summary`, `court: privy`). They
+were binding, committed, and invisible to the kernel. The first version of the overlay swallowed the
+parse error and silently emptied the entire citator - a fail-open inside the fix for a fail-open,
+presenting identically to the bug being cured. Reading each file separately and printing which order
+failed is what surfaced them.
+
+The standing prohibition on `vjs order apply` is **lifted**.
