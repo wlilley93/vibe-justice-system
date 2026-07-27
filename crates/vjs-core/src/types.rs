@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use std::collections::BTreeMap;
 use std::path::PathBuf;
 
 mod ids;
@@ -45,6 +46,10 @@ pub enum Court {
     /// representable at the canonical seat so vjs can convene and record a Court of Appeal order
     /// ([2026] VJS-PC 19). Serialises as `court_of_appeal`.
     CourtOfAppeal,
+    /// `privy` is accepted as well as `privy_council`: a filed order already uses it, and a filed
+    /// record is read as written rather than edited to fit the reader (the never-rewrite-history
+    /// rule). Serialises as `privy_council`.
+    #[serde(alias = "privy")]
     PrivyCouncil,
     SupremeCourt,
 }
@@ -316,8 +321,18 @@ pub struct Order {
     pub directives: Vec<Directive>,
     pub forbidden: Option<Vec<String>>,
     pub exceptions: Option<Vec<String>>,
+    /// Defaulted: an order that supersedes nothing should not have to say so, and requiring it made
+    /// SIX filed orders unparseable - validated, committed, and then invisible to the kernel, which
+    /// is the worst of both worlds. Never rewrite a filed record to satisfy a struct; widen the
+    /// struct to read the record.
+    #[serde(default)]
     pub supersedes: Vec<AuthorityId>,
     pub source_opinion: Option<PathBuf>,
+    /// Defaulted for the same reason as `supersedes`. An order without an agent-facing summary is
+    /// thinner, but it is still BINDING; refusing to parse it makes it invisible to the resolver,
+    /// which is strictly worse. The lawpack validator still enforces the word limit where one is
+    /// present, so nothing is weakened for orders that carry it.
+    #[serde(default)]
     pub runtime_summary: String,
     pub created_at: String,
     // Promote the citation and assent source the orders already carry (they
@@ -348,6 +363,30 @@ pub struct Order {
     /// citation-grounding teeth extend to them. Prose stays for humans.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub cites_authorities: Option<Vec<String>>,
+
+    /// EVERY OTHER FIELD THE FILE CARRIES, preserved verbatim.
+    ///
+    /// Without this, `vjs order apply` was DESTRUCTIVE: it parsed a filed order into this struct and
+    /// wrote it back, so any key not named above was silently deleted from the record. On 2026-07-27
+    /// applying one order removed 69 lines - `title`, `question`, `fact_corrections`,
+    /// `execution_findings`, `reserved`, `rows_already_written`, `full_case_file` and its digest,
+    /// `filed_submission`, `convening`, `permission_to_appeal` - and reported only "Order applied".
+    /// `vjs validate` passed either side of the deletion, so nothing noticed.
+    ///
+    /// The losses were the parts that make a holding CHECKABLE: the question it answers, the case
+    /// file it was decided on, the corrections to the filing's facts, and the questions expressly
+    /// left open. CC-OPBOX 4 recorded ten fact corrections and called one of them the most important
+    /// correction in the case; an apply over that order would have deleted it, leaving a ruling that
+    /// cites facts the same ruling found false with no record that it had. Deleting `reserved` is the
+    /// same harm in the other direction: it turns "expressly not decided" into "silent".
+    ///
+    /// FLATTEN RATHER THAN MORE NAMED FIELDS, deliberately. The comment above `citation` records that
+    /// this exact class was hit before and cured by adding two fields - which leaves the next author
+    /// of the next field to remember. A catch-all is structural: an unknown key round-trips because
+    /// it is unknown, not because somebody listed it. Same reasoning as the credential envelope in
+    /// opbox: where loss must be impossible, the mechanism cannot be a list of names.
+    #[serde(flatten, default, skip_serializing_if = "BTreeMap::is_empty")]
+    pub extra: BTreeMap<String, serde_yaml::Value>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
