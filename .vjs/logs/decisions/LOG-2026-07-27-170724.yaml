@@ -1,0 +1,12 @@
+id: LOG-2026-07-27-170724
+time: 2026-07-27T17:07:24.184837742+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260727-170626
+decision: Report the scope the scanner actually covered; leave detection and the two blind spots alone.
+basis:
+- PERMIT-1785171986
+risk: low
+reversibility: easy
+court_required: false
+why: 'Run with no argument the scanner reads the whole HEAD tree, but reported every hit as ''in added content''. That made a standing tree condition read as a fresh introduction on every push, so six consecutive red canon-enforce runs looked like six separate leaks when they were one unchanged set of 157 findings. Detection is untouched: only the reported scope string changes, and a range run still says ''in added content''. Verified: a no-argument run now emits 157 ''in the HEAD tree'' and zero ''in added content''. Two further defects are recorded rather than fixed, because both interact with a delisting decision that is the Principal''s. It tokenises with hyphen as a WORD character, so a term inside a hyphenated path or citation code never matches while the same term in prose does. And it scans neither commit messages nor file names.'
