@@ -376,9 +376,10 @@ impl LawpackValidator {
     }
 
     /// The live register's highest allocated N for (series, repo, year), read by
-    /// scanning every governed record's own top-level citation. This is the persisted
-    /// register D2 requires the allocator to read - the citator INDEX is the count,
-    /// not an empty in-memory registry. Returns 0 when the series is unstarted.
+    /// scanning every governed record's own top-level citation. Those records ARE the
+    /// persisted register D2 requires the allocator to read: the count comes off them,
+    /// not off a citator index and not off an empty in-memory registry. Returns 0 when
+    /// the series is unstarted.
     ///
     /// TAKES ALL THE ROOTS, and that is the whole point of the signature. It used to
     /// take `lawpack/v2` alone. That directory holds 86 defining citations and NOT ONE

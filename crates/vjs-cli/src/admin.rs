@@ -12,8 +12,12 @@ pub(crate) fn cmd_next_citation(
     let repo_code = resolve_repo_code(repo);
     let s = series.to_ascii_uppercase();
 
-    // PC-13 D2: allocate from the LIVE persisted register (the citator index), not
-    // an empty in-memory registry. The Cc series is bound to THIS repo's code; canon
+    // PC-13 D2: allocate from the live persisted register, not an empty in-memory
+    // registry. The register is the governed records themselves: each one carries its
+    // own top-level `citation:`, and the highest allocated N is read off them. There is
+    // no citator index in this path, and an earlier form of this comment said there
+    // was, which certified a D2 compliance the code did not have.
+    // The Cc series is bound to THIS repo's code; canon
     // series (PC/SC/REG/ACT/DEC/SPEC/INV/COA/...) carry no repo segment. The next
     // number is one past the current max, so a hand-asserted number cannot mint a
     // citation - validate --staged reconciles and fails closed on any collision.
