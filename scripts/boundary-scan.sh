@@ -13,14 +13,20 @@ cd "$(git rev-parse --show-toplevel)"
 RANGE="${1:-}"
 EXCL=(":(exclude)*/vendor/*" ":(exclude)*.min.*")
 TMP=$(mktemp)
+# SCOPE names what was actually scanned. A no-argument run reads the whole HEAD
+# tree, so reporting those hits as "added content" made a STANDING tree condition
+# read as a fresh introduction on every push.
 if [ -n "$RANGE" ]; then
   git diff "$RANGE" -- . "${EXCL[@]}" | grep "^+" > "$TMP" || true
+  SCOPE="in added content"
 else
   git grep -I --no-color -h "" -- . "${EXCL[@]}" > "$TMP" 2>/dev/null || true
+  SCOPE="in the HEAD tree"
 fi
-python3 - "$TMP" <<'PY'
+python3 - "$TMP" "$SCOPE" <<'PY'
 import hashlib, re, sys
 text = open(sys.argv[1], encoding="utf-8", errors="replace").read()
+scope = sys.argv[2]
 fail = False
 # Synthetic fixtures that legitimately carry secret/path SHAPES (they test the
 # scanner itself). Precedent: promote-canonical.sh allowlisted this sequence.
@@ -37,14 +43,14 @@ for ch in text + "\n":
     if ch.isalnum() or ch == "-": tok += ch
     else:
         if len(tok) >= 3 and hashlib.sha256(tok.lower().encode()).hexdigest() in deny:
-            print("FAIL: denylisted private term (hash match) in added content"); fail = True
+            print(f"FAIL: denylisted private term (hash match) {scope}"); fail = True
         tok = ""
 for pat,label in [(r"sk-[A-Za-z0-9]{48}","openai key"),(r"gh[pousr]_[A-Za-z0-9_]{36,}","github token"),
                   (r"AKIA[0-9A-Z]{16}","aws key"),(r"-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY","private key"),
                   (r"/home/[a-z][a-z0-9_-]+/","dev-machine home path")]:
     for m in re.finditer(pat, text):
         if allowed(m.group(0)): continue
-        print(f"FAIL: {label} in added content: {m.group(0)[:24]}"); fail = True
+        print(f"FAIL: {label} {scope}: {m.group(0)[:24]}"); fail = True
 sys.exit(1 if fail else 0)
 PY
 rc=$?; rm -f "$TMP"
