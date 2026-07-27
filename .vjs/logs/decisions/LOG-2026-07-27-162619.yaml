@@ -1,0 +1,12 @@
+id: LOG-2026-07-27-162619
+time: 2026-07-27T16:26:19.010675869+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260727-162559
+decision: Widen the citation allocator to all three governed-record roots; leave the reconciliation guard pending a ruling on the mirror pair.
+basis:
+- PERMIT-1785169559
+risk: low
+reversibility: easy
+court_required: false
+why: 'vjs next-citation handed out HELD citations on two series: [2026] VJS-CC-VJS 1, and [2026] VJS-PC 20 which a live precedent holds. live_citation_max read lawpack/v2 alone, which carries 86 defining citations and not one County one, so it returned 1 unconditionally while the CC series stood at 8. Roots now derive from front_door::is_governed_record, the existing declaration of what a governed record is. Both front doors changed together per D4. The .exists() short-circuit to 0 is gone: a missing directory is not evidence a series is unstarted. Gates assert BOTH a CC and a canon PC series, at the allocator and again at the MCP door, all proven RED; a CC-only test would have passed against the PC half. check_citation_uniqueness reads the same single root and is deliberately untouched, because widening it would report the orders-versus-court mirror pair as fatal, and which projection is the record is first-impression.'

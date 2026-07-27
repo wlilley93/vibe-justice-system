@@ -59,6 +59,28 @@ pub fn is_governed_record(rel_path: &str) -> bool {
         || p.starts_with(".vjs/court/")
 }
 
+/// The three roots `is_governed_record` recognises, as directories to scan.
+///
+/// Anything that has to reason over the WHOLE body of governed records must read all
+/// three, or it reasons over a fraction and reports the answer with full confidence.
+/// That is not hypothetical: `live_citation_max` read `lawpack/v2` alone, which holds
+/// 86 defining citations and NOT ONE of them County, so `vjs next-citation CC 2026`
+/// returned `1` unconditionally while the series stood at 8. The canon PC series was
+/// mis-allocating by the same mechanism, offering `[2026] VJS-PC 20` while that
+/// citation was held.
+///
+/// Derived from `is_governed_record` rather than from `.vjs/config.toml`: the config
+/// declares an `orders` key but has no key for the court register, `PathsConfig` is
+/// non-Option, and config.toml is itself a permit-required path. One declaration of
+/// what a governed record is, in one place, used by both the predicate and the scan.
+pub fn governed_record_roots(repo: &std::path::Path) -> Vec<std::path::PathBuf> {
+    ["lawpack/v2", ".vjs/orders", ".vjs/court"]
+        .iter()
+        .map(|r| repo.join(r))
+        .filter(|p| p.exists())
+        .collect()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

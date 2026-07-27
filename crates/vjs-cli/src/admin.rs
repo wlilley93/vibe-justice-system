@@ -17,17 +17,19 @@ pub(crate) fn cmd_next_citation(
     // series (PC/SC/REG/ACT/DEC/SPEC/INV/COA/...) carry no repo segment. The next
     // number is one past the current max, so a hand-asserted number cannot mint a
     // citation - validate --staged reconciles and fails closed on any collision.
-    let lawpack_dir = repo.join("lawpack/v2");
+    // ALL THREE governed-record roots, not lawpack/v2 alone. lawpack/v2 holds no
+    // County citation at all, so the old single-root read returned 1 for every CC
+    // request while the series stood at 8, and offered a held [2026] VJS-PC 20 on
+    // the canon series. The `.exists()` short-circuit to 0 went with it: a missing
+    // directory is not evidence that a series is unstarted, and silently allocating
+    // 1 is exactly how a collision gets minted.
+    let roots = front_door::governed_record_roots(repo);
     let (repo_for_lookup, repo_segment): (Option<&str>, String) = if s == "CC" {
         (Some(repo_code.as_str()), format!("-{}", repo_code))
     } else {
         (None, String::new())
     };
-    let max = if lawpack_dir.exists() {
-        LawpackValidator::live_citation_max(&lawpack_dir, &s, repo_for_lookup, y)?
-    } else {
-        0
-    };
+    let max = LawpackValidator::live_citation_max(&roots, &s, repo_for_lookup, y)?;
     let n = max + 1;
     let citation_str = format!("[{}] VJS-{}{} {}", y, s, repo_segment, n);
 
