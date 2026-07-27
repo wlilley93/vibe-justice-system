@@ -298,39 +298,69 @@ impl LawpackValidator {
     /// half; this is the reconciliation-at-write half. Runs on the full lawpack, so
     /// it does not depend on a record being staged.
     pub fn check_citation_uniqueness(
-        lawpack_dir: &Path,
+        repo: &Path,
     ) -> Result<Vec<ValidationFinding>, KernelError> {
-        let mut by_citation: std::collections::BTreeMap<String, Vec<String>> =
+        // [2026] VJS-CC-VJS 9 D1. The ALLOCATOR and this GUARD are two halves of one
+        // rule and must read the SAME register. Before this they did not: the allocator
+        // read all three governed-record roots and this read `lawpack/v2` alone, where it
+        // could see no County order at all. A guard narrower than the allocator passes
+        // collisions the allocator can mint; a guard wider fails on records the allocator
+        // cannot see. Either way one half is wrong by construction. Both now call
+        // `front_door::governed_record_roots`, so neither can drift from the other.
+        let mut by_citation: std::collections::BTreeMap<String, Vec<(String, String)>> =
             std::collections::BTreeMap::new();
 
-        for entry in WalkDir::new(lawpack_dir).into_iter().filter_map(|e| e.ok()) {
-            let path = entry.path();
-            if !is_lawpack_yaml(path) {
-                continue;
-            }
-            let content =
-                std::fs::read_to_string(path).map_err(|e| KernelError::Io(e.to_string()))?;
-            let rel = path
-                .strip_prefix(lawpack_dir)
-                .unwrap_or(path)
-                .to_string_lossy()
-                .to_string();
-            // The record's OWN citation is the top-level `citation:` field (column 0).
-            for line in content.lines() {
-                if let Some(rest) = line.strip_prefix("citation:") {
-                    let cite = rest
-                        .trim()
-                        .trim_matches('"')
-                        .trim_matches('\'')
-                        .trim()
-                        .to_string();
-                    if !cite.is_empty() {
-                        by_citation.entry(cite).or_default().push(rel.clone());
-                    }
-                    break; // one defining citation per record
+        for root in vjs_core::front_door::governed_record_roots(repo) {
+            for entry in WalkDir::new(&root).into_iter().filter_map(|e| e.ok()) {
+                let path = entry.path();
+                if path.extension().and_then(|s| s.to_str()) != Some("yaml")
+                    && path.extension().and_then(|s| s.to_str()) != Some("yml")
+                {
+                    continue;
+                }
+                if root.ends_with("lawpack/v2") && !is_lawpack_yaml(path) {
+                    continue;
+                }
+                let content =
+                    std::fs::read_to_string(path).map_err(|e| KernelError::Io(e.to_string()))?;
+                let rel = path
+                    .strip_prefix(repo)
+                    .unwrap_or(path)
+                    .to_string_lossy()
+                    .to_string();
+                // The record's OWN citation and id are the top-level fields (column 0).
+                let top = |key: &str| -> Option<String> {
+                    content.lines().find_map(|l| {
+                        l.strip_prefix(key).map(|r| {
+                            r.trim()
+                                .trim_matches('"')
+                                .trim_matches('\'')
+                                .trim()
+                                .to_string()
+                        })
+                    })
+                };
+                if let Some(cite) = top("citation:").filter(|c| !c.is_empty()) {
+                    // D2: the record ID, not the file, is the unit of a claim. Two files
+                    // sharing an id are ONE record in two projections (the .vjs/orders
+                    // kernel-store projection of a .vjs/court/orders record), so they are
+                    // one claim on the citation. Keying on the file would report every
+                    // projection pair in the estate as a fatal collision, which is the
+                    // outcome CC-VJS 9 held unacceptable.
+                    let id = top("id:").unwrap_or_else(|| rel.clone());
+                    by_citation.entry(cite).or_default().push((id, rel));
                 }
             }
         }
+        // Collapse by record id, keeping one representative path per distinct record.
+        let by_citation: std::collections::BTreeMap<String, Vec<String>> = by_citation
+            .into_iter()
+            .map(|(cite, mut recs)| {
+                recs.sort();
+                recs.dedup_by(|a, b| a.0 == b.0);
+                (cite, recs.into_iter().map(|(_, rel)| rel).collect())
+            })
+            .collect();
 
         // One finding PER colliding file, each carrying that file's repo-relative
         // path (#8), so the PC-14 D3 assent floor can downgrade the finding on an
@@ -345,7 +375,7 @@ impl LawpackValidator {
                 findings.push(ValidationFinding {
                     severity: Severity::Fatal,
                     code: "CITATION_COLLISION".into(),
-                    path: Some(PathBuf::from(format!("lawpack/v2/{f}"))),
+                    path: Some(PathBuf::from(f)),
                     message: format!(
                         "Citation '{cite}' is also claimed by {others:?}. ACT-004:s8: \
                          citations are unique; collisions are fatal."

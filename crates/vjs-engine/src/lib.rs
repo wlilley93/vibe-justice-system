@@ -107,7 +107,7 @@ pub fn validate(repo: &Path, opts: &ValidateOpts) -> Result<Report, KernelError>
             });
         }
         // ACT-004:s8 (D2): citation uniqueness, collisions fatal.
-        for ff in LawpackValidator::check_citation_uniqueness(&lawpack_dir)? {
+        for ff in LawpackValidator::check_citation_uniqueness(repo)? {
             findings.push(Finding {
                 severity: ff.severity,
                 code: ff.code,
