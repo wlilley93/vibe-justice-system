@@ -284,6 +284,12 @@ impl BenchDefect {
 /// orders that DECLARE a bench are subject - an order with no bench has no seats to
 /// count, so it is out of scope here. Pure: the caller decides severity by assent
 /// (hard-block vs route-for-correction) per ACT-ASSENTED-RECORD-PROTECTION.
+/// The id of the courts-constitution order, which is the instrument `verify_bench`
+/// measures a declared bench against. Named once, here, beside the function that needs
+/// it: every caller has to find the same order, and a caller that spells the id
+/// differently silently gets `None` and skips the constitutive check rather than failing.
+pub const COURTS_CONSTITUTION_ID: &str = "2026-VJS-COURTS-CONSTITUTION-001";
+
 pub fn verify_bench(
     order: &Order,
     constitution: &Order,

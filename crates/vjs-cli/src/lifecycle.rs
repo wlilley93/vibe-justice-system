@@ -269,6 +269,46 @@ pub(crate) fn cmd_order(repo: &Path, subcmd: OrderCommands, json: bool) -> Resul
                 findings.push("runtime_summary is required".into());
             }
 
+            // [2026] VJS-CC-VJS 11 D1. Until this ran, `order validate` checked three
+            // emptiness conditions and then printed "Order validation: OK", which reads as
+            // a full validation and is not one. It missed BENCH_OPINION_MISSING, a
+            // CONSTITUTIVE code (assent.rs) that `validate --staged` treats as Fatal, so
+            // the same bytes returned OK here and Fatal there. Proven by seeded case: an
+            // order declaring a bench with its source_opinion removed passed this command.
+            // The bench check is the one that decides whether the thing IS an order, so it
+            // is precisely the check a command called `order validate` must not omit.
+            if !order.bench.is_empty() {
+                match load_lawpack(repo)
+                    .ok()
+                    .and_then(|l| l.orders.into_iter().find(|o| o.id == vjs_core::bench::COURTS_CONSTITUTION_ID))
+                {
+                    Some(constitution) => {
+                        let opinion_text = order
+                            .source_opinion
+                            .as_ref()
+                            .and_then(|p| std::fs::read_to_string(repo.join(p)).ok());
+                        for d in vjs_core::bench::verify_bench(
+                            &order,
+                            &constitution,
+                            opinion_text.as_deref(),
+                        ) {
+                            ok = false;
+                            findings.push(format!("{}: {}", d.code(), d.message()));
+                        }
+                    }
+                    // D4: say what could not be computed rather than pass silently. A
+                    // bench that could not be checked must never read as a bench that was.
+                    None => {
+                        ok = false;
+                        findings.push(
+                            "BENCH_UNCHECKED: the courts-constitution order could not be loaded, \
+                             so the declared bench was not verified. Not a pass."
+                                .into(),
+                        );
+                    }
+                }
+            }
+
             if json {
                 println!(
                     "{}",

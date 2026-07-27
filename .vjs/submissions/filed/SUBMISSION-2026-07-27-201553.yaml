@@ -1,0 +1,63 @@
+id: SUBMISSION-2026-07-27-201553
+court_requested: county
+jurisdiction: default
+question: Are thirteen binding orders declaring a bench with no source_opinion void ab initio under PC-16, or routed for correction, and may the blind validation surfaces be repaired independently?
+facts: |
+  # Thirteen binding orders with a bench nobody can verify
+
+  First impression; citator checked. Found by seeded test. No recommendation carried; the filer
+  benefits from reading B and says so.
+
+  ## Facts
+
+  Thirteen DISTINCT binding records declare a `bench` and carry NO `source_opinion` (by record,
+  collapsing projections per [2026] VJS-CC-VJS 9; four are clean): `[2026] VJS-CC-VJS` 1-7,
+  `[2026] VJS-CC-OPBOX` 1, 3, 4, 5, `[2026] VJS-CC` 1, and `[2026] VJS-PC 20`.
+
+  A fourteenth, `[2026] VJS-CC-OPBOX 2`, is NOT in this class: its opinion exists but the order records
+  a bare filename while `verify_bench` resolves `repo.join(p)`. Repaired separately.
+
+  `BENCH_OPINION_MISSING` is on `CONSTITUTIVE_CODES` (`vjs-engine/src/assent.rs:35`). Per
+  [2026] VJS-PC 16 bench-integrity goes to whether a record IS an order, is void ab initio, and is
+  NEVER softened by an assent claim. All thirteen declare `standing_bounded_assent`.
+
+  Three surfaces claim to validate an order; only one runs the check. `validate --staged`
+  (`staged.rs:377`) runs `verify_bench` but sees STAGED files only. `vjs order validate`
+  (`lifecycle.rs:250`) and `local-ci`'s `order_validate` (`local_ci.rs:68`) do NOT: both check three
+  emptiness conditions. Seeded proof: an order with `source_opinion` removed returns
+  `Order validation: OK` while `validate --staged` returns `[Fatal] BENCH_OPINION_MISSING` on the same
+  bytes. `local_ci` iterates `lawpack.orders` only, so NO County order has ever been in its scope.
+
+  Compounding: the hooks are gitignored and per-clone. This clone had `core.hooksPath` unset until
+  2026-07-27T19:58Z, so no pre-commit validation ran on any commit from it, while the committed
+  `install.lock` listed both hooks with pinned digests.
+
+  ## Readings
+
+  **A VOID.** *For:* PC-16 admits no carve-out; why a defect went undetected does not change what the
+  record IS, and the contrary makes an instrument's coverage a source of validity. *Against:* it voids
+  thirteen otherwise-complete binding orders for the instrument's blindness.
+
+  **B ROUTE FOR CORRECTION.** *For:* the floor exists so an assented record is corrected, not
+  destroyed; PC-16 closed a LAUNDERING route (an assent claim softening a known defect), and these
+  assert nothing false. *Against:* "never softened" is unqualified, and reading in an exception because
+  the consequence is large is how an entrenched floor erodes; cost does not ground relief.
+
+  ## Consequences
+
+  Under A, void includes `[2026] VJS-CC-OPBOX 1` (the locus ratio) and `[2026] VJS-PC 20`, a
+  three-seat Privy Council order; reliance work becomes retrospectively unauthorised. Under B, a
+  correction programme must run. Fixing the surfaces is not neutral: widening `local-ci` to `.vjs`
+  turns the estate red until the thirteen are disposed of.
+
+  ## Questions
+
+  Q1 Void or route-for-correction? Q2 Does it matter the only capable gate could never run over them?
+  Q3 Interim status? Q4 May the blind surfaces be repaired independently of Q1, staged so the estate is
+  not bricked? Q5 County, or referred, the question being whether a Privy Council ratio reaches a class
+  of records, one of which is itself a Privy Council order?
+
+  Nothing is changed by this reference.
+requested_order: TBD
+private_boundary: local
+word_count: 490

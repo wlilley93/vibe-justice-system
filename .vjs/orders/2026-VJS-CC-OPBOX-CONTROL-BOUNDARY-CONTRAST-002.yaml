@@ -82,7 +82,7 @@ forbidden:
 - claim_conformance_from_the_figma_token_change_alone_while_the_shipped_control_measures_below_3_1
 exceptions: null
 supersedes: []
-source_opinion: 2026-VJS-CC-OPBOX-002-opinion.md
+source_opinion: lawpack/v2/judgments/2026-VJS-CC-OPBOX-002-opinion.md
 runtime_summary: |
   SC 1.4.11 binds through the shipped product, not the Figma file as such: the live app
   paints the unchecked checkbox and text input boundary at 1.47:1 light and 1.21:1 dark, so

@@ -1,0 +1,12 @@
+id: LOG-2026-07-27-202512
+time: 2026-07-27T20:25:12.235931814+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260727-201746
+decision: Repaired two validators that never ran their own check, per [2026] VJS-CC-VJS 11 D1, D2 and D4.
+basis:
+- PERMIT-1785183466
+risk: low
+reversibility: easy
+court_required: false
+why: 'vjs order validate and local-ci''s order_validate both checked three emptiness conditions and then reported ''Order validation: OK'' and ''Orders valid''. Neither ran verify_bench, so neither could see BENCH_OPINION_MISSING, a constitutive code. Proven by seeded case: the same bytes returned OK from one surface and Fatal from another. Both now run verify_bench, and both report what they actually computed; the stage is renamed canon_order_validate so a pass is never read as covering the estate. Scope is deliberately unchanged: no County order has ever been in that stage, and widening to .vjs is stayed under D3 pending the referral. On its first ever run the check found two real canon defects: PC-8 Tindale owns 29 chars of a three-seat opinion, PC-19 Wilberforce owns 51 of 16080. Failing closed would decide the referral for void, so they are pinned as an exact ratchet, proven red both ways.'

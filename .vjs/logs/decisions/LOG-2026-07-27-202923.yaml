@@ -1,0 +1,12 @@
+id: LOG-2026-07-27-202923
+time: 2026-07-27T20:29:23.863379653+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260727-201813
+decision: Hoisted the courts-constitution id to one constant, and widened the citation-grounding register to every governed record per [2026] VJS-CC-VJS 9.
+basis:
+- PERMIT-1785183493
+risk: low
+reversibility: easy
+court_required: false
+why: 'Two call sites had to find the courts-constitution order and each carried the id literal; a caller spelling it differently gets None and silently SKIPS the constitutive bench check, so it is now one named constant beside verify_bench. Separately, staged validation reported that [2026] VJS-PC 20 and [2026] VJS-CC-OPBOX 2 resolve to no defined authority and are per incuriam. Both exist and are binding. defined_citations walks the lawpack alone, so a County order citing another County order was ALWAYS unresolved: the third instrument found reading one root of the register. CC-VJS 9 is on all fours and binding, so this follows it rather than re-litigating. Widening a definedness set is monotone and cannot introduce a finding, so it is not the widening stayed by CC-VJS 11 D3. The in-force set is widened for the same reason: otherwise the gate calls a binding order spent.'
