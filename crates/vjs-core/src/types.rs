@@ -1,7 +1,34 @@
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize};
 use std::collections::HashMap;
 use std::collections::BTreeMap;
 use std::path::PathBuf;
+
+/// Read `exceptions:` written either as a YAML sequence or as a single prose block.
+///
+/// Same rule as the `appeal` / `privy` court aliases and the defaulted `supersedes` below:
+/// **never rewrite a filed record to satisfy a struct; widen the struct.** The filed order
+/// `2026-VJS-CC-BOLTRIG-CODEX-APPROVAL-ROUTING-001` writes its exception as a `|` block
+/// (a contingency paragraph, which is a reasonable way to express one), and until this
+/// existed the whole order failed to deserialise - so it was absent from the citator and
+/// bound nothing at all. The failure mode is the dangerous one: the order validated, was
+/// committed, and then silently had no effect.
+///
+/// A single string is read as a one-element list, which is what it means.
+fn string_or_seq_opt<'de, D>(deserializer: D) -> Result<Option<Vec<String>>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    #[derive(Deserialize)]
+    #[serde(untagged)]
+    enum OneOrMany {
+        One(String),
+        Many(Vec<String>),
+    }
+    Ok(Option::<OneOrMany>::deserialize(deserializer)?.map(|v| match v {
+        OneOrMany::One(s) => vec![s],
+        OneOrMany::Many(v) => v,
+    }))
+}
 
 mod ids;
 pub use ids::*;
@@ -45,6 +72,14 @@ pub enum Court {
     /// The intermediate appellate tier. Persists in law (s.10; [2026] VJS-SC 2 D4) and is now
     /// representable at the canonical seat so vjs can convene and record a Court of Appeal order
     /// ([2026] VJS-PC 19). Serialises as `court_of_appeal`.
+    ///
+    /// `appeal` is accepted as well, on the same footing as `privy` below: the filed order
+    /// `2026-VJS-CA-BOLTRIG-CODEX-APPROVAL-ROUTING-001` writes `court: appeal`, and until this
+    /// alias existed that order did not parse - so it was silently absent from the citator and
+    /// bound nothing. An order that does not parse is not a lenient reader's problem, it is an
+    /// order that has no effect, and the cure is to read the record as written rather than edit
+    /// a filed record to suit the reader.
+    #[serde(alias = "appeal")]
     CourtOfAppeal,
     /// `privy` is accepted as well as `privy_council`: a filed order already uses it, and a filed
     /// record is read as written rather than edited to fit the reader (the never-rewrite-history
@@ -297,6 +332,7 @@ pub struct RuleAtom {
     pub scope: Scope,
     pub trigger: Option<PredicateExpr>,
     pub effect: Effect,
+    #[serde(default, deserialize_with = "string_or_seq_opt")]
     pub exceptions: Option<Vec<String>>,
     pub summary: String,
     pub source: Option<HashMap<String, Vec<String>>>,
@@ -320,6 +356,7 @@ pub struct Order {
     pub holding: String,
     pub directives: Vec<Directive>,
     pub forbidden: Option<Vec<String>>,
+    #[serde(default, deserialize_with = "string_or_seq_opt")]
     pub exceptions: Option<Vec<String>>,
     /// Defaulted: an order that supersedes nothing should not have to say so, and requiring it made
     /// SIX filed orders unparseable - validated, committed, and then invisible to the kernel, which
