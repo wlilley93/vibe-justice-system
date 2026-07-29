@@ -199,6 +199,20 @@ pub enum CourtTrigger {
     Breach,
 }
 
+/// Normalise an issue tag for matching: lowercase, `_` folded to `-`.
+///
+/// Order ids are SCREAMING-HYPHEN (`2026-VJS-CC-BOLTRIG-OPERATOR-SEAT-001`) while
+/// an order's own `issue:` field is lower_snake (`operator_seat_host_boundary`),
+/// and both name the same matter. ONE definition, used by both
+/// `court::any_on_point` and the hoisting partition in `authority::resolve`: if
+/// they disagreed, an order could be judged on-point yet not hoisted, fall below
+/// the truncation limit, and so never reach the test that just admitted it.
+pub fn fold_tag(s: &str) -> String {
+    s.chars()
+        .map(|c| if c == '_' { '-' } else { c.to_ascii_lowercase() })
+        .collect()
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct AuthorityPointer {
     pub id: AuthorityId,
@@ -207,6 +221,13 @@ pub struct AuthorityPointer {
     pub status: AuthorityStatus,
     pub summary: String,
     pub source_path: Option<PathBuf>,
+    /// What the authority says IT is about. Carried through from `Authority` so
+    /// `court::any_on_point` can read an order's own declared issue instead of
+    /// inferring it from the id/title/summary prose. Dropping it here is what
+    /// let a filed, binding, exactly-on-point order be reported as
+    /// first-impression. Defaults empty so an older serialised set still loads.
+    #[serde(default)]
+    pub issue_tags: Vec<IssueTag>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

@@ -1,0 +1,33 @@
+id: PERMIT-1785252108
+route_id: ROUTE-20260728-152148
+actor: lexby
+scope:
+  paths:
+  - crates/vjs-core/src/types.rs
+  - crates/vjs-testkit/tests/filed_order_shapes_parse.rs
+  jurisdictions: null
+  action_kinds: null
+  issue_tags: null
+  records: null
+obligations:
+- id: OBL-LOG-001
+  kind: decision_log
+  required: true
+  due: before_commit
+  description: Write a decision log for this material implementation decision
+- id: OBL-VALIDATE-001
+  kind: validation
+  required: true
+  due: before_commit
+  description: Run vjs validate before commit
+expires_at: 2026-07-29T15:21:48.655839983+00:00
+status: active
+self_issued: true
+meaning: 'agent-routed self-issue: records that the actor took the front door (ACT-007 local-sovereign invocation); NOT an external authority''s approval. It cannot satisfy a check reserved to the Sovereign (assent) or to a constituted bench (an order).'
+intent_digest: sha256:82925bd21f23cb9f7b22119f6baad61dd1ddc4936c5c21136ce4ab9a4a0fca0b
+law_source:
+- ACT-001:s1
+- ACT-001:s2
+- ACT-001:s3
+- ACT-001:s4
+- ACT-001:s5

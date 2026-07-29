@@ -33,10 +33,22 @@ pub fn detect_court_trigger(
 
 /// Deterministic on-point test: is any resolved authority actually on point for
 /// the matter's issue? An empty set is never on point. When the matter carries
-/// issue tags, an authority is on point only if its id, title, or summary
-/// mentions one of them - a loosely-related authority returned by resolution does
-/// not count. When no issue tag is supplied, a non-empty resolved set is treated
-/// as on point (the agent already has authority to follow). No model, no search.
+/// issue tags, an authority is on point only if its OWN declared issue tags, or
+/// its id, title or summary, mention one of them - a loosely-related authority
+/// returned by resolution does not count. When no issue tag is supplied, a
+/// non-empty resolved set is treated as on point (the agent already has
+/// authority to follow). No model, no search.
+///
+/// The authority's own `issue_tags` are consulted FIRST and are the honest
+/// answer: they are what the order says it is about. Before they were carried
+/// onto `AuthorityPointer` this function could only see id/title/summary, so a
+/// filed, binding, exactly-on-point order was reported as first-impression and
+/// the matter was sent to a fresh court to re-decide settled law - a ruling then
+/// given in ignorance of binding law, which is per incuriam and void. Measured
+/// twice on 2026-07-29: routing on `operator_seat_host_boundary` returned
+/// court_required while `OPERATOR-SEAT` returned allowed_with_conditions, for
+/// the same order. The failure runs both ways: a loose tag suppresses a court
+/// that was owed.
 fn any_on_point(input: &RouteInput, authorities: &AuthoritySet) -> bool {
     if authorities.authorities.is_empty() {
         return false;
@@ -45,8 +57,12 @@ fn any_on_point(input: &RouteInput, authorities: &AuthoritySet) -> bool {
         return true;
     }
     input.issue_tags.iter().any(|tag| {
+        let needle = fold_tag(&tag.0);
         authorities.authorities.iter().any(|a| {
-            a.id.0.contains(&tag.0) || a.title.contains(&tag.0) || a.summary.contains(&tag.0)
+            a.issue_tags.iter().any(|t| fold_tag(&t.0) == needle)
+                || fold_tag(&a.id.0).contains(&needle)
+                || fold_tag(&a.title).contains(&needle)
+                || fold_tag(&a.summary).contains(&needle)
         })
     })
 }

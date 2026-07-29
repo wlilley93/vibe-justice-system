@@ -1,0 +1,12 @@
+id: LOG-2026-07-29-090257
+time: 2026-07-29T09:02:57.134012720+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260729-085314
+decision: Carry issue_tags onto AuthorityPointer and fold case and hyphen/underscore in ONE shared fold_tag, used by both court::any_on_point and the hoisting partition
+basis:
+- PERMIT-1785315194
+risk: low
+reversibility: easy
+court_required: false
+why: 'any_on_point could only see id/title/summary because AuthorityPointer dropped the issue_tags Authority already parses and hoisting already uses. Order ids are SCREAMING-HYPHEN, an order''s own issue: field is lower_snake, so the tag an order declares about ITSELF was the one tag that could not find it. Measured before/after on a clean origin/main worktree with two separately built binaries: operator_seat_host_boundary and hitl_notification_routing went court_required -> allowed_with_conditions, while a tag no authority declares stays court_required, so the trigger is still reachable. Both directions matter: re-deciding settled law risks a per incuriam ruling, a loose tag suppresses a court that was owed. fold_tag is shared, not duplicated: if matcher and hoist disagreed an order could be on-point yet unhoisted, fall below truncation, and never reach the test. Caution: ~/.local/bin/vjs SYMLINKS to target/release/vjs, so a naive comparison runs the new binary twice - my first one did.'

@@ -41,9 +41,12 @@ pub fn resolve_authority(
         sorted
     } else {
         let (on_point, rest): (Vec<Authority>, Vec<Authority>) = sorted.into_iter().partition(|a| {
-            a.issue_tags
-                .iter()
-                .any(|t| input.issue_tags.contains(t))
+            a.issue_tags.iter().any(|t| {
+                input
+                    .issue_tags
+                    .iter()
+                    .any(|q| fold_tag(&q.0) == fold_tag(&t.0))
+            })
         });
         on_point.into_iter().chain(rest).collect()
     };
@@ -57,6 +60,7 @@ pub fn resolve_authority(
             status: a.status,
             summary: a.summary,
             source_path: a.source_path,
+            issue_tags: a.issue_tags,
         })
         .collect();
 

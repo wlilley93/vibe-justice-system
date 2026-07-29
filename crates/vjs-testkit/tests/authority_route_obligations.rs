@@ -361,3 +361,66 @@ fn repo_root() -> PathBuf {
     // lawpack-backed assertion would pass vacuously over an empty lawpack.
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
 }
+
+// --- the on-point matcher reads an order's OWN issue, and folds case/underscores ---
+
+/// An authority is on point for the tag it declares about ITSELF.
+///
+/// `AuthorityPointer` dropped `issue_tags`, so `court::any_on_point` could only
+/// see id/title/summary prose. Order ids are SCREAMING-HYPHEN while an order's
+/// `issue:` field is lower_snake, so the tag an order states about itself was
+/// exactly the tag that could not find it: a filed, binding, exactly-on-point
+/// order was reported FirstImpression and the matter sent to a fresh court to
+/// re-decide settled law - a ruling then given in ignorance of binding law,
+/// which is per incuriam and void. Measured on boltrig 2026-07-29:
+/// `operator_seat_host_boundary` returned court_required while `OPERATOR-SEAT`
+/// returned allowed_with_conditions, for the same order.
+#[test]
+fn an_authority_is_on_point_for_its_own_declared_issue_whatever_its_case() {
+    let repo = repo_root();
+    let ctx = build_kernel_context(&repo).unwrap();
+
+    // The tag as some authority in the real canon actually declares it.
+    // Deterministic pick: sort by id so the chosen tag does not depend on hash order.
+    let mut ids: Vec<_> = ctx.authority_graph.authorities.keys().cloned().collect();
+    ids.sort_by(|a, b| a.0.cmp(&b.0));
+    let declared: IssueTag = ids
+        .iter()
+        .find_map(|id| ctx.authority_graph.authorities[id].issue_tags.first().cloned())
+        .expect("precondition: the canon has an authority declaring an issue tag");
+
+    for variant in [
+        declared.0.clone(),
+        declared.0.to_uppercase(),
+        declared.0.replace('_', "-"),
+        declared.0.replace('-', "_"),
+    ] {
+        let mut input = route_input(RiskLevel::Medium, Some("default"));
+        input.issue_tags = vec![IssueTag(variant.clone())];
+        let decision = route(input, &ctx).unwrap();
+        assert!(
+            !decision.court_required,
+            "'{variant}' is a case/separator variant of an authority's OWN declared \
+             issue '{}', so the citator must find it rather than convene a court to \
+             re-decide it",
+            declared.0
+        );
+    }
+}
+
+/// The cure must not make the trigger unreachable: a tag no authority declares
+/// or mentions still convenes. Without this the fix above could be satisfied by
+/// a matcher that says yes to everything, which is the worse failure - it
+/// suppresses a court that was owed.
+#[test]
+fn a_tag_no_authority_declares_still_convenes_a_court() {
+    let repo = repo_root();
+    let ctx = build_kernel_context(&repo).unwrap();
+    let mut input = route_input(RiskLevel::Medium, Some("default"));
+    input.issue_tags = vec![IssueTag("zz-no-authority-declares-or-mentions-this-zz".into())];
+    let decision = route(input, &ctx).unwrap();
+    assert!(
+        decision.court_required,
+        "a genuinely novel issue must still reach a court"
+    );
+}
