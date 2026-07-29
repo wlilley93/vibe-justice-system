@@ -1,0 +1,66 @@
+id: DEV-POSTURE-001
+assent_source: principal_enactment
+title: Development posture removes the click, never the record
+status: draft
+rank: regulation
+scope:
+  jurisdictions:
+    - "*"
+  action_kinds:
+    - governed_load_bearing_act
+  issue_tags:
+    - dev-posture
+    - development_posture
+    - four-eyes
+effect:
+  must:
+    - refuse_when_a_production_signal_is_present
+    - require_an_explicit_per_tenant_flag_set_by_a_superadmin_and_off_by_default
+    - write_a_securityevent_when_the_posture_is_set_and_when_it_is_cleared
+    - mark_every_act_performed_under_the_posture_on_the_audit_row
+    - expose_the_posture_to_every_active_user_of_the_tenant
+    - expire_the_posture_after_a_bounded_period_and_require_re_declaration
+  may:
+    - satisfy_the_synchronous_human_veto_on_control_verbs_with_the_declaring_superadmin_alone
+  must_not:
+    - apply_to_any_verb_outside_the_control_namespace
+    - suppress_or_delay_any_audit_or_security_record
+    - be_set_by_any_role_below_superadmin
+    - be_inferred_from_the_absence_of_configuration
+exceptions:
+  - a_tenant_carrying_a_production_signal_is_never_admitted_whatever_the_flag_says
+summary: >-
+  A superadmin may declare a tenant to be in DEVELOPMENT POSTURE. While it holds, the
+  synchronous human veto on control.* verbs is satisfied by that superadmin alone: no second
+  human need act. The posture removes the CLICK, never the RECORD - it is written to the
+  security stream when set and cleared, every act taken under it is marked on its audit row,
+  and it is visible to every active user of the tenant, so a party who is not asked to approve
+  is still never deceived about what was done on their tenant. It refuses outright under any
+  production signal, and expires so that "development" cannot become a permanent condition
+  nobody re-examined.
+notes: >-
+  DRAFTED, NOT ENACTED. assent_source is principal_enactment: this is a statute, and only the
+  Principal sitting as Parliament may enact it. It is filed as a draft so the text is on the
+  record and can be read before it binds anything.
+
+  WHY A STATUTE AND NOT A RULING. The operator-seat court refused a carve-out on a live client
+  tenant, and a matter on development posture is filed but unheard. The Principal may legislate
+  rather than wait for or overrule a bench - that is the lawful route, and this is its text.
+
+  THE KNOWN WEAKNESS, STATED RATHER THAN HIDDEN. On the tenant this was drafted for, the
+  superadmin IS the party four-eyes constrains, so a superadmin-set flag lets the constrained
+  party remove their own constraint. No wording fixes that, because it is a property of who
+  holds the office. What the conditions above do instead is make the removal IMPOSSIBLE TO
+  MISS: recorded on a tamper-evident stream, marked on every act, shown to the very people who
+  would otherwise have approved, and time-bounded. The honest trade is transparency in place of
+  consent, not transparency in place of nothing.
+
+  A MEASURED FINDING THE ENACTING PRINCIPAL SHOULD SEE FIRST. `production_signal` reads
+  BOLTRIG_PRODUCTION, ENV, BOLTRIG_ENV and APP_ENV. Measured 2026-07-29, the Classical Visas
+  tenant - which serves a real client, holds client-owned data, and answers on a public domain -
+  returns NO production signal. So a test keyed on that signal would admit it, and would admit
+  it because of an unset environment variable rather than because the tenant is genuinely in
+  development. Enacting this without first declaring CV's production signal would rest a
+  four-eyes suspension on a configuration gap. Declaring it honestly is the precondition, and it
+  will then correctly REFUSE this posture on that tenant.
+supersedes: []
