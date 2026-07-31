@@ -28,7 +28,7 @@ pub(crate) fn cmd_invoke(
     // Invoke also cannot ask the kernel where the lawpack is, because it is writing the
     // config that would say so: that ordering is why the silent fallback looked load-bearing.
     // It does not need to ask. It was HANDED a lawpack. It resolves that, or it refuses.
-    let (lawpack, lawpack_dir) = resolve_invocation_lawpack(repo, lawpack)?;
+    let (lawpack, lawpack_dir, lawpack_recorded) = resolve_invocation_lawpack(repo, lawpack)?;
     let digest = match &lawpack_dir {
         Some(dir) => digest_of_lawpack_dir(dir)?,
         None => build_kernel_context(repo)?.lawpack_digest,
@@ -46,7 +46,7 @@ pub(crate) fn cmd_invoke(
         jur = jurisdiction,
         code = repo_code,
         lp = lawpack,
-        lpp = lawpack_dir.as_ref().map(|d| d.display().to_string()).unwrap_or_default(),
+        lpp = lawpack_recorded.as_ref().map(|d| d.display().to_string()).unwrap_or_default(),
         prin = principal,
     );
     let config_written = match std::fs::OpenOptions::new()

@@ -1,0 +1,12 @@
+id: LOG-2026-07-31-175100
+time: 2026-07-31T17:51:00.030098601+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260731-175045
+decision: Record a repo-relative --lawpack path as given, canonicalising only for the digest
+basis:
+- PERMIT-1785520245
+risk: low
+reversibility: easy
+court_required: false
+why: 'The config.toml this writes is COMMITTED. Canonicalising every path baked one machine''s home directory into it, so any other clone resolved nothing - and after D1 that is a hard refusal rather than a silent empty canon, so the portability defect and the cure for the silence would have collided in the worst way. A repo-relative path is not ambiguous, because resolve_lawpack_dir joins it to the repo root, and it is the only form that survives a clone. Absolute input is still recorded absolute: the caller who gave an absolute path meant a location, not a relation. Found by reading the committed artefact rather than the code, and the relative branch now has its own test.'

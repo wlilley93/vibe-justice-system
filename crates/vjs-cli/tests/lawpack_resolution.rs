@@ -202,6 +202,48 @@ fn status_says_when_no_canon_is_loaded() {
 }
 
 #[test]
+fn a_relative_lawpack_path_is_recorded_as_given_so_a_clone_can_resolve_it() {
+    // The config is COMMITTED. The first version canonicalised every path, so
+    // `--lawpack ../vibe-justice-system/lawpack/v2` was written into the config as
+    // `/home/<someone>/Projects/...` and every other clone resolved nothing - which, after
+    // D1, is now a hard refusal rather than a silent empty canon, so the portability defect
+    // and the fix for the silence would have collided in the worst way.
+    let repo = scratch("relative-path");
+    let lawpack = real_lawpack();
+    // Sit the scratch repo beside the lawpack's grandparent so a relative path is expressible.
+    let rel = {
+        let root = lawpack.parent().unwrap().parent().unwrap();
+        let mut p = std::path::PathBuf::from("..");
+        p.push(root.file_name().unwrap());
+        p.push("lawpack/v2");
+        p
+    };
+    let sibling = lawpack.parent().unwrap().parent().unwrap().parent().unwrap().join(
+        repo.file_name().unwrap(),
+    );
+    let _ = std::fs::remove_dir_all(&sibling);
+    std::fs::create_dir_all(&sibling).unwrap();
+
+    let (ok, text) = run(
+        &sibling,
+        &["invoke", "--jurisdiction", "t", "--principal", "p", "--lawpack", rel.to_str().unwrap()],
+    );
+    assert!(ok, "a repo-relative lawpack must resolve:\n{text}");
+
+    let config = std::fs::read_to_string(sibling.join(".vjs/config.toml")).unwrap();
+    assert!(
+        config.contains(&format!("lawpack_path = \"{}\"", rel.display())),
+        "a relative path must be recorded AS GIVEN, not canonicalised into one machine's \
+         home directory:\n{config}"
+    );
+
+    // And it must actually resolve through that recorded relative path.
+    let (ok, text) = run(&sibling, &["lookup", "--issue", "enforcement"]);
+    assert!(ok && text.contains("ACT-001"), "{text}");
+    let _ = std::fs::remove_dir_all(&sibling);
+}
+
+#[test]
 fn the_lock_invoke_writes_is_the_one_validate_checks() {
     // THE DEFECT THIS CATCHES COST THE WHOLE FIRST IMPLEMENTATION OF THIS ORDER.
     //

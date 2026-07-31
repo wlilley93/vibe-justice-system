@@ -138,17 +138,19 @@ pub fn resolve_lawpack_dir(repo: &Path) -> Option<PathBuf> {
 pub fn resolve_invocation_lawpack(
     repo: &Path,
     lawpack: Option<String>,
-) -> Result<(String, Option<PathBuf>), KernelError> {
+) -> Result<(String, Option<PathBuf>, Option<PathBuf>), KernelError> {
     let Some(named) = lawpack else {
         // Nothing named: the vendored copy, or nothing. `invoke` is allowed to run in a
         // repository that has neither, because the refusal in `load_lawpack` is keyed on a
         // config that invocation has not written yet - see D1/D2, which do not collide.
-        return Ok(("vjs-v2@0.1.0".to_string(), resolve_lawpack_dir(repo)));
+        let d = resolve_lawpack_dir(repo);
+        return Ok(("vjs-v2@0.1.0".to_string(), d.clone(), d));
     };
 
     // A registered id, not a path. Resolve it the only way this kernel currently can.
     if !named.contains('/') && !named.contains(std::path::MAIN_SEPARATOR) {
-        return Ok((named, resolve_lawpack_dir(repo)));
+        let d = resolve_lawpack_dir(repo);
+        return Ok((named, d.clone(), d));
     }
 
     let raw = PathBuf::from(&named);
@@ -163,11 +165,18 @@ pub fn resolve_invocation_lawpack(
             candidate.display()
         )));
     }
-    // Record the resolved location, not the string the caller happened to type, so the
-    // config is not a second opinion about where the law is.
+    // Resolve for the DIGEST, but record a RELATIVE path as given.
+    //
+    // The first version canonicalised unconditionally, on the reasoning that the config
+    // should not be a second opinion about where the law is. That is right for an absolute
+    // path and wrong for a relative one: canonicalising `../vibe-justice-system/lawpack/v2`
+    // bakes one machine's home directory into a committed config, so every other clone
+    // resolves nothing. A repo-relative path is not ambiguous - `resolve_lawpack_dir` joins
+    // it to the repo root - and it is the only form that survives a clone.
     let dir = candidate.canonicalize().unwrap_or(candidate);
+    let recorded = if raw.is_absolute() { dir.clone() } else { raw.clone() };
     let id = lawpack_id_of(&dir).unwrap_or_else(|| "vjs-v2@0.1.0".to_string());
-    Ok((id, Some(dir)))
+    Ok((id, Some(dir), Some(recorded)))
 }
 
 /// The lawpack's own declared id, read from its manifest.
