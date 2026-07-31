@@ -1,0 +1,12 @@
+id: LOG-2026-07-31-174443
+time: 2026-07-31T17:44:43.741267742+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260731-172511
+decision: Implement [2026] VJS-CC-VJS 12 D1-D6 and consolidate lawpack resolution into vjs-engine as the single implementation
+basis:
+- PERMIT-1785518711
+risk: low
+reversibility: easy
+court_required: false
+why: 'The kernel silently substituted an empty lawpack for one it could not resolve, so a subscriber repo not vendoring lawpack/v2 had no citator: same binary and flags, ACT-001:s1-s4 here and nothing in vibe-design-system, neither answer marked. --lawpack was a label that never selected, so the lock recorded a subscription that had not happened and pinned the sha256 of the empty string. compute_digest hashed manifest.toml alone, so any statute could be rewritten and every lock still verified. Two findings came only from measurement. The status warning first sat in a branch keyed on the lock, unreachable in one of the two states it exists for. And load_lawpack and compute_digest existed TWICE, in vjs-cli and vjs-engine: the fix landed on the CLI copy, tests passed, and validate went on enforcing the superseded rule against the lock invoke had just written.'

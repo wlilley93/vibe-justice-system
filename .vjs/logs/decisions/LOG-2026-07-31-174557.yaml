@@ -1,0 +1,12 @@
+id: LOG-2026-07-31-174557
+time: 2026-07-31T17:45:57.381007179+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260731-174534
+decision: Implement [2026] VJS-CC-VJS 12 D1-D6 across vjs-cli and vjs-engine
+basis:
+- PERMIT-1785519934
+risk: low
+reversibility: easy
+court_required: false
+why: 'Same work as LOG-2026-07-31-174443; re-routed because the first permit scoped only context.rs and invoke.rs while the change also reaches lifecycle.rs, main.rs, the new status.rs, the new integration test, and vjs-engine/src/lib.rs. The engine file is the substantive addition: load_lawpack and compute_digest existed there as a second copy of the same law, and it is the copy the validate gate reads, so the ruling was being enforced against the superseded rule until the two were consolidated. status.rs exists because D6 pushed lifecycle.rs past the repo''s 600-line structural ceiling, split behaviour-preserving rather than raising the ceiling.'

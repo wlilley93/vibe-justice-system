@@ -12,12 +12,27 @@ pub(crate) fn cmd_invoke(
     json: bool,
 ) -> Result<(), KernelError> {
     let io = |e: std::io::Error| KernelError::InvalidInput(format!("io: {}", e));
-    let lawpack = lawpack.unwrap_or_else(|| "vjs-v2@0.1.0".into());
     let repo_code = jurisdiction.to_uppercase();
     let vjs_dir = repo.join(".vjs");
     std::fs::create_dir_all(vjs_dir.join("invocation")).map_err(io)?;
 
-    let digest = build_kernel_context(repo)?.lawpack_digest;
+    // D2 AND D3 OF [2026] VJS-CC-VJS 12, WHICH ARE ONE CHANGE.
+    //
+    // `--lawpack` used to be a LABEL: it was printed, written into config.toml and into
+    // lawpack.lock, and never reached `load_lawpack`. Passing a correct absolute path to a
+    // real lawpack changed nothing. The digest came from `build_kernel_context(repo)`, which
+    // looks only at `<repo>/lawpack/v2`, so a repository that did not VENDOR the canon
+    // recorded a subscription to `vjs-v2@0.1.0` pinned at the sha256 of the empty string.
+    // That record was not incomplete but false, and it is the artefact a later court reads.
+    //
+    // Invoke also cannot ask the kernel where the lawpack is, because it is writing the
+    // config that would say so: that ordering is why the silent fallback looked load-bearing.
+    // It does not need to ask. It was HANDED a lawpack. It resolves that, or it refuses.
+    let (lawpack, lawpack_dir) = resolve_invocation_lawpack(repo, lawpack)?;
+    let digest = match &lawpack_dir {
+        Some(dir) => digest_of_lawpack_dir(dir)?,
+        None => build_kernel_context(repo)?.lawpack_digest,
+    };
     let now = chrono::Utc::now();
     let stamp = now.format("%Y%m%d-%H%M%S").to_string();
     let now_rfc = now.to_rfc3339();
@@ -27,10 +42,11 @@ pub(crate) fn cmd_invoke(
     // config that appears between check and write survives untouched.
     let config_path = vjs_dir.join("config.toml");
     let config = format!(
-        "version = \"2\"\njurisdiction_id = \"{jur}\"\nrepo_code = \"{code}\"\nlawpack = \"{lp}\"\nprincipal = \"{prin}\"\n\n[paths]\norders = \".vjs/orders\"\nlogs = \".vjs/logs\"\nsubmissions = \".vjs/submissions\"\nproofs = \".vjs/proofs\"\npermits = \".vjs/permits\"\nprivate = \".vjs/private\"\n\n[paths.public]\nenabled = false\n\n[governance]\npermit_required = [\"src/**\", \"crates/**\", \"lawpack/**\", \"Cargo.toml\", \"package.json\", \"AGENTS.md\", \"VJS.md\", \"README.md\"]\npermit_exempt = [\".vjs/logs/**\", \".vjs/permits/**\", \".vjs/proofs/**\", \".vjs/cache/**\", \".vjs/private/**\", \"target/**\", \"node_modules/**\"]\n",
+        "version = \"2\"\njurisdiction_id = \"{jur}\"\nrepo_code = \"{code}\"\nlawpack = \"{lp}\"\nlawpack_path = \"{lpp}\"\nprincipal = \"{prin}\"\n\n[paths]\norders = \".vjs/orders\"\nlogs = \".vjs/logs\"\nsubmissions = \".vjs/submissions\"\nproofs = \".vjs/proofs\"\npermits = \".vjs/permits\"\nprivate = \".vjs/private\"\n\n[paths.public]\nenabled = false\n\n[governance]\npermit_required = [\"src/**\", \"crates/**\", \"lawpack/**\", \"Cargo.toml\", \"package.json\", \"AGENTS.md\", \"VJS.md\", \"README.md\"]\npermit_exempt = [\".vjs/logs/**\", \".vjs/permits/**\", \".vjs/proofs/**\", \".vjs/cache/**\", \".vjs/private/**\", \"target/**\", \"node_modules/**\"]\n",
         jur = jurisdiction,
         code = repo_code,
         lp = lawpack,
+        lpp = lawpack_dir.as_ref().map(|d| d.display().to_string()).unwrap_or_default(),
         prin = principal,
     );
     let config_written = match std::fs::OpenOptions::new()

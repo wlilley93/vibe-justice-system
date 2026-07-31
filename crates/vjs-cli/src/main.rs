@@ -37,6 +37,8 @@ use front::*;
 mod invoke;
 mod lifecycle;
 use lifecycle::*;
+mod status;
+use status::*;
 mod local_ci;
 mod gazette;
 
