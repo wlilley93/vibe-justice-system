@@ -1,6 +1,10 @@
 id = "vjs-v2"
 version = "0.1.0"
 status = "alpha"
+# This canon's own repo_code. The PC-13 D1 canon-write gate reads it from HERE, not from the
+# hosting repo's config, so a subscriber mirroring this lawpack read-only gates its mirrored
+# records against VJS (their true canon) instead of against its own local code.
+repo_code = "VJS"
 canonical = true
 created_at = "2026-06-08T00:00:00Z"
 archive_source = "vjs-v1-archive"

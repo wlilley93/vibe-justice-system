@@ -72,6 +72,23 @@ impl GitIntegration {
             .collect())
     }
 
+    /// ONE tracked file's content as committed at HEAD. `None` means the path is not in HEAD
+    /// at all - a first declaration, or a repo with no commits yet - which callers must
+    /// report as such rather than as an empty prior value. Same error contract as
+    /// `tracked_at_head`: a genuine spawn failure propagates as a loud `Io` error, a
+    /// non-success exit is the honest "not at HEAD".
+    pub fn read_blob_at_head(repo_root: &Path, rel: &str) -> Result<Option<String>, KernelError> {
+        let output = Command::new("git")
+            .args(["show", &format!("HEAD:{rel}")])
+            .current_dir(repo_root)
+            .output()
+            .map_err(|e| KernelError::Io(e.to_string()))?;
+        if !output.status.success() {
+            return Ok(None);
+        }
+        Ok(Some(String::from_utf8_lossy(&output.stdout).to_string()))
+    }
+
     /// Staged DELETIONS only (diff-filter=D). Used by the destructive-action gate
     /// (ACT-006:s4 / ACT-004:s9): deleting a governed record is destructive.
     pub fn read_staged_deletions(repo_root: &Path) -> Result<Vec<String>, KernelError> {

@@ -1,0 +1,113 @@
+id: 2026-VJS-CC-VJS-CANON-REPO-CODE-013
+court: county
+jurisdiction: vibe-justice-system
+repo_code: VJS
+status: binding
+issue: canon-write-gate-repo-code
+question: >
+  When the PC-13 D1 canon-write gate runs in a jurisdiction whose lawpack/v2 is a lawful
+  read-only mirror of foreign canon, from where must canon_repo_code be resolved: the local
+  jurisdiction config, the mirrored lawpack's own declaration, or should the gate not run in
+  a mirror at all?
+holding: |
+  APPLICATION GRANTED (sitting alone at first instance). Option A is adopted, with conditions.
+
+  THE RATIO. The repo_code a canon-write gate tests against is a property of the CANON being
+  written to, not of the repository hosting it. Where the resolved lawpack declares its own
+  repo_code, that declaration is the SOLE source of canon_repo_code; the local jurisdiction
+  config supplies it only when the lawpack is silent.
+
+  THE DEFECT IS A CATEGORY ERROR, NOT A TUNING PROBLEM. config.repo_code truthfully answers
+  "what is this repository's code". The gate asks a different question: "whose canon is this,
+  so that any other code in it is contamination". In the canonical repo those two facts
+  coincide and the bug is invisible. In a mirror they diverge, and thirteen enacted canon
+  records read as subscriber law filed into canon. A gate that asks the right question of the
+  wrong referent is not over-strict; it is wrong.
+
+  THE CODEBASE ALREADY HELD THE CHARACTERISATION THAT DECIDES THIS. crates/vjs-core/src/hook.rs
+  records that in a subscribing jurisdiction the lawpack is the subscribed-law mirror, read-only
+  canon, and excludes it from the local jurisdiction's own court function for that reason.
+  PC-19's runtime summary says the same: a subscriber may mirror read-only. The kernel therefore
+  already treats the mirrored tree as foreign canon everywhere except the one place where it
+  silently re-labelled it as local.
+
+  THE STRONGEST OBJECTION, AND WHY IT FAILS. The objection is not the digest churn the
+  submission pleads; it is that under A the subscriber's local enforcement is configured by
+  bytes received from upstream, which is close to the "gates HOW, not WHAT" defect the
+  submission rightly holds against B. It is rejected on three grounds. It proves too much: the
+  mirrored statutes ARE the law this kernel loads authority from, and a subscriber who cannot
+  trust the mirrored manifest cannot trust the mirrored ACT-007 either; the answer is the pin,
+  not a second local opinion about what the law says. The value is not free-floating:
+  digest_of_lawpack_dir hashes the whole tree including manifest.toml, and a mismatch is Fatal
+  LAWPACK_LOCK_DRIFT, so the declaration is the most tamper-evident place in the repository to
+  put it and strictly more protected than .vjs/config.toml, which is merely permit-required.
+  And the alternative is not "locally controlled" but "locally wrong".
+
+  B FAILS on the file's own facts: a subscription records a lawpack id, never a repo_code, so B
+  must invent an inference or carry N per-subscriber declarations, and it leaves the gate blind
+  to foreign-coded law authored locally.
+
+  C FAILS for a reason stronger than the one pleaded. The submission says C leaves lock drift as
+  the sole defence; it is worse, because .vjs/lawpack.lock carries no upstream attestation and
+  vjs invoke regenerates it locally, so a local actor who tampers with the mirror can silence the
+  drift by re-pinning. C would leave a defence that the tamperer holds the switch for. C also
+  cannot be squared with PC-13 D1, which directs the gate at pre_write and validate --staged in
+  the jurisdiction, without a seat-keyed exception.
+
+  THE CHURN OBJECTION IS DISPOSED OF BY BINDING PRECEDENT and is not re-litigated: CC-VJS 12(d)
+  held that churn is an argument about CADENCE, not about SCOPE, answered by making a re-lock a
+  recorded act.
+
+  A ALSO WIDENS PROTECTION in the direction the law already points: in a mirror, a record
+  carrying the subscriber's own code is caught, which it previously was not. That is ACT-007:s4
+  doing what it says.
+directives:
+  - id: D1
+    actor: kernel
+    must: resolve_canon_repo_code_from_the_lawpack_declaration_when_present
+    when: running_the_canon_write_gate
+  - id: D2
+    actor: kernel
+    must: compute_canon_repo_code_in_exactly_one_function_shared_by_every_call_site
+    when: running_the_canon_write_gate
+  - id: D3
+    actor: kernel
+    must: read_the_declaration_from_the_same_root_the_canon_filter_matches
+    when: resolving_canon_repo_code
+  - id: D4
+    actor: kernel
+    must: block_a_declared_canon_repo_code_that_equals_a_registered_subscriber_code
+    when: a_lawpack_declares_its_repo_code
+  - id: D5
+    actor: kernel
+    must: report_every_canon_finding_including_the_non_blocking_ones
+    when: the_canon_write_gate_produces_findings
+  - id: D6
+    actor: kernel
+    must: emit_a_finding_naming_old_and_new_when_a_declaration_is_added_or_altered
+    when: the_lawpack_manifest_repo_code_is_staged
+  - id: D7
+    actor: kernel
+    must: name_the_declaration_as_the_cure_in_the_foreign_repo_code_remedy
+    when: blocking_a_foreign_repo_code
+  - id: D8
+    actor: agent
+    must: re_pin_the_lawpack_lock_and_the_enforcement_surface_lock_in_the_same_change
+    when: the_declaration_moves_the_lawpack_digest
+forbidden:
+  - resolve_canon_repo_code_from_the_hosting_repository_where_the_lawpack_declares_it
+  - carry_two_divergent_copies_of_the_canon_repo_code_chain
+  - fail_closed_against_a_lawpack_that_predates_the_declaration
+  - discard_a_non_blocking_canon_finding_because_no_error_accompanied_it
+exceptions:
+  - a_lawpack_that_does_not_declare_the_field_falls_back_to_the_config_chain_unchanged_and_non_blocking
+supersedes: []
+source_opinion: 2026-VJS-CC-VJS-13-opinion.md
+runtime_summary: >
+  The canon-write gate tests against the CANON's repo_code, not the hosting repo's. A lawpack
+  that declares repo_code is the sole source; the config chain applies only when it is silent,
+  unchanged and non-blocking. One resolver, read from repo_root/lawpack/v2. A declared code
+  equal to a registered subscriber code is blocked. Every canon finding is reported, and a
+  changed declaration names old and new.
+created_at: "2026-08-01T12:41:20Z"
+citation: '[2026] VJS-CC-VJS 13'

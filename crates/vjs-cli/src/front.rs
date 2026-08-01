@@ -211,10 +211,15 @@ pub(crate) fn cmd_hook(
     // subscribing jurisdiction may not assert an apex/final-court function, i.e. may not record a supreme/privy
     // court order; it must refer up. The apex seat is the canonical VJS jurisdiction.
     const APEX_SEAT: &str = "vjs";
-    let canon_repo_code = cfg
-        .as_ref()
-        .and_then(|c| c.repo_code.clone())
-        .unwrap_or_else(|| jurisdiction_id.to_uppercase());
+    // The ONE resolver, shared with the staged commit gate: the lawpack's own declaration
+    // first, this repo's config only where the lawpack is silent. The two call sites used to
+    // carry two different chains (only the staged one had the "VJS" tail), so the same tree
+    // could be gated against two different codes depending on which door the write came in by.
+    let canon_repo_code = vjs_redact::resolve_canon_repo_code(
+        repo,
+        cfg.as_ref().and_then(|c| c.repo_code.as_deref()),
+        Some(jurisdiction_id.as_str()),
+    );
     // Canon-write gate ([2026] VJS-PC 13 D1), pre_write half: best-effort on content
     // (the file may not be on disk yet; the authoritative bite is validate --staged).
     let canon_block = |paths: &[PathBuf]| -> Option<vjs_core::hook::HookDecision> {

@@ -8,6 +8,116 @@ mod tests;
 
 pub struct RedactScanner;
 
+/// This canon's own repo_code, and whether the CANON declared it or the hosting
+/// jurisdiction's config supplied it.
+///
+/// PC-13 D1 read the code off the LOCAL config at both call sites. That is right only in
+/// the canonical repo. In a subscriber jurisdiction whose `lawpack/v2` is a lawful
+/// read-only mirror of VJS canon, every mirrored record carries `repo_code: VJS`, so a
+/// locally-derived canon code turned each of them into "a subscriber's law filed into
+/// canon" - thirteen blocking errors on a commit whose content was entirely enacted canon.
+/// The repo_code a canon-write gate tests against is a property of the CANON being written
+/// to, not of the repository hosting it.
+///
+/// `declared` is carried alongside the value because the two are not interchangeable
+/// downstream: signal 4 (the prose limb) skips any subscriber code equal to the canon code,
+/// so a DECLARED code naming a registered subscriber would silently switch that limb off
+/// for exactly that subscriber. A subscriber falling back to its own config code is the
+/// ordinary, lawful case and must not be treated the same way.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CanonRepoCode {
+    pub code: String,
+    /// True when the value came from the lawpack manifest, false when it came from the
+    /// config chain (which every lawpack in the federation predates).
+    pub declared: bool,
+}
+
+impl CanonRepoCode {
+    /// The canon's own declaration, read from its lawpack manifest.
+    pub fn declared(code: impl Into<String>) -> Self {
+        Self {
+            code: code.into(),
+            declared: true,
+        }
+    }
+
+    /// Inferred from the hosting jurisdiction's config, the lawpack being silent.
+    pub fn inferred(code: impl Into<String>) -> Self {
+        Self {
+            code: code.into(),
+            declared: false,
+        }
+    }
+
+    pub fn as_str(&self) -> &str {
+        &self.code
+    }
+}
+
+/// The ONE resolver for `canon_repo_code`, called by the staged commit gate
+/// (`vjs-engine::staged`) and the pre_write hook (`vjs-cli::front`) alike. Before this cure
+/// the two call sites carried two different chains and only one of them had the `"VJS"`
+/// tail, so the same tree could be gated against two different codes depending on which
+/// door the write came through.
+///
+/// Source order: the lawpack's declared `repo_code` if present and non-empty; else
+/// `config.repo_code`; else the jurisdiction id upper-cased; else `"VJS"`. Where the
+/// lawpack declares, the config plays NO part - this is a source order, not a union. Where
+/// it is silent the config chain applies unchanged and non-blocking.
+///
+/// Takes primitives rather than a config type so the scanner keeps no dependency on the
+/// store. The manifest is read from `repo_root/lawpack/v2/manifest.toml` LITERALLY, never
+/// through `resolve_lawpack_dir`: `scan_canon_writes`' `in_canon` filter matches that exact
+/// tree, and a gate that read its declaration from one tree while filtering another would
+/// be describing two different things.
+pub fn resolve_canon_repo_code(
+    repo_root: &Path,
+    config_repo_code: Option<&str>,
+    jurisdiction_id: Option<&str>,
+) -> CanonRepoCode {
+    if let Some(declared) = manifest_repo_code(repo_root) {
+        return CanonRepoCode::declared(declared);
+    }
+    if let Some(rc) = config_repo_code.map(str::trim).filter(|s| !s.is_empty()) {
+        return CanonRepoCode::inferred(rc);
+    }
+    if let Some(j) = jurisdiction_id.map(str::trim).filter(|s| !s.is_empty()) {
+        return CanonRepoCode::inferred(j.to_uppercase());
+    }
+    CanonRepoCode::inferred("VJS")
+}
+
+/// The lawpack's own declared `repo_code`, from the canon tree the gate filters on.
+fn manifest_repo_code(repo_root: &Path) -> Option<String> {
+    let text = std::fs::read_to_string(repo_root.join("lawpack/v2/manifest.toml")).ok()?;
+    manifest_repo_code_in(&text)
+}
+
+/// `repo_code` from a lawpack manifest's TEXT. Read with a line scan rather than a TOML
+/// parse, the sibling idiom of `lawpack_id_of`: it keeps the scanner free of a parser
+/// dependency and survives a half-written manifest. Only TOP-LEVEL keys count - the scan
+/// stops at the first table header, so a `repo_code` under some future `[section]` can
+/// never be mistaken for the lawpack's own declaration.
+pub fn manifest_repo_code_in(text: &str) -> Option<String> {
+    for line in text.lines() {
+        let line = line.trim();
+        if line.starts_with('[') {
+            break;
+        }
+        let Some(rest) = line.strip_prefix("repo_code") else {
+            continue;
+        };
+        let Some(v) = rest.trim_start().strip_prefix('=') else {
+            continue;
+        };
+        let v = v.trim().trim_matches('"').trim();
+        if !v.is_empty() {
+            return Some(v.to_string());
+        }
+    }
+    None
+}
+
 impl RedactScanner {
     pub fn scan_file(path: &Path, content: &str) -> Vec<BoundaryFinding> {
         let mut findings = Vec::new();
@@ -237,7 +347,11 @@ impl RedactScanner {
                 BoundaryFindingKind::UnredactedEvidence,
                 format!(
                     "Canon record carries a subscriber repo_code '{rc}' (canon is '{canon_repo_code}'). \
-                     ACT-007:s4: local law must not bind other repos; it cannot live in canon."
+                     ACT-007:s4: local law must not bind other repos; it cannot live in canon. \
+                     If this lawpack/v2 is a read-only mirror of another jurisdiction's canon, \
+                     the cure is to declare that canon's OWN repo_code as `repo_code` in \
+                     lawpack/v2/manifest.toml: the gate reads the lawpack's declaration in \
+                     preference to the hosting repo's config."
                 ),
             ));
         }
@@ -342,7 +456,7 @@ impl RedactScanner {
     pub fn scan_canon_writes(
         repo_root: &Path,
         rel_paths: &[std::path::PathBuf],
-        canon_repo_code: &str,
+        canon_repo_code: &CanonRepoCode,
     ) -> Vec<BoundaryFinding> {
         let in_canon = |p: &Path| {
             let mut comps = p.components();
@@ -362,6 +476,33 @@ impl RedactScanner {
         let subscriber_codes = Self::load_subscriber_codes(repo_root);
 
         let mut findings = Vec::new();
+
+        // No code capture. A DECLARED canon repo_code equal to an accessioned subscriber's
+        // is itself a boundary violation: signal 4 skips any subscriber code equal to the
+        // canon code, so such a declaration would silently blind the prose limb for exactly
+        // that subscriber - the gate would still report itself as running. Only a DECLARED
+        // value can do this; a subscriber falling back to its OWN config code is the
+        // ordinary case and must not trip here.
+        if canon_repo_code.declared
+            && !canon.is_empty()
+            && let Some(hit) = subscriber_codes
+                .iter()
+                .find(|c| c.eq_ignore_ascii_case(canon_repo_code.as_str()))
+        {
+            findings.push(Self::block(
+                &std::path::PathBuf::from("lawpack/v2/manifest.toml"),
+                BoundaryFindingKind::UnredactedEvidence,
+                format!(
+                    "The lawpack manifest declares canon repo_code '{hit}', which is an \
+                     accessioned subscriber code in lawpack/v2/federation/subscriber-registry.yaml. \
+                     A canon code equal to a registered subscriber's switches the prose limb off \
+                     for that subscriber, so its facts could enter canon unseen (ACT-005:s1; \
+                     ACT-007:s4). Declare the canon's own repo_code, or de-accession the code \
+                     from the subscriber registry."
+                ),
+            ));
+        }
+
         let mut foreign_codes: Vec<String> = Vec::new();
         for rel in &canon {
             let abs = repo_root.join(rel);
@@ -371,8 +512,12 @@ impl RedactScanner {
                 continue;
             }
             if let Ok(content) = std::fs::read_to_string(&abs) {
-                let (mut fs, code) =
-                    Self::scan_canon_record(rel, &content, canon_repo_code, &subscriber_codes);
+                let (mut fs, code) = Self::scan_canon_record(
+                    rel,
+                    &content,
+                    canon_repo_code.as_str(),
+                    &subscriber_codes,
+                );
                 findings.append(&mut fs);
                 // Secret/PII scan over the canon record (audit 2026-06-26: scan_file never ran
                 // over the canon tree, so a credential committed into a lawpack/v2 record reached

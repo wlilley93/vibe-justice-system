@@ -1,0 +1,38 @@
+id: PERMIT-1785589173
+route_id: ROUTE-20260801-125933
+actor: lexby
+scope:
+  paths:
+  - crates/vjs-redact/src/lib.rs
+  - crates/vjs-redact/src/tests.rs
+  - crates/vjs-engine/src/staged.rs
+  - crates/vjs-cli/src/front.rs
+  - crates/vjs-git/src/lib.rs
+  - lawpack/v2/manifest.toml
+  - lawpack/v2/judgments/2026-VJS-CC-VJS-13-opinion.md
+  jurisdictions: null
+  action_kinds: null
+  issue_tags: null
+  records: null
+obligations:
+- id: OBL-LOG-001
+  kind: decision_log
+  required: true
+  due: before_commit
+  description: Write a decision log for this material implementation decision
+- id: OBL-VALIDATE-001
+  kind: validation
+  required: true
+  due: before_commit
+  description: Run vjs validate before commit
+expires_at: 2026-08-02T12:59:33.073670035+00:00
+status: active
+self_issued: true
+meaning: 'agent-routed self-issue: records that the actor took the front door (ACT-007 local-sovereign invocation); NOT an external authority''s approval. It cannot satisfy a check reserved to the Sovereign (assent) or to a constituted bench (an order).'
+intent_digest: sha256:677428868cd321ebc2876e5e0e562ad651df1d4a66a4dcedcdc638a2fc57879b
+law_source:
+- ACT-001:s1
+- ACT-001:s2
+- ACT-001:s3
+- ACT-001:s4
+- 2026-VJS-CC-VJS-CANON-REPO-CODE-013

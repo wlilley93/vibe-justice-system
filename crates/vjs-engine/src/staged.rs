@@ -104,25 +104,31 @@ pub(crate) fn staged_gates(
         });
     }
 
-    // Canon-write gate (D1).
-    let canon_repo_code = config
-        .as_ref()
-        .and_then(|c| c.repo_code.clone())
-        .or_else(|| config.as_ref().map(|c| c.jurisdiction_id.to_uppercase()))
-        .unwrap_or_else(|| "VJS".into());
+    // Canon-write gate (D1), through the ONE resolver in vjs-redact: the code tested against is
+    // a property of the CANON written to, not of the repo hosting it, so the lawpack declares.
+    let canon_repo_code = vjs_redact::resolve_canon_repo_code(
+        repo,
+        config.as_ref().and_then(|c| c.repo_code.as_deref()),
+        config.as_ref().map(|c| c.jurisdiction_id.as_str()),
+    );
     let canon = RedactScanner::scan_canon_writes(repo, &staged_paths, &canon_repo_code);
-    if !RedactScanner::check_public_safe(&canon) {
-        for bf in canon {
-            findings.push(Finding {
-                severity: bf.severity,
-                code: "CANON_BOUNDARY_VIOLATION".into(),
-                path: bf.path,
-                message: bf.message,
-                citation: None,
-                suggested_fix: Some(format!("{:?}", bf.suggested_route)),
-            });
-        }
+    // Every canon finding is reported, at its OWN severity. This push used to be gated on
+    // `!check_public_safe(&canon)`, so an Error had to be present before ANY of them was
+    // reported - discarding the Email and private-hostname Warnings the canon secret scan
+    // deliberately downgrades, in exactly the case they exist for: a clean-but-noisy tree.
+    for bf in canon {
+        findings.push(Finding {
+            severity: bf.severity,
+            code: "CANON_BOUNDARY_VIOLATION".into(),
+            path: bf.path,
+            message: bf.message,
+            citation: None,
+            suggested_fix: Some(format!("{:?}", bf.suggested_route)),
+        });
     }
+
+    // Re-declaring the canon code must be audible: one manifest line re-aims the gate above.
+    findings.extend(manifest_repo_code_change_findings(repo, changed));
 
     // #7 media-file-in-canon (ACT-005:s1). Extracted to media_in_canon_findings so this
     // Fatal gate has a direct behavioral test (it is a pinned enforcement-surface gate).
@@ -445,6 +451,37 @@ pub(crate) fn staged_gates(
     }
 
     Ok(())
+}
+
+/// The lawpack manifest, at the one path the canon-write gate's `in_canon` filter matches.
+const LAWPACK_MANIFEST: &str = "lawpack/v2/manifest.toml";
+
+/// A staged add, alter or removal of the lawpack's declared `repo_code`, naming the OLD and the
+/// NEW value. Where present that declaration is the SOLE source of `canon_repo_code`, so one line
+/// here re-aims every canon-write check in the tree. A Warning, not a block: re-declaring is
+/// lawful, being quiet about it is not. The old value comes from git HEAD, so a first declaration
+/// says so rather than reporting a change from an empty prior value.
+fn manifest_repo_code_change_findings(repo: &Path, changed: &[String]) -> Vec<Finding> {
+    if !changed.iter().any(|c| c.replace('\\', "/") == LAWPACK_MANIFEST) {
+        return Vec::new();
+    }
+    let code_in = |t: Option<String>| t.and_then(|s| vjs_redact::manifest_repo_code_in(&s));
+    let new = code_in(std::fs::read_to_string(repo.join(LAWPACK_MANIFEST)).ok());
+    let old = code_in(GitIntegration::read_blob_at_head(repo, LAWPACK_MANIFEST).ok().flatten());
+    let what = match (&old, &new) {
+        (a, b) if a == b => return Vec::new(),
+        (None, Some(n)) => format!("declares canon repo_code '{n}' (none at HEAD)"),
+        (Some(o), Some(n)) => format!("changes the canon repo_code from '{o}' to '{n}'"),
+        (Some(o), _) => format!("REMOVES the canon repo_code declaration '{o}'"),
+        _ => return Vec::new(),
+    };
+    let msg = format!(
+        "{LAWPACK_MANIFEST} {what}. That declaration is the source every canon-write check \
+         (PC-13 D1) tests against, so it re-aims the gate over the whole canon tree."
+    );
+    vec![f(Severity::Warning, "CANON_REPO_CODE_REDECLARED", msg)
+        .at(PathBuf::from(LAWPACK_MANIFEST))
+        .fix("Confirm the declared repo_code names THIS canon, not the hosting repo.")]
 }
 
 /// ACT-005:s1: a screenshot / log / media file staged into a public record path must not be
