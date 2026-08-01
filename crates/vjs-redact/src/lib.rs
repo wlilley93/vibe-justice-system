@@ -88,6 +88,7 @@ pub fn resolve_canon_repo_code(
 }
 
 /// The lawpack's own declared `repo_code`, from the canon tree the gate filters on.
+/// LAWPACK-LITERAL: referent=local-records; status=reserved; authority=[2026] VJS-CC-VJS 15
 fn manifest_repo_code(repo_root: &Path) -> Option<String> {
     let text = std::fs::read_to_string(repo_root.join("lawpack/v2/manifest.toml")).ok()?;
     manifest_repo_code_in(&text)
@@ -430,6 +431,8 @@ impl RedactScanner {
     /// Empty when the registry is absent or unparseable, so the gate degrades to the
     /// corroboration signals.
     fn load_subscriber_codes(repo_root: &Path) -> Vec<String> {
+        // The register of the seat this repository IS, not of the canon it reads.
+        // LAWPACK-LITERAL: referent=local-records; status=reserved; authority=[2026] VJS-CC-VJS 15
         let path = repo_root.join("lawpack/v2/federation/subscriber-registry.yaml");
         let Ok(content) = std::fs::read_to_string(&path) else {
             return Vec::new();
@@ -490,6 +493,7 @@ impl RedactScanner {
                 .find(|c| c.eq_ignore_ascii_case(canon_repo_code.as_str()))
         {
             findings.push(Self::block(
+                // LAWPACK-LITERAL: referent=local-records; status=local; authority=[2026] VJS-CC-VJS 15
                 &std::path::PathBuf::from("lawpack/v2/manifest.toml"),
                 BoundaryFindingKind::UnredactedEvidence,
                 format!(

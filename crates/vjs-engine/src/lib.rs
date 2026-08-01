@@ -57,14 +57,7 @@ fn f(severity: Severity, code: &str, message: String) -> Finding {
 pub fn load_lawpack(repo: &Path) -> Result<Lawpack, KernelError> {
     match resolve_lawpack_dir(repo) {
         Some(dir) => LawpackLoader::load(&dir),
-        None if is_invoked_jurisdiction(repo) => Err(KernelError::InvalidInput(format!(
-            "no lawpack could be resolved for the jurisdiction at {}. Looked for: \
-             <repo>/lawpack/v2, the `lawpack_path` in .vjs/config.toml, and $VJS_LAWPACK. \
-             This repository is invoked as a jurisdiction, so an unresolvable lawpack is a \
-             failure and not a stage: re-run `vjs invoke --lawpack <path>` against a real \
-             lawpack. ([2026] VJS-CC-VJS 12 D1)",
-            repo.display()
-        ))),
+        None if is_invoked_jurisdiction(repo) => Err(unresolvable_lawpack_error(repo)),
         // NOT a jurisdiction, so there is no canon to be wrong about. This is the limb the
         // order preserved: `overlay_filed_orders` refuses to fail on a missing orders
         // directory because a fresh subscriber acquires orders BY OPERATING, and this court
@@ -72,6 +65,22 @@ pub fn load_lawpack(repo: &Path) -> Result<Lawpack, KernelError> {
         // absence is a failure once `.vjs/config.toml` exists.
         None => Ok(empty_lawpack()),
     }
+}
+
+/// The D1 refusal, in ONE place, so every door says the same thing. It lived inside
+/// `load_lawpack` until [2026] VJS-CC-VJS 15, so the doors that resolved the lawpack
+/// THEMSELVES (the Gazette, the MCP server) never reached it and published and recorded
+/// against an empty canon instead. All three candidate sources are NAMED: a refusal that
+/// does not say where it looked leaves the operator with the silent fallback's problem.
+pub fn unresolvable_lawpack_error(repo: &Path) -> KernelError {
+    KernelError::InvalidInput(format!(
+        "no lawpack could be resolved for the jurisdiction at {}. Looked for: \
+         <repo>/lawpack/v2, the `lawpack_path` in .vjs/config.toml, and $VJS_LAWPACK. \
+         This repository is invoked as a jurisdiction, so an unresolvable lawpack is a \
+         failure and not a stage: re-run `vjs invoke --lawpack <path>` against a real \
+         lawpack. ([2026] VJS-CC-VJS 12 D1)",
+        repo.display()
+    ))
 }
 
 fn empty_lawpack() -> Lawpack {
@@ -96,32 +105,59 @@ pub fn is_invoked_jurisdiction(repo: &Path) -> bool {
     repo.join(".vjs/config.toml").exists()
 }
 
-/// Where this repository's lawpack actually is, or `None`.
+/// WHICH of the three candidate sources answered. Recorded rather than inferred, so an
+/// artefact can name the tree it was built from ([2026] VJS-CC-VJS 15 C4).
+#[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum LawpackSource {
+    Vendored,
+    Config,
+    Env,
+}
+
+/// A resolved lawpack: the directory, and which source produced it.
+#[derive(Clone, Debug)]
+pub struct LawpackResolution {
+    pub source: LawpackSource,
+    pub dir: PathBuf,
+}
+
+/// Where this repository's lawpack actually is, and which source answered, or `None`.
 ///
 /// Three sources, most specific first. Until [2026] VJS-CC-VJS 12 there was ONE source -
 /// `<repo>/lawpack/v2` - and a repository that did not VENDOR a copy of the canon silently
 /// resolved against nothing. Measured 2026-07-31: `vjs lookup --issue enforcement` returned
 /// four constitutional sections in `vibe-justice-system` and no output at all in
 /// `vibe-design-system`, same binary, same flags, neither answer marked.
-pub fn resolve_lawpack_dir(repo: &Path) -> Option<PathBuf> {
+///
+/// THIS IS THE ONLY PLACE IN THE WORKSPACE THAT MAY NAME THE LAWPACK IN ORDER TO READ THE
+/// CANON ([2026] VJS-CC-VJS 15). Every other canon-read site takes the directory from here,
+/// so the D1 refusal reaches every door, not only the callers of `load_lawpack`.
+pub fn resolve_lawpack(repo: &Path) -> Option<LawpackResolution> {
+    // LAWPACK-LITERAL: referent=resolver; status=reserved; authority=[2026] VJS-CC-VJS 15.
+    // The one canon-read literal the ruling leaves standing: collapse it and the resolver
+    // has nothing to resolve.
     let vendored = repo.join("lawpack/v2");
-    if vendored.is_dir() {
-        return Some(vendored);
-    }
-    if let Some(p) = lawpack_path_from_config(repo) {
-        // Relative paths resolve against the repo, so a config is portable between clones.
-        let p = if p.is_absolute() { p } else { repo.join(p) };
-        if p.is_dir() {
-            return Some(p);
-        }
-    }
-    if let Some(p) = std::env::var_os("VJS_LAWPACK") {
-        let p = PathBuf::from(p);
-        if p.is_dir() {
-            return Some(p);
-        }
-    }
-    None
+    // Relative paths resolve against the repo, so a config is portable between clones.
+    let configured =
+        lawpack_path_from_config(repo).map(|p| if p.is_absolute() { p } else { repo.join(p) });
+    let env = std::env::var_os("VJS_LAWPACK").map(PathBuf::from);
+    // Most specific first; the first candidate that is a real directory wins.
+    [
+        (LawpackSource::Vendored, Some(vendored)),
+        (LawpackSource::Config, configured),
+        (LawpackSource::Env, env),
+    ]
+    .into_iter()
+    .find_map(|(source, dir)| {
+        let dir = dir.filter(|d| d.is_dir())?;
+        Some(LawpackResolution { source, dir })
+    })
+}
+
+/// The directory alone. A projection of `resolve_lawpack`, never a second resolution.
+pub fn resolve_lawpack_dir(repo: &Path) -> Option<PathBuf> {
+    resolve_lawpack(repo).map(|r| r.dir)
 }
 
 /// What `vjs invoke --lawpack` names: the label to record, and the directory it resolved to.

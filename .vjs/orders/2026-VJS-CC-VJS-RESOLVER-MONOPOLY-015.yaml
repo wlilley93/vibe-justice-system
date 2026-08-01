@@ -1,0 +1,116 @@
+id: 2026-VJS-CC-VJS-RESOLVER-MONOPOLY-015
+court: county
+jurisdiction: vibe-justice-system
+repo_code: VJS
+status: binding
+issue: lawpack-resolver-monopoly
+question: >
+  Must every crate name the lawpack through resolve_lawpack_dir, and is the answer different
+  for governed_record_roots because its referent is the repository's own records?
+holding: |
+  APPLICATION GRANTED, Option A adopted, varied and extended (sitting alone at first instance).
+
+  THE RATIO. Where a site names the lawpack in order to READ the canon, resolve_lawpack_dir is
+  the sole source of the directory and load_lawpack the sole loader, in EVERY crate, so the
+  CC-VJS 12 D1 refusal reaches every door and not only the one that ruling was implemented
+  against. Where a site's referent is the repository's own governed records it must NOT be
+  re-pointed at the resolver, but the literal must be collapsed into a single named
+  declaration of that local referent, and every literal surviving anywhere must carry a
+  machine-checked marker, so a site correct BECAUSE LOCAL is distinguishable from one merely
+  unfixed without a reader re-deriving the referent each time.
+
+  THE PLEADED ENUMERATION WAS AN UNDERCOUNT. Three sites were named; there are nine, and the
+  MCP crate holds three of them. CC-VJS 12 named load_lawpack AND compute_digest together as
+  the duplicated pair, and fixing one half of a pair a ruling named together is the precise
+  error CC-VJS 12's note on blame recorded.
+
+  THE LOADER CANNOT FAIL ON A MISSING DIRECTORY. Every subtree read is guarded by .exists()
+  and it returns Ok with empty vectors, so the Gazette's `?` looked like a refusal and was
+  not one. The MCP's private loader was the same thing written out longhand.
+
+  THE GAZETTE HARM IS IN THE ARTEFACT, NOT THE CONSOLE. The console honestly says zero. The
+  published record asserted a real lock digest beside a zero total: this is the estate pinned
+  at that digest and it contains nothing. Not incomplete, FALSE, in exactly the way CC-VJS 12
+  held a stale lock was false. A later reader has the file, not the terminal.
+
+  THE MCP HARM IS SILENT, AND ON ONE VERB IT IS PERMISSION. validate already resolved
+  correctly while lookup, route and record read a hardcoded path, so one server answered "is
+  this jurisdiction sound?" from the subscribed canon and "what is the law?" from a directory
+  that was not there, while status printed vjs_installed true - a silent failure that prints a
+  reassurance. Worse: verify_bench sits inside `if let Some(constitution)`, so with an empty
+  lawpack the block is SKIPPED, and an out-of-tree jurisdiction RECORDED a two-judge County
+  order with no opinion where the vendored control refused it for BENCH_SIZE_MISMATCH and
+  BENCH_OPINION_MISSING. Bench integrity is constitutive and never assent-softenable, because
+  assent cannot manufacture a quorum the constitution did not seat.
+
+  THE UNPLEADED OBJECTION FAILS ON THE RECORD. Routing the Gazette through the resolver could
+  let a subscriber publish the apex canon as its own; but the Gazette already hardcodes the
+  apex identity in its bases, site link and feed tag, so it is not a per-subscriber instrument
+  at all. The choice is between publishing the canon the lock pins and publishing zero under
+  that same pin, and the second is the one a reader can be misled by. Constitutive inertness
+  answers whether publication makes law; it does not answer whether a record may lie.
+
+  A COMMENT IS NOT ENOUGH. The repository already tried prose - a note saying a manifest is
+  read literally and never through the resolver, with a good reason - and it is unenforced.
+  Distinguishability by STRUCTURE beats distinguishability by annotation, because nothing has
+  to be trusted to be read; and what survives structure takes a machine-checked marker that is
+  a DECLARATION, not an approval, so marking a reserved site records the open question rather
+  than closing it.
+directives:
+  - id: D1
+    actor: kernel
+    must: resolve_and_load_the_canon_through_the_one_resolver_in_every_crate
+    when: a_site_names_the_lawpack_to_read_it
+  - id: D2
+    actor: kernel
+    must: collapse_a_local_referent_literal_into_one_named_declaration
+    when: a_site_names_the_repositorys_own_governed_records
+  - id: D3
+    actor: kernel
+    must: derive_the_predicate_and_the_scan_from_the_same_declaration
+    when: a_rule_has_an_allocator_and_a_guard
+  - id: D4
+    actor: kernel
+    must: refuse_rather_than_publish_or_answer_on_an_unresolvable_lawpack
+    when: an_invoked_jurisdiction_cannot_resolve_its_canon
+  - id: D5
+    actor: kernel
+    must: record_the_resolution_source_and_path_in_the_published_artefact
+    when: publishing_a_register_of_the_estate
+  - id: D6
+    actor: kernel
+    must: never_pin_a_digest_beside_an_empty_register
+    when: emitting_a_lock_reference_into_an_artefact
+  - id: D7
+    actor: agent
+    must: mark_every_surviving_literal_with_referent_and_authority_under_a_gate_that_can_fail
+    when: a_literal_is_kept_because_it_is_correct
+  - id: D8
+    actor: agent
+    must: record_the_full_enumeration_including_what_the_order_does_not_decide
+    when: an_obiter_enumeration_is_relied_on
+  - id: D9
+    actor: agent
+    must: file_a_discovered_defect_on_its_own_record
+    when: a_cure_would_otherwise_fold_it_in_sub_silentio
+forbidden:
+  - keep_a_private_copy_of_the_loader_or_the_digest_in_any_crate
+  - treat_a_loader_that_returns_empty_on_a_missing_directory_as_a_refusal
+  - publish_an_artefact_asserting_a_pinned_estate_that_it_did_not_read
+  - answer_a_read_verb_with_an_empty_result_where_no_warning_channel_exists
+  - rely_on_prose_alone_to_distinguish_a_correct_literal_from_an_unfixed_one
+exceptions:
+  - a_repository_that_is_not_a_jurisdiction_keeps_the_empty_canon_limb_per_cc_vjs_12
+  - the_staged_path_family_remains_reserved_by_cc_vjs_13_and_14_obiter
+  - the_record_verbs_write_target_is_reserved_and_filed_separately_under_c8
+supersedes: []
+source_opinion: 2026-VJS-CC-VJS-15-opinion.md
+runtime_summary: >
+  One resolver, one loader, every crate, for any site that READS the canon; a local-referent
+  literal is collapsed into one named declaration instead, and whatever survives carries a
+  machine-checked marker naming its referent and authority. An unresolvable lawpack refuses at
+  every door rather than publishing or answering empty. A published register records the tree
+  it read and never pins a digest beside a zero total. Enumerations offered in obiter are
+  undercounts until measured.
+created_at: "2026-08-01T14:38:55Z"
+citation: '[2026] VJS-CC-VJS 15'

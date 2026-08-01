@@ -68,14 +68,23 @@ fn scope_allows(scope: Option<&Scope>, path: &std::path::Path) -> bool {
     }
 }
 
+/// The canon subtrees whose location alone asserts binding runtime force. ONE named
+/// declaration, so the four arms cannot drift apart.
+///
+/// LAWPACK-LITERAL: referent=local-records; status=local; authority=[2026] VJS-CC-VJS 15.
+/// Matched against paths in THIS working tree, never used to open a canon.
+const RUNTIME_FORCE_SUBTREES: [&str; 4] = [
+    "lawpack/v2/statutes/",
+    "lawpack/v2/regulations/",
+    "lawpack/v2/rules/",
+    "lawpack/v2/orders/",
+];
+
 /// A path that, by its location, claims binding runtime force (statute,
 /// regulation, rule, or order). One definition so every witness agrees.
 fn claims_runtime_force(path: &Path) -> bool {
     let p = path.to_string_lossy();
-    p.contains("lawpack/v2/statutes/")
-        || p.contains("lawpack/v2/regulations/")
-        || p.contains("lawpack/v2/rules/")
-        || p.contains("lawpack/v2/orders/")
+    RUNTIME_FORCE_SUBTREES.iter().any(|sub| p.contains(sub))
 }
 
 /// Read a record's OPERATIVE top-level field by parsing its structure, never by

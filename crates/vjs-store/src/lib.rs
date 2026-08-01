@@ -480,6 +480,10 @@ fn default_paths() -> PathsConfig {
         orders: ".vjs/orders".into(),
         logs: ".vjs/logs".into(),
         submissions: ".vjs/submissions".into(),
+        // LAWPACK-LITERAL: referent=local-records; status=local; authority=[2026] VJS-CC-VJS
+        // 15. The DEFAULT repo-relative paths written into a new `.vjs/config.toml`, which
+        // describe where this repository keeps its own records. Not a canon read: the
+        // resolver decides where the law is, this decides where this repo's files go.
         specs: "lawpack/v2/specs".into(),
         decisions: "lawpack/v2/decisions".into(),
         proofs: ".vjs/proofs".into(),
@@ -494,6 +498,8 @@ fn default_governance() -> GovernanceConfig {
     GovernanceConfig {
         permit_required: vec![
             "crates/**".into(),
+            // LAWPACK-LITERAL: referent=local-records; status=local; authority=[2026]
+            // VJS-CC-VJS 15. A permit-required GLOB over this tree's own paths.
             "lawpack/v2/**".into(),
             "Cargo.toml".into(),
             "AGENTS.md".into(),

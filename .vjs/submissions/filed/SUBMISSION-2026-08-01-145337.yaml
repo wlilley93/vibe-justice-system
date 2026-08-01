@@ -1,0 +1,69 @@
+id: SUBMISSION-2026-08-01-145337
+court_requested: county
+jurisdiction: default
+question: May a write verb create the directory the resolver prefers, and if not, what prevents a jurisdiction's canon being replaced by its own record-keeping?
+facts: |
+  # A write verb can displace a jurisdiction's entire canon
+
+  Filed under [2026] VJS-CC-VJS 15 C8: cured on its own record, not sub silentio.
+
+  ## Agreed facts
+
+  1. `resolve_lawpack_dir` prefers a VENDORED `repo/lawpack/v2` over the configured
+     `lawpack_path`. A repository that has one uses it; a repository that does not
+     falls through to its subscription.
+  2. `vjs-mcp/src/lib.rs:358` writes recorded orders to a HARDCODED
+     `repo_root/lawpack/v2/orders`, creating the directory if absent.
+  3. So a single `record` call in an out-of-tree jurisdiction manufactures the very
+     directory the resolver prefers, and every later read resolves there instead.
+  4. Measured by the CC-VJS 15 bench, one fixture, in order: `vjs lookup --issue
+     enforcement` returned the five ACT-001 sections; the MCP `record` verb wrote
+     ONE order to the hardcoded path; the same command then returned ONLY
+     `2026-ACMECO-CC-999`, and `vjs status` reported the lawpack at `./lawpack/v2`
+     rather than the configured path. Exit 0 throughout, no step reported failure.
+  6. It is detected AFTER the fact: the next `validate` reports Fatal
+     LAWPACK_LOCK_DRIFT (`lock=sha256:5481b9e2 computed=sha256:de8b2802`), which is
+     CC-VJS 14's cure working as designed.
+  7. But the pin names it DRIFT. Nothing names it displacement, and the two have
+     different cures: drift is answered by re-pinning, displacement by deleting a
+     directory that should never have been written.
+
+  ## Question
+
+  May a write verb create the directory the resolver prefers, and if not, what
+  prevents a jurisdiction's canon being replaced by its own record-keeping?
+
+  ## Option A: writes go to the resolved lawpack, never a hardcoded path
+
+  For: one resolution rule for reads and writes alike, extending CC-VJS 15's ratio
+  to the write half. A record then lands in the canon the jurisdiction actually
+  loads.
+  Against: for a SUBSCRIBER the resolved lawpack is another repository's tree.
+  Writing a local order into it is worse than the defect: it mutates canon the
+  subscriber does not own, which ACT-007:s4 forbids outright.
+
+  ## Option B: local records never go to `lawpack/v2` at all
+
+  For: a subscriber's own orders are LOCAL records, and `.vjs/orders` is already
+  the declared root for exactly that (CC-VJS 15 C5). The canon directory is then
+  only ever a mirror, never a write target, and the displacement is impossible by
+  construction rather than by check.
+  Against: the apex repository does file canon orders under `lawpack/v2/orders`,
+  so the rule must distinguish canon-authoring from subscriber record-keeping, and
+  that distinction has to be drawn somewhere.
+
+  ## Option C: keep the write target, refuse to resolve a lawpack a write created
+
+  For: narrow, surgical.
+  Against: it needs the resolver to know a directory's provenance, which nothing
+  records, and leaves a jurisdiction with two canons and a tie-break.
+
+  ## Relief
+
+  A ruling on the lawful write target for a recorded order; whether the resolver's
+  vendored-first preference should require the directory to be a declared mirror
+  rather than merely present; and whether displacement needs a finding distinct
+  from drift.
+requested_order: TBD
+private_boundary: local
+word_count: 495

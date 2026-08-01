@@ -14,6 +14,9 @@ pub(crate) struct Estate {
     pub known: HashSet<String>,
     pub lock_meta: HashMap<String, String>,
     pub source_commit: String,
+    /// Which tree this publication was actually built from, and how it was found.
+    /// `None` only on the not-a-jurisdiction limb, where nothing was published.
+    pub resolution: Option<vjs_engine::LawpackResolution>,
 }
 
 pub(crate) fn write_estate_outputs(
@@ -28,6 +31,7 @@ pub(crate) fn write_estate_outputs(
         known,
         lock_meta,
         source_commit,
+        resolution,
     } = estate;
     const SITE_BASE: &str = "https://wlilley93.github.io/vibe-justice-system/";
     const FEED_TAG: &str = "tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette";
@@ -179,13 +183,35 @@ pub(crate) fn write_estate_outputs(
     }
 
     let v2_count = items.iter().filter(|i| i["estate"] == "v2").count();
+    // THE ARTEFACT NAMES THE TREE IT PUBLISHED ([2026] VJS-CC-VJS 15 C4).
+    //
+    // `meta.lawpack` used to carry the id, digest and locked_at scraped out of the LOCAL
+    // `.vjs/lawpack.lock` and nothing else, which says what this repository has PINNED and
+    // is silent on what was actually read. Measured 2026-08-01 on a repository whose
+    // lawpack did not resolve: `digest = sha256:5481b9e2...` published beside
+    // `counts.total: 0`. Nothing was read, so the digest attested to a provenance that had
+    // not happened - a false record, and the kind a reader has no way to spot.
+    //
+    // So the pin is published only when the publication has something to pin, and the
+    // resolution (which source answered, and the directory it named) is published beside
+    // it. An empty register now says it is empty rather than wearing a digest.
+    let published_something = !items.is_empty();
+    let pin = |key: &str| -> Option<&String> {
+        if published_something {
+            lock_meta.get(key)
+        } else {
+            None
+        }
+    };
     let data = serde_json::json!({
         "generated_at": chrono::Utc::now().to_rfc3339(),
         "meta": {
             "lawpack": {
-                "id": lock_meta.get("lawpack"),
-                "digest": lock_meta.get("digest"),
-                "locked_at": lock_meta.get("locked_at"),
+                "id": pin("lawpack"),
+                "digest": pin("digest"),
+                "locked_at": pin("locked_at"),
+                "source": resolution.as_ref().map(|r| r.source),
+                "path": resolution.as_ref().map(|r| r.dir.display().to_string()),
             },
             "source_commit": source_commit,
             "counts": { "total": items.len(), "canon": v2_count, "archive": items.len() - v2_count },

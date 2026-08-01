@@ -318,7 +318,13 @@ impl LawpackValidator {
                 {
                     continue;
                 }
-                if root.ends_with("lawpack/v2") && !is_lawpack_yaml(path) {
+                // The yaml_only limb comes from the front door's ONE declaration of what a
+                // governed record is, never from a second copy of the root name here
+                // ([2026] VJS-CC-VJS 15 C5).
+                let yaml_only = vjs_core::front_door::GOVERNED_RECORD_ROOTS
+                    .iter()
+                    .any(|r| r.yaml_only && root.ends_with(r.path));
+                if yaml_only && !is_lawpack_yaml(path) {
                     continue;
                 }
                 let content =

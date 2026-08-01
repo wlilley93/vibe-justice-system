@@ -1,0 +1,39 @@
+id: PERMIT-1785598201
+route_id: ROUTE-20260801-153001
+actor: lexby
+scope:
+  paths:
+  - crates/vjs-engine/src/lib.rs
+  - crates/vjs-mcp/src/lib.rs
+  - crates/vjs-cli/src/gazette/mod.rs
+  - crates/vjs-cli/src/gazette/render.rs
+  - crates/vjs-core/src/front_door.rs
+  - crates/vjs-lawpack/src/validator.rs
+  - crates/vjs-engine/src/staged.rs
+  - lawpack/v2/judgments/2026-VJS-CC-VJS-15-opinion.md
+  jurisdictions: null
+  action_kinds: null
+  issue_tags: null
+  records: null
+obligations:
+- id: OBL-LOG-001
+  kind: decision_log
+  required: true
+  due: before_commit
+  description: Write a decision log for this material implementation decision
+- id: OBL-VALIDATE-001
+  kind: validation
+  required: true
+  due: before_commit
+  description: Run vjs validate before commit
+expires_at: 2026-08-02T15:30:01.624687248+00:00
+status: active
+self_issued: true
+meaning: 'agent-routed self-issue: records that the actor took the front door (ACT-007 local-sovereign invocation); NOT an external authority''s approval. It cannot satisfy a check reserved to the Sovereign (assent) or to a constituted bench (an order).'
+intent_digest: sha256:b51a797c97fab0f58c67c722d4c3032d946bd64eb602650182b66eace00f5c97
+law_source:
+- ACT-001:s1
+- ACT-001:s2
+- ACT-001:s3
+- ACT-001:s4
+- 2026-VJS-CC-VJS-RESOLVER-MONOPOLY-015

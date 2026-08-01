@@ -49,34 +49,80 @@ pub fn declares_valid_assent(content: &str) -> bool {
     false
 }
 
-/// A governed record is a lawpack/v2 instrument or a court record under .vjs that
-/// carries legal force (it is the KIND of thing the front door governs the creation
-/// of). The floor applies to a finding ABOUT such a staged record.
-pub fn is_governed_record(rel_path: &str) -> bool {
-    let p = rel_path.replace('\\', "/");
-    (p.starts_with("lawpack/v2/") && (p.ends_with(".yaml") || p.ends_with(".yml")))
-        || p.starts_with(".vjs/orders/")
-        || p.starts_with(".vjs/court/")
+/// One root of the governed-record body: where it lives, and whether only YAML under it
+/// counts as a record (the canon tree carries manifests, provenance and prose alongside
+/// its instruments; the court registers under `.vjs/` carry records only).
+pub struct GovernedRoot {
+    pub path: &'static str,
+    pub yaml_only: bool,
 }
 
-/// The three roots `is_governed_record` recognises, as directories to scan.
+/// THE declaration of what a governed record is. One list, read by the predicate
+/// (`is_governed_record`) and by the scan (`governed_record_roots`) alike.
 ///
 /// Anything that has to reason over the WHOLE body of governed records must read all
-/// three, or it reasons over a fraction and reports the answer with full confidence.
+/// three roots, or it reasons over a fraction and reports the answer with full confidence.
 /// That is not hypothetical: `live_citation_max` read `lawpack/v2` alone, which holds
 /// 86 defining citations and NOT ONE of them County, so `vjs next-citation CC 2026`
 /// returned `1` unconditionally while the series stood at 8. The canon PC series was
 /// mis-allocating by the same mechanism, offering `[2026] VJS-PC 20` while that
 /// citation was held.
 ///
-/// Derived from `is_governed_record` rather than from `.vjs/config.toml`: the config
-/// declares an `orders` key but has no key for the court register, `PathsConfig` is
-/// non-Option, and config.toml is itself a permit-required path. One declaration of
-/// what a governed record is, in one place, used by both the predicate and the scan.
-pub fn governed_record_roots(repo: &std::path::Path) -> Vec<std::path::PathBuf> {
-    ["lawpack/v2", ".vjs/orders", ".vjs/court"]
+/// Declared here rather than read from `.vjs/config.toml`: the config declares an
+/// `orders` key but has no key for the court register, `PathsConfig` is non-Option, and
+/// config.toml is itself a permit-required path.
+///
+/// It was TWO lists until [2026] VJS-CC-VJS 15. The doc comment on the scan said it was
+/// "derived from `is_governed_record`"; it was a second hand-written copy of the same
+/// three roots, sitting twenty lines below the first, and nothing made them agree. The
+/// prose asserted the very property the code did not have.
+///
+/// LAWPACK-LITERAL: referent=local-records; status=local; authority=[2026] VJS-CC-VJS 15.
+/// The referent is THIS repository's own records on its own disk, not the canon it reads
+/// its law from, so this literal must NOT be re-pointed at the resolver: a subscriber's
+/// own County orders and court register are its own, wherever its lawpack lives.
+pub const GOVERNED_RECORD_ROOTS: &[GovernedRoot] = &[
+    GovernedRoot {
+        path: "lawpack/v2",
+        yaml_only: true,
+    },
+    GovernedRoot {
+        path: ".vjs/orders",
+        yaml_only: false,
+    },
+    GovernedRoot {
+        path: ".vjs/court",
+        yaml_only: false,
+    },
+];
+
+/// A governed record is a lawpack/v2 instrument or a court record under .vjs that
+/// carries legal force (it is the KIND of thing the front door governs the creation
+/// of). The floor applies to a finding ABOUT such a staged record.
+pub fn is_governed_record(rel_path: &str) -> bool {
+    let p = rel_path.replace('\\', "/");
+    GOVERNED_RECORD_ROOTS.iter().any(|root| {
+        p.starts_with(&format!("{}/", root.path))
+            && (!root.yaml_only || p.ends_with(".yaml") || p.ends_with(".yml"))
+    })
+}
+
+/// True when a repo-relative path lies inside the CANON tree (as opposed to the court
+/// registers under `.vjs/`). Derived from the one declaration above, so a gate that has to
+/// ask "is this path canon?" does not restate the root and drift from it - which is exactly
+/// what `media_in_canon_findings` and the lawpack validator were both doing.
+pub fn is_in_canon_tree(rel_path: &str) -> bool {
+    let p = rel_path.replace('\\', "/");
+    GOVERNED_RECORD_ROOTS
         .iter()
-        .map(|r| repo.join(r))
+        .any(|r| r.yaml_only && p.starts_with(&format!("{}/", r.path)))
+}
+
+/// The roots `is_governed_record` recognises, as directories to scan.
+pub fn governed_record_roots(repo: &std::path::Path) -> Vec<std::path::PathBuf> {
+    GOVERNED_RECORD_ROOTS
+        .iter()
+        .map(|r| repo.join(r.path))
         .filter(|p| p.exists())
         .collect()
 }
@@ -98,6 +144,58 @@ mod tests {
             "id: x\n# assent_source: sovereign_assent\n"
         ));
         assert!(!declares_valid_assent("id: x\nstatus: binding\n"));
+    }
+
+    /// [2026] VJS-CC-VJS 15 C5: the predicate and the scan are two halves of ONE
+    /// declaration and cannot drift. Before the collapse they were two hand-written
+    /// lists; adding a root to either alone compiled, passed, and left the other half
+    /// silently reasoning over a fraction of the record body. This drives BOTH halves
+    /// over EVERY entry, so a root added to the const without the predicate agreeing
+    /// (or vice versa) is a red test, not a quiet disagreement.
+    #[test]
+    fn the_predicate_and_the_scan_agree_on_every_root() {
+        let repo = std::env::temp_dir().join(format!(
+            "vjs-front-door-roots-{}-{:?}",
+            std::process::id(),
+            std::thread::current().id()
+        ));
+        let _ = std::fs::remove_dir_all(&repo);
+        for root in GOVERNED_RECORD_ROOTS {
+            std::fs::create_dir_all(repo.join(root.path)).unwrap();
+        }
+
+        let scanned = governed_record_roots(&repo);
+        assert_eq!(
+            scanned.len(),
+            GOVERNED_RECORD_ROOTS.len(),
+            "the scan must yield one directory per declared root"
+        );
+        for root in GOVERNED_RECORD_ROOTS {
+            assert!(
+                scanned.contains(&repo.join(root.path)),
+                "the scan omits declared root {}",
+                root.path
+            );
+            // The predicate must recognise a record under every root the scan walks,
+            // or the scan reads files the floor does not treat as governed.
+            let yaml = format!("{}/x.yaml", root.path);
+            assert!(
+                is_governed_record(&yaml),
+                "the scan walks {} but the predicate rejects {yaml}",
+                root.path
+            );
+            // And the yaml_only limb is the declaration's, not a second opinion.
+            let other = format!("{}/x.md", root.path);
+            assert_eq!(
+                is_governed_record(&other),
+                !root.yaml_only,
+                "the predicate's extension rule must follow the declared yaml_only for {}",
+                root.path
+            );
+        }
+        // A path under no declared root is not a governed record.
+        assert!(!is_governed_record("crates/x.yaml"));
+        let _ = std::fs::remove_dir_all(&repo);
     }
 
     #[test]

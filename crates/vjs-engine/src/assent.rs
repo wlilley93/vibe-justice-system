@@ -92,6 +92,9 @@ fn is_id_char(c: char) -> bool {
 fn provenance_corpus(repo: &Path) -> (String, Vec<String>) {
     let mut text = String::new();
     let mut digests = Vec::new();
+    // LAWPACK-LITERAL: referent=local-records; status=local; authority=[2026] VJS-CC-VJS 15.
+    // The assent PROVENANCE of the instruments this repository itself carries: a fact about
+    // a record's own commencement here, not law read out of a subscribed canon.
     for sub in ["lawpack/v2/provenance/assent", "lawpack/v2/provenance/founding"] {
         let dir = repo.join(sub);
         let Ok(entries) = std::fs::read_dir(&dir) else {
@@ -209,6 +212,9 @@ pub fn assent_resolves(repo: &Path, rel: &str, content: &str, established_at_hea
 /// so their own assent resolves; a regulation naming a real parent therefore traces.
 /// Reads the statute's OWN top-level `id:` (column zero), not its indented section ids.
 fn parent_is_defined(repo: &Path, parent: &str) -> bool {
+    // LAWPACK-LITERAL: referent=local-records; status=reserved; authority=[2026] VJS-CC-VJS 15.
+    // Reads the statutes a STAGED record in THIS tree declares a parent in. Whether a
+    // subscriber's parent lookup should reach the subscribed canon stays open.
     let dir = repo.join("lawpack/v2/statutes");
     let Ok(entries) = std::fs::read_dir(&dir) else {
         return false;
@@ -235,6 +241,7 @@ fn parent_is_defined(repo: &Path, parent: &str) -> bool {
 
 /// A staged record under the canon orders tree.
 fn is_order(rel: &str) -> bool {
+    // LAWPACK-LITERAL: referent=staged-mirror; status=local; authority=[2026] VJS-CC-VJS 15
     rel.replace('\\', "/").starts_with("lawpack/v2/orders/")
 }
 

@@ -1,0 +1,63 @@
+id: SUBMISSION-2026-08-01-143848
+court_requested: county
+jurisdiction: default
+question: Must every crate name the lawpack through resolve_lawpack_dir, and is the answer different for governed_record_roots because its referent is local?
+facts: |
+  # Must the resolver be the only way a crate names the lawpack?
+
+  ## Agreed facts
+
+  1. CC-VJS 12 held lawpack resolution "lives here, and nowhere else", after finding
+     TWO copies of `load_lawpack`. `resolve_lawpack_dir` (vjs-engine) is that place;
+     it honours config `lawpack_path`.
+  2. CC-VJS 14 cured the gate guards and its obiter (iii) named three surviving
+     `repo.join("lawpack/v2")` sites, expressly undecided.
+  3. Measured today, the three differ in kind:
+     - `vjs-cli/src/gazette/mod.rs:18` hardcodes the path, then
+       `LawpackLoader::load(&lawpack_dir)?`. Referent: the lawpack.
+     - `vjs-mcp/src/lib.rs:394` carries its own private `fn load_lawpack` doing
+       `if lawpack_dir.exists() { LawpackLoader::load(...) }`. Referent: the
+       lawpack. This is a THIRD copy of the function CC-VJS 12 held must exist once.
+     - `vjs-core/src/front_door.rs:77` `governed_record_roots` lists
+       `["lawpack/v2", ".vjs/orders", ".vjs/court"]` filtered by existence.
+       Referent: the repository's OWN governed records.
+  4. A jurisdiction resolving out of tree vendors no `lawpack/v2`, so the first two
+     silently see no canon: the Gazette publishes nothing, and the MCP surface
+     serves an empty or absent lawpack, each without saying so.
+  5. CC-VJS 14 held a check whose referent is local must NOT be re-pointed at the
+     resolver, because a guard wider than its allocator fails on records the
+     allocator cannot see (CC-VJS 9 D1).
+  ## Question
+
+  Must every crate name the lawpack through `resolve_lawpack_dir`, and is the
+  answer different for `governed_record_roots` because its referent is local?
+
+  ## Option A: resolver for the two lawpack-referent sites; leave the roots list
+
+  For: applies CC-VJS 12 and 14 exactly as written, referent by referent. Deletes
+  the third `load_lawpack` copy, which is squarely what CC-VJS 12 forbade. Leaves
+  the local-referent list alone, which CC-VJS 14 requires.
+  Against: leaves the literal in the tree, so a later reader cannot tell "correct
+  because local" from "not yet fixed" without re-deriving the referent.
+
+  ## Option B: resolver everywhere, including the roots list
+
+  For: one rule, no judgement call, literal gone.
+  Against: wrong on the merits. The roots list answers "what governed records does
+  THIS repository hold", and a subscriber's canon is not its own record. It would
+  widen the citation guard past its allocator, which CC-VJS 9 D1 bars.
+
+  ## Option C: leave all three; only gates were in issue
+
+  For: the Fatal gates are cured; an empty surface is visible to its operator.
+  Against: it keeps a `load_lawpack` copy binding law says may not exist, and the
+  failure is NOT visible: both degrade to an empty canon with no finding, the exact
+  shape CC-VJS 12 refused when it held an unresolvable lawpack must be an error.
+
+  ## Relief
+
+  Rule on the sole naming route; if A, whether the surviving local use must be
+  marked; and whether an out-of-tree load finding nothing must be a finding.
+requested_order: TBD
+private_boundary: local
+word_count: 460

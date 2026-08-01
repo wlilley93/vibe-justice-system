@@ -250,11 +250,11 @@ impl McpServer {
         // D10 convening half: bench size must be the constituted odd size for the
         // tier. Same shared kernel check the CLI convene path uses (#12), so they
         // cannot drift (D4: the kernel is the only smart point).
-        let lawpack = load_lawpack(&self.repo_root)?;
+        let lawpack = vjs_engine::load_lawpack(&self.repo_root)?;
         if let Some(constitution) = lawpack
             .orders
             .iter()
-            .find(|o| o.id == "2026-VJS-COURTS-CONSTITUTION-001")
+            .find(|o| o.id == vjs_core::bench::COURTS_CONSTITUTION_ID)
             && let Err(msg) =
                 vjs_core::bench::convening_bench_check(constitution, &court, bench.len())
         {
@@ -329,11 +329,17 @@ impl McpServer {
                 order.court
             )));
         }
-        let lawpack = load_lawpack(&self.repo_root)?;
+        // The ENGINE's loader, so this verb resolves the canon the same way every other
+        // door does. When it was this crate's own, a jurisdiction that vendored no copy
+        // got an EMPTY lawpack here, the `find` below returned None, the whole bench check
+        // sat inside `if let Some(constitution)` and was therefore SKIPPED, and the order
+        // was written. A constitutive gate that is skipped when the constitution cannot be
+        // found is a gate that fails OPEN ([2026] VJS-CC-VJS 15).
+        let lawpack = vjs_engine::load_lawpack(&self.repo_root)?;
         if let Some(constitution) = lawpack
             .orders
             .iter()
-            .find(|o| o.id == "2026-VJS-COURTS-CONSTITUTION-001")
+            .find(|o| o.id == vjs_core::bench::COURTS_CONSTITUTION_ID)
         {
             let opinion_text = order
                 .source_opinion
@@ -355,6 +361,12 @@ impl McpServer {
                 )));
             }
         }
+        // LAWPACK-LITERAL: referent=write-target; status=reserved; authority=[2026]
+        // VJS-CC-VJS 15. This names THIS repository's own canon as a place to WRITE, not
+        // a canon to READ, so it is correct-because-local and must NOT be re-pointed at
+        // the resolver: recording into a subscribed out-of-tree lawpack would write a
+        // subscriber's order into somebody else's canon. Whether the verb should be able
+        // to write here at all is a separate question, left open.
         let dir = self.repo_root.join("lawpack/v2/orders");
         std::fs::create_dir_all(&dir).map_err(|e| KernelError::Io(e.to_string()))?;
         let path = dir.join(format!("{}.yaml", order.id));
@@ -378,45 +390,27 @@ pub fn auth_satisfied(expected: &str, params: Option<&Value>) -> bool {
         == Some(expected)
 }
 
+/// The kernel context this door answers from.
+///
+/// Both halves are the ENGINE's ([2026] VJS-CC-VJS 15). This crate carried its own
+/// `load_lawpack` and `compute_digest` until then, and they were the SUPERSEDED law: the
+/// loader named `lawpack/v2` directly, so it never reached the CC-VJS 12 D1 refusal and
+/// answered an invoked jurisdiction with an empty canon; the digest hashed `manifest.toml`
+/// alone, the computation CC-VJS 12 D4 rejected as "a pin that cannot move when the law
+/// moves". Measured 2026-08-01: with the empty lawpack the `record` verb found no
+/// courts-constitution order, skipped `verify_bench` entirely, and RECORDED a two-judge
+/// County order with no opinion that the vendored control refuses. Deleted, not fixed:
+/// a second copy of the rule is what let the doors disagree.
 fn build_context(repo: &std::path::Path) -> Result<KernelContext, KernelError> {
-    let lawpack = load_lawpack(repo)?;
+    let lawpack = vjs_engine::load_lawpack(repo)?;
     let graph = lawpack.build_authority_graph()?;
-    let digest = compute_digest(repo)?;
+    let digest = vjs_engine::compute_digest(repo)?;
 
     Ok(KernelContext {
         authority_graph: graph,
         limits: ContextLimits::default(),
         lawpack_digest: digest,
     })
-}
-
-fn load_lawpack(repo: &std::path::Path) -> Result<Lawpack, KernelError> {
-    let lawpack_dir = repo.join("lawpack/v2");
-    if lawpack_dir.exists() {
-        LawpackLoader::load(&lawpack_dir)
-    } else {
-        Ok(Lawpack {
-            statutes: Vec::new(),
-            regulations: Vec::new(),
-            rules: Vec::new(),
-            orders: Vec::new(),
-            specs: Vec::new(),
-            invariants: Vec::new(),
-            decisions: Vec::new(),
-            obligations: Vec::new(),
-        })
-    }
-}
-
-fn compute_digest(repo: &std::path::Path) -> Result<String, KernelError> {
-    use sha2::Digest;
-    let mut hasher = sha2::Sha256::new();
-    let manifest = repo.join("lawpack/v2/manifest.toml");
-    if manifest.exists() {
-        let content = std::fs::read(&manifest).map_err(|e| KernelError::Io(e.to_string()))?;
-        hasher.update(&content);
-    }
-    Ok(format!("sha256:{}", hex::encode(hasher.finalize())))
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

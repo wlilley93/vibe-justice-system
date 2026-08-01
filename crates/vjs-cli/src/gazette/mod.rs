@@ -15,9 +15,28 @@ pub(crate) fn cmd_gazette(
     const V2_BASE: &str = "https://github.com/wlilley93/vibe-justice-system/blob/master/";
     const V1_BASE: &str = "https://github.com/wlilley93/vibe-justice-system/blob/v1/";
 
-    let lawpack_dir = repo.join("lawpack/v2");
-    // The Gazette publishes only a loadable canon.
-    let _ = LawpackLoader::load(&lawpack_dir)?;
+    // WHERE the canon is comes from the resolver, and nowhere else ([2026] VJS-CC-VJS 15).
+    // This command named `lawpack/v2` itself, so a subscriber that vendors no copy published
+    // an EMPTY register - and stamped the pinned digest on it - instead of hitting the
+    // CC-VJS 12 D1 refusal. The `?` on `LawpackLoader::load` that stood here looked like the
+    // guard and was inert: every subtree read inside the loader is guarded by `.exists()`,
+    // so a missing directory returns Ok with empty vectors and nothing to propagate.
+    // The Gazette needs the DIRECTORY, not the loaded struct (it walks the kind
+    // subdirectories itself and reads provenance/gazette/*.yaml, which `Lawpack` does not
+    // carry), so it takes the directory from the resolver and reproduces the refusal here.
+    let resolution = match resolve_lawpack(repo) {
+        Some(r) => Some(r),
+        // An invoked jurisdiction with no resolvable lawpack has no canon to publish, and
+        // publishing an empty register from it is a false record, not a small one.
+        None if is_invoked_jurisdiction(repo) => {
+            return Err(vjs_engine::unresolvable_lawpack_error(repo));
+        }
+        // NOT a jurisdiction: the limb CC-VJS 12 preserved. Nothing to publish from, and
+        // nothing to be wrong about - the run produces an empty register, which `meta`
+        // now says plainly rather than stamping a pin on it (C4).
+        None => None,
+    };
+    let lawpack_dir: Option<&Path> = resolution.as_ref().map(|r| r.dir.as_path());
 
     let io = |e: std::io::Error| KernelError::Io(e.to_string());
     let ser = |e: serde_yaml::Error| KernelError::Serialization(e.to_string());
@@ -50,13 +69,14 @@ pub(crate) fn cmd_gazette(
         cites: Vec<String>,
     }
     let editorial: std::collections::HashMap<String, Editorial> = {
-        let p = lawpack_dir.join("provenance/gazette/editorial.yaml");
-        if p.exists() {
-            let v: serde_yaml::Value =
-                serde_yaml::from_str(&std::fs::read_to_string(&p).map_err(io)?).map_err(ser)?;
-            serde_yaml::from_value(v.get("items").cloned().unwrap_or_default()).map_err(ser)?
-        } else {
-            Default::default()
+        let p = lawpack_dir.map(|d| d.join("provenance/gazette/editorial.yaml"));
+        match p.filter(|p| p.exists()) {
+            Some(p) => {
+                let v: serde_yaml::Value =
+                    serde_yaml::from_str(&std::fs::read_to_string(&p).map_err(io)?).map_err(ser)?;
+                serde_yaml::from_value(v.get("items").cloned().unwrap_or_default()).map_err(ser)?
+            }
+            None => Default::default(),
         }
     };
 
@@ -106,7 +126,10 @@ pub(crate) fn cmd_gazette(
         ("obligations", "obligation"),
     ];
     for (dir, kind) in kinds {
-        let d = lawpack_dir.join(dir);
+        // No resolved canon means no canon items. Reachable only on the not-a-jurisdiction
+        // limb: an invoked jurisdiction was refused above.
+        let Some(base) = lawpack_dir else { break };
+        let d = base.join(dir);
         if !d.exists() {
             continue;
         }
@@ -288,6 +311,9 @@ pub(crate) fn cmd_gazette(
             cites.dedup();
             cites.retain(|c| *c != id);
 
+            // Not a canon read: the path the record occupies in the PUBLISHED apex tree,
+            // which V2_BASE links to. At the resolver it would publish a checkout path.
+            // LAWPACK-LITERAL: referent=local-records; status=local; authority=[2026] VJS-CC-VJS 15
             let rel = format!(
                 "lawpack/v2/{}/{}",
                 dir,
@@ -426,8 +452,8 @@ pub(crate) fn cmd_gazette(
     }
 
     // The V1 archive estate: curated, frozen, existence-verified provenance.
-    let v1_path = lawpack_dir.join("provenance/gazette/v1-estate.yaml");
-    if v1_path.exists() {
+    let v1_path = lawpack_dir.map(|d| d.join("provenance/gazette/v1-estate.yaml"));
+    if let Some(v1_path) = v1_path.filter(|p| p.exists()) {
         let v: serde_yaml::Value =
             serde_yaml::from_str(&std::fs::read_to_string(&v1_path).map_err(io)?).map_err(ser)?;
         if let Some(seq) = v.get("items").and_then(|x| x.as_sequence()) {
@@ -567,6 +593,7 @@ pub(crate) fn cmd_gazette(
             known,
             lock_meta,
             source_commit,
+            resolution,
         },
         json,
     )

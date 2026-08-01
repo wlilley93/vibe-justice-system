@@ -1,0 +1,49 @@
+id: PERMIT-1785598355
+route_id: ROUTE-20260801-153235
+actor: lexby
+scope:
+  paths:
+  - crates/vjs-cli/Cargo.toml
+  - crates/vjs-cli/src/context.rs
+  - crates/vjs-cli/src/gazette/mod.rs
+  - crates/vjs-cli/src/gazette/render.rs
+  - crates/vjs-cli/src/lifecycle.rs
+  - crates/vjs-cli/tests/gazette_lawpack.rs
+  - crates/vjs-core/src/front_door.rs
+  - crates/vjs-core/src/spec/evaluate.rs
+  - crates/vjs-engine/src/assent.rs
+  - crates/vjs-engine/src/lib.rs
+  - crates/vjs-engine/src/staged.rs
+  - crates/vjs-lawpack/src/validator.rs
+  - crates/vjs-mcp/src/lib.rs
+  - crates/vjs-mcp/tests/lawpack_door.rs
+  - crates/vjs-redact/src/lib.rs
+  - crates/vjs-store/src/lib.rs
+  - crates/vjs-testkit/tests/lawpack_literal_marker.rs
+  - lawpack/v2/judgments/2026-VJS-CC-VJS-15-opinion.md
+  jurisdictions: null
+  action_kinds: null
+  issue_tags: null
+  records: null
+obligations:
+- id: OBL-LOG-001
+  kind: decision_log
+  required: true
+  due: before_commit
+  description: Write a decision log for this material implementation decision
+- id: OBL-VALIDATE-001
+  kind: validation
+  required: true
+  due: before_commit
+  description: Run vjs validate before commit
+expires_at: 2026-08-02T15:32:35.702222074+00:00
+status: active
+self_issued: true
+meaning: 'agent-routed self-issue: records that the actor took the front door (ACT-007 local-sovereign invocation); NOT an external authority''s approval. It cannot satisfy a check reserved to the Sovereign (assent) or to a constituted bench (an order).'
+intent_digest: sha256:4219c0662d4ea6da62476fe14d2f84b8cc3d3401497bb835386b940c76f97085
+law_source:
+- ACT-001:s1
+- ACT-001:s2
+- ACT-001:s3
+- ACT-001:s4
+- 2026-VJS-CC-VJS-RESOLVER-MONOPOLY-015

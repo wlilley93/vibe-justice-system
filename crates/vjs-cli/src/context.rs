@@ -22,7 +22,7 @@ pub(crate) fn build_kernel_context(repo: &Path) -> Result<KernelContext, KernelE
 // unchanged. It was duplicated here until [2026] VJS-CC-VJS 12; see the note in
 // vjs-engine/src/lib.rs for what having two copies actually cost.
 pub(crate) use vjs_engine::{
-    compute_digest, digest_of_lawpack_dir, is_invoked_jurisdiction, load_lawpack,
+    compute_digest, digest_of_lawpack_dir, is_invoked_jurisdiction, load_lawpack, resolve_lawpack,
     resolve_invocation_lawpack, resolve_lawpack_dir,
 };
 

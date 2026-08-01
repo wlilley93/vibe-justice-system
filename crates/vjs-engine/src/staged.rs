@@ -7,7 +7,7 @@ use std::path::{Path, PathBuf};
 
 use vjs_core::report::Finding;
 use vjs_core::types::Severity;
-use vjs_core::{KernelError, RepoScanner, evaluate_invariants};
+use vjs_core::{KernelError, RepoScanner, evaluate_invariants, front_door};
 use vjs_git::GitIntegration;
 use vjs_lawpack::{Lawpack, lawpack_facts};
 use vjs_redact::RedactScanner;
@@ -454,6 +454,7 @@ pub(crate) fn staged_gates(
 }
 
 /// The lawpack manifest, at the one path the canon-write gate's `in_canon` filter matches.
+/// LAWPACK-LITERAL: referent=staged-mirror; status=reserved; authority=[2026] VJS-CC-VJS 14
 const LAWPACK_MANIFEST: &str = "lawpack/v2/manifest.toml";
 
 /// A staged add, alter or removal of the lawpack's declared `repo_code`, naming the OLD and the
@@ -492,7 +493,7 @@ pub(crate) fn media_in_canon_findings(changed: &[String]) -> Vec<Finding> {
     let mut out = Vec::new();
     for rel in changed {
         let low = rel.to_ascii_lowercase();
-        let in_public = low.starts_with("lawpack/v2/") || low.starts_with("public/");
+        let in_public = front_door::is_in_canon_tree(&low) || low.starts_with("public/");
         let is_media = [
             ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp", ".log", ".mp4", ".mov",
         ]

@@ -202,6 +202,11 @@ pub(crate) fn cmd_submit_decision(
     use vjs_engine::runtime::{DecisionEnvelope, submit_decision};
     use vjs_lawpack::overlay::OverlayLoader;
 
+    // LAWPACK-LITERAL: referent=local-records; status=reserved; authority=[2026] VJS-CC-VJS
+    // 15. The overlay floors this repository publishes for its OWN entities, alongside the
+    // local rules dir on the next line. Whether a subscriber's floors should come from the
+    // subscribed canon instead is a live question and was not put to this court, so the
+    // literal is DECLARED, not decided: marking it does not approve it.
     let floors_dir = floors.unwrap_or_else(|| repo.join("lawpack/v2/overlay-floors"));
     let local_dir = local.unwrap_or_else(|| repo.join(".vjs/local-lawpack/rules"));
     let (overlay, load_findings) = OverlayLoader::load(&floors_dir, &local_dir)?;
