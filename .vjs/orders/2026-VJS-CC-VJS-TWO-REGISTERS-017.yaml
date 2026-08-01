@@ -1,0 +1,74 @@
+id: 2026-VJS-CC-VJS-TWO-REGISTERS-017
+court: county
+jurisdiction: vibe-justice-system
+repo_code: VJS
+status: binding
+issue: two-registers-one-class
+question: >
+  Where two registers describe the same class of terms that must not enter canon, which
+  governs, and may a gate read a register narrower than the harm it exists to prevent?
+holding: |
+  APPLICATION GRANTED IN PART. Option B adopted, varied and extended; A and C refused.
+
+  THE RATIO. Two registers of terms that must not enter canon do not merge merely because both
+  can block a canon write: each answers to the harm it was made for (federation authority under
+  ACT-007:s4; confidentiality under ACT-005:s1), and a register whose entries are hashed
+  BECAUSE THE TERMS ARE PRIVATE may never be accessioned into a register whose entries are
+  published in cleartext. A gate must consult every register whose harm it exists to prevent,
+  over every artefact in the class it governs, and must treat an unreadable register as an
+  error and never as an empty one; so widening the register is no answer at all while the gate
+  cannot reach the file.
+
+  A IS REFUSED ON A GROUND STRONGER THAN PLEADED, AND THE GROUND IS IN THE DENYLIST'S OWN
+  HEADER. The original seeds were the accessioned public pseudonym and its citation prefix, and
+  they were REMOVED on 2026-06-23 because they fail-closed the Gazette against a subscriber's
+  own public law and "protected nothing private". The two registers are deliberately disjoint
+  and were made so by a recorded cure. A is not consolidation; it is the reinstatement of a
+  cured defect. "Two copies of a rule is one copy and a disagreement" is a sound maxim that does
+  not apply, because these are not two copies of one rule.
+
+  THE UNPLEADED OBJECTION TO B, AND ITS ANSWER. The real objection is that a hashed limb on a
+  canon-write gate is unauditable by construction and invites false confidence: nobody can
+  review a hash list for completeness, and the 2026-06-23 entry proves the register has been
+  wrong before and that the error was discoverable only by someone who happened to know.
+
+  C IS REFUSED BECAUSE THE BACKSTOP HELD BY STOPPING EVERYTHING. The estate's canon is
+  unpublishable today and stays so until every admitted record is cured. A backstop that stops
+  the whole estate is an outage, not a control.
+
+  THE SELF-FILED BREACH. The applicant wrote a subscriber's code into a canon judgment and did
+  not check, and self-filed it. The duty of care is restorative and not punitive: the remedy is
+  to make the work good, which is the cure of the three admitted records and the widening of
+  the gate that let them in. No further consequence attaches.
+directives:
+  - id: D1
+    actor: kernel
+    must: consult_every_register_whose_harm_the_gate_exists_to_prevent
+    when: a_gate_admits_or_refuses_an_artefact_in_its_class
+  - id: D2
+    actor: kernel
+    must: treat_an_unreadable_register_as_an_error_and_never_as_an_empty_one
+    when: reading_a_register_that_gates_admission
+  - id: D3
+    actor: kernel
+    must: never_accession_a_hashed_private_register_into_a_cleartext_public_one
+    when: two_registers_serve_different_harms
+  - id: D4
+    actor: agent
+    must: cure_every_record_already_admitted_before_declaring_the_gate_sound
+    when: widening_a_gate_that_has_been_letting_records_through
+forbidden:
+  - merge_two_registers_because_both_can_block_the_same_write
+  - reinstate_a_defect_a_recorded_cure_removed
+  - rely_on_a_publication_backstop_as_the_control_for_admission
+exceptions:
+  - the_registry_remains_a_cleartext_list_of_public_codes_serving_a_jurisdictional_harm
+supersedes: []
+source_opinion: 2026-VJS-CC-VJS-17-opinion.md
+runtime_summary: >
+  Two registers serving two different harms do not merge, and a hashed private register is never
+  accessioned into a cleartext public one. A gate consults every register whose harm it exists to
+  prevent, over every artefact in its class, and an unreadable register is an error, never an
+  empty one. Records already admitted are cured before the gate is called sound.
+created_at: "2026-08-01T17:38:50Z"
+citation: '[2026] VJS-CC-VJS 17'

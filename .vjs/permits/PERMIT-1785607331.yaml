@@ -1,0 +1,45 @@
+id: PERMIT-1785607331
+route_id: ROUTE-20260801-180211
+actor: lexby
+scope:
+  paths:
+  - .vjs/court/convenings/CONVENING-county-2026-08-01-173850-2.yaml
+  - .vjs/court/convenings/CONVENING-county-2026-08-01-173850.yaml
+  - .vjs/court/convenings/CONVENING-county-2026-08-01-174132.yaml
+  - .vjs/court/judgments/2026-VJS-CC-VJS-19-opinion.md
+  - .vjs/orders/2026-VJS-CC-VJS-APEX-GOAL-RECORD-019.yaml
+  - .vjs/orders/2026-VJS-CC-VJS-ENFORCEMENT-COVERAGE-018.yaml
+  - .vjs/orders/2026-VJS-CC-VJS-TWO-REGISTERS-017.yaml
+  - .vjs/orders/2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016.yaml
+  - .vjs/submissions/filed/SUBMISSION-2026-08-01-173759.yaml
+  - .vjs/submissions/filed/SUBMISSION-2026-08-01-173842.yaml
+  - .vjs/submissions/filed/SUBMISSION-2026-08-01-174125.yaml
+  - lawpack/v2/judgments/2026-VJS-CC-VJS-16-opinion.md
+  - lawpack/v2/judgments/2026-VJS-CC-VJS-17-opinion.md
+  - lawpack/v2/judgments/2026-VJS-CC-VJS-18-opinion.md
+  jurisdictions: null
+  action_kinds: null
+  issue_tags: null
+  records: null
+obligations:
+- id: OBL-LOG-001
+  kind: decision_log
+  required: true
+  due: before_commit
+  description: Write a decision log for this material implementation decision
+- id: OBL-VALIDATE-001
+  kind: validation
+  required: true
+  due: before_commit
+  description: Run vjs validate before commit
+expires_at: 2026-08-02T18:02:11.550061904+00:00
+status: active
+self_issued: true
+meaning: 'agent-routed self-issue: records that the actor took the front door (ACT-007 local-sovereign invocation); NOT an external authority''s approval. It cannot satisfy a check reserved to the Sovereign (assent) or to a constituted bench (an order).'
+intent_digest: sha256:cfc6dd01f40173f2f60365362ebd2c0dc612d8f103270d7a4d65485636239235
+law_source:
+- ACT-001:s1
+- ACT-001:s2
+- ACT-001:s3
+- ACT-001:s4
+- ACT-001:s5

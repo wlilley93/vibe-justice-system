@@ -1,0 +1,90 @@
+id: 2026-VJS-CC-VJS-APEX-GOAL-RECORD-019
+court: county
+jurisdiction: vibe-justice-system
+repo_code: VJS
+status: binding
+issue: apex-goal-statement-duplication
+question: >
+  Which document is the authoritative apex goal statement, how is duplication prevented, and
+  how is a superseded goal marked?
+holding: |
+  APPLICATION GRANTED. Option A adopted, varied; B and C refused as to apex status.
+
+  THE RATIO. An apex goal statement holds its authority from THE RECORD THAT CARRIES IT and not
+  from its own claim to supremacy: as between competing candidates, the one that is
+  version-controlled, citable at a stable path inside a subscribing repository, and reachable
+  by a check governs, and the other is superseded by an explicit record under ACT-004:s9 with
+  its unique content transcribed VERBATIM rather than rewritten. A court may decide WHERE an
+  objective is recorded and WHICH record is citable; it may not decide WHAT the objective is,
+  so consolidation proceeds by transcription, and any wording a transcriber would change goes
+  to the Principal instead.
+
+  BOTH SELF-DECLARATIONS COUNT FOR NOTHING. Each document declares itself the statement above
+  all others. ACT-001:s7 is decisive against both: adopted text derives force from the lawful
+  organ, not from counsel's draft. The tie is broken by facts external to both texts.
+
+  DURABILITY IS NOT ACCURACY. The court found, of its own motion, that the preferred document
+  carries the SAME falsified claim used to impeach the other, uncorrected for five days. It is
+  preferred not as the more accurate record but as the more CORRECTABLE one: its false claim
+  can be annotated where a stranger will find it, the annotation lands as a diff that proves it
+  landed, and a gate can require its shape. None of that is available against a file no gate
+  can see and no history can compare. A record that can be shown to be wrong is worth more than
+  a record that cannot be shown at all.
+
+  THE DIFFERENT-IN-KIND HYPOTHESIS DOES NOT SURVIVE THE TEXTS. The superseded statement's six
+  invariants are a proper subset of the apex record's eight. They are not different in kind;
+  they are a duplicate carrying two different scores of overlapping tests.
+
+  A SCORE IS A CLAIM ABOUT THE LIVE SYSTEM. Two acceptance-test scores were corrected in a
+  sibling file and never amended in either goal document. They are annotated, never silently
+  edited, and they land in the apex record at their CORRECTED values. An observation is spent
+  when the path it ran on is replaced, so a score carries the date of the observation that
+  settled it.
+directives:
+  - id: D1
+    actor: agent
+    must: treat_the_record_that_carries_a_statement_as_the_source_of_its_authority
+    when: two_documents_each_claim_apex_status
+  - id: D2
+    actor: agent
+    must: transcribe_unique_content_verbatim_before_a_supersession_takes_effect
+    when: consolidating_two_records
+  - id: D3
+    actor: agent
+    must: send_any_wording_a_transcriber_would_change_to_the_principal_unchanged
+    when: consolidation_would_alter_an_objective
+  - id: D4
+    actor: agent
+    must: annotate_a_falsified_score_where_it_is_read_and_never_edit_it_silently
+    when: a_later_record_contradicts_a_documents_claim
+  - id: D5
+    actor: agent
+    must: carry_the_date_of_the_observation_that_settled_a_score
+    when: recording_a_score_in_a_goal_record
+  - id: D6
+    actor: agent
+    must: re_take_a_score_whose_observation_predates_a_replacement_of_the_path_it_ran_on
+    when: citing_an_earlier_settling_observation
+  - id: D7
+    actor: agent
+    must: record_a_principal_re_point_in_the_repository_in_the_same_session
+    when: the_principal_sets_or_re_points_the_objective
+forbidden:
+  - treat_a_documents_self_declaration_of_supremacy_as_authority
+  - delete_a_superseded_record
+  - reword_a_transcribed_clause_during_consolidation
+  - transcribe_a_score_as_met_where_a_later_record_says_otherwise
+exceptions:
+  - the_objective_itself_is_reserved_to_the_principal_under_act_001_s2
+  - the_source_paper_is_retained_and_is_not_retired_by_this_court
+supersedes: []
+source_opinion: 2026-VJS-CC-VJS-19-opinion.md
+runtime_summary: >
+  An apex goal statement holds authority from the record carrying it, not from its own claim:
+  versioned, citable inside a subscribing repository, reachable by a check. The other is
+  superseded explicitly, not deleted, with its unique content transcribed verbatim FIRST. A
+  court decides where an objective is recorded, never what it is, so any rewording goes to the
+  Principal. A score is a claim about the live system: annotate, never silently edit, and an
+  observation is spent when the path it ran on is replaced.
+created_at: "2026-08-01T17:41:32Z"
+citation: '[2026] VJS-CC-VJS 19'

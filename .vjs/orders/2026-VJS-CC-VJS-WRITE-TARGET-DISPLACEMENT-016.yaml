@@ -1,0 +1,82 @@
+id: 2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016
+court: county
+jurisdiction: vibe-justice-system
+repo_code: VJS
+status: binding
+issue: canon-displacement-by-write
+question: >
+  May a write verb create the directory the resolver prefers, and if not, what prevents a
+  jurisdiction's canon being replaced by its own record-keeping?
+holding: |
+  APPLICATION GRANTED. Option B adopted, varied and extended; A and C refused.
+
+  THE RATIO. A verb that records a jurisdiction's own governed record writes it to that
+  jurisdiction's LOCAL record store and never into the canon tree, and no kernel write path may
+  bring into being the directory the resolver reads the canon from; where the canon tree is a
+  lawful write target at all it is by a deliberate permitted authoring act, not as the side
+  effect of a verb. And the resolver's vendored-first branch must be keyed on a directory that
+  DECLARES itself a lawpack rather than on a path merely existing, so that where a
+  jurisdiction's recorded subscription and its resolved source disagree the kernel says
+  DISPLACEMENT in its own words, a finding a re-pin does not answer.
+
+  MEASURED, NOT PLEADED. One valid record call replaced a 160-file constitutional canon with a
+  one-file directory: lookup returned the five ACT-001 sections, the verb wrote one order to the
+  hardcoded path, and lookup then returned that order and nothing else, exit 0 throughout. The
+  order was well formed, its bench verified, its opinion present. This is what the verb does
+  when it WORKS.
+
+  THE PIN DOES NOT DETECT DISPLACEMENT, IT RATIFIES IT. The applicant pleaded that
+  LAWPACK_LOCK_DRIFT catches this after the fact and that this is CC-VJS 14's cure working. The
+  court measured the Fatal's own suggested remedy on the displaced fixture: re-pinning made
+  validate report OK at exit 0 while the config still named the subscription the repository was
+  no longer reading. The remedy completes the harm, which is why displacement needs a finding
+  of its own and not a severity of drift.
+
+  A IS REFUSED ON GROUNDS STRONGER THAN PLEADED. Writing into the subscribed lawpack would put
+  EVERY other subscriber into drift over one stranger's record-keeping, because the digest
+  covers the whole tree; and it writes where no gate can look, since the permit gate, the
+  canon-write scan, the apex bright line, the assent floor and the redact scan all take
+  repo-relative paths from the writing repository's own git index.
+
+  AN ACCIDENTAL PROTECTION IS AN AGGRAVATION, NOT A MITIGATION. The displacement was not
+  reproducible on a config `vjs invoke` actually writes, because that template omits three
+  required path keys and the read errors first. No test asserts that protection, no comment
+  claims it, and the template is due to be corrected for unrelated reasons. The day it is
+  fixed, this becomes reachable in every subscriber and the fix will look unrelated.
+directives:
+  - id: D1
+    actor: kernel
+    must: write_a_jurisdictions_own_record_to_its_local_record_store
+    when: a_verb_records_a_governed_record
+  - id: D2
+    actor: kernel
+    must: never_bring_into_being_the_directory_the_resolver_reads_the_canon_from
+    when: any_kernel_write_path_runs
+  - id: D3
+    actor: kernel
+    must: key_the_vendored_branch_on_a_directory_that_declares_itself_a_lawpack
+    when: resolving_a_lawpack_where_a_subscription_is_recorded
+  - id: D4
+    actor: kernel
+    must: report_displacement_in_its_own_words_distinct_from_drift
+    when: the_recorded_subscription_and_the_resolved_source_disagree
+  - id: D5
+    actor: kernel
+    must: never_offer_a_repin_as_the_remedy_for_a_displaced_resolution
+    when: suggesting_a_fix_for_a_lock_finding
+forbidden:
+  - create_the_resolvers_directory_as_the_side_effect_of_a_verb
+  - treat_a_path_merely_existing_as_proof_that_it_is_a_lawpack
+  - rely_on_an_untested_accidental_error_as_a_protection
+exceptions:
+  - a_deliberate_permitted_authoring_act_may_write_canon_in_the_repository_that_owns_it
+supersedes: []
+source_opinion: 2026-VJS-CC-VJS-16-opinion.md
+runtime_summary: >
+  A verb records to the local record store, never into the canon tree, and no write path may
+  create the directory the resolver reads canon from. The vendored branch requires a directory
+  that DECLARES itself a lawpack, not one that merely exists. Where the recorded subscription
+  and the resolved source disagree the kernel reports DISPLACEMENT, not drift, because a re-pin
+  ratifies displacement rather than curing it.
+created_at: "2026-08-01T14:53:43Z"
+citation: '[2026] VJS-CC-VJS 16'

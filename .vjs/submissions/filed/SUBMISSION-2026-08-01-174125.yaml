@@ -1,0 +1,64 @@
+id: SUBMISSION-2026-08-01-174125
+court_requested: county
+jurisdiction: default
+question: Which document is the authoritative apex goal statement, how is duplication prevented, and how is a superseded goal marked?
+facts: |
+  # Two apex goal statements, same date, different text
+
+  ## Agreed facts
+
+  1. `opbox-prod/GOAL-LONG-HORIZON.md` ("a firm that runs itself, under law it
+     cannot quietly break"), written 2026-07-25, 8 commits, under version control.
+     It declares: "This sits ABOVE the program goal statements... Every other
+     `GOAL*.md` in this tree and its siblings is an increment of this one."
+  2. `Jellytot/docs/GOAL-long-horizon.md` ("a firm that runs on software that
+     thinks"), also written 2026-07-25. Untracked: `~/Projects/Jellytot` is not a
+     git repository and had no backup until one was taken today.
+  3. Doc 1 is cited by five other goal docs; doc 2 by none. A 2026-07-31 handover
+     lists both as one row, and elsewhere cites "GOAL-LONG-HORIZON invariant 7",
+     which resolves only in doc 1: doc 2's invariants are unnumbered.
+  4. Doc 1 names doc 2's "current leg" file as an increment it subsumes; doc 2
+     frames that same file as "the road it is on".
+  5. A third statement, The Corporate Brain (June 2026), was installed as the
+     north star on 2026-06-23 and is still cited by work as recent as 2026-07-29.
+     Neither apex doc mentions it; nothing records it retired.
+  6. Doc 1's invariant 7 is "Consolidation over fragmentation. Never split one
+     concern across two systems because the split is locally convenient. The
+     second path is the defect, even when it works."
+  7. Doc 2 carries five binary acceptance tests. Two were scored optimistically
+     and corrected next day in a sibling file (test 1 "NOT MET" though scored met;
+     test 3 "half met"). Doc 2 was never amended; its convention is append-only.
+
+  ## Question
+
+  Which document is the authoritative apex statement, how is duplication
+  prevented, and how is a superseded goal marked?
+
+  ## Option A: doc 1 canonical, doc 2 becomes a pointer
+
+  For: it is versioned, the increments cite it, and it self-declares supremacy.
+  Doc 2's acceptance tests fold in as the falsifiable layer doc 1 lacks.
+  Against: doc 2 alone states what the firm GETS rather than what the engineering
+  must satisfy, so folding it in risks losing that framing; and choosing between
+  them may be choosing an objective, which ACT-001:s2 reserves to the Principal.
+
+  ## Option B: keep both, declare their relation
+
+  Doc 1 governs engineering doneness, doc 2 states the outcome, each naming the
+  other and The Corporate Brain.
+  For: nothing is lost; the two are different in kind, not in conflict.
+  Against: it blesses two apex documents, which invariant 7 calls the defect. The
+  next reader still asks which governs.
+
+  ## Option C: neither; The Corporate Brain is the unretired north star
+
+  For: it was installed first and never superseded on the record.
+  Against: it is a thesis, not a criterion, and settles nothing operationally.
+
+  ## Relief
+
+  Which governs; whether any part of this is reserved to the Principal as an
+  objective rather than a record; and what prevents a third apex document.
+requested_order: TBD
+private_boundary: local
+word_count: 493

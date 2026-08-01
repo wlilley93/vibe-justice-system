@@ -1,0 +1,19 @@
+id: LOG-2026-08-01-180248
+time: 2026-08-01T18:02:48.791283021+00:00
+actor: lexby
+kind: record
+issue: court-record
+decision: 'Recorded four County Court rulings of 2026-08-01 as orders, opinions, convenings and submissions: CC-VJS 16 (a verb records to the local store, never into the canon tree; the vendored branch keys on a directory that DECLARES itself a lawpack; displacement is a finding distinct from drift), CC-VJS 17 (two registers serving two harms do not merge; a hashed private register is never accessioned into a cleartext public one; an unreadable register is an error, never an empty one), CC-VJS 18 (a file is entrenched iff a confined edit to it can flip a bright-line outcome, proved by a committed counterexample), CC-VJS 19 (an apex goal statement holds authority from the record carrying it, not from its own claim; the other is superseded explicitly with its unique content transcribed verbatim).'
+basis:
+- 2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016
+- 2026-VJS-CC-VJS-TWO-REGISTERS-017
+- 2026-VJS-CC-VJS-ENFORCEMENT-COVERAGE-018
+- 2026-VJS-CC-VJS-APEX-GOAL-RECORD-019
+- ACT-001:s3
+- PERMIT-1785607305
+- PERMIT-1785607331
+risk: low
+reversibility: easy
+court_required: false
+why: >-
+  Three of the four orders were written with a must_not directive field the schema does not carry. vjs route reported each as 'does not parse and is NOT in the citator' as a warning and granted the permit anyway, so all three would have been committed as binding law that resolves to nothing. Converted to the negative-must form the estate already uses (CC-VJS 15 D6, never_pin_a_digest_beside_an_empty_register) and confirmed each of the four now resolves by lookup on its own issue tag before commit. Two permits are named in the basis because the act was routed twice: PERMIT-1785607305 is the route that surfaced the parse warnings, PERMIT-1785607331 the route of the corrected orders. Both cover the same staged set and are discharged by this one log.
