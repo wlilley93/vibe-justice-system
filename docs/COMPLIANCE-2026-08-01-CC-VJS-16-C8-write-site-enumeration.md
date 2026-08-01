@@ -28,11 +28,39 @@ recorded here rather than quietly corrected. Production write sites: **51**.
 | `vjs-cli/src/lifecycle.rs:344` | calls `Store::write_order` | **Compliant.** `vjs order apply` already takes the door C1 sends the MCP verb to. |
 | `vjs-store/src/lib.rs:200-214` `write_convening` | `.vjs/court/convenings` (hardcoded) | **Compliant.** Local court store. |
 
-**No production site other than `vjs-mcp/src/lib.rs:371,375` writes into a
+**No production site other than `vjs-mcp/src/lib.rs:371,375` writes a LITERAL path into a
 governed-record root it does not own.** After C1 and C2 land,
 `grep -n 'lawpack/v2' crates/vjs-mcp/src/lib.rs` must return nothing inside
-`handle_record`, and no production source under `crates/` may call `create_dir_all` on
-`lawpack/v2` or a child.
+`handle_record`, and no production source under `crates/` may call `create_dir_all` on a
+`lawpack/v2` literal or a child.
+
+> ### CORRECTION, 2026-08-01, after the cure was adversarially verified
+>
+> **The paragraph above was wrong as a statement of the CLASS, and it is left standing with
+> this correction rather than quietly rewritten.** It enumerated LITERAL targets and then
+> asserted a rule about all write paths. Two verbs take an operator-supplied output path and
+> create its parent, so neither appears in any `lawpack/v2` grep:
+>
+> - `crates/vjs-cli/src/admin.rs` `cmd_conformance` (`vjs audit --out`)
+> - `crates/vjs-cli/src/admin.rs` `cmd_migrate_v1` (`vjs migrate-v1 --out`)
+>
+> Measured on a fresh repository with no canon at all:
+>
+>     $ vjs audit --out <repo>/lawpack/v2/orders/probe.md
+>     Conformance audit: 0 duties, 0 wired, 0 unwired -> .../lawpack/v2/orders/probe.md
+>     $ ls -d <repo>/lawpack/v2
+>     <repo>/lawpack/v2        # it did not exist before the command
+>
+> That is exactly what CC-VJS 16 D2 forbids, done by a REPORT WRITER, and this record
+> asserted the rule held. The condition says in terms that it is "stated as a class and not
+> as one caller, because the defect IS the class" - and a class needs a guard, not an
+> enumeration. Cured by `vjs_engine::refuse_write_into_canon_tree`, applied at both sites,
+> with a red seed and a negative control at
+> `crates/vjs-cli/tests/lawpack_displacement.rs::no_operator_supplied_output_path_can_manufacture_the_canon_tree`.
+>
+> The general lesson, which is why this correction is verbose: a grep over literals cannot
+> discharge a condition stated over a class, and I offered one that could. A bounded search
+> is not a fact about the system.
 
 ## 2. The record writers that land outside the governed roots
 

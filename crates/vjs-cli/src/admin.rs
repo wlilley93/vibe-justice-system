@@ -108,6 +108,11 @@ pub(crate) fn cmd_audit(repo: &Path, out: Option<PathBuf>, json: bool) -> Result
     }
 
     let out_path = out.unwrap_or_else(|| PathBuf::from("docs/conformance-map.md"));
+    // [2026] VJS-CC-VJS 16 D2, applied to the CLASS and not to one caller: an
+    // operator-supplied --out must not manufacture the directory the resolver reads the
+    // canon from. Measured 2026-08-01: `vjs audit --out <repo>/lawpack/v2/orders/probe.md`
+    // created <repo>/lawpack/v2 and exited 0.
+    vjs_engine::refuse_write_into_canon_tree(repo, &out_path)?;
     if let Some(parent) = out_path.parent() {
         std::fs::create_dir_all(parent).map_err(|e| KernelError::Io(e.to_string()))?;
     }
@@ -160,11 +165,14 @@ pub(crate) fn cmd_install_lock(repo: &Path, json: bool) -> Result<(), KernelErro
 }
 
 pub(crate) fn cmd_migrate_v1(
+    repo: &Path,
     _v1_path: &Path,
     out: Option<PathBuf>,
     json: bool,
 ) -> Result<(), KernelError> {
     let output = out.unwrap_or_else(|| PathBuf::from("migration/draft-ledger.yaml"));
+    // Same class, same guard ([2026] VJS-CC-VJS 16 D2).
+    vjs_engine::refuse_write_into_canon_tree(repo, &output)?;
     std::fs::create_dir_all(output.parent().unwrap_or(&PathBuf::from(".")))
         .map_err(|e| KernelError::Io(e.to_string()))?;
 

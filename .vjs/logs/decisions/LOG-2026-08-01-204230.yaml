@@ -1,0 +1,14 @@
+id: LOG-2026-08-01-204230
+time: 2026-08-01T20:42:30.191022224+00:00
+actor: lexby
+kind: implementation
+issue: two-registers-one-class
+decision: 'Cured the three admitted canon records under CC-VJS 17 C8 by ACT-004:s9 correction record naming file and line, and closed a class hole in CC-VJS 16 C2 that an adversarial verification of my own work found: two verbs taking an operator-supplied --out still created the canon directory, which C2 forbids as a CLASS.'
+basis:
+- 2026-VJS-CC-VJS-TWO-REGISTERS-017
+- 2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016
+- PERMIT-1785616939
+risk: medium
+reversibility: easy
+court_required: false
+why: 'I claimed C2 discharged on a grep over literals. A verification agent refuted it and I confirmed by measurement: vjs audit --out inside the canon tree created lawpack/v2 on a fresh repo and exited 0. A grep over literals cannot discharge a condition stated over a class. Cured with one guard at both sites, a red seed, and a negative control proving a normal --out still writes. The compliance record that asserted the rule held is corrected in place with the measurement, not quietly rewritten. The C8 prose cure is complete and the identity half is knowingly incomplete: the term also sits in one record''s filename and neutral citation where the tokeniser cannot see it, and C8(ii) reserves that question, so it is filed and nothing was renamed.'

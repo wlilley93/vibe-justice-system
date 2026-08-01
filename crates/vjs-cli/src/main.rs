@@ -376,7 +376,7 @@ fn main() {
             Err(e) => Err(KernelError::Io(e.to_string())),
         },
         Commands::Audit { out } => cmd_audit(&repo, out, json),
-        Commands::MigrateV1 { v1_path, out } => cmd_migrate_v1(&v1_path, out, json),
+        Commands::MigrateV1 { v1_path, out } => cmd_migrate_v1(&repo, &v1_path, out, json),
         Commands::Permit { subcmd } => cmd_permit(&repo, subcmd, json),
         Commands::Eval { suite } => cmd_eval(&repo, suite, json),
         Commands::Gazette { out } => gazette::cmd_gazette(&repo, out, json),

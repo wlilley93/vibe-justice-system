@@ -93,8 +93,8 @@ present and non-empty; else `config.repo_code`; else
 same root that `in_canon` matches (`repo_root/lawpack/v2`), so the gate and its
 referent describe one tree.
 
-**C3 - a negative control.** A test with config `OPBOX` and manifest `VJS`
-asserting a `VJS`-coded record passes and an `OPBOX`-coded record blocks; plus a
+**C3 - a negative control.** A test with a SUBSCRIBER code in config and manifest `VJS`
+asserting a `VJS`-coded record passes and a subscriber-coded record blocks; plus a
 companion test that deletes `repo_code` from the fixture manifest and asserts the
 `VJS`-coded record blocks again. Without the second, the manifest read is untested
 decoration.

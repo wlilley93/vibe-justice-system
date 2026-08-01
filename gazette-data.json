@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-01T18:36:34.021409084+00:00",
+  "generated_at": "2026-08-01T20:43:34.739213576+00:00",
   "items": [
     {
       "affirmed_by": [],
@@ -4948,12 +4948,12 @@
       "total": 114
     },
     "lawpack": {
-      "digest": "sha256:8c4ef842f936e459bcfc6962b3da5e6facb5f23fc89c8fe45d8246f379b89986",
+      "digest": "sha256:3f72eb1fda2ced51e76e0f0da0bc18fd154aef0b198e473a24e4a075a71deb76",
       "id": null,
       "locked_at": null,
       "path": "lawpack/v2",
       "source": "vendored"
     },
-    "source_commit": "e7152cb7b0bb2d0f524a1184a88acc1b280bbfec"
+    "source_commit": "cc8a60ecd405a5bf6f438bad14c83ab7d618a6e5"
   }
 }

@@ -1,0 +1,64 @@
+id: SUBMISSION-2026-08-01-204211
+court_requested: county
+jurisdiction: default
+question: May a canon citation series carry a denylisted term, given the tokeniser cannot see it inside a hyphenated citation; and if not, how may a series be re-issued without breaking every record that cites it?
+facts: |
+  # Facts: a canon citation series carries a term the register forbids
+
+  Filed as [2026] VJS-CC-VJS 17 C8(ii) directs: that court held the question
+  first-impression and not before it, and directed nothing irreversible meanwhile. Nothing
+  has been.
+
+  ## 1. What C8 cured, and what it could not
+
+  C8 ordered three canon records cured of a denylisted term in their prose. Done, at
+  `CORRECTION-2026-08-01-CC-VJS-17-C8.md`: zero denylist hits in canon prose after.
+
+  C8(i) is explicit that the cure is measured against ACT-005:s1 and NOT against the gate
+  going quiet. It is not quiet because the term is gone. It is quiet because in the one record
+  that still carries it, the term sits where the tokeniser cannot see it:
+
+  - the FILENAME, `lawpack/v2/judgments/2026-VJS-CC-OPBOX-002-opinion.md`
+  - the NEUTRAL CITATION, `[2026] VJS-CC-OPBOX 2`, which is that record's own identity
+
+  Hyphens are token characters, so `VJS-CC-OPBOX-002-opinion` is ONE token and hashes to
+  nothing in the register. The gate is silent about a term that is still there, in the most
+  load-bearing place it could be.
+
+  ## 2. The scale
+
+  One canon record; three more in the local order register carry the series in their id.
+
+  ## 3. Why it cannot be cured by an implementer
+
+  Renaming a canon record or re-issuing a neutral citation is irreversible in the way that
+  matters. A neutral citation is not a label on a record, it is the coordinate every other
+  record uses to reach it. Re-seriesing means:
+
+  - every citation to it resolves to an identity that no longer exists;
+  - the citator's uniqueness check (ACT-004:s8) must accept either a period in which two
+    series name one ruling, or a mapping asserting they are the same;
+  - git history, where ACT-004:s9 puts superseded text, keeps the old name anyway.
+
+  ## 4. The competing readings, neither obviously right
+
+  **Re-series.** ACT-005:s1 forbids the term in canon on its face and says nothing about
+  prose only. A record whose IDENTITY carries a subscriber's infrastructure name is a
+  subscriber-identifying canon record however clean its body is.
+
+  **Leave it and record why.** The denylist's own header records that its original seeds were
+  REMOVED on 2026-06-23 because they fail-closed the Gazette against a subscriber's own public
+  law and "protected nothing private". If a subscriber's code is public, a citation series
+  carrying it may be in that same class - in which case the register, not the citation, is
+  what is wrong.
+
+  I cannot choose between those without deciding whether the term is private at all, and that
+  is a question about the register, which is the Principal's.
+
+  ## 5. Meanwhile
+
+  Nothing touched: no filename, no citation, no id. The prose cure is landed and its record
+  says in terms that it is complete as to prose and knowingly incomplete as to identity.
+requested_order: TBD
+private_boundary: local
+word_count: 492

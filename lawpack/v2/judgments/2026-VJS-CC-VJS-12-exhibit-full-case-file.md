@@ -33,7 +33,7 @@ Measured: appending a line to `lawpack/v2/statutes/01-authority.yaml` left the d
 `14cdb3337039ffdb…`, which is byte-identical to the digest `vibe-justice-system` has had
 pinned in `.vjs/lawpack.lock` since 2026-07-27.
 
-**F6.** Two of the four repos with a `.vjs/` directory (`boltrig`, `opbox-prod`) have no
+**F6.** Two of the four repos with a `.vjs/` directory (two subscriber repos) have no
 `lawpack.lock` at all. Of the two that do, `agent-universe-v2` vendors the lawpack and
 carries the real manifest digest; `vibe-design-system` does not and carries
 `e3b0c44298fc1c14…`, which is the sha256 of the empty string.

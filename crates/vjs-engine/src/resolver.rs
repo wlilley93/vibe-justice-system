@@ -133,6 +133,66 @@ pub fn resolve_lawpack_dir(repo: &Path) -> Option<PathBuf> {
     resolve_lawpack(repo).map(|r| r.dir)
 }
 
+/// Refuse a write whose target lies inside the canon tree ([2026] VJS-CC-VJS 16 D2 / C2).
+///
+/// C2 is stated as a CLASS - "no kernel write path may bring into being the directory the
+/// resolver reads the canon from" - and a class needs a guard, not a per-caller habit. The
+/// first cure deleted the one caller that had the defect and left the class open: measured
+/// 2026-08-01 on a fresh repo with no canon, `vjs audit --out <repo>/lawpack/v2/orders/probe.md`
+/// created `<repo>/lawpack/v2` and exited 0. The verb is a REPORT WRITER, not an authoring
+/// act, and an operator-supplied `--out` was all it took. Nothing in the tree stopped it,
+/// and the compliance record asserted the rule held.
+///
+/// Compared on the LEXICAL path (both sides normalised through `absolutise`), because the
+/// target usually does not exist yet - which is the whole point - so `canonicalize` cannot
+/// see it. The canon root is `<repo>/lawpack/v2`, the vendored candidate the resolver
+/// prefers; a configured out-of-tree canon belongs to another repository and is not this
+/// repository's to write through a `--out` flag either, so it is refused on the same terms
+/// when it is named.
+///
+/// The exception CC-VJS 16 preserves is a DELIBERATE PERMITTED AUTHORING ACT in the
+/// repository that owns the canon. This guard is deliberately not applied to those: it
+/// guards the verbs that take a caller-supplied output path and would otherwise create the
+/// directory as a side effect of writing a report.
+pub fn refuse_write_into_canon_tree(repo: &Path, target: &Path) -> Result<(), KernelError> {
+    let absolutise = |p: &Path| -> PathBuf {
+        if p.is_absolute() {
+            p.to_path_buf()
+        } else {
+            repo.join(p)
+        }
+    };
+    let target = absolutise(target);
+    // LAWPACK-LITERAL: referent=write-target; status=reserved; authority=[2026] VJS-CC-VJS 16.
+    // This names the canon root as a place NOT to write. It is the one literal whose whole
+    // purpose is refusal, so collapsing it into the resolver would be wrong: the resolver
+    // answers "where do I READ the law from" and may return an out-of-tree directory, while
+    // this asks "is this target inside the tree nothing may manufacture". Both roots are
+    // checked below, so the guard covers the vendored candidate AND a recorded subscription.
+    let mut roots = vec![repo.join("lawpack/v2")];
+    if let Some(configured) = lawpack_path_from_config(repo) {
+        roots.push(absolutise(&configured));
+    }
+    if let Some(env) = env_lawpack_path() {
+        roots.push(absolutise(&env));
+    }
+    for root in roots {
+        if target == root || target.starts_with(&root) {
+            return Err(KernelError::InvalidInput(format!(
+                "refusing to write '{}': it is inside the canon tree at '{}'. No kernel write \
+                 path may bring into being, or write through, the directory the resolver reads \
+                 the canon from ([2026] VJS-CC-VJS 16 D2). One valid record call once replaced a \
+                 160-file constitutional canon with a one-file directory this way. Choose an \
+                 output path outside the canon tree; authoring canon is a deliberate permitted \
+                 act, not the side effect of a verb writing a report.",
+                target.display(),
+                root.display()
+            )));
+        }
+    }
+    Ok(())
+}
+
 /// What `vjs invoke --lawpack` names: the label to record, and the directory it resolved to.
 ///
 /// D3 of [2026] VJS-CC-VJS 12: "a flag that labels without selecting must be made to select

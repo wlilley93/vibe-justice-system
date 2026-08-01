@@ -325,3 +325,63 @@ fn an_unnamed_re_pin_refuses_to_ratify_a_displacement_and_leaves_the_lock_untouc
     );
     assert!(ok, "a named --lawpack must still be honoured:\n{text}");
 }
+
+/// [2026] VJS-CC-VJS 16 C2 as a CLASS, not as one caller.
+///
+/// The first cure deleted the one write site that had the defect. That satisfied the grep
+/// the condition names and left the class wide open: measured 2026-08-01, on a fresh repo
+/// with no canon at all,
+///
+///     vjs audit --out <repo>/lawpack/v2/orders/probe.md
+///
+/// created `<repo>/lawpack/v2` and exited 0. The verb writes a REPORT; an operator-supplied
+/// `--out` was the whole attack surface, and the compliance record asserted the rule held.
+///
+/// The condition says in terms that it is "stated as a class and not as one caller, because
+/// the defect IS the class". A class needs a guard.
+#[test]
+fn no_operator_supplied_output_path_can_manufacture_the_canon_tree() {
+    let repo = scratch("c2-class");
+    let canon = repo.join("lawpack/v2");
+
+    // Both verbs that take a caller-supplied --out and create its parent.
+    let v1 = repo.join("v1-archive");
+    std::fs::create_dir_all(&v1).unwrap();
+    for (verb, extra, target) in [
+        ("audit", vec![], "lawpack/v2/orders/probe.md"),
+        (
+            "migrate-v1",
+            vec!["--v1-path", v1.to_str().unwrap()],
+            "lawpack/v2/decisions/probe.yaml",
+        ),
+    ] {
+        assert!(
+            !canon.exists(),
+            "the fixture must start with NO canon, or this proves nothing"
+        );
+        let out_arg = repo.join(target);
+        let mut argv = vec![verb];
+        argv.extend(extra);
+        argv.extend(["--out", out_arg.to_str().unwrap()]);
+        let (ok, text) = run(&repo, &argv);
+        assert!(
+            !ok,
+            "`vjs {verb} --out` inside the canon tree must be REFUSED:\n{text}"
+        );
+        assert!(
+            text.contains("canon tree"),
+            "the refusal must say why:\n{text}"
+        );
+        assert!(
+            !canon.exists(),
+            "`vjs {verb}` created the directory the resolver reads the canon from"
+        );
+    }
+
+    // THE NEGATIVE CONTROL. Without it this passes just as well on a verb that refuses
+    // every --out, which would be a gate that cries wolf rather than one that discriminates.
+    let out = repo.join("docs/conformance-map.md");
+    let (ok, text) = run(&repo, &["audit", "--out", out.to_str().unwrap()]);
+    assert!(ok, "an --out OUTSIDE the canon tree must still work:\n{text}");
+    assert!(out.is_file(), "and must actually write its report");
+}

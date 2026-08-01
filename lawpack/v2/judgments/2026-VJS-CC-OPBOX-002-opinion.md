@@ -1,7 +1,7 @@
 # [2026] VJS-CC-OPBOX 2 - opinion of Hairline CCJ
 
 County Court, sitting at first instance. Bench of one. Vote 1-0.
-Issue: `opbox_design_control_boundary_contrast`.
+Issue: `<subscriber>_design_control_boundary_contrast`.
 Case file: `SUBMISSION-2026-07-25-080957`,
 digest `sha256:b567b056d2c8a1af712788b03a5fd952fd3008873f62e622b34c1a5e55d9dd07`.
 Convened `CONVENING-county-2026-07-25-081746`.
