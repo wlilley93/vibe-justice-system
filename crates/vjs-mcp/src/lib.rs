@@ -95,7 +95,7 @@ impl McpServer {
         let input: RouteInput =
             serde_json::from_value(params).map_err(|e| KernelError::InvalidInput(e.to_string()))?;
 
-        let ctx = build_context(&self.repo_root)?;
+        let ctx = vjs_engine::build_kernel_context(&self.repo_root)?;
         let decision = route(input, &ctx)?;
 
         serde_json::to_value(decision).map_err(|e| KernelError::Serialization(e.to_string()))
@@ -111,7 +111,7 @@ impl McpServer {
         )
         .map_err(|e| KernelError::InvalidInput(e.to_string()))?;
 
-        let ctx = build_context(&self.repo_root)?;
+        let ctx = vjs_engine::build_kernel_context(&self.repo_root)?;
         let input = RouteInput {
             repo_root: Some(self.repo_root.clone()),
             jurisdiction: Some(JurisdictionId("default".into())),
@@ -308,11 +308,12 @@ impl McpServer {
             .map_err(|e| KernelError::InvalidInput(format!("order: {e}")))?;
         // PC-19 apex routing, in the typed record verb. Only the apex seat ("vjs") may
         // RECORD an above-County order; a subscribing jurisdiction records only its
-        // first-instance County line and refers anything higher up. The commit hook's
-        // path scan (hook.rs) DELIBERATELY excludes lawpack/ paths, so this verb - which
-        // writes straight into lawpack/v2/orders - is the one chokepoint where that gap
-        // must be closed on the typed `order.court`, not by path. Mirrors front.rs's
-        // APEX_SEAT and apex_routing_decision: same rule, same shared meaning (D4).
+        // first-instance County line and refers anything higher up. This is a check on the
+        // typed `order.court` and NOT on a path, so it does not move with the destination:
+        // [2026] VJS-CC-VJS 16 C1 changed where this verb writes and left this refusal
+        // exactly here, because what makes it necessary is that a record-creation verb can
+        // mint an above-County order at all, not which directory it lands in. Mirrors
+        // front.rs's APEX_SEAT and apex_routing_decision: same rule, same meaning (D4).
         const APEX_SEAT: &str = "vjs";
         let jurisdiction_id = vjs_store::Store::read_repo_config(&self.repo_root)?
             .map(|c| c.jurisdiction_id)
@@ -361,18 +362,24 @@ impl McpServer {
                 )));
             }
         }
-        // LAWPACK-LITERAL: referent=write-target; status=reserved; authority=[2026]
-        // VJS-CC-VJS 15. This names THIS repository's own canon as a place to WRITE, not
-        // a canon to READ, so it is correct-because-local and must NOT be re-pointed at
-        // the resolver: recording into a subscribed out-of-tree lawpack would write a
-        // subscriber's order into somebody else's canon. Whether the verb should be able
-        // to write here at all is a separate question, left open.
-        let dir = self.repo_root.join("lawpack/v2/orders");
-        std::fs::create_dir_all(&dir).map_err(|e| KernelError::Io(e.to_string()))?;
-        let path = dir.join(format!("{}.yaml", order.id));
-        let yaml =
-            serde_yaml::to_string(&order).map_err(|e| KernelError::Serialization(e.to_string()))?;
-        std::fs::write(&path, yaml).map_err(|e| KernelError::Io(e.to_string()))?;
+        // ONE KIND OF RECORD, ONE DESTINATION ([2026] VJS-CC-VJS 16 C1).
+        //
+        // This verb wrote into the CANON TREE's orders directory and CREATED that directory
+        // if it was absent. Measured 2026-08-01 on a jurisdiction subscribing to the canon
+        // out of tree: one valid `record` call manufactured the canon root, the resolver
+        // prefers a vendored directory, and a 160-file constitutional canon was replaced by
+        // a one-file one. `lookup` then returned the new order and nothing else; the
+        // canon-boundary gate went silent because `resolve_canon_repo_code` found no
+        // manifest and fell back to the subscriber's own repo_code; and zero invariants
+        // evaluated while the reporter said "all passed". The order was not malformed -
+        // that is what the verb did when it worked.
+        //
+        // A verb that records a jurisdiction's own governed record writes it to that
+        // jurisdiction's LOCAL record store and never into the canon tree. This is the same
+        // function `vjs order apply` calls (`Store::write_order` -> `.vjs/orders`), so the
+        // two doors now have one destination and the marker that declared this site as a
+        // reserved write-target is gone with the site.
+        let path = vjs_store::Store::write_order(&self.repo_root, &order)?;
         Ok(serde_json::json!({ "recorded": order.id, "path": path.display().to_string() }))
     }
 }
@@ -388,29 +395,6 @@ pub fn auth_satisfied(expected: &str, params: Option<&Value>) -> bool {
         .and_then(|p| p.get("_token"))
         .and_then(|t| t.as_str())
         == Some(expected)
-}
-
-/// The kernel context this door answers from.
-///
-/// Both halves are the ENGINE's ([2026] VJS-CC-VJS 15). This crate carried its own
-/// `load_lawpack` and `compute_digest` until then, and they were the SUPERSEDED law: the
-/// loader named `lawpack/v2` directly, so it never reached the CC-VJS 12 D1 refusal and
-/// answered an invoked jurisdiction with an empty canon; the digest hashed `manifest.toml`
-/// alone, the computation CC-VJS 12 D4 rejected as "a pin that cannot move when the law
-/// moves". Measured 2026-08-01: with the empty lawpack the `record` verb found no
-/// courts-constitution order, skipped `verify_bench` entirely, and RECORDED a two-judge
-/// County order with no opinion that the vendored control refuses. Deleted, not fixed:
-/// a second copy of the rule is what let the doors disagree.
-fn build_context(repo: &std::path::Path) -> Result<KernelContext, KernelError> {
-    let lawpack = vjs_engine::load_lawpack(repo)?;
-    let graph = lawpack.build_authority_graph()?;
-    let digest = vjs_engine::compute_digest(repo)?;
-
-    Ok(KernelContext {
-        authority_graph: graph,
-        limits: ContextLimits::default(),
-        lawpack_digest: digest,
-    })
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

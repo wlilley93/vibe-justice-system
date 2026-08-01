@@ -1,0 +1,14 @@
+id: LOG-2026-08-01-183914
+time: 2026-08-01T18:39:14.949506511+00:00
+actor: lexby
+kind: implementation
+issue: canon-displacement-by-write
+decision: Implemented CC-VJS 16 C1, C2 and C4, and CC-VJS 17 C4. The MCP record verb now writes through Store::write_order to .vjs/orders, the same door vjs order apply uses; no production source under crates/ creates the canon directory; vjs_mcp::build_context is deleted and both doors build one graph in vjs-engine that overlays the local order register; and the Gazette publishes a repo-relative lawpack directory or omits the field.
+basis:
+- 2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016
+- 2026-VJS-CC-VJS-TWO-REGISTERS-017
+- PERMIT-1785609543
+risk: medium
+reversibility: easy
+court_required: false
+why: 'Both red seeds were run and both fire discriminatingly: restoring the hardcoded canon-tree write reds the two write-target assertions, and removing the overlay reds only the one-graph test. The Gazette had been REFUSING since CC-VJS 15 introduced the absolute-path field, so the committed artefact was six rulings stale while its page rendered today''s date; it now regenerates clean, carries the current digest and source commit, and contains no absolute path. Two binding rulings met at the artefact''s path field: CC-VJS 15 C4 required it to record the tree it read, CC-VJS 17 C4 forbids an absolute path, and an out-of-tree subscription has no repo-relative form. C17 C4 expressly authorises omission, so the CC-VJS 15 test is narrowed rather than deleted and the tension is filed for the court.'

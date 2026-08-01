@@ -1,0 +1,41 @@
+id: PERMIT-1785609543
+route_id: ROUTE-20260801-183903
+actor: lexby
+scope:
+  paths:
+  - crates/vjs-cli/src/context.rs
+  - crates/vjs-cli/src/gazette/render.rs
+  - crates/vjs-cli/tests/gazette_lawpack.rs
+  - crates/vjs-engine/src/context.rs
+  - crates/vjs-engine/src/lib.rs
+  - crates/vjs-mcp/src/lib.rs
+  - crates/vjs-mcp/tests/lawpack_door.rs
+  - crates/vjs-store/src/lib.rs
+  - gazette-data.js
+  - gazette-data.json
+  jurisdictions: null
+  action_kinds: null
+  issue_tags: null
+  records: null
+obligations:
+- id: OBL-LOG-001
+  kind: decision_log
+  required: true
+  due: before_commit
+  description: Write a decision log for this material implementation decision
+- id: OBL-VALIDATE-001
+  kind: validation
+  required: true
+  due: before_commit
+  description: Run vjs validate before commit
+expires_at: 2026-08-02T18:39:03.043768430+00:00
+status: active
+self_issued: true
+meaning: 'agent-routed self-issue: records that the actor took the front door (ACT-007 local-sovereign invocation); NOT an external authority''s approval. It cannot satisfy a check reserved to the Sovereign (assent) or to a constituted bench (an order).'
+intent_digest: sha256:29a1fd6929d275e71dd1454a50cfd9b76ac7de29ab3ba9515b6ae954e0faded3
+law_source:
+- ACT-001:s1
+- ACT-001:s2
+- ACT-001:s3
+- ACT-001:s4
+- 2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016

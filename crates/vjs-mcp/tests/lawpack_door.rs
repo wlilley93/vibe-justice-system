@@ -280,3 +280,113 @@ fn a_repo_that_is_not_a_jurisdiction_still_answers_on_an_empty_canon() {
     );
     assert_eq!(resp[0]["result"]["authorities"], serde_json::json!([]));
 }
+
+/// [2026] VJS-CC-VJS 16 C1 + C2: the record verb writes to this jurisdiction's own order
+/// register, and no write path brings the resolver's directory into being.
+///
+/// The fixture vendors NOTHING and subscribes out of tree, which is the configuration the
+/// harm lives in: in a repository that already vendors a canon, the write would land beside
+/// 160 other files and displace nothing, so the assertion could not fail on the defect.
+#[test]
+fn record_writes_to_the_local_register_and_never_manufactures_the_canon_tree() {
+    let repo = scratch("write-target");
+    write_config(&repo, Some(&real_lawpack()));
+    assert!(
+        !repo.join("lawpack/v2").exists(),
+        "this test is only about a jurisdiction that vendors NO canon"
+    );
+    std::fs::create_dir_all(repo.join(".vjs/opinions")).unwrap();
+    std::fs::write(
+        repo.join(".vjs/opinions/op.md"),
+        "## Judge A\n\nJudge A sets out the reasons at length, because a seat that owns no \
+         attributed content in the opinion document is a silent seat and the record does not \
+         evidence its participation. This paragraph exists to own more than the minimum \
+         attributed content the bench gate measures.\n",
+    )
+    .unwrap();
+
+    let resp = call(
+        &repo,
+        &[serde_json::json!({"jsonrpc":"2.0","id":1,"method":"vjs.record",
+                             "params": county_order("2026-VJS-CC-T-016", &["Judge A"],
+                                                    Some(".vjs/opinions/op.md"))})],
+    );
+    assert!(!is_error(&resp[0]), "a constituted order must record: {}", resp[0]);
+
+    // C1: the destination is the LOCAL register, and the verb SAYS so.
+    assert!(
+        repo.join(".vjs/orders/2026-VJS-CC-T-016.yaml").is_file(),
+        "the record must land in this jurisdiction's own order register"
+    );
+    let reported = resp[0]["result"]["path"].as_str().unwrap_or_default();
+    assert!(
+        reported.contains(".vjs/orders"),
+        "the verb must report where it actually wrote, got: {reported}"
+    );
+
+    // C2: and the resolver's directory must not have been brought into being. This is the
+    // whole ruling in one assertion - the write is what manufactured the canon tree, and a
+    // manufactured canon tree is what silenced the canon-sourced half of enforcement.
+    assert!(
+        !repo.join("lawpack/v2").exists(),
+        "a WRITE path created the directory the resolver reads the canon from"
+    );
+}
+
+/// [2026] VJS-CC-VJS 16 C4: both doors answer from ONE graph, and that graph carries this
+/// repository's own filed orders as well as the canon it subscribes to.
+///
+/// THE FIXTURE VENDORS NOTHING AND RESOLVES OUT OF TREE, and it asserts so. Recording through
+/// the verb and reading it back in a repository that VENDORS the canon would be vacuous: the
+/// record would be visible either way, so the assertion could not fail on the defect.
+///
+/// AND IT ASSERTS BOTH DIRECTIONS. The failure being cured is one register replacing the
+/// other, so a test that only counted the local order would pass on the very displacement
+/// this order forbids. The recorded order and the constitutional stack must come back in ONE
+/// answer to ONE question.
+#[test]
+fn one_graph_carries_the_local_register_and_the_subscribed_canon() {
+    let repo = scratch("one-graph");
+    write_config(&repo, Some(&real_lawpack()));
+    assert!(
+        !repo.join("lawpack/v2").exists(),
+        "the fixture must vendor nothing, or the record is visible either way"
+    );
+    std::fs::create_dir_all(repo.join(".vjs/opinions")).unwrap();
+    std::fs::write(
+        repo.join(".vjs/opinions/op.md"),
+        "## Judge A\n\nJudge A sets out the reasons at length, because a seat that owns no \
+         attributed content in the opinion document is a silent seat and the record does not \
+         evidence its participation. This paragraph exists to own more than the minimum \
+         attributed content the bench gate measures.\n",
+    )
+    .unwrap();
+
+    // The order's issue is the canon's own busiest issue, so ONE lookup can prove both
+    // halves: the order is hoisted on-point, the constitutional stack follows it.
+    let mut order = county_order("2026-VJS-CC-T-017", &["Judge A"], Some(".vjs/opinions/op.md"));
+    order["issue"] = serde_json::Value::String("enforcement".into());
+
+    let resp = call(
+        &repo,
+        &[
+            serde_json::json!({"jsonrpc":"2.0","id":1,"method":"vjs.record","params": order}),
+            serde_json::json!({"jsonrpc":"2.0","id":2,"method":"vjs.lookup",
+                               "params":{"issue":"enforcement"}}),
+        ],
+    );
+    assert_eq!(resp.len(), 2, "one response per request: {resp:?}");
+    assert!(!is_error(&resp[0]), "a constituted order must record: {}", resp[0]);
+
+    let answer = serde_json::to_string(&resp[1]["result"]).unwrap();
+    assert!(
+        answer.contains("2026-VJS-CC-T-017"),
+        "the door must read back what it recorded - at HEAD the only thing that ever made it \
+         legible was that the write displaced the canon: {answer}"
+    );
+    assert!(
+        answer.contains("ACT-001"),
+        "and the canon stack must still be there: one register replacing the other is the \
+         failure being cured, not the cure: {answer}"
+    );
+}

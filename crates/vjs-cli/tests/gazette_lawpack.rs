@@ -182,10 +182,35 @@ fn the_artefact_names_the_tree_it_published_and_never_pins_an_empty_register() {
         meta["source"], "config",
         "the artefact must record WHICH source answered:\n{meta}"
     );
-    assert_eq!(
-        meta["path"].as_str().unwrap(),
-        lawpack.display().to_string(),
-        "the artefact must record the directory it actually read"
+    // WHERE TWO RULINGS MEET. [2026] VJS-CC-VJS 15 C4 required the artefact to record the
+    // directory it actually read, and this assertion used to require the ABSOLUTE path.
+    // [2026] VJS-CC-VJS 17 C4 then held that the publication surface publishes no absolute
+    // path - the operator-account segment of a checkout path is itself a denylist entry, so
+    // the Gazette refused ITSELF, and would have published a private repo path had it not
+    // (ACT-005:s1 publish_private_repo_paths).
+    //
+    // C17 C4's own words are "a repo-relative directory, OR OMIT THE FIELD", so omission is
+    // expressly authorised, and this fixture is the case that needs it: the lawpack is
+    // subscribed OUT OF TREE, which is the live subscriber's configuration, and an
+    // out-of-tree tree has no repo-relative form to publish.
+    //
+    // What survives of C15 C4 is that the artefact still records WHICH SOURCE answered
+    // (asserted above) and still pins the DIGEST (asserted below), and the digest is the
+    // tree's identity where the path is only its location. Whether that satisfies "records
+    // the tree it read" for an out-of-tree subscriber is not mine to settle and is FILED.
+    // This assertion is narrowed, not deleted: it still forbids the absolute path.
+    assert!(
+        meta["path"].is_null()
+            || meta["path"]
+                .as_str()
+                .is_some_and(|p| !p.starts_with('/') && !p.contains(':')),
+        "the artefact publishes a repo-relative directory or omits the field, never an \
+         absolute checkout path ([2026] VJS-CC-VJS 17 C4):\n{meta}"
+    );
+    assert!(
+        !meta["source"].is_null(),
+        "and whichever way the path goes, the SOURCE that answered is still recorded \
+         ([2026] VJS-CC-VJS 15 C4):\n{meta}"
     );
     assert!(
         d["meta"]["counts"]["total"].as_u64().unwrap() > 0,

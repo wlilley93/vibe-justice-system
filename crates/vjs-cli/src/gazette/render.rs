@@ -211,7 +211,19 @@ pub(crate) fn write_estate_outputs(
                 "digest": pin("digest"),
                 "locked_at": pin("locked_at"),
                 "source": resolution.as_ref().map(|r| r.source),
-                "path": resolution.as_ref().map(|r| r.dir.display().to_string()),
+                // A REPO-RELATIVE directory, or nothing. `r.dir.display()` published the
+                // ABSOLUTE checkout path, whose operator-account segment is itself a
+                // denylist entry - so the Gazette refused ITSELF, and would have published
+                // a private repo path had it not (ACT-005:s1 publish_private_repo_paths).
+                // The treatment is the one already reasoned twenty lines away in
+                // `gazette/mod.rs`: publish the path the tree occupies in the PUBLISHED
+                // estate, never the path it occupies on this disk. A lawpack resolved
+                // OUTSIDE the repo (VJS_LAWPACK) has no repo-relative form, so the field
+                // is OMITTED rather than guessed ([2026] VJS-CC-VJS 17 C4).
+                "path": resolution
+                    .as_ref()
+                    .and_then(|r| r.dir.strip_prefix(repo).ok())
+                    .map(|p| p.display().to_string().replace('\\', "/")),
             },
             "source_commit": source_commit,
             "counts": { "total": items.len(), "canon": v2_count, "archive": items.len() - v2_count },

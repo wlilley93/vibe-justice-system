@@ -73,7 +73,16 @@ impl Store {
         Ok(())
     }
 
-    pub fn write_order(repo_root: &Path, order: &Order) -> Result<(), KernelError> {
+    /// Write a filed order to this jurisdiction's LOCAL order register, and return where
+    /// it landed. THE destination for a governed order record, for every door: `vjs order
+    /// apply` called this already and the MCP `record` verb now calls it too, so the two
+    /// doors have one destination ([2026] VJS-CC-VJS 16 C1). The path is returned rather
+    /// than recomposed by the caller, because a caller that recomposes it is a second
+    /// statement of where records go, which is how the doors came apart in the first place.
+    pub fn write_order(
+        repo_root: &Path,
+        order: &Order,
+    ) -> Result<std::path::PathBuf, KernelError> {
         let orders_dir = repo_root.join(".vjs/orders");
         std::fs::create_dir_all(&orders_dir).map_err(|e| KernelError::Io(e.to_string()))?;
 
@@ -83,7 +92,7 @@ impl Store {
             serde_yaml::to_string(order).map_err(|e| KernelError::Serialization(e.to_string()))?;
         std::fs::write(&path, content).map_err(|e| KernelError::Io(e.to_string()))?;
 
-        Ok(())
+        Ok(path)
     }
 
     pub fn write_submission(repo_root: &Path, submission: &Submission) -> Result<(), KernelError> {

@@ -18,9 +18,11 @@ use vjs_redact::RedactScanner;
 use vjs_store::Store;
 
 pub mod assent;
+pub mod context;
 pub mod runtime;
 mod staged;
 
+pub use context::build_kernel_context;
 use staged::staged_gates;
 
 /// Options for a validate run.
@@ -222,14 +224,14 @@ fn lawpack_id_of(dir: &Path) -> Option<String> {
     let mut version = None;
     for line in text.lines() {
         let line = line.trim();
-        if let Some(v) = line.strip_prefix("id") {
-            if let Some(v) = v.trim_start().strip_prefix('=') {
-                id = Some(v.trim().trim_matches('"').to_string());
-            }
-        } else if let Some(v) = line.strip_prefix("version") {
-            if let Some(v) = v.trim_start().strip_prefix('=') {
-                version = Some(v.trim().trim_matches('"').to_string());
-            }
+        if let Some(v) = line.strip_prefix("id")
+            && let Some(v) = v.trim_start().strip_prefix('=')
+        {
+            id = Some(v.trim().trim_matches('"').to_string());
+        } else if let Some(v) = line.strip_prefix("version")
+            && let Some(v) = v.trim_start().strip_prefix('=')
+        {
+            version = Some(v.trim().trim_matches('"').to_string());
         }
     }
     match (id, version) {
