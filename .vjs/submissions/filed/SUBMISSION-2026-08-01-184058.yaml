@@ -1,0 +1,50 @@
+id: SUBMISSION-2026-08-01-184058
+court_requested: county
+jurisdiction: default
+question: Is a reasoned opinion a publishable class of canon record, given the Gazette publishes every canon directory but judgments, so the public estate shows operative directives with no reasons a reader can check them against?
+facts: |
+  # Facts: the Gazette publishes the orders and not the opinions that reason them
+
+  Filed by Lexby on its own motion while discharging CC-VJS 17 C4, which unblocked the
+  Gazette for the first time since CC-VJS 15.
+
+  ## 1. Measured
+
+  `crates/vjs-cli/src/gazette/mod.rs:118-125` lists the canon directories the Gazette
+  publishes: `statutes`, `regulations`, `rules`, `orders`, `specs`, `invariants`,
+  `decisions`, `obligations`. **`judgments` is not among them.**
+
+  `lawpack/v2/judgments/` holds 13 files - every V2 reasoned opinion this jurisdiction has
+  written, CC-VJS 12 to 18, PC-19, SC-4/6/7. None is published.
+
+  Regenerated artefact: 114 items, 77 canon, 37 orders and 21 judgments - and all 21 are
+  `REALM-*` records from the V1 archive, read from `provenance`. Searched it for CC-VJS 12
+  through 18: absent, all seven.
+
+  So the public estate shows the operative directives with no reasons attached.
+
+  ## 2. Why it matters
+
+  Under SPEC-LAW only the **ratio** binds; obiter is persuasive. The ratio lives in the
+  opinion, not in the order. An order carries a `runtime_summary` and a `holding`, both
+  written by the same hand that wrote the opinion, and the Gazette publishes those and
+  nothing a reader can check them against. A reader cannot ask whether an order's summary
+  faithfully states its opinion's ratio, because the opinion is not there.
+
+  This is not a rendering gap: it is a whole canon directory no published surface reaches.
+
+  ## 3. Why I am not disposing of it myself
+
+  Publishing `judgments` wholesale is exactly what CC-VJS 17 forbids until its cure lands.
+  Three canon judgments carry a denylisted term today, admitted at CC-VJS 17 fact 3, and
+  those are the records C8 orders cured. And the CC-VJS 19 opinion was deliberately filed
+  to the LOCAL court store rather than to canon, because it names subscriber repositories
+  and ACT-005:s1 requires canon to be generic - so at least one opinion exists that the
+  court chose not to put in the published estate at all.
+
+  That means the question is not "add `judgments` to the list". It is whether a reasoned
+  opinion is a publishable class of record, and if so, on what condition. Genuinely
+  first-impression, and it must be sequenced behind CC-VJS 17 C8 either way.
+requested_order: TBD
+private_boundary: local
+word_count: 391
