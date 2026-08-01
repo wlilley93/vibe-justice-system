@@ -32,12 +32,9 @@ fail = False
 # scanner itself). Precedent: promote-canonical.sh allowlisted this sequence.
 ALLOW = ["0123456789abcdefghij", "/home/other/"]
 def allowed(m): return any(a in m for a in ALLOW)
-deny = set()
-try:
-    for ln in open(".vjs/publication-denylist.txt"):
-        ln = ln.strip()
-        if ln and not ln.startswith("#"): deny.add(ln)
-except FileNotFoundError: pass
+sys.path.insert(0, "scripts/lib")
+import denylist
+deny = denylist.load()
 tok = ""
 for ch in text + "\n":
     if ch.isalnum() or ch == "-": tok += ch

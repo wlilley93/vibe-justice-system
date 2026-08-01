@@ -243,10 +243,53 @@ pub(crate) fn write_estate_outputs(
     // default. The path that carries archive PDFs and estate text now has the
     // boundary scan the governed writers always had.
     {
+        // C5: THE GATE READS WHAT IT LINKS. An item carrying a `source_opinion` publishes its
+        // path AND a public blob URL to its body, and the body was never scanned - so the
+        // backstop credited with catching a leaked opinion was structurally blind to opinion
+        // bodies. Every body reachable from a published item is scanned, whether or not it is
+        // rendered; an unreadable one is a REFUSAL and never a skip (C3, on all fours).
+        // A `source_opinion` path is written by the CANON'S author and is relative to the
+        // repository that OWNS the canon, not to whoever is publishing it. A subscriber
+        // resolving the canon out of tree has no such file under its own root, so resolving
+        // against `repo` alone refuses every subscriber - which the existing suite caught.
+        // The canon's home is the grandparent of the resolved `lawpack/v2`.
+        let canon_home = resolution
+            .as_ref()
+            .and_then(|r| r.dir.parent().and_then(|p| p.parent()))
+            .map(|p| p.to_path_buf());
+        let no_items = Vec::new();
+        let mut linked = String::new();
+        for item in data["items"].as_array().unwrap_or(&no_items) {
+            let Some(op) = item["opinion"]["path"].as_str() else {
+                continue;
+            };
+            let rel = op.trim_start_matches("./");
+            let candidates: Vec<PathBuf> = canon_home
+                .iter()
+                .map(|h| h.join(rel))
+                .chain(std::iter::once(repo.join(rel)))
+                .collect();
+            let body = candidates
+                .iter()
+                .find_map(|p| std::fs::read_to_string(p).ok())
+                .ok_or_else(|| {
+                    KernelError::InvalidInput(format!(
+                        "publication boundary: '{}' is published with a link to the \
+                         source_opinion at '{rel}', which the gate cannot read from the canon's \
+                         own tree or from this repository. The gate scans every body reachable \
+                         from a published item, so an unreadable one is a refusal and never a \
+                         skip ([2026] VJS-CC-VJS 17 C5).",
+                        item["id"].as_str().unwrap_or_default()
+                    ))
+                })?;
+            linked.push('\n');
+            linked.push_str(&body);
+        }
         let published = format!(
-            "{}\n{}",
+            "{}\n{}\n{}",
             serde_json::to_string(&data).unwrap_or_default(),
-            serde_json::to_string(&texts).unwrap_or_default()
+            serde_json::to_string(&texts).unwrap_or_default(),
+            linked
         );
         // Keep the high-confidence findings (keys, tokens, emails, passwords);
         // drop PrivateHostname, whose word.local/internal/private/lan pattern
@@ -263,38 +306,16 @@ pub(crate) fn write_estate_outputs(
                 kinds.join("; ")
             )));
         }
-        if let Ok(deny) = std::fs::read_to_string(repo.join(".vjs/publication-denylist.txt")) {
-            use sha2::Digest;
-            let hashes: std::collections::HashSet<String> = deny
-                .lines()
-                .map(|l| l.trim())
-                .filter(|l| !l.is_empty() && !l.starts_with('#'))
-                .map(|l| l.to_string())
-                .collect();
-            let mut token = String::new();
-            let mut hit = false;
-            let check = |t: &str, hit: &mut bool| {
-                if t.len() >= 3 {
-                    let h = format!("{:x}", sha2::Sha256::digest(t.to_lowercase().as_bytes()));
-                    if hashes.contains(&h) {
-                        *hit = true;
-                    }
-                }
-            };
-            for ch in published.chars() {
-                if ch.is_alphanumeric() || ch == '-' {
-                    token.push(ch);
-                } else {
-                    check(&token, &mut hit);
-                    token.clear();
-                }
-            }
-            check(&token, &mut hit);
-            if hit {
-                return Err(KernelError::InvalidInput(
-                    "publication boundary: the Gazette would publish a denylisted private term; a carried external-matter artifact is private by default and must be cleared before publication (BREACH-2026-06-10)".into(),
-                ));
-            }
+        // ONE loader and ONE tokeniser, shared with the canon-write gate's C1 limb - so "the
+        // canon gate tokenises exactly as the publication gate does" is a property of the
+        // CODE, not of a comment. This was `if let Ok(deny) = read_to_string(...)`, which
+        // SKIPPED THE WHOLE LIMB when the register could not be read: the gate then published,
+        // and said nothing about having not looked ([2026] VJS-CC-VJS 17 C3).
+        let deny = vjs_redact::Denylist::load(repo)?;
+        if deny.hits_anywhere(&published) {
+            return Err(KernelError::InvalidInput(
+                "publication boundary: the Gazette would publish a denylisted private term; a carried external-matter artifact is private by default and must be cleared before publication (BREACH-2026-06-10). The term is not named here: naming it would publish it ([2026] VJS-CC-VJS 17 C1/C3)".into(),
+            ));
         }
     }
 

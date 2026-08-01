@@ -65,14 +65,9 @@ git diff "$RANGE" -- . ':(exclude).vjs/logs' ':(exclude).vjs/permits' ':(exclude
   | grep '^+' > "$DIFF_ADDED" || true
 python3 - "$DIFF_ADDED" <<'PYEOF' || exit 1
 import hashlib, sys
-deny = set()
-try:
-    for line in open(".vjs/publication-denylist.txt"):
-        line = line.strip()
-        if line and not line.startswith("#"):
-            deny.add(line)
-except FileNotFoundError:
-    sys.exit(0)
+sys.path.insert(0, "scripts/lib")
+import denylist
+deny = denylist.load()
 text = open(sys.argv[1], encoding="utf-8", errors="replace").read()
 if not text.strip():
     # legitimate when the range touches only the excluded governance-record

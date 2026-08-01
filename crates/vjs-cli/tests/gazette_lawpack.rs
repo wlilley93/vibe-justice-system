@@ -20,6 +20,22 @@ fn scratch(name: &str) -> PathBuf {
     let dir = std::env::temp_dir().join(format!("vjs-gazette-{name}-{}", std::process::id()));
     let _ = std::fs::remove_dir_all(&dir);
     std::fs::create_dir_all(&dir).unwrap();
+    // Every fixture here is a JURISDICTION that publishes, so it carries the confidentiality
+    // register a publishing jurisdiction carries. Since [2026] VJS-CC-VJS 17 C3 an absent
+    // register is a REFUSAL, not an empty one, so a fixture without it would be testing the
+    // refusal rather than the thing under test. The four-fixture C3 proofs that DO test the
+    // refusal live in crates/vjs-redact/src/tests.rs and remove it deliberately.
+    //
+    // Worth knowing while reading this: `vjs invoke` does not seed either register, so a
+    // fresh jurisdiction is born unable to publish. That is filed, not fixed here.
+    std::fs::create_dir_all(dir.join(".vjs")).unwrap();
+    std::fs::write(
+        dir.join(".vjs/publication-denylist.txt"),
+        "# fixture register
+         0000000000000000000000000000000000000000000000000000000000000000           # added=2026-08-01 class=synthetic
+",
+    )
+    .unwrap();
     dir
 }
 

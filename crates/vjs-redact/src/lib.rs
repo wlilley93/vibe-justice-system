@@ -3,6 +3,9 @@ use std::path::Path;
 
 use vjs_core::*;
 
+pub mod registers;
+pub use registers::Denylist;
+
 #[cfg(test)]
 mod tests;
 
@@ -276,13 +279,26 @@ impl RedactScanner {
         }
     }
 
-    fn block(path: &Path, kind: BoundaryFindingKind, message: String) -> BoundaryFinding {
+    pub(crate) fn block(path: &Path, kind: BoundaryFindingKind, message: String) -> BoundaryFinding {
         BoundaryFinding {
             severity: Severity::Error,
             path: Some(path.to_path_buf()),
             kind,
             message,
             suggested_route: BoundaryRoute::Block,
+        }
+    }
+
+    /// The report code a boundary finding answers to.
+    ///
+    /// A gate's guard, and its FINDING, must answer to the gate's referent ([2026]
+    /// VJS-CC-VJS 14). A confidentiality hit on the publication denylist is not a
+    /// subscriber-boundary finding and must not wear that code, or a reader who greps for
+    /// CANON_BOUNDARY_VIOLATION learns the wrong thing about what the gate saw.
+    pub fn finding_code(kind: &BoundaryFindingKind) -> &'static str {
+        match kind {
+            BoundaryFindingKind::DenylistedTerm => "CANON_DENYLISTED_TERM",
+            _ => "CANON_BOUNDARY_VIOLATION",
         }
     }
 
@@ -295,7 +311,13 @@ impl RedactScanner {
         canon_repo_code: &str,
         subscriber_codes: &[String],
     ) -> (Vec<BoundaryFinding>, Option<String>) {
-        let mut findings = Vec::new();
+        // Signal 4 (the PROSE limb) runs FIRST, and outside the parse. It reads TEXT, not
+        // structure, and the parse below returns early on every markdown body in canon - so
+        // leaving it downstream of the parse kept it unreachable for a judgment opinion even
+        // after the `.md` skip was deleted ([2026] VJS-CC-VJS 17 C2). Structured-field limbs
+        // 1-3 may remain YAML-keyed by that early return; the PROSE limb may not.
+        let mut findings =
+            registers::prose_subscriber_findings(path, content, canon_repo_code, subscriber_codes);
         let mut foreign_code: Option<String> = None;
 
         let value: serde_yaml::Value = match serde_yaml::from_str(content) {
@@ -391,65 +413,9 @@ impl RedactScanner {
             }
         }
 
-        // Signal 4 (the PROSE limb): a registered subscriber code appearing anywhere in
-        // the record's BODY - not just its structured id/citation/repo_code - is
-        // subscriber-identifying content in canon. The [2026] VJS-PC 15 holding named the
-        // subscriber in its prose and slipped the id-only checks (signals 1-3); this
-        // closes that hole. Canon must be GENERIC (ACT-005:s1; ACT-007:s4): refer to "the
-        // subscriber" / "a subscriber", never the code/name. The registry file itself is
-        // exempt - it IS the list of codes the gate reads.
-        let is_registry = path
-            .to_string_lossy()
-            .replace('\\', "/")
-            .ends_with("federation/subscriber-registry.yaml");
-        if !is_registry {
-            let lower = content.to_ascii_lowercase();
-            for code in subscriber_codes {
-                if code.eq_ignore_ascii_case(canon_repo_code) {
-                    continue;
-                }
-                if contains_word(&lower, &code.to_ascii_lowercase()) {
-                    findings.push(Self::block(
-                        path,
-                        BoundaryFindingKind::UnredactedEvidence,
-                        format!(
-                            "Canon record names subscriber '{code}' in its body/prose. Canon must \
-                             be generic (ACT-005:s1; ACT-007:s4): refer to 'the subscriber' / 'a \
-                             subscriber', never the subscriber's code or name. Only the federation \
-                             subscriber-registry lists codes."
-                        ),
-                    ));
-                    break; // one finding per record is enough to fail closed
-                }
-            }
-        }
-
         (findings, foreign_code)
     }
 
-    /// The accessioned subscriber repo_codes from the federation registry (#11).
-    /// Empty when the registry is absent or unparseable, so the gate degrades to the
-    /// corroboration signals.
-    fn load_subscriber_codes(repo_root: &Path) -> Vec<String> {
-        // The register of the seat this repository IS, not of the canon it reads.
-        // LAWPACK-LITERAL: referent=local-records; status=reserved; authority=[2026] VJS-CC-VJS 15
-        let path = repo_root.join("lawpack/v2/federation/subscriber-registry.yaml");
-        let Ok(content) = std::fs::read_to_string(&path) else {
-            return Vec::new();
-        };
-        let Ok(value) = serde_yaml::from_str::<serde_yaml::Value>(&content) else {
-            return Vec::new();
-        };
-        value
-            .get("codes")
-            .and_then(|c| c.as_sequence())
-            .map(|seq| {
-                seq.iter()
-                    .filter_map(|v| v.as_str().map(|s| s.to_string()))
-                    .collect()
-            })
-            .unwrap_or_default()
-    }
 
     /// Fire the canon-write gate over a set of repo-relative writes. Filters to
     /// lawpack/v2 records, scans each structured record, then a second pass blocks
@@ -460,7 +426,7 @@ impl RedactScanner {
         repo_root: &Path,
         rel_paths: &[std::path::PathBuf],
         canon_repo_code: &CanonRepoCode,
-    ) -> Vec<BoundaryFinding> {
+    ) -> Result<Vec<BoundaryFinding>, KernelError> {
         let in_canon = |p: &Path| {
             let mut comps = p.components();
             matches!(
@@ -473,12 +439,21 @@ impl RedactScanner {
         };
         let canon: Vec<&std::path::PathBuf> = rel_paths.iter().filter(|p| in_canon(p)).collect();
 
-        // #11: the accessioned subscriber repo_codes, so a foreign id-code is caught
-        // even without scope-path corroboration. Read from the federation registry;
-        // absent registry => empty (the corroboration signals still apply).
-        let subscriber_codes = Self::load_subscriber_codes(repo_root);
-
         let mut findings = Vec::new();
+        // No artefact of the governed class, no gate - and no register read either. The
+        // ruling is that a gate consults every register whose harm it exists to prevent
+        // "over every artefact in the class it governs"; where the class is empty there is
+        // nothing to consult them over.
+        if canon.is_empty() {
+            return Ok(findings);
+        }
+
+        // BOTH registers, loaded before any limb runs, and neither ever silently empty.
+        // Unreadable, unparseable or empty is an ERROR naming the path ([2026] VJS-CC-VJS 17
+        // C3): reading an absent register as an empty one makes the gate report canon clean
+        // when it means it could not look.
+        let subscriber_codes = registers::load_subscriber_codes(repo_root)?;
+        let deny = Denylist::load(repo_root)?;
 
         // No code capture. A DECLARED canon repo_code equal to an accessioned subscriber's
         // is itself a boundary violation: signal 4 skips any subscriber code equal to the
@@ -510,12 +485,11 @@ impl RedactScanner {
         let mut foreign_codes: Vec<String> = Vec::new();
         for rel in &canon {
             let abs = repo_root.join(rel);
-            let name = rel.to_string_lossy();
-            let is_yaml = name.ends_with(".yaml") || name.ends_with(".yml");
-            if !is_yaml {
-                continue;
-            }
             if let Ok(content) = std::fs::read_to_string(&abs) {
+                // C1: the CONFIDENTIALITY register, over every canon record whatever its
+                // extension (C2). Separate limb, separate kind, separate code, separate
+                // statute - and it never names the term.
+                findings.extend(registers::denylist_findings(rel, &content, &deny));
                 let (mut fs, code) = Self::scan_canon_record(
                     rel,
                     &content,
@@ -573,28 +547,7 @@ impl RedactScanner {
             }
         }
 
-        findings
+        Ok(findings)
     }
 }
 
-/// True when `needle` (lowercase) appears in `hay` (lowercase) as a whole token - bounded
-/// by non-alphanumerics on both sides - so a subscriber code like "acmeco" is caught in
-/// prose but never as a substring of a longer word. Deterministic; PC-15 boundary cure.
-fn contains_word(hay: &str, needle: &str) -> bool {
-    if needle.is_empty() {
-        return false;
-    }
-    let bytes = hay.as_bytes();
-    let mut from = 0;
-    while let Some(pos) = hay[from..].find(needle) {
-        let start = from + pos;
-        let end = start + needle.len();
-        let before_ok = start == 0 || !bytes[start - 1].is_ascii_alphanumeric();
-        let after_ok = end >= bytes.len() || !bytes[end].is_ascii_alphanumeric();
-        if before_ok && after_ok {
-            return true;
-        }
-        from = start + 1;
-    }
-    false
-}

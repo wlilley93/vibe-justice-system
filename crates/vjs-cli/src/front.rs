@@ -223,10 +223,36 @@ pub(crate) fn cmd_hook(
     // Canon-write gate ([2026] VJS-PC 13 D1), pre_write half: best-effort on content
     // (the file may not be on disk yet; the authoritative bite is validate --staged).
     let canon_block = |paths: &[PathBuf]| -> Option<vjs_core::hook::HookDecision> {
-        let cf = RedactScanner::scan_canon_writes(repo, paths, &canon_repo_code);
+        // C3: an unreadable register is a REFUSAL, not a pass. Failing open here is the vice
+        // the ruling names: the hook would wave the write through and say nothing about
+        // having not looked ([2026] VJS-CC-VJS 17 C3).
+        let cf = match RedactScanner::scan_canon_writes(repo, paths, &canon_repo_code) {
+            Ok(cf) => cf,
+            Err(e) => {
+                return Some(vjs_core::hook::HookDecision::Block(
+                    vjs_core::hook::Finding {
+                        code: "CANON_REGISTER_UNREADABLE".into(),
+                        message: e.to_string(),
+                        next: Some("restore the register named above".into()),
+                    },
+                ));
+            }
+        };
         let first = cf
             .into_iter()
             .find(|x| matches!(x.severity, Severity::Error | Severity::Fatal))?;
+        // The finding answers to the gate's referent ([2026] VJS-CC-VJS 14): a denylist hit
+        // carries its OWN code and its OWN message, which already names file and line and
+        // already declines to name the term.
+        if matches!(first.kind, BoundaryFindingKind::DenylistedTerm) {
+            return Some(vjs_core::hook::HookDecision::Block(
+                vjs_core::hook::Finding {
+                    code: RedactScanner::finding_code(&first.kind).into(),
+                    message: first.message,
+                    next: Some("redact at the file and line named".into()),
+                },
+            ));
+        }
         let where_ = first
             .path
             .as_ref()
@@ -235,7 +261,7 @@ pub(crate) fn cmd_hook(
             .unwrap_or_default();
         Some(vjs_core::hook::HookDecision::Block(
             vjs_core::hook::Finding {
-                code: "CANON_BOUNDARY_VIOLATION".into(),
+                code: RedactScanner::finding_code(&first.kind).into(),
                 message: format!(
                     "{where_} carries subscriber-scoped content (private repo path or repo_code). \
                  Canon holds system data only; file it in the subscriber's own .justice/."

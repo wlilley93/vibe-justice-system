@@ -44,6 +44,18 @@ fn ephemeral_canon(tag: &str) -> PathBuf {
     let base = std::env::temp_dir().join(format!("vjs-e2e-{}-{tag}", std::process::id()));
     let _ = std::fs::remove_dir_all(&base);
     copy_dir(&ws.join("lawpack/v2"), &base.join("lawpack/v2"));
+    // The confidentiality register travels with the fixture. This harness's whole claim is
+    // that it exercises the gates "exactly as a real git commit exercises them", and a real
+    // commit has this file; since [2026] VJS-CC-VJS 17 C3 an absent register is a REFUSAL,
+    // so a harness without it would be measuring the refusal instead of the gate under test.
+    // Copied from the workspace rather than synthesised, so the fixture cannot drift into
+    // testing a register the estate does not actually use.
+    std::fs::create_dir_all(base.join(".vjs")).unwrap();
+    std::fs::copy(
+        ws.join(".vjs/publication-denylist.txt"),
+        base.join(".vjs/publication-denylist.txt"),
+    )
+    .expect("the workspace carries the publication denylist");
     git(&base, &["init", "-q"]);
     git(&base, &["config", "user.email", "t@example.invalid"]);
     git(&base, &["config", "user.name", "harness"]);

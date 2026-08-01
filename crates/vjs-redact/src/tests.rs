@@ -4,7 +4,7 @@
 //! Still a pinned enforcement surface: weakening these proofs is non-silent.
 
 use super::*;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 fn is_blocked(findings: &[BoundaryFinding]) -> bool {
     !RedactScanner::check_public_safe(findings)
@@ -69,6 +69,9 @@ fn canon_secret_scan_blocks_credentials_but_only_warns_on_hostnames() {
     let base = std::env::temp_dir().join(format!("vjs-redact-canonscan-{}", std::process::id()));
     let dir = base.join("lawpack/v2/decisions");
     std::fs::create_dir_all(&dir).unwrap();
+    // This fixture builds its own base and so must seed both registers itself: after C3 an
+    // absent register is a REFUSAL, and this test is about the secret scan, not the refusal.
+    seed_registers(&base, "ACMECO");
     std::fs::write(
         dir.join("cred.yaml"),
         "id: DEC-X\ntoken: ghp_0123456789abcdefghijABCDEFGHIJ0123456\n",
@@ -84,7 +87,7 @@ fn canon_secret_scan_blocks_credentials_but_only_warns_on_hostnames() {
         &base,
         &[PathBuf::from("lawpack/v2/decisions/cred.yaml")],
         &CanonRepoCode::inferred("VJS"),
-    );
+    ).expect("both registers are readable");
     assert!(
         !RedactScanner::check_public_safe(&creds),
         "a GitHub token in a canon record must hard-block"
@@ -99,7 +102,7 @@ fn canon_secret_scan_blocks_credentials_but_only_warns_on_hostnames() {
         &base,
         &[PathBuf::from("lawpack/v2/decisions/host.yaml")],
         &CanonRepoCode::inferred("VJS"),
-    );
+    ).expect("both registers are readable");
     assert!(
         RedactScanner::check_public_safe(&hosts),
         "a .local boundary example must surface as a non-blocking Warning, not block canon"
@@ -217,14 +220,10 @@ fn mirror_repo(tag: &str, manifest_code: Option<&str>, registry_code: Option<&st
     manifest.push_str("\n[limits]\nroute_max_words = 300\n");
     std::fs::write(v2.join("manifest.toml"), manifest).unwrap();
 
-    if let Some(code) = registry_code {
-        std::fs::create_dir_all(v2.join("federation")).unwrap();
-        std::fs::write(
-            v2.join("federation/subscriber-registry.yaml"),
-            format!("id: FEDERATION-SUBSCRIBER-REGISTRY\ncodes:\n  - {code}\n"),
-        )
-        .unwrap();
-    }
+    // Both registers, always: after [2026] VJS-CC-VJS 17 C3 the gate REFUSES rather than
+    // reading an absent register as an empty one, so a fixture that omits one is testing the
+    // refusal and not the limb. The C3 proofs below remove them deliberately.
+    seed_registers(&base, registry_code.unwrap_or("ACMECO"));
 
     std::fs::write(
         v2.join("decisions/mirrored.yaml"),
@@ -244,6 +243,31 @@ fn mirror_repo(tag: &str, manifest_code: Option<&str>, registry_code: Option<&st
     base
 }
 
+/// The synthetic C1 token. Never a real term: the register is hashes, and a proof that
+/// needed a real one would have to carry it in cleartext in the source tree.
+const SYNTHETIC_TOKEN: &str = "quibbleflange";
+
+/// Seed BOTH registers into a fixture repo: the federation registry with `code`, and a
+/// publication denylist holding sha256(SYNTHETIC_TOKEN) with the C7 provenance comment (so
+/// every fixture also proves the loader splits the hash off at the '#').
+fn seed_registers(base: &Path, code: &str) {
+    use sha2::Digest;
+    let v2 = base.join("lawpack/v2");
+    std::fs::create_dir_all(v2.join("federation")).unwrap();
+    std::fs::write(
+        v2.join("federation/subscriber-registry.yaml"),
+        format!("id: FEDERATION-SUBSCRIBER-REGISTRY\ncodes:\n  - {code}\n"),
+    )
+    .unwrap();
+    std::fs::create_dir_all(base.join(".vjs")).unwrap();
+    let h = format!("{:x}", sha2::Sha256::digest(SYNTHETIC_TOKEN.as_bytes()));
+    std::fs::write(
+        base.join(".vjs/publication-denylist.txt"),
+        format!("# fixture register\n{h}  # added=2026-08-01 class=synthetic\n"),
+    )
+    .unwrap();
+}
+
 fn rel(name: &str) -> Vec<PathBuf> {
     vec![PathBuf::from(format!("lawpack/v2/decisions/{name}"))]
 }
@@ -254,13 +278,13 @@ fn a_declared_canon_code_beats_the_local_config_in_a_mirror_jurisdiction() {
     let code = resolve_canon_repo_code(&base, Some("OPBOX"), Some("opbox"));
     assert_eq!(code, CanonRepoCode::declared("VJS"), "the lawpack declares");
 
-    let mirrored = RedactScanner::scan_canon_writes(&base, &rel("mirrored.yaml"), &code);
+    let mirrored = RedactScanner::scan_canon_writes(&base, &rel("mirrored.yaml"), &code).expect("both registers are readable");
     assert!(
         RedactScanner::check_public_safe(&mirrored),
         "a mirrored canon record coded VJS is enacted canon, not a subscriber's law: {mirrored:?}"
     );
 
-    let local = RedactScanner::scan_canon_writes(&base, &rel("local.yaml"), &code);
+    let local = RedactScanner::scan_canon_writes(&base, &rel("local.yaml"), &code).expect("both registers are readable");
     assert!(
         is_blocked(&local),
         "the subscriber's OWN code in the mirrored canon tree still blocks"
@@ -279,7 +303,7 @@ fn without_the_manifest_declaration_the_mirrored_record_blocks_again() {
         CanonRepoCode::inferred("OPBOX"),
         "silent lawpack: the config chain applies unchanged"
     );
-    let mirrored = RedactScanner::scan_canon_writes(&base, &rel("mirrored.yaml"), &code);
+    let mirrored = RedactScanner::scan_canon_writes(&base, &rel("mirrored.yaml"), &code).expect("both registers are readable");
     assert!(
         is_blocked(&mirrored),
         "with no declaration the gate falls back to OPBOX and blocks the VJS record"
@@ -294,7 +318,7 @@ fn a_declared_canon_code_naming_a_registered_subscriber_is_blocked() {
     let base = mirror_repo("capture", Some("OPBOX"), Some("OPBOX"));
     let code = resolve_canon_repo_code(&base, Some("OPBOX"), Some("opbox"));
     assert!(code.declared);
-    let f = RedactScanner::scan_canon_writes(&base, &rel("neutral.yaml"), &code);
+    let f = RedactScanner::scan_canon_writes(&base, &rel("neutral.yaml"), &code).expect("both registers are readable");
     assert!(is_blocked(&f), "a captured canon code must block");
     assert!(
         f.iter().any(|x| x
@@ -313,7 +337,7 @@ fn a_config_fallback_to_the_repos_own_subscriber_code_does_not_trip_code_capture
     let base = mirror_repo("fallback", None, Some("OPBOX"));
     let code = resolve_canon_repo_code(&base, Some("OPBOX"), Some("opbox"));
     assert!(!code.declared);
-    let f = RedactScanner::scan_canon_writes(&base, &rel("neutral.yaml"), &code);
+    let f = RedactScanner::scan_canon_writes(&base, &rel("neutral.yaml"), &code).expect("both registers are readable");
     assert!(
         RedactScanner::check_public_safe(&f),
         "an inferred code equal to a registered subscriber is not code capture: {f:?}"
@@ -371,4 +395,186 @@ fn wildcard_and_root_file_scopes_are_canon() {
     assert!(RedactScanner::is_foreign_canon_path(
         "frontend-v2/prisma/**"
     ));
+}
+
+#[test]
+fn the_denylist_limb_blocks_and_names_file_and_line_but_never_the_term() {
+    // C1's own vacuity guard, applied: a fixture denylist seeded with the sha256 of a
+    // SYNTHETIC token (positive control, so the probe can fail), and the identical record
+    // without it (negative control). An absence assertion alone is barred by
+    // [2026] VJS-CC-VJS 14 obiter (i).
+    let base = mirror_repo("denylist", Some("VJS"), Some("ACMECO"));
+    let judgments = base.join("lawpack/v2/judgments");
+    std::fs::create_dir_all(&judgments).unwrap();
+    // The token on lines 3 and 5 - one of the three admitted records carries TWO
+    // occurrences, and a cure that names one line is a cure that leaves the other.
+    std::fs::write(
+        judgments.join("OP-HIT.md"),
+        format!("# an opinion\n\nthe {SYNTHETIC_TOKEN} matter\n\nagain: {SYNTHETIC_TOKEN}\n"),
+    )
+    .unwrap();
+    std::fs::write(
+        judgments.join("OP-CLEAN.md"),
+        "# an opinion\n\nthe generic matter\n\nagain: the generic matter\n",
+    )
+    .unwrap();
+    let code = CanonRepoCode::inferred("VJS");
+
+    let f = RedactScanner::scan_canon_writes(
+        &base,
+        &[PathBuf::from("lawpack/v2/judgments/OP-HIT.md")],
+        &code,
+    )
+    .expect("both registers are readable");
+    assert!(is_blocked(&f), "a denylisted term in canon must block: {f:?}");
+
+    let hits: Vec<&BoundaryFinding> = f
+        .iter()
+        .filter(|x| matches!(x.kind, BoundaryFindingKind::DenylistedTerm))
+        .collect();
+    assert_eq!(hits.len(), 2, "one finding per HIT LINE, not per record: {f:?}");
+    assert!(
+        hits[0].message.contains("OP-HIT.md:3") && hits[1].message.contains("OP-HIT.md:5"),
+        "the finding must name the file and the 1-INDEXED line: {hits:?}"
+    );
+    for h in &hits {
+        assert!(
+            !h.message.to_lowercase().contains(SYNTHETIC_TOKEN),
+            "the finding must NEVER print the term"
+        );
+        assert!(
+            h.message.contains("ACT-005:s1"),
+            "the limb cites the statute ITS referent answers to, not ACT-007:s4"
+        );
+        assert_eq!(
+            RedactScanner::finding_code(&h.kind),
+            "CANON_DENYLISTED_TERM",
+            "its OWN finding code, not the subscriber gate's"
+        );
+    }
+
+    // The negative control. Without the positive control above, this assertion would be
+    // satisfied just as well by a limb that never runs at all.
+    let g = RedactScanner::scan_canon_writes(
+        &base,
+        &[PathBuf::from("lawpack/v2/judgments/OP-CLEAN.md")],
+        &code,
+    )
+    .expect("both registers are readable");
+    assert!(
+        !g.iter()
+            .any(|x| matches!(x.kind, BoundaryFindingKind::DenylistedTerm)),
+        "the negative control must produce no denylist finding: {g:?}"
+    );
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn the_prose_limb_reaches_a_markdown_canon_record_as_well_as_a_yaml_one() {
+    // THE RED SEED, measured on the pre-cure tree: the SAME body returned one YAML finding
+    // against ZERO for the .md, because scan_canon_writes skipped every non-YAML canon file
+    // before any content limb ran. Signal 4 had never once been reachable for a judgment
+    // opinion. C2's own vacuity guard: the POSITIVE control here is the .md, not the .yaml.
+    let base = mirror_repo("reach", Some("VJS"), Some("ACMECO"));
+    let dir = base.join("lawpack/v2/judgments");
+    std::fs::create_dir_all(&dir).unwrap();
+    let code = CanonRepoCode::inferred("VJS");
+    let scan = |p: &str| {
+        RedactScanner::scan_canon_writes(&base, &[PathBuf::from(p)], &code)
+            .expect("both registers are readable")
+    };
+    let prose = |f: &[BoundaryFinding]| -> usize {
+        f.iter()
+            .filter(|x| matches!(x.kind, BoundaryFindingKind::UnredactedEvidence))
+            .count()
+    };
+
+    // (i) The opinion's own probe: a MAPPING-shaped body, one write-set, two extensions.
+    const MAPPING: &str =
+        "id: 2026-VJS-PC-099\nholding: A subscriber (Acmeco) asked canon to build a keystone.\n";
+    std::fs::write(dir.join("probe.yaml"), MAPPING).unwrap();
+    std::fs::write(dir.join("probe.md"), MAPPING).unwrap();
+    let y = scan("lawpack/v2/judgments/probe.yaml");
+    let m = scan("lawpack/v2/judgments/probe.md");
+    assert!(is_blocked(&m), "the prose limb must reach a canon .md: {m:?}");
+    assert!(
+        is_blocked(&y),
+        "and must not have stopped reaching .yaml: {y:?}"
+    );
+    assert_eq!(
+        prose(&m),
+        prose(&y),
+        "one body, one verdict, whatever the extension"
+    );
+
+    // (ii) The stronger half: a body that is REAL markdown, so serde_yaml returns early and
+    // only a prose limb sited OUTSIDE the parse can see it. This is the shape of every
+    // opinion in lawpack/v2/judgments.
+    const MARKDOWN: &str =
+        "# [2026] VJS-CC-VJS 99 - opinion\n\nA subscriber (Acmeco) asked canon for a keystone.\n";
+    std::fs::write(dir.join("opinion.md"), MARKDOWN).unwrap();
+    let o = scan("lawpack/v2/judgments/opinion.md");
+    assert!(
+        is_blocked(&o),
+        "a markdown body that does not parse as a mapping must STILL reach signal 4: {o:?}"
+    );
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn an_unreadable_or_empty_subscriber_registry_is_an_error_naming_the_path() {
+    // C3's four fixtures over the FEDERATION register: missing, unparseable,
+    // present-but-empty, readable. The first three are errors naming the path; the fourth is
+    // not. A suite in which every fixture supplies a readable register proves nothing at all.
+    let base = mirror_repo("reg-c3", Some("VJS"), Some("ACMECO"));
+    let reg = base.join("lawpack/v2/federation/subscriber-registry.yaml");
+    let code = CanonRepoCode::inferred("VJS");
+    let run = || RedactScanner::scan_canon_writes(&base, &rel("neutral.yaml"), &code);
+
+    // (4) readable - the control that proves the other three are not just "any call fails".
+    assert!(run().is_ok(), "a readable register is not an error");
+
+    // (1) missing
+    std::fs::remove_file(&reg).unwrap();
+    let e = run().expect_err("a missing register is an ERROR, never an empty one");
+    assert!(
+        e.to_string().contains("subscriber-registry.yaml"),
+        "the error NAMES the path it could not read: {e}"
+    );
+
+    // (2) unparseable
+    std::fs::write(&reg, "codes:\n  - ACMECO\n   bad: [indent\n").unwrap();
+    let e = run().expect_err("an unparseable register is an ERROR");
+    assert!(e.to_string().contains("subscriber-registry.yaml"), "{e}");
+
+    // (3) present but empty
+    std::fs::write(&reg, "id: FEDERATION-SUBSCRIBER-REGISTRY\ncodes: []\n").unwrap();
+    let e = run().expect_err("an EMPTY register is an ERROR: the limbs would fire on nothing");
+    assert!(e.to_string().contains("subscriber-registry.yaml"), "{e}");
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn an_unreadable_or_empty_publication_denylist_is_an_error_naming_the_path() {
+    // The same four fixtures over the CONFIDENTIALITY register. Two registers, two proofs:
+    // they are deliberately disjoint and must fail closed independently.
+    let base = mirror_repo("deny-c3", Some("VJS"), Some("ACMECO"));
+    let dl = base.join(".vjs/publication-denylist.txt");
+    let code = CanonRepoCode::inferred("VJS");
+    let run = || RedactScanner::scan_canon_writes(&base, &rel("neutral.yaml"), &code);
+
+    assert!(run().is_ok(), "a readable register is not an error");
+
+    std::fs::remove_file(&dl).unwrap();
+    let e = run().expect_err("a missing denylist is an ERROR, never an empty one");
+    assert!(e.to_string().contains("publication-denylist.txt"), "{e}");
+
+    std::fs::write(&dl, "not-a-hash  # added=2026-08-01 class=synthetic\n").unwrap();
+    let e = run().expect_err("an unparseable entry is an ERROR");
+    assert!(e.to_string().contains("publication-denylist.txt"), "{e}");
+
+    std::fs::write(&dl, "# a register of nothing\n\n").unwrap();
+    let e = run().expect_err("an EMPTY denylist is an ERROR: the C1 limb would fire on nothing");
+    assert!(e.to_string().contains("publication-denylist.txt"), "{e}");
+    let _ = std::fs::remove_dir_all(&base);
 }

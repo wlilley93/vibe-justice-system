@@ -111,7 +111,7 @@ pub(crate) fn staged_gates(
         config.as_ref().and_then(|c| c.repo_code.as_deref()),
         config.as_ref().map(|c| c.jurisdiction_id.as_str()),
     );
-    let canon = RedactScanner::scan_canon_writes(repo, &staged_paths, &canon_repo_code);
+    let canon = RedactScanner::scan_canon_writes(repo, &staged_paths, &canon_repo_code)?;
     // Every canon finding is reported, at its OWN severity. This push used to be gated on
     // `!check_public_safe(&canon)`, so an Error had to be present before ANY of them was
     // reported - discarding the Email and private-hostname Warnings the canon secret scan
@@ -119,7 +119,7 @@ pub(crate) fn staged_gates(
     for bf in canon {
         findings.push(Finding {
             severity: bf.severity,
-            code: "CANON_BOUNDARY_VIOLATION".into(),
+            code: RedactScanner::finding_code(&bf.kind).into(),
             path: bf.path,
             message: bf.message,
             citation: None,

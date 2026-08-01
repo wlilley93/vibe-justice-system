@@ -113,6 +113,12 @@ pub enum BoundaryFindingKind {
     Token,
     Email,
     UnredactedEvidence,
+    /// A term on the publication denylist, found in a canon record. Its OWN kind, and not
+    /// `UnredactedEvidence`, because a gate's finding must answer to the gate's referent
+    /// ([2026] VJS-CC-VJS 14, applied by [2026] VJS-CC-VJS 17 C1): this answers to
+    /// confidentiality under ACT-005:s1, not to federation authority under ACT-007:s4, and
+    /// must not wear signal 4's message or signal 4's code.
+    DenylistedTerm,
 }
 
 #[derive(Clone, Debug)]
