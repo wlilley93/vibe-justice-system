@@ -11,6 +11,38 @@ pub(crate) fn cmd_invoke(
     install_hooks: bool,
     json: bool,
 ) -> Result<(), KernelError> {
+    // THE RE-PIN CANNOT RATIFY A DISPLACEMENT ([2026] VJS-CC-VJS 16 C6).
+    //
+    // Measured 2026-08-01 on a displaced jurisdiction, following LAWPACK_LOCK_DRIFT's own
+    // suggested fix: this command exited 0, pinned the digest of a one-order directory a verb
+    // had made under the id `vjs-v2@0.1.0`, and printed `config written: false` - so it did not
+    // even disturb the `lawpack_path` it contradicts. `vjs validate` then returned OK. The
+    // jurisdiction was green and lawless, its config still declaring a subscription to the real
+    // canon and its lock certifying a directory that was not it. That is CC-VJS 12 D3's vice
+    // exactly: a label recorded as though a subscription had happened when it had not.
+    //
+    // ONLY WHERE NOTHING IS NAMED. `--lawpack <path>` is the operator saying which tree, in
+    // terms, and D3 already refuses a path that does not resolve. What is refused here is the
+    // UNNAMED re-pin - the one an operator reaches for because a Fatal told them to.
+    //
+    // FIRST, before `.vjs/invocation` is created and long before the lock is written, so the
+    // lock is byte-identical by construction rather than by luck.
+    if lawpack.is_none()
+        && let Some(d) = vjs_engine::displacement::detect(repo)
+    {
+        return Err(KernelError::InvalidInput(format!(
+            "refusing to pin: this jurisdiction records a subscription to '{}' ({}) but its \
+             lawpack resolves from '{}'. Re-pinning would certify the tree that should not be \
+             there under the recorded lawpack's id and leave the recorded subscription standing \
+             and false, which is not a cure but the completion of the harm. Remove '{}', or name \
+             the tree you mean with `vjs invoke --lawpack <path>`. ([2026] VJS-CC-VJS 16 C6)",
+            d.recorded,
+            d.recorded_by,
+            d.answered_from.display(),
+            d.answered_from.display(),
+        )));
+    }
+
     let io = |e: std::io::Error| KernelError::InvalidInput(format!("io: {}", e));
     let repo_code = jurisdiction.to_uppercase();
     let vjs_dir = repo.join(".vjs");

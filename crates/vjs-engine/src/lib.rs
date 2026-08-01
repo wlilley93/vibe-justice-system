@@ -19,10 +19,13 @@ use vjs_store::Store;
 
 pub mod assent;
 pub mod context;
+pub mod displacement;
+mod resolver;
 pub mod runtime;
 mod staged;
 
 pub use context::build_kernel_context;
+pub use resolver::*;
 use staged::staged_gates;
 
 /// Options for a validate run.
@@ -46,15 +49,8 @@ fn f(severity: Severity, code: &str, message: String) -> Finding {
     }
 }
 
-// LAWPACK RESOLUTION LIVES HERE, AND NOWHERE ELSE.
-//
-// Until [2026] VJS-CC-VJS 12 there were TWO implementations of `load_lawpack` and
-// `compute_digest`: one in this crate and one in `vjs-cli/src/context.rs`, byte-for-byte
-// the same law expressed twice. The ruling was implemented against the CLI copy and the
-// repository's own `vjs validate` gate went on reading THIS one, so the fix passed every
-// test and the gate still enforced the old rule - it reported LAWPACK_LOCK_DRIFT against a
-// digest computed the superseded way. Two copies of a rule are one copy and one silent
-// disagreement. The CLI now delegates here.
+// LAWPACK RESOLUTION LIVES IN `resolver`, AND NOWHERE ELSE ([2026] VJS-CC-VJS 12 / 15).
+// Re-exported flat so every existing call site reads unchanged.
 
 pub fn load_lawpack(repo: &Path) -> Result<Lawpack, KernelError> {
     match resolve_lawpack_dir(repo) {
@@ -96,172 +92,6 @@ fn empty_lawpack() -> Lawpack {
         decisions: Vec::new(),
         obligations: Vec::new(),
     }
-}
-
-/// Whether this repository has been invoked as a VJS jurisdiction.
-///
-/// The gate is `.vjs/config.toml` and not `.vjs/`, deliberately. `vjs invoke` creates
-/// `.vjs/invocation/` BEFORE it writes the config, so keying on the directory would make
-/// invocation refuse itself half-way through its own first run.
-pub fn is_invoked_jurisdiction(repo: &Path) -> bool {
-    repo.join(".vjs/config.toml").exists()
-}
-
-/// WHICH of the three candidate sources answered. Recorded rather than inferred, so an
-/// artefact can name the tree it was built from ([2026] VJS-CC-VJS 15 C4).
-#[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize)]
-#[serde(rename_all = "snake_case")]
-pub enum LawpackSource {
-    Vendored,
-    Config,
-    Env,
-}
-
-/// A resolved lawpack: the directory, and which source produced it.
-#[derive(Clone, Debug)]
-pub struct LawpackResolution {
-    pub source: LawpackSource,
-    pub dir: PathBuf,
-}
-
-/// Where this repository's lawpack actually is, and which source answered, or `None`.
-///
-/// Three sources, most specific first. Until [2026] VJS-CC-VJS 12 there was ONE source -
-/// `<repo>/lawpack/v2` - and a repository that did not VENDOR a copy of the canon silently
-/// resolved against nothing. Measured 2026-07-31: `vjs lookup --issue enforcement` returned
-/// four constitutional sections in `vibe-justice-system` and no output at all in
-/// `vibe-design-system`, same binary, same flags, neither answer marked.
-///
-/// THIS IS THE ONLY PLACE IN THE WORKSPACE THAT MAY NAME THE LAWPACK IN ORDER TO READ THE
-/// CANON ([2026] VJS-CC-VJS 15). Every other canon-read site takes the directory from here,
-/// so the D1 refusal reaches every door, not only the callers of `load_lawpack`.
-pub fn resolve_lawpack(repo: &Path) -> Option<LawpackResolution> {
-    // LAWPACK-LITERAL: referent=resolver; status=reserved; authority=[2026] VJS-CC-VJS 15.
-    // The one canon-read literal the ruling leaves standing: collapse it and the resolver
-    // has nothing to resolve.
-    let vendored = repo.join("lawpack/v2");
-    // Relative paths resolve against the repo, so a config is portable between clones.
-    let configured =
-        lawpack_path_from_config(repo).map(|p| if p.is_absolute() { p } else { repo.join(p) });
-    let env = std::env::var_os("VJS_LAWPACK").map(PathBuf::from);
-    // Most specific first; the first candidate that is a real directory wins.
-    [
-        (LawpackSource::Vendored, Some(vendored)),
-        (LawpackSource::Config, configured),
-        (LawpackSource::Env, env),
-    ]
-    .into_iter()
-    .find_map(|(source, dir)| {
-        let dir = dir.filter(|d| d.is_dir())?;
-        Some(LawpackResolution { source, dir })
-    })
-}
-
-/// The directory alone. A projection of `resolve_lawpack`, never a second resolution.
-pub fn resolve_lawpack_dir(repo: &Path) -> Option<PathBuf> {
-    resolve_lawpack(repo).map(|r| r.dir)
-}
-
-/// What `vjs invoke --lawpack` names: the label to record, and the directory it resolved to.
-///
-/// D3 of [2026] VJS-CC-VJS 12: "a flag that labels without selecting must be made to select
-/// or be removed". The value may be
-///   - a path to a lawpack directory (absolute, or relative to the repo), or
-///   - a registered id like `vjs-v2@0.1.0`, resolved against the vendored copy, and
-///   - omitted, which means the vendored copy and nothing else.
-///
-/// A path that does not resolve is an ERROR, never a label. That is the whole ruling: the
-/// old code accepted any string and wrote it into two artefacts as though a subscription had
-/// happened.
-pub fn resolve_invocation_lawpack(
-    repo: &Path,
-    lawpack: Option<String>,
-) -> Result<(String, Option<PathBuf>, Option<PathBuf>), KernelError> {
-    let Some(named) = lawpack else {
-        // Nothing named: the vendored copy, or nothing. `invoke` is allowed to run in a
-        // repository that has neither, because the refusal in `load_lawpack` is keyed on a
-        // config that invocation has not written yet - see D1/D2, which do not collide.
-        let d = resolve_lawpack_dir(repo);
-        return Ok(("vjs-v2@0.1.0".to_string(), d.clone(), d));
-    };
-
-    // A registered id, not a path. Resolve it the only way this kernel currently can.
-    if !named.contains('/') && !named.contains(std::path::MAIN_SEPARATOR) {
-        let d = resolve_lawpack_dir(repo);
-        return Ok((named, d.clone(), d));
-    }
-
-    let raw = PathBuf::from(&named);
-    let candidate = if raw.is_absolute() { raw.clone() } else { repo.join(&raw) };
-    if !candidate.is_dir() {
-        return Err(KernelError::InvalidInput(format!(
-            "--lawpack {} does not resolve to a directory (looked at {}). A named lawpack that \
-             cannot be resolved is refused rather than recorded: writing it into config.toml \
-             and lawpack.lock would assert a subscription that did not happen. \
-             ([2026] VJS-CC-VJS 12 D3)",
-            named,
-            candidate.display()
-        )));
-    }
-    // Resolve for the DIGEST, but record a RELATIVE path as given.
-    //
-    // The first version canonicalised unconditionally, on the reasoning that the config
-    // should not be a second opinion about where the law is. That is right for an absolute
-    // path and wrong for a relative one: canonicalising `../vibe-justice-system/lawpack/v2`
-    // bakes one machine's home directory into a committed config, so every other clone
-    // resolves nothing. A repo-relative path is not ambiguous - `resolve_lawpack_dir` joins
-    // it to the repo root - and it is the only form that survives a clone.
-    let dir = candidate.canonicalize().unwrap_or(candidate);
-    let recorded = if raw.is_absolute() { dir.clone() } else { raw.clone() };
-    let id = lawpack_id_of(&dir).unwrap_or_else(|| "vjs-v2@0.1.0".to_string());
-    Ok((id, Some(dir), Some(recorded)))
-}
-
-/// The lawpack's own declared id, read from its manifest.
-fn lawpack_id_of(dir: &Path) -> Option<String> {
-    let text = std::fs::read_to_string(dir.join("manifest.toml")).ok()?;
-    let mut id = None;
-    let mut version = None;
-    for line in text.lines() {
-        let line = line.trim();
-        if let Some(v) = line.strip_prefix("id")
-            && let Some(v) = v.trim_start().strip_prefix('=')
-        {
-            id = Some(v.trim().trim_matches('"').to_string());
-        } else if let Some(v) = line.strip_prefix("version")
-            && let Some(v) = v.trim_start().strip_prefix('=')
-        {
-            version = Some(v.trim().trim_matches('"').to_string());
-        }
-    }
-    match (id, version) {
-        (Some(i), Some(v)) => Some(format!("{i}@{v}")),
-        (Some(i), None) => Some(i),
-        _ => None,
-    }
-}
-
-/// The `lawpack_path` recorded by `vjs invoke`, if the config carries one.
-///
-/// Read with a line scan rather than a TOML parse on purpose: this runs before the kernel
-/// context exists, on a file that may be half-written by a concurrent invoke, and a parse
-/// error here would turn a recoverable absence into a hard failure of every command.
-fn lawpack_path_from_config(repo: &Path) -> Option<PathBuf> {
-    let text = std::fs::read_to_string(repo.join(".vjs/config.toml")).ok()?;
-    for line in text.lines() {
-        let line = line.trim();
-        let Some(rest) = line.strip_prefix("lawpack_path") else {
-            continue;
-        };
-        let Some(rest) = rest.trim_start().strip_prefix('=') else {
-            continue;
-        };
-        let v = rest.trim().trim_matches('"');
-        if !v.is_empty() {
-            return Some(PathBuf::from(v));
-        }
-    }
-    None
 }
 
 pub fn compute_digest(repo: &Path) -> Result<String, KernelError> {
@@ -463,6 +293,15 @@ pub fn validate(repo: &Path, opts: &ValidateOpts) -> Result<Report, KernelError>
             );
         }
     }
+
+    // [2026] VJS-CC-VJS 16 C5: DISPLACEMENT, which is not a severity of drift.
+    //
+    // Keyed on the config and the resolution and NOT on the federation subscriber registry,
+    // for the reason at obiter (iv): that registry names a fixture code and not the one live
+    // subscriber, so a gate keyed to it would be born not reaching the repository it exists
+    // for. Both findings may fire together - they are true about different things - and the
+    // displacement finding carries its own cure, because drift's cure ratifies displacement.
+    findings.extend(displacement::check(repo));
 
     // --- Commit-gate (staged) checks ---
     let mut assented_record_paths: HashSet<String> = HashSet::new();
