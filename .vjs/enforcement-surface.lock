@@ -11,4 +11,5 @@ crates/vjs-redact/src/tests.rs sha256:89828d4ceada44195c98a4d338b121e0b6f756373f
 crates/vjs-engine/src/staged.rs sha256:467738a485dd04e661d3bf28b21a7f59e720fb4647fb626ade30200a207cbda1
 crates/vjs-lawpack/src/validator.rs sha256:739a73925275f475514de3e1c8ab41cb1a0a7b2931ad113a4f6090090ecf8448
 crates/vjs-lawpack/src/refs.rs sha256:7d0fbde84f8930081bccdf405eea206920df032cf020f894953a3f2007a82c2c
-crates/vjs-core/src/enforcement.rs sha256:9d92d5c5574784476b09dd1dd96e33d443a05110735b02622e00a31f51a343d4
+crates/vjs-core/src/enforcement.rs sha256:306a6e79175dbed0ff825f2e726500717edee56102756291e4888f627ec30ef8
+crates/vjs-engine/src/lib.rs sha256:e197a8a0bf280b24dfd6a9f9cbadb5a5d25765edda17ce6ede17a50b5f77c446

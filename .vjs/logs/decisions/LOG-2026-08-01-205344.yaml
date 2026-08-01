@@ -1,0 +1,13 @@
+id: LOG-2026-08-01-205344
+time: 2026-08-01T20:53:44.191054596+00:00
+actor: lexby
+kind: implementation
+issue: enforcement-surface-coverage
+decision: Implemented CC-VJS 18 C1 to C6. The gate dispatcher is entrenched whole, the surface criterion is the dispositive-power test with the under-inclusiveness stated honestly and four candidates named undecided, the membership test says in its own comment that it is a spelling check and not a proof, drift is proved at the governed boundary through the real validate pipeline, the assent floor has a positive control, and growth is bounded by a machine-checked admitted-by requirement. Re-pinned to twelve entries. C7 (the lock format change and required authority flag) is NOT in this change.
+basis:
+- 2026-VJS-CC-VJS-ENFORCEMENT-COVERAGE-018
+- PERMIT-1785617608
+risk: medium
+reversibility: easy
+court_required: false
+why: 'C4''s positive control FAILED when first written, which is the finding the court said to self-file if it happened: nothing on that fixture was non-constitutive, so the assertion that a constitutive finding is not downgraded had been passing for the wrong reason, and nothing in the whole workspace proved the assent floor''s downgrade ever happens. Adding a hallucinated operative citation to the same record gives the floor something to act on, and both directions now discriminate. C3''s predicted divergence did NOT reproduce as stated, because C1''s own entrenchment makes the excision loud at K-25 too; isolated by deleting the call AND re-pinning, K-25 goes green while C3 stays red, which is the stronger demonstration and closes the edit-and-relock remainder the module''s own doc admits.'

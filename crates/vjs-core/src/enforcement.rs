@@ -18,11 +18,37 @@ use crate::types::Severity;
 use std::collections::BTreeMap;
 use std::path::Path;
 
-/// The entrenched-enforcement code path: the focused, rarely-churning gates whose
-/// weakening would let a record escape the assent-RESOLUTION floor, the assent allow-list,
-/// or bench-integrity. Pinned so an edit is visible and recorded (PC-16 D4). The
-/// apex-singleness and citation gates are additionally protected by the constitutive-code
-/// mechanism ([2026] VJS-PC 16), which no assent claim can soften.
+/// The entrenched-enforcement code path.
+///
+/// THE TEST FOR MEMBERSHIP ([2026] VJS-CC-VJS 18, D1/D2). A file belongs here if, and only
+/// if, an edit CONFINED TO THAT FILE can by itself change whether a bright-line finding is
+/// emitted, what severity it carries, or whether the check that produces it runs at all.
+/// Call position is not the test; DISPOSITIVE POWER is. No file joins on the theory that it
+/// is upstream of a gate, however close it sits.
+///
+/// THE LIST IS CURATED AND IS KNOWN TO BE UNDER-INCLUSIVE. This replaces an earlier claim
+/// that the list "must stay complete" - prose asserting a property nothing checks, which
+/// [2026] VJS-CC-VJS 15 holds is not enforcement. The commit pipeline's gates are inline
+/// Rust and not a registry, so nothing derives this list and nothing can prove it total. A
+/// list known to be short but presented as audited misleads worse than an honest gap, so the
+/// gap is stated: four files were identified by measurement in CC-VJS 18 s.3 and are
+/// UNDECIDED - neither admitted nor rejected, because no counterexample has been committed
+/// for any of them:
+///   - `crates/vjs-core/src/install.rs`  - emits Fatals through validate and blocks the
+///     pre-write door; unpinned (CC-VJS 18 obiter (iii)).
+///   - `crates/vjs-cli/src/front.rs`     - the pre-write hook dispatch.
+///   - `crates/vjs-cli/src/local_ci.rs`  - the pre-push door; it calls neither `check_drift`
+///     nor the lawpack-lock check, and holds a second, weaker citation check.
+///   - `crates/vjs-mcp/src/lib.rs`       - the fourth door; calls `verify_bench` itself.
+///
+/// THE BOUND ON GROWTH (CC-VJS 18 C6, D3). No path is added to this list except on a
+/// COMMITTED TEST showing a confined edit to that file flipping a bright-line outcome while
+/// this lock stays green - the discipline CC-VJS 15 used when it proved its marker gate red
+/// by a seeded counterexample. Every entry BEYOND THE TWELVE below must carry, in its own
+/// comment, `admitted-by: <test file>::<test fn>` naming that test, machine-checked per
+/// addition by `crates/vjs-testkit/tests/enforcement_surface_admission.rs`. The surface
+/// therefore cannot grow by argument, and nothing that has demonstrably disarmed a gate can
+/// be kept off.
 pub const ENFORCEMENT_SURFACE: &[&str] = &[
     "crates/vjs-engine/src/assent.rs", // the resolution check + the constitutive codes
     "crates/vjs-core/src/front_door.rs", // the assent allow-list + governed-record kinds
@@ -37,6 +63,40 @@ pub const ENFORCEMENT_SURFACE: &[&str] = &[
     "crates/vjs-lawpack/src/validator.rs", // citation uniqueness (CITATION_COLLISION) + duplicate-id + grounding checks
     "crates/vjs-lawpack/src/refs.rs",      // the citation-grounding teeth (ground_operative)
     "crates/vjs-core/src/enforcement.rs",  // this witness itself
+    // THE GATE DISPATCHER, entrenched WHOLE by [2026] VJS-CC-VJS 18 (Option A, varied: no
+    // prior split). Three disarm sites, named by WHAT THEY DO rather than by line number,
+    // because line numbers rot and behaviour does not:
+    //   (1) THE TWO REFERENT-KEYED CONDITIONS that decide whether the lawpack-TREE check and
+    //       the lawpack-LOCK-DIGEST check run at all. One wrong guard - a single condition
+    //       keyed to a VENDORED copy - made a Fatal unreachable for every out-of-tree
+    //       jurisdiction, and validate reported OK, exit 0, against a falsified digest
+    //       ([2026] VJS-CC-VJS 14).
+    //   (2) THE ONLY PRODUCTION CALL OF THE ENTRENCHMENT WITNESS IN THE WORKSPACE
+    //       (`vjs_core::enforcement::check_drift`). `enforcement.rs` above is pinned as
+    //       "this witness itself" and, until this entry, its sole invocation sat in an
+    //       unpinned file: a lock bolted to a frame anyone may unscrew. Note candidly what
+    //       the pin does NOT buy: entrenchment cannot protect that call from its own
+    //       DELETION. Delete it and the digest still moves but no reporter is left inside
+    //       the binary. The surviving witness is out of band - the workspace test suite,
+    //       specifically kernel_invariant_bindings.rs::
+    //       validate_reports_enforcement_surface_drift_through_the_real_pipeline.
+    //   (3) THE ASSENT FLOOR - the severity mutation that rewrites a blocking finding on an
+    //       assent-resolving record into the route-for-correction form - INCLUDING the
+    //       `assent::is_constitutive` carve-out. Delete the carve-out and a forged record
+    //       launders bench-integrity, apex-singleness and citation collisions: the exact
+    //       forgery PC-16 was convened over. PC-16 D4 already directed the pinning of "the
+    //       assent-validity AND FLOOR-ENFORCEMENT code path"; the resolution half went to
+    //       `assent.rs`, and this is the floor half completing it.
+    // CEILING (CC-VJS 18 C2, D4). This file stands well inside the 600-line ceiling
+    // machine-checked by `crates/vjs-testkit/tests/structural_ceiling.rs` only because
+    // [2026] VJS-CC-VJS 16 lifted the resolver out of it into `resolver.rs`; before that it
+    // was at 591 of 600. When the ceiling next forces a split, THE DISARM SITES CARRY THEIR
+    // ENTRENCHMENT WITH THEM IN THE SAME CHANGE: whichever file receives site (1), (2) or
+    // (3) joins this list in the same commit that creates it, on the pattern of
+    // `crates/vjs-redact/src/tests.rs` above, which was split out of `redact/lib.rs` and
+    // stayed pinned. Entrenchment follows the code across a split; it never waits for one,
+    // and a split is never a de-entrenchment event.
+    "crates/vjs-engine/src/lib.rs",
 ];
 
 const LOCK_PATH: &str = ".vjs/enforcement-surface.lock";
@@ -137,11 +197,23 @@ mod tests {
 
     #[test]
     fn surface_lists_the_focused_gates() {
-        // Every bright-line gate fired by the commit pipeline must be pinned so a weakening
-        // edit is non-silent. This is the AUDITED gate set: the commit pipeline's gates are
-        // inline Rust, not a registry, so the list is curated, but it must stay complete.
+        // THIS IS A SPELLING CHECK, NOT A PROOF ([2026] VJS-CC-VJS 18 C1, forbidden clause:
+        // "offer_a_membership_spelling_check_as_proof_that_a_gate_fires"). All it establishes
+        // is that a string with these bytes appears in the const. It does NOT establish that
+        // the file is hashed, that the digest is compared, that a drift produces a finding,
+        // that the finding is Fatal, or that `validate` ever asks. It MAY NOT be offered in
+        // satisfaction of C3; the proof at the governed boundary is
+        // kernel_invariant_bindings.rs::
+        // validate_reports_enforcement_surface_drift_through_the_real_pipeline, which runs
+        // the real pipeline and requires the Fatal back out of the Report.
+        //
+        // The list is CURATED and is known to be UNDER-INCLUSIVE - see the const's own
+        // comment for the four undecided candidates. This test cannot detect the gap it is
+        // most likely to have; it can only detect a typo in what is already there.
         // (Audit 2026-06-26: hook/permit_gate/redact were unpinned in the first pass; the
-        // goal-completion audit then found staged.rs/validator.rs/refs.rs also unpinned.)
+        // goal-completion audit then found staged.rs/validator.rs/refs.rs also unpinned.
+        // 2026-08-01: vjs-engine/src/lib.rs, the DISPATCHER, was found unpinned by
+        // [2026] VJS-CC-VJS 18.)
         for gate in [
             "crates/vjs-engine/src/assent.rs",
             "crates/vjs-core/src/front_door.rs",
@@ -157,6 +229,9 @@ mod tests {
             "crates/vjs-engine/src/staged.rs",
             "crates/vjs-lawpack/src/validator.rs",
             "crates/vjs-lawpack/src/refs.rs",
+            // the gate DISPATCHER (CC-VJS 18): the referent-keyed guards, the sole
+            // production call of check_drift, and the assent-floor severity mutation.
+            "crates/vjs-engine/src/lib.rs",
         ] {
             assert!(ENFORCEMENT_SURFACE.contains(&gate), "unpinned gate: {gate}");
         }

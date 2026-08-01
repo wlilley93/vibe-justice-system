@@ -200,10 +200,25 @@ fn constitutive_bench_defect_not_downgraded_even_for_an_established_assented_ord
         .filter(|l| !l.is_empty()) // drop the emptied seat lines, leaving bench: []
         .collect::<Vec<_>>()
         .join("\n");
+    // C4: the SAME record also carries a NON-constitutive blocking defect - a hallucinated
+    // operative authority, which PC-17 makes Fatal but expressly CORRECTABLE. Without it
+    // this fixture gives the assent floor nothing to act on, so the absence of a downgrade
+    // below would be silence rather than restraint. Measured before adding it: the report
+    // carried NO route-for-correction marker at all.
+    let broken = format!("{broken}\ncites_authorities:\n  - \"[2026] VJS-PC 97\"\n");
     std::fs::write(&path, broken).unwrap();
     git(&repo, &["add", "lawpack/v2/orders/2026-VJS-PC-015.yaml"]);
 
     let report = validate_staged(&repo);
+    let codes = || {
+        report
+            .findings
+            .iter()
+            .map(|f| (&f.code, &f.severity))
+            .collect::<Vec<_>>()
+    };
+
+    // (a) THE NEGATIVE LIMB: constitutive, never softened.
     let bench_fatal = report
         .findings
         .iter()
@@ -212,12 +227,50 @@ fn constitutive_bench_defect_not_downgraded_even_for_an_established_assented_ord
         bench_fatal,
         "an established, resolving order's bench-integrity defect must STILL be Fatal \
          (constitutive, never assent-downgraded). Findings: {:?}",
-        report
-            .findings
-            .iter()
-            .map(|f| (&f.code, &f.severity))
-            .collect::<Vec<_>>()
+        codes()
     );
+
+    // (b) THE POSITIVE CONTROL ([2026] VJS-CC-VJS 18 C4). The assertion above is an
+    // assertion of ABSENCE - that a downgrade did NOT happen - and absence proves nothing
+    // unless the downgrade loop was REACHABLE on this fixture. If `assented_record_paths`
+    // were empty here, (a) would pass for entirely the wrong reason and the test would be
+    // measuring nothing.
+    //
+    // So this fixture must also show the loop DOING its job. Measured while writing this:
+    // NOTHING in the whole workspace asserted that the assent floor's downgrade ever
+    // happens - the entire positive branch of PC-14 D3, the thing the floor exists to do,
+    // was unproven. That is wider than the opinion states.
+    //
+    // The floor rewrites a non-constitutive blocking finding on an assented path into the
+    // route-for-correction form, at Warning, carrying the code by name.
+    let downgraded: Vec<&vjs_core::report::Finding> = report
+        .findings
+        .iter()
+        .filter(|f| {
+            f.message
+                .contains(vjs_core::front_door::ROUTE_FOR_CORRECTION_CODE)
+        })
+        .collect();
+    assert!(
+        !downgraded.is_empty(),
+        "C4 POSITIVE CONTROL: the assent floor must be REACHABLE on this fixture, or the \
+         constitutive assertion above proves nothing. No finding carries the \
+         route-for-correction marker, which means either assented_record_paths is empty \
+         here or the floor has stopped downgrading. Findings: {:?}",
+        codes()
+    );
+    for f in &downgraded {
+        assert!(
+            !f.is_blocking(),
+            "a downgraded finding must not still block: {:?}",
+            (&f.code, &f.severity)
+        );
+        assert!(
+            !vjs_engine::assent::is_constitutive(&f.code),
+            "the floor must NEVER downgrade a constitutive code, and it downgraded {}",
+            f.code
+        );
+    }
     let _ = std::fs::remove_dir_all(&repo);
 }
 
