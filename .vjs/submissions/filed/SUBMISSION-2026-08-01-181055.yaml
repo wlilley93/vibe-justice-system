@@ -1,0 +1,68 @@
+id: SUBMISSION-2026-08-01-181055
+court_requested: county
+jurisdiction: default
+question: Must a governed record that fails to deserialise be a Fatal at every door that reads its register, or may it be a warning the caller discards; and does the answer differ between the canon register, fail-closed today, and the local order register, fail-open today, where every County Court order this jurisdiction has made lives?
+facts: |
+  # Facts: an unparseable local order is dropped with a warning, every door passes
+
+  Filed by Lexby on its own motion under CC-VJS 15 D9, while recording CC-VJS 16 to 19.
+
+  ## 1. What happened
+
+  Three of the four orders recording today's rulings carried a `must_not:` key on a
+  directive. `Directive` has `id`, `actor`, `must`, optional `when`. No `must_not`. All
+  three failed to deserialise. `vjs route` said so and granted:
+
+      warning: order .vjs/orders/...-017.yaml does not parse and is NOT in the
+               citator: directives[2]: missing field `must`   (also 018, 016)
+      Decision: AllowedWithConditions
+      Permit: PERMIT-1785607305
+
+  Had I not read the warnings, three binding rulings would have committed, pushed and
+  resolved to nothing, green at every gate.
+
+  ## 2. Measured
+
+  Fixture: this repo's `.vjs` and `lawpack` copied to a scratch path; one `must:`
+  changed to `must_not:` by sed.
+
+  **A malformed LOCAL order is silently absent.** `vjs route`: warning, then a permit.
+  `vjs validate`: no finding. `vjs local-ci`: `canon_order_validate: PASS`, identical to
+  the control. `vjs lookup` on its issue: absent.
+
+  **A malformed CANON order (`lawpack/v2/orders/`) refuses hard.** Same seed:
+  `vjs validate` and `vjs local-ci` both exit with
+  `serialization error: directives[0]: missing field 'must'`, before any gate runs.
+
+  **The fail-open register is the one the County Court writes to.** 26 orders in
+  `.vjs/orders`, 37 in canon, zero overlap. CC-VJS 12 to 19, CC-RANKING-SIGNAL-010,
+  CC-RECORD-PROJECTION-009, PC-20 and PC-21 are all local. All 26 parse at HEAD because
+  I read the warnings, not because anything checked.
+
+  ## 3. Why it matters
+
+  An unparseable order is not defective law, it is not law: absent from the citator, so
+  `lookup` cannot return it and no agent is bound. Every human-readable artefact says
+  otherwise - file, opinion, citation, decision log.
+
+  ## 4. What I cannot dispose of by applying existing law
+
+  CC-VJS 12 D1 gives the principle (refuse rather than answer on an unresolvable
+  source) and I do not re-litigate it. Three questions it does not answer:
+
+  **(a) Scope.** `.vjs/orders` also holds drafts. A Fatal on any unparseable file there
+  may wedge a jurisdiction mid-authoring; the canon register has no drafts.
+
+  **(b) One door or three.** The route clerk already computes the fact. Raising its
+  severity in place, versus adding a limb at `validate`, decides whether one door or
+  three carry the rule. CC-VJS 18 then bites: a file that can flip a bright line joins
+  the entrenched surface and must arrive with a counterexample.
+
+  **(c) Discarded warnings generally.** A rule that a computed defect may never be
+  reported at an ignorable severity reaches far past orders.
+
+  No blame is sought; the asymmetry is old. The three corrected orders parse and resolve
+  by `lookup`, verified before commit. I do not ask to reopen them.
+requested_order: TBD
+private_boundary: local
+word_count: 499

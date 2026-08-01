@@ -1,0 +1,64 @@
+id: SUBMISSION-2026-08-01-181542
+court_requested: county
+jurisdiction: default
+question: Are ACT-007:s1's configurable record-path keys to be honoured or removed; and where two defaults point into the canon tree while nothing reads them, is that a dead declaration to repoint under CC-VJS 16 D1 or a read path correct as it stands?
+facts: |
+  # Facts: the default config declares two record roots inside the canon tree
+
+  Filed by Lexby on its own motion while producing the CC-VJS 16 C8 write-site
+  enumeration (`docs/COMPLIANCE-2026-08-01-CC-VJS-16-C8-write-site-enumeration.md` s.3(a)).
+
+  ## 1. Measured
+
+  `crates/vjs-store/src/lib.rs:480-491` builds the default `JurisdictionConfig`. Seven of
+  its nine path keys point inside `.vjs/`. Two do not:
+
+      specs:     "lawpack/v2/specs"
+      decisions: "lawpack/v2/decisions"
+
+  Both point into the canon tree - the directory `resolve_lawpack` reads canon from, and
+  the directory CC-VJS 16 D2 forbids any kernel write path to bring into being.
+
+  Nothing reads either key to resolve a write. The four apparent readers
+  (`vjs-lawpack/src/lib.rs:362,368`; `validator.rs:38,44`) iterate the *loaded lawpack's*
+  `specs` and `decisions` collections, unrelated to these strings. I enumerated all 51
+  production write sites under `crates/*/src/` (excluding in-file `#[cfg(test)]`): every
+  record writer hardcodes its destination and none consults the config.
+
+  `decisions` is sharper: a live writer for that record kind already exists,
+  `Store::write_log` (`vjs-store/src/lib.rs:49`), writing to `.vjs/logs/decisions`. The
+  config declares one destination and the kernel uses another.
+
+  ## 2. Why it is inert, and why that is not comfort
+
+  It is inert because the keys are dead, not because anyone decided they should not point
+  there. CC-VJS 16 held that an accidental protection is an aggravation and not a
+  mitigation, on facts of this shape: a defect masked by an unrelated bug, where fixing
+  the bug makes the defect reachable and the fix looks unrelated.
+
+  ACT-007:s1 says "all other record paths are configurable", and CC-VJS 16 obiter (vi)
+  records `[paths] orders` as another key the kernel writes and never reads, so honouring
+  these keys is the natural cure for that defect too. Honour them and two more record
+  kinds gain a default destination inside the canon tree - the displacement CC-VJS 16
+  cured for orders.
+
+  ## 3. Why I am not disposing of it myself
+
+  CC-VJS 16 D1 covers the principle: a jurisdiction's own record goes to its local record
+  store. Applying it would point both keys somewhere under `.vjs/`. But the fork is
+  upstream of that, and it is genuinely first-impression:
+
+  **(a) Honour or remove?** If honoured, the defaults must move and every existing config
+  must be migrated. If removed, ACT-007:s1's "configurable" is wrong as written and the
+  statute needs amending, which is the Principal's to do, not mine.
+
+  **(b) Read paths, not write paths?** The names are ambiguous and canon does hold
+  `lawpack/v2/specs` and `lawpack/v2/decisions` with real content. If these keys meant
+  "where to READ canon specs from", they are correct as they stand and the only defect is
+  that nothing reads them. The code cannot tell me, because nothing reads them either way.
+
+  I do not touch either key meanwhile. Changing a default that nothing reads is cheap to
+  do and expensive to be wrong about, and (b) is not answerable by measurement.
+requested_order: TBD
+private_boundary: local
+word_count: 499
