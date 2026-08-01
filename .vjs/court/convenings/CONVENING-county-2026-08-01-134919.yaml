@@ -1,0 +1,8 @@
+id: CONVENING-county-2026-08-01-134919
+court: county
+submission_id: SUBMISSION-2026-08-01-134856
+issue: lawpack-gate-skipped-out-of-tree
+case_file_digest: sha256:0e0a33ff9b0cabe3eeefa706bda9c4a07e32f6f28a1406bc4283d13a90eb636d
+bench:
+- county-judge-1
+convened_at: 2026-08-01T13:49:19.030450002+00:00

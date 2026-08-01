@@ -1,0 +1,12 @@
+id: LOG-2026-08-01-140742
+time: 2026-08-01T14:07:42.681210744+00:00
+actor: lexby
+kind: decision
+issue: ROUTE-20260801-140732
+decision: Implemented CC-VJS 14 in full. Each of the three checks in validate now carries a condition drawn from its own referent, the vacuous absence-assertion test is repaired, and both locks are re-pinned to sha256:5481b9e2 in the order the court fixed.
+basis:
+- PERMIT-1785593252
+risk: low
+reversibility: easy
+court_required: false
+why: 'The three checks shared one guard, the existence of a vendored lawpack/v2, which is false in any jurisdiction resolving out of tree. Measured: a live subscriber reported OK at exit 0 against a stale pin, and a deliberately falsified pin also reported OK. ACT-007:s7''s Fatal was unreachable, not dormant, and the test written to protect it asserted an absence in a fixture where the finding could not appear. C1-C6 verified individually; C7 measured one affected repository; C9 proved the cure at the destination.'

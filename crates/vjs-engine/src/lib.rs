@@ -310,8 +310,24 @@ pub fn validate(repo: &Path, opts: &ValidateOpts) -> Result<Report, KernelError>
         });
     }
 
-    let lawpack_dir = repo.join("lawpack/v2");
-    if lawpack_dir.exists() {
+    // A GATE'S GUARD MUST BE KEYED TO THE SAME REFERENT AS THE GATE ([2026] VJS-CC-VJS 14).
+    //
+    // The three checks below were wrapped in ONE condition - the existence of a VENDORED
+    // lawpack directory - and they do not share a referent. Since CC-VJS 12 a jurisdiction
+    // may resolve its lawpack OUT OF TREE through `lawpack_path`, and such a repository
+    // vendors no copy at all, so all three were skipped in silence. Measured 2026-08-01: a
+    // scratch jurisdiction invoked with an out-of-tree `--lawpack` and a DELIBERATELY
+    // FALSIFIED digest in `.vjs/lawpack.lock` reported `Validation: OK`, exit 0. The pin was
+    // not weak, it was absent. Each check now carries its own condition, drawn from its own
+    // referent, and `resolve_lawpack_dir` is the single source of both the directory scanned
+    // and of whether the lawpack-referent check runs at all.
+
+    // Referent: the lawpack TREE. The condition is that a lawpack resolved, and the directory
+    // handed to the check is the SAME `PathBuf` the `lawpack` above was loaded from - so the
+    // tree scanned for citations and the set of defined ids describe ONE tree. Passing
+    // the vendored path while `lawpack` came from elsewhere would have compared two
+    // different bodies of law and called the difference dangling.
+    if let Some(lawpack_dir) = resolve_lawpack_dir(repo) {
         for ff in LawpackValidator::check_referential_integrity(&lawpack_dir, &lawpack)? {
             findings.push(Finding {
                 severity: ff.severity,
@@ -322,35 +338,89 @@ pub fn validate(repo: &Path, opts: &ValidateOpts) -> Result<Report, KernelError>
                 suggested_fix: ff.suggested_fix,
             });
         }
-        // ACT-004:s8 (D2): citation uniqueness, collisions fatal.
-        for ff in LawpackValidator::check_citation_uniqueness(repo)? {
-            findings.push(Finding {
-                severity: ff.severity,
-                code: ff.code,
-                path: ff.path,
-                message: ff.message,
-                citation: None,
-                suggested_fix: ff.suggested_fix,
-            });
-        }
-        // ACT-007:s7 (#2): the loaded law must hash to the pinned lock digest.
-        if let Ok(Some(lock)) = Store::read_lawpack_lock(repo)
-            && let Ok(computed) = compute_digest(repo)
-            && lock.digest != computed
-        {
+    }
+
+    // ACT-004:s8 (D2): citation uniqueness, collisions fatal. Referent: the LOCAL governed
+    // records, `front_door::governed_record_roots` - which has nothing to do with where the
+    // lawpack resolved, so there is no lawful condition on it and it runs on every validate.
+    // The register stays the local roots and is NOT re-pointed at the resolved lawpack:
+    // [2026] VJS-CC-VJS 9 D1 holds that the allocator and this guard must read the same
+    // register, and the allocator reads the local roots (a guard wider than the allocator
+    // fails on records the allocator cannot see). Where none of the three roots exist the
+    // scan is empty by construction, which is the right answer for a repo that is not a
+    // jurisdiction.
+    for ff in LawpackValidator::check_citation_uniqueness(repo)? {
+        findings.push(Finding {
+            severity: ff.severity,
+            code: ff.code,
+            path: ff.path,
+            message: ff.message,
+            citation: None,
+            suggested_fix: ff.suggested_fix,
+        });
+    }
+
+    // ACT-007:s7 (#2): the loaded law must hash to the pinned lock digest. Referent: the
+    // pinned lock against the resolved digest, so the condition is that a lock EXISTS.
+    //
+    // NO SILENT ARM. The old form was `if let Ok(Some(lock)) = ... && let Ok(computed) = ...`,
+    // which discarded both failures: an unparseable lock, or a `compute_digest` error, deleted
+    // this Fatal exactly as thoroughly as the guard did, and validate said OK. A check that did
+    // not run is not a check that passed, so each half now reports itself by name.
+    match Store::read_lawpack_lock(repo) {
+        Ok(Some(lock)) => match compute_digest(repo) {
+            Ok(computed) if lock.digest != computed => {
+                findings.push(
+                    f(
+                        Severity::Fatal,
+                        "LAWPACK_LOCK_DRIFT",
+                        format!(
+                            "Loaded lawpack does not hash to the pinned lock digest (ACT-007:s7). \
+                             lock={} computed={}.",
+                            lock.digest, computed
+                        ),
+                    )
+                    .fix(
+                        "Re-pin the lock (vjs invoke regenerates .vjs/lawpack.lock) only after \
+                         confirming the lawpack change is intended.",
+                    ),
+                );
+            }
+            Ok(_) => {}
+            Err(e) => {
+                findings.push(
+                    f(
+                        Severity::Fatal,
+                        "LAWPACK_DIGEST_UNCOMPUTABLE",
+                        format!(
+                            "The pinned lock was read but the lawpack digest could not be \
+                             computed, so ACT-007:s7 was NOT checked: {e}. The failing half is \
+                             the DIGEST, not the lock."
+                        ),
+                    )
+                    .fix(
+                        "Make the resolved lawpack readable (check lawpack_path in \
+                         .vjs/config.toml and the permissions on that tree), then re-run validate.",
+                    ),
+                );
+            }
+        },
+        // No lock: nothing is pinned, so there is nothing to drift from. `vjs invoke` writes
+        // one; a repository that has never been invoked is not in breach of a pin it never made.
+        Ok(None) => {}
+        Err(e) => {
             findings.push(
                 f(
                     Severity::Fatal,
-                    "LAWPACK_LOCK_DRIFT",
+                    "LAWPACK_LOCK_UNREADABLE",
                     format!(
-                        "Loaded lawpack does not hash to the pinned lock digest (ACT-007:s7). \
-                         lock={} computed={}.",
-                        lock.digest, computed
+                        ".vjs/lawpack.lock exists but could not be read, so ACT-007:s7 was NOT \
+                         checked: {e}. The failing half is the LOCK, not the digest."
                     ),
                 )
                 .fix(
-                    "Re-pin the lock (vjs invoke regenerates .vjs/lawpack.lock) only after \
-                     confirming the lawpack change is intended.",
+                    "Repair .vjs/lawpack.lock, or re-pin it with vjs invoke after confirming \
+                     which lawpack this jurisdiction subscribes to.",
                 ),
             );
         }
