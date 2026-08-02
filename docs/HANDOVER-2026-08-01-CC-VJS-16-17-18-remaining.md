@@ -87,20 +87,42 @@ while checking nothing. Four readers must change together: `gazette/render.rs`,
 - **C5**: every `source_opinion` body reachable from a published item is scanned. All 25
   targets exist, are tracked, and carry no hit, so this will not refuse today's canon.
 
-### CC-VJS 18, all of it
+### CC-VJS 18: DONE, C7 included (2026-08-02, commit e0ed738)
 
-The sequencing is settled and matters: **the re-pin is the LAST mutation.** Entrenching
-`vjs-engine/src/lib.rs` before the CC-VJS 16 and 17 edits would make every subsequent commit
-fail until re-pinned, which manufactures the cadence problem the ruling assumed away.
+C7 landed. The lock is TOML with a required per-entry `authority`, `--authority` is required
+by clap and empty is refused, and the authority is stamped ONLY on entries whose digest
+actually moved, so an unmoved entry keeps the authority it already carried rather than
+acquiring a false provenance record.
 
-- C7 changes `.vjs/enforcement-surface.lock` from flat text to TOML and adds a required
-  per-entry `authority`. `check_drift` MUST be updated in the same change or all twelve
-  entries report spurious Fatals.
-- C7's stricter parse creates a NEW way to fail, and the current code reports a parse
-  failure as "no lock, no finding". An `ENFORCEMENT_LOCK_UNREADABLE` Fatal is needed or C7
-  introduces a silent disarm on the day it entrenches the file.
-- C4's positive control does not exist anywhere in the suite: nothing in the workspace
-  proves the assent floor's downgrade ever happens. That is wider than the opinion states.
+The predicted silent disarm was real and is closed: `read_lock` now returns three states
+rather than an `Option`, so a lock that EXISTS and cannot be parsed is Fatal
+`ENFORCEMENT_LOCK_UNREADABLE` instead of reading identically to an un-pinned repository. The
+pre-C7 flat format is deliberately one of the unreadable cases, because a subscriber whose
+binary is upgraded before its lock is re-pinned lands in exactly that state and it must be
+loud. Proved at the governed boundary through the real `vjs_engine::validate`, and seeded:
+mapping every parse failure back to "no lock" reds it, with the isolation step recorded
+(re-pin the seeded tree first, because `enforcement.rs` is itself entrenched so ANY edit to
+it also reds the pin test, and two red tests where one is collateral looks exactly like two
+red tests where both are real).
+
+Workspace: 295 passed, 0 failed. `enforcement.rs` at 563 of the 600-line ceiling.
+
+**Propagation, measured 2026-08-02 rather than assumed.** A lock FORMAT change is the shape
+that breaks every stale subscriber, so it was checked: `vibe-justice-system` is the ONLY repo
+on this box holding an `enforcement-surface.lock`, and it is post-C7 TOML with all twelve
+entries carrying an authority. No subscriber is exposed.
+
+### NOT OWED: "re-vendor CC-VJS 15+ into opbox-kernel"
+
+This appeared on the earlier task list and is a phantom, recorded here so nobody spends an
+afternoon on it. Measured 2026-08-02: `opbox-kernel/lawpack/v2/orders` is BYTE-IDENTICAL to
+the publisher's, and **no county-court order is in the lawpack at all** - all 25 CC- orders
+live in `.vjs/orders/` and the published canon holds only BOOT, COURTS, PC and SC instruments
+(37 files, same count both sides). CC-VJS orders bind THIS repository; they were never canon
+for federation, so there is nothing about them to vendor. The kernel's vendor pointer reads
+older (`52a0817`, carrying CC-VJS 14) than the publisher's HEAD, which is what made this look
+outstanding, but the vendored CONTENT is current because the intervening rulings never
+entered the lawpack.
 
 ## Findings filed while doing this work, all awaiting the court
 
