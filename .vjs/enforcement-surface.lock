@@ -1,15 +1,93 @@
-# VJS entrenched-enforcement-surface pin (PC-16 D4). A drift from these digests
-# is a loud, blocking finding. Re-lock with `vjs enforcement-lock` ONLY after a
-# deliberate, recorded gate change (and self-file the rationale).
-crates/vjs-engine/src/assent.rs sha256:4b96654dd4ebe7af0b7aab25f1cce86cb4543d2366ec193653ab3d2a5fa7acf4
-crates/vjs-core/src/front_door.rs sha256:f457745c34e7660dc7c47b7d789187f3e6ab3a3fb61eb331c8819081f46e86c9
-crates/vjs-core/src/bench.rs sha256:1e0314e75800b24c2a40030f12e644eeea271ba49864240aec3b9fc74b14a690
-crates/vjs-core/src/hook.rs sha256:64859f5c10e7e331474743befccec55bf4a69ab989686af6e01c4951c107eebf
-crates/vjs-core/src/governance/permit_gate.rs sha256:21c0e35bd55d7aaeeb319bf0366c83bc59a98c6f313b9b491a42032de55c6f27
-crates/vjs-redact/src/lib.rs sha256:e2ef2a20e69466cb61a007eabc076cca8fc62471514e7bcfd89dff7c64d29cf0
-crates/vjs-redact/src/tests.rs sha256:89828d4ceada44195c98a4d338b121e0b6f756373f7d738fc58587bffca5b120
-crates/vjs-engine/src/staged.rs sha256:467738a485dd04e661d3bf28b21a7f59e720fb4647fb626ade30200a207cbda1
-crates/vjs-lawpack/src/validator.rs sha256:739a73925275f475514de3e1c8ab41cb1a0a7b2931ad113a4f6090090ecf8448
-crates/vjs-lawpack/src/refs.rs sha256:7d0fbde84f8930081bccdf405eea206920df032cf020f894953a3f2007a82c2c
-crates/vjs-core/src/enforcement.rs sha256:306a6e79175dbed0ff825f2e726500717edee56102756291e4888f627ec30ef8
-crates/vjs-engine/src/lib.rs sha256:e197a8a0bf280b24dfd6a9f9cbadb5a5d25765edda17ce6ede17a50b5f77c446
+# VJS entrenched-enforcement-surface pin (PC-16 D4). A drift from these digests is a loud,
+# blocking finding. Re-pin with `vjs enforcement-lock --authority '<order or decision-log id>'`
+# ONLY after a deliberate, recorded gate change.
+#
+# EVERY ENTRY CARRIES THE AUTHORITY UNDER WHICH ITS DIGEST MOVED ([2026] VJS-CC-VJS 18 C7,
+# applying CC-VJS 12(d) to the second lock). `--authority` is required and empty is refused,
+# because a field that defaults to a constant, or accepts empty, checks nothing.
+#
+# The authority is stamped ONLY on entries whose digest actually moved. An entry that did not
+# move keeps the authority it already carried - re-stamping an unchanged digest with an
+# unrelated citation would manufacture a false provenance record, which is the defect this
+# field exists to prevent.
+#
+# ON THE FORMAT MIGRATION (2026-08-02). This file was flat `path sha256:...` lines with no
+# authority at all until CC-VJS 18 C7. Every entry therefore acquired its authority in that
+# one write. That is a true statement about THIS RECORD, not a claim about which ruling
+# originally entrenched each file: that history is in the ENFORCEMENT_SURFACE const's own
+# comments and is deliberately NOT reconstructed here, because a reconstructed citation is
+# indistinguishable from a recorded one once written down.
+#
+# Generated. Re-pin rather than hand-edit: an entry with an empty or missing authority is
+# ENFORCEMENT_LOCK_UNREADABLE, which is Fatal, not silence.
+[[entry]]
+path = "crates/vjs-engine/src/assent.rs"
+digest = "sha256:4b96654dd4ebe7af0b7aab25f1cce86cb4543d2366ec193653ab3d2a5fa7acf4"
+authority = "[2026] VJS-CC-VJS 18 C7"
+pinned_at = "2026-08-02T12:24:38Z"
+
+[[entry]]
+path = "crates/vjs-core/src/front_door.rs"
+digest = "sha256:f457745c34e7660dc7c47b7d789187f3e6ab3a3fb61eb331c8819081f46e86c9"
+authority = "[2026] VJS-CC-VJS 18 C7"
+pinned_at = "2026-08-02T12:24:38Z"
+
+[[entry]]
+path = "crates/vjs-core/src/bench.rs"
+digest = "sha256:1e0314e75800b24c2a40030f12e644eeea271ba49864240aec3b9fc74b14a690"
+authority = "[2026] VJS-CC-VJS 18 C7"
+pinned_at = "2026-08-02T12:24:38Z"
+
+[[entry]]
+path = "crates/vjs-core/src/hook.rs"
+digest = "sha256:64859f5c10e7e331474743befccec55bf4a69ab989686af6e01c4951c107eebf"
+authority = "[2026] VJS-CC-VJS 18 C7"
+pinned_at = "2026-08-02T12:24:38Z"
+
+[[entry]]
+path = "crates/vjs-core/src/governance/permit_gate.rs"
+digest = "sha256:21c0e35bd55d7aaeeb319bf0366c83bc59a98c6f313b9b491a42032de55c6f27"
+authority = "[2026] VJS-CC-VJS 18 C7"
+pinned_at = "2026-08-02T12:24:38Z"
+
+[[entry]]
+path = "crates/vjs-redact/src/lib.rs"
+digest = "sha256:e2ef2a20e69466cb61a007eabc076cca8fc62471514e7bcfd89dff7c64d29cf0"
+authority = "[2026] VJS-CC-VJS 18 C7"
+pinned_at = "2026-08-02T12:24:38Z"
+
+[[entry]]
+path = "crates/vjs-redact/src/tests.rs"
+digest = "sha256:89828d4ceada44195c98a4d338b121e0b6f756373f7d738fc58587bffca5b120"
+authority = "[2026] VJS-CC-VJS 18 C7"
+pinned_at = "2026-08-02T12:24:38Z"
+
+[[entry]]
+path = "crates/vjs-engine/src/staged.rs"
+digest = "sha256:467738a485dd04e661d3bf28b21a7f59e720fb4647fb626ade30200a207cbda1"
+authority = "[2026] VJS-CC-VJS 18 C7"
+pinned_at = "2026-08-02T12:24:38Z"
+
+[[entry]]
+path = "crates/vjs-lawpack/src/validator.rs"
+digest = "sha256:739a73925275f475514de3e1c8ab41cb1a0a7b2931ad113a4f6090090ecf8448"
+authority = "[2026] VJS-CC-VJS 18 C7"
+pinned_at = "2026-08-02T12:24:38Z"
+
+[[entry]]
+path = "crates/vjs-lawpack/src/refs.rs"
+digest = "sha256:7d0fbde84f8930081bccdf405eea206920df032cf020f894953a3f2007a82c2c"
+authority = "[2026] VJS-CC-VJS 18 C7"
+pinned_at = "2026-08-02T12:24:38Z"
+
+[[entry]]
+path = "crates/vjs-core/src/enforcement.rs"
+digest = "sha256:8048d99899d7d2cff1937b9b659694d677f0a086d7b98432ea58b7d07a68d436"
+authority = "[2026] VJS-CC-VJS 18 C7"
+pinned_at = "2026-08-02T12:27:15Z"
+
+[[entry]]
+path = "crates/vjs-engine/src/lib.rs"
+digest = "sha256:e197a8a0bf280b24dfd6a9f9cbadb5a5d25765edda17ce6ede17a50b5f77c446"
+authority = "[2026] VJS-CC-VJS 18 C7"
+pinned_at = "2026-08-02T12:24:38Z"

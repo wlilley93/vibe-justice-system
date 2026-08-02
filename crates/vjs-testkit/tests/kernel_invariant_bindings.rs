@@ -97,7 +97,8 @@ fn validate_reports_enforcement_surface_drift_through_the_real_pipeline() {
     std::fs::create_dir_all(repo.join(".vjs")).unwrap();
     let gate = repo.join("crates/vjs-core/src/bench.rs");
     std::fs::write(&gate, "pub fn verify_bench() -> bool { true }\n").unwrap();
-    vjs_core::enforcement::write_lock(&repo).expect("the fixture pins its own surface");
+    vjs_core::enforcement::write_lock(&repo, "[2026] VJS-CC-VJS 18 C7 (test fixture)")
+        .expect("the fixture pins its own surface");
 
     let opts = vjs_engine::ValidateOpts {
         staged: false,
@@ -144,5 +145,101 @@ fn validate_reports_enforcement_surface_drift_through_the_real_pipeline() {
     );
     assert!(!dirty.ok, "a Fatal drift must make the report not-ok");
 
+    let _ = std::fs::remove_dir_all(&repo);
+}
+
+/// [2026] VJS-CC-VJS 18 C7 (D5): THE UNREADABLE-LOCK FATAL, PROVED AT THE GOVERNED BOUNDARY.
+///
+/// WHY THIS TEST AND NOT THE UNIT TESTS. `enforcement.rs`'s own tests call `check_drift`
+/// directly, so they prove the finding is CONSTRUCTED. They cannot prove it is REPORTED: the
+/// production path is `vjs_engine::validate`, and a Fatal that never reaches the Report is a
+/// Fatal nobody is stopped by. C7 introduced a stricter parse, which is to say it introduced
+/// NEW WAYS FOR THE LOCK TO FAIL TO LOAD, and the code it replaced reported every load
+/// failure as `None` - byte-identical to an un-pinned repository. So the day the authority
+/// field landed was the day a corrupt lock could have become silence.
+///
+/// REACHABILITY FIRST. The same fixture is asserted clean under a well-formed lock before it
+/// is corrupted, so PRESENCE is asserted where ABSENCE was the measured baseline.
+///
+/// THE PRE-C7 FLAT FORMAT IS THE CORRUPTION USED, deliberately: it is not a synthetic garbage
+/// string but the exact bytes every lock on the estate carried until 2026-08-02. If a
+/// subscriber's binary is upgraded before its lock is re-pinned, THIS is the state it lands
+/// in, and it must be loud.
+///
+/// PROOF IT CAN FAIL, AND THE ISOLATION STEP IT NEEDS. Map every parse failure in
+/// `read_lock` back to "no lock" (the pre-C7 shape) and this test goes red. Run it that way
+/// and `the_committed_enforcement_surface_matches_its_pin` goes red TOO - but for a
+/// mechanical reason with nothing to do with the seed: `enforcement.rs` is itself on the
+/// entrenched surface, so ANY edit to it moves its digest off the pin. Re-pin the seeded
+/// tree (`vjs enforcement-lock --authority '<anything>'`) and the divergence is exact:
+/// 4 green, and only this test red. VERIFIED 2026-08-02, both ways.
+///
+/// That step is written down because without it a reader reproduces the seed, sees two
+/// failures, and concludes the seed is merely noisy rather than that it disarmed a specific
+/// gate. Two red tests where one is collateral looks identical to two red tests where both
+/// are real.
+#[test]
+fn validate_reports_an_unreadable_enforcement_lock_through_the_real_pipeline() {
+    let repo = std::env::temp_dir().join(format!("vjs-cc18-c7-{}", std::process::id()));
+    let _ = std::fs::remove_dir_all(&repo);
+    std::fs::create_dir_all(repo.join("crates/vjs-core/src")).unwrap();
+    std::fs::create_dir_all(repo.join(".vjs")).unwrap();
+    std::fs::write(
+        repo.join("crates/vjs-core/src/bench.rs"),
+        "pub fn verify_bench() -> bool { true }\n",
+    )
+    .unwrap();
+    vjs_core::enforcement::write_lock(&repo, "[2026] VJS-CC-VJS 18 C7 (test fixture)")
+        .expect("the fixture pins its own surface");
+
+    let opts = vjs_engine::ValidateOpts {
+        staged: false,
+        external: false,
+    };
+
+    // BASELINE: a well-formed lock reports nothing. Without this the assertion below could
+    // be satisfied by a fixture that was Fatal for some unrelated reason.
+    let clean = vjs_engine::validate(&repo, &opts).expect("validate runs on the clean fixture");
+    assert!(
+        !clean
+            .findings
+            .iter()
+            .any(|f| f.code == "ENFORCEMENT_LOCK_UNREADABLE"),
+        "a lock this workspace just wrote must be readable; got: {:?}",
+        clean.findings.iter().map(|f| &f.code).collect::<Vec<_>>()
+    );
+
+    // The pre-C7 flat format: a real lock, in the format the whole estate used yesterday.
+    std::fs::write(
+        repo.join(".vjs/enforcement-surface.lock"),
+        "# VJS entrenched-enforcement-surface pin (PC-16 D4).\n\
+         crates/vjs-core/src/bench.rs sha256:0000000000000000000000000000000000000000000000000000000000000000\n",
+    )
+    .unwrap();
+
+    let corrupt = vjs_engine::validate(&repo, &opts).expect("validate runs on the corrupt fixture");
+    let f = corrupt
+        .findings
+        .iter()
+        .find(|f| f.code == "ENFORCEMENT_LOCK_UNREADABLE")
+        .unwrap_or_else(|| {
+            panic!(
+                "C7: `vjs_engine::validate` must report ENFORCEMENT_LOCK_UNREADABLE for a lock \
+                 that exists and cannot be parsed. If this is missing, an unparseable lock is \
+                 being reported as an un-pinned repository and NOTHING is being witnessed. \
+                 Findings: {:?}",
+                corrupt.findings.iter().map(|f| &f.code).collect::<Vec<_>>()
+            )
+        });
+    assert!(
+        matches!(f.severity, vjs_core::types::Severity::Fatal),
+        "an unwitnessed surface must be Fatal, not advisory: a warning is not a refusal"
+    );
+    assert!(
+        f.message.contains("NOTHING WAS CHECKED"),
+        "the finding must say that nothing was checked - 'unverified' and 'verified-good' are \
+         the two readings an operator must never confuse. Got: {}",
+        f.message
+    );
     let _ = std::fs::remove_dir_all(&repo);
 }

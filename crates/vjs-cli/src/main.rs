@@ -145,7 +145,15 @@ enum Commands {
     /// (Re)pin the entrenched-enforcement surface .vjs/enforcement-surface.lock over the
     /// current gate-source digests (PC-16 D4). Run ONLY after a deliberate, recorded gate
     /// change - the re-pin is the visible acknowledgment that a gate moved.
-    EnforcementLock,
+    EnforcementLock {
+        /// The authority under which the digest moved: an order citation (e.g.
+        /// "[2026] VJS-CC-VJS 18") or a decision-log id. REQUIRED, and empty is refused
+        /// ([2026] VJS-CC-VJS 18 C7). There is deliberately no default: a field that
+        /// defaults to a constant records nothing. Stamped only on entries whose digest
+        /// actually moved; an unmoved entry keeps the authority it already carried.
+        #[arg(long)]
+        authority: String,
+    },
     /// Full-spectrum conformance audit (PC-13 D11): enumerate every kernel_effect
     /// duty in canon and report, deterministically, which are bound to a kernel
     /// gate. Writes the conformance map (the D12 predicate).
@@ -366,7 +374,9 @@ fn main() {
         Commands::Status => cmd_status(&repo, json),
         Commands::NextCitation { series, year } => cmd_next_citation(&repo, series, year, json),
         Commands::InstallLock => cmd_install_lock(&repo, json),
-        Commands::EnforcementLock => match vjs_core::enforcement::write_lock(&repo) {
+        Commands::EnforcementLock { authority } => match vjs_core::enforcement::write_lock(
+            &repo, &authority,
+        ) {
             Ok(()) => {
                 println!(
                     "Pinned the entrenched-enforcement surface (.vjs/enforcement-surface.lock)."

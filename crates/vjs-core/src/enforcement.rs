@@ -101,12 +101,72 @@ pub const ENFORCEMENT_SURFACE: &[&str] = &[
 
 const LOCK_PATH: &str = ".vjs/enforcement-surface.lock";
 
+const LOCK_HEADER: &str = "\
+# VJS entrenched-enforcement-surface pin (PC-16 D4). A drift from these digests is a loud,
+# blocking finding. Re-pin with `vjs enforcement-lock --authority '<order or decision-log id>'`
+# ONLY after a deliberate, recorded gate change.
+#
+# EVERY ENTRY CARRIES THE AUTHORITY UNDER WHICH ITS DIGEST MOVED ([2026] VJS-CC-VJS 18 C7,
+# applying CC-VJS 12(d) to the second lock). `--authority` is required and empty is refused,
+# because a field that defaults to a constant, or accepts empty, checks nothing.
+#
+# The authority is stamped ONLY on entries whose digest actually moved. An entry that did not
+# move keeps the authority it already carried - re-stamping an unchanged digest with an
+# unrelated citation would manufacture a false provenance record, which is the defect this
+# field exists to prevent.
+#
+# ON THE FORMAT MIGRATION (2026-08-02). This file was flat `path sha256:...` lines with no
+# authority at all until CC-VJS 18 C7. Every entry therefore acquired its authority in that
+# one write. That is a true statement about THIS RECORD, not a claim about which ruling
+# originally entrenched each file: that history is in the ENFORCEMENT_SURFACE const's own
+# comments and is deliberately NOT reconstructed here, because a reconstructed citation is
+# indistinguishable from a recorded one once written down.
+#
+# Generated. Re-pin rather than hand-edit: an entry with an empty or missing authority is
+# ENFORCEMENT_LOCK_UNREADABLE, which is Fatal, not silence.
+";
+
 fn digest_of(path: &Path) -> Option<String> {
     use sha2::Digest;
     let bytes = std::fs::read(path).ok()?;
     let mut h = sha2::Sha256::new();
     h.update(&bytes);
     Some(format!("sha256:{}", hex::encode(h.finalize())))
+}
+
+/// One pinned file: its digest, and the authority under which THAT DIGEST MOVED.
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+pub struct PinnedEntry {
+    pub path: String,
+    pub digest: String,
+    /// An order citation (`[2026] VJS-CC-VJS 18`) or a decision-log id. Never empty:
+    /// `write_lock` refuses to write without one and `read_lock` refuses to trust a lock
+    /// that carries one.
+    pub authority: String,
+    /// When this digest was pinned. A verdict with no timestamp cannot be told from a stale
+    /// one. Carried forward unchanged while the digest does not move, so the file does not
+    /// churn on an unrelated re-pin.
+    pub pinned_at: String,
+}
+
+#[derive(Default, serde::Serialize, serde::Deserialize)]
+struct LockFile {
+    #[serde(default)]
+    entry: Vec<PinnedEntry>,
+}
+
+/// The three states of the lock, which the old `Option` could not tell apart.
+///
+/// `Absent` and `Unreadable` used to be the SAME value (`None`), and both returned no
+/// finding. So a lock that existed but could not be parsed reported exactly what an
+/// un-pinned repository reports: nothing. Introducing a stricter parse without splitting
+/// these would have been a silent disarm on the day it landed.
+enum Lock {
+    /// No lock file. The pin is opt-in, so this is not a finding.
+    Absent,
+    /// A lock file exists and cannot be trusted. This is Fatal, never silence.
+    Unreadable(String),
+    Pinned(BTreeMap<String, PinnedEntry>),
 }
 
 /// The current (path, digest) of every surface file present, sorted.
@@ -119,31 +179,85 @@ pub fn surface_digests(repo: &Path) -> Vec<(String, String)> {
 
 /// Write the pinned manifest over the current surface - the deliberate, recorded
 /// acknowledgment after an intended gate change.
-pub fn write_lock(repo: &Path) -> std::io::Result<()> {
-    let mut out = String::from(
-        "# VJS entrenched-enforcement-surface pin (PC-16 D4). A drift from these digests\n\
-         # is a loud, blocking finding. Re-lock with `vjs enforcement-lock` ONLY after a\n\
-         # deliberate, recorded gate change (and self-file the rationale).\n",
-    );
-    for (rel, d) in surface_digests(repo) {
-        out.push_str(&format!("{rel} {d}\n"));
+///
+/// REFUSES WITHOUT AN AUTHORITY ([2026] VJS-CC-VJS 18 C7). `authority` is the order citation
+/// or decision-log id under which the digests moved. An empty or whitespace-only value is
+/// refused and NOTHING IS WRITTEN - the refusal must not leave a half-written lock, because a
+/// truncated lock is `ENFORCEMENT_LOCK_UNREADABLE` and the operator would be left worse off
+/// than before they ran the command.
+pub fn write_lock(repo: &Path, authority: &str) -> std::io::Result<()> {
+    let authority = authority.trim();
+    if authority.is_empty() {
+        // Refuse BEFORE any filesystem write. There is no default: a field that defaults to
+        // a constant checks nothing, which is the vacuity C7 names.
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidInput,
+            "an enforcement-surface re-pin requires --authority: the order citation \
+             (e.g. '[2026] VJS-CC-VJS 18') or decision-log id under which the digest moved. \
+             Nothing was written. A re-pin carries a reason a reader can answer \
+             (CC-VJS 12(d), applied to this lock by CC-VJS 18 C7).",
+        ));
     }
-    std::fs::write(repo.join(LOCK_PATH), out)
+    // An unreadable prior lock cannot be used to carry authorities forward. That is not a
+    // reason to refuse the re-pin - re-pinning is exactly how an operator FIXES an unreadable
+    // lock - so every entry is stamped with the given authority, which is then the truth.
+    let prior = match read_lock(repo) {
+        Lock::Pinned(m) => m,
+        Lock::Absent | Lock::Unreadable(_) => BTreeMap::new(),
+    };
+    let now = chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true);
+    let mut file = LockFile::default();
+    for (path, digest) in surface_digests(repo) {
+        match prior.get(&path) {
+            // Unmoved: keep the entry verbatim, authority and timestamp included.
+            Some(p) if p.digest == digest => file.entry.push(p.clone()),
+            // New or moved: THIS is the digest that moved, so this is what the authority
+            // is about.
+            _ => file.entry.push(PinnedEntry {
+                path,
+                digest,
+                authority: authority.to_string(),
+                pinned_at: now.clone(),
+            }),
+        }
+    }
+    let body = toml::to_string_pretty(&file)
+        .map_err(|e| std::io::Error::new(std::io::ErrorKind::InvalidData, e.to_string()))?;
+    std::fs::write(repo.join(LOCK_PATH), format!("{LOCK_HEADER}{body}"))
 }
 
-fn read_lock(repo: &Path) -> Option<BTreeMap<String, String>> {
-    let content = std::fs::read_to_string(repo.join(LOCK_PATH)).ok()?;
-    let mut map = BTreeMap::new();
-    for line in content.lines() {
-        let line = line.trim();
-        if line.is_empty() || line.starts_with('#') {
-            continue;
+fn read_lock(repo: &Path) -> Lock {
+    let content = match std::fs::read_to_string(repo.join(LOCK_PATH)) {
+        Ok(c) => c,
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => return Lock::Absent,
+        // A lock that is present but unreadable (permissions, a directory, bad UTF-8) is NOT
+        // an un-pinned repo.
+        Err(e) => return Lock::Unreadable(format!("cannot be read ({e})")),
+    };
+    let parsed: LockFile = match toml::from_str(&content) {
+        Ok(v) => v,
+        Err(e) => return Lock::Unreadable(format!("is not valid TOML ({e})")),
+    };
+    let mut map: BTreeMap<String, PinnedEntry> = BTreeMap::new();
+    for e in parsed.entry {
+        if e.path.trim().is_empty() || e.digest.trim().is_empty() {
+            return Lock::Unreadable("carries an entry with an empty path or digest".into());
         }
-        if let Some((rel, d)) = line.rsplit_once(' ') {
-            map.insert(rel.trim().to_string(), d.trim().to_string());
+        if e.authority.trim().is_empty() {
+            return Lock::Unreadable(format!(
+                "entry '{}' carries an EMPTY authority; every pinned digest must record the \
+                 authority under which it moved (CC-VJS 18 C7)",
+                e.path
+            ));
+        }
+        if map.insert(e.path.clone(), e.clone()).is_some() {
+            return Lock::Unreadable(format!(
+                "names '{}' twice, so which digest is pinned is ambiguous",
+                e.path
+            ));
         }
     }
-    Some(map)
+    Lock::Pinned(map)
 }
 
 /// PC-16 D4: surface a loud, blocking finding when a pinned gate-source file drifts from
@@ -151,14 +265,41 @@ fn read_lock(repo: &Path) -> Option<BTreeMap<String, String>> {
 /// the breach duty. No finding when the lock is absent (an un-pinned repo) - the pin is
 /// opt-in via `vjs enforcement-lock`. Deterministic: sha256 over the gate bytes.
 pub fn check_drift(repo: &Path) -> Vec<Finding> {
-    let Some(pinned) = read_lock(repo) else {
-        return Vec::new();
+    let pinned = match read_lock(repo) {
+        Lock::Absent => return Vec::new(),
+        // THE SILENT DISARM THIS EXISTS TO PREVENT (CC-VJS 18 C7). Before the authority
+        // field there was one parse and it could barely fail; the stricter parse creates
+        // real ways to fail, and the previous code reported every one of them as "no lock,
+        // no finding" - identical to an un-pinned repo. A lock that exists and cannot be
+        // trusted is the LOUDEST case, not the quietest: it is exactly the state a weakening
+        // edit would leave behind if it could corrupt the witness instead of tripping it.
+        Lock::Unreadable(why) => {
+            return vec![
+                Finding::new(
+                    Severity::Fatal,
+                    "ENFORCEMENT_LOCK_UNREADABLE",
+                    format!(
+                        "The entrenched-enforcement lock ({LOCK_PATH}) exists but {why}. \
+                         NOTHING WAS CHECKED: no gate digest was compared, so this is \
+                         unverified, not verified-good."
+                    ),
+                )
+                .citing("ACT-COMPUTER-FIRST-REALM:s14")
+                .fix(
+                    "Re-pin with `vjs enforcement-lock --authority '<order citation or \
+                     decision-log id>'`, which regenerates the file in full. Do not hand-edit \
+                     it back to green: the parse is what stands between a pinned surface and \
+                     an unwitnessed one.",
+                ),
+            ];
+        }
+        Lock::Pinned(m) => m,
     };
     let current: BTreeMap<String, String> = surface_digests(repo).into_iter().collect();
     let mut findings = Vec::new();
     for rel in ENFORCEMENT_SURFACE {
-        let want = pinned.get(*rel);
-        let got = current.get(*rel);
+        let want = pinned.get(*rel).map(|e| e.digest.clone());
+        let got = current.get(*rel).cloned();
         if want != got {
             findings.push(
                 Finding::new(
@@ -249,7 +390,9 @@ mod tests {
         std::fs::create_dir_all(tmp.join(".vjs")).unwrap();
         std::fs::write(
             tmp.join(LOCK_PATH),
-            "# test pin\ncrates/vjs-core/src/bench.rs sha256:0000000000000000000000000000000000000000000000000000000000000000\n",
+            "[[entry]]\npath = \"crates/vjs-core/src/bench.rs\"\n\
+             digest = \"sha256:0000000000000000000000000000000000000000000000000000000000000000\"\n\
+             authority = \"[2026] VJS-CC-VJS 18 C7 (test fixture)\"\npinned_at = \"2026-08-02T00:00:00Z\"\n",
         )
         .unwrap();
         let findings = check_drift(&tmp);
@@ -267,5 +410,154 @@ mod tests {
             "the drift finding must be Fatal"
         );
         let _ = std::fs::remove_dir_all(&tmp);
+    }
+
+    // ---------------------------------------------------------------------- //
+    // [2026] VJS-CC-VJS 18 C7 - per-entry authority, and the parse that can now fail
+    // ---------------------------------------------------------------------- //
+
+    fn scratch(name: &str) -> std::path::PathBuf {
+        let tmp = std::env::temp_dir().join(format!("vjs-enf-{name}-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&tmp);
+        std::fs::create_dir_all(tmp.join(".vjs")).unwrap();
+        std::fs::create_dir_all(tmp.join("crates/vjs-core/src")).unwrap();
+        tmp
+    }
+
+    fn authority_of(repo: &Path, rel: &str) -> String {
+        match read_lock(repo) {
+            Lock::Pinned(m) => m.get(rel).expect("entry is pinned").authority.clone(),
+            Lock::Absent => panic!("the lock is absent"),
+            Lock::Unreadable(w) => panic!("the lock is unreadable: {w}"),
+        }
+    }
+
+    #[test]
+    fn write_lock_refuses_without_an_authority_and_writes_nothing() {
+        // C7's own "proof it can fail": the write is REFUSED and no file is written. The
+        // no-file half is the load-bearing one - a refusal that still truncated the lock
+        // would leave the operator with ENFORCEMENT_LOCK_UNREADABLE and no pin at all.
+        let tmp = scratch("refuse");
+        std::fs::write(tmp.join("crates/vjs-core/src/bench.rs"), "gate v1").unwrap();
+
+        for empty in ["", "   ", "\t\n"] {
+            let err = write_lock(&tmp, empty).expect_err("an empty authority must be refused");
+            assert_eq!(err.kind(), std::io::ErrorKind::InvalidInput);
+            assert!(
+                err.to_string().contains("--authority"),
+                "the refusal must name the cure, got: {err}"
+            );
+            assert!(
+                !tmp.join(LOCK_PATH).exists(),
+                "REFUSED BUT WROTE ANYWAY on input {empty:?} - a partial lock is worse than none"
+            );
+        }
+
+        // The control: the same call with an authority DOES write, so the refusals above are
+        // not passing because write_lock is broken for every input.
+        write_lock(&tmp, "[2026] VJS-CC-VJS 18").expect("a stamped re-pin is written");
+        assert!(tmp.join(LOCK_PATH).exists());
+
+        // And a refusal after a good lock exists leaves that lock untouched.
+        let before = std::fs::read(tmp.join(LOCK_PATH)).unwrap();
+        assert!(write_lock(&tmp, "  ").is_err());
+        assert_eq!(
+            before,
+            std::fs::read(tmp.join(LOCK_PATH)).unwrap(),
+            "a refused re-pin must not disturb the lock already on disk"
+        );
+        let _ = std::fs::remove_dir_all(&tmp);
+    }
+
+    #[test]
+    fn an_unmoved_digest_keeps_the_authority_it_already_carried() {
+        // The false-provenance guard. C7 asks for "the authority under which the DIGEST
+        // MOVED". Re-stamping every entry on every re-pin would record that an unrelated
+        // ruling moved a file it never touched, which is a lie the file would then carry
+        // indefinitely.
+        let tmp = scratch("carry");
+        let gate = tmp.join("crates/vjs-core/src/bench.rs");
+        std::fs::write(&gate, "gate v1").unwrap();
+
+        write_lock(&tmp, "[2026] FIRST").unwrap();
+        assert_eq!(authority_of(&tmp, "crates/vjs-core/src/bench.rs"), "[2026] FIRST");
+
+        // A re-pin under a different authority, with this gate UNCHANGED.
+        write_lock(&tmp, "[2026] SECOND").unwrap();
+        assert_eq!(
+            authority_of(&tmp, "crates/vjs-core/src/bench.rs"),
+            "[2026] FIRST",
+            "an unmoved digest was re-stamped with an authority that did not move it"
+        );
+
+        // Now MOVE it. This digest did change under SECOND's successor, so it takes it.
+        std::fs::write(&gate, "gate v2 - a deliberate gate change").unwrap();
+        write_lock(&tmp, "[2026] THIRD").unwrap();
+        assert_eq!(
+            authority_of(&tmp, "crates/vjs-core/src/bench.rs"),
+            "[2026] THIRD",
+            "a MOVED digest must take the authority of the re-pin that moved it"
+        );
+        let _ = std::fs::remove_dir_all(&tmp);
+    }
+
+    #[test]
+    fn a_lock_that_exists_and_cannot_be_trusted_is_fatal_not_silence() {
+        // THE SILENT DISARM C7 WOULD OTHERWISE HAVE INTRODUCED. Every one of these used to
+        // read as `None` - identical to an un-pinned repository - so a stricter parse would
+        // have turned each into "no lock, no finding" on the day it landed.
+        let cases: [(&str, &str); 4] = [
+            (
+                "flat",
+                // the PRE-C7 format, which every existing lock is written in
+                "# VJS pin\ncrates/vjs-core/src/bench.rs sha256:00\n",
+            ),
+            (
+                "empty-authority",
+                "[[entry]]\npath = \"a.rs\"\ndigest = \"sha256:00\"\nauthority = \"  \"\npinned_at = \"t\"\n",
+            ),
+            (
+                "duplicate-path",
+                "[[entry]]\npath = \"a.rs\"\ndigest = \"sha256:00\"\nauthority = \"x\"\npinned_at = \"t\"\n\
+                 [[entry]]\npath = \"a.rs\"\ndigest = \"sha256:11\"\nauthority = \"x\"\npinned_at = \"t\"\n",
+            ),
+            (
+                "empty-digest",
+                "[[entry]]\npath = \"a.rs\"\ndigest = \"\"\nauthority = \"x\"\npinned_at = \"t\"\n",
+            ),
+        ];
+        for (name, body) in cases {
+            let tmp = scratch(name);
+            std::fs::write(tmp.join(LOCK_PATH), body).unwrap();
+            let findings = check_drift(&tmp);
+            assert!(
+                findings.iter().any(|f| f.code == "ENFORCEMENT_LOCK_UNREADABLE"
+                    && matches!(f.severity, Severity::Fatal)),
+                "case {name:?}: an untrustworthy lock must be a Fatal \
+                 ENFORCEMENT_LOCK_UNREADABLE, got {:?}",
+                findings.iter().map(|f| &f.code).collect::<Vec<_>>()
+            );
+            let _ = std::fs::remove_dir_all(&tmp);
+        }
+
+        // THE NEGATIVE CONTROL, without which the above passes for the wrong reason: an
+        // ABSENT lock must still be silence. The pin is opt-in, and a gate that fires on
+        // every un-pinned repository would be switched off within a day.
+        let bare = scratch("absent");
+        assert!(
+            check_drift(&bare).is_empty(),
+            "an un-pinned repo must produce no finding - the pin is opt-in"
+        );
+        // ... and a WELL-FORMED lock must be silence too, or the code above is just
+        // "always Fatal".
+        std::fs::write(bare.join("crates/vjs-core/src/bench.rs"), "gate").unwrap();
+        write_lock(&bare, "[2026] VJS-CC-VJS 18").unwrap();
+        assert!(
+            !check_drift(&bare)
+                .iter()
+                .any(|f| f.code == "ENFORCEMENT_LOCK_UNREADABLE"),
+            "a lock this crate just wrote must be readable by this crate"
+        );
+        let _ = std::fs::remove_dir_all(&bare);
     }
 }
