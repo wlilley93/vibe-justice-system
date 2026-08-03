@@ -1,0 +1,92 @@
+id: 2026-VJS-CC-OPBOX-SINGLE-BODY-AUTHORITY-006
+court: county
+jurisdiction: opbox
+repo_code: null
+status: binding
+issue: opbox_order_25_single_body_authority
+holding: |
+  The proposed single-body exception to Order 25 is refused. Evidence that a frame has
+  exactly one candidate body establishes structure, not the Principal's adoption of that
+  body as present authority. `frame_own_children` and `unlabelled` describe extraction or
+  declaration state; neither is an authority class. Registration continues to require a
+  recognised current-source declaration on the selected locus or an express, verified,
+  hash-bound Principal act resolving that label first. Existing valid direction-backed
+  registrations are unaffected.
+
+  The RATIO: Order 25 makes an affirmative declaration of present authority a condition
+  precedent to frame registration. Because a machine verdict creates no authority, body
+  count, extraction locus, region naming and quarantine output cannot substitute for a
+  recognised current-source declaration or an express hash-bound Principal
+  label-resolution act.
+directives:
+- id: D1
+  actor: lexby
+  must: refuse_registration_based_only_on_single_body_or_empty_quarantine
+  when: null
+- id: D2
+  actor: lexby
+  must: treat_frame_own_children_as_extraction_locus_not_legal_authority
+  when: null
+- id: D3
+  actor: lexby
+  must: keep_unlabelled_frames_no_authority_irrespective_of_body_count_geometry_regions_or_quarantine
+  when: null
+- id: D4
+  actor: lexby
+  must: refuse_multi_body_frames_until_a_recognised_declaration_or_principal_act_selects_the_governing_body
+  when: null
+- id: D5
+  actor: lexby
+  must: cure_refused_frames_through_the_normal_design_writer_then_recapture_recompute_digest_and_obtain_fresh_signature
+  when: null
+- id: D6
+  actor: lexby
+  must: keep_inference_only_rows_report_only_and_no_authority_until_cured
+  when: null
+- id: D7
+  actor: lexby
+  must: preserve_valid_direction_backed_registrations_and_represent_them_as_direction_backed
+  when: null
+- id: D8
+  actor: lexby
+  must: separate_structural_authority_by_from_legal_registrability_and_add_negative_tests_for_single_body_empty_quarantine_unlabelled_truncated_and_multi_body_cases
+  when: null
+- id: D9
+  actor: lexby
+  must: correct_the_signoff_source_comment_that_misnames_order_25_as_order_31
+  when: null
+forbidden:
+- treat_frame_own_children_one_body_region_names_or_empty_quarantine_as_authority
+- treat_capture_truncation_or_inspection_failure_as_absence
+- widen_the_recognised_marker_vocabulary_with_synonyms_to_evade_order_25
+- rewrite_a_derived_ledger_to_convert_unlabelled_into_frame_own_children
+- auto_register_or_manufacture_a_principal_signature
+- grandfather_inference_only_rows
+- use_no_authority_to_remove_hide_or_score_shipped_function_as_deviation
+- disturb_valid_direction_backed_registrations_without_a_separate_ruling
+exceptions: null
+supersedes: []
+source_opinion: lawpack/v2/judgments/2026-VJS-CC-OPBOX-006-opinion.md
+runtime_summary: |
+  Single-body is not an Order 25 exception. One body proves structure, not Principal
+  adoption. `frame_own_children` is an extraction locus and `unlabelled` remains
+  no-authority. Keep the fail-closed refusal. Cure through the normal design writer,
+  recapture, digest and fresh signature, or use an already-authorised verified hash-bound
+  Principal label-resolution act. Do not widen markers or infer authority from quarantine.
+created_at: 2026-08-03T20:50:00Z
+citation: '[2026] VJS-CC-OPBOX 6'
+assent_source: standing_bounded_assent
+bench:
+- Ledgerward CCJ
+case_file_digest: sha256:0494d27173b925c3013fd97de5c8d0b6c9a5707c5c5c97833184f475839c2ce7
+convened_at: 2026-08-03T20:38:36.839901905Z
+vote: 1-0 (Ledgerward CCJ)
+appeal_of: ''
+appealable: true
+permission_to_appeal: true
+reserved:
+- the_general_sufficiency_of_depth_limited_frame_hashes
+- multiple_competing_recognised_current_layers
+- the_status_of_other_existing_configured_markers
+- the_scope_of_any_estate_wide_principal_direction_beyond_its_recorded_effect
+- omission_enumeration_and_other_registration_prerequisites_not_pleaded

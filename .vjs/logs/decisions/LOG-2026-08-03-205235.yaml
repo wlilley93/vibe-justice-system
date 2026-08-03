@@ -1,0 +1,12 @@
+id: LOG-2026-08-03-205235
+time: 2026-08-03T20:52:35.120502189+00:00
+actor: lexby
+kind: implementation-decision
+issue: opbox-order-25-single-body-frame-registrability
+decision: Refuse single-body inference and preserve Order 25's affirmative authority predicate
+basis:
+- '[2026] VJS-CC-OPBOX 6'
+risk: high
+reversibility: easy
+court_required: false
+why: The County Court held that body count establishes structure but cannot establish Principal adoption. The design system must keep extraction locus separate from legal registrability, refuse unlabelled and inference-only frames, and cure them through the normal writer, fresh capture, digest and signature. Existing valid direction-backed registrations remain valid. This preserves the fail-closed rule while giving implementation a typed path for already-authorised hash-bound label resolution and a concrete negative-test set.

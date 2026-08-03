@@ -1,0 +1,12 @@
+id: LOG-2026-08-03-205438
+time: 2026-08-03T20:54:38.227674196+00:00
+actor: lexby
+kind: public-record-change
+issue: opbox_order_25_single_body_authority
+decision: Record the privacy-safe reasoned opinion for the binding single-body authority ruling
+basis:
+- '[2026] VJS-CC-OPBOX 6'
+risk: high
+reversibility: easy
+court_required: false
+why: The opinion explains the binding order without publishing subscriber file paths, route counts, user identities, credentials, or other private implementation facts. It states the structural-versus-normative distinction, the fail-closed cure, and the preserved direction-backed path. The public issue label uses the generic subscriber pseudonym where required by the publication boundary.
