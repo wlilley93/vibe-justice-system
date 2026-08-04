@@ -1,0 +1,47 @@
+id: SUBMISSION-2026-08-04-075344
+court_requested: first_instance
+jurisdiction: default
+question: 'Addendum 1 to SUBMISSION-2026-08-04-074921: the Principal states he decided on the whole frame; does that change the locus-registration question, and does it disturb the 127 sign decisions?'
+facts: |
+  Addendum 1 to SUBMISSION-2026-08-04-074921, whose case file digest
+  fa7be09c541bd619dc67f1c018293780d5c96a62b6c2e2863cb74515fdf10a05 is UNAMENDED and stands.
+  Full text: .vds/court/ADDENDUM-1-2026-08-04-what-the-signer-saw.md
+
+  OCCASION. After filing and before the bench convened the Principal stated, unprompted: "I signed
+  off or rejected based on the frame in front of me, which I presumed to have been the full
+  frame." That is evidence about the basis of all 167 decisions. It is measured and put before the
+  court rather than weighed privately by the advocate.
+
+  A1. The service showed the WHOLE-FRAME render by default. A per-layer view did not exist until
+  commit 9ffef18 at 2026-08-04T07:02:24Z. Before that moment 32 decisions were recorded (27 sign,
+  4 refuse, 1 defer); after, 135. For those 32 the whole-frame image was the only image available.
+  The Principal's account of what he was looking at is correct.
+
+  A2. DECISIVE. In 166 of 167 decisions the locus chosen IS the frame's own node: the whole-frame
+  image is not merely what he saw, it is what he adopted, and there is no gap between the picture
+  and the act. The one exception, seq 33 /documents/packs/[id] (frame 675:74319, locus 1007:89086
+  "SOURCE AUTHORITY cloned from 29:524"), is a REFUSE and produces no register row on any
+  construction. Every one of the 127 sign decisions therefore adopts the frame's own node, and no
+  sign decision adopts anything narrower than what was displayed.
+
+  A3. The 18 overrides pleaded at F4 are all one act: in each the tool proposed the
+  machine-implanted clone and the Principal chose the frame's OWN content. They are the Principal
+  rejecting, route by route, the implant that produced CC-OPBOX 6 and 7.
+
+  A4. This SHARPENS the filed question rather than answering it. It might be said that if the
+  locus is the frame's own node in every signed case then node_id alone records it. That does not
+  follow. A row holding only node_id records 674:26005 identically whether the Principal adopted
+  the frame's own content or the SOURCE AUTHORITY clone inside it. Those are different adoptions
+  with different consequences and the register cannot tell them apart. The Principal's rejection
+  of the implant is precisely the fact a frame-only row destroys.
+
+  A5. Disclosure measured: all 127 sign decisions carry a disclosedAtSigning block; 14 enumerate
+  quarantined layers on the face of the record, naming 44 layers, being the frozen LEGACY UNDERLAY
+  layers of CC-OPBOX 7 D1, with recursive node and text counts. The frame render EXCLUDES hidden
+  layers, so the picture did not show the demoted content: the enumeration above the controls, and
+  not the image, is what discharges D8.
+
+  A6. Nothing here asks the court to prefer a construction.
+requested_order: TBD
+private_boundary: local
+word_count: 457

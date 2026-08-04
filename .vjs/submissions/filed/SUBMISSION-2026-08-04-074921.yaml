@@ -1,0 +1,57 @@
+id: SUBMISSION-2026-08-04-074921
+court_requested: first_instance
+jurisdiction: default
+question: By what lawful route do 127 per-frame, per-locus, hash-bound Principal sign decisions enter the VDS sign-off register, when SignOff is a deny_unknown_fields struct with no locus field and 18 chosen loci differ from the tool's proposal?
+facts: |
+  Reading instrument: vds 0.1.0 at ~/.local/bin/vds; vibe-design-system @ 6b0ed95.
+  Full symmetric case file, four constructions argued at their strongest:
+  .vds/court/CASE-2026-08-04-locus-bearing-registration.md
+  sha256 fa7be09c541bd619dc67f1c018293780d5c96a62b6c2e2863cb74515fdf10a05
+
+  FACTS, each derived at filing time by a command reproduced in the case file (CC-OPBOX 7 D11).
+
+  F1. SignOff (crates/vds-core/src/types/signoff.rs:41) holds id, file_key, node_id,
+  frame_digest, signed_by, signed_at, notes, with deny_unknown_fields: the missing locus field is
+  a closed shape, not an omission a caller can route around.
+
+  F2. DirectionRecord holds id, log_id, decision_digest, surface, direction, magnitude,
+  directed_at, notes. Its surface is Frame{file_key,node_id} or Route{route}: no layer either.
+
+  F3. The Principal has made 167 operative decisions, one per frame, each naming exactly one
+  locus: 127 sign, 36 refuse, 4 defer. 167 distinct loci.
+
+  F4. In 18 the locus chosen is NOT the one the tool proposed. Where they agree a later reader
+  could re-derive it from the frame; for these 18 it cannot. The choice exists only in the
+  Principal's act, and a row recording the frame alone discards it silently.
+
+  F5. The register holds 19 sign-off rows and 1 direction row, at
+  /var/tmp/claude/parity-wt/.vds/, not at the vibe-design-system root, which holds none: the
+  wrong root reports zero and reads as "the estate holds none" (CC-OPBOX 7 R4).
+
+  LAW SAID TO BEAR. CC-OPBOX 6 ratio: registration requires a recognised current-source
+  declaration on the selected locus, or an express, verified, hash-bound Principal act resolving
+  that label first. CC-OPBOX 7 R5: a hash-bound attestation over a ledger is not a
+  label-resolution act on a locus; cure (b) requires an act that is express, verified,
+  hash-bound, Principal AND label-resolving on a named locus, the conjunction being the whole
+  point. CA-VDS 1: an unregistered direction is not instrument-readable authority, and that court
+  met a structurally identical gap by ADDING a row kind rather than widening SignOff or using
+  notes. CC-OPBOX 7 forbidden list bars editing vibe-design-system on that judgment's authority,
+  which is why this is filed rather than built.
+
+  QUESTION. By what lawful route, if any, do the 127 sign decisions enter the register?
+
+  CONSTRUCTIONS, argued both ways in the case file: (A) the locus goes in notes; (B) register them
+  as DirectionRecord rows; (C) amend S-7D so a sign-off names its locus; (D) a new LocusResolution
+  row kind, on CA-VDS 1's own method.
+
+  NOT BEFORE THE COURT. The 36 refusals and 4 deferrals, which create no row on any construction.
+  The reserved question whether an agent-authored marker layer can constitute the Order 25
+  declaration. 675:25422 (/matters) is outside the 127 because the Principal REFUSED it
+  (decision #75), not because of CC-OPBOX 7 D12; I first pleaded it as a D12 exclusion and that
+  was wrong.
+
+  The advocate asks only that the court decide: until it does, 127 Principal decisions sit outside
+  the register and the parity programme cannot resume.
+requested_order: TBD
+private_boundary: local
+word_count: 491
