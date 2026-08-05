@@ -1,0 +1,26 @@
+id: SIGNATURE-2026-08-05-WARRANT-OPBOX-001
+kind: sovereign_assent_event
+date: "2026-08-05"
+instrument: Commission Warrant WARRANT-OPBOX-001 under the Executive Rectification Commission Act 2026
+instrument_text: .vjs/submissions/draft/warrants/WARRANT-OPBOX-001.yaml
+instrument_digest: "sha256:34007cdc3e5789331523761ffcfe891b688b307065a985840029242dff87096b"
+sovereign: Will (the Principal, in the Sovereign capacity)
+form: >
+  Express signature given in session on 2026-08-05, in the words "I issue
+  WARRANT-OPBOX-001, digest
+  sha256:34007cdc3e5789331523761ffcfe891b688b307065a985840029242dff87096b", against the
+  warrant as prepared. The digest was re-measured against the engrossed draft at the
+  moment of registration and MATCHED, both in canon and in the named jurisdiction's own
+  byte-identical copy. A Commission warrant issues by the Principal's signature alone:
+  non-automatable, non-presumable, non-delegable (ACT-RECTIFICATION-COMMISSION s2). The
+  warrant's operative name and repository identification are the Sovereign's own words
+  and are carried verbatim; the boundary limbs apply to this record in their
+  route-for-correction form, never voiding it (ACT-ASSENTED-RECORD-PROTECTION).
+effects:
+  - registers: WARRANT-OPBOX-001 at lawpack/v2/provenance/warrants/WARRANT-OPBOX-001.yaml, a public record in canon AND in the named jurisdiction (ACT 12 s2)
+  - constitutes: the Commission for the named jurisdiction with four tiered seats (restraint, codification, guardrail, operability), classes 4(a)-(g), expiry 2026-11-03
+  - commences: ACT 12 ss3-4 in the named jurisdiction, whose binding gates were measured in force 2026-08-05 (conformance ratchet armed at 295; the s5 preserve-check runner shipped)
+notes: >
+  The canonical register at lawpack/v2/provenance/warrants/ is the record against which
+  the s2 concurrency cap is counted: this signature makes ONE live warrant; with
+  WARRANT-CANON-001 signed the same day, TWO of the maximum three.

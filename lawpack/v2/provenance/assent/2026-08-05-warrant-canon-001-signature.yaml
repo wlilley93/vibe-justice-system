@@ -1,0 +1,24 @@
+id: SIGNATURE-2026-08-05-WARRANT-CANON-001
+kind: sovereign_assent_event
+date: "2026-08-05"
+instrument: Commission Warrant WARRANT-CANON-001 under the Executive Rectification Commission Act 2026
+instrument_text: .vjs/submissions/draft/warrants/WARRANT-CANON-001.yaml
+instrument_digest: "sha256:436263400f9b440f0e9df1818ab7b5a973a47e8501afb1406ddb6e53e7e4526d"
+sovereign: Will (the Principal, in the Sovereign capacity)
+form: >
+  Express signature given in session on 2026-08-05, in the words "I issue
+  WARRANT-CANON-001, digest
+  sha256:436263400f9b440f0e9df1818ab7b5a973a47e8501afb1406ddb6e53e7e4526d", against the
+  warrant as prepared (including its 2026-08-05 amendment adding the Gazette publication
+  blockage to the schedule). The digest was re-measured against the engrossed draft at
+  the moment of registration and MATCHED. A Commission warrant issues by the Principal's
+  signature alone: non-automatable, non-presumable, non-delegable
+  (ACT-RECTIFICATION-COMMISSION s2).
+effects:
+  - registers: WARRANT-CANON-001 at lawpack/v2/provenance/warrants/WARRANT-CANON-001.yaml (canon is both the register seat and the named jurisdiction)
+  - constitutes: the Commission for this jurisdiction with four tiered seats (restraint, codification, guardrail, operability), classes 4(a)-(g), expiry 2026-11-03
+  - holds_in_abeyance: the s3 audit and the s4(a)/s4(f) powers, until the binding gates (conformance ratchet, s5 preserve-check) land in THIS jurisdiction's kernel - the warrant's own first scheduled work, due before the 2026-08-19 upstream-offer expiry
+notes: >
+  Commencement of ss3-4 here is a measured fact checked against this jurisdiction's own
+  tree, never assumed from a subscriber's. The concurrency count after this signature:
+  two live warrants of the maximum three.
