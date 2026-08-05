@@ -59,8 +59,8 @@ pinned_at = "2026-08-05T22:16:55Z"
 [[entry]]
 path = "crates/vjs-redact/src/tests.rs"
 digest = "sha256:d0473d2f2e29072928fd78f3d6d9230a6fe63c5522d1914bcfc2be029d7ab2d0"
-authority = "LOG-2026-08-05-221655"
-pinned_at = "2026-08-05T22:16:55Z"
+authority = "LOG-2026-08-05-232232"
+pinned_at = "2026-08-05T23:23:57Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/staged.rs"
@@ -88,6 +88,6 @@ pinned_at = "2026-08-05T22:16:55Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/lib.rs"
-digest = "sha256:58a046ac756a4e7bf5295d51ea292a7df5811b2080aa8befaa05c16d33c84ac6"
-authority = "LOG-2026-08-05-155708"
-pinned_at = "2026-08-05T15:57:08Z"
+digest = "sha256:f49037998c193f1faae04f0c68f71d4c140cc07cec87208a58d43d5f6b7e7e03"
+authority = "LOG-2026-08-05-232232"
+pinned_at = "2026-08-05T23:22:40Z"

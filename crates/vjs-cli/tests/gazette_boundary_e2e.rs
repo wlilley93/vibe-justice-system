@@ -151,3 +151,57 @@ fn the_gate_scans_the_source_opinion_body_it_links() {
     );
     let _ = std::fs::remove_dir_all(&base);
 }
+
+#[test]
+fn the_gate_refuses_a_registered_term_welded_into_a_compound_token() {
+    // The residue adoption round's OPERABILITY condition, proved the only way it can be:
+    // by driving the binary at a body the whole-token limb PASSES. The hyphen is a token
+    // character, so `term-kernel` hashes as one unregistered token - before the segment
+    // measure this fixture PUBLISHED, and the published body carried the private term
+    // readable inside the compound. Revert the segment limb and (i) goes red.
+    let base = std::env::temp_dir().join(format!("vjs-segment-{}", std::process::id()));
+    let _ = std::fs::remove_dir_all(&base);
+
+    // (i) a published body carrying the term as a compound segment: REFUSE, name no term.
+    // The compound sits in `runtime_summary`, a field the Gazette PUBLISHES - an unknown
+    // extra field would be dropped by the loader and prove only that the limb was never
+    // reached (measured: `runtime_note:` never appears in either artefact).
+    fixture(&base, "");
+    std::fs::write(
+        base.join("lawpack/v2/orders/2026-VJS-PC-999.yaml"),
+        format!(
+            "id: 2026-VJS-PC-999\ntitle: A fixture order\ncitation: \"[2026] VJS-PC 999\"\n\
+             court: privy_council\nissue: governance.fixture\n\
+             created_at: \"2026-08-01T00:00:00Z\"\n\
+             runtime_summary: carried under the {SYNTHETIC}-kernel path\n"
+        ),
+    )
+    .unwrap();
+    let out = gazette(&base);
+    assert!(
+        !out.status.success(),
+        "a compound token carrying a registered segment must refuse; it published"
+    );
+    let msg =
+        String::from_utf8_lossy(&out.stderr).to_string() + &String::from_utf8_lossy(&out.stdout);
+    assert!(
+        msg.contains("segment of a hyphenated compound"),
+        "the refusal must be the segment limb's, by name: {msg}"
+    );
+    assert!(
+        !msg.to_lowercase().contains(SYNTHETIC),
+        "the refusal must not name the term"
+    );
+
+    // (ii) the SAME estate without the compound publishes - so (i) is the limb, not
+    // any refusal at all.
+    let _ = std::fs::remove_dir_all(&base);
+    fixture(&base, "");
+    let out = gazette(&base);
+    assert!(
+        out.status.success(),
+        "the clean estate must publish: {}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let _ = std::fs::remove_dir_all(&base);
+}

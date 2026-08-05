@@ -27,6 +27,7 @@ mod resolver;
 pub mod runtime;
 mod staged;
 pub mod store_register;
+mod warrants;
 
 pub use context::build_kernel_context;
 pub use resolver::*;
@@ -220,6 +221,11 @@ pub fn validate(repo: &Path, opts: &ValidateOpts) -> Result<Report, KernelError>
                 suggested_fix: ff.suggested_fix,
             });
         }
+        // Same referent (the resolved lawpack TREE), so the same condition: the warrant
+        // register lives inside it, and the reading rule that ranks two in-force warrants
+        // for one jurisdiction must be computable, not prose (ACT-004:s9; the residue
+        // adoption round, 2026-08-05).
+        warrants::warrant_register_findings(&lawpack_dir, &mut findings);
     }
 
     // ACT-004:s8 (D2): citation uniqueness, collisions fatal. Referent: the LOCAL governed

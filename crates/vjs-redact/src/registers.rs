@@ -154,6 +154,54 @@ impl Denylist {
             .collect()
     }
 
+    /// THE SEGMENT MEASURE: does `text` carry a registered term as a hyphen-bounded
+    /// segment, or contiguous run of segments, inside a longer compound token? The
+    /// whole-token measure above cannot see this class by construction: the hyphen is a
+    /// token character, so a registered term welded into `term-kernel` hashes as one
+    /// unregistered token and passes. That is exactly the residue class the Subscriber
+    /// Pseudonymity Act's own s2 recital records surviving its enactment (measured
+    /// 2026-08-05: twenty-five compound occurrences in the published bodies, invisible
+    /// to `hits_anywhere`). Strictly stronger than `hits_anywhere`: a whole token is
+    /// the run of all its own segments, so every whole-token hit is a segment hit.
+    pub fn hits_any_segment(&self, text: &str) -> bool {
+        text.lines().any(|l| self.segment_hit_in_line(l))
+    }
+
+    /// Same tokeniser as `hit_in_line`; the extra work happens per token, in
+    /// `any_segment_denied`.
+    fn segment_hit_in_line(&self, line: &str) -> bool {
+        let mut token = String::new();
+        for ch in line.chars() {
+            if ch.is_alphanumeric() || ch == '-' {
+                token.push(ch);
+            } else {
+                if self.any_segment_denied(&token) {
+                    return true;
+                }
+                token.clear();
+            }
+        }
+        self.any_segment_denied(&token)
+    }
+
+    /// Every contiguous run of '-'-separated segments, hashed exactly as a whole token
+    /// would be. A registered term that itself contains hyphens is still found: it is a
+    /// run of segments. Tokens are short, so the quadratic run enumeration is cheap.
+    fn any_segment_denied(&self, token: &str) -> bool {
+        if token.len() < 3 {
+            return false;
+        }
+        let segs: Vec<&str> = token.split('-').collect();
+        for i in 0..segs.len() {
+            for j in i..segs.len() {
+                if self.is_denied(&segs[i..=j].join("-")) {
+                    return true;
+                }
+            }
+        }
+        false
+    }
+
     /// THE tokeniser, lifted verbatim from the publication gate: token characters are
     /// alphanumeric or '-', tokens of 3 bytes or more are hashed, lowercased, as sha256 hex.
     /// A newline is neither alphanumeric nor '-', so it terminates a token exactly as the
@@ -281,4 +329,64 @@ fn contains_word(hay: &str, needle: &str) -> bool {
         from = start + 1;
     }
     false
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Synthetic, never a real term: the register is hashes precisely so a proof does
+    /// not carry a private term in cleartext.
+    const SYNTH: &str = "quibbleflange";
+
+    #[test]
+    fn the_segment_measure_sees_a_registered_term_welded_into_a_compound_token() {
+        // The residue class of the Subscriber Pseudonymity Act's s2 recital: a registered
+        // term surviving as a hyphen-bounded segment of a longer compound. The whole-token
+        // measure is BLIND to it by construction (the hyphen is a token character), and that
+        // blindness is asserted here as a positive fact, not left implicit - if it ever
+        // starts hitting, the two measures have converged and this proof must be rewritten.
+        use sha2::Digest;
+        let base = std::env::temp_dir().join(format!("vjs-segment-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&base);
+        std::fs::create_dir_all(base.join(".vjs")).unwrap();
+        let h = |t: &str| format!("{:x}", sha2::Sha256::digest(t.as_bytes()));
+        // Two registered terms: a plain one, and one that itself contains a hyphen - the
+        // run-of-segments case a naive single-segment split would miss.
+        std::fs::write(
+            base.join(".vjs/publication-denylist.txt"),
+            format!(
+                "# fixture register\n{}  # added=2026-08-05 class=synthetic\n{}  # added=2026-08-05 class=synthetic\n",
+                h(SYNTH),
+                h("acme-co")
+            ),
+        )
+        .unwrap();
+        let deny = Denylist::load(&base).unwrap();
+
+        // Positive control: the whole-token measure sees the bare term.
+        assert!(deny.hits_anywhere(&format!("the {SYNTH} matter")));
+        // The blindspot, stated: welded into a compound, the whole-token measure passes.
+        let compound = format!("see {SYNTH}-kernel for details");
+        assert!(
+            !deny.hits_anywhere(&compound),
+            "the whole-token measure hitting a compound means the measures converged; \
+             rewrite this proof"
+        );
+        // The cure: the segment measure refuses the same text.
+        assert!(deny.hits_any_segment(&compound));
+        // Strictly stronger: every whole-token hit is a segment hit.
+        assert!(deny.hits_any_segment(&format!("the {SYNTH} matter")));
+        // Case-insensitive, exactly as the whole-token measure is.
+        assert!(deny.hits_any_segment(&format!("SEE {}-KERNEL", SYNTH.to_uppercase())));
+        // A registered term that itself carries a hyphen is a RUN of segments.
+        assert!(deny.hits_any_segment("under pre-acme-co-post throughout"));
+        // Negative control, so the probe can fail: clean text measures zero on both.
+        assert!(!deny.hits_anywhere("a wholly generic body of law"));
+        assert!(!deny.hits_any_segment("a wholly generic body of law"));
+        // A segment SPLIT of a registered hyphenated term is not a hit: `acme` and `co`
+        // are separate registered-nothing segments in `acme co`.
+        assert!(!deny.hits_any_segment("acme co, separately"));
+        let _ = std::fs::remove_dir_all(&base);
+    }
 }

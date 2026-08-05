@@ -1,0 +1,71 @@
+id: WARRANT-CANON-002
+kind: commission_warrant
+status: draft
+# Successor form prepared under ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE s5. It takes
+# effect ONLY on the Principal's fresh signature words pinning this instrument's
+# digest; until then WARRANT-CANON-001 remains in force and unedited.
+supersedes: >
+  WARRANT-CANON-001. The predecessor register record and its verbatim signature
+  event remain fixed forever by the digests the signature pins; supersession is
+  carried by this record and the register's reading rule (the latest in-force
+  signature for a jurisdiction governs), never by editing the predecessor. The
+  one correction this re-issue exists to make: the predecessor's working root
+  stood as an operator-home literal; it is re-expressed here over the defined
+  terms of ACT-SUBSCRIBER-PSEUDONYMITY s1.
+statute: ACT-RECTIFICATION-COMMISSION
+prepared_by: lexby (the Commission constituted under WARRANT-CANON-001)
+prepared_at: "2026-08-05"
+jurisdiction:
+  # ACT 12 s2: exactly ONE jurisdiction, named by repository. Canon is public
+  # under its own name; only the working root carried a private literal.
+  jurisdiction_id: vjs
+  repository: wlilley93/vibe-justice-system
+  working_root: ESTATE ROOT/vibe-justice-system
+eligibility:
+  acceded: >
+    Canon is the enacting jurisdiction: ACT 12 is in force in its own lawpack on
+    Sovereign Assent of 2026-08-05 (commit 5e2c80c). Nothing further is required.
+commencement:
+  warrant: on the Principal's signature below
+  ss3_ss4_gates: >
+    The predecessor recited an abeyance: at its issue, canon's kernel carried
+    neither the conformance ratchet nor the s5 preserve-check runner. That
+    abeyance is SPENT and is not repeated: the offered gates LANDED in canon on
+    2026-08-05 (the upstream-offer obligation discharged fourteen days before its
+    expiry; the ratchet armed at its measured number in the landing commit; the
+    preserve-check runner and the Clerk Gate live), so ss3-4 stand commenced
+    here as a measured fact. Commencement is checked against canon's own tree,
+    never assumed from a subscriber's.
+expiry: "2026-11-03"  # the predecessor's own term; a re-issue extends nothing.
+classes_authorised: [4a, 4b, 4c, 4d, 4e, 4f, 4g]
+seats:
+  # Tiered per the Principal's practice direction of 2026-08-05 (filed at
+  # .vjs/submissions/filed/2026-08-05-practice-direction-mechanical-certification-and-tiered-benches.md).
+  - portfolio: restraint
+    tier: strong
+  - portfolio: codification
+    tier: economical
+  - portfolio: guardrail
+    tier: strong
+  - portfolio: operability
+    tier: economical
+concurrency:
+  # On signature this record REPLACES its predecessor in the count: still two of
+  # the maximum three concurrent, beside the First Subscriber's warrant.
+  register: lawpack/v2/provenance/warrants/
+certified_rectification_schedule:
+  # The operative schedule is the ENTERED AND CERTIFIED register entry
+  # COMMISSION-SCHEDULE-CANON-001 (.vjs/submissions/), which superseded the
+  # predecessor's recited worklist and carries the correct exhaustive classes.
+  # This record adopts it by reference rather than restating it; restating a
+  # superseded recital is the defect class the self-file records.
+  - class: 4g_certified_schedule
+    item: >
+      The schedule with operative force is COMMISSION-SCHEDULE-CANON-001 as
+      entered 2026-08-05 and as extended by the s3 audit; its items, classes and
+      preparation annex govern. No item is enlarged or restated by this re-issue.
+# This engrossed draft carries no signature block, exactly as the predecessor
+# engrossments did: the digest the Principal's words pin is the sha256 of this
+# whole file. The signature block is added on the REGISTERED copy at
+# registration, where the digest is re-measured against this file and must
+# MATCH before anything proceeds.

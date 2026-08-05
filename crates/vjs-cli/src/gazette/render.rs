@@ -317,6 +317,27 @@ pub(crate) fn write_estate_outputs(
                 "publication boundary: the Gazette would publish a denylisted private term; a carried external-matter artifact is private by default and must be cleared before publication (BREACH-2026-06-10). The term is not named here: naming it would publish it ([2026] VJS-CC-VJS 17 C1/C3)".into(),
             ));
         }
+        // THE SEGMENT MEASURE (the residue adoption round, 2026-08-05). A private term
+        // surviving as a hyphen-bounded segment inside a longer compound token is
+        // invisible to the whole-token limb above by construction - the residue class
+        // ACT-SUBSCRIBER-PSEUDONYMITY s2 recites. Its scope is the PUBLISHED BODIES:
+        // the composite the Gazette itself writes (the index and the text store),
+        // which is what the amendment Acts' closing verification names - so the
+        // verification is this code, not a hand-built scan. Linked opinion bodies
+        // stay under the whole-token limb above (measured 2026-08-05: all 25 linked
+        // bodies at zero on the segment measure); their residue class is routed to
+        // the Commission's next certified schedule, and widening this limb to the
+        // full composite is one identifier once that schedule cures them.
+        let written = format!(
+            "{}\n{}",
+            serde_json::to_string(&data).unwrap_or_default(),
+            serde_json::to_string(&texts).unwrap_or_default()
+        );
+        if deny.hits_any_segment(&written) {
+            return Err(KernelError::InvalidInput(
+                "publication boundary: a body the Gazette would write carries a denylisted private term as a segment of a hyphenated compound token, the residue class the whole-token measure cannot see (ACT-SUBSCRIBER-PSEUDONYMITY s2). The term is not named here: naming it would publish it".into(),
+            ));
+        }
     }
 
     let body = format!(

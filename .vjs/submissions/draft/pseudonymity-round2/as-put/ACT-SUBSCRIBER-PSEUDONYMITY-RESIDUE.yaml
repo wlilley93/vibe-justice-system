@@ -1,0 +1,133 @@
+id: ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE
+title: The Subscriber Pseudonymity (Residue Corrections) Act 2026
+status: draft
+purpose: >
+  The Subscriber Pseudonymity (Publication Corrections) Act 2026 swept registered
+  tokens and said so exactly: its own residue recital records that
+  subscriber-identifying names survive as substrings inside hyphenated compounds,
+  approves no hyphenation technique, and routes the surviving compounds and the two
+  warrant register records to the Commission's next certified schedule. That schedule
+  is entered (COMMISSION-SCHEDULE-CANON-001, preparation annex), and this Act is the
+  instrument it contemplates: prepared by the Commission under WARRANT-CANON-001,
+  made only by the Sovereign, textual amendment of an assented statute being on no
+  Commission's power list. The substitutions are stem renderings pinned by digest to
+  prepared applied texts and never recited, since a recital would republish the very
+  names this Act removes. The residue was measured 2026-08-05 with the publication
+  tokeniser's own token grammar: seven distinct compound tokens over seventeen
+  lines, twenty-five occurrences in all, every one in the two Acts whose texts
+  Schedule 1 re-pins. This Act declares no kernel_effect and contributes zero rows
+  to the duty audit.
+sections:
+- id: ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE:s1
+  title: The stem rendering rule and its accession
+  text: >
+    In this Act, the PRIVATE STEM means the First Subscriber's machine token,
+    registered on the publication denylist and never printed; the ACCESSIONED STEM
+    means the stem SUB1, taken in the letter case the surrounding compound carries.
+    A STEM RENDERING of a compound public token is that token with the private stem
+    replaced by the accessioned stem and every other character preserved. Each stem
+    rendering is hereby ACCESSIONED within the meaning of the publication-boundary
+    scheme, by rule rather than by enumeration, and the rule preserves every
+    distinction: two compounds that differ anywhere outside the stem differ
+    identically after rendering, so no two filesystem entities, series or records
+    collapse into one pseudonym. Resolution restores the private stem via each
+    jurisdiction's private register at .vjs/private/pseudonym-register.md, to which
+    the making under s6 adds one resolution row; the register is never committed
+    and never published.
+- id: ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE:s2
+  title: The substitutions, pinned and not recited
+  text: >
+    The texts of ACT-PROCEEDINGS-DISCIPLINE and ACT-RECTIFICATION-COMMISSION are
+    amended by replacing each with its SECOND APPLIED TEXT: the instruments held at
+    .vjs/submissions/draft/pseudonymity-applied-v2/, whose digests Schedule 1 pins.
+    A second applied text differs from the text it replaces ONLY in the s1 stem
+    renderings and, in ACT-RECTIFICATION-COMMISSION alone, the single address
+    qualification s4 makes. This is MEASURED, not asserted: the line-by-line delta
+    is exactly the measured residue lines, and the publication tokeniser finds zero
+    tokens carrying the private stem in either second applied text, a strictly
+    stronger measure than the registered-token measure the first applied texts
+    satisfied. The pre-amendment texts remain fixed forever by the digests their
+    assent events pin; nothing in this Act disturbs them as historical record.
+
+    THE CLERK DELTA, recited so no reader believes the finding sets identical.
+    Against the texts they replace, the clerk's findings on the second applied
+    texts differ in exactly two ways. The blocking address error on the
+    ACT-RECTIFICATION-COMMISSION estate schedule becomes the disclosed
+    cross-repository form, which is the cure the certified schedule's preparation
+    annex names. And one NEW disclosure arises on ACT-PROCEEDINGS-DISCIPLINE: one
+    ordinal of the First Subscriber's V2 county series is cited in a rendering that
+    no grounding-corpus document yet carries, so the clerk discloses it as
+    cross-jurisdictional where it formerly resolved the native form; the disclosure
+    is the gate working over a new accession, not a defect concealed. Two findings
+    survive untouched because they are not pseudonymity defects and this Act's
+    bound excludes them: the duplicated duty token in ACT-PROCEEDINGS-DISCIPLINE
+    and the divergent court-records totals in the ACT-RECTIFICATION-COMMISSION
+    estate schedule, both owed to the Commission's continuing classes and never to
+    this Act.
+- id: ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE:s3
+  title: The V2 series rendering
+  text: >
+    The rendering "[2026] VJS-CC-SUB1 n" in a canon text denotes ordinal n of the
+    First Subscriber's V2 county series: the VJS-prefixed sibling, distinguished by
+    exactly that prefix, of the continuity series whose CC-SUB1 rendering
+    ACT-SUBSCRIBER-PSEUDONYMITY:s3 enacted. Of the five-component citation tuple
+    ACT-PROCEEDINGS-DISCIPLINE Schedule 1 defines, only the public rendering of the
+    REPO component changes, by the s1 rule; the rendering keeps the registered
+    component order and parses under the registered form. No component of any tuple
+    moves, no forwarding record arises under ACT-PROCEEDINGS-DISCIPLINE:s7, and the
+    First Subscriber's own citator keeps its native rendering, which is its own
+    affair.
+- id: ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE:s4
+  title: The address qualification
+  text: >
+    In the second applied text of ACT-RECTIFICATION-COMMISSION, the estate-schedule
+    address that stood in slash form is colon-qualified: the repository qualifier
+    is separated from the in-repository path by a colon, the form the clerk
+    verifies as a cross-repository disclosure instead of failing as an unresolvable
+    local file. This is the exact correction the certified schedule's preparation
+    annex names. An address component in stem rendering denotes the record whose
+    native name restores the private stem under s1; resolution belongs to the
+    private register, and nothing about the record so addressed changes.
+- id: ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE:s5
+  title: Warrant re-registration, prepared and not made
+  text: >
+    Nothing in this Act, and nothing a Commission may do, edits a signed record:
+    the two warrant registers and their verbatim signature events remain fixed
+    forever by the digests their signatures pin. The Commission has PREPARED
+    successor forms at .vjs/submissions/draft/pseudonymity-warrants/: a successor
+    to the First Subscriber's warrant, expressed throughout in accessioned
+    renderings, and a successor to the canon warrant, whose working root stood as
+    an operator-home literal and is re-expressed over the defined terms. Each
+    successor also carries, as prepared corrections citing
+    SELF-FILE-2026-08-05-warrant-recital-defects.md, the disowned class label
+    restructured to the certified-schedule form and the recharacterised address
+    item. A successor takes effect ONLY by the Principal's fresh signature words
+    pinning its digest; on that signature the predecessor stands superseded by the
+    register's reading rule, with no line of the predecessor changed. Declining to
+    sign leaves the predecessors in force and this Act's operative sections
+    unaffected.
+- id: ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE:s6
+  title: Commencement, and who makes what
+  text: >
+    This Act commences on assent, and the s2 substitutions are MADE by its
+    enactment: the Commission prepared, the Committee scrutinised and adopted, the
+    Sovereign makes. The making is completed in one act with four closing
+    verifications, none discretionary: the files lodged at lawpack/v2/statutes/
+    are re-hashed against the Schedule 1 pins before anything else proceeds; the
+    lawpack lock is regenerated by the locking authority in the same commit as the
+    lodgement, so the lock drift is answered by the deliberate re-pin; the Gazette
+    is regenerated LIVE, its success recorded, and the published bodies measured to
+    carry zero tokens bearing the private stem; and one resolution row for the s1
+    rule is entered in each jurisdiction's private register, a private act never
+    committed. Nothing in this Act amends any holding, disposal, count,
+    measurement, floor or entrenchment, and it confers no power on anyone.
+- id: ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE:s7
+  title: Schedule 1 - the pinned second applied texts
+  text: >
+    The second applied text of ACT-PROCEEDINGS-DISCIPLINE is the instrument whose
+    sha256 digest is 98f74ee81390af60c77fb99ae86b3e9a0e3d2238ca4962ac2a51b579cdd26937.
+    The second applied text of ACT-RECTIFICATION-COMMISSION is the instrument whose
+    sha256 digest is fe8a7bfeb2712856e058b78c17eb7a55a342997bbb493117fccccf0a268a7af1.
+    Each is held at .vjs/submissions/draft/pseudonymity-applied-v2/ under the name
+    of the Act it amends. A lodgement whose digest differs from the pin is not the
+    amendment this Act makes.
