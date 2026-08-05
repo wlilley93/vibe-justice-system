@@ -47,7 +47,7 @@ sections:
     A purported act of a Commission that reaches any of (a) to (c) is VOID to that extent, without more,
     and the Commission's warrant lapses on the act.
 
-    RECORDED, because this Act rests on it: the trust-boundary rule's holders `[2026] SUB1-CC 16` and
+    RECORDED, because this Act rests on it: the trust-boundary rule's holders `[2026] CC-SUB1 16` and
     `17` are both dated 2026-06-07 (READ, `:7` of each), two days before V2 commenced on 2026-06-09 (READ,
     COMMENCEMENT-V2-0001.yaml:4), were decided under CASE-LAW s.10/s.18, and carry no incorporation record
     (EXECUTED grep over lawpack -> zero). The rule's force in this Act comes from this Act restating it,
@@ -326,7 +326,7 @@ sections:
 
     (c) a TRUST-BOUNDARY FORK - any verb rated SENSITIVE or above, any EXTERNAL authentication tier, and
     any token, capability, credential or permission-model change - which goes to court before implementation
-    regardless of reversibility. The Clerk-Drafter records that this rule is held at `[2026] SUB1-CC
+    regardless of reversibility. The Clerk-Drafter records that this rule is held at `[2026] CC-SUB1
     16` in the `.justice/` series (address in the schedule), that the companion Bill cited it to `[2026]
     VJS-CC-OPBOX 16/17/18` in a different series on unrelated questions, and that all four counsel caught
     it;

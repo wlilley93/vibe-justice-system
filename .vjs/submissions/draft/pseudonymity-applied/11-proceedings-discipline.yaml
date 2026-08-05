@@ -346,7 +346,7 @@ sections:
     not ordinal 15 alone). Whatever the STATUS of that decision - which is the pending question this Act
     may not prejudge - reissuing the ordinal to a NEW and different instrument would silently repoint
     every one of those references. No string allocator can know that; a reservation, and where a matter
-    later condemns a combination a tombstone, makes the reissue unrepresentable. Likewise the SUB1-CC
+    later condemns a combination a tombstone, makes the reissue unrepresentable. Likewise the CC-SUB1
     and VJS-CC-OPBOX series are not colliding allocations but v1 and v2 of one series distinguished by
     estate, which the structured form carries as data. The DEC 15 to 22 ordinals are RESERVED, not tombstoned,
     pending the footing matter SUBMISSION-2026-08-04-221305, which this Act may not prejudge.
@@ -583,10 +583,10 @@ sections:
     save the express variations Schedule 3 enumerates. The TRUST-BOUNDARY RULE is stated here on its own
     terms and is untouched: a fork involving any verb rated SENSITIVE or above, any EXTERNAL authentication
     tier, or any token, capability or permission-model change goes to court BEFORE implementation regardless
-    of code reversibility. That rule's holder in the First Subscriber's continuity citator is [2026] SUB1-CC 16 (the
-    .justice continuity series, no VJS prefix, at `SUB1:.justice/judgments/county-court/2026-cc-opbox-16.md:44`,
+    of code reversibility. That rule's holder in the First Subscriber's continuity citator is [2026] CC-SUB1 16 (the
+    .justice continuity series, no VJS prefix, at `opbox-prod/opbox-kernel:.justice/judgments/county-court/2026-cc-opbox-16.md:44`,
     mode READ - the repository is named because s2 requires it and this is the Act's own showpiece citation),
-    whose remedy was quashed in part and whose duty was carried forward by [2026] SUB1-CC 17; the first
+    whose remedy was quashed in part and whose duty was carried forward by [2026] CC-SUB1 17; the first
     draft cited three unrelated VJS-CC-OPBOX orders for it and the mis-citation is recorded rather than
     quietly fixed. The Schedule 1 migration registers the continuity render form so that rule becomes
     visible to the grounding gate for the first time; the form is a registered legacy render form of estate

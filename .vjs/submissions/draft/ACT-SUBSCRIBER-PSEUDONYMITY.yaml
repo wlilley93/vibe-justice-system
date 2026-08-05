@@ -8,7 +8,11 @@ purpose: >
   the boundary's own tokeniser: ten lines in the former, nine in the latter; the refusal is
   the gate working, not the defect). Textual amendment of an assented statute is on no
   Commission's power list and is the Sovereign's route alone; the Commission under
-  WARRANT-CANON-001 PREPARED this instrument and makes nothing. The substitutions are
+  WARRANT-CANON-001 PREPARED this instrument and makes nothing. The warrant's own
+  schedule item for this work bears a class label its preparer has disowned
+  (SELF-FILE-2026-08-05-warrant-recital-defects.md, first defect: there is no
+  4f_subscriber_paths class); this Act rests on the warrant's preparation duty and the
+  Sovereign's legislative competence, never on that label. The substitutions are
   pseudonymic and substance-preserving, they are pinned by digest to prepared applied texts
   rather than recited (reciting the old words would republish the very tokens this Act
   removes), and on commencement the Gazette publishes and the standing drift red goes green
@@ -40,16 +44,30 @@ sections:
     replaces (parity executed 2026-08-05). The pre-amendment texts remain fixed forever by
     the digests their assent events pin; nothing in this Act disturbs them as historical
     record.
+
+    THE RESIDUE, recited so no reader thinks more was done than was done: the applied
+    texts are free of REGISTERED tokens only. The register's own gate certifies hits and
+    never cleanliness ([2026] VJS-CC-VJS 17 C6), and subscriber-identifying names survive
+    as substrings inside hyphenated compounds and one restored repository-qualified
+    address, which the tokeniser treats as distinct tokens. Nothing in this Act approves
+    hyphenation as a pseudonymisation technique; the surviving compounds, and the two
+    warrant register records, are routed to the Commission's next certified schedule
+    under ACT-RECTIFICATION-COMMISSION:s4(g). One hunk substitutes the definitionally
+    exact referent "kernel checkout" for "jurisdiction" in the estate schedule, the
+    jurisdiction status being carried structurally by the enclosing key; the Committee
+    approved it with eyes open.
 - id: ACT-SUBSCRIBER-PSEUDONYMITY:s3
   title: Citation rendering equivalence
   text: >
-    The rendering "[2026] SUB1-CC n" in a canon text denotes the same record as ordinal n of
-    the First Subscriber's county continuity series, the series ACT-PROCEEDINGS-DISCIPLINE
-    calls the .justice continuity series. The citation tuple - year, series, ordinal - is
-    unchanged by this Act; only canon's public RENDERING of the series name changes. No
-    ordinal moves, no forwarding record arises under ACT-PROCEEDINGS-DISCIPLINE:s7, and
-    nothing here reaches into the First Subscriber's own citator, whose native rendering is
-    its own affair.
+    The rendering "[2026] CC-SUB1 n" in a canon text denotes the same record as ordinal n
+    of the First Subscriber's county continuity series, the series
+    ACT-PROCEEDINGS-DISCIPLINE calls the .justice continuity series. Of the five-component
+    citation tuple ACT-PROCEEDINGS-DISCIPLINE Schedule 1 defines - estate, year, series,
+    repo, ordinal - only the public RENDERING of the REPO component changes, to the
+    accessioned pseudonym; the rendering keeps Schedule 1's registered SERIES-REPO order,
+    so it parses under the registered legacy form. No component of any tuple moves, no
+    forwarding record arises under ACT-PROCEEDINGS-DISCIPLINE:s7, and nothing here reaches
+    into the First Subscriber's own citator, whose native rendering is its own affair.
 - id: ACT-SUBSCRIBER-PSEUDONYMITY:s4
   title: One duty token renamed, no duty changed
   text: >
@@ -58,7 +76,7 @@ sections:
     The duty is unchanged in substance and remains unwired; the conformance count is
     unchanged, one token leaving the unwired pool as its respelling enters; the gate registry
     carries no row for either spelling, so no wired claim moves and the ratchet does not
-    fire. One duty, one spelling, per ACT-PROCEEDINGS-DISCIPLINE:s8.
+    fire. One duty, one spelling, per ACT-RECTIFICATION-COMMISSION:s3.
 - id: ACT-SUBSCRIBER-PSEUDONYMITY:s5
   title: Machinery-claim preservation
   text: >
@@ -72,17 +90,22 @@ sections:
   title: Commencement, and who makes what
   text: >
     This Act commences on assent, and the s2 substitutions are MADE by its enactment: the
-    Commission prepared, the Committee scrutinises, the Sovereign makes. On commencement the
-    lodged texts of the two amended Acts are the applied texts, the publication boundary no
-    longer refuses the Gazette by reason of them, and the Gazette is regenerated in ordinary
-    course. Nothing in this Act amends any holding, disposal, count, measurement, floor or
+    Commission prepared, the Committee scrutinised and adopted as conditioned, the
+    Sovereign makes. The making is completed in one act with three closing verifications,
+    none discretionary: the files lodged at lawpack/v2/statutes/ are re-hashed against the
+    Schedule 1 pins before anything else proceeds; the lawpack lock is regenerated by the
+    locking authority in the same commit as the lodgement, so LAWPACK_LOCK_DRIFT is
+    answered by the deliberate re-pin and the Gazette never publishes a pre-amendment
+    digest beside post-amendment text; and the Gazette is then regenerated LIVE and its
+    success recorded, closing the last inch the Committee's static verification could not
+    reach. Nothing in this Act amends any holding, disposal, count, measurement, floor or
     entrenchment, and it confers no power on anyone.
 - id: ACT-SUBSCRIBER-PSEUDONYMITY:s7
   title: Schedule 1 - the pinned applied texts
   text: >
     The applied text of ACT-PROCEEDINGS-DISCIPLINE is the instrument whose sha256 digest is
-    7317c9c57ef55d060c86cac45e8f039ef95c1f82aab127cd3a3defebca08fd26. The applied text of
+    e939f219a7049ab88eac353f6d8a7c9cd3095c12e58667a2e1de685ac9a8551c. The applied text of
     ACT-RECTIFICATION-COMMISSION is the instrument whose sha256 digest is
-    3f5989e9cccce4a34255dfde487819521e649622b0d41b37987dbd78f0798b27. Each is held at
+    d8ed99f1ff79abb0cbf85a8183f0877d33f04e12ccd5d421440b5abb9d5cc684. Each is held at
     .vjs/submissions/draft/pseudonymity-applied/ under the name of the Act it amends. A
     lodgement whose digest differs from the pin is not the amendment this Act makes.
