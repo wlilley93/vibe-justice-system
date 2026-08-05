@@ -318,3 +318,46 @@ fn governed_order_outside_lawpack_hits_bench_integrity_raw_write() {
     );
     let _ = std::fs::remove_dir_all(&repo);
 }
+
+#[test]
+fn an_order_with_an_empty_issue_is_refused_and_the_same_order_with_one_is_not() {
+    // ACT-PROCEEDINGS-DISCIPLINE:s3, the tranche-2 seed: `issue: ""` parsed fine and
+    // passed the well-formedness loop silently (the loop checked holding, directives
+    // and runtime_summary only). Positive and negative controls on the SAME order so
+    // the delta is exactly the issue field.
+    let order = |issue: &str| {
+        format!(
+            "id: \"2026-VJS-CC-VJS-901\"\n\
+             citation: \"[2026] VJS-CC-VJS 901\"\n\
+             court: county\njurisdiction: vibe-justice-system\nstatus: binding\n\
+             issue: \"{issue}\"\nbench: [lexby]\nholding: \"a fixture holding\"\n\
+             directives: []\nsupersedes: []\nruntime_summary: a fixture\ncreated_at: \"2026\"\n"
+        )
+    };
+    let hit = |report: &vjs_core::report::Report| {
+        report
+            .findings
+            .iter()
+            .any(|f| f.code == "ORDER_MALFORMED" && f.message.contains("empty 'issue'"))
+    };
+
+    let repo = ephemeral_canon("empty-issue");
+    std::fs::write(repo.join("lawpack/v2/orders/ISSUE.yaml"), order("")).unwrap();
+    git(&repo, &["add", "lawpack/v2/orders/ISSUE.yaml"]);
+    assert!(
+        hit(&validate_staged(&repo)),
+        "an order with an empty issue must raise the s3 ORDER_MALFORMED"
+    );
+
+    std::fs::write(
+        repo.join("lawpack/v2/orders/ISSUE.yaml"),
+        order("governance_fixture_issue"),
+    )
+    .unwrap();
+    git(&repo, &["add", "lawpack/v2/orders/ISSUE.yaml"]);
+    assert!(
+        !hit(&validate_staged(&repo)),
+        "the same order with a real issue must not raise the empty-issue finding"
+    );
+    let _ = std::fs::remove_dir_all(&repo);
+}

@@ -499,4 +499,66 @@ pub(crate) const GATE_REGISTRY: &[(&str, &str)] = &[
         "register_justice_in_the_first_subscriber_jurisdiction_at_commencement",
         "store-register gate: the continuity citator is a registered store in the jurisdiction that carries it",
     ),
+    // s4(e) triage tranche 2 (2026-08-05, four-seat sitting; report at
+    // .vjs/submissions/COMMISSION-REPORT-2026-08-05-s4e-triage-tranche-2.md): every
+    // row below re-verified seat-by-seat against its code path AND its negative
+    // control before entry. Three tokens ride the one LAWPACK_LOCK_DRIFT gate -
+    // three duty rows, ONE enforcement fact, said here so the audit never reads
+    // them as three independent gates.
+    (
+        "record_supersession_explicitly",
+        "warrant-register gate (WARRANT-SUPERSESSION-IMPLICIT/-DANGLING; control: prose_only_supersession_is_refused) for commission warrants; ORPHAN_SUPERSESSION existence check on orders",
+    ),
+    (
+        "constituting_or_rectifying_an_apex_record_locally",
+        "apex routing block on the write path (APEX_RECORD_IN_SUBSCRIBING_JURISDICTION; control: hook.rs subscribing-repo test)",
+    ),
+    (
+        "re_rendering_a_record_so_it_ceases_to_load",
+        "preserve-check refuses an unparseable after-file (standalone s5 proof tool, not in the commit pipeline; control: an_unparseable_after_file_refuses_the_proof)",
+    ),
+    (
+        "publish_this_acts_own_unwired_duties_in_the_conformance_audit",
+        "conformance_audit enumerates ACT 12's own duties (control: conformance_ratchet)",
+    ),
+    (
+        "record_every_digest_bump_as_a_deliberate_act",
+        "LAWPACK_LOCK_DRIFT forces the deliberate re-pin (control: lawpack_lock falsified-digest test)",
+    ),
+    (
+        "publishing_private_facts",
+        "Gazette publication boundary: RedactScanner + denylist whole-token AND segment measures, fail-closed before write (control: gazette_boundary_e2e)",
+    ),
+    (
+        "register_scheduled_machinery_as_separate_gazette_items",
+        "gazette MACHINERY kinds structurally diverted to schedules (control: gazette_data every-object test)",
+    ),
+    (
+        "alter_force_or_severity_of_scheduled_records_by_consolidation",
+        "schedule entries copy status verbatim and publication is constitutively inert (control: gazette_publication jsonld-mirror test)",
+    ),
+    (
+        "publish_v1_as_archive",
+        "Gazette V1-archive estate with migration edges (control: gazette_data v1-node test)",
+    ),
+    (
+        "load_only_law_that_hashes_to_the_pinned_digest_and_fail_closed_otherwise",
+        "LAWPACK_LOCK_DRIFT (same gate as the embedded-posture sibling; control: falsified-digest test)",
+    ),
+    (
+        "validate_mcp_input",
+        "MCP door refuses malformed input per handler (control: unknown_method_is_refused; the control seeds the method class, not every param path)",
+    ),
+    (
+        "check_citation_collisions",
+        "D2 citation gate (CITATION_COLLISION; control: lawpack_resolution uniqueness tests)",
+    ),
+    (
+        "check_lawpack_digest",
+        "LAWPACK_LOCK_DRIFT (third token on the one digest gate; control: falsified-digest test)",
+    ),
+    (
+        "refuse_an_order_with_an_empty_issue",
+        "staged ORDER_MALFORMED empty-issue limb, landed with this row (control: e2e_gate_harness empty-issue seed)",
+    ),
 ];

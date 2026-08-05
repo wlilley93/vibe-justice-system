@@ -228,6 +228,24 @@ pub(crate) fn staged_gates(
                     );
                 }
             }
+            // ACT-PROCEEDINGS-DISCIPLINE:s3: an order with an empty issue is unroutable -
+            // the one-live-order-per-issue discipline cannot even ask its question of it.
+            // (An order OMITTING the field entirely fails the parse above and rides the
+            // existing skip; this refuses the present-but-empty form that parsed fine.)
+            if order.issue.0.trim().is_empty() {
+                findings.push(
+                    f(
+                        Severity::Fatal,
+                        "ORDER_MALFORMED",
+                        "Order carries an empty 'issue' (ACT-PROCEEDINGS-DISCIPLINE:s3: an \
+                         order binds on an issue, and the one-live-order-per-issue \
+                         discipline cannot rank an order that names none)."
+                            .into(),
+                    )
+                    .at(PathBuf::from(rel))
+                    .fix("Set the order's lower_snake issue tag before recording."),
+                );
+            }
             // PC-17 D1-D5: citation-grounding over the order's OPERATIVE parts (holding +
             // each directive's must + each forbidden clause). Existence-only; never reads
             // what the cited authority says (D7/D8). Self-reference (D4(c)): seed the
