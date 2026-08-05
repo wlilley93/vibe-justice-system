@@ -132,7 +132,7 @@ Measured: 399 duties, 104 wired, 295 unwired.
 | ACT-PROCEEDINGS-DISCIPLINE:s12 | must_not | reporting_a_duty_as_enforced_on_a_gate_with_no_negative_control | A-gateable-audit-machinery |
 | ACT-PROCEEDINGS-DISCIPLINE:s13 | must | equal_governed_record_roots_to_the_register | A-gateable-audit-machinery |
 | ACT-PROCEEDINGS-DISCIPLINE:s13 | must | report_an_unregistered_law_store_in_local_ci | A-gateable-audit-machinery |
-| ACT-PROCEEDINGS-DISCIPLINE:s13 | must | register_justice_in_the_opbox_jurisdiction_at_commencement | A-gateable-audit-machinery |
+| ACT-PROCEEDINGS-DISCIPLINE:s13 | must | register_justice_in_the_first_subscriber_jurisdiction_at_commencement | A-gateable-audit-machinery |
 | ACT-PROCEEDINGS-DISCIPLINE:s14 | must | commence_a_part_2_section_only_when_its_gate_and_control_are_in_force | A-gateable-refusal |
 | ACT-PROCEEDINGS-DISCIPLINE:s15 | must | measure_mirror_identity_store_by_store_naming_the_stores_compared | A-gateable-audit-machinery |
 | ACT-PROCEEDINGS-DISCIPLINE:s15 | must_not | local_amendment_of_this_act_outside_the_preserved_routes | D-awaiting-judgment |

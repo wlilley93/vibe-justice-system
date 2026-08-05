@@ -47,7 +47,7 @@ sections:
     A purported act of a Commission that reaches any of (a) to (c) is VOID to that extent, without more,
     and the Commission's warrant lapses on the act.
 
-    RECORDED, because this Act rests on it: the trust-boundary rule's holders `[2026] CC-OPBOX 16` and
+    RECORDED, because this Act rests on it: the trust-boundary rule's holders `[2026] CC-SUB1 16` and
     `17` are both dated 2026-06-07 (READ, `:7` of each), two days before V2 commenced on 2026-06-09 (READ,
     COMMENCEMENT-V2-0001.yaml:4), were decided under CASE-LAW s.10/s.18, and carry no incorporation record
     (EXECUTED grep over lawpack -> zero). The rule's force in this Act comes from this Act restating it,
@@ -71,7 +71,7 @@ sections:
     untouched; one word does not carry two operative meanings in this corpus.
 
     THE ESTATE, measured by the method in Schedule 2 and not by a depth-one listing: 85 distinct `.vjs`
-    surfaces under /home/jellytot/Projects at depth six after symlink resolution, of which 59 hold at
+    surfaces under the ESTATE ROOT at depth six after symlink resolution, of which 59 hold at
     least one governed record and 21 are INVOKED jurisdictions carrying a `.vjs/config.toml`
     (EXECUTED 2026-08-05, method and bound stated in Schedule 2). Earlier drafts recited eight and then
     nine surfaces from a depth-one glob, wrong in both directions and then wrong by METHOD - a shallow
@@ -326,7 +326,7 @@ sections:
 
     (c) a TRUST-BOUNDARY FORK - any verb rated SENSITIVE or above, any EXTERNAL authentication tier, and
     any token, capability, credential or permission-model change - which goes to court before implementation
-    regardless of reversibility. The Clerk-Drafter records that this rule is held at `[2026] CC-OPBOX
+    regardless of reversibility. The Clerk-Drafter records that this rule is held at `[2026] CC-SUB1
     16` in the `.justice/` series (address in the schedule), that the companion Bill cited it to `[2026]
     VJS-CC-OPBOX 16/17/18` in a different series on unrelated questions, and that all four counsel caught
     it;
@@ -547,13 +547,13 @@ sections:
   title: Schedule 2 - the jurisdictions, and the method by which they were counted
   text: >-
     jurisdictions_carrying_a_vjs_surface:
-      measured: '2026-08-05, EXECUTED: find /home/jellytot/Projects -maxdepth 6 -name .vjs -type d
+      measured: '2026-08-05, EXECUTED: find the ESTATE ROOT -maxdepth 6 -name .vjs -type d
         -not -path "*/node_modules/*", each resolved by readlink -f and deduplicated by realpath,
         each classified by whether it carries .vjs/config.toml (invoked under REG-INVOCATION-001)
         and by whether any file exists under the three roots declared at
         crates/vjs-core/src/front_door.rs:84-97'
-      bounded_claim: 'This enumeration is bounded to /home/jellytot/Projects at depth six with
-        node_modules excluded. The same command over /home/jellytot at depth six returns 75
+      bounded_claim: 'This enumeration is bounded to the ESTATE ROOT at depth six with
+        node_modules excluded. The same command over the OPERATOR HOME at depth six returns 75
         surfaces, including trees under Backups/ and .cache/; those are NOT enumerated here and
         are among the stores this Act''s first audit must reach and name. THE COUNT IS A MOVING
         NUMBER, not a fact about the estate: between two measurements taken hours apart on drafting
@@ -565,7 +565,7 @@ sections:
       invoked_jurisdictions_of_note:
       - vibe-justice-system (canon; agent-universe-v2 is a SYMLINK to it, EXECUTED ls -ld, and is
         the same surface, not a second entry)
-      - opbox-prod/opbox-kernel (the opbox jurisdiction, 116 orders, 32 court records, its own
+      - SUB1 (the First Subscriber's kernel checkout, 116 orders, 32 court records, its own
         lawpack mirror and .justice series; a distinct repository root, EXECUTED git rev-parse
         --show-toplevel. The parent opbox-prod/ carries .vjs/{logs,permits} only, holds ZERO
         governed records, and IS NOT the jurisdiction; a warrant may not name it)
@@ -579,12 +579,12 @@ sections:
         a container over an opbox-kernel copy holding ~109 orders one level down; whether a copy
         is a jurisdiction is for the first audit and the Principal)
       not_invoked_but_record_bearing:
-      - boltrig (24 orders, 22 court records, NO config.toml; on section 2's accession rule not
+      - SUB2 (24 orders, 22 court records, NO config.toml; on section 2's accession rule not
         presently warrantable)
       worktrees_the_audit_must_reach:
       - opbox-prod/opbox-kernel/.worktrees/tablelist-ext (25 orders, 16 court records, 123 lawpack
         files, divergent)
-      - boltrig/.claude/worktrees/* (seventeen orders-bearing as at 2026-08-05, EXECUTED)
+      - SUB2/.claude/worktrees/* (seventeen orders-bearing as at 2026-08-05, EXECUTED)
       note: 'Earlier drafts enumerated eight, then nine entries from a depth-one glob. The glob
         named a container holding no governed records and could not see the layer where this realm
         keeps its law. The correction is by METHOD, recorded rather than substituted, section 3 of

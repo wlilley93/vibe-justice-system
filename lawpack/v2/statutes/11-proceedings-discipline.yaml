@@ -164,7 +164,7 @@ sections:
     the defect is surfaced and routed for correction (ACT-ASSENTED-RECORD-PROTECTION:s1, cited by number).
     This section amends ACT-002:s9 and ACT-004:s9 by adding the declared relations (Schedule 3).
   commentary: >
-    Orders 163 and 164 of the opbox county court both carry the issue dec15_dec19_recitation_and_order_completion,
+    Orders 163 and 164 of the First Subscriber's county court both carry the issue dec15_dec19_recitation_and_order_completion,
     two sittings on one matter, and nothing detected it. The normalisation rule exists because exclusivity
     over an author-controlled exact string is evaded by appending a suffix, and the disposes limb because
     the first draft's version was evaded by moving the subject into a different field.
@@ -342,11 +342,11 @@ sections:
     the allocator's arithmetic is correct over the roots it reads, and next-citation DEC lawfully offers
     ordinal 15 - which is semantically loaded, because the label VJS-DEC 15 is already in use across the
     corpus to denote a specific prior decision of the unitary-stack programme (EXECUTED grep 2026-08-05:
-    15 files in canon, 41 under the opbox `.justice` subtree, meaning the SERIES DEC 15-22 per SUBMISSION-2026-08-04-221305,
+    15 files in canon, 41 under the First Subscriber's `.justice` subtree, meaning the SERIES DEC 15-22 per SUBMISSION-2026-08-04-221305,
     not ordinal 15 alone). Whatever the STATUS of that decision - which is the pending question this Act
     may not prejudge - reissuing the ordinal to a NEW and different instrument would silently repoint
     every one of those references. No string allocator can know that; a reservation, and where a matter
-    later condemns a combination a tombstone, makes the reissue unrepresentable. Likewise the CC-OPBOX
+    later condemns a combination a tombstone, makes the reissue unrepresentable. Likewise the CC-SUB1
     and VJS-CC-OPBOX series are not colliding allocations but v1 and v2 of one series distinguished by
     estate, which the structured form carries as data. The DEC 15 to 22 ordinals are RESERVED, not tombstoned,
     pending the footing matter SUBMISSION-2026-08-04-221305, which this Act may not prejudge.
@@ -408,7 +408,7 @@ sections:
     by order of a court, names its expiry, and is reported OWED on expiry. An unloadable instrument is
     never treated as repealed.
   commentary: >
-    The single most expensive defect measured in this corpus: on 2026-08-04 the opbox jurisdiction stood
+    The single most expensive defect measured in this corpus: on 2026-08-04 the First Subscriber's jurisdiction stood
     at 55 of 109 filed orders unreadable and absent from the citator while the route answered confidently
     from the remainder ([2026] VJS-CC-OPBOX 160). Executing 160 took that count to 2 without touching
     a record (161), and it stands at 0 of 116 as at 2026-08-05 (EXECUTED, scripts/verify-orders-are-readable.sh
@@ -441,7 +441,7 @@ sections:
     of UNSTATED directives is carried in local-ci. A record declaring a valid assent_source is routed
     for correction, never blocked. This section amends ACT-002:s10 (Schedule 3).
   commentary: >
-    Forty-two filed opbox orders omit actor. The mirror reads them as the sentinel; canon cannot load
+    Forty-two of the First Subscriber's filed orders omit actor. The mirror reads them as the sentinel; canon cannot load
     them at all, so this section commences in canon only when that widening is ported, and until a report
     counts the sentinel the reporting duty is UNENFORCED and says so - a string round-tripping is not
     reporting.
@@ -516,12 +516,12 @@ sections:
     jurisdiction's registered series and estates (s7, Schedule 1), its actor register (s10), tombstones,
     reservations and forwarding records. A tree holding an instrument that binds, not on the register,
     is reported UNREGISTERED LAW STORE by local-ci. A jurisdiction whose law or court records are held
-    in a tree outside its declared roots registers that tree on accession; the opbox jurisdiction registers
+    in a tree outside its declared roots registers that tree on accession; the First Subscriber's jurisdiction registers
     `.justice` on its accession under s15, and this section states no duty on any store in the canonical
     jurisdiction that does not exist there (EXECUTED 2026-08-05: canon has no `.justice`). A store that
     is a copy rather than a jurisdiction is registered as a copy or retired, never left ambiguous.
   commentary: >
-    The opbox citator .justice holds over a hundred citation-bearing judgments including the trust-boundary
+    The First Subscriber's citator .justice holds over a hundred citation-bearing judgments including the trust-boundary
     rule itself, and no allocator, citator or gate reads it, the kernel's roots being a three-entry constant.
     The register replaces the constant, and the allocator minting over the register is what makes the
     two-series ambiguity legible instead of fatal.
@@ -531,7 +531,7 @@ sections:
     must:
     - equal_governed_record_roots_to_the_register
     - report_an_unregistered_law_store_in_local_ci
-    - register_justice_in_the_opbox_jurisdiction_at_commencement
+    - register_justice_in_the_first_subscriber_jurisdiction_at_commencement
 - id: ACT-PROCEEDINGS-DISCIPLINE:s14
   title: Commencement by section
   text: >-
@@ -583,10 +583,10 @@ sections:
     save the express variations Schedule 3 enumerates. The TRUST-BOUNDARY RULE is stated here on its own
     terms and is untouched: a fork involving any verb rated SENSITIVE or above, any EXTERNAL authentication
     tier, or any token, capability or permission-model change goes to court BEFORE implementation regardless
-    of code reversibility. That rule's holder in the opbox continuity citator is [2026] CC-OPBOX 16 (the
+    of code reversibility. That rule's holder in the First Subscriber's continuity citator is [2026] CC-SUB1 16 (the
     .justice continuity series, no VJS prefix, at `opbox-prod/opbox-kernel:.justice/judgments/county-court/2026-cc-opbox-16.md:44`,
     mode READ - the repository is named because s2 requires it and this is the Act's own showpiece citation),
-    whose remedy was quashed in part and whose duty was carried forward by [2026] CC-OPBOX 17; the first
+    whose remedy was quashed in part and whose duty was carried forward by [2026] CC-SUB1 17; the first
     draft cited three unrelated VJS-CC-OPBOX orders for it and the mis-citation is recorded rather than
     quietly fixed. The Schedule 1 migration registers the continuity render form so that rule becomes
     visible to the grounding gate for the first time; the form is a registered legacy render form of estate

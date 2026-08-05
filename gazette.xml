@@ -3,11 +3,44 @@
   <title>The VJS Gazette</title>
   <subtitle>The record of the realm: the living canon and the honoured archive</subtitle>
   <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette</id>
-  <updated>2026-07-11T00:00:00Z</updated>
+  <updated>2026-08-05T00:00:00Z</updated>
   <link rel="self" href="https://wlilley93.github.io/vibe-justice-system/gazette.xml"/>
   <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/"/>
   <author><name>Vibe Justice System</name></author>
   <rights>Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001): force comes from the lawpack and the Sovereign's assent, never from publication or syndication.</rights>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-PROCEEDINGS-DISCIPLINE</id>
+    <title>The Proceedings Discipline Act 2026</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-PROCEEDINGS-DISCIPLINE"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/11-proceedings-discipline.yaml"/>
+    <category term="statute"/>
+    <category term="canon"/>
+    <published>2026-08-05T00:00:00Z</published>
+    <updated>2026-08-05T00:00:00Z</updated>
+    <summary type="text">Enacted on Sovereign Assent given 2026-08-05, pinned to the engrossed-text digest sha256:8690040675a2779b5a3c0168f8d1fa70a57182911b1c00735cb6e00a8c458375 (assent record lawpack/v2/provenance/assent/2026-08-05-proceedings-discipline-assent.yaml; the engrossed instrument preserved verbatim at .vjs/submissions/draft/ACT-PROCEEDINGS-DISCIPLINE.yaml).</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-RECTIFICATION-COMMISSION</id>
+    <title>The Executive Rectification Commission Act 2026</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-RECTIFICATION-COMMISSION"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/12-rectification-commission.yaml"/>
+    <category term="statute"/>
+    <category term="canon"/>
+    <published>2026-08-05T00:00:00Z</published>
+    <updated>2026-08-05T00:00:00Z</updated>
+    <summary type="text">Enacted on Sovereign Assent given 2026-08-05, pinned to the engrossed-text digest sha256:a0a7018d335d70a33fe218e7aebee622abe6244f1fbef90b6d1ee486d7669b3d (assent record lawpack/v2/provenance/assent/2026-08-05-rectification-commission-assent.yaml; the engrossed instrument preserved verbatim at .vjs/submissions/draft/ACT-RECTIFICATION-COMMISSION.yaml).</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-SUBSCRIBER-PSEUDONYMITY</id>
+    <title>The Subscriber Pseudonymity (Publication Corrections) Act 2026</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-SUBSCRIBER-PSEUDONYMITY"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/13-subscriber-pseudonymity.yaml"/>
+    <category term="statute"/>
+    <category term="canon"/>
+    <published>2026-08-05T00:00:00Z</published>
+    <updated>2026-08-05T00:00:00Z</updated>
+    <summary type="text">Enacted on Sovereign Assent given 2026-08-05, pinned to the conditioned-engrossment digest sha256:95e308fbeaff310f6e4f37e88c81216aec9692dbebaf5dbf63688574d4f6608f (assent record lawpack/v2/provenance/assent/2026-08-05-subscriber-pseudonymity-assent.yaml; the engrossed instrument preserved verbatim at .vjs/submissions/draft/ACT-SUBSCRIBER-PSEUDONYMITY.yaml).</summary>
+  </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-001</id>
     <title>Governance (The Order)</title>

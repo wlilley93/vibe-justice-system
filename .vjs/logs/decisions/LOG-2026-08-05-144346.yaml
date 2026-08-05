@@ -1,0 +1,12 @@
+id: LOG-2026-08-05-144346
+time: 2026-08-05T14:43:46.096128899+00:00
+actor: lexby
+kind: governed-load-bearing-act
+issue: kernel_enforcement_gaps_canon_write_chokepoint
+decision: 'ENACTED on Sovereign Assent of 2026-08-05: [2026] VJS-ACT 13, the Subscriber Pseudonymity (Publication Corrections) Act, digest re-measured at enactment and matched (95e308fb...). The s2 substitutions MADE: statutes 11 and 12 replaced by the pinned applied texts, lodgement re-hash exact (e939f219.../d8ed99f1...). All three s6 closing verifications completed: re-hash, deliberate lock re-pin (55d37fa5 -> a6203d2a -> 468c9bcb across the making), and the Gazette regenerated LIVE - 117 items, 86 bodies, publication no longer refused. The standing drift red went GREEN BY CURE and the full canon suite stands at 337 passed, 0 failed - fully green for the first time, the count itself rising as the published Gazette unlocked drift-mode referents. Audit neutrality verified: 399/104/295 unchanged. R6 consequential applied: the triage report re-keyed to the enacted spelling.'
+basis:
+- PERMIT-1785940999
+risk: medium
+reversibility: easy
+court_required: false
+why: Enacted law must be publishable; the Sovereign made the substitutions and the machinery proved every step

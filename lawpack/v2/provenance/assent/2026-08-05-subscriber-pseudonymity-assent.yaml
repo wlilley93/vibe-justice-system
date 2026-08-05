@@ -1,0 +1,27 @@
+id: ASSENT-2026-08-05-SUBSCRIBER-PSEUDONYMITY
+kind: sovereign_assent_event
+date: "2026-08-05"
+instrument: The Subscriber Pseudonymity (Publication Corrections) Act 2026
+instrument_text: .vjs/submissions/draft/ACT-SUBSCRIBER-PSEUDONYMITY.yaml
+instrument_digest: "sha256:95e308fbeaff310f6e4f37e88c81216aec9692dbebaf5dbf63688574d4f6608f"
+sovereign: Will (the Principal, in the Sovereign capacity)
+form: >
+  Express assent given in session on 2026-08-05, in the words "I assent to the Subscriber
+  Pseudonymity (Publication Corrections) Act 2026, digest
+  sha256:95e308fbeaff310f6e4f37e88c81216aec9692dbebaf5dbf63688574d4f6608f", the words as
+  typed carrying terminal line-wrap whitespace inside the title and the digest, faithfully
+  reassembled by whitespace folding and re-measured against the conditioned engrossment at
+  the moment of enactment: MATCHED. Given against the text ADOPTED 4-0 AS CONDITIONED by
+  the Standing Committee the same day, all eleven conditions applied and re-measured before
+  assent (round record at .vjs/submissions/draft/pseudonymity-round1/ROUND-RECORD.md).
+  Assent is antecedent and external to the lawpack: non-automatable, non-presumable,
+  non-delegable.
+effects:
+  - lodges: ACT-SUBSCRIBER-PSEUDONYMITY as enacted V2 statute law at lawpack/v2/statutes/13-subscriber-pseudonymity.yaml, citation [2026] VJS-ACT 13 minted by the kernel allocator at commencement (EXECUTED, vjs next-citation ACT 2026), with assent_source sovereign_assent tracing to this event
+  - makes: the s2 substitutions - the texts of ACT-PROCEEDINGS-DISCIPLINE and ACT-RECTIFICATION-COMMISSION replaced by the applied texts whose digests s7 pins (e939f219... and d8ed99f1...), re-hashed at lodgement and matched
+  - completes: the three s6 closing verifications in the same act - lodgement re-hash, deliberate lawpack lock re-pin, and LIVE Gazette regeneration with its success recorded
+notes: >
+  The engrossed instrument and both applied texts are preserved verbatim at the draft
+  paths and are the texts these digests pin forever. On this commencement the publication
+  boundary no longer refuses the Gazette by reason of the amended texts, and the standing
+  drift red goes green by cure, never by force.
