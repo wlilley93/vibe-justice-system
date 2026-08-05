@@ -289,7 +289,14 @@ pub(crate) fn git_dates(repo: &Path, extra: &[&str]) -> std::collections::HashMa
     ];
     args.extend(extra.iter().map(|a| a.to_string()));
     args.extend(["--name-only".to_string(), "--format=\u{1}%cI".to_string()]);
-    if let Ok(out) = std::process::Command::new("git").args(&args).output() {
+    if let Ok(out) = std::process::Command::new("git")
+        .args(&args)
+        .env_remove("GIT_DIR")
+        .env_remove("GIT_WORK_TREE")
+        .env_remove("GIT_INDEX_FILE")
+        .env_remove("GIT_OBJECT_DIRECTORY")
+        .output()
+    {
         let text = String::from_utf8_lossy(&out.stdout);
         let mut current = String::new();
         for line in text.lines() {

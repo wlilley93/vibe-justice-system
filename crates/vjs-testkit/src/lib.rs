@@ -82,6 +82,10 @@ impl TestKit {
 
         // Initialize git
         std::process::Command::new("git")
+            .env_remove("GIT_DIR")
+            .env_remove("GIT_WORK_TREE")
+            .env_remove("GIT_INDEX_FILE")
+            .env_remove("GIT_OBJECT_DIRECTORY")
             .args(["init", "--quiet"])
             .current_dir(&repo_dir)
             .output()

@@ -1,0 +1,12 @@
+id: LOG-2026-08-05-222119
+time: 2026-08-05T22:21:19.151256645+00:00
+actor: lexby
+kind: governed-load-bearing-act
+issue: kernel_enforcement_gaps_canon_write_chokepoint
+decision: 'R2b lands: canon''s pre-push now runs the full gate set (fmt-check, clippy -D warnings, workspace suite, local-ci, validate) via scripts/preci.sh behind a two-line hook - the net the subscriber has had since June and canon ran without. Made safe FIRST: all seven raw git spawns (invoke.rs hooksPath write, gazette mod and parse reads, mcp toplevel fallback, repo.rs staged read, the testkit fixture init, the e2e harness) now scrub GIT_DIR and friends, because a fixture git under a hook writes through them into the real repository - the Defect-5 class, cured here before the hook that would have triggered it exists. RED case proven: a seeded fmt violation refused at exit 1. The push carrying this commit is the live GREEN case.'
+basis:
+- PERMIT-1785968460
+risk: medium
+reversibility: easy
+court_required: false
+why: canon's greens rested on manual suite runs; a net nobody has to remember to throw is the only kind that always catches

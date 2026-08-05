@@ -81,6 +81,10 @@ impl RepoScanner {
 
     fn read_staged_files(repo_root: &Path) -> Result<Vec<PathBuf>, KernelError> {
         let output = Command::new("git")
+            .env_remove("GIT_DIR")
+            .env_remove("GIT_WORK_TREE")
+            .env_remove("GIT_INDEX_FILE")
+            .env_remove("GIT_OBJECT_DIRECTORY")
             .args(["diff", "--name-only", "--cached"])
             .current_dir(repo_root)
             .output()

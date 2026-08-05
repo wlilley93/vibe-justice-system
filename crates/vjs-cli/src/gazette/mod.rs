@@ -97,8 +97,8 @@ pub(crate) fn cmd_gazette(
             }
         }
     }
-    let source_commit = std::process::Command::new("git")
-        .args(["-C", &repo.to_string_lossy(), "rev-parse", "HEAD"])
+    let source_commit = vjs_git::GitIntegration::git_command(repo)
+        .args(["rev-parse", "HEAD"])
         .output()
         .ok()
         .map(|o| String::from_utf8_lossy(&o.stdout).trim().to_string())

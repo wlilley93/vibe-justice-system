@@ -12,7 +12,10 @@ impl GitIntegration {
     /// 2026-08-05: a fixture `git init` under pre-push set core.bare=true on the live
     /// config and broke every subsequent git command in the tree. The constructor
     /// scrubs the hook environment so forgetting is structurally impossible.
-    fn git(repo_root: &Path) -> Command {
+    /// Public: every crate that spawns git against a repo goes through here, so the
+    /// hook-environment scrub exists ONCE (CC-VJS 12: a second copy of a gate is a
+    /// hole with a gate next to it).
+    pub fn git_command(repo_root: &Path) -> Command {
         let mut c = Command::new("git");
         c.current_dir(repo_root);
         for var in [
@@ -45,7 +48,7 @@ impl GitIntegration {
     }
 
     pub fn read_staged_files(repo_root: &Path) -> Result<Vec<String>, KernelError> {
-        let output = Self::git(repo_root)
+        let output = Self::git_command(repo_root)
             .args(["diff", "--name-only", "--cached"])
             .output()
             .map_err(|e| KernelError::Io(e.to_string()))?;
@@ -76,7 +79,7 @@ impl GitIntegration {
     pub fn tracked_at_head(
         repo_root: &Path,
     ) -> Result<std::collections::HashSet<String>, KernelError> {
-        let output = Self::git(repo_root)
+        let output = Self::git_command(repo_root)
             .args(["ls-tree", "-r", "--name-only", "HEAD"])
             .output()
             .map_err(|e| KernelError::Io(e.to_string()))?;
@@ -96,7 +99,7 @@ impl GitIntegration {
     /// `tracked_at_head`: a genuine spawn failure propagates as a loud `Io` error, a
     /// non-success exit is the honest "not at HEAD".
     pub fn read_blob_at_head(repo_root: &Path, rel: &str) -> Result<Option<String>, KernelError> {
-        let output = Self::git(repo_root)
+        let output = Self::git_command(repo_root)
             .args(["show", &format!("HEAD:{rel}")])
             .output()
             .map_err(|e| KernelError::Io(e.to_string()))?;
@@ -109,7 +112,7 @@ impl GitIntegration {
     /// Staged DELETIONS only (diff-filter=D). Used by the destructive-action gate
     /// (ACT-006:s4 / ACT-004:s9): deleting a governed record is destructive.
     pub fn read_staged_deletions(repo_root: &Path) -> Result<Vec<String>, KernelError> {
-        let output = Self::git(repo_root)
+        let output = Self::git_command(repo_root)
             .args(["diff", "--name-only", "--cached", "--diff-filter=D"])
             .output()
             .map_err(|e| KernelError::Io(e.to_string()))?;
@@ -124,7 +127,7 @@ impl GitIntegration {
     }
 
     pub fn read_unstaged_files(repo_root: &Path) -> Result<Vec<String>, KernelError> {
-        let output = Self::git(repo_root)
+        let output = Self::git_command(repo_root)
             .args(["diff", "--name-only"])
             .output()
             .map_err(|e| KernelError::Io(e.to_string()))?;
@@ -153,7 +156,7 @@ impl GitIntegration {
     }
 
     pub fn read_remote_url(repo_root: &Path) -> Result<Option<String>, KernelError> {
-        let output = Self::git(repo_root)
+        let output = Self::git_command(repo_root)
             .args(["remote", "get-url", "origin"])
             .output()
             .map_err(|e| KernelError::Io(e.to_string()))?;
@@ -194,11 +197,13 @@ fi
 
     pub fn pre_push_hook() -> &'static str {
         r#"#!/bin/sh
-# VJS V2 pre-push hook
-# Release and local CI checks
-
+# Short state check only (INV-HOOKS-SHORT-001): the gates live in scripts/preci.sh
+# where the repository ships one, else in the kernel's local-ci.
 set -e
-
+root="$(git rev-parse --show-toplevel)"
+if [ -x "$root/scripts/preci.sh" ]; then
+    exec "$root/scripts/preci.sh"
+fi
 if command -v vjs >/dev/null 2>&1; then
     vjs local-ci
     vjs validate --external

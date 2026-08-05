@@ -165,6 +165,10 @@ pub(crate) fn cmd_invoke(
             }
         }
         let out = std::process::Command::new("git")
+            .env_remove("GIT_DIR")
+            .env_remove("GIT_WORK_TREE")
+            .env_remove("GIT_INDEX_FILE")
+            .env_remove("GIT_OBJECT_DIRECTORY")
             .args([
                 "-C",
                 &repo.to_string_lossy(),

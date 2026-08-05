@@ -38,6 +38,10 @@ fn main() {
     let repo_root = repo_arg.unwrap_or_else(|| {
         std::process::Command::new("git")
             .args(["rev-parse", "--show-toplevel"])
+            .env_remove("GIT_DIR")
+            .env_remove("GIT_WORK_TREE")
+            .env_remove("GIT_INDEX_FILE")
+            .env_remove("GIT_OBJECT_DIRECTORY")
             .output()
             .ok()
             .filter(|o| o.status.success())

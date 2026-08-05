@@ -12,10 +12,16 @@ fn workspace_root() -> PathBuf {
 }
 
 fn git(repo: &Path, args: &[&str]) {
+    // SCRUBS THE HOOK ENVIRONMENT (Defect-5 class): a fixture git under a hook
+    // writes through GIT_DIR into the real repository.
     let ok = Command::new("git")
         .arg("-C")
         .arg(repo)
         .args(args)
+        .env_remove("GIT_DIR")
+        .env_remove("GIT_WORK_TREE")
+        .env_remove("GIT_INDEX_FILE")
+        .env_remove("GIT_OBJECT_DIRECTORY")
         .stdout(Stdio::null())
         .stderr(Stdio::null())
         .status()
