@@ -1,5 +1,5 @@
 id: ACT-RECTIFICATION-COMMISSION
-assent_source: FOURTH_DRAFT_PENDING_STANDING_COMMITTEE_ADOPTION_2026-08-05
+assent_source: NOT_YET_ASSENTED_ADOPTED_BY_STANDING_COMMITTEE_2026-08-05_R5
 status: draft
 title: The Executive Rectification Commission Act 2026
 enacted_by: >
@@ -81,7 +81,7 @@ sections:
     and the Commission's warrant lapses on the act.
 
     RECORDED, because this Act rests on it: the trust-boundary rule's holders `[2026] CC-OPBOX 16` and
-    `17` are both dated 2026-06-07 (READ, `:6` of each), two days before V2 commenced on 2026-06-09 (READ,
+    `17` are both dated 2026-06-07 (READ, `:7` of each), two days before V2 commenced on 2026-06-09 (READ,
     COMMENCEMENT-V2-0001.yaml:4), were decided under CASE-LAW s.10/s.18, and carry no incorporation record
     (EXECUTED grep over lawpack -> zero). The rule's force in this Act comes from this Act restating it,
     not from those judgments.
@@ -103,7 +103,7 @@ sections:
     WARRANT and is not a release warrant within REG-RELEASE-WARRANT-001 ([2026] VJS-REG 16), which is
     untouched; one word does not carry two operative meanings in this corpus.
 
-    THE ESTATE, measured by the method in Schedule 2 and not by a depth-one listing: 84 distinct `.vjs`
+    THE ESTATE, measured by the method in Schedule 2 and not by a depth-one listing: 85 distinct `.vjs`
     surfaces under /home/jellytot/Projects at depth six after symlink resolution, of which 59 hold at
     least one governed record and 21 are INVOKED jurisdictions carrying a `.vjs/config.toml`
     (EXECUTED 2026-08-05, method and bound stated in Schedule 2). Earlier drafts recited eight and then
@@ -212,7 +212,8 @@ sections:
     (e) BINDING. Bind an enacted duty to an existing gate; require a negative control for a duty a corpus
     claims is bound; and reclassify a duty that no gate can ever hold from an enforceable duty to a duty
     enforced by a court, so that it ceases to sit in an unwired list indistinguishable from work not yet
-    done.
+    done. A reclassification occurs IN THE AUDIT AND THE REPORT, never in the instrument: moving a token
+    out of a `kernel_effect` would be amending a statute, which this section's own prohibitions forbid.
 
     (f) CONSOLIDATION. Consolidate a series of supplemented instruments into one restatement, subject
     to section 1(c), exercised under ACT-PROCEEDINGS-DISCIPLINE:s6, whose concordance requirement this
@@ -272,6 +273,16 @@ sections:
     every normalised value identical. A key present before and absent after is a FAILURE, whatever its
     name; a key absent before and present after is a FAILURE.
 
+    THE COMPARISON IS OVER THE FILE'S NODE TREE AND NOT OVER ITS KEY NAMES. Every NODE the file carries
+    must be present after at the same path: every mapping key with its value, and every SEQUENCE ITEM
+    at its index, at every depth. A sequence that loses an item, gains an item, or changes the order of
+    its items is a FAILURE, whatever key names survive elsewhere in the file; and where the file's root
+    is a sequence, the root is itself compared as a node. A duplicate key name is compared per occurrence
+    and not per name. Every comment the file carries is preserved. A permitted change of style, quoting
+    or folding is permitted only where the record remains loadable by the reader that loaded it before;
+    a re-rendering that changes a scalar's parsed type, or that renders any record unloadable, is not a
+    permitted difference and is not content-preserving.
+
     THE PROOF IS TAKEN OVER THE FILE AND NEVER OVER THE LOADED STRUCTURE. `Statute`, `StatuteSection`,
     `KernelEffect` and `Regulation` model no catch-all and deny no unknown field
     (`crates/vjs-lawpack/src/lib.rs:257-298`, READ; EXECUTED `grep -rn "serde(flatten\|deny_unknown_fields"
@@ -296,6 +307,11 @@ sections:
     directive's `when` guts the duty while its `must` stays byte-identical; flipping `appealable`
     removes an appeal route with a green proof beside it.
 
+    IN A CONSOLIDATION UNDER SECTION 4(f) the test is taken over EACH SUPERSEDED RECORD, which is not
+    edited: ACT-PROCEEDINGS-DISCIPLINE:s6 leaves every superseded instrument visible, citable and
+    routable, so each passes trivially, and the concordance is the proof for the restatement. There is
+    no "before" for a restatement that did not previously exist, and this section does not pretend one.
+
     The Commission PREPARES AND EXECUTES a rectification; it never AUTHORS or MAKES one. Where the act
     is an amendment or a consolidation of a filed order, the maker is the competent court, whose order
     the Commission obtains BEFORE the act, and the disability on the engineer applies identically to a
@@ -315,9 +331,11 @@ sections:
     - prove_a_form_rectification_by_the_stated_test
     - record_the_test_and_its_result
     - take_the_proof_over_the_file_as_filed
+    - compare_every_node_at_its_path_including_sequence_items
     must_not:
     - substituting_another_content_preservation_test
     - a_proof_taken_over_a_loaded_structure
+    - re_rendering_a_record_so_it_ceases_to_load
 - id: ACT-RECTIFICATION-COMMISSION:s6
   title: The stay - what is paused, and the four things that never are
   text: >
