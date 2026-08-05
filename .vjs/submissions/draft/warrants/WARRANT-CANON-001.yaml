@@ -69,6 +69,16 @@ certified_rectification_schedule:
       The stale file:line addresses in the enacted Acts' own texts, as found by the
       Clerk Gate once it lands here; corrections prepared by the Commission, made by
       the competent authority (s6).
+  - class: 4f_subscriber_paths
+    item: >
+      The Gazette publication blockage, MEASURED 2026-08-05: `vjs gazette` refuses to
+      publish because the enacted ACT 11/ACT 12 texts carry terms the publication
+      boundary denylist will not publish (BREACH-2026-06-10 limb, fail-closed; the
+      refusal deliberately does not name the term). The enacted Acts therefore stand
+      in force but ungazetted, and the drift-mode gazette test stands red as the
+      honest record of that state. The Commission PREPARES the s6 corrections to the
+      subscriber-path recitals; the competent authority MAKES them; the Gazette then
+      publishes and the test goes green by cure, never by force.
 signature:
   # THE SIGNATURE IS THE PRINCIPAL'S ALONE, non-delegable and non-presumable. To
   # sign, the Principal states express words naming this warrant and the digest of
