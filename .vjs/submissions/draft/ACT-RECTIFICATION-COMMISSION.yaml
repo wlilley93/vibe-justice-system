@@ -44,7 +44,7 @@ drafting_note: >
 sections:
 - id: ACT-RECTIFICATION-COMMISSION:s1
   title: The three floors, stated first because they bound everything after
-  text: >
+  text: >-
     NOTHING IN THIS ACT, AND NO ACT OF A COMMISSION UNDER IT, REACHES ANY OF THE FOLLOWING. They are stated
     at the head of the Act rather than in a savings clause at its foot, because a saving that a reader
     meets last is a saving an actor meets never.
@@ -66,6 +66,16 @@ sections:
 
     A purported act of a Commission that reaches any of (a) to (c) is VOID to that extent, without more,
     and the Commission's warrant lapses on the act.
+
+
+    Apex singleness is held by [2026] VJS-SC 4 and entrenched at ACT-CONSOLIDATION-FRAMEWORK:s11 as protected
+    by s25.
+
+    RECORDED, because this Act rests on it: the trust-boundary rule's holders `[2026] CC-OPBOX 16` and
+    `17` are both dated 2026-06-07 (READ, `:6` of each), two days before V2 commenced on 2026-06-09 (READ,
+    COMMENCEMENT-V2-0001.yaml:4), were decided under CASE-LAW s.10/s.18, and carry no incorporation record
+    (EXECUTED grep over lawpack -> zero). The rule's force in this Act comes from this Act restating it,
+    not from those judgments.
   kernel_effect:
     defines:
     - commission.floors.non_derogable
@@ -83,10 +93,17 @@ sections:
   title: Constitution, warrant, and one repo at a time
   text: >-
     A Commission is constituted by a WARRANT of the Principal. Each warrant names exactly ONE jurisdiction
-    by repository, and a Commission has no power in any other. Eight jurisdictions presently carry a `.vjs/`
-    surface (EXECUTED 2026-08-05, enumerated in the schedule), and a warrant per jurisdiction is deliberate:
-    a single body with concurrent power over all of them could propagate an error to the whole estate
-    before any of it was reviewed.
+    by repository, and a Commission has no power in any other. NINE directories under /home/jellytot/Projects/
+    carry a `.vjs/` surface (EXECUTED 2026-08-05, `test -d <repo>/.vjs` over `/home/jellytot/Projects/*/`,
+    enumerated in the schedule), OF WHICH EIGHT ARE DISTINCT: `agent-universe-v2` is a symbolic link to
+    `vibe-justice-system` and is the same surface counted twice (EXECUTED `ls -ld`). The ninth, `Vibe
+    Justice System`, is a DISTINCT repository (EXECUTED `git remote -v` -> vibe-justice-system-dev) holding
+    its own `.vjs/orders`, its own `.justice` and its own `lawpack/v2/statutes`; whether it is a jurisdiction,
+    a fork or a stale copy is for the first audit and the Principal. An earlier draft recited eight, wrong
+    in BOTH directions - double-counting a symlink and omitting a live repository - and the correction
+    is recorded rather than substituted, section 3 of this Act forbidding an enumeration that omits a
+    store, and a warrant per jurisdiction is deliberate: a single body with concurrent power over all
+    of them could propagate an error to the whole estate before any of it was reviewed.
 
     The warrant states the jurisdiction, the commencement date, the EXPIRY date, the classes of rectification
     authorised under section 4, and the seats. It is a public record in the named jurisdiction.
@@ -101,6 +118,9 @@ sections:
     subscriber's accession is its own pin bump and never an act of this Commission or of canon. A jurisdiction
     eligible for a warrant is one on the repos register kept under REG-REPOS-REGISTER-001; there is no
     instrument called a jurisdiction register and this Act does not invent one.
+
+    NO MORE THAN THREE WARRANTS RUN CONCURRENTLY across the realm. A single organ holding concurrent power
+    over every jurisdiction could propagate an error to the whole estate before any of it was reviewed.
   kernel_effect:
     defines:
     - commission.warrant
@@ -139,10 +159,10 @@ sections:
     - enumerate_every_store_in_the_named_jurisdiction
     - record_an_address_and_a_mode_on_every_finding
     - name_the_stores_not_reached
-  exceptions:
-  - >
-    The duty to enumerate is a duty on the Commission and no gate holds it; it is enforced by the Principal
-    on the closing report and by this Court on complaint.
+    exceptions:
+    - >
+      The duty to enumerate is a duty on the Commission and no gate holds it; it is enforced by the Principal
+      on the closing report and by this Court on complaint.
 - id: ACT-RECTIFICATION-COMMISSION:s4
   title: Powers of rectification - the editorial list, and it is exhaustive
   text: >-
@@ -242,7 +262,12 @@ sections:
 - id: ACT-RECTIFICATION-COMMISSION:s6
   title: The stay - what is paused, and the four things that never are
   text: >
-    While a warrant is live, the courts of the named jurisdiction SHALL NOT convene a new matter, save
+    While a warrant is live, the courts of the named jurisdiction shall not convene a new matter THAT
+    FALLS WITHIN THE RECTIFICATION SCHEDULE THE COMMISSION HAS ENTERED ON THE PUBLIC RECORD AND CERTIFIED,
+    and no other matter is reached. A certification is a DECLARATION, not a finding; it binds no court;
+    and any person, and a court on its own motion, may apply to lift or narrow the stay. AN APPLICATION
+    TO LIFT OR NARROW A STAY, AND ANY CHALLENGE TO A WARRANT, IS A FLOOR MATTER WITHIN PARAGRAPH (d),
+    IS NEVER STAYED, AND IS DETERMINED BEFORE THE MATTER IT CONCERNS IS ENTERED ON ANY REGISTER. Save
     as provided below. This is the "short lawful pause" the Principal directed and its purpose is narrow:
     to stop a corpus being corrected instrument-by-instrument while it is being repaired as a whole.
 
@@ -314,7 +339,7 @@ sections:
     - a_second_extension_without_a_delivered_report
 - id: ACT-RECTIFICATION-COMMISSION:s8
   title: The closing report, and the duty to say what was NOT done
-  text: >
+  text: >-
     A Commission SHALL deliver a closing report to the Principal, published in the named jurisdiction,
     before expiry. The report states:
 
@@ -331,6 +356,10 @@ sections:
     No count of rectifications is asserted without naming the build and the commit of every instrument
     that produced it. Where an instrument carries no commit identity, the report names it by digest and
     says so.
+
+
+    A reclassification of a duty is reported WITH THE AUDITED DUTY COUNT BEFORE AND AFTER, so a fall in
+    the measured population cannot be presented as work done.
   kernel_effect:
     defines:
     - commission.report.closing
@@ -340,11 +369,11 @@ sections:
     - report_every_finding_not_rectified_with_its_reason
     - name_every_store_not_reached
     - name_the_build_and_commit_behind_every_count
-  exceptions:
-  - >
-    Where a report would disclose data about a real person, a credential or a tenant identifier, the published
-    report carries the redacted form and the redaction authority, and the unredacted form goes to the
-    confidential annex. This never overrides ACT-CONSOLIDATION-FRAMEWORK:s21.
+    exceptions:
+    - >
+      Where a report would disclose data about a real person, a credential or a tenant identifier, the
+      published report carries the redacted form and the redaction authority, and the unredacted form
+      goes to the confidential annex. This never overrides ACT-CONSOLIDATION-FRAMEWORK:s21.
 - id: ACT-RECTIFICATION-COMMISSION:s9
   title: Review - every act appealable, nothing settled
   text: >
@@ -373,12 +402,14 @@ sections:
 - id: ACT-RECTIFICATION-COMMISSION:s10
   title: Commencement by section, and this Act's own conformance status
   text: >
-    THIS ACT DOES NOT COMMENCE AS A WHOLE. Sections 1, 2, 7 and 9 commence on assent, because they are
-    the constraints; no section conferring a power commences before the constraint that bounds it is in
-    force.
+    THIS ACT DOES NOT COMMENCE AS A WHOLE. Sections 1, 2, 5, 6, 7, 8, 9 and 10 commence on assent, because
+    they are the constraints and the accountability; no section conferring a power commences before the
+    constraint that bounds it is in force.
 
-    Each remaining section commences on the day the instrument binding it is in force, and a section not
-    yet commenced states a duty that binds no gate and is reported UNWIRED.
+    Sections 3 and 4 - the audit sweep and the powers - commence on the day the gate binding them is in
+    force, AND IF NO SUCH GATE IS IN FORCE AT THE DATE THIS ACT IS SPENT UNDER SECTION 7 THEY NEVER COMMENCE,
+    WHICH IS INTENDED: an Act that confers a power it cannot bound is better spent unexercised. A section
+    not yet commenced states a duty that binds no gate and is reported UNWIRED.
 
     Measured by EXECUTION of `vjs audit --json` in canon on 2026-08-05: 281 duties, 43 wired, 238 unwired.
     This Act adds duty tokens, and NOT ONE of them presently appears in the gate registry at `crates/vjs-lawpack/src/report.rs:36-241`,
@@ -394,38 +425,78 @@ sections:
     - publish_this_acts_own_unwired_duties_in_the_conformance_audit
     must_not:
     - reporting_a_section_of_this_act_as_enforced_before_its_gate_commences
-schedule:
-  jurisdictions_carrying_a_vjs_surface:
-    measured: '2026-08-05, EXECUTED: test -d <repo>/.vjs over /home/jellytot/Projects/*/'
-    entries:
-    - agent-universe-v2
-    - boltrig
-    - opbox-prod
-    - opbox-security-scan-latest
-    - opbox-security-scan-latest-r2
-    - opbox-security-scan-repo
-    - vibe-design-system
-    - vibe-justice-system
-    note: >
-      Three of these are security-scan copies and may be artefacts rather than jurisdictions. Whether
-      a copy of a repository is a jurisdiction for the purposes of a warrant is a question this Act does
-      NOT decide; the first audit under it must enumerate them and the Principal decides on the report.
-  addresses_relied_on:
-  - claim: the reference extractor recognises only the literal VJS- prefix
-    address: crates/vjs-lawpack/src/refs.rs:47
-    mode: READ
-  - claim: governed record roots are lawpack/v2, .vjs/orders, .vjs/court
-    address: crates/vjs-core/src/front_door.rs:84-97
-    mode: READ
-  - claim: the citation walker reads only .yaml and .yml, so a .md store is skipped
-    address: crates/vjs-core/src/lib.rs:45-50
-    mode: READ
-  - claim: the trust-boundary rule is held in the .justice series, not the .vjs/orders series
-    address: opbox-kernel/.justice/judgments/county-court/2026-cc-opbox-16.md:44
-    mode: READ
-  - claim: 281 duties, 43 wired, 238 unwired
-    address: vjs audit --json (canon)
-    mode: EXECUTED
-  - claim: no deny_unknown_fields in the lawpack crate
-    address: grep -rn deny_unknown_fields crates/vjs-lawpack/src/ -> zero matches
-    mode: EXECUTED
+- id: ACT-RECTIFICATION-COMMISSION:s11
+  title: Schedule 1 - express amendments
+  text: >-
+    This Act amends, to the extent stated and no further:
+
+    ACT-002:s6 - section 6 defers the convening of a matter on the triggers of first impression, distinction,
+    variation or overruling, and conflict, FOR THE DURATION OF A WARRANT ONLY and only for a matter certified
+    within the rectification schedule; the breach trigger is NOT deferred (s6(a)).
+
+    REG-SELF-CONVENE-001 ([2026] VJS-REG 19) - section 6 defers the own-motion convening duty for a first-impression
+    question, a genuine distinction, a proposal to overrule and a conflict, for the same duration and
+    on the same limit; it does NOT defer that duty for a discovered breach, for an unsatisfiable enforcement
+    gate, or for a trust-boundary fork, each of which section 6 carves out expressly.
+
+    ACT-CONSOLIDATION-FRAMEWORK:s21, second limb (rights, standing and due process), cited by number -
+    section 6 is drawn so that NO DEROGATION ARISES, every matter engaging a floor being carved out at
+    s6(d) and every application to lift or narrow a stay being itself such a matter. If a derogation is
+    nonetheless found, section 6 is void to that extent and the floor stands.
+
+    It varies no other instrument. That sentence is a BOUNDED CLAIM and not an absolute: the enumeration
+    above is the amendment set the Clerk-Drafter measured, and a variation found outside it is a defect
+    in this Schedule, correctable on the slip track, never an implied amendment.
+  kernel_effect:
+    defines:
+    - amendments.enumerated_express
+    must:
+    - declare_every_variation_this_act_makes_with_its_section_and_extent
+- id: ACT-RECTIFICATION-COMMISSION:s12
+  title: Schedule 2 - the jurisdictions, and the method by which they were counted
+  text: >-
+    jurisdictions_carrying_a_vjs_surface:
+      measured: '2026-08-05, EXECUTED: test -d <repo>/.vjs over /home/jellytot/Projects/*/'
+      entries:
+      - agent-universe-v2
+      - boltrig
+      - opbox-prod
+      - opbox-security-scan-latest
+      - opbox-security-scan-latest-r2
+      - opbox-security-scan-repo
+      - vibe-design-system
+      - vibe-justice-system
+      note: 'Three of these are security-scan copies and may be artefacts rather than
+        jurisdictions. Whether a copy of a repository is a jurisdiction for the purposes
+        of a warrant is a question this Act does NOT decide; the first audit under it
+        must enumerate them and the Principal decides on the report.
+
+        '
+    addresses_relied_on:
+
+    - claim: the reference extractor recognises only the literal VJS- prefix
+      address: crates/vjs-lawpack/src/refs.rs:47
+      mode: READ
+    - claim: governed record roots are lawpack/v2, .vjs/orders, .vjs/court
+      address: crates/vjs-core/src/front_door.rs:84-97
+      mode: READ
+    - claim: the citation walker reads only .yaml and .yml, so a .md store is skipped
+      address: crates/vjs-core/src/lib.rs:45-50
+      mode: READ
+    - claim: the trust-boundary rule is held in the .justice series, not the .vjs/orders
+        series
+      address: opbox-kernel/.justice/judgments/county-court/2026-cc-opbox-16.md:44
+      mode: READ
+    - claim: 281 duties, 43 wired, 238 unwired
+      address: vjs audit --json (canon)
+      mode: EXECUTED
+    - claim: no deny_unknown_fields in the lawpack crate
+      address: grep -rn deny_unknown_fields crates/vjs-lawpack/src/ -> zero matches
+      mode: EXECUTED
+
+    This schedule is a SECTION and not a top-level key: `Statute` models no `schedule` field and no deserialisation
+    struct in the reader denies unknown fields, so a top-level schedule would be silently discarded -
+    the defect this Act exists to repair.
+  kernel_effect:
+    defines:
+    - commission.schedule.jurisdictions
