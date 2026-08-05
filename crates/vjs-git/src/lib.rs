@@ -6,6 +6,26 @@ use vjs_core::*;
 pub struct GitIntegration;
 
 impl GitIntegration {
+    /// EVERY git subprocess goes through here. Under a git hook, GIT_DIR and friends
+    /// override `current_dir`, so a child git aimed at a fixture writes THROUGH those
+    /// variables into the REAL repository - measured in the subscribing jurisdiction
+    /// 2026-08-05: a fixture `git init` under pre-push set core.bare=true on the live
+    /// config and broke every subsequent git command in the tree. The constructor
+    /// scrubs the hook environment so forgetting is structurally impossible.
+    fn git(repo_root: &Path) -> Command {
+        let mut c = Command::new("git");
+        c.current_dir(repo_root);
+        for var in [
+            "GIT_DIR",
+            "GIT_WORK_TREE",
+            "GIT_INDEX_FILE",
+            "GIT_OBJECT_DIRECTORY",
+        ] {
+            c.env_remove(var);
+        }
+        c
+    }
+
     pub fn find_repo_root(start: &Path) -> Result<Option<std::path::PathBuf>, KernelError> {
         let mut current = start;
         loop {
@@ -25,9 +45,8 @@ impl GitIntegration {
     }
 
     pub fn read_staged_files(repo_root: &Path) -> Result<Vec<String>, KernelError> {
-        let output = Command::new("git")
+        let output = Self::git(repo_root)
             .args(["diff", "--name-only", "--cached"])
-            .current_dir(repo_root)
             .output()
             .map_err(|e| KernelError::Io(e.to_string()))?;
 
@@ -57,9 +76,8 @@ impl GitIntegration {
     pub fn tracked_at_head(
         repo_root: &Path,
     ) -> Result<std::collections::HashSet<String>, KernelError> {
-        let output = Command::new("git")
+        let output = Self::git(repo_root)
             .args(["ls-tree", "-r", "--name-only", "HEAD"])
-            .current_dir(repo_root)
             .output()
             .map_err(|e| KernelError::Io(e.to_string()))?;
         if !output.status.success() {
@@ -78,9 +96,8 @@ impl GitIntegration {
     /// `tracked_at_head`: a genuine spawn failure propagates as a loud `Io` error, a
     /// non-success exit is the honest "not at HEAD".
     pub fn read_blob_at_head(repo_root: &Path, rel: &str) -> Result<Option<String>, KernelError> {
-        let output = Command::new("git")
+        let output = Self::git(repo_root)
             .args(["show", &format!("HEAD:{rel}")])
-            .current_dir(repo_root)
             .output()
             .map_err(|e| KernelError::Io(e.to_string()))?;
         if !output.status.success() {
@@ -92,9 +109,8 @@ impl GitIntegration {
     /// Staged DELETIONS only (diff-filter=D). Used by the destructive-action gate
     /// (ACT-006:s4 / ACT-004:s9): deleting a governed record is destructive.
     pub fn read_staged_deletions(repo_root: &Path) -> Result<Vec<String>, KernelError> {
-        let output = Command::new("git")
+        let output = Self::git(repo_root)
             .args(["diff", "--name-only", "--cached", "--diff-filter=D"])
-            .current_dir(repo_root)
             .output()
             .map_err(|e| KernelError::Io(e.to_string()))?;
         if !output.status.success() {
@@ -108,9 +124,8 @@ impl GitIntegration {
     }
 
     pub fn read_unstaged_files(repo_root: &Path) -> Result<Vec<String>, KernelError> {
-        let output = Command::new("git")
+        let output = Self::git(repo_root)
             .args(["diff", "--name-only"])
-            .current_dir(repo_root)
             .output()
             .map_err(|e| KernelError::Io(e.to_string()))?;
 
@@ -138,9 +153,8 @@ impl GitIntegration {
     }
 
     pub fn read_remote_url(repo_root: &Path) -> Result<Option<String>, KernelError> {
-        let output = Command::new("git")
+        let output = Self::git(repo_root)
             .args(["remote", "get-url", "origin"])
-            .current_dir(repo_root)
             .output()
             .map_err(|e| KernelError::Io(e.to_string()))?;
 

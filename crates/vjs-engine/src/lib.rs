@@ -20,6 +20,9 @@ use vjs_store::Store;
 pub mod assent;
 pub mod context;
 pub mod displacement;
+mod freshness;
+pub mod grounding;
+mod ratchet;
 mod resolver;
 pub mod runtime;
 mod staged;
@@ -147,7 +150,9 @@ fn collect_files(dir: &Path, out: &mut Vec<PathBuf>) -> Result<(), KernelError> 
     for entry in entries {
         let entry = entry.map_err(|e| KernelError::Io(e.to_string()))?;
         let path = entry.path();
-        let file_type = entry.file_type().map_err(|e| KernelError::Io(e.to_string()))?;
+        let file_type = entry
+            .file_type()
+            .map_err(|e| KernelError::Io(e.to_string()))?;
         if file_type.is_dir() {
             collect_files(&path, out)?;
         } else if file_type.is_file() {
@@ -177,6 +182,12 @@ pub fn validate(repo: &Path, opts: &ValidateOpts) -> Result<Report, KernelError>
             suggested_fix: ff.suggested_fix,
         });
     }
+
+    // The gate checks its own staleness first: a stale binary evaluating fresh law is the
+    // vacuous-proof class (see freshness.rs). INV-HOOKS-SHORT-001 put this HERE, not in a hook.
+    freshness::binary_freshness_findings(&mut findings);
+
+    ratchet::conformance_ratchet_findings(repo, &lawpack, &mut findings);
 
     // A GATE'S GUARD MUST BE KEYED TO THE SAME REFERENT AS THE GATE ([2026] VJS-CC-VJS 14).
     //

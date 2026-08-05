@@ -46,9 +46,9 @@ pinned_at = "2026-08-02T12:24:38Z"
 
 [[entry]]
 path = "crates/vjs-core/src/governance/permit_gate.rs"
-digest = "sha256:21c0e35bd55d7aaeeb319bf0366c83bc59a98c6f313b9b491a42032de55c6f27"
-authority = "[2026] VJS-CC-VJS 18 C7"
-pinned_at = "2026-08-02T12:24:38Z"
+digest = "sha256:9cea31662a2b39357bdf3ee35210d34ea4b91cdf15747b7514e28cf849262319"
+authority = "LOG-2026-08-05-131035"
+pinned_at = "2026-08-05T13:10:41Z"
 
 [[entry]]
 path = "crates/vjs-redact/src/lib.rs"
@@ -64,9 +64,9 @@ pinned_at = "2026-08-02T12:24:38Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/staged.rs"
-digest = "sha256:467738a485dd04e661d3bf28b21a7f59e720fb4647fb626ade30200a207cbda1"
-authority = "[2026] VJS-CC-VJS 18 C7"
-pinned_at = "2026-08-02T12:24:38Z"
+digest = "sha256:a0e6ef25698e340ac2c81e60b9d23648b5cb5d54a4f289343cb67ff920166bfd"
+authority = "LOG-2026-08-05-131035"
+pinned_at = "2026-08-05T13:10:41Z"
 
 [[entry]]
 path = "crates/vjs-lawpack/src/validator.rs"
@@ -88,6 +88,6 @@ pinned_at = "2026-08-02T12:27:15Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/lib.rs"
-digest = "sha256:e197a8a0bf280b24dfd6a9f9cbadb5a5d25765edda17ce6ede17a50b5f77c446"
-authority = "[2026] VJS-CC-VJS 18 C7"
-pinned_at = "2026-08-02T12:24:38Z"
+digest = "sha256:bff92ad45e862e52a2b18a3aa034931de837aba91f885aa41f6952da42a7cdb2"
+authority = "LOG-2026-08-05-131035"
+pinned_at = "2026-08-05T13:10:41Z"

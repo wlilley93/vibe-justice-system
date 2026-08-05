@@ -102,6 +102,18 @@ fn decide_route(
         }
     }
 
+    // AN IRREVERSIBLE ACT MAY NOT SELF-PERMIT (the 2026-08-05 sweep critical, cured
+    // under WARRANT-CANON-001). Until this arm existed, `--irreversible` with no court
+    // trigger fell through to Allowed and MINTED a self-issued permit; the only guard
+    // was the prose must_not "act_without_human_checkpoint", and prose is not
+    // enforcement. K-24 already states the doctrine (an irreversible outward action
+    // blocks until granted); this makes the route the gate that holds it. The permit
+    // for an irreversible act comes from the human grant, never from the actor's own
+    // route (ACT-006:s4: human_approval_required, permit_with_human_approval).
+    if input.irreversible {
+        return RouteOutcome::HumanApprovalRequired;
+    }
+
     if input.external_target || input.public_target {
         return RouteOutcome::AllowedWithConditions;
     }
@@ -233,4 +245,93 @@ fn build_obligations(
     }
 
     obligations
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::{AuthorityGraph, ContextLimits, KernelContext};
+
+    fn ctx() -> KernelContext {
+        // One resolvable binding authority, so the matter is NOT first-impression
+        // (any_on_point: no issue tags + a non-empty resolved set = on point). The
+        // defect under test only bit on exactly this path: settled law on point, no
+        // court trigger, and the irreversible act then minted its own permit.
+        let mut graph = AuthorityGraph::default();
+        let a = crate::Authority {
+            id: crate::AuthorityId("ACT-TEST".into()),
+            kind: crate::AuthorityKind::Statute,
+            rank: crate::AuthorityRank::Primary,
+            status: crate::types::AuthorityStatus::InForce,
+            jurisdiction: None,
+            title: "test statute".into(),
+            summary: "governs the routine act".into(),
+            source_path: None,
+            issue_tags: Vec::new(),
+            scope: None,
+            supersedes: Vec::new(),
+        };
+        graph.authorities.insert(a.id.clone(), a);
+        KernelContext {
+            authority_graph: graph,
+            limits: ContextLimits::default(),
+            lawpack_digest: "sha256:test".into(),
+        }
+    }
+
+    /// THE RED SEED for the self-permit cure: before the irreversible arm existed,
+    /// this exact input came back Allowed WITH a minted permit - an irreversible act
+    /// authorising itself. It must come back HumanApprovalRequired with NO permit.
+    #[test]
+    fn an_irreversible_act_cannot_mint_its_own_permit() {
+        let input = RouteInput {
+            repo_root: None,
+            jurisdiction: None,
+            actor: "lexby".into(),
+            action_kind: ActionKind::ExternalAct,
+            issue_tags: Vec::new(),
+            intent: "delete the production data".into(),
+            affected_paths: Vec::new(),
+            // Low risk ON PURPOSE: high risk courts anyway. The defect's shape was the
+            // untriggered path - a low-risk-labelled irreversible act walking off with
+            // a self-issued permit; this seed pins exactly that path.
+            risk: RiskLevel::Low,
+            public_target: false,
+            external_target: false,
+            irreversible: true,
+            user_instruction: None,
+        };
+        let d = route(input, &ctx()).expect("routes");
+        assert_eq!(d.decision, RouteOutcome::HumanApprovalRequired);
+        assert!(
+            d.permit_id.is_none(),
+            "an irreversible act must not walk away with a self-issued permit"
+        );
+    }
+
+    /// The positive twin: the same input made reversible still routes normally and
+    /// may mint - proving the cure keys on irreversibility, not on the action kind.
+    #[test]
+    fn the_same_act_made_reversible_still_routes() {
+        let input = RouteInput {
+            repo_root: None,
+            jurisdiction: None,
+            actor: "lexby".into(),
+            action_kind: ActionKind::ExternalAct,
+            issue_tags: Vec::new(),
+            intent: "stage the deletion behind a reversible flag".into(),
+            affected_paths: Vec::new(),
+            risk: RiskLevel::Low,
+            public_target: false,
+            external_target: false,
+            irreversible: false,
+            user_instruction: None,
+        };
+        let d = route(input, &ctx()).expect("routes");
+        assert!(matches!(
+            d.decision,
+            RouteOutcome::Allowed | RouteOutcome::AllowedWithConditions
+        ));
+        assert!(d.permit_id.is_some());
+    }
 }

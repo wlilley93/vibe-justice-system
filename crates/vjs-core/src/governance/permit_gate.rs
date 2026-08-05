@@ -188,9 +188,8 @@ impl PermitGate {
                                                 severity: Severity::Fatal,
                                                 code: "PERMIT-OBLIGATION-MISSING".into(),
                                                 path: Some(path.clone()),
-                                                message: format!(
-                                                    "Permit '{}' requires a decision log before commit.",
-                                                    permit.id.0
+                                                message: Self::obligation_missing_message(
+                                                    &permit.id.0,
                                                 ),
                                                 remedy: format!("Run vjs log from-permit {} --decision <decision> --why <why>.", permit.id.0),
                                             });
@@ -254,6 +253,20 @@ impl PermitGate {
             Ok(expiry) => now >= expiry.with_timezone(&chrono::Utc),
             Err(_) => true,
         }
+    }
+
+    /// The PERMIT-OBLIGATION-MISSING message, as a named artefact so a test can pin
+    /// the discharge contract to the words the operator actually reads. The contract
+    /// itself lives at the containment check; this states it out loud.
+    pub fn obligation_missing_message(permit_id: &str) -> String {
+        format!(
+            "Permit '{permit_id}' requires a decision log before commit. THE DISCHARGE CONTRACT, so \
+             nobody has to read this gate's source to learn it: a log discharges this \
+             obligation only if its id, basis or issue CONTAINS the permit id above - \
+             `vjs log decision ... --basis <permit-id>` is the canonical form. Two logs \
+             written in the subscribing jurisdiction on 2026-08-05 failed here for carrying \
+             citations in basis instead of the permit id."
+        )
     }
 
     fn scope_covers(permit: &Permit, path_str: &str) -> bool {

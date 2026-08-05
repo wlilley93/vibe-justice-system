@@ -40,9 +40,26 @@ pub(crate) fn cmd_route(
     let action_kind = parse_action_kind(&kind);
     let risk_level = parse_risk_level(risk.as_deref().unwrap_or("low"));
     let issue_tags = issue.map(|i| vec![IssueTag(i)]).unwrap_or_default();
+    let input_issue_tokens: Vec<String> = issue_tags.iter().map(|t| t.0.clone()).collect();
+    // A DIRECTORY IS NORMALISED TO A GLOB, out loud. `scope_covers` matches by glob, so a
+    // bare directory literal covers NOTHING: in the subscribing jurisdiction that wrote
+    // this cure, `--path governance/crates` minted a permit whose scope matched zero
+    // paths, silently, and the commit gate then fell back to an expired permit.
     let path_globs: Vec<String> = paths
         .iter()
-        .map(|p| p.to_string_lossy().to_string())
+        .map(|p| {
+            let raw = p.to_string_lossy().to_string();
+            let is_glob = raw.contains('*') || raw.contains('?') || raw.contains('[');
+            if !is_glob && repo.join(p).is_dir() {
+                let g = format!("{}/**", raw.trim_end_matches('/'));
+                eprintln!(
+                    "note: --path {raw} is a directory; the permit scope is recorded as {g}                      (a bare directory literal matches no path at the permit gate)."
+                );
+                g
+            } else {
+                raw
+            }
+        })
         .collect();
 
     let input = RouteInput {
@@ -51,7 +68,7 @@ pub(crate) fn cmd_route(
         actor: "lexby".into(),
         action_kind,
         issue_tags,
-        intent,
+        intent: intent.clone(),
         affected_paths: paths.clone(),
         risk: risk_level,
         public_target: public,
@@ -60,11 +77,78 @@ pub(crate) fn cmd_route(
         user_instruction: None,
     };
 
+    // O5: no binding instruction from a partial corpus.
+    vjs_engine::context::refuse_if_orders_unreadable(repo)?;
     let ctx = build_kernel_context(repo)?;
     let decision = route(input, &ctx)?;
 
+    // A CourtRequired on a fresh issue tag is the clerk's fail-closed default, not a
+    // finding that no law exists: before anyone convenes anything, say which KNOWN tags
+    // sit nearest, so settled law is found by reading the refusal (deterministic token
+    // overlap; suggestions only, never a re-route).
+    if decision.court_required {
+        let toks = |s: &str| -> std::collections::HashSet<String> {
+            s.split(|c: char| !c.is_alphanumeric())
+                .filter(|t| t.len() > 3)
+                .map(|t| t.to_lowercase())
+                .collect()
+        };
+        let mut probe = toks(&intent);
+        for t in &input_issue_tokens {
+            probe.extend(toks(t));
+        }
+        let mut scored: Vec<(usize, String, String)> = Vec::new();
+        for a in ctx.authority_graph.authorities.values() {
+            for tag in &a.issue_tags {
+                let overlap = toks(&tag.0).intersection(&probe).count()
+                    + toks(&a.summary).intersection(&probe).count();
+                if overlap >= 2 {
+                    scored.push((overlap, tag.0.clone(), a.title.clone()));
+                }
+            }
+        }
+        scored.sort_by_key(|s| std::cmp::Reverse(s.0));
+        scored.truncate(5);
+        if !scored.is_empty() {
+            eprintln!(
+                "note: before convening, check these NEAREST KNOWN issue tags - a binding                  authority on all fours disposes the matter on citation:"
+            );
+            for (_, tag, title) in scored {
+                eprintln!("  --issue {tag}   ({title})");
+            }
+        }
+    }
+
     // Save permit if one was created
     if let Some(ref permit_id) = decision.permit_id {
+        // A PERMIT COVERING NOTHING IS NOT A PERMIT: refuse at mint when the scope
+        // matches zero existing paths (same matcher as the permit gate, so mint-time
+        // and gate-time can never disagree).
+        if !path_globs.is_empty() {
+            let covered = walkdir::WalkDir::new(repo)
+                .into_iter()
+                .filter_entry(|e| {
+                    e.file_name() != ".git"
+                        && e.file_name() != "target"
+                        && e.file_name() != "node_modules"
+                })
+                .filter_map(|e| e.ok())
+                .filter(|e| e.file_type().is_file())
+                .any(|e| {
+                    let rel = e.path().strip_prefix(repo).unwrap_or(e.path());
+                    let rel = rel.to_string_lossy();
+                    path_globs
+                        .iter()
+                        .any(|g| PathClassifier::glob_matches(g, &rel))
+                });
+            if !covered {
+                return Err(KernelError::InvalidInput(format!(
+                    "REFUSED to mint {}: scope [{}] covers no existing path in this repo. A                      permit covering nothing is not a permit - it prints as usable and excuses                      nothing at the commit gate. Re-route with a --path that names real files                      (a directory is normalised to dir/**).",
+                    permit_id.0,
+                    path_globs.join(", ")
+                )));
+            }
+        }
         let route_id = format!("ROUTE-{}", chrono::Utc::now().format("%Y%m%d-%H%M%S"));
         let scope = if path_globs.is_empty() {
             None

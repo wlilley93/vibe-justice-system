@@ -95,6 +95,8 @@ impl McpServer {
         let input: RouteInput =
             serde_json::from_value(params).map_err(|e| KernelError::InvalidInput(e.to_string()))?;
 
+        // O5: no binding instruction from a partial corpus.
+        vjs_engine::context::refuse_if_orders_unreadable(&self.repo_root)?;
         let ctx = vjs_engine::build_kernel_context(&self.repo_root)?;
         let decision = route(input, &ctx)?;
 
@@ -111,6 +113,8 @@ impl McpServer {
         )
         .map_err(|e| KernelError::InvalidInput(e.to_string()))?;
 
+        // O5: no binding instruction from a partial corpus.
+        vjs_engine::context::refuse_if_orders_unreadable(&self.repo_root)?;
         let ctx = vjs_engine::build_kernel_context(&self.repo_root)?;
         let input = RouteInput {
             repo_root: Some(self.repo_root.clone()),

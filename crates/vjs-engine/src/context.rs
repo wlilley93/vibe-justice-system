@@ -14,7 +14,7 @@
 //! one builder and one silent disagreement - the answer this court has now given three times
 //! is not two readers with different reach, but one.
 
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use vjs_core::{
     Authority, AuthorityGraph, AuthorityId, AuthorityKind, AuthorityRank, ContextLimits, Court,
@@ -26,7 +26,10 @@ use vjs_core::{
 pub fn build_kernel_context(repo: &Path) -> Result<KernelContext, KernelError> {
     let lawpack = crate::load_lawpack(repo)?;
     let mut graph = lawpack.build_authority_graph()?;
-    overlay_filed_orders(repo, &mut graph)?;
+    // The unreadable list is DISCARDED here on purpose (O6): diagnostic and read-only
+    // commands keep working while orders are unreadable; the fail-closed duty is imposed
+    // at the binding-instruction verbs via `refuse_if_orders_unreadable`.
+    let _unreadable = overlay_filed_orders(repo, &mut graph)?;
     let digest = crate::compute_digest(repo)?;
 
     Ok(KernelContext {
@@ -53,7 +56,10 @@ pub fn build_kernel_context(repo: &Path) -> Result<KernelContext, KernelError> {
 /// `resolve_authority` can match them. A missing or unreadable orders directory is NOT an error: a
 /// fresh subscriber repo has no orders yet, and refusing to route in that state would be worse than
 /// the defect being fixed.
-fn overlay_filed_orders(repo: &Path, graph: &mut AuthorityGraph) -> Result<(), KernelError> {
+fn overlay_filed_orders(
+    repo: &Path,
+    graph: &mut AuthorityGraph,
+) -> Result<Vec<PathBuf>, KernelError> {
     // PER FILE, not all-or-nothing, and NEVER silently.
     //
     // Store::read_orders returns Err if ANY single order fails to parse. The first version of this
@@ -63,14 +69,15 @@ fn overlay_filed_orders(repo: &Path, graph: &mut AuthorityGraph) -> Result<(), K
     // fail-open. Reading each file separately means one bad order costs that order, and says so.
     let orders_dir = repo.join(".vjs/orders");
     if !orders_dir.exists() {
-        return Ok(());
+        return Ok(Vec::new());
     }
     let mut orders: Vec<Order> = Vec::new();
+    let mut unreadable: Vec<PathBuf> = Vec::new();
     let entries = match std::fs::read_dir(&orders_dir) {
         Ok(e) => e,
         Err(e) => {
             eprintln!("warning: cannot read {}: {e}", orders_dir.display());
-            return Ok(());
+            return Ok(Vec::new());
         }
     };
     for entry in entries.flatten() {
@@ -82,15 +89,19 @@ fn overlay_filed_orders(repo: &Path, graph: &mut AuthorityGraph) -> Result<(), K
             Ok(c) => c,
             Err(e) => {
                 eprintln!("warning: unreadable order {}: {e}", path.display());
+                unreadable.push(path.clone());
                 continue;
             }
         };
         match serde_yaml::from_str::<Order>(&content) {
             Ok(o) => orders.push(o),
-            Err(e) => eprintln!(
-                "warning: order {} does not parse and is NOT in the citator: {e}",
-                path.display()
-            ),
+            Err(e) => {
+                eprintln!(
+                    "warning: order {} does not parse and is NOT in the citator: {e}",
+                    path.display()
+                );
+                unreadable.push(path.clone());
+            }
         }
     }
     for order in orders {
@@ -106,10 +117,7 @@ fn overlay_filed_orders(repo: &Path, graph: &mut AuthorityGraph) -> Result<(), K
         // The citation is what a human cites ("[2026] VJS-CC-OPBOX 5"); the id is what the store
         // keys on. Show the citation when there is one, because an answer nobody can cite is not
         // usable as precedent.
-        let title = order
-            .citation
-            .clone()
-            .unwrap_or_else(|| order.id.clone());
+        let title = order.citation.clone().unwrap_or_else(|| order.id.clone());
         let authority = Authority {
             id: AuthorityId(order.id.clone()),
             kind: AuthorityKind::Order,
@@ -125,5 +133,68 @@ fn overlay_filed_orders(repo: &Path, graph: &mut AuthorityGraph) -> Result<(), K
         };
         graph.authorities.insert(authority.id.clone(), authority);
     }
-    Ok(())
+    Ok(unreadable)
+}
+
+/// Refuse to answer while any filed order cannot be read ([2026] VJS-CC-OPBOX 160 O5,
+/// landed upstream under WARRANT-CANON-001's first scheduled work).
+///
+/// WHY THIS EXISTS. In the subscribing jurisdiction that wrote this gate, 55 of 109
+/// order files did not parse; `vjs route` printed 55 warnings, exited 0, and answered
+/// `court_required: false` on a trust-boundary fork. An instrument blind to half its
+/// input must say so where the ANSWER goes, not in warnings nobody reads upward to find.
+///
+/// SCOPE, deliberately narrow: called by the verbs that return a BINDING INSTRUCTION -
+/// `cmd_route` at the CLI door, `route` and `lookup` at the MCP door - never by the
+/// commit/push hook (failing the hook closed would make it impossible to COMMIT the
+/// widening that fixes the corpus) and never by the diagnostic commands (O6: an
+/// instrument that has bricked itself cannot say what is wrong).
+///
+/// A DECLARED residue does not block: `.vjs/unreadable-orders.txt` names each order
+/// that cannot be read with its reason, recording on its own face that tolerating it
+/// is a DISCLOSED DEVIATION. An UNDECLARED unreadable order still refuses - the alarm
+/// stays armed for anything new.
+pub fn refuse_if_orders_unreadable(repo: &Path) -> Result<(), KernelError> {
+    let orders_dir = repo.join(".vjs/orders");
+    if !orders_dir.exists() {
+        return Ok(());
+    }
+    let mut graph = AuthorityGraph::default();
+    let unreadable = overlay_filed_orders(repo, &mut graph)?;
+    let declared: Vec<String> = std::fs::read_to_string(repo.join(".vjs/unreadable-orders.txt"))
+        .unwrap_or_default()
+        .lines()
+        .filter(|l| !l.trim_start().starts_with('#') && !l.trim().is_empty())
+        .filter_map(|l| l.split_whitespace().next().map(str::to_string))
+        .collect();
+    let unreadable: Vec<PathBuf> = unreadable
+        .into_iter()
+        .filter(|p| {
+            let base = p
+                .file_name()
+                .map(|n| n.to_string_lossy().into_owned())
+                .unwrap_or_default();
+            !declared.contains(&base)
+        })
+        .collect();
+    if unreadable.is_empty() {
+        return Ok(());
+    }
+    let mut names: Vec<String> = unreadable
+        .iter()
+        .map(|p| {
+            p.file_name()
+                .map(|n| n.to_string_lossy().into_owned())
+                .unwrap_or_else(|| p.display().to_string())
+        })
+        .collect();
+    names.sort();
+    Err(KernelError::LawpackInvalid(format!(
+        "REFUSING TO ROUTE: {} of the filed orders in .vjs/orders/ cannot be read, so any \
+         answer here would be computed from part of the law and would look exactly like an \
+         answer computed from all of it. Unreadable: {}. Widen the reader (never edit a \
+         filed order to make it parse), then route again. Diagnostic commands still work.",
+        names.len(),
+        names.join(", ")
+    )))
 }

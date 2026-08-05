@@ -1,0 +1,18 @@
+# THE CONFORMANCE RATCHET (.vjs/conformance.lock).
+#
+# The number below is the count of enacted duties that resolve to NO gate, measured by
+# `vjs audit`. `vjs validate` re-measures on every run: a HIGHER count is FATAL (new law
+# landed with no gate and no recorded acceptance); a LOWER count warns until this number is
+# lowered to bank the improvement.
+#
+# ARMED IN CANON 2026-08-05 at 295, in the same commit that lands the ratchet itself and
+# the WS4 gate-registry tranche upstream (WARRANT-CANON-001 schedule, first item; the
+# upstream-offer obligation of 2026-08-05). Before this commit canon measured 356 unwired
+# of 399 with 43 wired; the tranche claims the 61 duty instances real gates already hold -
+# gates that exist in THIS tree as of this same commit (the O5 refusal, the assent floor,
+# PC-17 grounding, the lock-drift gate, the permit gate limbs, the scanner limbs, the
+# bench and apex codes, the install gates, the hook word-bound, deny.toml, the
+# court-forcing route block). 399 duties, 104 wired, 295 unwired. The goal from here is
+# DOWN, and ACT 12 s4(e) triage under the signed warrants is the instrument that takes it
+# down.
+unwired = 295

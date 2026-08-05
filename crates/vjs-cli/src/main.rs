@@ -30,17 +30,21 @@ mod context;
 pub(crate) use context::*;
 mod eval;
 use eval::*;
+mod draft_check;
+use draft_check::*;
 mod front;
 mod permit;
-use permit::*;
+mod preserve_check;
 use front::*;
+use permit::*;
+use preserve_check::*;
 mod invoke;
 mod lifecycle;
 use lifecycle::*;
 mod status;
 use status::*;
-mod local_ci;
 mod gazette;
+mod local_ci;
 
 #[derive(Subcommand)]
 enum Commands {
@@ -104,6 +108,24 @@ enum Commands {
         issue: Option<String>,
         #[arg(long)]
         limit: Option<usize>,
+    },
+    /// The Clerk Gate: deterministic pre-flight over a draft instrument, so defects
+    /// are found by a free check instead of a committee round.
+    Draft {
+        #[command(subcommand)]
+        subcmd: DraftCommands,
+    },
+    /// The digest certificate as a command: operative-text identity between an
+    /// engrossed draft and the adopted text, header delta enumerated.
+    Certify {
+        draft: PathBuf,
+        adopted: PathBuf,
+    },
+    /// The ACT-RECTIFICATION-COMMISSION s5 content-preservation proof: node-tree
+    /// identity between a record before and after a form rectification.
+    PreserveCheck {
+        before: PathBuf,
+        after: PathBuf,
     },
     Log {
         #[command(subcommand)]
@@ -355,6 +377,9 @@ fn main() {
             install_hooks,
         } => invoke::cmd_invoke(&repo, jurisdiction, principal, lawpack, install_hooks, json),
         Commands::Lookup { issue, limit } => cmd_lookup(&repo, issue, limit, json),
+        Commands::Draft { subcmd } => cmd_draft(&repo, subcmd, json),
+        Commands::Certify { draft, adopted } => cmd_certify(&draft, &adopted, json),
+        Commands::PreserveCheck { before, after } => cmd_preserve_check(&before, &after, json),
         Commands::Log { subcmd } => cmd_log(&repo, subcmd, json),
         Commands::Proof { subcmd } => cmd_proof(&repo, subcmd, json),
         Commands::Validate {
@@ -374,17 +399,17 @@ fn main() {
         Commands::Status => cmd_status(&repo, json),
         Commands::NextCitation { series, year } => cmd_next_citation(&repo, series, year, json),
         Commands::InstallLock => cmd_install_lock(&repo, json),
-        Commands::EnforcementLock { authority } => match vjs_core::enforcement::write_lock(
-            &repo, &authority,
-        ) {
-            Ok(()) => {
-                println!(
-                    "Pinned the entrenched-enforcement surface (.vjs/enforcement-surface.lock)."
-                );
-                Ok(())
+        Commands::EnforcementLock { authority } => {
+            match vjs_core::enforcement::write_lock(&repo, &authority) {
+                Ok(()) => {
+                    println!(
+                        "Pinned the entrenched-enforcement surface (.vjs/enforcement-surface.lock)."
+                    );
+                    Ok(())
+                }
+                Err(e) => Err(KernelError::Io(e.to_string())),
             }
-            Err(e) => Err(KernelError::Io(e.to_string())),
-        },
+        }
         Commands::Audit { out } => cmd_audit(&repo, out, json),
         Commands::MigrateV1 { v1_path, out } => cmd_migrate_v1(&repo, &v1_path, out, json),
         Commands::Permit { subcmd } => cmd_permit(&repo, subcmd, json),
@@ -570,4 +595,3 @@ enum MigrationStatus {
     Deferred,
     Duplicate,
 }
-

@@ -177,102 +177,15 @@ pub(crate) fn staged_gates(
         .iter()
         .find(|o| o.id == vjs_core::bench::COURTS_CONSTITUTION_ID)
     {
-        // PC-17 D1 corpus: every defined id (incl. section ids), every defined citation,
-        // and the in-force subset (defined minus superseded). Computed once.
-        let defined_ids = vjs_lawpack::defined_ids(lawpack);
-        let mut defined_citations = vjs_lawpack::defined_citations(lawpack);
-        // [2026] VJS-CC-VJS 9: an instrument that reasons about the citation register must
-        // read the REGISTER, not one root of it. This is the THIRD instrument found doing
-        // otherwise. `defined_citations` walks the lawpack alone, so a County order citing
-        // another County order always resolved to "no defined authority" and was reported
-        // per incuriam, although the cited order exists, is binding, and is what the
-        // allocator itself counts. Union in every governed record's own top-level
-        // citation, from the same `governed_record_roots` the allocator uses.
-        //
-        // Widening a DEFINEDNESS set is monotone: it can only make more citations resolve,
-        // never fewer, so it cannot introduce a finding. That is why this is safe to land
-        // while the separate bench question is sub judice, and why it is NOT the widening
-        // stayed by [2026] VJS-CC-VJS 11 D3, which concerns a gate that can go red.
-        // Collected once: (citation, is_live). The status matters as much as the
-        // existence, because a defined-but-not-in-force citation is reported as
-        // "superseded/spent". Reading the register for existence and NOT for status would
-        // have the gate announce that a binding County order is spent, which is a false
-        // statement by an instrument whose whole job is to be believed.
-        let mut governed_citations: Vec<(String, bool)> = Vec::new();
-        // RECURSE: `governed_record_roots` yields `.vjs/court`, not `.vjs/court/orders`,
-        // so a flat read_dir sees only subdirectories and no record. Same bug, found in the
-        // correction-register stage and fixed in both places rather than one.
-        for root in vjs_core::front_door::governed_record_roots(repo) {
-            for entry in walkdir::WalkDir::new(&root).into_iter().filter_map(|e| e.ok()) {
-                let path = entry.path().to_path_buf();
-                if path.extension().and_then(|s| s.to_str()) != Some("yaml") {
-                    continue;
-                }
-                let Ok(text) = std::fs::read_to_string(&path) else {
-                    continue;
-                };
-                let val = |key: &str| {
-                    text.lines().find_map(|l| {
-                        l.strip_prefix(key).map(|r| {
-                            r.trim().trim_matches('"').trim_matches('\'').trim().to_string()
-                        })
-                    })
-                };
-                if let Some(c) = val("citation:").filter(|c| !c.is_empty()) {
-                    let live = matches!(val("status:").as_deref(), Some("binding") | Some("in_force"));
-                    governed_citations
-                        .push((c.split_whitespace().collect::<Vec<_>>().join(" "), live));
-                }
-            }
-        }
-        for (c, _) in &governed_citations {
-            defined_citations.insert(c.clone());
-        }
-        let defined_citations = defined_citations;
-        let superseded = vjs_lawpack::superseded_ids(lawpack);
-        let mut in_force: std::collections::HashSet<String> =
-            defined_ids.difference(&superseded).cloned().collect();
-        // A CITATION is in force when its owning record is in force (status binding/
-        // in_force, not superseded). Without this a citation token - never an id - would
-        // always read NOT_IN_FORCE, falsely flagging a reference to a binding order.
-        let norm = |c: &str| c.split_whitespace().collect::<Vec<_>>().join(" ");
-        let live = |st: &vjs_core::types::AuthorityStatus| {
-            matches!(
-                st,
-                vjs_core::types::AuthorityStatus::Binding
-                    | vjs_core::types::AuthorityStatus::InForce
-            )
-        };
-        for o in &lawpack.orders {
-            if let Some(c) = &o.citation
-                && live(&o.status)
-                && !superseded.contains(&o.id)
-            {
-                in_force.insert(norm(c));
-            }
-        }
-        // Same register, same reason (CC-VJS 9). Without this the gate reports a binding
-        // County or PC order under .vjs as "superseded/spent" purely because it looked in
-        // one root. Monotone: adding in-force citations can only downgrade a warning.
-        for (c, is_live) in &governed_citations {
-            if *is_live {
-                in_force.insert(c.clone());
-            }
-        }
-        for s in &lawpack.statutes {
-            if let Some(c) = &s.citation
-                && live(&s.status)
-            {
-                in_force.insert(norm(c));
-            }
-        }
-        for r in &lawpack.regulations {
-            if let Some(c) = &r.citation
-                && live(&r.status)
-            {
-                in_force.insert(norm(c));
-            }
-        }
+        // PC-17 D1 corpus: shared with `vjs draft check` via crate::grounding, so the
+        // draft clerk and this commit gate ground against the SAME sets and can never
+        // drift apart ([2026] VJS-CC-VJS 12: two copies of a resolver are one copy and
+        // one silent disagreement). The CC-VJS 9 register-widening lives there too.
+        let crate::grounding::GroundingCorpus {
+            defined: defined_ids,
+            citations: defined_citations,
+            in_force,
+        } = crate::grounding::grounding_corpus(repo, lawpack);
 
         // K-1 (sole mediated path): the staged bench/tier/citation-integrity gate covers
         // EVERY governed record (front_door::is_governed_record), not just the lawpack canon
@@ -463,12 +376,19 @@ const LAWPACK_MANIFEST: &str = "lawpack/v2/manifest.toml";
 /// lawful, being quiet about it is not. The old value comes from git HEAD, so a first declaration
 /// says so rather than reporting a change from an empty prior value.
 fn manifest_repo_code_change_findings(repo: &Path, changed: &[String]) -> Vec<Finding> {
-    if !changed.iter().any(|c| c.replace('\\', "/") == LAWPACK_MANIFEST) {
+    if !changed
+        .iter()
+        .any(|c| c.replace('\\', "/") == LAWPACK_MANIFEST)
+    {
         return Vec::new();
     }
     let code_in = |t: Option<String>| t.and_then(|s| vjs_redact::manifest_repo_code_in(&s));
     let new = code_in(std::fs::read_to_string(repo.join(LAWPACK_MANIFEST)).ok());
-    let old = code_in(GitIntegration::read_blob_at_head(repo, LAWPACK_MANIFEST).ok().flatten());
+    let old = code_in(
+        GitIntegration::read_blob_at_head(repo, LAWPACK_MANIFEST)
+            .ok()
+            .flatten(),
+    );
     let what = match (&old, &new) {
         (a, b) if a == b => return Vec::new(),
         (None, Some(n)) => format!("declares canon repo_code '{n}' (none at HEAD)"),
@@ -480,9 +400,11 @@ fn manifest_repo_code_change_findings(repo: &Path, changed: &[String]) -> Vec<Fi
         "{LAWPACK_MANIFEST} {what}. That declaration is the source every canon-write check \
          (PC-13 D1) tests against, so it re-aims the gate over the whole canon tree."
     );
-    vec![f(Severity::Warning, "CANON_REPO_CODE_REDECLARED", msg)
-        .at(PathBuf::from(LAWPACK_MANIFEST))
-        .fix("Confirm the declared repo_code names THIS canon, not the hosting repo.")]
+    vec![
+        f(Severity::Warning, "CANON_REPO_CODE_REDECLARED", msg)
+            .at(PathBuf::from(LAWPACK_MANIFEST))
+            .fix("Confirm the declared repo_code names THIS canon, not the hosting repo."),
+    ]
 }
 
 /// ACT-005:s1: a screenshot / log / media file staged into a public record path must not be
