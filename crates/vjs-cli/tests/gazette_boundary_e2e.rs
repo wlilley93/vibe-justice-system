@@ -121,8 +121,8 @@ fn the_gate_scans_the_source_opinion_body_it_links() {
         !out.status.success(),
         "an opinion body reachable from a published item must be scanned; it published"
     );
-    let msg = String::from_utf8_lossy(&out.stderr).to_string()
-        + &String::from_utf8_lossy(&out.stdout);
+    let msg =
+        String::from_utf8_lossy(&out.stderr).to_string() + &String::from_utf8_lossy(&out.stdout);
     assert!(
         msg.contains("denylisted private term"),
         "the refusal must be the denylist limb's, over the linked body: {msg}"

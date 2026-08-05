@@ -139,7 +139,10 @@ fn the_gazette_publishes_a_subscribed_canon_and_refuses_when_it_cannot_resolve_o
     );
     let d = data(&repo);
     let total = d["meta"]["counts"]["total"].as_u64().unwrap();
-    assert!(total > 0, "the subscribed canon must reach the register:\n{d}");
+    assert!(
+        total > 0,
+        "the subscribed canon must reach the register:\n{d}"
+    );
 
     // Now flip the SAME fixture: drop the one line that resolves the lawpack.
     for f in artefacts(&repo) {
@@ -158,7 +161,10 @@ fn the_gazette_publishes_a_subscribed_canon_and_refuses_when_it_cannot_resolve_o
     // All three candidate sources NAMED, per CC-VJS 12 D1. A refusal that does not say
     // where it looked leaves an operator with the problem the silent fallback left them.
     for source in ["lawpack/v2", "lawpack_path", "VJS_LAWPACK"] {
-        assert!(text.contains(source), "the refusal must name {source}:\n{text}");
+        assert!(
+            text.contains(source),
+            "the refusal must name {source}:\n{text}"
+        );
     }
     assert!(
         artefacts(&repo).is_empty(),
@@ -173,7 +179,10 @@ fn the_gazette_publishes_a_subscribed_canon_and_refuses_when_it_cannot_resolve_o
 fn a_repo_that_is_not_a_jurisdiction_still_publishes_an_empty_register() {
     let repo = scratch("not-a-jurisdiction");
     let (ok, text) = run(&repo, &["gazette"]);
-    assert!(ok, "a repo with no .vjs/config.toml must not be refused:\n{text}");
+    assert!(
+        ok,
+        "a repo with no .vjs/config.toml must not be refused:\n{text}"
+    );
     assert_eq!(data(&repo)["meta"]["counts"]["total"], 0);
 }
 

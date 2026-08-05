@@ -223,7 +223,11 @@ pub fn resolve_invocation_lawpack(
     }
 
     let raw = PathBuf::from(&named);
-    let candidate = if raw.is_absolute() { raw.clone() } else { repo.join(&raw) };
+    let candidate = if raw.is_absolute() {
+        raw.clone()
+    } else {
+        repo.join(&raw)
+    };
     if !candidate.is_dir() {
         return Err(KernelError::InvalidInput(format!(
             "--lawpack {} does not resolve to a directory (looked at {}). A named lawpack that \
@@ -243,7 +247,11 @@ pub fn resolve_invocation_lawpack(
     // resolves nothing. A repo-relative path is not ambiguous - `resolve_lawpack_dir` joins
     // it to the repo root - and it is the only form that survives a clone.
     let dir = candidate.canonicalize().unwrap_or(candidate);
-    let recorded = if raw.is_absolute() { dir.clone() } else { raw.clone() };
+    let recorded = if raw.is_absolute() {
+        dir.clone()
+    } else {
+        raw.clone()
+    };
     let id = lawpack_id_of(&dir).unwrap_or_else(|| "vjs-v2@0.1.0".to_string());
     Ok((id, Some(dir), Some(recorded)))
 }
@@ -297,4 +305,3 @@ pub fn lawpack_path_from_config(repo: &Path) -> Option<PathBuf> {
     }
     None
 }
-

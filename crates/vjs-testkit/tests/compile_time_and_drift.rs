@@ -60,7 +60,11 @@ fn the_enforcement_crates_have_no_runtime_toggle_or_feature_bypass() {
             }
             // (b) a feature gate could excise/weaken enforcement from a release build.
             if t.contains("#[cfg(feature") {
-                offences.push(format!("{}:{} feature-gates enforcement", f.display(), n + 1));
+                offences.push(format!(
+                    "{}:{} feature-gates enforcement",
+                    f.display(),
+                    n + 1
+                ));
             }
         }
     }

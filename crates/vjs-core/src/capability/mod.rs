@@ -67,9 +67,10 @@ mod tests {
             s.issue_root("a", tr("fs:src/main"), &[], Effect::Allow, None),
             Err(CapError::NoRights)
         );
-        assert!(s
-            .issue_root("a", tr("fs:src/main"), &["read"], Effect::Allow, None)
-            .is_ok());
+        assert!(
+            s.issue_root("a", tr("fs:src/main"), &["read"], Effect::Allow, None)
+                .is_ok()
+        );
     }
 
     #[test]
@@ -206,9 +207,10 @@ mod tests {
         s.issue_root("a", tr("fs:src/*"), &["read"], Effect::Allow, None)
             .unwrap();
         // transfer a right the actor holds: ok
-        assert!(s
-            .grant_by_transfer("a", "b", tr("fs:src/lib"), &["read"], Effect::Allow)
-            .is_ok());
+        assert!(
+            s.grant_by_transfer("a", "b", tr("fs:src/lib"), &["read"], Effect::Allow)
+                .is_ok()
+        );
         // transfer a right the actor does NOT hold: refused
         assert_eq!(
             s.grant_by_transfer("a", "b", tr("fs:src/lib"), &["write"], Effect::Allow),

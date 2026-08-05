@@ -87,7 +87,8 @@ fn canon_secret_scan_blocks_credentials_but_only_warns_on_hostnames() {
         &base,
         &[PathBuf::from("lawpack/v2/decisions/cred.yaml")],
         &CanonRepoCode::inferred("VJS"),
-    ).expect("both registers are readable");
+    )
+    .expect("both registers are readable");
     assert!(
         !RedactScanner::check_public_safe(&creds),
         "a GitHub token in a canon record must hard-block"
@@ -102,7 +103,8 @@ fn canon_secret_scan_blocks_credentials_but_only_warns_on_hostnames() {
         &base,
         &[PathBuf::from("lawpack/v2/decisions/host.yaml")],
         &CanonRepoCode::inferred("VJS"),
-    ).expect("both registers are readable");
+    )
+    .expect("both registers are readable");
     assert!(
         RedactScanner::check_public_safe(&hosts),
         "a .local boundary example must surface as a non-blocking Warning, not block canon"
@@ -278,13 +280,15 @@ fn a_declared_canon_code_beats_the_local_config_in_a_mirror_jurisdiction() {
     let code = resolve_canon_repo_code(&base, Some("OPBOX"), Some("opbox"));
     assert_eq!(code, CanonRepoCode::declared("VJS"), "the lawpack declares");
 
-    let mirrored = RedactScanner::scan_canon_writes(&base, &rel("mirrored.yaml"), &code).expect("both registers are readable");
+    let mirrored = RedactScanner::scan_canon_writes(&base, &rel("mirrored.yaml"), &code)
+        .expect("both registers are readable");
     assert!(
         RedactScanner::check_public_safe(&mirrored),
         "a mirrored canon record coded VJS is enacted canon, not a subscriber's law: {mirrored:?}"
     );
 
-    let local = RedactScanner::scan_canon_writes(&base, &rel("local.yaml"), &code).expect("both registers are readable");
+    let local = RedactScanner::scan_canon_writes(&base, &rel("local.yaml"), &code)
+        .expect("both registers are readable");
     assert!(
         is_blocked(&local),
         "the subscriber's OWN code in the mirrored canon tree still blocks"
@@ -303,7 +307,8 @@ fn without_the_manifest_declaration_the_mirrored_record_blocks_again() {
         CanonRepoCode::inferred("OPBOX"),
         "silent lawpack: the config chain applies unchanged"
     );
-    let mirrored = RedactScanner::scan_canon_writes(&base, &rel("mirrored.yaml"), &code).expect("both registers are readable");
+    let mirrored = RedactScanner::scan_canon_writes(&base, &rel("mirrored.yaml"), &code)
+        .expect("both registers are readable");
     assert!(
         is_blocked(&mirrored),
         "with no declaration the gate falls back to OPBOX and blocks the VJS record"
@@ -318,7 +323,8 @@ fn a_declared_canon_code_naming_a_registered_subscriber_is_blocked() {
     let base = mirror_repo("capture", Some("OPBOX"), Some("OPBOX"));
     let code = resolve_canon_repo_code(&base, Some("OPBOX"), Some("opbox"));
     assert!(code.declared);
-    let f = RedactScanner::scan_canon_writes(&base, &rel("neutral.yaml"), &code).expect("both registers are readable");
+    let f = RedactScanner::scan_canon_writes(&base, &rel("neutral.yaml"), &code)
+        .expect("both registers are readable");
     assert!(is_blocked(&f), "a captured canon code must block");
     assert!(
         f.iter().any(|x| x
@@ -337,7 +343,8 @@ fn a_config_fallback_to_the_repos_own_subscriber_code_does_not_trip_code_capture
     let base = mirror_repo("fallback", None, Some("OPBOX"));
     let code = resolve_canon_repo_code(&base, Some("OPBOX"), Some("opbox"));
     assert!(!code.declared);
-    let f = RedactScanner::scan_canon_writes(&base, &rel("neutral.yaml"), &code).expect("both registers are readable");
+    let f = RedactScanner::scan_canon_writes(&base, &rel("neutral.yaml"), &code)
+        .expect("both registers are readable");
     assert!(
         RedactScanner::check_public_safe(&f),
         "an inferred code equal to a registered subscriber is not code capture: {f:?}"
@@ -426,13 +433,20 @@ fn the_denylist_limb_blocks_and_names_file_and_line_but_never_the_term() {
         &code,
     )
     .expect("both registers are readable");
-    assert!(is_blocked(&f), "a denylisted term in canon must block: {f:?}");
+    assert!(
+        is_blocked(&f),
+        "a denylisted term in canon must block: {f:?}"
+    );
 
     let hits: Vec<&BoundaryFinding> = f
         .iter()
         .filter(|x| matches!(x.kind, BoundaryFindingKind::DenylistedTerm))
         .collect();
-    assert_eq!(hits.len(), 2, "one finding per HIT LINE, not per record: {f:?}");
+    assert_eq!(
+        hits.len(),
+        2,
+        "one finding per HIT LINE, not per record: {f:?}"
+    );
     assert!(
         hits[0].message.contains("OP-HIT.md:3") && hits[1].message.contains("OP-HIT.md:5"),
         "the finding must name the file and the 1-INDEXED line: {hits:?}"
@@ -496,7 +510,10 @@ fn the_prose_limb_reaches_a_markdown_canon_record_as_well_as_a_yaml_one() {
     std::fs::write(dir.join("probe.md"), MAPPING).unwrap();
     let y = scan("lawpack/v2/judgments/probe.yaml");
     let m = scan("lawpack/v2/judgments/probe.md");
-    assert!(is_blocked(&m), "the prose limb must reach a canon .md: {m:?}");
+    assert!(
+        is_blocked(&m),
+        "the prose limb must reach a canon .md: {m:?}"
+    );
     assert!(
         is_blocked(&y),
         "and must not have stopped reaching .yaml: {y:?}"

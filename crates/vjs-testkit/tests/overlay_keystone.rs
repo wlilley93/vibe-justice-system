@@ -113,10 +113,15 @@ fn overlay_loader_voids_a_relaxing_local_rule_with_a_named_defect() {
 
     let (overlay, findings) = OverlayLoader::load(&floors, &local).unwrap();
     // The relaxing rule is not kept.
-    assert!(overlay.local.is_empty(), "the relaxing rule must be voided, not loaded");
     assert!(
-        findings.iter().any(|f| f.code == "OVERLAY_RELAXATION_VOID"
-            && f.citation.as_deref() == Some("ACT-007:s3")),
+        overlay.local.is_empty(),
+        "the relaxing rule must be voided, not loaded"
+    );
+    assert!(
+        findings
+            .iter()
+            .any(|f| f.code == "OVERLAY_RELAXATION_VOID"
+                && f.citation.as_deref() == Some("ACT-007:s3")),
         "the void must be a named defect citing ACT-007:s3"
     );
     let _ = std::fs::remove_dir_all(&dir);

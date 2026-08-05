@@ -20,7 +20,7 @@ const CRITICAL_PATTERNS: &[&str] = &[
     "dd if=",
     "> /dev/sd",
     "> /dev/nvme",
-    ":(){",      // fork bomb
+    ":(){", // fork bomb
     "chmod -R 777",
     "git push --force",
     "git push -f",
@@ -104,8 +104,17 @@ mod tests {
 
     #[test]
     fn k14_a_plain_command_is_low_risk() {
-        for cmd in ["cargo test --workspace", "ls -la", "git status", "echo done"] {
-            assert_eq!(classify_command_risk(cmd), RiskLevel::Low, "{cmd} must be Low");
+        for cmd in [
+            "cargo test --workspace",
+            "ls -la",
+            "git status",
+            "echo done",
+        ] {
+            assert_eq!(
+                classify_command_risk(cmd),
+                RiskLevel::Low,
+                "{cmd} must be Low"
+            );
         }
     }
 

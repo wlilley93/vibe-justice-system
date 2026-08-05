@@ -95,7 +95,10 @@ fn provenance_corpus(repo: &Path) -> (String, Vec<String>) {
     // LAWPACK-LITERAL: referent=local-records; status=local; authority=[2026] VJS-CC-VJS 15.
     // The assent PROVENANCE of the instruments this repository itself carries: a fact about
     // a record's own commencement here, not law read out of a subscribed canon.
-    for sub in ["lawpack/v2/provenance/assent", "lawpack/v2/provenance/founding"] {
+    for sub in [
+        "lawpack/v2/provenance/assent",
+        "lawpack/v2/provenance/founding",
+    ] {
         let dir = repo.join(sub);
         let Ok(entries) = std::fs::read_dir(&dir) else {
             continue;
@@ -251,7 +254,11 @@ fn is_order(rel: &str) -> bool {
 fn declares_bench(content: &str) -> bool {
     serde_yaml::from_str::<serde_yaml::Value>(content)
         .ok()
-        .and_then(|v| v.get("bench").and_then(|b| b.as_sequence()).map(|s| !s.is_empty()))
+        .and_then(|v| {
+            v.get("bench")
+                .and_then(|b| b.as_sequence())
+                .map(|s| !s.is_empty())
+        })
         .unwrap_or(false)
 }
 
@@ -271,8 +278,14 @@ mod tests {
 
     #[test]
     fn names_token_is_boundary_aware() {
-        assert!(names_token("lodges DEC-KERNEL-001, INV-AGENT-001", "DEC-KERNEL-001"));
+        assert!(names_token(
+            "lodges DEC-KERNEL-001, INV-AGENT-001",
+            "DEC-KERNEL-001"
+        ));
         assert!(!names_token("lodges DEC-KERNEL-0010", "DEC-KERNEL-001"));
-        assert!(names_token("citation [2026] VJS-ACT 10 enacted", "[2026] VJS-ACT 10"));
+        assert!(names_token(
+            "citation [2026] VJS-ACT 10 enacted",
+            "[2026] VJS-ACT 10"
+        ));
     }
 }

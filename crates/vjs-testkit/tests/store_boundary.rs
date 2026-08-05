@@ -74,7 +74,8 @@ fn a_log_carrying_raw_identity_never_reaches_the_record() {
         "a log carrying a raw email address must fail the boundary scan (identity)"
     );
     assert!(
-        !dir.join(".vjs/logs/decisions/LOG-BOUNDARY-EMAIL.yaml").exists(),
+        !dir.join(".vjs/logs/decisions/LOG-BOUNDARY-EMAIL.yaml")
+            .exists(),
         "an identity-bearing log must not hit disk"
     );
 
@@ -87,7 +88,8 @@ fn a_log_carrying_raw_identity_never_reaches_the_record() {
         "a log naming an internal hostname must fail the boundary scan (identity)"
     );
     assert!(
-        !dir.join(".vjs/logs/decisions/LOG-BOUNDARY-HOST.yaml").exists(),
+        !dir.join(".vjs/logs/decisions/LOG-BOUNDARY-HOST.yaml")
+            .exists(),
         "an internal-hostname log must not hit disk"
     );
 

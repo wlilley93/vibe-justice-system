@@ -78,7 +78,10 @@ pub(crate) fn cmd_invoke(
         jur = jurisdiction,
         code = repo_code,
         lp = lawpack,
-        lpp = lawpack_recorded.as_ref().map(|d| d.display().to_string()).unwrap_or_default(),
+        lpp = lawpack_recorded
+            .as_ref()
+            .map(|d| d.display().to_string())
+            .unwrap_or_default(),
         prin = principal,
     );
     let config_written = match std::fs::OpenOptions::new()

@@ -186,8 +186,14 @@ mod tests {
 
     #[test]
     fn k23_classifies_the_three_classes() {
-        assert_eq!(classify(Some("irreversible")), Ok(EffectClass::Irreversible));
-        assert_eq!(classify(Some("rollbackable")), Ok(EffectClass::Rollbackable));
+        assert_eq!(
+            classify(Some("irreversible")),
+            Ok(EffectClass::Irreversible)
+        );
+        assert_eq!(
+            classify(Some("rollbackable")),
+            Ok(EffectClass::Rollbackable)
+        );
         assert_eq!(classify(Some("none")), Ok(EffectClass::NoEffect));
     }
 
@@ -197,21 +203,36 @@ mod tests {
         assert_eq!(classify(Some("")), Err(EffectError::Unclassifiable));
         assert_eq!(classify(Some("maybe")), Err(EffectError::Unclassifiable));
         // case sensitivity: the kernel does not guess a near-miss.
-        assert_eq!(classify(Some("Irreversible")), Err(EffectError::Unclassifiable));
+        assert_eq!(
+            classify(Some("Irreversible")),
+            Err(EffectError::Unclassifiable)
+        );
     }
 
     #[test]
     fn k24_an_irreversible_outward_action_blocks_until_granted() {
         let mut q = ApprovalQueue::new();
-        let d = q.gate(EffectClass::Irreversible, true, "agent", "send_email", "sha256:abc");
+        let d = q.gate(
+            EffectClass::Irreversible,
+            true,
+            "agent",
+            "send_email",
+            "sha256:abc",
+        );
         let Disposition::RequireApproval { request_id } = d else {
             panic!("irreversible outward must block");
         };
         // blocked: cannot consume before a grant.
         assert_eq!(q.consume(request_id), Err(ApprovalError::NotGranted));
         // a human grants -> now one resume is authorised.
-        assert_eq!(q.decide(request_id, true, "will"), Ok(RequestState::Granted));
-        assert_eq!(q.get(request_id).unwrap().decided_by.as_deref(), Some("will"));
+        assert_eq!(
+            q.decide(request_id, true, "will"),
+            Ok(RequestState::Granted)
+        );
+        assert_eq!(
+            q.get(request_id).unwrap().decided_by.as_deref(),
+            Some("will")
+        );
         assert_eq!(q.consume(request_id), Ok(()));
     }
 
@@ -242,9 +263,15 @@ mod tests {
         else {
             panic!("must block");
         };
-        assert_eq!(q.decide(request_id, true, "will"), Ok(RequestState::Granted));
+        assert_eq!(
+            q.decide(request_id, true, "will"),
+            Ok(RequestState::Granted)
+        );
         // decided exactly once: a second decision is refused, the first stands.
-        assert_eq!(q.decide(request_id, false, "will"), Err(ApprovalError::AlreadyDecided));
+        assert_eq!(
+            q.decide(request_id, false, "will"),
+            Err(ApprovalError::AlreadyDecided)
+        );
         // consumed exactly once: a granted request authorises one resume, not a standing licence.
         assert_eq!(q.consume(request_id), Ok(()));
         assert_eq!(q.consume(request_id), Err(ApprovalError::AlreadyConsumed));
@@ -258,8 +285,14 @@ mod tests {
         else {
             panic!("must block");
         };
-        assert_eq!(q.decide(request_id, false, "will"), Ok(RequestState::Denied));
+        assert_eq!(
+            q.decide(request_id, false, "will"),
+            Ok(RequestState::Denied)
+        );
         assert_eq!(q.consume(request_id), Err(ApprovalError::NotGranted));
-        assert_eq!(q.decide(request_id, true, "will"), Err(ApprovalError::AlreadyDecided));
+        assert_eq!(
+            q.decide(request_id, true, "will"),
+            Err(ApprovalError::AlreadyDecided)
+        );
     }
 }

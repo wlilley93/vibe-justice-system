@@ -31,9 +31,7 @@ use std::path::{Path, PathBuf};
 use vjs_core::report::Finding;
 use vjs_core::types::Severity;
 
-use crate::resolver::{
-    LawpackSource, env_lawpack_path, lawpack_path_from_config, resolve_lawpack,
-};
+use crate::resolver::{LawpackSource, env_lawpack_path, lawpack_path_from_config, resolve_lawpack};
 
 /// DISTINCT FROM `LAWPACK_LOCK_DRIFT`, and it must stay distinct: a displacement finding that
 /// is a severity of drift inherits drift's cure, and drift's cure ratifies displacement.
@@ -96,9 +94,13 @@ pub fn detect(repo: &Path) -> Option<Displacement> {
         }
     };
     let recorded_dirs: Vec<PathBuf> = [
-        configured
-            .as_ref()
-            .map(|p| if p.is_absolute() { p.clone() } else { repo.join(p) }),
+        configured.as_ref().map(|p| {
+            if p.is_absolute() {
+                p.clone()
+            } else {
+                repo.join(p)
+            }
+        }),
         env.clone(),
     ]
     .into_iter()

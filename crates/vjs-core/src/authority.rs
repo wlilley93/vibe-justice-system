@@ -40,14 +40,15 @@ pub fn resolve_authority(
     let sorted = if input.issue_tags.is_empty() {
         sorted
     } else {
-        let (on_point, rest): (Vec<Authority>, Vec<Authority>) = sorted.into_iter().partition(|a| {
-            a.issue_tags.iter().any(|t| {
-                input
-                    .issue_tags
-                    .iter()
-                    .any(|q| fold_tag(&q.0) == fold_tag(&t.0))
-            })
-        });
+        let (on_point, rest): (Vec<Authority>, Vec<Authority>) =
+            sorted.into_iter().partition(|a| {
+                a.issue_tags.iter().any(|t| {
+                    input
+                        .issue_tags
+                        .iter()
+                        .any(|q| fold_tag(&q.0) == fold_tag(&t.0))
+                })
+            });
         on_point.into_iter().chain(rest).collect()
     };
 
@@ -106,7 +107,7 @@ fn scope_matches(scope: &Scope, input: &RouteInput) -> bool {
 #[cfg(test)]
 mod on_point_tests {
     use super::*;
-    use crate::{AuthorityKind, AuthorityGraph};
+    use crate::{AuthorityGraph, AuthorityKind};
 
     fn auth(id: &str, rank: AuthorityRank, tags: Vec<&str>) -> Authority {
         Authority {
@@ -158,7 +159,11 @@ mod on_point_tests {
     fn an_on_point_order_outranks_a_general_recital() {
         let g = graph_of(vec![
             auth("ACT-001:s1", AuthorityRank::Constitutional, vec![]),
-            auth("CC-OPBOX-5", AuthorityRank::CountyCourt, vec!["credential_return"]),
+            auth(
+                "CC-OPBOX-5",
+                AuthorityRank::CountyCourt,
+                vec!["credential_return"],
+            ),
         ]);
         let set = resolve_authority(&input(vec!["credential_return"]), &g).unwrap();
         assert_eq!(
@@ -173,7 +178,11 @@ mod on_point_tests {
     fn an_unrelated_issue_does_not_hoist_anything() {
         let g = graph_of(vec![
             auth("ACT-001:s1", AuthorityRank::Constitutional, vec![]),
-            auth("CC-OPBOX-5", AuthorityRank::CountyCourt, vec!["credential_return"]),
+            auth(
+                "CC-OPBOX-5",
+                AuthorityRank::CountyCourt,
+                vec!["credential_return"],
+            ),
         ]);
         let set = resolve_authority(&input(vec!["something_else_entirely"]), &g).unwrap();
         assert_eq!(
@@ -188,7 +197,11 @@ mod on_point_tests {
     fn no_issue_named_leaves_rank_order_untouched() {
         let g = graph_of(vec![
             auth("ACT-001:s1", AuthorityRank::Constitutional, vec![]),
-            auth("CC-OPBOX-5", AuthorityRank::CountyCourt, vec!["credential_return"]),
+            auth(
+                "CC-OPBOX-5",
+                AuthorityRank::CountyCourt,
+                vec!["credential_return"],
+            ),
         ]);
         let set = resolve_authority(&input(vec![]), &g).unwrap();
         assert_eq!(set.authorities[0].id.0, "ACT-001:s1");

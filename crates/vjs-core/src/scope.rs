@@ -45,11 +45,7 @@ impl EntityScope {
     /// resolver both key on.
     pub fn covers(&self, target: &EntityScope) -> bool {
         self.dims.len() <= target.dims.len()
-            && self
-                .dims
-                .iter()
-                .zip(&target.dims)
-                .all(|(a, b)| a == b)
+            && self.dims.iter().zip(&target.dims).all(|(a, b)| a == b)
     }
 }
 
@@ -191,7 +187,12 @@ pub enum Resolution {
 /// outright (canon always wins); else a covering local restriction forbids it; else
 /// permitted, carrying every covering instrument as `law_source`. Pure and
 /// deterministic - no model, no I/O.
-pub fn resolve(scope: &EntityScope, verb: &str, floors: &[Floor], local: &[LocalRule]) -> Resolution {
+pub fn resolve(
+    scope: &EntityScope,
+    verb: &str,
+    floors: &[Floor],
+    local: &[LocalRule],
+) -> Resolution {
     // Canon floors first: canon always wins.
     for floor in floors {
         if floor.scope.covers(scope) && floor.forbids.iter().any(|v| v == verb) {
@@ -231,7 +232,12 @@ mod tests {
     }
 
     fn scope(pairs: &[(&str, &str)]) -> EntityScope {
-        EntityScope::new(pairs.iter().map(|(k, v)| (k.to_string(), v.to_string())).collect())
+        EntityScope::new(
+            pairs
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.to_string()))
+                .collect(),
+        )
     }
 
     #[test]
@@ -324,7 +330,10 @@ mod tests {
             assent_source: Some("made_it_up".into()),
             ..assented
         };
-        assert!(matches!(rule_fate(&junk, &floors, allow), RuleFate::Void { .. }));
+        assert!(matches!(
+            rule_fate(&junk, &floors, allow),
+            RuleFate::Void { .. }
+        ));
     }
 
     #[test]
@@ -345,12 +354,16 @@ mod tests {
         // Canon floor forbids 'charge' everywhere.
         assert_eq!(
             resolve(&scope(&[("a", "1")]), "charge", &floors, &local),
-            Resolution::Forbidden { instrument: "FLOOR-1".into() }
+            Resolution::Forbidden {
+                instrument: "FLOOR-1".into()
+            }
         );
         // Local restriction forbids 'refund' under a=1.
         assert_eq!(
             resolve(&scope(&[("a", "1")]), "refund", &floors, &local),
-            Resolution::Forbidden { instrument: "LOCAL-1".into() }
+            Resolution::Forbidden {
+                instrument: "LOCAL-1".into()
+            }
         );
         // 'advance' is permitted and carries the covering instruments as law_source.
         match resolve(&scope(&[("a", "1")]), "advance", &floors, &local) {

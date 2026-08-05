@@ -104,7 +104,10 @@ pub fn extract_refs(text: &str) -> Vec<AuthorityRef> {
 fn is_negated(text: &str, at: usize) -> bool {
     let before = text[..at].trim_end().to_ascii_lowercase();
     const NEGATORS: &[&str] = &["no", "not", "never", "without", "absent"];
-    let last = before.rsplit(|c: char| c.is_whitespace()).next().unwrap_or("");
+    let last = before
+        .rsplit(|c: char| c.is_whitespace())
+        .next()
+        .unwrap_or("");
     NEGATORS.contains(&last) || before.ends_with("no such")
 }
 
@@ -177,10 +180,15 @@ mod tests {
     use super::*;
 
     fn defined() -> HashSet<String> {
-        ["ACT-FOO", "ACT-FOO:s23", "DEC-BAR", "REG-FEDERATION-COORDINATION-001"]
-            .iter()
-            .map(|s| s.to_string())
-            .collect()
+        [
+            "ACT-FOO",
+            "ACT-FOO:s23",
+            "DEC-BAR",
+            "REG-FEDERATION-COORDINATION-001",
+        ]
+        .iter()
+        .map(|s| s.to_string())
+        .collect()
     }
 
     #[test]

@@ -97,7 +97,13 @@ fn test_module_lines(src: &[&str]) -> Vec<(usize, usize)> {
 fn enclosing_fn(src: &[&str], line: usize) -> String {
     for l in src[..=line].iter().rev() {
         let t = l.trim_start();
-        for prefix in ["pub fn ", "pub(crate) fn ", "fn ", "pub async fn ", "async fn "] {
+        for prefix in [
+            "pub fn ",
+            "pub(crate) fn ",
+            "fn ",
+            "pub async fn ",
+            "async fn ",
+        ] {
             if let Some(rest) = t.strip_prefix(prefix) {
                 return rest
                     .split(['(', '<', ' '])
@@ -331,8 +337,18 @@ fn a_bodyless_test_module_declaration_exempts_nothing() {
         "}",
     ];
     let blocks = test_module_lines(&src);
-    assert_eq!(blocks.len(), 1, "only the block form is a block: {blocks:?}");
+    assert_eq!(
+        blocks.len(),
+        1,
+        "only the block form is a block: {blocks:?}"
+    );
     let (a, b) = blocks[0];
-    assert!(a <= 9 && b == 12, "the inline module spans 9..=12, got {a}..={b}");
-    assert!(!(a..=b).contains(&6), "the bodyless declaration must exempt nothing");
+    assert!(
+        a <= 9 && b == 12,
+        "the inline module spans 9..=12, got {a}..={b}"
+    );
+    assert!(
+        !(a..=b).contains(&6),
+        "the bodyless declaration must exempt nothing"
+    );
 }

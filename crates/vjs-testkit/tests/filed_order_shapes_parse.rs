@@ -57,7 +57,10 @@ fn court_canonical_spellings_still_parse() {
         serde_yaml::from_str::<Court>("court_of_appeal").unwrap(),
         Court::CourtOfAppeal
     );
-    assert_eq!(serde_yaml::from_str::<Court>("county").unwrap(), Court::County);
+    assert_eq!(
+        serde_yaml::from_str::<Court>("county").unwrap(),
+        Court::County
+    );
     assert_eq!(
         serde_yaml::from_str::<Court>("privy").unwrap(),
         Court::PrivyCouncil

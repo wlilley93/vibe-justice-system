@@ -275,7 +275,10 @@ fn an_unnamed_re_pin_refuses_to_ratify_a_displacement_and_leaves_the_lock_untouc
     // THE HEALTHY DIRECTION FIRST, so the refusal below is proved to be about the displacement
     // and not about `invoke` having been made to refuse every second run - which would break
     // CI, whose first act in the apex is exactly this command.
-    let (ok, text) = run(&repo, &["invoke", "--jurisdiction", "t", "--principal", "p"]);
+    let (ok, text) = run(
+        &repo,
+        &["invoke", "--jurisdiction", "t", "--principal", "p"],
+    );
     assert!(
         ok,
         "an unnamed re-pin in a healthy jurisdiction must still pin:\n{text}"
@@ -286,7 +289,10 @@ fn an_unnamed_re_pin_refuses_to_ratify_a_displacement_and_leaves_the_lock_untouc
 
     // THE MEASUREMENT AT 3.4, AS A TEST. Before C6 this exits 0, prints a digest, and the
     // jurisdiction goes green.
-    let (ok, text) = run(&repo, &["invoke", "--jurisdiction", "t", "--principal", "p"]);
+    let (ok, text) = run(
+        &repo,
+        &["invoke", "--jurisdiction", "t", "--principal", "p"],
+    );
     assert!(
         !ok,
         "the re-pin must refuse over a source that contradicts the recorded lawpack_path:\n{text}"
@@ -306,7 +312,10 @@ fn an_unnamed_re_pin_refuses_to_ratify_a_displacement_and_leaves_the_lock_untouc
     // command that refuses and a validate that passes anyway, which is the state the ruling
     // is about.
     let (ok, text) = run(&repo, &["validate"]);
-    assert!(!ok, "a displaced jurisdiction must not validate OK:\n{text}");
+    assert!(
+        !ok,
+        "a displaced jurisdiction must not validate OK:\n{text}"
+    );
     assert!(text.contains("LAWPACK_DISPLACED"), "{text}");
 
     // THE NAMED ESCAPE HATCH STILL WORKS: `--lawpack <path>` is the operator saying which tree,
@@ -382,6 +391,9 @@ fn no_operator_supplied_output_path_can_manufacture_the_canon_tree() {
     // every --out, which would be a gate that cries wolf rather than one that discriminates.
     let out = repo.join("docs/conformance-map.md");
     let (ok, text) = run(&repo, &["audit", "--out", out.to_str().unwrap()]);
-    assert!(ok, "an --out OUTSIDE the canon tree must still work:\n{text}");
+    assert!(
+        ok,
+        "an --out OUTSIDE the canon tree must still work:\n{text}"
+    );
     assert!(out.is_file(), "and must actually write its report");
 }

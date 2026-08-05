@@ -42,8 +42,12 @@ fn the_committed_enforcement_surface_matches_its_pin() {
         drift.iter().map(|f| &f.code).collect::<Vec<_>>()
     );
     // and the pinned surface actually covers the gate sources
-    assert!(vjs_core::enforcement::ENFORCEMENT_SURFACE.contains(&"crates/vjs-engine/src/assent.rs"));
-    assert!(vjs_core::enforcement::ENFORCEMENT_SURFACE.contains(&"crates/vjs-core/src/front_door.rs"));
+    assert!(
+        vjs_core::enforcement::ENFORCEMENT_SURFACE.contains(&"crates/vjs-engine/src/assent.rs")
+    );
+    assert!(
+        vjs_core::enforcement::ENFORCEMENT_SURFACE.contains(&"crates/vjs-core/src/front_door.rs")
+    );
 }
 
 /// K-27: the required-CI trust root re-runs the SAME deterministic gate on the canonical
@@ -51,10 +55,8 @@ fn the_committed_enforcement_surface_matches_its_pin() {
 /// config: canon-enforce must re-run `validate --staged` and the workspace test suite.
 #[test]
 fn required_ci_reruns_the_same_deterministic_gate() {
-    let ci = std::fs::read_to_string(
-        workspace_root().join(".github/workflows/canon-enforce.yml"),
-    )
-    .expect(".github/workflows/canon-enforce.yml");
+    let ci = std::fs::read_to_string(workspace_root().join(".github/workflows/canon-enforce.yml"))
+        .expect(".github/workflows/canon-enforce.yml");
     assert!(
         ci.contains("validate --staged"),
         "K-27: the CI trust root must re-run the staged validate gate"

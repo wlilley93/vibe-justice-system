@@ -1,6 +1,6 @@
 use serde::{Deserialize, Deserializer, Serialize};
-use std::collections::HashMap;
 use std::collections::BTreeMap;
+use std::collections::HashMap;
 use std::path::PathBuf;
 
 /// Read `exceptions:` written either as a YAML sequence or as a single prose block.
@@ -24,10 +24,12 @@ where
         One(String),
         Many(Vec<String>),
     }
-    Ok(Option::<OneOrMany>::deserialize(deserializer)?.map(|v| match v {
-        OneOrMany::One(s) => vec![s],
-        OneOrMany::Many(v) => v,
-    }))
+    Ok(
+        Option::<OneOrMany>::deserialize(deserializer)?.map(|v| match v {
+            OneOrMany::One(s) => vec![s],
+            OneOrMany::Many(v) => v,
+        }),
+    )
 }
 
 mod ids;
@@ -209,7 +211,13 @@ pub enum CourtTrigger {
 /// the truncation limit, and so never reach the test that just admitted it.
 pub fn fold_tag(s: &str) -> String {
     s.chars()
-        .map(|c| if c == '_' { '-' } else { c.to_ascii_lowercase() })
+        .map(|c| {
+            if c == '_' {
+                '-'
+            } else {
+                c.to_ascii_lowercase()
+            }
+        })
         .collect()
 }
 

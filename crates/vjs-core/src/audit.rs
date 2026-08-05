@@ -297,7 +297,10 @@ mod tests {
         dropped.entries_mut().remove(1); // a mid-chain drop shows as a seq gap
         assert!(matches!(
             dropped.verify(),
-            Err(AuditFault::OutOfOrder { expected: 1, found: 2 })
+            Err(AuditFault::OutOfOrder {
+                expected: 1,
+                found: 2
+            })
         ));
     }
 
@@ -319,7 +322,14 @@ mod tests {
             let mut prev = GENESIS.to_string();
             for e in es.iter_mut() {
                 e.prev_hash = prev.clone();
-                e.hash = link_hash(None, e.seq, &e.actor, &e.kind, &e.payload_digest, &e.prev_hash);
+                e.hash = link_hash(
+                    None,
+                    e.seq,
+                    &e.actor,
+                    &e.kind,
+                    &e.payload_digest,
+                    &e.prev_hash,
+                );
                 prev = e.hash.clone();
             }
         }

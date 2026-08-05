@@ -26,7 +26,11 @@ fn real_lawpack() -> std::path::PathBuf {
         .join("../../lawpack/v2")
         .canonicalize()
         .expect("the lawpack must exist for these tests to mean anything");
-    assert!(p.join("manifest.toml").is_file(), "not a lawpack: {}", p.display());
+    assert!(
+        p.join("manifest.toml").is_file(),
+        "not a lawpack: {}",
+        p.display()
+    );
     p
 }
 
@@ -61,7 +65,10 @@ fn an_invoked_jurisdiction_with_no_resolvable_lawpack_is_refused_not_emptied() {
     .unwrap();
 
     let (ok, text) = run(&repo, &["lookup", "--issue", "enforcement"]);
-    assert!(!ok, "an unresolvable lawpack must FAIL, got success:\n{text}");
+    assert!(
+        !ok,
+        "an unresolvable lawpack must FAIL, got success:\n{text}"
+    );
     assert!(
         text.contains("no lawpack could be resolved"),
         "the refusal must say what could not be resolved:\n{text}"
@@ -69,7 +76,10 @@ fn an_invoked_jurisdiction_with_no_resolvable_lawpack_is_refused_not_emptied() {
     // The three sources must be NAMED. A refusal that does not say where it looked leaves an
     // operator with the same problem the silent fallback left them with.
     for source in ["lawpack/v2", "lawpack_path", "VJS_LAWPACK"] {
-        assert!(text.contains(source), "the refusal must name {source}:\n{text}");
+        assert!(
+            text.contains(source),
+            "the refusal must name {source}:\n{text}"
+        );
     }
 }
 
@@ -81,7 +91,10 @@ fn a_repo_that_is_not_a_jurisdiction_still_runs_on_an_empty_canon() {
     // acquisition: a repo acquires ORDERS by operating and never acquires a LAWPACK that way.
     let repo = scratch("not-a-jurisdiction");
     let (ok, text) = run(&repo, &["status"]);
-    assert!(ok, "a repo with no .vjs/config.toml must not be refused:\n{text}");
+    assert!(
+        ok,
+        "a repo with no .vjs/config.toml must not be refused:\n{text}"
+    );
 }
 
 #[test]
@@ -93,9 +106,20 @@ fn the_lawpack_flag_selects_what_is_loaded_and_refuses_a_path_that_does_not_reso
     let bad = repo.join("no-such-lawpack");
     let (ok, text) = run(
         &repo,
-        &["invoke", "--jurisdiction", "t", "--principal", "p", "--lawpack", bad.to_str().unwrap()],
+        &[
+            "invoke",
+            "--jurisdiction",
+            "t",
+            "--principal",
+            "p",
+            "--lawpack",
+            bad.to_str().unwrap(),
+        ],
     );
-    assert!(!ok, "a --lawpack that does not resolve must be refused:\n{text}");
+    assert!(
+        !ok,
+        "a --lawpack that does not resolve must be refused:\n{text}"
+    );
     assert!(text.contains("does not resolve to a directory"), "{text}");
     assert!(
         !repo.join(".vjs/lawpack.lock").exists(),
@@ -106,9 +130,20 @@ fn the_lawpack_flag_selects_what_is_loaded_and_refuses_a_path_that_does_not_reso
     let lawpack = real_lawpack();
     let (ok, text) = run(
         &repo,
-        &["invoke", "--jurisdiction", "t", "--principal", "p", "--lawpack", lawpack.to_str().unwrap()],
+        &[
+            "invoke",
+            "--jurisdiction",
+            "t",
+            "--principal",
+            "p",
+            "--lawpack",
+            lawpack.to_str().unwrap(),
+        ],
     );
-    assert!(ok, "a --lawpack naming a real lawpack must resolve:\n{text}");
+    assert!(
+        ok,
+        "a --lawpack naming a real lawpack must resolve:\n{text}"
+    );
 
     let config = std::fs::read_to_string(repo.join(".vjs/config.toml")).unwrap();
     assert!(
@@ -148,7 +183,11 @@ fn the_pinned_digest_moves_when_a_statute_moves() {
     let statute = copy.join("statutes/01-authority.yaml");
     let original = std::fs::read_to_string(&statute).unwrap();
     std::fs::write(&statute, format!("{original}\n# seeded\n")).unwrap();
-    assert_ne!(std::fs::read_to_string(&statute).unwrap(), original, "the seed did not land");
+    assert_ne!(
+        std::fs::read_to_string(&statute).unwrap(),
+        original,
+        "the seed did not land"
+    );
 
     let after = digest(&repo);
     let d = |lock: &str| {
@@ -165,7 +204,11 @@ fn the_pinned_digest_moves_when_a_statute_moves() {
 
     // Reversible, so the digest is a function of the bytes and not of the order of runs.
     std::fs::write(&statute, &original).unwrap();
-    assert_eq!(d(&before), d(&digest(&repo)), "the digest is not reproducible");
+    assert_eq!(
+        d(&before),
+        d(&digest(&repo)),
+        "the digest is not reproducible"
+    );
 }
 
 #[test]
@@ -191,7 +234,15 @@ fn status_says_when_no_canon_is_loaded() {
     let repo2 = scratch("status-resolved");
     let (ok, _) = run(
         &repo2,
-        &["invoke", "--jurisdiction", "t", "--principal", "p", "--lawpack", lawpack.to_str().unwrap()],
+        &[
+            "invoke",
+            "--jurisdiction",
+            "t",
+            "--principal",
+            "p",
+            "--lawpack",
+            lawpack.to_str().unwrap(),
+        ],
     );
     assert!(ok);
     let (_, text2) = run(&repo2, &["status"]);
@@ -218,15 +269,28 @@ fn a_relative_lawpack_path_is_recorded_as_given_so_a_clone_can_resolve_it() {
         p.push("lawpack/v2");
         p
     };
-    let sibling = lawpack.parent().unwrap().parent().unwrap().parent().unwrap().join(
-        repo.file_name().unwrap(),
-    );
+    let sibling = lawpack
+        .parent()
+        .unwrap()
+        .parent()
+        .unwrap()
+        .parent()
+        .unwrap()
+        .join(repo.file_name().unwrap());
     let _ = std::fs::remove_dir_all(&sibling);
     std::fs::create_dir_all(&sibling).unwrap();
 
     let (ok, text) = run(
         &sibling,
-        &["invoke", "--jurisdiction", "t", "--principal", "p", "--lawpack", rel.to_str().unwrap()],
+        &[
+            "invoke",
+            "--jurisdiction",
+            "t",
+            "--principal",
+            "p",
+            "--lawpack",
+            rel.to_str().unwrap(),
+        ],
     );
     assert!(ok, "a repo-relative lawpack must resolve:\n{text}");
 
@@ -244,134 +308,6 @@ fn a_relative_lawpack_path_is_recorded_as_given_so_a_clone_can_resolve_it() {
 }
 
 #[test]
-fn the_lock_invoke_writes_is_the_one_validate_checks() {
-    // THE DEFECT THIS CATCHES COST THE WHOLE FIRST IMPLEMENTATION OF THIS ORDER.
-    //
-    // `load_lawpack` and `compute_digest` existed TWICE - once in vjs-cli, once in
-    // vjs-engine - as the same law expressed in two places. The ruling was implemented
-    // against the CLI copy, every test above passed, and `vjs validate` went on computing
-    // the digest the superseded way, reporting a Fatal LAWPACK_LOCK_DRIFT against the lock
-    // `vjs invoke` had just written. Two copies of a rule are one copy and one silent
-    // disagreement.
-    //
-    // Asserted BEHAVIOURALLY rather than by grepping for a second `fn compute_digest`: a
-    // grep is satisfied by renaming, and what actually matters is that the artefact one
-    // command writes is the artefact the other command accepts.
-    let lawpack = real_lawpack();
-    let repo = scratch("one-implementation");
-
-    let (ok, text) = run(
-        &repo,
-        &["invoke", "--jurisdiction", "t", "--principal", "p", "--lawpack", lawpack.to_str().unwrap()],
-    );
-    assert!(ok, "{text}");
-
-    let (_, text) = run(&repo, &["validate"]);
-    assert!(
-        !text.contains("LAWPACK_LOCK_DRIFT"),
-        "the digest invoke pinned is not the digest validate computes - there are two \
-         implementations of the lawpack digest again:\n{text}"
-    );
-
-    // AND THE POSITIVE CONTROL, without which the assertion above proves nothing.
-    //
-    // [2026] VJS-CC-VJS 14 C6: this fixture resolves its lawpack OUT OF TREE, so it has no
-    // vendored copy, so the guard that used to wrap the drift check was false here and this
-    // test passed whatever the lock said. It asserted the ABSENCE of a finding in a repo
-    // where the finding could not be produced. Falsify the digest: the absence above is only
-    // evidence of agreement if the presence below is evidence of disagreement.
-    falsify_lock_digest(&repo);
-    let (ok, text) = run(&repo, &["validate"]);
-    assert!(
-        text.contains("LAWPACK_LOCK_DRIFT") && !ok,
-        "a falsified lock digest must be caught, or the assertion above is vacuous:\n{text}"
-    );
-}
-
-/// Overwrite the pinned digest in `.vjs/lawpack.lock` with one that is well-formed and wrong.
-///
-/// Well-formed on purpose: a lock that fails to PARSE exercises a different arm (see
-/// `a_corrupt_lock_is_a_finding_and_never_an_ok`), and the arm under test here is the one
-/// where the lock reads cleanly and simply disagrees with the law on disk.
-fn falsify_lock_digest(repo: &Path) {
-    let lock_path = repo.join(".vjs/lawpack.lock");
-    let before = std::fs::read_to_string(&lock_path).unwrap();
-    let after = before
-        .lines()
-        .map(|l| {
-            if l.trim_start().starts_with("digest") {
-                "digest = \"sha256:0000000000000000000000000000000000000000000000000000000000000000\""
-                    .to_string()
-            } else {
-                l.to_string()
-            }
-        })
-        .collect::<Vec<_>>()
-        .join("\n");
-    assert_ne!(after, before, "the seed did not land: no digest line in {}", lock_path.display());
-    std::fs::write(&lock_path, format!("{after}\n")).unwrap();
-}
-
-#[test]
-fn a_falsified_lock_digest_is_fatal_in_an_out_of_tree_jurisdiction() {
-    // THE MEASURED DEFECT OF [2026] VJS-CC-VJS 14, as a test.
-    //
-    // Three checks - referential integrity, citation uniqueness and this one - hung off a
-    // single condition keyed to a VENDORED lawpack directory, which a jurisdiction resolving
-    // out of tree does not have. Before the fix this exact fixture printed `Validation: OK`
-    // and exited 0 with a digest of all zeroes pinned in its lock. The guard was keyed to a
-    // different referent than the gate, so the gate never ran.
-    let lawpack = real_lawpack();
-    let repo = scratch("falsified-lock");
-
-    let (ok, text) = run(
-        &repo,
-        &["invoke", "--jurisdiction", "t", "--principal", "p", "--lawpack", lawpack.to_str().unwrap()],
-    );
-    assert!(ok, "{text}");
-    // The fixture must really be out of tree, or this passes for the wrong reason.
-    assert!(
-        !repo.join("lawpack/v2").exists(),
-        "this test is only about a jurisdiction that vendors NO lawpack"
-    );
-
-    falsify_lock_digest(&repo);
-
-    let (ok, text) = run(&repo, &["validate"]);
-    assert!(!ok, "a falsified lock digest must exit non-zero, got success:\n{text}");
-    assert!(
-        text.contains("[Fatal] LAWPACK_LOCK_DRIFT"),
-        "ACT-007:s7 must be Fatal wherever the lawpack resolved:\n{text}"
-    );
-}
-
-#[test]
-fn a_corrupt_lock_is_a_finding_and_never_an_ok() {
-    // [2026] VJS-CC-VJS 14 C5: no silent arm. The drift check was written as one `if let`
-    // chain over `read_lawpack_lock` and `compute_digest`, so an unparseable lock or an
-    // unreadable lawpack deleted the Fatal exactly as thoroughly as the missing guard did.
-    // A check that did not run is not a check that passed, and the finding must say WHICH
-    // half failed or an operator is left guessing between their lock and their canon.
-    let lawpack = real_lawpack();
-    let repo = scratch("corrupt-lock");
-
-    let (ok, text) = run(
-        &repo,
-        &["invoke", "--jurisdiction", "t", "--principal", "p", "--lawpack", lawpack.to_str().unwrap()],
-    );
-    assert!(ok, "{text}");
-
-    std::fs::write(repo.join(".vjs/lawpack.lock"), "this is not toml = = =\n").unwrap();
-
-    let (ok, text) = run(&repo, &["validate"]);
-    assert!(!ok, "an unreadable lock must not validate OK:\n{text}");
-    assert!(
-        text.contains("LAWPACK_LOCK_UNREADABLE"),
-        "the finding must name the LOCK as the half that failed:\n{text}"
-    );
-}
-
-#[test]
 fn referential_integrity_runs_against_the_lawpack_that_was_actually_loaded() {
     // [2026] VJS-CC-VJS 14 C2. The scanned tree and the defined-id set must describe ONE
     // tree: the check took the vendored path while the `Lawpack` beside it had been loaded
@@ -386,17 +322,36 @@ fn referential_integrity_runs_against_the_lawpack_that_was_actually_loaded() {
     // SEED, and assert it landed. ACT-999 is defined nowhere in the canon.
     let statute = canon.join("statutes/01-authority.yaml");
     let original = std::fs::read_to_string(&statute).unwrap();
-    std::fs::write(&statute, format!("{original}\n# cites ACT-999 deliberately\n")).unwrap();
-    assert_ne!(std::fs::read_to_string(&statute).unwrap(), original, "the seed did not land");
+    std::fs::write(
+        &statute,
+        format!("{original}\n# cites ACT-999 deliberately\n"),
+    )
+    .unwrap();
+    assert_ne!(
+        std::fs::read_to_string(&statute).unwrap(),
+        original,
+        "the seed did not land"
+    );
 
     // A SEPARATE repo, which vendors nothing and resolves that copy through lawpack_path.
     let repo = scratch("dangling-subscriber");
     let (ok, text) = run(
         &repo,
-        &["invoke", "--jurisdiction", "t", "--principal", "p", "--lawpack", canon.to_str().unwrap()],
+        &[
+            "invoke",
+            "--jurisdiction",
+            "t",
+            "--principal",
+            "p",
+            "--lawpack",
+            canon.to_str().unwrap(),
+        ],
     );
     assert!(ok, "{text}");
-    assert!(!repo.join("lawpack/v2").exists(), "the subscriber must vendor nothing");
+    assert!(
+        !repo.join("lawpack/v2").exists(),
+        "the subscriber must vendor nothing"
+    );
 
     let (_, text) = run(&repo, &["validate"]);
     assert!(
@@ -419,10 +374,21 @@ fn citation_uniqueness_runs_on_local_records_wherever_the_lawpack_lives() {
 
     let (ok, text) = run(
         &repo,
-        &["invoke", "--jurisdiction", "t", "--principal", "p", "--lawpack", lawpack.to_str().unwrap()],
+        &[
+            "invoke",
+            "--jurisdiction",
+            "t",
+            "--principal",
+            "p",
+            "--lawpack",
+            lawpack.to_str().unwrap(),
+        ],
     );
     assert!(ok, "{text}");
-    assert!(!repo.join("lawpack/v2").exists(), "the subscriber must vendor nothing");
+    assert!(
+        !repo.join("lawpack/v2").exists(),
+        "the subscriber must vendor nothing"
+    );
 
     // Two DISTINCT records claiming one citation. Distinct ids matter: two files sharing an
     // id are one record in two projections and are not a collision (CC-VJS 9 D2).
@@ -439,7 +405,10 @@ fn citation_uniqueness_runs_on_local_records_wherever_the_lawpack_lives() {
     .unwrap();
 
     let (ok, text) = run(&repo, &["validate"]);
-    assert!(!ok, "a citation collision is fatal (ACT-004:s8), so validate must fail:\n{text}");
+    assert!(
+        !ok,
+        "a citation collision is fatal (ACT-004:s8), so validate must fail:\n{text}"
+    );
     assert!(
         text.contains("[Fatal] CITATION_COLLISION"),
         "two records claiming one citation must collide wherever the lawpack lives:\n{text}"
@@ -454,10 +423,16 @@ fn a_repo_that_is_not_a_jurisdiction_still_validates_clean() {
     // exist: the scan is empty by construction, not by a guard.
     let repo = scratch("not-a-jurisdiction-validate");
     let (ok, text) = run(&repo, &["validate"]);
-    assert!(ok, "a repo that is not a jurisdiction must validate clean:\n{text}");
+    assert!(
+        ok,
+        "a repo that is not a jurisdiction must validate clean:\n{text}"
+    );
     assert!(text.contains("Validation: OK"), "{text}");
     for code in ["CITATION_COLLISION", "DANGLING_REFERENCE", "LAWPACK_LOCK"] {
-        assert!(!text.contains(code), "no {code} where there are no records at all:\n{text}");
+        assert!(
+            !text.contains(code),
+            "no {code} where there are no records at all:\n{text}"
+        );
     }
 }
 

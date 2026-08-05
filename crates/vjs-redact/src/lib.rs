@@ -279,7 +279,11 @@ impl RedactScanner {
         }
     }
 
-    pub(crate) fn block(path: &Path, kind: BoundaryFindingKind, message: String) -> BoundaryFinding {
+    pub(crate) fn block(
+        path: &Path,
+        kind: BoundaryFindingKind,
+        message: String,
+    ) -> BoundaryFinding {
         BoundaryFinding {
             severity: Severity::Error,
             path: Some(path.to_path_buf()),
@@ -416,7 +420,6 @@ impl RedactScanner {
         (findings, foreign_code)
     }
 
-
     /// Fire the canon-write gate over a set of repo-relative writes. Filters to
     /// lawpack/v2 records, scans each structured record, then a second pass blocks
     /// any companion file (e.g. a `.opinions.md`) in the same write-set whose name
@@ -550,4 +553,3 @@ impl RedactScanner {
         Ok(findings)
     }
 }
-

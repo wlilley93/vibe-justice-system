@@ -91,7 +91,12 @@ mod tests {
     use vjs_core::scope::{Floor, LocalRule};
 
     fn scope(pairs: &[(&str, &str)]) -> EntityScope {
-        EntityScope::new(pairs.iter().map(|(k, v)| (k.to_string(), v.to_string())).collect())
+        EntityScope::new(
+            pairs
+                .iter()
+                .map(|(k, v)| (k.to_string(), v.to_string()))
+                .collect(),
+        )
     }
 
     fn overlay() -> Overlay {

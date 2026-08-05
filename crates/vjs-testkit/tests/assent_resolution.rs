@@ -68,8 +68,18 @@ fn a_junk_or_absent_assent_value_does_not_resolve() {
     let junk = "id: x\nassent_source: i_made_this_up\n";
     let absent = "id: x\nstatus: binding\n";
     let root = workspace_root();
-    assert!(!assent_resolves(&root, "lawpack/v2/orders/x.yaml", junk, FRESH));
-    assert!(!assent_resolves(&root, "lawpack/v2/orders/x.yaml", absent, FRESH));
+    assert!(!assent_resolves(
+        &root,
+        "lawpack/v2/orders/x.yaml",
+        junk,
+        FRESH
+    ));
+    assert!(!assent_resolves(
+        &root,
+        "lawpack/v2/orders/x.yaml",
+        absent,
+        FRESH
+    ));
 }
 
 #[test]
@@ -99,7 +109,10 @@ fn every_committed_standing_regulation_resolves_keeping_its_floor() {
         );
         checked += 1;
     }
-    assert!(checked >= 10, "expected many standing regulations, got {checked}");
+    assert!(
+        checked >= 10,
+        "expected many standing regulations, got {checked}"
+    );
 }
 
 #[test]

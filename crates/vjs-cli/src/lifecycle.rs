@@ -284,10 +284,11 @@ pub(crate) fn cmd_order(repo: &Path, subcmd: OrderCommands, json: bool) -> Resul
             // The bench check is the one that decides whether the thing IS an order, so it
             // is precisely the check a command called `order validate` must not omit.
             if !order.bench.is_empty() {
-                match load_lawpack(repo)
-                    .ok()
-                    .and_then(|l| l.orders.into_iter().find(|o| o.id == vjs_core::bench::COURTS_CONSTITUTION_ID))
-                {
+                match load_lawpack(repo).ok().and_then(|l| {
+                    l.orders
+                        .into_iter()
+                        .find(|o| o.id == vjs_core::bench::COURTS_CONSTITUTION_ID)
+                }) {
                     Some(constitution) => {
                         let opinion_text = order
                             .source_opinion

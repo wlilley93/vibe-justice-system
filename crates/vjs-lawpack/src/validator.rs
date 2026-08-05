@@ -297,9 +297,7 @@ impl LawpackValidator {
     /// canon by hand. Allocation at authoring (vjs citation next) is the affirmative
     /// half; this is the reconciliation-at-write half. Runs on the full lawpack, so
     /// it does not depend on a record being staged.
-    pub fn check_citation_uniqueness(
-        repo: &Path,
-    ) -> Result<Vec<ValidationFinding>, KernelError> {
+    pub fn check_citation_uniqueness(repo: &Path) -> Result<Vec<ValidationFinding>, KernelError> {
         // [2026] VJS-CC-VJS 9 D1. The ALLOCATOR and this GUARD are two halves of one
         // rule and must read the SAME register. Before this they did not: the allocator
         // read all three governed-record roots and this read `lawpack/v2` alone, where it
@@ -573,8 +571,16 @@ mod live_register_tests {
         std::fs::create_dir_all(&court).unwrap();
         // Deliberately NO lawpack/v2: a missing register is not evidence that a series
         // is unstarted, and the old code short-circuited that case straight to 0.
-        std::fs::write(orders.join("a.yaml"), "id: a\ncitation: '[2026] VJS-CC-TK 4'\n").unwrap();
-        std::fs::write(court.join("b.yaml"), "id: b\ncitation: \"[2026] VJS-PC 20\"\n").unwrap();
+        std::fs::write(
+            orders.join("a.yaml"),
+            "id: a\ncitation: '[2026] VJS-CC-TK 4'\n",
+        )
+        .unwrap();
+        std::fs::write(
+            court.join("b.yaml"),
+            "id: b\ncitation: \"[2026] VJS-PC 20\"\n",
+        )
+        .unwrap();
 
         let roots = vjs_core::front_door::governed_record_roots(&tmp);
         let cc = LawpackValidator::live_citation_max(&roots, "CC", Some("TK"), 2026).unwrap();

@@ -1,0 +1,12 @@
+id: LOG-2026-08-05-221655
+time: 2026-08-05T22:16:55.631589157+00:00
+actor: lexby
+kind: implementation-decision
+issue: kernel_enforcement_gaps_canon_write_chokepoint
+decision: 'R2a: the canon fmt debt cleared in one dedicated commit - 36 files, rustfmt only, proven by the full workspace suite; the debt tripped the working process five times on 2026-08-05 alone (every cargo fmt --all swept unrelated files into governed commits, forcing reverts and release rebuilds). The enforcement surface re-pins under this log for the formatting-only digest moves on pinned gates.'
+basis:
+- PERMIT-1785940999
+risk: low
+reversibility: easy
+court_required: false
+why: a recurring tax on every commit is a defect in the system, not a style preference

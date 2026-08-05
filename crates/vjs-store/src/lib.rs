@@ -79,10 +79,7 @@ impl Store {
     /// doors have one destination ([2026] VJS-CC-VJS 16 C1). The path is returned rather
     /// than recomposed by the caller, because a caller that recomposes it is a second
     /// statement of where records go, which is how the doors came apart in the first place.
-    pub fn write_order(
-        repo_root: &Path,
-        order: &Order,
-    ) -> Result<std::path::PathBuf, KernelError> {
+    pub fn write_order(repo_root: &Path, order: &Order) -> Result<std::path::PathBuf, KernelError> {
         let orders_dir = repo_root.join(".vjs/orders");
         std::fs::create_dir_all(&orders_dir).map_err(|e| KernelError::Io(e.to_string()))?;
 

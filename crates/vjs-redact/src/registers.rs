@@ -79,7 +79,9 @@ pub fn hash_of_line(line: &str) -> Option<String> {
 
 /// True for a well-formed sha256 hex digest: 64 lowercase hex characters.
 fn is_sha256_hex(s: &str) -> bool {
-    s.len() == 64 && s.bytes().all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+    s.len() == 64
+        && s.bytes()
+            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
 }
 
 /// The publication denylist: sha256 of lowercased private terms, NEVER the terms.
@@ -102,7 +104,9 @@ impl Denylist {
             .map_err(|e| unreadable_register_error(&path, &e.to_string()))?;
         let mut hashes = HashSet::new();
         for (n, line) in text.lines().enumerate() {
-            let Some(h) = hash_of_line(line) else { continue };
+            let Some(h) = hash_of_line(line) else {
+                continue;
+            };
             if !is_sha256_hex(&h) {
                 return Err(unreadable_register_error(
                     &path,

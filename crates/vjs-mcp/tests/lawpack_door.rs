@@ -157,12 +157,17 @@ fn an_out_of_tree_canon_answers_lookup_and_arms_the_bench_gate() {
 
     let authorities = &resp[0]["result"]["authorities"];
     assert!(
-        authorities.as_array().map(|a| !a.is_empty()).unwrap_or(false),
+        authorities
+            .as_array()
+            .map(|a| !a.is_empty())
+            .unwrap_or(false),
         "a subscribed canon must answer lookup rather than return []: {}",
         resp[0]
     );
     assert!(
-        serde_json::to_string(authorities).unwrap().contains("ACT-001"),
+        serde_json::to_string(authorities)
+            .unwrap()
+            .contains("ACT-001"),
         "the subscribed canon must reach the door: {}",
         resp[0]
     );
@@ -172,7 +177,9 @@ fn an_out_of_tree_canon_answers_lookup_and_arms_the_bench_gate() {
         assert!(msg.contains(code), "the refusal must name {code}: {msg}");
     }
     assert!(
-        !repo.join("lawpack/v2/orders/2026-VJS-CC-T-001.yaml").exists(),
+        !repo
+            .join("lawpack/v2/orders/2026-VJS-CC-T-001.yaml")
+            .exists(),
         "a refused order must not be written"
     );
 }
@@ -198,9 +205,11 @@ fn a_properly_constituted_county_order_is_still_recorded() {
 
     let resp = call(
         &repo,
-        &[serde_json::json!({"jsonrpc":"2.0","id":1,"method":"vjs.record",
+        &[
+            serde_json::json!({"jsonrpc":"2.0","id":1,"method":"vjs.record",
                              "params": county_order("2026-VJS-CC-T-002", &["Judge A"],
-                                                    Some(".vjs/opinions/op.md"))})],
+                                                    Some(".vjs/opinions/op.md"))}),
+        ],
     );
     assert!(
         !is_error(&resp[0]),
@@ -220,8 +229,10 @@ fn an_invoked_jurisdiction_with_no_resolvable_lawpack_errors_at_every_verb() {
     // Prove the flip: with the path, lookup answers.
     let before = call(
         &repo,
-        &[serde_json::json!({"jsonrpc":"2.0","id":1,"method":"vjs.lookup",
-                             "params":{"issue":"enforcement"}})],
+        &[
+            serde_json::json!({"jsonrpc":"2.0","id":1,"method":"vjs.lookup",
+                             "params":{"issue":"enforcement"}}),
+        ],
     );
     assert!(
         !is_error(&before[0]),
@@ -270,8 +281,10 @@ fn a_repo_that_is_not_a_jurisdiction_still_answers_on_an_empty_canon() {
     let repo = scratch("not-a-jurisdiction");
     let resp = call(
         &repo,
-        &[serde_json::json!({"jsonrpc":"2.0","id":1,"method":"vjs.lookup",
-                             "params":{"issue":"enforcement"}})],
+        &[
+            serde_json::json!({"jsonrpc":"2.0","id":1,"method":"vjs.lookup",
+                             "params":{"issue":"enforcement"}}),
+        ],
     );
     assert!(
         !is_error(&resp[0]),
@@ -307,11 +320,17 @@ fn record_writes_to_the_local_register_and_never_manufactures_the_canon_tree() {
 
     let resp = call(
         &repo,
-        &[serde_json::json!({"jsonrpc":"2.0","id":1,"method":"vjs.record",
+        &[
+            serde_json::json!({"jsonrpc":"2.0","id":1,"method":"vjs.record",
                              "params": county_order("2026-VJS-CC-T-016", &["Judge A"],
-                                                    Some(".vjs/opinions/op.md"))})],
+                                                    Some(".vjs/opinions/op.md"))}),
+        ],
     );
-    assert!(!is_error(&resp[0]), "a constituted order must record: {}", resp[0]);
+    assert!(
+        !is_error(&resp[0]),
+        "a constituted order must record: {}",
+        resp[0]
+    );
 
     // C1: the destination is the LOCAL register, and the verb SAYS so.
     assert!(
@@ -364,7 +383,11 @@ fn one_graph_carries_the_local_register_and_the_subscribed_canon() {
 
     // The order's issue is the canon's own busiest issue, so ONE lookup can prove both
     // halves: the order is hoisted on-point, the constitutional stack follows it.
-    let mut order = county_order("2026-VJS-CC-T-017", &["Judge A"], Some(".vjs/opinions/op.md"));
+    let mut order = county_order(
+        "2026-VJS-CC-T-017",
+        &["Judge A"],
+        Some(".vjs/opinions/op.md"),
+    );
     order["issue"] = serde_json::Value::String("enforcement".into());
 
     let resp = call(
@@ -376,7 +399,11 @@ fn one_graph_carries_the_local_register_and_the_subscribed_canon() {
         ],
     );
     assert_eq!(resp.len(), 2, "one response per request: {resp:?}");
-    assert!(!is_error(&resp[0]), "a constituted order must record: {}", resp[0]);
+    assert!(
+        !is_error(&resp[0]),
+        "a constituted order must record: {}",
+        resp[0]
+    );
 
     let answer = serde_json::to_string(&resp[1]["result"]).unwrap();
     assert!(

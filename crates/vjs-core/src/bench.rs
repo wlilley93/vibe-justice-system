@@ -259,7 +259,7 @@ const CONCURRENCE_FORMS: &[&str] = &[
     "agrees",
     "agreeing",
     "nothing to add",
-    "dissent",       // a recorded dissent is participation, not silence
+    "dissent", // a recorded dissent is participation, not silence
     "dissenting",
 ];
 

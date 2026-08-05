@@ -386,7 +386,12 @@ fn an_authority_is_on_point_for_its_own_declared_issue_whatever_its_case() {
     ids.sort_by(|a, b| a.0.cmp(&b.0));
     let declared: IssueTag = ids
         .iter()
-        .find_map(|id| ctx.authority_graph.authorities[id].issue_tags.first().cloned())
+        .find_map(|id| {
+            ctx.authority_graph.authorities[id]
+                .issue_tags
+                .first()
+                .cloned()
+        })
         .expect("precondition: the canon has an authority declaring an issue tag");
 
     for variant in [
@@ -417,7 +422,9 @@ fn a_tag_no_authority_declares_still_convenes_a_court() {
     let repo = repo_root();
     let ctx = build_kernel_context(&repo).unwrap();
     let mut input = route_input(RiskLevel::Medium, Some("default"));
-    input.issue_tags = vec![IssueTag("zz-no-authority-declares-or-mentions-this-zz".into())];
+    input.issue_tags = vec![IssueTag(
+        "zz-no-authority-declares-or-mentions-this-zz".into(),
+    )];
     let decision = route(input, &ctx).unwrap();
     assert!(
         decision.court_required,

@@ -47,7 +47,10 @@ fn allocate_reads_the_county_register_outside_the_lawpack() {
     let n = result["n"].as_u64().unwrap();
     fs::remove_dir_all(&repo).ok();
 
-    assert_eq!(n, 9, "allocate must continue the live County series, not restart it");
+    assert_eq!(
+        n, 9,
+        "allocate must continue the live County series, not restart it"
+    );
 }
 
 /// The canon series is not exempt. A gate that measured only County would have passed
@@ -66,5 +69,8 @@ fn allocate_reads_the_canon_register_under_court_orders() {
     let n = result["n"].as_u64().unwrap();
     fs::remove_dir_all(&repo).ok();
 
-    assert_eq!(n, 21, "allocate must not re-offer a citation the court register holds");
+    assert_eq!(
+        n, 21,
+        "allocate must not re-offer a citation the court register holds"
+    );
 }

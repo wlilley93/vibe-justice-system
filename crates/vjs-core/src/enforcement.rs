@@ -480,7 +480,10 @@ mod tests {
         std::fs::write(&gate, "gate v1").unwrap();
 
         write_lock(&tmp, "[2026] FIRST").unwrap();
-        assert_eq!(authority_of(&tmp, "crates/vjs-core/src/bench.rs"), "[2026] FIRST");
+        assert_eq!(
+            authority_of(&tmp, "crates/vjs-core/src/bench.rs"),
+            "[2026] FIRST"
+        );
 
         // A re-pin under a different authority, with this gate UNCHANGED.
         write_lock(&tmp, "[2026] SECOND").unwrap();
@@ -531,8 +534,10 @@ mod tests {
             std::fs::write(tmp.join(LOCK_PATH), body).unwrap();
             let findings = check_drift(&tmp);
             assert!(
-                findings.iter().any(|f| f.code == "ENFORCEMENT_LOCK_UNREADABLE"
-                    && matches!(f.severity, Severity::Fatal)),
+                findings
+                    .iter()
+                    .any(|f| f.code == "ENFORCEMENT_LOCK_UNREADABLE"
+                        && matches!(f.severity, Severity::Fatal)),
                 "case {name:?}: an untrustworthy lock must be a Fatal \
                  ENFORCEMENT_LOCK_UNREADABLE, got {:?}",
                 findings.iter().map(|f| &f.code).collect::<Vec<_>>()
