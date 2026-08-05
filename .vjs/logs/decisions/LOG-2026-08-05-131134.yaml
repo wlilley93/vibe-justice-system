@@ -1,0 +1,12 @@
+id: LOG-2026-08-05-131134
+time: 2026-08-05T13:11:34.243528081+00:00
+actor: lexby
+kind: implementation-decision
+issue: commission_commencement_measurement
+decision: 'MEASURED in canon after commit 273342d: the conformance ratchet is armed (.vjs/conformance.lock, 295 unwired of 399) and the s5 preserve-check runner ships in this tree - the two gates ACT 12 ss3-4 commencement binds to. WARRANT-CANON-001''s abeyance of s3 and s4(a)/(f) LIFTS by its own terms: commencement was written as a measured fact checked against this jurisdiction''s own tree, and the measurement now passes. The canon Commission may audit.'
+basis:
+- WARRANT-CANON-001; LOG-2026-08-05-131035
+risk: low
+reversibility: easy
+court_required: false
+why: The warrant holds its powers in abeyance until the gates land here; recording the measurement is what turns the landing into commencement
