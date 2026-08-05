@@ -1,9 +1,20 @@
 id: ACT-PROCEEDINGS-DISCIPLINE
 citation: "[2026] VJS-ACT 11"
-assent_source: DRAFT_PENDING_SOVEREIGN_ASSENT
+assent_source: FIRST_DRAFT_PENDING_STANDING_COMMITTEE_ADOPTION
 title: The Proceedings Discipline and Citation Integrity Act 2026
 status: draft
-enacted_by: DRAFT - not enacted. Drafted by Lexby for the Principal's assent; not in force.
+enacted_by: >
+  NOT ENACTED, and the route matters. Drafted by Lexby as CLERK-DRAFTER, which is the lawful role on
+  the Framework Act precedent ("Drafted by Lexby as Clerk-Drafter on the principles digest, the
+  drafting brief, and the rulings"). But this is AGENT-ORIGINATED TEXT, and
+  ACT-COMPUTER-FIRST-REALM records that force comes from "the Committee's drafting and the Sovereign's
+  Sovereign Assent ... never from the self-assertion of V2 or any agent", the agent-originated text
+  there being "a void first draft cured by Assent". The lawful sequence is therefore: Clerk-Drafter
+  first draft -> the four counsel's aye-conditions -> those conditions incorporated as a SECOND-DRAFT
+  CURE -> Standing Committee adoption, which is CONSTITUTIVE ([2026] REALM-SC 8) -> Sovereign Assent
+  pinned to the adopted text's digest. My first label on this file said
+  DRAFT_PENDING_SOVEREIGN_ASSENT, which skipped the Committee entirely - the same shortcut as the void
+  first draft, and corrected here on the Principal's suggestion that the committee look it over.
 created_at: "2026-08-05"
 purpose: >
   To reduce the cost of governance by removing its two measured causes: matters filed on facts nobody
