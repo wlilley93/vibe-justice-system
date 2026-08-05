@@ -1,0 +1,27 @@
+id: ASSENT-2026-08-05-RECTIFICATION-COMMISSION
+kind: sovereign_assent_event
+date: "2026-08-05"
+instrument: The Executive Rectification Commission Act 2026
+instrument_text: .vjs/submissions/draft/ACT-RECTIFICATION-COMMISSION.yaml
+instrument_digest: "sha256:a0a7018d335d70a33fe218e7aebee622abe6244f1fbef90b6d1ee486d7669b3d"
+sovereign: Will (the Principal, in the Sovereign capacity)
+form: >
+  Express assent given in session on 2026-08-05, in the words "I assent to the Executive
+  Rectification Commission Act 2026, digest
+  sha256:a0a7018d335d70a33fe218e7aebee622abe6244f1fbef90b6d1ee486d7669b3d", against the ENGROSSED
+  text as adopted by the Standing Committee 4-0 AS CONDITIONED in round 5 and RE-CERTIFIED 4-0
+  after the conditioned amendments were applied in the bench's verbatim words (records at
+  .vjs/submissions/draft/committee-round4..5/; the certifying bench measured this digest itself).
+  The digest above was re-measured against the file at the moment of lodgement and matched.
+  Assent is antecedent and external to the lawpack: non-automatable, non-presumable,
+  non-delegable (ACT-COMPUTER-FIRST-REALM s.23; ACT-ASSENTED-RECORD-PROTECTION s.14).
+effects:
+  - lodges: ACT-RECTIFICATION-COMMISSION as enacted V2 statute law at lawpack/v2/statutes/12-rectification-commission.yaml, citation [2026] VJS-ACT 12 minted by the kernel allocator at commencement, with assent_source sovereign_assent tracing to this event
+  - commences: BY SECTION per its s10 - sections 1, 2, 5, 6, 7, 8, 9, 10, 11 and 12 on this assent; sections 3 and 4 (the sweep and the powers) only on the day a gate binding them is in force, and never if the Act is spent first, which its s10 records as intended
+notes: >
+  No warrant exists at lodgement: the Commission is enacted but unconstituted until a WARRANT of
+  the Principal issues under s2, and if none issues within ninety days the Act is spent of
+  itself (s7). The engrossed instrument file is preserved verbatim at the draft path; the lodged
+  statute is a different file by design. The Act's 65 duty tokens land UNWIRED and are published
+  with the conformance audit per its own s10, which publishes rather than asserts this Act's
+  conformance status.

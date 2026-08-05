@@ -1,0 +1,28 @@
+id: ASSENT-2026-08-05-PROCEEDINGS-DISCIPLINE
+kind: sovereign_assent_event
+date: "2026-08-05"
+instrument: The Proceedings Discipline Act 2026
+instrument_text: .vjs/submissions/draft/ACT-PROCEEDINGS-DISCIPLINE.yaml
+instrument_digest: "sha256:8690040675a2779b5a3c0168f8d1fa70a57182911b1c00735cb6e00a8c458375"
+sovereign: Will (the Principal, in the Sovereign capacity)
+form: >
+  Express assent given in session on 2026-08-05, in the words "I assent to the Proceedings
+  Discipline Act 2026, digest sha256:8690040675a2779b5a3c0168f8d1fa70a57182911b1c00735cb6e00a8c458375",
+  against the ENGROSSED text as adopted by the Standing Committee 4-0 on 2026-08-05 (adoption
+  constitutive, [2026] REALM-SC 8; three rounds of counsel reports at
+  .vjs/submissions/draft/committee-round1..3/) and as verified by the Committee's digest-check
+  certificate (all four seats, operative text byte-identical to the adopted text, exactly four
+  authorized header changes). The digest above was re-measured against the file at the moment of
+  lodgement and matched. Assent is antecedent and external to the lawpack: non-automatable,
+  non-presumable, non-delegable (ACT-COMPUTER-FIRST-REALM s.23; ACT-ASSENTED-RECORD-PROTECTION s.14).
+effects:
+  - lodges: ACT-PROCEEDINGS-DISCIPLINE as enacted V2 statute law at lawpack/v2/statutes/11-proceedings-discipline.yaml, citation [2026] VJS-ACT 11 minted by the kernel allocator at commencement (EXECUTED, vjs next-citation ACT 2026), with assent_source sovereign_assent tracing to this event
+  - enacts: the structured-citation regime (s7 and Schedule 1, on the Principal's own proposal), the filed-order amendment power with its slip and substantive tracks (s6), machinery-claim discipline (s2), UNREADABLE-IN-FORCE (s9), and the amendment and store-register provisions
+notes: >
+  The engrossed instrument file is preserved verbatim at the draft path and is the text this
+  digest pins; the lodged statute is a DIFFERENT file by design, on the route the corpus took
+  for ACT-ASSENTED-RECORD-PROTECTION (its assent record pins the presented text while the law
+  lives in statutes/). The Act's 53 duty tokens land UNWIRED and are published with the
+  conformance audit rather than asserted as enforced (the Act's own s12 discipline); the
+  conformance ratchet in the subscribing jurisdiction carrying one will require its baseline raised in the same
+  commit that mirrors this lawpack, which is the designed, visible acceptance.

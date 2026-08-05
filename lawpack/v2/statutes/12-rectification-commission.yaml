@@ -1,0 +1,622 @@
+id: ACT-RECTIFICATION-COMMISSION
+citation: "[2026] VJS-ACT 12"
+assent_source: sovereign_assent
+title: The Executive Rectification Commission Act 2026
+status: in_force
+enacted_by: principal
+purpose: >
+  Enacted on Sovereign Assent given 2026-08-05, pinned to the engrossed-text digest
+  sha256:a0a7018d335d70a33fe218e7aebee622abe6244f1fbef90b6d1ee486d7669b3d (assent record
+  lawpack/v2/provenance/assent/2026-08-05-rectification-commission-assent.yaml; the engrossed
+  instrument preserved verbatim at .vjs/submissions/draft/ACT-RECTIFICATION-COMMISSION.yaml).
+  Adopted 4-0 as conditioned in Standing Committee round 5 and RE-CERTIFIED 4-0 after the
+  conditioned amendments were applied in the bench's verbatim words (records at
+  .vjs/submissions/draft/committee-round4..5/). The VJS-ACT ordinal above was minted by the
+  kernel allocator at commencement, never self-asserted. Constitutes a time-limited, repo-scoped,
+  warrant-based EXECUTIVE body with exhaustively enumerated editorial powers, bounded by the
+  three floors at its s1; COMMENCES BY SECTION per its s10 (ss 3 and 4 commence only when a gate
+  binding them is in force); spent of itself if no warrant issues within ninety days (s7). Its
+  65 duty tokens are published with the conformance audit per its own s10.
+sections:
+- id: ACT-RECTIFICATION-COMMISSION:s1
+  title: The three floors, stated first because they bound everything after
+  text: >-
+    NOTHING IN THIS ACT, AND NO ACT OF A COMMISSION UNDER IT, REACHES ANY OF THE FOLLOWING. They are stated
+    at the head of the Act rather than in a savings clause at its foot, because a saving that a reader
+    meets last is a saving an actor meets never.
+
+    (a) THE SOVEREIGN-ASSENT FLOOR. An assented record may never be voided, excluded or blocked by any
+    subordinate validation, gate, invariant, regulation or kernel operation (ACT-ASSENTED-RECORD-PROTECTION:s1,
+    entrenched at :s2 and amendable only by a Sovereign-assented constitutional Act citing that Act by
+    number, which this Act does not do and does not purport to do). A defect in an assented record is
+    ALWAYS routed for correction. AND ITS COMPANION, WHICH THIS ACT'S EARLIER DRAFTS OMITTED: the assent
+    floor at ACT-CONSOLIDATION-FRAMEWORK:s10, entrenched at :s25 - assent is non-automatable,
+    non-presumable, non-delegable, and no organ this Act constitutes creates force from its own output.
+    A Commission is an executive body under that prohibition, not an exception to it.
+
+    (b) THE PROTECTIVE FLOOR IN ALL FOUR OF ITS LIMBS (ACT-CONSOLIDATION-FRAMEWORK:s21, entrenched at
+    :s25): real-world law; rights, standing and due process; the public/private boundary; and restorative-remedy-not-punishment.
+    The Clerk-Drafter records that the companion Bill's first draft mis-described this floor as "the real-world-law
+    floor", naming one limb of four, and that Counsel for Codification caught it.
+
+    (c) APEX SINGLENESS, held by [2026] VJS-SC 4 and at ACT-CONSOLIDATION-FRAMEWORK:s11 as entrenched
+    by s25. The Supreme Court is singular and canonical. A Commission may not hold, record, restate or
+    consolidate an apex judgment locally, and may not consolidate any series of which a member is of
+    apex tier; such a series is referred up.
+
+    A purported act of a Commission that reaches any of (a) to (c) is VOID to that extent, without more,
+    and the Commission's warrant lapses on the act.
+
+    RECORDED, because this Act rests on it: the trust-boundary rule's holders `[2026] CC-OPBOX 16` and
+    `17` are both dated 2026-06-07 (READ, `:7` of each), two days before V2 commenced on 2026-06-09 (READ,
+    COMMENCEMENT-V2-0001.yaml:4), were decided under CASE-LAW s.10/s.18, and carry no incorporation record
+    (EXECUTED grep over lawpack -> zero). The rule's force in this Act comes from this Act restating it,
+    not from those judgments.
+  kernel_effect:
+    defines:
+    - commission.floors.non_derogable
+    must:
+    - void_a_commission_act_that_reaches_a_floor
+    - lapse_the_warrant_on_a_floor_breach
+    must_not:
+    - crossing_the_sovereign_assent_floor
+    - derogating_from_any_limb_of_the_protective_floor
+    - constituting_or_rectifying_an_apex_record_locally
+- id: ACT-RECTIFICATION-COMMISSION:s2
+  title: Constitution, warrant, and one repo at a time
+  text: >-
+    A Commission is constituted by a WARRANT of the Principal. Each warrant names exactly ONE jurisdiction
+    by repository, and a Commission has no power in any other. A warrant under this Act is a COMMISSION
+    WARRANT and is not a release warrant within REG-RELEASE-WARRANT-001 ([2026] VJS-REG 16), which is
+    untouched; one word does not carry two operative meanings in this corpus.
+
+    THE ESTATE, measured by the method in Schedule 2 and not by a depth-one listing: 85 distinct `.vjs`
+    surfaces under /home/jellytot/Projects at depth six after symlink resolution, of which 59 hold at
+    least one governed record and 21 are INVOKED jurisdictions carrying a `.vjs/config.toml`
+    (EXECUTED 2026-08-05, method and bound stated in Schedule 2). Earlier drafts recited eight and then
+    nine surfaces from a depth-one glob, wrong in both directions and then wrong by METHOD - a shallow
+    listing that named a container directory holding no governed records while omitting the repository
+    inside it holding one hundred and sixteen - and the corrections are recorded rather than
+    substituted, section 3 of this Act forbidding an enumeration that omits a store. A warrant per
+    jurisdiction is deliberate: a single body with concurrent power over all of them could propagate an
+    error to the whole estate before any of it was reviewed.
+
+    The warrant states the jurisdiction, the commencement date, the EXPIRY date, the classes of rectification
+    authorised under section 4, and the seats. It is a public record BOTH in the named jurisdiction AND
+    in canon, and THE CANONICAL RECORD IS THE REGISTER AGAINST WHICH THE CONCURRENCY CAP IS COUNTED: a
+    cap over a population held only per-jurisdiction is a cap no actor can check, and this Act does not
+    state one.
+
+    A Commission sits with not fewer than three seats and carries the four portfolios of the Standing
+    Committee in substance - restraint, codification, guardrail, operability - whether or not by those
+    names. It is an EXECUTIVE body. It is not a court, it does not deliberate on merits, its acts are
+    not precedent, and it may not be cited as authority for any proposition.
+
+    NO WARRANT ISSUES for a jurisdiction that has not acceded to this Act by its own deliberate act; a
+    subscriber's accession is its own pin bump and never an act of this Commission or of canon.
+    ELIGIBILITY IS THE ACCESSION AND NOTHING ELSE. The repos register kept under REG-REPOS-REGISTER-001
+    is evidence identifying candidates and is never a source of the power, that Regulation providing in
+    terms that the register is a derived, pointer-only, rebuildable projection and never a source of law;
+    there is no instrument called a jurisdiction register and this Act does not invent one.
+
+    NO MORE THAN THREE WARRANTS RUN CONCURRENTLY across the realm, counted against the canonical
+    register above. A single organ holding concurrent power over every jurisdiction could propagate an
+    error to the whole estate before any of it was reviewed.
+  kernel_effect:
+    defines:
+    - commission.warrant
+    - commission.scope.single_jurisdiction
+    - commission.nature.executive_not_judicial
+    must:
+    - name_exactly_one_jurisdiction_in_a_warrant
+    - state_an_expiry_date_in_a_warrant
+    - record_the_warrant_in_the_named_jurisdiction
+    - record_a_warrant_in_canon_as_well_as_in_the_named_jurisdiction
+    must_not:
+    - a_commission_acting_outside_the_jurisdiction_named_in_its_warrant
+    - citing_a_commission_act_as_authority
+    - a_fourth_concurrent_warrant
+    exceptions: []
+- id: ACT-RECTIFICATION-COMMISSION:s3
+  title: The audit sweep, and that its scope is TOTAL where its powers are not
+  text: >
+    A Commission SHALL audit, in the jurisdiction named in its warrant, every instrument, every court
+    record, every register, every store and every enforcement surface. The audit is unrestricted: this
+    is the "no holds barred" the Principal directed, and it attaches to the THOROUGHNESS OF LOOKING, never
+    to power over what is found.
+
+    The audit must enumerate, at minimum: every store capable of holding a governed record or a citation,
+    including every mirror, worktree and additional checkout; every citation in use and the convention
+    in which it is rendered; every instrument the reader cannot load; every enacted duty and whether anything
+    binds it to a gate; every gate and whether it ships a negative control; and every reserved question
+    and its age.
+
+    A finding is recorded with the address at which it was observed and whether the artefact was EXECUTED
+    or READ. An enumeration that omits a store is not an audit of the jurisdiction, and the report must
+    name the stores it did not reach - the duty token for which lives ONCE, at section 8, because one
+    obligation under two spellings is two audit rows for one duty, which is the defect family this Act
+    exists to end.
+  kernel_effect:
+    defines:
+    - commission.audit.total_scope
+    - commission.audit.finding_address
+    must:
+    - enumerate_every_store_in_the_named_jurisdiction
+    - record_an_address_and_a_mode_on_every_finding
+    exceptions:
+    - >
+      The duty to enumerate is a duty on the Commission and no gate holds it; it is enforced by the Principal
+      on the closing report and by this Court on complaint.
+- id: ACT-RECTIFICATION-COMMISSION:s4
+  title: Powers of rectification - the editorial list, and it is exhaustive
+  text: >-
+    A Commission MAY, within its warrant, do the following and nothing else. The list is EXHAUSTIVE: a
+    power not on it is not conferred, and the Principal's "powers to rectify the entire system and its
+    law" is given effect as a power over the FORM in which law is held, on the Principal's own narrowing
+    that this is "an editorial piece not a wild west".
+
+    (a) FORM. Repair an instrument's syntax, quoting, indentation, transcription and schema conformance,
+    on proof that the repair is content-preserving by the test in section 5.
+
+    (b) IDENTITY. Migrate a citation from a rendered string to its structured components; register the
+    jurisdiction's citation series, estates and rendering conventions; create forwarding records; and
+    TOMBSTONE an ordinal that has been condemned or is in ambiguous use, so that it is never reissued.
+    A tombstoned ordinal is recorded with the reason and is permanent. Where ACT-PROCEEDINGS-DISCIPLINE:s7
+    and its Schedule 1 already provide the structured tuple, the series and estate registers, the render
+    map and the tombstone rule, this paragraph confers no fresh power and is exercised under those
+    provisions, on the extent Schedule 1 of this Act declares.
+
+    (c) INDEXING. Register a store; correct a citator row to the record it names; and correct a citation
+    that names an authority which does not contain the cited proposition, by substituting the authority
+    that does contain it, on proof of both. Where ACT-PROCEEDINGS-DISCIPLINE:s13 already provides the
+    store register, this paragraph confers no fresh power over registration and is exercised under it.
+
+    (d) READERS. Widen a reader so that a filed record loads. Never edit the record where widening the
+    reader will reach it. A widening is proved by a negative control showing that the named record now
+    loads AND that no record class previously rejected becomes acceptable other than that record's own.
+    A widening that removes a validation is not a widening of a reader and is not within this paragraph.
+
+    (e) BINDING. Bind an enacted duty to an existing gate; require a negative control for a duty a corpus
+    claims is bound; and reclassify a duty that no gate can ever hold from an enforceable duty to a duty
+    enforced by a court, so that it ceases to sit in an unwired list indistinguishable from work not yet
+    done. A reclassification occurs IN THE AUDIT AND THE REPORT, never in the instrument: moving a token
+    out of a `kernel_effect` would be amending a statute, which this section's own prohibitions forbid.
+
+    (f) CONSOLIDATION. Consolidate a series of supplemented instruments into one restatement, subject
+    to section 1(c), exercised under ACT-PROCEEDINGS-DISCIPLINE:s6, whose concordance requirement this
+    paragraph does not displace, and on a concordance mapping every holding, directive and forbidden
+    clause of every superseded instrument either to its restated location or to an express statement
+    that it is discharged, with the authority for that statement.
+
+    (g) SCHEDULING. Enter and certify on the public record the rectification schedule which bounds the
+    stay under section 6, and nothing else. A rectification schedule names the instruments and the
+    classes under this section it covers. A schedule that names a jurisdiction, a store, a series or a
+    corpus as a whole is not a schedule and certifies nothing, and no stay attaches on it.
+
+    A Commission MAY NOT: alter the holding, ratio, disposal or operative terms of any order; decide or
+    dispose of a reserved question; create, alter or re-rate a verb, capability, credential, permission
+    model or authentication tier; enact, amend, disapply or read down any statute, regulation, rule or
+    order; overrule anything; or exercise any power over the product rather than over the law.
+
+
+    A STORE IS NOT RETIRED while it holds the only copy of any record, and never where that record declares
+    a valid assent_source, until the unique content has been relocated into a registered store and the
+    relocation recorded with both addresses. Retiring a store holding a unique copy is exclusion of a
+    record by an editorial act, which section 1(a) forbids.
+  kernel_effect:
+    defines:
+    - commission.power.form
+    - commission.power.identity
+    - commission.power.indexing
+    - commission.power.readers
+    - commission.power.binding
+    - commission.power.consolidation
+    - commission.tombstone.permanent
+    must:
+    - confine_a_commission_to_the_exhaustive_power_list
+    - record_a_tombstoned_ordinal_with_its_reason
+    - widen_the_reader_rather_than_edit_the_record
+    must_not:
+    - a_commission_altering_the_operative_terms_of_an_order
+    - a_commission_deciding_a_reserved_question
+    - a_commission_touching_a_verb_capability_permission_model_or_auth_tier
+    - a_commission_enacting_amending_or_reading_down_an_instrument
+    - a_commission_overruling_anything
+    - reissuing_a_tombstoned_ordinal
+- id: ACT-RECTIFICATION-COMMISSION:s5
+  title: Content preservation, and the test is this test
+  text: >
+    A rectification under section 4(a) or 4(f) is lawful only on proof that it preserved content. THE
+    TEST IS STATED AS WHAT MAY CHANGE AND NOT AS WHAT MAY NOT, because where loss must be impossible the
+    mechanism cannot be a list of names (`crates/vjs-core/src/types.rs:440-446`, READ - the kernel's own
+    stated reasoning for its catch-all). Three drafts of this section were deny-lists, each drawn short,
+    and the third was shown to pass a proof while an order's `appealable`, `bench`, `case_file_digest`
+    and `court` were rewritten.
+
+    THE TEST. Compare the record AS FILED before and after. Every key the file carries, at every depth,
+    must be present after, and its normalised token sequence must be byte-identical before and after
+    following scalar reassembly and whitespace normalisation. THE ONLY PERMITTED DIFFERENCE is a change
+    of scalar style, quoting, indentation, line folding or key order which leaves every key present and
+    every normalised value identical. A key present before and absent after is a FAILURE, whatever its
+    name; a key absent before and present after is a FAILURE.
+
+    THE COMPARISON IS OVER THE FILE'S NODE TREE AND NOT OVER ITS KEY NAMES. Every NODE the file carries
+    must be present after at the same path: every mapping key with its value, and every SEQUENCE ITEM
+    at its index, at every depth. A sequence that loses an item, gains an item, or changes the order of
+    its items is a FAILURE, whatever key names survive elsewhere in the file; and where the file's root
+    is a sequence, the root is itself compared as a node. A duplicate key name is compared per occurrence
+    and not per name. Every comment the file carries is preserved. A permitted change of style, quoting
+    or folding is permitted only where the record remains loadable by the reader that loaded it before;
+    a re-rendering that changes a scalar's parsed type, or that renders any record unloadable, is not a
+    permitted difference and is not content-preserving.
+
+    THE PROOF IS TAKEN OVER THE FILE AND NEVER OVER THE LOADED STRUCTURE. `Statute`, `StatuteSection`,
+    `KernelEffect` and `Regulation` model no catch-all and deny no unknown field
+    (`crates/vjs-lawpack/src/lib.rs:257-298`, READ; EXECUTED `grep -rn "serde(flatten\|deny_unknown_fields"
+    crates/vjs-lawpack/src/` -> zero), so a load silently discards every unmodelled key and a proof taken
+    after the load cannot see its deletion. A proof taken over a loaded structure is not a proof under
+    this section.
+
+    THE TEST APPLIES UNCHANGED TO EVERY CLASS OF GOVERNED RECORD and the Commission does not adapt it
+    to a schema. In particular it applies to a `Statute` and to a `Regulation`, which carry no `holding`,
+    no `directives`, no `forbidden` and no catch-all, and to which a test framed in those terms would be
+    vacuous - so that a consolidation under section 4(f) cannot rewrite a section's `text`, a
+    `kernel_effect`'s `must`, `must_not`, `may`, `prohibits`, `proof` or `defines`, a `Regulation`'s
+    `authority`, or any `id`, with a passing proof.
+
+    FOR THE AVOIDANCE OF DOUBT AND WITHOUT NARROWING THE ABOVE, the following are within the test and a
+    change to any of them is not content-preserving, whatever it is labelled: `holding`, each directive's
+    `must`, `actor`, `id` and `when`, each forbidden clause, `status`, `assent_source`, `citation`,
+    `issue`, `court`, `jurisdiction`, `repo_code`, `supersedes`, `exceptions`, `cites_authorities`,
+    `bench`, `case_file_digest`, `convened_at`, `vote`, `appeal_of`, `appealable`, `source_opinion`,
+    `runtime_summary` and `created_at` (the named fields of `Order`, READ `types.rs:371-423`), and every
+    key preserved under `extra` (`:447`). Flipping a `status` de-forces an instrument; rewriting a
+    directive's `when` guts the duty while its `must` stays byte-identical; flipping `appealable`
+    removes an appeal route with a green proof beside it.
+
+    IN A CONSOLIDATION UNDER SECTION 4(f) the test is taken over EACH SUPERSEDED RECORD, which is not
+    edited: ACT-PROCEEDINGS-DISCIPLINE:s6 leaves every superseded instrument visible, citable and
+    routable, so each passes trivially, and the concordance is the proof for the restatement. There is
+    no "before" for a restatement that did not previously exist, and this section does not pretend one.
+
+    The Commission PREPARES AND EXECUTES a rectification; it never AUTHORS or MAKES one. Where the act
+    is an amendment or a consolidation of a filed order, the maker is the competent court, whose order
+    the Commission obtains BEFORE the act, and the disability on the engineer applies identically to a
+    commissioner who is an agent seat. The Commission may not substitute another test. A rectification
+    described as formal which fails this test is void, and the Commission's own record must carry the
+    test and its result.
+
+    Where the repair is confined to leading whitespace, the stricter test applies and is available: stripping
+    leading whitespace from every line before and after must yield byte-identical text. The rule's force
+    in this Act comes from this Act stating it, not from the subscriber county order that first stated
+    it ([2026] VJS-CC-OPBOX 162, recorded as the origin and cited as persuasive; a canonical primary Act
+    does not incorporate a lower rank's order as its authority).
+  kernel_effect:
+    defines:
+    - commission.proof.content_preserving
+    must:
+    - prove_a_form_rectification_by_the_stated_test
+    - record_the_test_and_its_result
+    - take_the_proof_over_the_file_as_filed
+    - compare_every_node_at_its_path_including_sequence_items
+    must_not:
+    - substituting_another_content_preservation_test
+    - a_proof_taken_over_a_loaded_structure
+    - re_rendering_a_record_so_it_ceases_to_load
+- id: ACT-RECTIFICATION-COMMISSION:s6
+  title: The stay - what is paused, and the four things that never are
+  text: >
+    While a warrant is live, the courts of the named jurisdiction shall not convene a new matter THAT
+    FALLS WITHIN THE RECTIFICATION SCHEDULE THE COMMISSION HAS ENTERED ON THE PUBLIC RECORD AND CERTIFIED,
+    and no other matter is reached. A certification is a DECLARATION, not a finding; it binds no court;
+    and any person, and a court on its own motion, may apply to lift or narrow the stay. AN APPLICATION
+    TO LIFT OR NARROW A STAY, AND ANY CHALLENGE TO A WARRANT, IS A FLOOR MATTER WITHIN PARAGRAPH (d),
+    IS NEVER STAYED, AND IS DETERMINED BEFORE THE MATTER IT CONCERNS IS ENTERED ON ANY REGISTER. This
+    is the "short lawful pause" the Principal directed and its purpose is narrow: to stop a corpus being
+    corrected instrument-by-instrument while it is being repaired as a whole. NO STAY ATTACHES before
+    the rectification schedule is entered and certified under section 4(g), and a stay is CONFINED to
+    that certified schedule; a certification naming a corpus as a whole certifies nothing.
+
+    THE STAY DOES NOT REACH, AND NO WARRANT MAY EXTEND IT TO REACH:
+
+    (a) a DISCOVERED BREACH, which remains self-fileable and justiciable at once (ACT-003:s5);
+
+    (b) an ENFORCEMENT GATE THAT IS UNSATISFIABLE, which is auto-justiciable on its first fire regardless
+    of risk (ACT-003:s10, given effect by [2026] VJS-SC 4);
+
+    (c) a TRUST-BOUNDARY FORK - any verb rated SENSITIVE or above, any EXTERNAL authentication tier, and
+    any token, capability, credential or permission-model change - which goes to court before implementation
+    regardless of reversibility. The Clerk-Drafter records that this rule is held at `[2026] CC-OPBOX
+    16` in the `.justice/` series (address in the schedule), that the companion Bill cited it to `[2026]
+    VJS-CC-OPBOX 16/17/18` in a different series on unrelated questions, and that all four counsel caught
+    it;
+
+    (d) any matter engaging a floor under section 1.
+
+    A stay is not a denial of jurisdiction. It defers the CONVENING of a matter it reaches; it extinguishes
+    nothing, it tolls every reservation and every review date for its duration, and a matter it defers
+    is convened on its expiry without fresh application.
+  kernel_effect:
+    defines:
+    - commission.stay.deferral_not_denial
+    - commission.stay.carve_outs
+    - commission.stay.tolls_reservations
+    - commission.stay.lift_route_never_stayed
+    must:
+    - convene_a_deferred_matter_on_expiry_without_fresh_application
+    - toll_every_reservation_and_review_date_for_the_stay
+    - determine_an_application_to_lift_or_narrow_a_stay_before_the_matter_it_concerns_is_entered_on_a_register
+    - enter_and_certify_the_rectification_schedule_before_a_stay_attaches
+    - confine_a_stay_to_the_certified_rectification_schedule
+    must_not:
+    - staying_a_discovered_breach
+    - staying_an_unsatisfiable_enforcement_gate
+    - staying_a_trust_boundary_fork
+    - staying_a_matter_engaging_a_floor
+    - a_warrant_purporting_to_narrow_a_carve_out
+    - staying_an_application_to_lift_or_narrow_a_stay_or_a_challenge_to_a_warrant
+    - staying_a_matter_outside_the_certified_rectification_schedule
+    - certifying_a_rectification_schedule_naming_a_corpus_as_a_whole
+- id: ACT-RECTIFICATION-COMMISSION:s7
+  title: Sunset, and the asymmetry that makes it safe
+  text: >
+    A warrant expires on the date it states, and not later than NINETY DAYS from commencement. On expiry
+    the Commission dissolves. AND THIS ACT EXPIRES OF ITSELF: if no warrant has issued within ninety days
+    of commencement, this Act is spent without further act; and in no case does a power under it survive
+    one hundred and eighty days from commencement, whatever remains undone. An Act constituting a temporary
+    organ must be incapable of standing in force indefinitely merely because nobody exercised it.
+
+    THE ASYMMETRY IS DELIBERATE AND IS THE SAFETY PROPERTY OF THIS ACT. On expiry:
+
+    (a) the POWERS lapse FAIL-CLOSED. An act of a dissolved Commission is void, and a rectification begun
+    and not completed is abandoned rather than presumed.
+
+    (b) the STAY lifts FAIL-OPEN, automatically, with no act required by anybody. It is not renewed by
+    silence, by inaction, by an unfinished sweep, or by the absence of a closing report.
+
+    A body that could extend its own pause by not finishing would be a standing suspension of the courts
+    wearing a sunset. Extension requires a FRESH warrant of the Principal, which is a new instrument and
+    a new record, and no warrant may be extended more than once for one jurisdiction without a report
+    under section 8 having been delivered on the warrant it extends.
+  kernel_effect:
+    defines:
+    - commission.expiry.powers_fail_closed
+    - commission.expiry.stay_fails_open
+    must:
+    - lift_the_stay_automatically_on_expiry
+    - void_the_acts_of_a_dissolved_commission
+    - require_a_fresh_warrant_to_extend
+    must_not:
+    - extending_a_stay_by_inaction_or_an_unfinished_sweep
+    - a_warrant_exceeding_ninety_days
+    - a_second_extension_without_a_delivered_report
+- id: ACT-RECTIFICATION-COMMISSION:s8
+  title: The closing report, and the duty to say what was NOT done
+  text: >-
+    A Commission SHALL deliver a closing report to the Principal, published in the named jurisdiction,
+    before expiry. The report states:
+
+    every rectification, with the instrument, the class under section 4, the exact prior text, the exact
+    new text, the authority, and the content-preservation test with its result; every store enumerated
+    and every store NOT reached; every finding the Commission found and did not rectify, with the reason;
+    every duty reclassified under section 4(e) and to what; every ordinal tombstoned; and the measured
+    before-and-after of the numbers the sweep exists to move.
+
+    THE DUTY TO REPORT WHAT WAS NOT DONE IS EQUAL TO THE DUTY TO REPORT WHAT WAS. A sweep that reports
+    only its rectifications reads as completeness, and the corpus has been damaged more by bounded searches
+    presented as facts about the corpus than by any error of substance recorded in it.
+
+    No count of rectifications is asserted without naming the build and the commit of every instrument
+    that produced it. Where an instrument carries no commit identity, the report names it by digest and
+    says so.
+
+
+    A reclassification of a duty is reported WITH THE AUDITED DUTY COUNT BEFORE AND AFTER, so a fall in
+    the measured population cannot be presented as work done.
+  kernel_effect:
+    defines:
+    - commission.report.closing
+    - commission.report.not_done
+    must:
+    - deliver_a_closing_report_before_expiry
+    - report_every_finding_not_rectified_with_its_reason
+    - name_every_store_not_reached
+    - name_the_build_and_commit_behind_every_count
+    - report_the_audited_duty_count_before_and_after_every_reclassification
+    exceptions:
+    - >
+      Where a report would disclose data about a real person, a credential or a tenant identifier, the
+      published report carries the redacted form and the redaction authority, and the unredacted form
+      goes to the confidential annex. This never overrides ACT-CONSOLIDATION-FRAMEWORK:s21.
+- id: ACT-RECTIFICATION-COMMISSION:s9
+  title: Review - every act appealable, nothing settled
+  text: >
+    Every act of a Commission is APPEALABLE AS OF RIGHT to the courts of the named jurisdiction, and an
+    appeal is not stayed by section 6. This confers an ORIGINAL supervisory jurisdiction over an
+    executive act and is not an appeal from an order; ACT-002:s5, which defers the Court of Appeal and
+    reserves the appellate route to the Principal's discretion, is not varied and no appellate tier is
+    created. The prior text of every rectified instrument remains routable and resolvable until the
+    appeal period closes.
+
+    A WARRANT IS CHALLENGEABLE AS OF RIGHT in the courts of the named jurisdiction, on the grounds that
+    it names a jurisdiction that has not acceded, that it exceeds ninety days, that it would be the
+    fourth concurrent warrant, or that it purports to narrow a carve-out. A warrant is an act of the
+    Principal and not of a Commission, so this right is conferred here expressly rather than presumed
+    from the paragraph above.
+
+    A Commission act is not precedent, decides nothing, and binds no court. Where a Commission believes
+    an instrument's SUBSTANCE is wrong, its only power is to record the finding in the closing report
+    and refer it; and where the referral is of first impression it goes to the court in the ordinary way
+    after the stay lifts.
+
+    An act of a Commission may be set aside on appeal for any of: exceeding the exhaustive power list;
+    failing the content-preservation test; reaching a floor; acting outside the warrant's jurisdiction
+    or after expiry; or rectifying without recording the address and mode of the finding it rested on.
+  kernel_effect:
+    defines:
+    - commission.act.appealable_as_of_right
+    - commission.act.not_precedent
+    must:
+    - keep_the_prior_text_routable_until_the_appeal_period_closes
+    - refer_a_substantive_finding_rather_than_act_on_it
+    must_not:
+    - staying_an_appeal_from_a_commission_act
+    - treating_a_commission_act_as_precedent
+    - refusing_a_warrant_challenge_on_the_stated_grounds
+- id: ACT-RECTIFICATION-COMMISSION:s10
+  title: Commencement by section, and this Act's own conformance status
+  text: >
+    THIS ACT DOES NOT COMMENCE AS A WHOLE. Sections 1, 2, 5, 6, 7, 8, 9, 10, 11 and 12 commence on
+    assent, because they are the constraints, the accountability and the schedules; no section conferring
+    a power commences before the constraint that bounds it is in force, and an amending provision does
+    not commence apart from the schedule that states its extent.
+
+    Sections 3 and 4 - the audit sweep and the powers - commence on the day the gate binding them is in
+    force, AND IF NO SUCH GATE IS IN FORCE AT THE DATE THIS ACT IS SPENT UNDER SECTION 7 THEY NEVER COMMENCE,
+    WHICH IS INTENDED: an Act that confers a power it cannot bound is better spent unexercised. A section
+    not yet commenced states a duty that binds no gate and is reported UNWIRED.
+
+    Measured by EXECUTION of `vjs audit --json` in canon on 2026-08-05: 281 duties, 43 wired, 238 unwired.
+    This Act adds duty tokens, and NOT ONE of them presently appears in the gate registry at `crates/vjs-lawpack/src/report.rs:36-241`,
+    which is the sole consumer of a duty token in the kernel. This Act's own conformance status is therefore
+    PUBLISHED WITH THE AUDIT and is not asserted here. An Act that asserted its own enforcement would
+    be the ceremony this programme exists to end.
+  kernel_effect:
+    defines:
+    - act.commencement.by_section
+    - act.conformance.published_not_asserted
+    must:
+    - commence_a_constraint_before_the_power_it_bounds
+    - publish_this_acts_own_unwired_duties_in_the_conformance_audit
+    must_not:
+    - reporting_a_section_of_this_act_as_enforced_before_its_gate_commences
+- id: ACT-RECTIFICATION-COMMISSION:s11
+  title: Schedule 1 - express amendments
+  text: >-
+    This Act amends, to the extent stated and no further:
+
+    ACT-002:s6 - section 6 defers the convening of a matter on the triggers of first impression, distinction,
+    variation or overruling, and conflict, FOR THE DURATION OF A WARRANT ONLY and only for a matter certified
+    within the rectification schedule; the breach trigger is NOT deferred (s6(a)).
+
+    REG-SELF-CONVENE-001 ([2026] VJS-REG 19) - section 6 defers the own-motion convening duty for a first-impression
+    question, a genuine distinction, a proposal to overrule and a conflict, for the same duration and
+    on the same limit; it does NOT defer that duty for a discovered breach, for an unsatisfiable enforcement
+    gate, or for a trust-boundary fork, each of which section 6 carves out expressly.
+
+    ACT-CONSOLIDATION-FRAMEWORK:s21, second limb (rights, standing and due process), cited by number -
+    section 6 is drawn so that NO DEROGATION ARISES, every matter engaging a floor being carved out at
+    s6(d) and every application to lift or narrow a stay being itself such a matter. If a derogation is
+    nonetheless found, section 6 is void to that extent and the floor stands.
+
+    ACT-PROCEEDINGS-DISCIPLINE:s7 - sections 4(b) and 4(c) of this Act confer the PREPARATION and
+    EXECUTION of a forwarding record, a series or estate registration, a tombstone and a citation
+    correction. Section 7 of that Act reserves the CREATION of a forwarding record and the AMENDMENT of
+    a citation to the amending court. This Act varies section 7 to this extent and no further: a
+    Commission PREPARES AND EXECUTES each such act and never MAKES one, the maker being the competent
+    court whose order the Commission obtains BEFORE the act (section 5), and this applies to every
+    instrument and not only to a filed order. Where section 7 already provides the machinery, section
+    4(b) confers no fresh power and is exercised under it.
+
+    ACT-PROCEEDINGS-DISCIPLINE:s13 - section 13 requires a store that is a copy to be registered as a
+    copy or retired. Section 4 of this Act qualifies the retirement limb to this extent and no further:
+    a store is not retired while it holds the only copy of any record, and never where that record
+    declares a valid assent_source, until the unique content is relocated into a registered store and
+    the relocation recorded with both addresses.
+
+    CONSIDERED AND NOT VARIED, recorded so silence is not ambiguity: REG-COURT-RECORD-001
+    ([2026] VJS-REG 22) - section 5's test protects `bench` and `case_file_digest` expressly, so the
+    Regulation's mandates are enforced by this Act, not varied by it. ACT-003:s5 and ACT-003:s10 -
+    section 6 carves each out expressly at s6(a) and s6(b). REG-REPOS-REGISTER-001 ([2026] VJS-REG 18) -
+    presence on the repos register is evidence identifying candidates and never a source of the warrant
+    power, which arises from the Principal's warrant and the jurisdiction's own accession; the
+    Regulation's rule that the register is a derived, pointer-only, rebuildable projection and never a
+    source of law stands undisturbed. ACT-002:s5 - section 9 confers an original supervisory
+    jurisdiction, not an appellate tier.
+
+    It varies no other instrument. That sentence is a BOUNDED CLAIM and not an absolute: the enumeration
+    above is the amendment set the Clerk-Drafter measured, and a variation found outside it is a defect
+    in this Schedule, correctable by a further Act or by the route the corpus provides for correcting a
+    statute, never an implied amendment and never on the slip track, which reaches filed orders only.
+  kernel_effect:
+    defines:
+    - amendments.enumerated_express
+    must:
+    - declare_every_variation_this_act_makes_with_its_section_and_extent
+- id: ACT-RECTIFICATION-COMMISSION:s12
+  title: Schedule 2 - the jurisdictions, and the method by which they were counted
+  text: >-
+    jurisdictions_carrying_a_vjs_surface:
+      measured: '2026-08-05, EXECUTED: find /home/jellytot/Projects -maxdepth 6 -name .vjs -type d
+        -not -path "*/node_modules/*", each resolved by readlink -f and deduplicated by realpath,
+        each classified by whether it carries .vjs/config.toml (invoked under REG-INVOCATION-001)
+        and by whether any file exists under the three roots declared at
+        crates/vjs-core/src/front_door.rs:84-97'
+      bounded_claim: 'This enumeration is bounded to /home/jellytot/Projects at depth six with
+        node_modules excluded. The same command over /home/jellytot at depth six returns 75
+        surfaces, including trees under Backups/ and .cache/; those are NOT enumerated here and
+        are among the stores this Act''s first audit must reach and name. THE COUNT IS A MOVING
+        NUMBER, not a fact about the estate: between two measurements taken hours apart on drafting
+        day it moved from 84 to 85, because a test suite run by the Clerk-Drafter itself created a
+        .vjs surface - which is why this schedule states its method and date, and why section 3
+        obliges the first audit to re-enumerate rather than trust this recital.'
+      totals: 'as at 2026-08-05: 85 distinct surfaces after symlink resolution; 59 holding at
+        least one governed record; 21 invoked (config.toml present)'
+      invoked_jurisdictions_of_note:
+      - vibe-justice-system (canon; agent-universe-v2 is a SYMLINK to it, EXECUTED ls -ld, and is
+        the same surface, not a second entry)
+      - opbox-prod/opbox-kernel (the opbox jurisdiction, 116 orders, 32 court records, its own
+        lawpack mirror and .justice series; a distinct repository root, EXECUTED git rev-parse
+        --show-toplevel. The parent opbox-prod/ carries .vjs/{logs,permits} only, holds ZERO
+        governed records, and IS NOT the jurisdiction; a warrant may not name it)
+      - vibe-design-system
+      - Vibe Justice System (DISTINCT repository, EXECUTED git remote -v -> vibe-justice-system-dev,
+        with its own orders, .justice and statutes; jurisdiction, fork or stale copy is for the
+        first audit and the Principal)
+      container_directories_not_jurisdictions:
+      - opbox-prod (.vjs holds logs and permits only; the real store is opbox-prod/opbox-kernel)
+      - opbox-security-scan-latest, opbox-security-scan-latest-r2, opbox-security-scan-repo (each
+        a container over an opbox-kernel copy holding ~109 orders one level down; whether a copy
+        is a jurisdiction is for the first audit and the Principal)
+      not_invoked_but_record_bearing:
+      - boltrig (24 orders, 22 court records, NO config.toml; on section 2's accession rule not
+        presently warrantable)
+      worktrees_the_audit_must_reach:
+      - opbox-prod/opbox-kernel/.worktrees/tablelist-ext (25 orders, 16 court records, 123 lawpack
+        files, divergent)
+      - boltrig/.claude/worktrees/* (seventeen orders-bearing as at 2026-08-05, EXECUTED)
+      note: 'Earlier drafts enumerated eight, then nine entries from a depth-one glob. The glob
+        named a container holding no governed records and could not see the layer where this realm
+        keeps its law. The correction is by METHOD, recorded rather than substituted, section 3 of
+        this Act forbidding an enumeration presented as wider than its search.'
+    addresses_relied_on:
+
+    - claim: the reference extractor recognises only the literal VJS- prefix
+      address: crates/vjs-lawpack/src/refs.rs:47
+      mode: READ
+    - claim: governed record roots are lawpack/v2, .vjs/orders, .vjs/court
+      address: crates/vjs-core/src/front_door.rs:84-97
+      mode: READ
+    - claim: the citation walker reads only .yaml and .yml, so a .md store is skipped
+      address: crates/vjs-core/src/lib.rs:45-50
+      mode: READ
+    - claim: the trust-boundary rule is held in the .justice series, not the .vjs/orders
+        series
+      address: opbox-kernel/.justice/judgments/county-court/2026-cc-opbox-16.md:44
+      mode: READ
+    - claim: 281 duties, 43 wired, 238 unwired
+      address: vjs audit --json (canon)
+      mode: EXECUTED
+    - claim: no deny_unknown_fields in the lawpack crate
+      address: grep -rn deny_unknown_fields crates/vjs-lawpack/src/ -> zero matches
+      mode: EXECUTED
+
+    This schedule is a SECTION and not a top-level key: `Statute` models no `schedule` field and no deserialisation
+    struct in the reader denies unknown fields, so a top-level schedule would be silently discarded -
+    the defect this Act exists to repair.
+  kernel_effect:
+    defines:
+    - commission.schedule.jurisdictions
+    must:
+    - state_the_method_and_the_bound_of_every_enumeration_in_this_schedule
+    - name_every_store_this_schedule_does_not_reach

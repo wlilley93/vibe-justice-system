@@ -1,0 +1,699 @@
+id: ACT-PROCEEDINGS-DISCIPLINE
+citation: "[2026] VJS-ACT 11"
+assent_source: sovereign_assent
+title: The Proceedings Discipline Act 2026
+status: in_force
+enacted_by: principal
+purpose: >
+  Enacted on Sovereign Assent given 2026-08-05, pinned to the engrossed-text digest
+  sha256:8690040675a2779b5a3c0168f8d1fa70a57182911b1c00735cb6e00a8c458375 (assent record
+  lawpack/v2/provenance/assent/2026-08-05-proceedings-discipline-assent.yaml; the engrossed
+  instrument preserved verbatim at .vjs/submissions/draft/ACT-PROCEEDINGS-DISCIPLINE.yaml).
+  Adopted 4-0 by the Standing Committee on 2026-08-05, adoption constitutive ([2026] REALM-SC 8),
+  after three rounds of counsel scrutiny; the Committee's digest check verified the operative
+  text byte-identical to the adopted text. The VJS-ACT ordinal above was minted by the kernel
+  allocator at commencement, never self-asserted. Reduces the cost of governance by removing its
+  measured causes: structured citation identity (s7, Schedule 1, on the Principal's own
+  proposal), the filed-order amendment power (s6), machinery-claim discipline (s2), and
+  UNREADABLE-IN-FORCE (s9). Its 53 duty tokens are published with the conformance audit, not
+  asserted as enforced.
+sections:
+- id: ACT-PROCEEDINGS-DISCIPLINE:s1
+  title: Definitions
+  text: >
+    In this Act:
+
+    MACHINERY means code, a gate, a check, an invariant, a hook, a binary, a command, a schema, a reader,
+    or any other runtime artefact whose force comes from its function rather than from promulgation. A
+    regulation directing machinery is not itself machinery.
+
+    OBSERVED means read at a stated file and line, or executed as a stated command with its output recorded.
+    An inference from the name of a field, a flag, a function, a directory or a command argument is not
+    an observation. A bounded search is not a fact about what exists.
+
+    EXECUTED means the artefact was run and its output recorded. READ means the artefact's text was inspected
+    without being run. A machinery claim states which.
+
+    OPERATIVE PARTS, of an order, means its holding, each directive's must text, and each forbidden clause,
+    and nothing else ([2026] VJS-PC 17 D1). A reference in the issue, vote, question, runtime_summary,
+    source opinion or case-file digest is recital and is not operative. The term "operative surface" is
+    not used in this Act.
+
+    LIVE, of an instrument, means recorded in force or binding and not superseded, varied away, overruled,
+    revoked or spent. Unloadability does not make an instrument other than live; it makes its form unresolved
+    (s9).
+
+    ISSUE TAG means the value of an order's issue field. Two tags are the same tag if equal after normalisation:
+    lowercased, non-alphanumeric runs collapsed to one separator, leading and trailing separators removed,
+    any trailing version or ordinal suffix stripped.
+
+    REVERSIBLE means capable of being undone by a later act of no greater cost, blast radius or authority
+    than the act itself. It is not satisfied merely because code can be edited back. This definition governs
+    this Act only and does not alter ACT-003:s2 or ACT-004:s7.
+
+    BLAST RADIUS means the set of actors, records, stores, external systems and third parties whose state
+    the act changes or could change, including those reached only on failure.
+
+    TRUST BOUNDARY means any verb rated SENSITIVE or above, any EXTERNAL authentication tier, and any
+    token, capability, credential or permission-model change.
+
+    STORE means any location in a jurisdiction capable of holding a governed record or a citation, including
+    every declared governed-record root, any citator outside those roots, and any mirror, worktree or
+    additional checkout. An enumeration that omits a store has not measured the jurisdiction.
+
+    STORE REGISTER means the declared, kept-current register of a jurisdiction's stores (s13).
+
+    NEGATIVE CONTROL means a seeded violation, recorded with the command run and its output, demonstrating
+    that the gate under test refuses, asserting the specific finding the duty's gate raises, shipped with
+    its positive twin.
+
+    ESTATE means the body of law a record belongs to (v1 or v2), an existing field of the gazette and
+    a component of every structured citation under Schedule 1.
+
+    TOMBSTONE means a register entry recording that a citation's components are condemned, void or retired,
+    never to be reissued, resolving to the instrument that condemned them.
+
+    RESERVED ORDINAL means a register entry holding a citation's components unallocated pending a named
+    matter, neither issuable nor tombstoned until that matter resolves.
+
+    FORWARDING RECORD means an entry causing an amended citation to resolve to its replacement and to
+    report that it was forwarded; a pointer, never a second allocation.
+
+    MACHINERY CLAIM means a structured entry under s2, never a sentence of prose.
+  kernel_effect:
+    defines:
+    - term.machinery
+    - term.observed
+    - term.operative_parts
+    - term.issue_tag_normalised
+    - term.store
+    - term.store_register
+    - term.negative_control
+    - term.estate
+    - term.tombstone
+    - term.reserved_ordinal
+    - term.forwarding_record
+    must_not:
+    - reading_the_definition_of_reversible_in_this_act_as_altering_act_003_s2_or_act_004_s7
+    - treating_an_enumeration_that_omits_a_store_as_a_measurement_of_the_jurisdiction
+- id: ACT-PROCEEDINGS-DISCIPLINE:s2
+  title: Machinery claims - the pleading standard
+  text: >
+    Where the OPERATIVE PARTS of a filing or order assert the behaviour of machinery, the assertion is
+    carried by a structured machinery_claims block, on the model of cites_authorities and for the reason
+    given there ([2026] VJS-PC 17 D7): the authored list carries the teeth and the prose stays for humans.
+    Each entry states: the assertion; mode (EXECUTED or READ); repo (the repository root in which the
+    address resolves); for READ, path and line, and where the claim is about content, quote and blob_sha;
+    for EXECUTED, command, exit_code, an output_digest, and whether reproducible. The kernel refuses a
+    filing only where an entry is absent, malformed, or names a mode other than EXECUTED or READ, and
+    names each defective entry. A record declaring a valid assent_source is never blocked by this section;
+    the defect is surfaced and routed for correction (ACT-ASSENTED-RECORD-PROTECTION:s1, cited by number).
+    The kernel does not, and may not, decide by reading prose whether a sentence asserts machinery behaviour:
+    that would require a classifier. ACT-003:s8 prohibits adding a model call to the kernel core (subject
+    to its adapter exception), and ACT-004:s3 fixes a closed predicate registry which forbids evaluating
+    an invariant by model, by cosine or by free-form script - so the capability is not merely prohibited,
+    it is absent from the registry a deterministic clerk may draw on. An address is not observed unless
+    it resolves in the repository named; a path valid only in a mirror is not an address in canon.
+
+    WHAT THE CLERK CANNOT CHECK, stated so that no reader mistakes this gate's silence for verification.
+    A deterministic clerk can check that an entry is well-formed, that a READ address exists, and, where
+    a quote and blob_sha are given, that the quoted text stands at that address in that revision. Where
+    a command is declared reproducible, the clerk may re-run it and compare the output digest. IN EVERY
+    OTHER CASE THE EXECUTED MODE IS ATTESTED BY THE FILER AND NOT VERIFIED BY THE KERNEL: no artefact
+    distinguishes a falsely-declared EXECUTED from a true one. That limb is a duty on the filer enforced
+    by the courts, and this section says so on its face rather than reporting a pass on a claim nobody
+    checked.
+
+    RELATION TO THE CITATION-GROUNDING TEETH. The citation-grounding gate is existence-only and never
+    reads what a cited authority says ([2026] VJS-PC 17 D7-D8). This section's quote limb reads content,
+    deliberately: a file at a pinned blob is a fixed object, whereas what an authority MEANS is for a
+    court. Nothing here extends the citation-grounding gate and this section is not to be read as overruling
+    D7 or D8 by implication.
+
+    A claim about machinery carrying no address is not a finding of fact and no bench may rest a ratio
+    on it: that limb is a rule of evidence binding the bench and the filer, enforced by the courts and
+    not by a gate. Where an output would disclose data about a real person, a credential or a tenant identifier,
+    the entry records the redacted output and the redaction authority, the unredacted output goes to the
+    confidential annex, and this duty never overrides ACT-CONSOLIDATION-FRAMEWORK:s21. This section amends
+    ACT-003 by inserting the machinery-claims duty as agent-duties law (Schedule 3).
+  commentary: >
+    Three of the four corrective rulings this Act was drafted from were caused by assertions about machinery
+    nobody had run, relied on by a bench: [2026] VJS-CC-OPBOX 159 correcting 158, 161 reading down 160,
+    164 correcting 163 (whose scope error sat four lines above the finding, in a comment naming the order
+    that made it). The first draft of this very Act then committed the same error three more times, each
+    caught by the Committee: a misread allocator invocation, a mis-attributed Privy Council directive,
+    and a mis-named file.
+  kernel_effect:
+    defines:
+    - filing.machinery_claims_block
+    must:
+    - refuse_a_filing_whose_machinery_claims_entry_is_absent_or_malformed
+    - name_each_defective_machinery_claims_entry
+    - verify_a_quote_against_its_pinned_blob_where_given
+    exceptions:
+    - resting_a_ratio_on_an_unaddressed_machinery_claim_is_barred_but_no_gate_holds_it_it_is_enforced_by_the_courts
+    - the_executed_mode_is_filer_attested_and_the_kernel_does_not_verify_it
+- id: ACT-PROCEEDINGS-DISCIPLINE:s3
+  title: One matter, one issue tag
+  text: >
+    No second binding order may be recorded against an ISSUE TAG (normalised, s1) already held by a live
+    binding order, or naming the same disposes value, unless the second expressly names the first and
+    declares itself superseding, varying, or supplemental to it. The kernel refuses the write otherwise.
+    An empty or absent issue is refused. A supplemental order states in its holding what in the earlier
+    order it leaves standing. A record declaring a valid assent_source is never blocked by this section;
+    the defect is surfaced and routed for correction (ACT-ASSENTED-RECORD-PROTECTION:s1, cited by number).
+    This section amends ACT-002:s9 and ACT-004:s9 by adding the declared relations (Schedule 3).
+  commentary: >
+    Orders 163 and 164 of the opbox county court both carry the issue dec15_dec19_recitation_and_order_completion,
+    two sittings on one matter, and nothing detected it. The normalisation rule exists because exclusivity
+    over an author-controlled exact string is evaded by appending a suffix, and the disposes limb because
+    the first draft's version was evaded by moving the subject into a different field.
+  kernel_effect:
+    defines:
+    - order.issue_tag.exclusivity
+    - order.relation.supersedes
+    - order.relation.varies
+    - order.relation.supplemental
+    must:
+    - refuse_a_second_live_order_on_one_normalised_issue_tag_without_a_declared_relation
+    - refuse_an_order_with_an_empty_issue
+    - route_rather_than_block_where_the_record_declares_a_valid_assent_source
+- id: ACT-PROCEEDINGS-DISCIPLINE:s4
+  title: The existence limb, given statutory footing
+  text: >
+    An order that relies on an authority which does not exist carries a Fatal but CORRECTABLE defect.
+    It is not deprived of force by the defect and not by this section: [2026] VJS-PC 17 (Q2) so held,
+    and this section codifies rather than varies that holding. The record is routed for correction and
+    is never voided by the clerk; voidness on the ground of per incuriam depends on whether the holding
+    depends on the bad citation, a conclusion of law reserved to a court on appeal (ACT-002:s9). An order
+    that ADJUDICATES a citation does not rely on it and is not caught. [2026] VJS-PC 17 D1 directs the
+    existence gate to cite ACT-002:s7 and REG-KERNEL-001 on every denial; NOTHING IN THIS SECTION VARIES
+    THAT DIRECTIVE. This section supplies the statutory footing the doctrine previously lacked, and until
+    a court above the Privy Council or the Council itself varies D1, the gate cites this section IN ADDITION
+    TO, never instead of, the authorities D1 named. A citation in a series or form the reference extractor
+    does not recognise is reported UNGROUNDED and counted in the jurisdiction's self-test; it is never
+    treated as resolved and never treated as absent.
+  commentary: >
+    The phrase per incuriam appears in no statute of the lawpack; it is judge-made ([2026] VJS-SC 4, VJS-SC
+    6, VJS-PC 17). The gate's citation of ACT-002:s7 is compliance with PC 17 D1, and the first draft's
+    characterisation of it as the engineer's blunder is withdrawn: the first draft's cure would have commanded
+    the clerk to breach a binding Privy Council directive. The UNGROUNDED limb exists because the extractor
+    recognises only the VJS-prefixed form, so the entire v1 estate, the subscriber continuity series and
+    the constitutional Act's own REALM citations are invisible to the gate that enforces citations, and
+    invisibility must be a counted state rather than a silence.
+  kernel_effect:
+    defines:
+    - order.reliance.existence_limb
+    - order.reliance.adjudication_exemption
+    - citation.grounding.ungrounded_state
+    must:
+    - route_an_unresolved_operative_citation_for_correction
+    - cite_this_section_in_addition_to_the_authorities_pc17_d1_named
+    - count_unrecognised_citation_forms_as_ungrounded_in_the_self_test
+    must_not:
+    - the_clerk_declaring_an_order_void_for_a_dangling_citation
+- id: ACT-PROCEEDINGS-DISCIPLINE:s5
+  title: Decision and log - a route conferred, none withdrawn
+  text: >
+    A matter that is low-risk, REVERSIBLE, and touches no TRUST BOUNDARY may be resolved by decision and
+    log, and the absence of an order is not a defect in such a matter. This section confers a route; it
+    withdraws none. It does not disapply any court trigger - breach, conflict of authority, first impression,
+    distinction, or overruling - and a matter carrying such a trigger goes to court whatever its risk
+    rating; ACT-003:s5 and ACT-003:s10 are untouched. The classification of a matter as low-risk, reversible
+    and non-boundary is a DECLARATION by the acting agent, recorded with the declarant's name and the
+    facts relied on. It is not a finding. It binds no court. A bench retains jurisdiction to sit in order
+    to determine whether the classification was correct, and may do so on its own motion. A classification
+    later found incorrect is a breach by the declarant, filed as such. Nothing in this section prevents
+    the route returning CourtRequired.
+  commentary: >
+    Every input the route classifies on is caller-supplied and the kernel has no independent classifier,
+    so the first draft's prohibition on the route returning CourtRequired was an ouster of jurisdiction
+    on the actor's own say-so: Guardrail's finding, accepted in full. The permissive limb needs no new
+    kernel code at all; the significance filter already implements it.
+  kernel_effect:
+    defines:
+    - matter.class.decide_and_log
+    - classification.is_a_declaration_not_a_finding
+    must:
+    - permit_a_low_risk_reversible_non_boundary_matter_to_resolve_by_decision_and_log
+    - record_the_declarant_and_the_facts_relied_on
+    exceptions:
+    - the_trust_boundary_carve_out_is_a_classification_no_gate_holds_it_is_enforced_by_the_courts
+- id: ACT-PROCEEDINGS-DISCIPLINE:s6
+  title: Opening and amendment of a filed order
+  text: >
+    A filed order may be OPENED and AMENDED, by order of the court that made it or of a superior court,
+    on application or on the court's own motion. Two tracks, never conflated.
+
+    THE SLIP TRACK, for a formal defect carrying no meaning. Content-preserving means, and means only:
+    the normalised token sequence of every OPERATIVE PART, and every directive's actor, is byte-identical
+    before and after, after scalar reassembly and whitespace normalisation - AND, TO THE SAME STANDARD,
+    EVERY OTHER FIELD THE RECORD CARRIES, whether named on the reader's structure or preserved under its
+    catch-all, save only the fields this section expressly permits to be re-rendered. Included beyond
+    doubt: `status`, `assent_source`, `citation`, `issue`, `court`, `jurisdiction`, `repo_code`, `supersedes`,
+    `disposes`, `exceptions`, `cites_authorities`, `bench`, `case_file_digest`, `convened_at`, `vote`,
+    `appeal_of`, `appealable`, and every directive's `id` and `when`. A change to any of them is not content-preserving,
+    is not on the slip track, and is not a rectification of form, whatever it is labelled. The test is
+    stated as what MAY change and not as what may not, because where loss must be impossible the mechanism
+    cannot be a list of names. The test is this test; the amending court may not substitute another. An
+    amendment that changes any operative part is not on the slip track whatever its label, and an amendment
+    described as formal which fails this test is void.
+
+    THE SUBSTANTIVE TRACK. The making court may amend only an error of its own recorded on the face of
+    the order, and an error is on the face only where the order's own text contradicts itself, demonstrated
+    by quoting the two passages. An error shown by material outside the order requires a superior court.
+    The making court may not, on its own motion, enlarge or narrow the class of acts the order permits,
+    requires or forbids. A self-amendment is appealable as of right; the prior text remains routable;
+    where the order has been relied on in a later filed order the amendment is noted on that later order's
+    face. For a county order of a subscribing jurisdiction the superior courts are the canonical Privy
+    Council and Supreme Court, never a locally-constituted apex ([2026] VJS-SC 4). Where the order is
+    a Supreme Court order there is no superior court, the substantive track reaches only a self-contradiction
+    on its face, and any other substantive amendment is RESERVED with no route provided here.
+
+    IN BOTH TRACKS the amendment is recorded ON THE FACE of the order in an amendments block stating what
+    changed, the exact prior text verbatim, the authority, and the date; never only in a side file. The
+    engineer may execute an amendment and may never author one. Where the order carries a valid assent_source,
+    no amendment under either track voids, excludes or blocks the record, and its substance is not amended
+    without fresh assent (ACT-ASSENTED-RECORD-PROTECTION:s1 and s2, cited by number).
+
+    This section EXPRESSLY VARIES ACT-002:s9 (correction requires a new order) and ACT-004:s9 (corrections
+    are new records) to this extent and no further: an amendment under either track is recorded on the
+    face of the amended order rather than only as a fresh record. Neither section's prohibition on deleting
+    an old record is disturbed: the prior text is preserved verbatim, so nothing is deleted and the old
+    text remains visible within the meaning of ACT-004:s9 (Schedule 3).
+
+    SAVING FOR DECLARED-RESIDUE REGISTERS. Nothing here prohibits a named, reasoned, expiring register
+    of instruments a reader cannot load, made by order of a court; such a register records that an instrument
+    cannot be read, never what it used to say, and it is not an amendments record.
+
+    A CONSOLIDATION of a series varied or supplemented twice is made under this section by the court that
+    made the latest instrument or a superior court, competent to the highest tier in the series; a series
+    containing an apex-tier instrument is referred up. It carries a concordance table mapping every operative
+    part of every superseded instrument to its restated location or to an express statement, with authority,
+    that it is discharged or spent. A superseded instrument remains visible, citable and routable, resolving
+    to the consolidated instrument; nothing here excludes any assented record and consolidation is not
+    overruling (ACT-002:s9's reservation of overruling to the Supreme Court is untouched).
+  commentary: >
+    There was no amendment power at all, so on 2026-08-04 one was improvised: three binding orders were
+    amended and the record of what stood there was written into a residue worklist whose name gives no
+    sign it holds amendment history, while the proven repair patch sits at a home-directory backup path
+    outside every governed store. The Restraint counsel called the amendment power the one section that
+    genuinely could not be anything but primary law. The face-of-the-order test for the substantive track
+    exists because the exemplar the first draft cited as a lawful self-correction was, on inspection,
+    a same-judge same-hour ratio change: the power had to be drawn narrower than its own precedent.
+  kernel_effect:
+    defines:
+    - order.amendment.slip_track
+    - order.amendment.substantive_track
+    - order.amendment.on_the_face_record
+    - order.series.consolidation
+    must:
+    - record_an_amendment_on_the_face_with_prior_text_authority_and_date
+    - hold_a_slip_amendment_to_the_fixed_content_preservation_test
+    - preserve_routability_of_prior_text_and_superseded_instruments
+    - require_a_concordance_table_on_a_consolidation
+    must_not:
+    - amending_the_substance_of_an_assented_order_without_fresh_assent
+    - a_locally_constituted_apex_amending_or_consolidating_an_apex_record
+    exceptions:
+    - the_prohibition_on_the_engineer_authoring_an_amendment_is_enforced_by_the_courts_no_identity_gate_exists
+- id: ACT-PROCEEDINGS-DISCIPLINE:s7
+  title: Citations are structured data, allocated by the kernel
+  text: >
+    A citation is a FORM, not a string: estate, year, series, repo where the series is repo-scoped, and
+    ordinal, as Schedule 1 sets out. The rendered string is produced by one render function and parsed
+    by its inverse; no instrument authors a rendered citation by hand. The ordinal is MINTED BY THE KERNEL
+    at registration or commencement, over every store on the jurisdiction's STORE REGISTER, and is refused
+    where self-asserted. Series and estates are themselves registered per jurisdiction, so an unrecognised
+    series is a registration question and never a silent pass or a silent absence.
+
+    A TOMBSTONED citation is never reissued and resolves to the instrument that condemned it. A RESERVED
+    ordinal is neither issued nor tombstoned until its named matter resolves. A citation is AMENDED only
+    under s6 and only with a FORWARDING RECORD created in the same act: the target must be an allocated,
+    existing, in-force instrument distinct from the source; forwarding is non-transitive and a cycle is
+    fatal; a forwarding record is created only by the amending court; a forwarded citation grounds only
+    if its target grounds. The amending order enumerates every citing document and states whether each
+    was updated, so the residue is visible rather than absorbed by the redirect. A self-asserted or mismatched
+    citation on a record declaring a valid assent_source is surfaced and routed for correction and never
+    blocks (ACT-ASSENTED-RECORD-PROTECTION:s1); allocation runs at authoring or commencement and so precedes
+    any assent it could otherwise obstruct. This section amends ACT-004:s8 (Schedule 3).
+  commentary: >
+    The Principal's proposal, and the keystone. Measured on 2026-08-05 by EXECUTION of `vjs next-citation`:
+    the allocator's arithmetic is correct over the roots it reads, and next-citation DEC lawfully offers
+    ordinal 15 - which is semantically loaded, because the label VJS-DEC 15 is already in use across the
+    corpus to denote a specific prior decision of the unitary-stack programme (EXECUTED grep 2026-08-05:
+    15 files in canon, 41 under the opbox `.justice` subtree, meaning the SERIES DEC 15-22 per SUBMISSION-2026-08-04-221305,
+    not ordinal 15 alone). Whatever the STATUS of that decision - which is the pending question this Act
+    may not prejudge - reissuing the ordinal to a NEW and different instrument would silently repoint
+    every one of those references. No string allocator can know that; a reservation, and where a matter
+    later condemns a combination a tombstone, makes the reissue unrepresentable. Likewise the CC-OPBOX
+    and VJS-CC-OPBOX series are not colliding allocations but v1 and v2 of one series distinguished by
+    estate, which the structured form carries as data. The DEC 15 to 22 ordinals are RESERVED, not tombstoned,
+    pending the footing matter SUBMISSION-2026-08-04-221305, which this Act may not prejudge.
+  kernel_effect:
+    defines:
+    - citation.structured_form
+    - citation.render_single_implementation
+    - citation.tombstone
+    - citation.reserved_ordinal
+    - citation.forwarding_record
+    must:
+    - mint_ordinals_over_the_store_register_only
+    - refuse_a_self_asserted_ordinal
+    - refuse_reissue_of_a_tombstoned_citation
+    - require_a_forwarding_record_in_the_same_act_as_a_citation_amendment
+    - enumerate_citing_documents_on_a_citation_amendment
+    - route_rather_than_block_where_the_record_declares_a_valid_assent_source
+    must_not:
+    - a_forwarding_record_targeting_an_unallocated_or_forwarded_citation
+- id: ACT-PROCEEDINGS-DISCIPLINE:s8
+  title: A NOT FOUND states the search that produced it
+  text: >
+    A report that an authority, record or store was NOT FOUND enumerates the stores searched and the query
+    form used, measured against the STORE REGISTER, and states for each store the number of records the
+    search read, so an empty result over an empty scan is visible on its face. A report omitting a registered
+    store is an INCOMPLETE SEARCH, not a NOT FOUND, and may not be relied on. A bench may not treat an
+    unenumerated NOT FOUND as a fact about the corpus and records the enumeration it relied on. Redaction
+    under s2 applies to the recorded query output. This section amends ACT-004:s7 (Schedule 3).
+  commentary: >
+    On 2026-07-31 a bench recorded [2026] VJS-CC-OPBOX 2 as not found in any store searched and declined
+    to rely on it, while a binding order of that name sat in .vjs/orders, created 2026-06-11: fifty days
+    earlier, not six as the first draft recited without an address; the correction is Codification's,
+    verified. The per-store record count exists because the first draft's version was satisfiable by one
+    store and one query - a fully compliant NOT FOUND for a record that existed.
+  kernel_effect:
+    defines:
+    - report.not_found.stores_query_and_counts
+    - report.incomplete_search
+    must:
+    - enumerate_stores_query_form_and_per_store_record_counts_against_the_register
+    - report_an_omitted_registered_store_as_incomplete_search
+    exceptions:
+    - the_bar_on_relying_on_an_unenumerated_not_found_binds_the_bench_and_is_enforced_by_the_courts
+- id: ACT-PROCEEDINGS-DISCIPLINE:s9
+  title: An unreadable instrument is unenforceable by the kernel, and remains in force
+  text: >
+    An instrument the kernel cannot load is NOT APPLIED and is reported UNREADABLE-IN-FORCE. It remains
+    in force: force comes from assent and rank, never from parseability, and a reader's failure is a defect
+    in the reader, never a change in the law. No instrument declaring a valid assent_source is treated
+    as not in force by reason of a load failure (ACT-ASSENTED-RECORD-PROTECTION:s1 and s2, cited by number;
+    this section takes the stronger rule no further and reserves it to the route those sections prescribe).
+    "Cannot load" is measured against a named reader version recorded with the count; a change that increases
+    the count is a regression and fails the self-test. The cure is to WIDEN THE READER, never to edit
+    the record; where no reader can reach it, the slip track of s6 applies. A command returning a binding
+    instruction FAILS CLOSED and exits non-zero while any order is unreadable, naming the count and the
+    files; diagnostic and read-only commands remain available; the count appears in the machine-readable
+    payload and in the jurisdiction's self-test, which for both kernels means the local-ci command, no
+    separately-named self-test artefact existing. A declared deviation from this section is made only
+    by order of a court, names its expiry, and is reported OWED on expiry. An unloadable instrument is
+    never treated as repealed.
+  commentary: >
+    The single most expensive defect measured in this corpus: on 2026-08-04 the opbox jurisdiction stood
+    at 55 of 109 filed orders unreadable and absent from the citator while the route answered confidently
+    from the remainder ([2026] VJS-CC-OPBOX 160). Executing 160 took that count to 2 without touching
+    a record (161), and it stands at 0 of 116 as at 2026-08-05 (EXECUTED, scripts/verify-orders-are-readable.sh
+    in opbox-kernel). The figure is dated because a count with no date is the defect this Act's own s8
+    is about. The first draft's "NOT IN FORCE, binds nothing" would have made the parser constitutive
+    of legal force over an entrenched Act and handed any agent a disapplication lever one reader-narrowing
+    wide: both NAY counsel converged on that, and the cure enacted here keeps enforceability and force
+    apart. The fail-closed rule restates [2026] VJS-CC-OPBOX 160 O5 rather than weakening it to a report.
+  kernel_effect:
+    defines:
+    - instrument.unreadable_in_force
+    - reader.version_named_with_count
+    must:
+    - fail_closed_on_binding_commands_while_any_order_is_unreadable_naming_count_and_files
+    - carry_the_unreadable_count_in_payload_and_local_ci
+    - treat_a_count_increase_as_a_regression
+    must_not:
+    - treating_an_unloadable_instrument_as_repealed_or_not_in_force
+    exceptions:
+    - widen_the_reader_rather_than_edit_the_record_is_held_by_the_s6_slip_track_proof_where_bytes_changed
+- id: ACT-PROCEEDINGS-DISCIPLINE:s10
+  title: Directives name actors
+  text: >
+    Every directive of a newly recorded order names the actor it binds. An actor value is refused where
+    empty or equal, after normalisation, to UNSTATED, TBD, NONE, ANY, ALL, SOMEONE or TODO, or where it
+    names no entry on the jurisdiction's actor register. A directive in an already-filed order whose actor
+    was never recorded is reported UNSTATED and the reader never supplies a bearer; WHETHER SUCH A DIRECTIVE
+    BINDS, AND WHOM, IS RESERVED TO THE COURT, and nothing in this section invalidates a legacy ruling
+    for want of a structured field (REG-COURT-RECORD-001, which binds prospective rulings only). The count
+    of UNSTATED directives is carried in local-ci. A record declaring a valid assent_source is routed
+    for correction, never blocked. This section amends ACT-002:s10 (Schedule 3).
+  commentary: >
+    Forty-two filed opbox orders omit actor. The mirror reads them as the sentinel; canon cannot load
+    them at all, so this section commences in canon only when that widening is ported, and until a report
+    counts the sentinel the reporting duty is UNENFORCED and says so - a string round-tripping is not
+    reporting.
+  kernel_effect:
+    defines:
+    - directive.actor.required_on_new_records
+    - directive.actor.unstated_reported_and_counted
+    must:
+    - refuse_a_new_directive_with_an_empty_or_denylisted_or_unregistered_actor
+    - report_and_count_unstated_actors_on_legacy_directives
+    must_not:
+    - the_reader_supplying_an_actor_for_a_directive_that_names_none
+- id: ACT-PROCEEDINGS-DISCIPLINE:s11
+  title: Reservations carry review dates
+  text: >
+    An order reserving a question to a fresh record states a review date not exceeding ninety days. On
+    expiry the reservation is reported OWED, and the actor named on the reserving order must, within one
+    sitting of the report, close the reservation by deciding the question, restate it with a fresh date
+    and a stated reason, or record that it is moot. One extension is available by order with reasons on
+    its face; a second requires the reserving court to sit. A question re-reserved on the same subject
+    inherits the original review date. The OWED report is carried in local-ci and never blocks: a gate
+    whose verdict turns on today's date must not fail a change that did not cause it. An expired reservation
+    never becomes permission.
+  kernel_effect:
+    defines:
+    - order.reservation.review_date
+    - reservation.owed_report
+    must:
+    - require_a_review_date_on_a_new_reservation
+    - report_an_expired_reservation_as_owed_in_local_ci_without_blocking
+    exceptions:
+    - reading_an_expired_reservation_as_permission_is_barred_and_enforced_by_the_courts
+- id: ACT-PROCEEDINGS-DISCIPLINE:s12
+  title: Negative controls, bounded to claimed enforcement
+  text: >
+    An instrument that CLAIMS a duty is bound to a gate ships a NEGATIVE CONTROL for that duty. A duty
+    whose claimed gate carries no control is reported UNENFORCED, never enforced, and the conformance
+    audit counts it that way. THE DUTY IS OWED ONLY WHERE ENFORCEMENT IS CLAIMED: it attaches to a gate-registry
+    row and not to duties the audit already reports UNWIRED, which make no claim and owe no control. What
+    this section forbids is the confident PASS, not the honest absence. A control asserts the specific
+    finding the gate raises, ships its positive twin, reaches the gate rather than being rejected upstream
+    of it, and re-runs in local-ci; a control tripping any other finding is not a control. The audit reports
+    three states: ENFORCED (gate plus recorded control), UNENFORCED (a claim after commencement with no
+    control), UNVERIFIED (a gate in service at commencement, control owed), published as a dated burndown
+    and not a failing check on the day it appears. This section varies the counting rules of the conformance
+    audit mandated by [2026] VJS-PC 13, and the variation is express. A defines token is declarative vocabulary,
+    not enumerated by the audit, and is not asserted to bind anything.
+  commentary: >
+    Measured 2026-08-05 (EXECUTED, `vjs audit --json` in canon): 281 duties, 43 wired, 238 unwired. No
+    negative-control REGISTER exists (EXECUTED find), so no duty can be shown to carry one; individual
+    controls and at least one debt ratchet do exist in the test tree, and an earlier draft's claim that
+    neither existed anywhere was a bounded search reported as a fact about the corpus - corrected here
+    rather than deleted, being the very error s2 exists to stop. Unbounded, this section demands 285 seeded
+    violations and gets the audit disabled instead; bounded to claims, the population is 43 and finite.
+    Every material defect found in this machinery in the drafting week was found by seeding a violation
+    or running the instrument, never by reading it.
+  kernel_effect:
+    defines:
+    - duty.gate.negative_control
+    - audit.states.enforced_unenforced_unverified
+    must:
+    - ship_a_negative_control_with_every_claimed_gate_binding
+    - assert_the_specific_finding_and_ship_the_positive_twin
+    - publish_the_three_state_audit_as_a_dated_burndown
+    must_not:
+    - reporting_a_duty_as_enforced_on_a_gate_with_no_negative_control
+- id: ACT-PROCEEDINGS-DISCIPLINE:s13
+  title: The store register
+  text: >
+    Each jurisdiction declares and keeps current the register of stores in which its law and court records
+    are held, and the kernel's governed-record roots equal that register. The register also carries the
+    jurisdiction's registered series and estates (s7, Schedule 1), its actor register (s10), tombstones,
+    reservations and forwarding records. A tree holding an instrument that binds, not on the register,
+    is reported UNREGISTERED LAW STORE by local-ci. A jurisdiction whose law or court records are held
+    in a tree outside its declared roots registers that tree on accession; the opbox jurisdiction registers
+    `.justice` on its accession under s15, and this section states no duty on any store in the canonical
+    jurisdiction that does not exist there (EXECUTED 2026-08-05: canon has no `.justice`). A store that
+    is a copy rather than a jurisdiction is registered as a copy or retired, never left ambiguous.
+  commentary: >
+    The opbox citator .justice holds over a hundred citation-bearing judgments including the trust-boundary
+    rule itself, and no allocator, citator or gate reads it, the kernel's roots being a three-entry constant.
+    The register replaces the constant, and the allocator minting over the register is what makes the
+    two-series ambiguity legible instead of fatal.
+  kernel_effect:
+    defines:
+    - jurisdiction.store_register
+    must:
+    - equal_governed_record_roots_to_the_register
+    - report_an_unregistered_law_store_in_local_ci
+    - register_justice_in_the_opbox_jurisdiction_at_commencement
+- id: ACT-PROCEEDINGS-DISCIPLINE:s14
+  title: Commencement by section
+  text: >-
+    This Act does not commence as a whole. Parts 1 and 4 commence on assent. Each Part 2 section commences
+    on the day its gate and negative control are in force, in the tranche order of Schedule 2; a section
+    not yet commenced states a duty that binds no gate and is reported UNWIRED, honestly, by the audit.
+    s12 commences LAST of Part 2, when there is something to measure and the corpus can survive being
+    measured. This Act's own conformance status is published by the audit and never asserted by this Act;
+    its duty tokens are labels for the registry, and no section is reported enforced before its gate and
+    control commence. Sections 2, 8 and 12 bind this Act itself, and every address in this Act must resolve
+    in the repository named, defects being correctable on the s6 slip track.
+
+
+    THE PROJECTED FIGURE, stated so the disclosure is a number and not a posture: on assent this Act takes
+    the corpus to a projected 334 duties, 43 wired, 291 unwired, against the baseline 281/43/238 measured
+    by EXECUTION of `vjs audit --json` on 2026-08-05.
+
+    THE PART NUMBERING RUNS 1, 2, 4 AND THE GAP IS DELIBERATE: Part 3 held the Rectification Commission
+    and was removed to its own instrument on the Standing Committee's second-round reports. The gap records
+    the removal rather than concealing it; no provision is missing.
+  kernel_effect:
+    defines:
+    - act.commencement.by_section
+    - act.conformance.published_not_asserted
+    must:
+    - commence_a_part_2_section_only_when_its_gate_and_control_are_in_force
+    - report_this_acts_own_unwired_duties_in_the_audit
+- id: ACT-PROCEEDINGS-DISCIPLINE:s15
+  title: Extent and savings
+  text: >-
+    This Act binds the canonical jurisdiction and every subscribing jurisdiction on accession. An amendment
+    to this Act in canon takes effect in a subscriber only when that subscriber bumps its lawpack pin
+    by its own deliberate act; a subscriber may not amend this Act in its mirror otherwise than by the
+    routes ACT-007:s3, ACT-001:s9 and ACT-CONSOLIDATION-FRAMEWORK:s15 preserve - a Privy Council order
+    or the Principal's assent - and nothing here removes the local sovereign's pin, decline, fork or exit
+    routes; a local order purporting to read down any section of this Act is void to that extent. Mirror
+    byte-identity is a duty measured store by store against the register, the gate naming the stores it
+    compared; a divergent copy in an unmeasured store is a defect routed for correction and never a finding
+    that the mirror is clean.
+
+    THE COMMENTARY KEY OF EVERY SECTION OF THIS ACT IS EXPLANATORY AND NON-OPERATIVE. No citation appearing
+    only in commentary is an operative citation, and no ratio may rest on commentary.
+
+    This Act does not disturb: the Sovereign-assent floor (ACT-ASSENTED-RECORD-PROTECTION:s1 and s2, and
+    ACT-CONSOLIDATION-FRAMEWORK:s10 and s25, each cited by number); the PROTECTIVE FLOOR in all four limbs
+    - real-world law; rights, standing and due process; the public and private boundary; restorative remedy
+    not punishment - (ACT-CONSOLIDATION-FRAMEWORK:s21 and s25, ); apex singleness ([2026] VJS-SC 4; ACT-CONSOLIDATION-FRAMEWORK:s11,
+    entrenched at s25); [2026] VJS-PC 17 D1, which s4 expressly leaves standing; or any order in force
+    save the express variations Schedule 3 enumerates. The TRUST-BOUNDARY RULE is stated here on its own
+    terms and is untouched: a fork involving any verb rated SENSITIVE or above, any EXTERNAL authentication
+    tier, or any token, capability or permission-model change goes to court BEFORE implementation regardless
+    of code reversibility. That rule's holder in the opbox continuity citator is [2026] CC-OPBOX 16 (the
+    .justice continuity series, no VJS prefix, at `opbox-prod/opbox-kernel:.justice/judgments/county-court/2026-cc-opbox-16.md:44`,
+    mode READ - the repository is named because s2 requires it and this is the Act's own showpiece citation),
+    whose remedy was quashed in part and whose duty was carried forward by [2026] CC-OPBOX 17; the first
+    draft cited three unrelated VJS-CC-OPBOX orders for it and the mis-citation is recorded rather than
+    quietly fixed. The Schedule 1 migration registers the continuity render form so that rule becomes
+    visible to the grounding gate for the first time; the form is a registered legacy render form of estate
+    v2 (Schedule 1 paragraph 2), and registering it is an act on identity and never on force.
+
+
+    As at 2026-08-05 the known divergence is recorded on the face of this Act rather than left to a report:
+    `opbox-kernel/.worktrees/tablelist-ext/lawpack/v2/statutes/` holds a divergent `03-agent-duties.yaml`
+    and does NOT hold `10-assented-record-protection.yaml` (EXECUTED `diff -rq`). It is an unregistered
+    store holding a divergent unique copy of an entrenched Act, and it is routed for correction.
+  kernel_effect:
+    defines:
+    - act.extent.canon_and_subscribers_by_pin
+    must:
+    - measure_mirror_identity_store_by_store_naming_the_stores_compared
+    must_not:
+    - local_amendment_of_this_act_outside_the_preserved_routes
+    - reading_this_act_as_disturbing_any_floor_or_pc17_d1
+- id: ACT-PROCEEDINGS-DISCIPLINE:s16
+  title: Schedule 1 - the structured citation form
+  text: >
+    1. FORM. A citation is the tuple (estate, year, series, repo, ordinal). Estate is v1 or v2. Year is
+    the four-digit year of making. Series is a value on the jurisdiction's series register (on commencement,
+    for canon: ACT, REG, RULE, SPEC, DEC, INV, SC, PC, CA, CC; a subscriber registers its own additions).
+    Repo is a value on the repos register kept under REG-REPOS-REGISTER-001 and is present exactly where
+    the series is repo-scoped. Ordinal is a positive integer, minted by the kernel, never authored.
+
+    2. RENDER AND PARSE. One render function produces the display string per (estate, series) from the
+    render map on the register - the v2 form "[YEAR] VJS-SERIES[-REPO] N"; the bare "[YEAR] SERIES-REPO
+    N" of a subscriber's continuity citator, WHICH IS A REGISTERED LEGACY RENDER FORM OF ESTATE V2 AND
+    NOT AN ESTATE V1 FORM; and for estate v1 the archive forms as registered, including "[YEAR] REALM-SERIES
+    N" - and one parse function inverts it. Registering a render form is an act on IDENTITY and never
+    on force: it neither incorporates an estate v1 record (ACT-001:s4; ACT-CONSOLIDATION-FRAMEWORK:s20,
+    which require an express incorporation record) nor alters the force of any estate v2 record. A live
+    subscriber ruling is not archive law merely because its rendered form predates the VJS prefix. Extraction
+    over prose uses the parse function over every registered form, so no estate is invisible to grounding.
+
+    3. ALLOCATION. The ordinal is minted over every store on the STORE REGISTER, skipping tombstoned and
+    reserved ordinals. A self-asserted ordinal is refused at authoring; on a record declaring a valid
+    assent_source it is surfaced and routed for correction and never blocks.
+
+    4. TOMBSTONES AND RESERVATIONS. A condemned or void combination is tombstoned with the condemning
+    authority and never reissued; grounding a tombstoned citation reports TOMBSTONED with its ground,
+    never unresolved. A reservation names its pending matter. At commencement: the DEC ordinals 15 to
+    22 of estate v2 are RESERVED pending SUBMISSION-2026-08-04-221305; the void self-mint of ordinal 8
+    of series ACT recorded at ACT-COMPUTER-FIRST-REALM's purpose is registered as that Act's history requires.
+    How that Act's live citation line and the register are reconciled is RESERVED TO THE SOVEREIGN, assent
+    being non-delegable (ACT-CONSOLIDATION-FRAMEWORK:s10); no other organ acts on the face of a constitutional
+    Act.
+
+    5. MIGRATION. Every existing rendered citation in every registered store is parsed into the form.
+    A string that will not parse under any registered form is reported UNPARSEABLE with its address, never
+    guessed, never edited without s6 authority. The migration changes no record's meaning: it registers
+    identities, and where a rendered string is corrected on a record's face that is an s6 slip-track act
+    with its proof.
+  kernel_effect:
+    defines:
+    - citation.tuple
+    - citation.render_map_per_estate
+    - citation.migration.parse_else_report
+    must:
+    - ground_over_every_registered_form
+    - report_tombstoned_with_its_ground
+    - reserve_dec_15_to_22_pending_the_footing_matter
+- id: ACT-PROCEEDINGS-DISCIPLINE:s17
+  title: Schedule 2 - commencement tranches for Part 2
+  text: >
+    Tranche 0, on assent: Parts 1 and 4 (s1, s14, s15), Schedules 2 and 3, and the s13 store register
+    duty in reporting form. Schedule 1 commences with s7; Schedule 3 commences, as to each amendment it
+    enumerates, on the commencement of the section that makes it and not before, until when the amended
+    provision stands unvaried. Tranche 1, zero new kernel code: s4 (the gate exists and is fatal; wiring
+    is a registry row, the additive citation, and a named control) and s5 (the significance filter already
+    implements the permissive route; wiring is a registry row and a control where none exists today).
+    Tranche 2, small diffs closing measured defects: s10 (mirror limb first, canon on the ported widening),
+    s11, s8, the s13 register equalling the roots, and the Schedule 1 allocator over the register. Tranche
+    3, ordered by dependency: s3, then s6, then s7's forwarding reader in the same act as its first forwarding
+    record. Tranche 4: s9 in canon (the loader collects and continues; the largest single item). Tranche
+    5: s2 on the structured block, after the cheaper sections have made the kernel's own reports addressable.
+    Tranche 6, last: s12.
+
+    NO PART 2 SECTION STANDS IN FORCE AS A DUTY WITH NO GATE. Parts 1 and 4 commence on assent and carry
+    seven duty tokens between them (s1 two, s14 two, s15 three), which bind no gate at commencement and
+    are reported UNWIRED by the audit, honestly. That is disclosed rather than denied, because the audit
+    has no representation of commencement at all and reads the whole-Act figure from the day this text
+    lands (s14).
+  kernel_effect:
+    defines:
+    - commencement.tranches
+- id: ACT-PROCEEDINGS-DISCIPLINE:s18
+  title: Schedule 3 - express amendments
+  text: >
+    This Act amends, to the extent stated in the named section and no further: ACT-002:s6 (s5's conferred
+    route only; no provision of this Act defers, stays or pauses the convening of any matter); ACT-002:s9
+    (s3's declared relations; s4's appellate anchor for per-incuriam voidness; s6's on-the-face amendment
+    power); ACT-002:s10 (s10's actor requirement); ACT-003 (s2's machinery-claims duty, inserted as agent-duties
+    law); ACT-004:s7 (s8's NOT FOUND record duty); ACT-004:s8 (s7 and Schedule 1, the structured citation
+    form); ACT-004:s9 (s6's variation that an amendment is recorded on the face, the prohibition on deleting
+    old records undisturbed). It varies the counting rules of the conformance audit mandated by [2026]
+    VJS-PC 13 (s12, express).
+
+    IT VARIES [2026] VJS-PC 17 D1 NOT AT ALL. No other instrument is varied, and this sentence is stated
+    as a bounded claim rather than an absolute: the enumeration above is the amendment set the Clerk-Drafter
+    measured, and a variation found outside it is a defect in this Schedule correctable on the s6 slip
+    track, never an implied amendment. In particular this Act does NOT vary REG-COURT-RECORD-001 (s10
+    is drafted to sit inside its prospective-only rule), REG-SELF-CONVENE-001, ACT-003:s5 or ACT-003:s10:
+    the draft pause which would have deferred the convening duties those instruments impose is no longer
+    in this Act, and any instrument that proposes such a pause must declare those variations for itself.
+  kernel_effect:
+    defines:
+    - amendments.enumerated_express
