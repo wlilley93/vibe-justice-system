@@ -1,18 +1,31 @@
 id: ACT-PROCEEDINGS-DISCIPLINE
-assent_source: SECOND_DRAFT_PENDING_STANDING_COMMITTEE_ADOPTION
+assent_source: NOT_YET_ASSENTED_ADOPTED_BY_STANDING_COMMITTEE_2026-08-05
 title: The Proceedings Discipline Act 2026
 status: draft
-created_at: '2026-08-05'
 enacted_by: >
-  NOT ENACTED. Second draft by Lexby as Clerk-Drafter, curing the Standing Committee's first-round conditions
-  (Restraint AYE-16-conditions, Codification NAY, Guardrail NAY, Operability AYE-18-conditions; the four
-  reports are preserved verbatim at .vjs/submissions/draft/committee-round1/ and the disposition of every
-  condition at .vjs/submissions/draft/ACT-PROCEEDINGS-DISCIPLINE-second-draft-dispositions.md). Route:
-  this second draft returns to the four counsel, whose adoption is CONSTITUTIVE ([2026] REALM-SC 8), then
-  to Sovereign Assent pinned to the adopted text's digest. This Act carries NO citation as drafted: its
-  VJS-ACT ordinal is minted deterministically at commencement and never self-minted; the first draft's
-  self-mint "[2026] VJS-ACT 11" was void on the same ground as the void self-mint recorded at ACT-COMPUTER-FIRST-REALM's
-  purpose, and no value is carried here at all.
+  NOT ENACTED. This is the ENGROSSED text as ADOPTED by the Standing Committee on 2026-08-05, 4-0, all
+  four seats AYE-WITH-CONDITIONS, every condition applied. Adoption by the Committee is CONSTITUTIVE
+  ([2026] REALM-SC 8) and is the whole of the force this text now carries; it is not law and does not
+  bind. Three rounds of counsel reports are preserved verbatim at .vjs/submissions/draft/committee-round1/,
+  committee-round2/ and committee-round3/full-bench.md, and the disposition of every round-1 condition,
+  including each one expressly DECLINED and why, at ACT-PROCEEDINGS-DISCIPLINE-second-draft-dispositions.md.
+  WHAT REMAINS: Sovereign Assent, which is the Principal's alone, is non-delegable and non-presumable
+  (ACT-COMPUTER-FIRST-REALM s.23; ACT-ASSENTED-RECORD-PROTECTION s.14), and is pinned to the digest of
+  THIS engrossed text. Until that event exists, `assent_source` above is deliberately NOT one of the two
+  allow-listed values, so `front_door::declares_valid_assent` returns false (READ
+  crates/vjs-core/src/front_door.rs:42-50) and this text claims no floor it has not been given.
+  `status: draft` is not a formality either: ACT-001:s7 provides in terms that "Proposed law must be
+  marked draft", with the kernel token `mark_proposed_law_as_draft`, and AuthorityStatus::is_live()
+  admits only Binding and InForce (READ crates/vjs-core/src/types.rs:53-65).
+  This Act carries NO citation as drafted. Its VJS-ACT ordinal is minted deterministically at commencement
+  and is never self-minted; the first draft's self-mint "[2026] VJS-ACT 11" was void on the same ground
+  as the self-mint ACT-COMPUTER-FIRST-REALM records against itself, and no value is carried here at all.
+  ON LODGEMENT (after assent, and not before) a separate statute file is created under lawpack/v2/statutes/
+  carrying the minted citation, status in_force, assent_source sovereign_assent and a purpose reciting the
+  digest of this text - which is the route the corpus already took for ACT-ASSENTED-RECORD-PROTECTION,
+  whose assent record pins .vjs/submissions/draft/2026-06-12-...-void-first-draft.yaml by digest while the
+  lodged statute is a different file (READ lawpack/v2/provenance/assent/2026-06-12-assented-record-protection-assent.yaml).
+  The two files differ by design; assent pins the text presented, not the text later lodged.
 purpose: >
   To reduce the cost of governance by removing its measured causes; to make citation identity structured
   data rather than typed prose, on the Principal's own proposal of 2026-08-05; to create the amendment
@@ -24,17 +37,6 @@ purpose: >
   that corrects that rule's mis-citation on its face. One Commission, one instrument, which is this corpus's
   own consolidation principle. The Principal's instruction of record stands and is discharged there: "editorial
   piece, not a wild west", the three base laws apply, a Commission chosen over a V2 sunset.
-drafting_note: >
-  DRAFT-ONLY KEY, stripped at enactment (the statute loader recognises fixed top-level keys and would
-  silently drop this, which is itself the defect class s12 of this Act addresses). The measured case is
-  unchanged from the first draft and is restated with addresses in the drafting brief. What changed in
-  this draft: every counsel condition incorporated or expressly declined with reasons; all narrative moved
-  out of operative text into commentary keys; the term "operative surface" replaced by the defined term
-  OPERATIVE PARTS throughout; the trust-boundary rule re-cited to the series that actually holds it; the
-  first draft's three false recitals (the next-citation invocation, the PC 17 D1 attribution, the unreadable-orders.txt
-  characterisation) corrected on the face rather than deleted; sections 4 and 9 of the first draft replaced
-  whole by the structured citation form at s7 and Schedule 1; first-draft s5 (registrar track) DROPPED
-  as duplicating ACT-CONSOLIDATION-FRAMEWORK:s7.
 sections:
 - id: ACT-PROCEEDINGS-DISCIPLINE:s1
   title: Definitions
