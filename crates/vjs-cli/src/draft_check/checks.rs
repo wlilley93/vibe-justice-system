@@ -290,6 +290,25 @@ pub(super) fn address_findings(repo: &Path, draft_text: &str, out: &mut Vec<DFin
     for (ln, line) in draft_text.lines().enumerate() {
         for cap in addr.captures_iter(line) {
             let rel = &cap[1];
+            // A COLON-QUALIFIED cite (`repo:path/file.md:44`) names a file in ANOTHER
+            // repository, on its face. Erroring on it made the checker cry wolf twice
+            // on enacted law (measured 2026-08-05: the .justice continuity cites). It
+            // is disclosed, never silently passed - and never checked here, because
+            // this tree is the wrong referent to check it against.
+            let m = cap.get(1).unwrap();
+            if m.start() > 0 && line.as_bytes()[m.start() - 1] == b':' {
+                out.push(d(
+                    Severity::Info,
+                    "DRAFT-ADDRESS-CROSS-REPO",
+                    format!(
+                        "draft line {}: cites {rel} under a repo qualifier - a file in \
+                         another repository, not verifiable from this tree. Disclosed, \
+                         not checked.",
+                        ln + 1
+                    ),
+                ));
+                continue;
+            }
             let start: usize = cap[2].parse().unwrap_or(0);
             let end: usize = cap
                 .get(3)

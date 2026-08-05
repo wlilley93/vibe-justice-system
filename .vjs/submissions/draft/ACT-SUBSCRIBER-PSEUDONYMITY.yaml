@@ -1,0 +1,88 @@
+id: ACT-SUBSCRIBER-PSEUDONYMITY
+title: The Subscriber Pseudonymity (Publication Corrections) Act 2026
+status: draft
+purpose: >
+  Enacted law must be publishable. The Proceedings Discipline Act and the Executive
+  Rectification Commission Act stand in force and ungazetted, because their texts carry
+  subscriber-identifying tokens the publication boundary refuses (measured 2026-08-05 with
+  the boundary's own tokeniser: ten lines in the former, nine in the latter; the refusal is
+  the gate working, not the defect). Textual amendment of an assented statute is on no
+  Commission's power list and is the Sovereign's route alone; the Commission under
+  WARRANT-CANON-001 PREPARED this instrument and makes nothing. The substitutions are
+  pseudonymic and substance-preserving, they are pinned by digest to prepared applied texts
+  rather than recited (reciting the old words would republish the very tokens this Act
+  removes), and on commencement the Gazette publishes and the standing drift red goes green
+  by cure.
+sections:
+- id: ACT-SUBSCRIBER-PSEUDONYMITY:s1
+  title: Definitions and accession
+  text: >
+    In this Act and in every canon text: the FIRST SUBSCRIBER means the jurisdiction that
+    acceded to VJS V2 by its local sovereign invocation of 2026-06-10, whose kernel checkout
+    the estate schedule renders as SUB1; the SECOND SUBSCRIBER (SUB2) means the second
+    repository so rendered; the ESTATE ROOT means the operator home's Projects directory; the
+    OPERATOR HOME means the operator's home directory. Each pseudonym is hereby ACCESSIONED
+    within the meaning of the publication-boundary scheme: the equivalence between a pseudonym
+    and its private referent is held in each jurisdiction's own private register at
+    .vjs/private/pseudonym-register.md, which is never committed and never published. A
+    pseudonym denotes its referent in every canon text; nothing turns on which rendering a
+    private tree uses internally.
+- id: ACT-SUBSCRIBER-PSEUDONYMITY:s2
+  title: The substitutions, pinned and not recited
+  text: >
+    The texts of ACT-PROCEEDINGS-DISCIPLINE and ACT-RECTIFICATION-COMMISSION are amended by
+    replacing each with its APPLIED TEXT: the instruments held at
+    .vjs/submissions/draft/pseudonymity-applied/, whose digests Schedule 1 pins. An applied
+    text differs from its enacted text ONLY in the substitution of accessioned pseudonyms for
+    registered private tokens, and this is MEASURED, not asserted: the boundary tokeniser
+    finds zero registered tokens in either applied text, and the clerk gate finds no finding
+    against an applied text that it does not equally find against the enacted text it
+    replaces (parity executed 2026-08-05). The pre-amendment texts remain fixed forever by
+    the digests their assent events pin; nothing in this Act disturbs them as historical
+    record.
+- id: ACT-SUBSCRIBER-PSEUDONYMITY:s3
+  title: Citation rendering equivalence
+  text: >
+    The rendering "[2026] SUB1-CC n" in a canon text denotes the same record as ordinal n of
+    the First Subscriber's county continuity series, the series ACT-PROCEEDINGS-DISCIPLINE
+    calls the .justice continuity series. The citation tuple - year, series, ordinal - is
+    unchanged by this Act; only canon's public RENDERING of the series name changes. No
+    ordinal moves, no forwarding record arises under ACT-PROCEEDINGS-DISCIPLINE:s7, and
+    nothing here reaches into the First Subscriber's own citator, whose native rendering is
+    its own affair.
+- id: ACT-SUBSCRIBER-PSEUDONYMITY:s4
+  title: One duty token renamed, no duty changed
+  text: >
+    In ACT-PROCEEDINGS-DISCIPLINE:s13, the duty token that named the First Subscriber's
+    machine token is renamed to register_justice_in_the_first_subscriber_jurisdiction_at_commencement.
+    The duty is unchanged in substance and remains unwired; the conformance count is
+    unchanged, one token leaving the unwired pool as its respelling enters; the gate registry
+    carries no row for either spelling, so no wired claim moves and the ratchet does not
+    fire. One duty, one spelling, per ACT-PROCEEDINGS-DISCIPLINE:s8.
+- id: ACT-SUBSCRIBER-PSEUDONYMITY:s5
+  title: Machinery-claim preservation
+  text: >
+    Where an EXECUTED recital in ACT-RECTIFICATION-COMMISSION Schedule 2 carried the estate
+    root or the operator home as a literal path, the applied text re-expresses it over the
+    defined terms. The historical execution is unchanged and remains fixed by the
+    pre-amendment digest; the re-expression is pseudonymic form, not a fresh machinery claim,
+    and the recital's bounded-claim discipline under ACT-RECTIFICATION-COMMISSION:s3 is
+    undisturbed.
+- id: ACT-SUBSCRIBER-PSEUDONYMITY:s6
+  title: Commencement, and who makes what
+  text: >
+    This Act commences on assent, and the s2 substitutions are MADE by its enactment: the
+    Commission prepared, the Committee scrutinises, the Sovereign makes. On commencement the
+    lodged texts of the two amended Acts are the applied texts, the publication boundary no
+    longer refuses the Gazette by reason of them, and the Gazette is regenerated in ordinary
+    course. Nothing in this Act amends any holding, disposal, count, measurement, floor or
+    entrenchment, and it confers no power on anyone.
+- id: ACT-SUBSCRIBER-PSEUDONYMITY:s7
+  title: Schedule 1 - the pinned applied texts
+  text: >
+    The applied text of ACT-PROCEEDINGS-DISCIPLINE is the instrument whose sha256 digest is
+    7317c9c57ef55d060c86cac45e8f039ef95c1f82aab127cd3a3defebca08fd26. The applied text of
+    ACT-RECTIFICATION-COMMISSION is the instrument whose sha256 digest is
+    3f5989e9cccce4a34255dfde487819521e649622b0d41b37987dbd78f0798b27. Each is held at
+    .vjs/submissions/draft/pseudonymity-applied/ under the name of the Act it amends. A
+    lodgement whose digest differs from the pin is not the amendment this Act makes.

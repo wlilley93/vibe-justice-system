@@ -1,0 +1,12 @@
+id: LOG-2026-08-05-134052
+time: 2026-08-05T13:40:52.351258620+00:00
+actor: lexby
+kind: governed-load-bearing-act
+issue: kernel_enforcement_gaps_canon_write_chokepoint
+decision: 'Commission preparation lands: the Subscriber Pseudonymity (Publication Corrections) Act drafted and CLERK-CLEAN AT ROUND ZERO (0 findings; digest 3177ff15...), with token-free applied texts pinned by digest (7317c9c5... / 3f5989e9...) and zero-registered-token proof by the boundary''s own tokeniser; parity proven (the applied texts carry no finding the enacted texts do not); the cross-repo colon-qualified cite class now DISCLOSES instead of erroring in the clerk (it cried wolf twice on enacted law); a self-file records three defects of my own found on the check-your-work pass (the 4f class mislabel in both signed warrants, the types.rs mischaracterisation, two vacuous plaintext scans of a hashed register).'
+basis:
+- PERMIT-1785934647
+risk: medium
+reversibility: easy
+court_required: false
+why: The Gazette publishes enacted law once the Sovereign makes these substitutions; the Commission may prepare and may not make
