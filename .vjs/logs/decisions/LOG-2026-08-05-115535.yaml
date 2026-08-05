@@ -1,0 +1,12 @@
+id: LOG-2026-08-05-115535
+time: 2026-08-05T11:55:35.970445152+00:00
+actor: lexby
+kind: implementation-decision
+issue: practice_directions_mechanical_certification_and_tiered_benches
+decision: 'Recorded the Principal''s two practice directions of 2026-08-05 as a filed practice note: (1) mechanical certification (digests, operative identity, draft conformance, counts) is performed by kernel command, benches convene only for judgment; (2) bench seats are model-tiered, verification on the economical tier, judgment on the strong model. Filed at .vjs/submissions/filed/2026-08-05-practice-direction-mechanical-certification-and-tiered-benches.md'
+basis:
+- Principal direction 2026-08-05
+risk: low
+reversibility: easy
+court_required: false
+why: The Principal gave both directions expressly on 2026-08-05; recording them in canon makes them readable by every future bench and clerk rather than living in one session's context
