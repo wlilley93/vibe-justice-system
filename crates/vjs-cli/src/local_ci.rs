@@ -22,6 +22,31 @@ pub(crate) fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
         ok = false;
     }
 
+    // The store register (ACT-PROCEEDINGS-DISCIPLINE s13): an unregistered law
+    // store is REPORTED here, in local-ci, which is where the Act says the report
+    // lives - the same gate validate runs, so the two doors cannot disagree.
+    {
+        let mut sr = Vec::new();
+        vjs_engine::store_register::store_register_findings(repo, &mut sr);
+        let bad: Vec<String> = sr
+            .iter()
+            .filter(|f| !matches!(f.severity, vjs_core::types::Severity::Info))
+            .map(|f| format!("{}: {}", f.code, f.message))
+            .collect();
+        steps.push(CiStep {
+            name: "store_register".into(),
+            passed: bad.is_empty(),
+            message: if bad.is_empty() {
+                format!("store register complete ({} disclosure(s))", sr.len())
+            } else {
+                bad.join("; ")
+            },
+        });
+        if !bad.is_empty() {
+            ok = false;
+        }
+    }
+
     // Step 2: Citation check
     let mut citation_ok = true;
     let mut seen = std::collections::HashSet::new();
@@ -90,7 +115,10 @@ pub(crate) fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
             || order.directives.is_empty()
             || order.runtime_summary.is_empty()
         {
-            order_findings.push(format!("{}: missing holding/directives/runtime_summary", order.id));
+            order_findings.push(format!(
+                "{}: missing holding/directives/runtime_summary",
+                order.id
+            ));
         }
         if order.bench.is_empty() {
             continue;
@@ -203,7 +231,10 @@ pub(crate) fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
     // 2026-VJS-CC-ROUTE-EVAL-001, which exists ONLY under .vjs/court/orders, and the
     // register caught the disagreement. Walk the tree.
     for root in vjs_core::front_door::governed_record_roots(repo) {
-        for entry in walkdir::WalkDir::new(&root).into_iter().filter_map(|e| e.ok()) {
+        for entry in walkdir::WalkDir::new(&root)
+            .into_iter()
+            .filter_map(|e| e.ok())
+        {
             let path = entry.path().to_path_buf();
             if path.extension().and_then(|s| s.to_str()) != Some("yaml") {
                 continue;
@@ -216,14 +247,23 @@ pub(crate) fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
             if !path.parent().is_some_and(|d| d.ends_with("orders")) {
                 continue;
             }
-            let Ok(text) = std::fs::read_to_string(&path) else { continue };
+            let Ok(text) = std::fs::read_to_string(&path) else {
+                continue;
+            };
             let top = |k: &str| -> Option<String> {
                 text.lines().find_map(|l| {
-                    l.strip_prefix(k)
-                        .map(|r| r.trim().trim_matches('"').trim_matches('\'').trim().to_string())
+                    l.strip_prefix(k).map(|r| {
+                        r.trim()
+                            .trim_matches('"')
+                            .trim_matches('\'')
+                            .trim()
+                            .to_string()
+                    })
                 })
             };
-            let Some(id) = top("id:").filter(|s| !s.is_empty()) else { continue };
+            let Some(id) = top("id:").filter(|s| !s.is_empty()) else {
+                continue;
+            };
             let bench: Vec<String> = text
                 .lines()
                 .skip_while(|l| !l.starts_with("bench:"))

@@ -1,0 +1,17 @@
+# THE STORE REGISTER (ACT-PROCEEDINGS-DISCIPLINE s13). Every store capable of holding
+# a governed record or a citation, registered so the audit sweeps a map and not a
+# guess. Checked by the store-register gate at validate and local-ci: a governed
+# record root missing from here is Fatal; a ghost entry warns.
+stores:
+- path: lawpack/v2
+  kind: canonical_lawpack
+  registered_at: "2026-08-05"
+  note: the subscribed canon - statutes, regulations, rules, orders, specs, invariants, decisions, obligations, provenance
+- path: .vjs/orders
+  kind: filed_orders
+  registered_at: "2026-08-05"
+  note: this jurisdiction's own filed orders, overlaid on the canon by the shared door
+- path: .vjs/court
+  kind: court_records
+  registered_at: "2026-08-05"
+  note: convenings and court records under REG-COURT-RECORD-001

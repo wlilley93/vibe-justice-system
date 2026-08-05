@@ -26,6 +26,7 @@ mod ratchet;
 mod resolver;
 pub mod runtime;
 mod staged;
+pub mod store_register;
 
 pub use context::build_kernel_context;
 pub use resolver::*;
@@ -188,6 +189,8 @@ pub fn validate(repo: &Path, opts: &ValidateOpts) -> Result<Report, KernelError>
     freshness::binary_freshness_findings(&mut findings);
 
     ratchet::conformance_ratchet_findings(repo, &lawpack, &mut findings);
+
+    store_register::store_register_findings(repo, &mut findings);
 
     // A GATE'S GUARD MUST BE KEYED TO THE SAME REFERENT AS THE GATE ([2026] VJS-CC-VJS 14).
     //

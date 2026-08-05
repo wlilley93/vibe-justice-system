@@ -88,6 +88,6 @@ pinned_at = "2026-08-02T12:27:15Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/lib.rs"
-digest = "sha256:bff92ad45e862e52a2b18a3aa034931de837aba91f885aa41f6952da42a7cdb2"
-authority = "LOG-2026-08-05-131035"
-pinned_at = "2026-08-05T13:10:41Z"
+digest = "sha256:58a046ac756a4e7bf5295d51ea292a7df5811b2080aa8befaa05c16d33c84ac6"
+authority = "LOG-2026-08-05-155708"
+pinned_at = "2026-08-05T15:57:08Z"

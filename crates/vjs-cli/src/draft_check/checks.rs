@@ -198,6 +198,31 @@ pub(super) fn citation_findings(
             commentary.push('\n');
         }
     }
+    // A citation whose REPO component names ANOTHER jurisdiction can never resolve
+    // in this corpus, honestly and forever - erroring on it is crying wolf on
+    // enacted law (measured: the lodged ACT 12 carries two subscriber-series
+    // citations that drew blocking errors on every clerk run). The five-component
+    // tuple (ACT-PROCEEDINGS-DISCIPLINE Schedule 1) makes the test deterministic:
+    // three or more hyphen segments whose LAST is not this repo's code is a
+    // federation-form citation into a foreign register. Disclosed, never checked -
+    // this tree is the wrong referent. A two-segment typo of a native citation
+    // still errors.
+    let own_code = vjs_store::Store::read_repo_config(repo)
+        .ok()
+        .flatten()
+        .and_then(|c| c.repo_code)
+        .unwrap_or_default();
+    let cite_form = regex::Regex::new(r"^\[\d{4}\] ([A-Z0-9-]+) \d+$").unwrap();
+    let cross_jurisdiction = |tok: &str| -> bool {
+        cite_form
+            .captures(tok)
+            .and_then(|c| {
+                let series = c.get(1).unwrap().as_str();
+                let segs: Vec<&str> = series.split('-').collect();
+                (segs.len() >= 3).then(|| segs.last().unwrap().to_string())
+            })
+            .is_some_and(|last| !own_code.is_empty() && last != own_code)
+    };
     for (text, unresolved_sev, label) in [
         (&operative, Severity::Error, "section text"),
         (&commentary, Severity::Warning, "commentary"),
@@ -206,6 +231,17 @@ pub(super) fn citation_findings(
             vjs_lawpack::refs::ground_operative(text, &defined, &corpus.citations, &in_force)
         {
             match g {
+                vjs_lawpack::refs::Grounding::Unresolved if cross_jurisdiction(&tok) => {
+                    out.push(d(
+                        Severity::Info,
+                        "DRAFT-CITE-CROSS-JURISDICTION",
+                        format!(
+                            "{label} cites '{tok}', whose repo component names another \
+                             jurisdiction's register - not resolvable from this tree, \
+                             disclosed rather than checked."
+                        ),
+                    ))
+                }
                 vjs_lawpack::refs::Grounding::Unresolved => out.push(d(
                     unresolved_sev.clone(),
                     "DRAFT-CITE-UNRESOLVED",

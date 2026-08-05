@@ -15,4 +15,11 @@
 # court-forcing route block). 399 duties, 104 wired, 295 unwired. The goal from here is
 # DOWN, and ACT 12 s4(e) triage under the signed warrants is the instrument that takes it
 # down.
-unwired = 295
+#
+# LOWERED TO 292 on 2026-08-05 (WS4 tranche 2): the store-register gate lands
+# (ACT-PROCEEDINGS-DISCIPLINE s13) with its register at .vjs/store-register.yaml, its
+# local-ci stage, and its red seeds, wiring equal_governed_record_roots_to_the_register,
+# report_an_unregistered_law_store_in_local_ci, and the respelled
+# register_justice_in_the_first_subscriber_jurisdiction_at_commencement.
+# 399 duties, 107 wired, 292 unwired.
+unwired = 292

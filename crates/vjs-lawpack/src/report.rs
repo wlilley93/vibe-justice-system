@@ -485,4 +485,18 @@ pub(crate) const GATE_REGISTRY: &[(&str, &str)] = &[
         "convene_court_when_settled",
         "a binding authority on all fours disposes the route without a court",
     ),
+    // WS4 tranche 2 (2026-08-05): the store-register gate (ACT 11 s13), landed with
+    // its register and red seeds in the same commit that banks the ratchet fall.
+    (
+        "equal_governed_record_roots_to_the_register",
+        "store-register gate (STORE-UNREGISTERED at validate; control: store_register tests)",
+    ),
+    (
+        "report_an_unregistered_law_store_in_local_ci",
+        "store-register stage in vjs local-ci (same gate as validate - one implementation)",
+    ),
+    (
+        "register_justice_in_the_first_subscriber_jurisdiction_at_commencement",
+        "store-register gate: the continuity citator is a registered store in the jurisdiction that carries it",
+    ),
 ];
