@@ -496,37 +496,37 @@ pub(super) fn count_findings(draft_text: &str, out: &mut Vec<DFind>) {
     }
 }
 
-/// The publication denylist, applied at DRAFTING instead of at the enactment commit
-/// (where it caught a subscriber name on 2026-08-05, one round too late).
+/// The publication denylist, applied at DRAFTING instead of at the enactment commit.
+///
+/// REPAIRED 2026-08-05 on the Guardrail seat's proof-by-execution: the first version
+/// compared each REGISTER LINE as a plaintext substring against the draft. The register
+/// holds sha256 hashes, never plaintext ([2026] VJS-CC-VJS 17 C7), so the limb could
+/// never fire - it reported zero findings on texts independently proven to carry twenty
+/// registered tokens - and had the register ever been seeded with plaintext, the finding
+/// message would have PRINTED the private term. One matcher now serves every door
+/// (vjs_redact::Denylist, the same tokeniser the publication gate runs), the line is
+/// disclosed, and the term never is.
 pub(super) fn denylist_findings(repo: &Path, draft_text: &str, out: &mut Vec<DFind>) {
-    let reg = repo.join(".vjs/publication-denylist.txt");
-    let Ok(terms) = std::fs::read_to_string(&reg) else {
-        out.push(d(
+    match vjs_redact::Denylist::load(repo) {
+        Err(e) => out.push(d(
             Severity::Info,
             "DRAFT-DENYLIST-UNCHECKED",
-            format!(
-                "the denylist limb DID NOT RUN - no register at {}. This is a disclosure, \
-                 not a pass.",
-                reg.display()
-            ),
-        ));
-        return;
-    };
-    let lower = draft_text.to_lowercase();
-    for term in terms
-        .lines()
-        .map(|l| l.trim())
-        .filter(|l| !l.is_empty() && !l.starts_with('#'))
-    {
-        if lower.contains(&term.to_lowercase()) {
-            out.push(d(
-                Severity::Error,
-                "DRAFT-DENYLISTED-TERM",
-                format!(
-                    "the draft carries the denylisted term '{term}' - it will be refused at \
-                     the canon enactment commit. Redact to the generic form now, not then."
-                ),
-            ));
+            format!("the denylist limb DID NOT RUN: {e}. This is a disclosure, not a pass."),
+        )),
+        Ok(deny) => {
+            for n in deny.hit_lines(draft_text) {
+                out.push(d(
+                    Severity::Error,
+                    "DRAFT-DENYLISTED-TERM",
+                    format!(
+                        "draft line {n} carries a term on the publication denylist \
+                         (.vjs/publication-denylist.txt). The term is NOT named here: naming \
+                         it would publish it. It will be refused at the canon enactment \
+                         commit - redact to the generic form or the accessioned pseudonym \
+                         now, not then."
+                    ),
+                ));
+            }
         }
     }
 }

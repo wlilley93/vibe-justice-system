@@ -183,11 +183,18 @@ fn a_denylisted_term_is_caught_at_drafting_not_at_the_enactment_commit() {
     let dir = scratch("draft-denylist");
     copy_tree(&real_lawpack(), &dir.join("lawpack/v2"));
     std::fs::create_dir_all(dir.join(".vjs")).unwrap();
-    std::fs::write(
-        dir.join(".vjs/publication-denylist.txt"),
-        "zzyzx-subscriber\n",
-    )
-    .unwrap();
+    // The register holds sha256 hashes of lowercased tokens, never plaintext
+    // (CC-VJS 17 C7) - the first version of this seed wrote plaintext, and the limb
+    // that "passed" it was proven vacuous by the Guardrail seat on 2026-08-05.
+    {
+        use sha2::Digest;
+        let h = hex::encode(sha2::Sha256::digest(b"zzyzx-subscriber"));
+        std::fs::write(
+            dir.join(".vjs/publication-denylist.txt"),
+            format!("{h} # test seed: the fixture subscriber token\n"),
+        )
+        .unwrap();
+    }
     let draft = write_draft(
         &dir,
         "draft.yaml",
