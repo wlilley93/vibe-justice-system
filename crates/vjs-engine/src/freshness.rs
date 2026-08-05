@@ -45,7 +45,22 @@ pub(crate) fn binary_freshness_findings(findings: &mut Vec<Finding>) {
     if !crates.is_dir() {
         return;
     }
-    if let Some((newer, when)) = newest_source(&crates, exe_mtime) {
+    // THE SIBLING BIN CRATE IS NOT THIS GATE. The workspace ships two door binaries
+    // (vjs from vjs-cli, vjs-mcp from vjs-mcp); neither contains the other's source,
+    // and cargo will not rebuild one for an edit to the other - so scanning the
+    // sibling made an mcp-only edit wedge every vjs-invoking test red with no cure
+    // inside `cargo test` (measured 2026-08-05, 19201s of false staleness). Each
+    // binary checks the sources it actually carries; the sibling checks its own.
+    let exe_name = exe
+        .file_stem()
+        .map(|n| n.to_string_lossy().to_string())
+        .unwrap_or_default();
+    let skip_sibling = if exe_name.starts_with("vjs-mcp") {
+        Some("vjs-cli")
+    } else {
+        Some("vjs-mcp")
+    };
+    if let Some((newer, when)) = newest_source(&crates, exe_mtime, skip_sibling) {
         let secs = when
             .duration_since(exe_mtime)
             .map(|d| d.as_secs())
@@ -72,7 +87,11 @@ pub(crate) fn binary_freshness_findings(findings: &mut Vec<Finding>) {
 
 /// The first source file strictly newer than `than`, or None. First hit suffices: the cure
 /// (rebuild) is the same however many there are, and a short-circuit keeps validate fast.
-fn newest_source(dir: &Path, than: SystemTime) -> Option<(std::path::PathBuf, SystemTime)> {
+fn newest_source(
+    dir: &Path,
+    than: SystemTime,
+    skip: Option<&str>,
+) -> Option<(std::path::PathBuf, SystemTime)> {
     let rd = std::fs::read_dir(dir).ok()?;
     for entry in rd.flatten() {
         let p = entry.path();
@@ -83,11 +102,15 @@ fn newest_source(dir: &Path, than: SystemTime) -> Option<(std::path::PathBuf, Sy
         // including them WEDGES the suite red with no cure but a manual rebuild.
         // Measured 2026-08-05: a dead-code allow in tests/lawpack_common failed
         // preCI on BINARY-STALE twenty seconds after a fresh release build.
-        if name == ".vjs" || name == "target" || (name == "tests" && p.is_dir()) {
+        if name == ".vjs"
+            || name == "target"
+            || (name == "tests" && p.is_dir())
+            || skip.is_some_and(|sk| name == sk)
+        {
             continue;
         }
         if p.is_dir() {
-            if let Some(hit) = newest_source(&p, than) {
+            if let Some(hit) = newest_source(&p, than, None) {
                 return Some(hit);
             }
         } else if let Ok(m) = entry.metadata()

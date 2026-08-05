@@ -77,6 +77,16 @@ impl McpServer {
     /// #17 audit: append-only trail of every MCP call (.vjs/audit/mcp-audit.log,
     /// gitignored via *.log). Best-effort; an audit-write failure never blocks a call.
     fn audit(&self, method: &str, outcome: &str) {
+        // ONLY AN INVOKED JURISDICTION HAS AN AUDIT TRAIL (Defect 1 of the 2026-08-05
+        // two-defects submission): tests construct servers whose repo_root is a crate
+        // directory or the workspace, and the sink then scattered .vjs/audit/ files
+        // into SOURCE TREES, where a test-run byproduct reads as a governed record.
+        // The gate is the same one load_lawpack keys on: .vjs/config.toml. A scratch
+        // fixture that wants an audit trail invokes itself; a bare directory never
+        // acquires governance byproducts by being pointed at.
+        if !self.repo_root.join(".vjs/config.toml").exists() {
+            return;
+        }
         let dir = self.repo_root.join(".vjs/audit");
         let _ = std::fs::create_dir_all(&dir);
         let line = format!("{}\t{method}\t{outcome}\n", chrono::Utc::now().to_rfc3339());
