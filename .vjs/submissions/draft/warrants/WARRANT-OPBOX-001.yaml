@@ -1,0 +1,103 @@
+id: WARRANT-OPBOX-001
+kind: commission_warrant
+status: DRAFT_PREPARED_FOR_SIGNATURE
+statute: ACT-RECTIFICATION-COMMISSION
+prepared_by: lexby
+prepared_at: "2026-08-05"
+jurisdiction:
+  # ACT 12 s2: exactly ONE jurisdiction, named by repository.
+  jurisdiction_id: opbox
+  repository: wlilley93/opbox-kernel
+  working_root: /home/jellytot/Projects/opbox-prod/opbox-kernel
+eligibility:
+  # s2: no warrant issues for a jurisdiction that has not acceded by its own
+  # deliberate act; eligibility is the accession and nothing else.
+  acceded: >
+    Acceded 2026-08-05 by its own pin bump: the subscriber's mirror commit 89137f6c
+    carried ACT 11 and ACT 12 into its lawpack/v2, the lawpack lock was deliberately
+    re-pinned, and the conformance ratchet fired on the arrival and was answered in
+    the same commit. The accession is the subscriber's act, not canon's.
+commencement:
+  warrant: on the Principal's signature below
+  ss3_ss4_gates: >
+    ACT 12 ss3-4 commence on the day the gates binding them are in force. MEASURED in
+    this jurisdiction 2026-08-05: the conformance ratchet is armed (.vjs/conformance.lock,
+    baseline 295 unwired of 399), and the s5 content-preservation proof runner ships as
+    `vjs preserve-check` (commit 08564d41, nine red seeds including both round-5
+    Guardrail conditions). Commencement of ss3-4 here is therefore a measured fact on
+    signature, not an assertion.
+expiry: "2026-11-03"  # 90 days from signature target date; s2 caps at 90.
+classes_authorised: [4a, 4b, 4c, 4d, 4e, 4f, 4g]
+seats:
+  # s2: not fewer than three seats carrying the four Standing Committee portfolios in
+  # substance. Tiered per the Principal's practice direction of 2026-08-05 (filed at
+  # .vjs/submissions/filed/2026-08-05-practice-direction-mechanical-certification-and-tiered-benches.md):
+  # verification seats on the economical model tier, judgment seats on the strong model.
+  - portfolio: restraint
+    tier: strong
+  - portfolio: codification
+    tier: economical
+  - portfolio: guardrail
+    tier: strong
+  - portfolio: operability
+    tier: economical
+concurrency:
+  # s2: the cap is counted against the canonical register. On signature this warrant
+  # is registered at lawpack/v2/provenance/warrants/ in canon; with WARRANT-CANON-001
+  # it makes two of the maximum three concurrent.
+  register: lawpack/v2/provenance/warrants/
+certified_rectification_schedule:
+  # The initial worklist. The s3 audit extends it; nothing here enlarges the s4 powers.
+  - class: 4a_form
+    item: >
+      The FORM subset of the 2026-08-05 kernel sweep findings
+      (docs/2026-08-05-kernel-sweep-findings.md in the jurisdiction), each repair
+      proved by `vjs preserve-check` per s5.
+  - class: 4c_indexing
+    item: >
+      The stale address in the enacted ACT 12 mirror: it cites types.rs:371 for the
+      Order struct, which a 2026-08-05 structural split moved to types/order.rs.
+      The Commission PREPARES the correction; the competent authority MAKES it (s6).
+      Found by `vjs draft check` running over the enacted text.
+  - class: 4c_indexing
+    item: >
+      The vendored ACT-CONSOLIDATION-FRAMEWORK mirror carries a section subset whose
+      s7 references s12, which the partial mirror does not carry - a mirror-identity
+      defect for the s15 store-by-store measurement.
+  - class: 4b_identity
+    item: >
+      Citation-estate registration and the structured-tuple migration under
+      ACT-PROCEEDINGS-DISCIPLINE s7 and Schedule 1, including tombstones for
+      condemned or ambiguous ordinals.
+  - class: 4c_indexing
+    item: >
+      Registration of the .justice continuity store under ACT-PROCEEDINGS-DISCIPLINE
+      s13, so the store register equals the governed record roots.
+  - class: 4f_subscriber_paths
+    item: >
+      The subscriber-path route-for-correction warnings standing on the enacted
+      ACT 11/ACT 12 texts since enactment (the assented-record floor working as
+      designed): the Commission prepares the corrections; the court or Sovereign
+      makes them (s5, s6).
+  - class: 4e_binding
+    item: >
+      s4(e) reclassification triage of the 295-duty unwired residue
+      (.vjs/conformance.lock recital), beginning with the three measured
+      not-claimables: delete_logs (.vjs/logs is not a governed record root),
+      the word-limit duties (no counting gate exists), and
+      name_the_instrument_that_caused_every_denial (citations not universal on
+      findings). Reclassification occurs in the audit and the report, never in
+      the instrument.
+signature:
+  # THE SIGNATURE IS THE PRINCIPAL'S ALONE, non-delegable and non-presumable. To
+  # sign, the Principal states express words naming this warrant and the digest of
+  # THIS file as prepared, e.g.:
+  #   "I issue WARRANT-OPBOX-001, digest sha256:<digest of this file>."
+  # On signature the warrant is registered at lawpack/v2/provenance/warrants/ in
+  # canon AND in the jurisdiction, with the signature event recorded alongside; the
+  # denylisted-term limbs then apply in their route-for-correction form to the
+  # registered record, never voiding it.
+  signed: NOT_SIGNED
+  signed_by: null
+  signed_at: null
+  instrument_digest_at_signature: null
