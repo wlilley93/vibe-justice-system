@@ -1,6 +1,6 @@
 id: ACT-PROCEEDINGS-DISCIPLINE
 assent_source: SECOND_DRAFT_PENDING_STANDING_COMMITTEE_ADOPTION
-title: The Proceedings Discipline and Rectification Act 2026
+title: The Proceedings Discipline Act 2026
 status: draft
 created_at: "2026-08-05"
 enacted_by: >
@@ -17,12 +17,15 @@ enacted_by: >
 purpose: >
   To reduce the cost of governance by removing its measured causes; to make citation identity
   structured data rather than typed prose, on the Principal's own proposal of 2026-08-05; to create
-  the amendment power the system lacked; and to establish, for a fixed and self-expiring period,
-  the Rectification Commission: an executive organ with editorial and rectificatory powers over
-  every jurisdiction running VJS, inside three absolute floors, with a short lawful pause of
-  first-instance machinery sittings while it works. The Principal's instruction of record:
-  "editorial piece, not a wild west", the three base laws apply, Commission chosen over a V2
-  sunset. Part 2 is permanent law. Part 3 expires by its own terms.
+  and the amendment power the system lacked. This Act is permanent law and creates no organ.
+  THE RECTIFICATION COMMISSION IS NOT IN THIS ACT. It was drafted here as a Part 3 and is REMOVED to
+  its own instrument, ACT-RECTIFICATION-COMMISSION, on the Standing Committee's second-round reports:
+  all four counsel found the compressed Part defective and two grounded a NAY on it, the decisive
+  finding being that the compression INVERTED the trust-boundary rule - staying a fork that binding
+  law requires to reach court before implementation - in the very Act that corrects that rule's
+  mis-citation on its face. One Commission, one instrument, which is this corpus's own consolidation
+  principle. The Principal's instruction of record stands and is discharged there: "editorial piece,
+  not a wild west", the three base laws apply, a Commission chosen over a V2 sunset.
 
 drafting_note: >
   DRAFT-ONLY KEY, stripped at enactment (the statute loader recognises fixed top-level keys and
@@ -104,12 +107,6 @@ sections:
       and to report that it was forwarded; a pointer, never a second allocation.
 
       MACHINERY CLAIM means a structured entry under s2, never a sentence of prose.
-
-      WARRANT means the Principal's written instrument appointing a commissioner to a named
-      jurisdiction for a fixed period under Part 3.
-
-      RECTIFICATION means an editorial act on a record's form, a reader, a gate, a register or a
-      store, never an act on the substance of any holding, directive or assented term.
     kernel_effect:
       defines:
         - term.machinery
@@ -123,8 +120,6 @@ sections:
         - term.tombstone
         - term.reserved_ordinal
         - term.forwarding_record
-        - term.warrant
-        - term.rectification
       must_not:
         - reading_the_definition_of_reversible_in_this_act_as_altering_act_003_s2_or_act_004_s7
         - treating_an_enumeration_that_omits_a_store_as_a_measurement_of_the_jurisdiction
@@ -143,8 +138,11 @@ sections:
       exit_code, an output_digest, and whether reproducible. The kernel refuses a filing only where
       an entry is absent, malformed, or names a mode other than EXECUTED or READ, and names each
       defective entry. The kernel does not, and may not, decide by reading prose whether a sentence
-      asserts machinery behaviour: that would require a classifier, and the kernel is model-free by
-      construction and by dependency ban (ACT-003:s8; the capability is removed, not prohibited).
+      asserts machinery behaviour: that would require a classifier. ACT-003:s8 prohibits adding a
+      model call to the kernel core (subject to its adapter exception), and ACT-004:s3 fixes a closed
+      predicate registry which forbids evaluating an invariant by model, by cosine or by free-form
+      script - so the capability is not merely prohibited, it is absent from the registry a
+      deterministic clerk may draw on.
       An address is not observed unless it resolves in the repository named; a path valid only in a
       mirror is not an address in canon.
 
@@ -384,11 +382,17 @@ sections:
       (ACT-ASSENTED-RECORD-PROTECTION:s1); allocation runs at authoring or commencement and so
       precedes any assent it could otherwise obstruct. This section amends ACT-004:s8 (Schedule 3).
     commentary: >
-      The Principal's proposal, and the keystone. Measured on 2026-08-05: the allocator's
-      arithmetic is correct over the roots it reads, and next-citation DEC lawfully offers ordinal
-      15 - which is semantically radioactive, because about forty files cite VJS-DEC 15 meaning the
-      condemned Unitary Stack decision whose record PC 13 removed. No string allocator can know
-      that; a tombstone makes it unrepresentable. Likewise the CC-OPBOX and VJS-CC-OPBOX series are
+      The Principal's proposal, and the keystone. Measured on 2026-08-05 by EXECUTION of `vjs
+      next-citation`: the allocator's arithmetic is correct over the roots it reads, and
+      next-citation DEC lawfully offers ordinal 15 - which is semantically loaded, because the label
+      VJS-DEC 15 is already in use across the corpus to denote a specific prior decision of the
+      unitary-stack programme (EXECUTED grep: 14 files in canon, 41 under the opbox `.justice`
+      subtree, meaning the SERIES DEC 15-22 per SUBMISSION-2026-08-04-221305, not ordinal 15 alone).
+      Whatever the STATUS of that decision - which is the stayed question this Act may not prejudge -
+      reissuing the ordinal to a NEW and different instrument would silently repoint every one of
+      those references. No string allocator can know that; a reservation, and where a matter later
+      condemns a combination a tombstone, makes the reissue unrepresentable. Likewise the CC-OPBOX
+      and VJS-CC-OPBOX series are
       not colliding allocations but v1 and v2 of one series distinguished by estate, which the
       structured form carries as data. The DEC 15 to 22 ordinals are RESERVED, not tombstoned,
       pending the footing matter SUBMISSION-2026-08-04-221305, which this Act may not prejudge.
@@ -455,8 +459,12 @@ sections:
       deviation from this section is made only by order of a court, names its expiry, and is
       reported OWED on expiry. An unloadable instrument is never treated as repealed.
     commentary: >
-      The single most expensive defect measured: 55 of 109 filed orders unreadable and absent from
-      the citator while the route answered confidently from the remainder. The first draft's "NOT
+      The single most expensive defect measured in this corpus: on 2026-08-04 the opbox jurisdiction
+      stood at 55 of 109 filed orders unreadable and absent from the citator while the route answered
+      confidently from the remainder ([2026] VJS-CC-OPBOX 160). Executing 160 took that count to 2
+      without touching a record (161), and it stands at 0 of 116 as at 2026-08-05 (EXECUTED,
+      scripts/verify-orders-are-readable.sh in opbox-kernel). The figure is dated because a count
+      with no date is the defect this Act's own s8 is about. The first draft's "NOT
       IN FORCE, binds nothing" would have made the parser constitutive of legal force over an
       entrenched Act and handed any agent a disapplication lever one reader-narrowing wide: both
       NAY counsel converged on that, and the cure enacted here keeps enforceability and force
@@ -481,8 +489,10 @@ sections:
       Every directive of a newly recorded order names the actor it binds. An actor value is refused
       where empty or equal, after normalisation, to UNSTATED, TBD, NONE, ANY, ALL, SOMEONE or TODO,
       or where it names no entry on the jurisdiction's actor register. A directive in an
-      already-filed order whose actor was never recorded binds NOBODY; the reader reports it
-      UNSTATED and never supplies a bearer, choosing who is bound being reserved to the court. The
+      already-filed order whose actor was never recorded is reported UNSTATED and the reader never
+      supplies a bearer; WHETHER SUCH A DIRECTIVE BINDS, AND WHOM, IS RESERVED TO THE COURT, and
+      nothing in this section invalidates a legacy ruling for want of a structured field
+      (REG-COURT-RECORD-001, which binds prospective rulings only). The
       count of UNSTATED directives is carried in local-ci. A record declaring a valid assent_source
       is routed for correction, never blocked. This section amends ACT-002:s10 (Schedule 3).
     commentary: >
@@ -538,8 +548,11 @@ sections:
       conformance audit mandated by [2026] VJS-PC 13, and the variation is express. A defines token
       is declarative vocabulary, not enumerated by the audit, and is not asserted to bind anything.
     commentary: >
-      Measured 2026-08-05: 281 duties, 43 wired, 238 unwired, and no negative-control register or
-      conformance ratchet anywhere in the test tree. Unbounded, this section demands 285 seeded
+      Measured 2026-08-05 (EXECUTED, `vjs audit --json` in canon): 281 duties, 43 wired, 238
+      unwired. No negative-control REGISTER exists (EXECUTED find), so no duty can be shown to carry
+      one; individual controls and at least one debt ratchet do exist in the test tree, and an
+      earlier draft's claim that neither existed anywhere was a bounded search reported as a fact
+      about the corpus - corrected here rather than deleted, being the very error s2 exists to stop. Unbounded, this section demands 285 seeded
       violations and gets the audit disabled instead; bounded to claims, the population is 43 and
       finite. Every material defect found in this machinery in the drafting week was found by
       seeding a violation or running the instrument, never by reading it.
@@ -577,185 +590,13 @@ sections:
         - report_an_unregistered_law_store_in_local_ci
         - register_justice_in_the_opbox_jurisdiction_at_commencement
 
-  # ==================== PART 3 - THE RECTIFICATION COMMISSION ====================
-
-  - id: ACT-PROCEEDINGS-DISCIPLINE:s14
-    title: The Rectification Commission - establishment
-    text: >
-      There is established the Rectification Commission, an executive organ, instantiated by this
-      Act and dissolved by it. It consists of a Chief Commissioner and one commissioner per
-      warranted jurisdiction, appointed by the Principal by WARRANT; a commissioner may be an agent
-      seat. Its authority is delegated and revocable at will by the Principal. The three organs
-      remain separate: the Standing Committee drafts law, the courts adjudicate, the Commission
-      RECTIFIES. The Commission makes no law, adjudicates no merits, and creates no precedent; its
-      register and report are evidence, never authority. The jurisdictions eligible for warrant are
-      those on the realm's jurisdiction register; the Commission's first duty in any tree not
-      plainly a jurisdiction is to determine whether it is a jurisdiction, a mirror, or a stale
-      copy, and to register or retire it accordingly under s16.
-    kernel_effect:
-      defines:
-        - commission.organ.executive
-        - commission.chief_and_per_repo_commissioners
-        - commission.no_law_no_merits_no_precedent
-      must:
-        - act_only_under_a_written_warrant_of_the_principal
-
-  - id: ACT-PROCEEDINGS-DISCIPLINE:s15
-    title: The floors, and what the Commission may never touch
-    text: >
-      Three floors bind the Commission absolutely, and a Commission act purporting to cross any of
-      them is void to that extent and routed for correction:
-
-      (a) THE SOVEREIGN-ASSENT FLOOR. ACT-ASSENTED-RECORD-PROTECTION:s1 and s2 and
-      ACT-CONSOLIDATION-FRAMEWORK:s7 and s25, cited by number as s2 requires. No Commission act
-      voids, excludes or blocks an assented record; a defect on one is routed for correction, and
-      the substance of any correction to assented terms is reserved to the Sovereign.
-
-      (b) THE PROTECTIVE FLOOR IN ALL FOUR LIMBS - real-world law; rights, standing and due
-      process; the public and private boundary; restorative remedy, not punishment -
-      ACT-CONSOLIDATION-FRAMEWORK:s21 and s25, non-derogable.
-
-      (c) APEX SINGLENESS. [2026] VJS-SC 4. The Commission neither constitutes nor rectifies an
-      apex record locally; a locally-recorded apex act it finds is referred up, never repaired in
-      place.
-
-      Further: a fork involving a TRUST BOUNDARY is registered and STAYED; the Commission may not
-      dispose of it and it awaits the courts. A matter pending before any court when a pause begins
-      is stayed, not extinguished, and no Commission act disposes of, prejudges or renders moot a
-      stayed matter; in particular the reserved DEC ordinals await SUBMISSION-2026-08-04-221305.
-      The Commission gains no power from an emergency, a backlog, or the Principal's oral
-      direction: its powers are these and expand only by amendment of this Act.
-    kernel_effect:
-      defines:
-        - commission.floor.assent
-        - commission.floor.protective_four_limbs
-        - commission.floor.apex_singleness
-      must:
-        - refer_up_any_locally_recorded_apex_act
-        - stay_and_register_trust_boundary_forks
-      must_not:
-        - disposing_of_or_mooting_a_stayed_court_matter
-        - deriving_any_power_from_urgency_or_oral_direction
-
-  - id: ACT-PROCEEDINGS-DISCIPLINE:s16
-    title: Powers of rectification
-    text: >
-      Within its warranted jurisdiction, by recorded warrant, the Commission may:
-
-      (a) rectify the FORM of records on the s6 slip track, each act carrying the fixed
-      content-preservation proof;
-      (b) WIDEN READERS so filed records are read as written, never editing a record to satisfy a
-      reader;
-      (c) WIRE DUTIES to gates, ship negative controls, and reclassify honestly - recording that a
-      duty no gate can hold is enforced by the courts - under s12's counting rules;
-      (d) establish and maintain the STORE REGISTER, register law stores, and retire stores that
-      are copies, recording what was retired and where any unique content went;
-      (e) MIGRATE CITATIONS to the Schedule 1 form: parse, register, forward, tombstone, reserve; a
-      string that will not parse is reported, never guessed;
-      (f) CONSOLIDATE series under s6's consolidation discipline, referring up any series touching
-      apex tier;
-      (g) PORT FIXES across kernels, mirrors and worktrees so canon and every vendored copy agree,
-      recording each fleet drift closed;
-      (h) COMPLETE a record only by transcription of terms the record already carries; authorship
-      of operative terms stays with the courts and the Sovereign;
-      (i) bring STRANDED governance artefacts inside a registered store, a proof or repair living
-      outside every registered store being itself a defect.
-
-      Every act carries: the warrant id; the address and mode (EXECUTED or READ) under s2's
-      discipline; the proof where the act is a rectification of form; and an entry in the s18
-      register before the act is complete. An unrecorded act is a breach by the commissioner. The
-      Commission may not create, modify or re-rate any verb, permission model, authentication tier,
-      token or capability; may not change the substance of any holding, directive, reservation or
-      prohibition; and may not narrow any reader.
-    kernel_effect:
-      defines:
-        - commission.powers.editorial_enumeration
-      must:
-        - carry_warrant_address_mode_and_proof_on_every_act
-        - register_every_act_before_it_is_complete
-      must_not:
-        - creating_or_modifying_any_trust_boundary_surface
-        - changing_the_substance_of_any_operative_part
-        - narrowing_any_reader
-
-  - id: ACT-PROCEEDINGS-DISCIPLINE:s17
-    title: The pause
-    text: >
-      While a jurisdiction's warrant runs, and only then, its FIRST-INSTANCE courts do not convene
-      new sittings on machinery and editorial matters; such matters go to the Commission's register
-      instead. Unaffected and never paused: floor matters under s15; breach matters; matters the
-      Principal certifies urgent in writing; appeals already in flight; and the canonical Privy
-      Council and Supreme Court, which remain available throughout to every jurisdiction. Court
-      triggers are DEFERRED, not extinguished: the route continues to detect them and records them
-      stayed, and every stayed trigger appears in the s18 register. The pause lifts automatically
-      when the warrant expires, whatever remains undone. This section expressly varies ACT-002:s6
-      for the duration of a warrant and to that extent only (Schedule 3).
-    commentary: >
-      The pause exists so the sweep does not reproduce the pathology it repairs: seven sittings in
-      a day, four of them corrective. It is per-jurisdiction and rolling, not a global blackout;
-      the apex courts stay open precisely because they guard the floors the Commission cannot
-      touch; and deferral-not-extinguishment means the pause changes when questions are heard,
-      never whether.
-    kernel_effect:
-      defines:
-        - pause.per_warrant_first_instance_machinery_only
-        - pause.deferral_not_extinguishment
-      must:
-        - keep_floor_breach_certified_and_apex_matters_sitting
-        - record_every_stayed_trigger_in_the_register
-        - lift_the_pause_automatically_at_warrant_expiry
-
-  - id: ACT-PROCEEDINGS-DISCIPLINE:s18
-    title: The register, the report, and the measure of worth
-    text: >
-      The Commission keeps one register, in a registered store, classifying every item it touches
-      into exactly four buckets: RECTIFIED (with warrant, address, mode, proof); REFERRED TO COURT
-      on resumption; REFERRED TO PARLIAMENT where only legislation cures; STAYED as a trust
-      boundary or a pending matter. Within seven days of dissolution the Chief Commissioner reports
-      to the Principal, the Standing Committee and the courts: the per-jurisdiction rectification
-      schedules; every stayed and referred item; and the measured before and after - unreadable
-      counts, ungrounded and unregistered-store counts, unwired and unenforced duty counts, and the
-      correction rate - each by EXECUTED runs of the audits, so the Commission's worth is a number
-      and not an assertion. A rectification absent from the register is a breach by the
-      commissioner who made it.
-    kernel_effect:
-      defines:
-        - commission.register.four_buckets
-        - commission.report.measured_before_and_after
-      must:
-        - classify_every_touched_item_into_exactly_one_bucket
-        - report_within_seven_days_of_dissolution_with_executed_measurements
-
-  - id: ACT-PROCEEDINGS-DISCIPLINE:s19
-    title: Duration, sunset, and review
-    text: >
-      A warrant runs at most fourteen days and is renewable once, by the Principal, in writing. The
-      Commission DISSOLVES at the earliest of: thirty days after its first warrant issues; the
-      expiry of its last warrant; or the Principal's written direction. Dissolution is automatic
-      and requires no act; after it, no power under this Part is exercisable and any purported
-      exercise is void. Incomplete work passes to the ordinary process with the register naming
-      what is incomplete. Part 3 then expires, save this section, s18's report duty and the review
-      that follows. EVERY COMMISSION ACT IS REVIEWABLE by the ordinary courts after resumption, on
-      application or own motion; an act beyond power is void to that extent and routed for
-      correction; good-faith reliance on a Commission rectification before it is set aside is not a
-      breach. The pause defers review; nothing extinguishes it.
-    kernel_effect:
-      defines:
-        - commission.sunset.automatic
-        - commission.acts.reviewable_post_resumption
-      must:
-        - dissolve_automatically_at_the_earliest_terminus
-        - void_and_route_for_correction_any_act_beyond_power
-      must_not:
-        - any_exercise_of_part_3_power_after_dissolution
-
   # ======================= PART 4 - COMMENCEMENT AND EXTENT =======================
 
-  - id: ACT-PROCEEDINGS-DISCIPLINE:s20
+  - id: ACT-PROCEEDINGS-DISCIPLINE:s14
     title: Commencement by section
     text: >
-      This Act does not commence as a whole. Part 1, Part 4 and Part 3 commence on assent, so the
-      Commission may be warranted at once. Each Part 2 section commences on the day its gate and
+      This Act does not commence as a whole. Parts 1 and 4 commence on assent. Each Part 2 section
+      commences on the day its gate and
       negative control are in force, in the tranche order of Schedule 2; a section not yet
       commenced states a duty that binds no gate and is reported UNWIRED, honestly, by the audit.
       s12 commences LAST of Part 2, when there is something to measure and the corpus can survive
@@ -772,7 +613,7 @@ sections:
         - commence_a_part_2_section_only_when_its_gate_and_control_are_in_force
         - report_this_acts_own_unwired_duties_in_the_audit
 
-  - id: ACT-PROCEEDINGS-DISCIPLINE:s21
+  - id: ACT-PROCEEDINGS-DISCIPLINE:s15
     title: Extent and savings
     text: >
       This Act binds the canonical jurisdiction and every subscribing jurisdiction on accession. An
@@ -786,16 +627,22 @@ sections:
       unmeasured store is a defect routed for correction and never a finding that the mirror is
       clean.
 
+      THE COMMENTARY KEY OF EVERY SECTION OF THIS ACT IS EXPLANATORY AND NON-OPERATIVE. No citation
+      appearing only in commentary is an operative citation, and no ratio may rest on commentary.
+
       This Act does not disturb: the Sovereign-assent floor (ACT-ASSENTED-RECORD-PROTECTION:s1 and
-      s2, cited by number); the PROTECTIVE FLOOR in all four limbs (ACT-CONSOLIDATION-FRAMEWORK:s21
-      and s25); apex singleness ([2026] VJS-SC 4); [2026] VJS-PC 17 D1, which s4 expressly leaves
-      standing; or any order in force save the express variations Schedule 3 enumerates. The
+      s2, and ACT-CONSOLIDATION-FRAMEWORK:s10 and s25, each cited by number); the PROTECTIVE FLOOR in
+      all four limbs - real-world law; rights, standing and due process; the public and private
+      boundary; restorative remedy not punishment - (ACT-CONSOLIDATION-FRAMEWORK:s21 and s25, and
+      s11 as entrenched by s25); apex singleness ([2026] VJS-SC 4); [2026] VJS-PC 17 D1, which s4
+      expressly leaves standing; or any order in force save the express variations Schedule 3 enumerates. The
       TRUST-BOUNDARY RULE is stated here on its own terms and is untouched: a fork involving any
       verb rated SENSITIVE or above, any EXTERNAL authentication tier, or any token, capability or
       permission-model change goes to court BEFORE implementation regardless of code
       reversibility. That rule's holder in the opbox continuity citator is [2026] CC-OPBOX 16
-      (.justice series, no VJS prefix, at .justice/judgments/county-court/2026-cc-opbox-16.md:44,
-      READ), whose remedy was quashed in part and whose duty was carried forward by [2026]
+      (the .justice continuity series, no VJS prefix, at
+      `opbox-prod/opbox-kernel:.justice/judgments/county-court/2026-cc-opbox-16.md:44`, mode READ -
+      the repository is named because s2 requires it and this is the Act's own showpiece citation), whose remedy was quashed in part and whose duty was carried forward by [2026]
       CC-OPBOX 17; the first draft cited three unrelated VJS-CC-OPBOX orders for it and the
       mis-citation is recorded rather than quietly fixed. The Schedule 1 migration registers the
       continuity series as estate v1 so that rule becomes visible to the grounding gate for the
@@ -817,14 +664,19 @@ sections:
       1. FORM. A citation is the tuple (estate, year, series, repo, ordinal). Estate is v1 or v2.
       Year is the four-digit year of making. Series is a value on the jurisdiction's series
       register (on commencement, for canon: ACT, REG, RULE, SPEC, DEC, INV, SC, PC, CA, CC; a
-      subscriber registers its own additions). Repo is a value on the jurisdiction register and is
-      present exactly where the series is repo-scoped. Ordinal is a positive integer, minted by
+      subscriber registers its own additions). Repo is a value on the repos register kept under
+      REG-REPOS-REGISTER-001 and is present exactly where the series is repo-scoped. Ordinal is a positive integer, minted by
       the kernel, never authored.
 
       2. RENDER AND PARSE. One render function produces the display string per (estate, series)
-      from the render map on the register - the v2 form "[YEAR] VJS-SERIES[-REPO] N", and for
-      estate v1 the legacy forms as registered, including "[YEAR] REALM-SERIES N" and the bare
-      "[YEAR] SERIES-REPO N" of the continuity citator - and one parse function inverts it.
+      from the render map on the register - the v2 form "[YEAR] VJS-SERIES[-REPO] N"; the bare
+      "[YEAR] SERIES-REPO N" of a subscriber's continuity citator, WHICH IS A REGISTERED LEGACY
+      RENDER FORM OF ESTATE V2 AND NOT AN ESTATE V1 FORM; and for estate v1 the archive forms as
+      registered, including "[YEAR] REALM-SERIES N" - and one parse function inverts it. Registering
+      a render form is an act on IDENTITY and never on force: it neither incorporates an estate v1
+      record (ACT-001:s4; ACT-CONSOLIDATION-FRAMEWORK:s20, which require an express incorporation
+      record) nor alters the force of any estate v2 record. A live subscriber ruling is not archive
+      law merely because its rendered form predates the VJS prefix.
       Extraction over prose uses the parse function over every registered form, so no estate is
       invisible to grounding.
 
@@ -838,9 +690,9 @@ sections:
       with its ground, never unresolved. A reservation names its pending matter. At commencement:
       the DEC ordinals 15 to 22 of estate v2 are RESERVED pending SUBMISSION-2026-08-04-221305;
       the void self-mint of ordinal 8 of series ACT recorded at ACT-COMPUTER-FIRST-REALM's purpose
-      is registered as that Act's history requires, the Commission determining under its warrant
-      how the live file's citation line and the register are reconciled without touching the
-      Act's assented substance.
+      is registered as that Act's history requires. How that Act's live citation line and the
+      register are reconciled is RESERVED TO THE SOVEREIGN, assent being non-delegable
+      (ACT-CONSOLIDATION-FRAMEWORK:s10); no other organ acts on the face of a constitutional Act.
 
       5. MIGRATION. Every existing rendered citation in every registered store is parsed into the
       form. A string that will not parse under any registered form is reported UNPARSEABLE with
@@ -869,8 +721,13 @@ sections:
       the register. Tranche 3, ordered by dependency: s3, then s6, then s7's forwarding reader in
       the same act as its first forwarding record. Tranche 4: s9 in canon (the loader collects and
       continues; the largest single item). Tranche 5: s2 on the structured block, after the
-      cheaper sections have made the kernel's own reports addressable. Tranche 6, last: s12. At
-      no point does a section of this Act stand in force as a duty with no gate.
+      cheaper sections have made the kernel's own reports addressable. Tranche 6, last: s12.
+
+      NO PART 2 SECTION STANDS IN FORCE AS A DUTY WITH NO GATE. Parts 1 and 4 commence on assent and
+      carry seven duty tokens between them (s1 two, s14 two, s15 three), which bind no gate at
+      commencement and are reported UNWIRED by the audit, honestly. That is disclosed rather than
+      denied, because the audit has no representation of commencement at all and reads the whole-Act
+      figure from the day this text lands (s14).
     kernel_effect:
       defines:
         - commencement.tranches
@@ -879,14 +736,23 @@ sections:
     title: Schedule 3 - express amendments
     text: >
       This Act amends, to the extent stated in the named section and no further: ACT-002:s6 (s5's
-      conferred route; s17's pause, for a warrant's duration only); ACT-002:s9 (s3's declared
+      conferred route only; no provision of this Act defers, stays or pauses the convening of any
+      matter); ACT-002:s9 (s3's declared
       relations; s4's appellate anchor for per-incuriam voidness; s6's on-the-face amendment
       power); ACT-002:s10 (s10's actor requirement); ACT-003 (s2's machinery-claims duty, inserted
       as agent-duties law); ACT-004:s7 (s8's NOT FOUND record duty); ACT-004:s8 (s7 and Schedule
       1, the structured citation form); ACT-004:s9 (s6's variation that an amendment is recorded
       on the face, the prohibition on deleting old records undisturbed). It varies the counting
-      rules of the conformance audit mandated by [2026] VJS-PC 13 (s12, express). It varies no
-      other instrument, and it varies [2026] VJS-PC 17 D1 not at all.
+      rules of the conformance audit mandated by [2026] VJS-PC 13 (s12, express).
+
+      IT VARIES [2026] VJS-PC 17 D1 NOT AT ALL. No other instrument is varied, and this sentence is
+      stated as a bounded claim rather than an absolute: the enumeration above is the amendment set
+      the Clerk-Drafter measured, and a variation found outside it is a defect in this Schedule
+      correctable on the s6 slip track, never an implied amendment. In particular this Act does NOT
+      vary REG-COURT-RECORD-001 (s10 is drafted to sit inside its prospective-only rule),
+      REG-SELF-CONVENE-001, ACT-003:s5 or ACT-003:s10: the draft pause which would have deferred the
+      convening duties those instruments impose is no longer in this Act, and any instrument that
+      proposes such a pause must declare those variations for itself.
     kernel_effect:
       defines:
         - amendments.enumerated_express
