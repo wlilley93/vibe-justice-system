@@ -89,3 +89,22 @@ fn a_garbled_or_empty_register_is_fatal_not_vacuous() {
         "a register with no entries would certify completeness over nothing: {f:?}"
     );
 }
+
+#[test]
+fn an_unregistered_continuity_citator_is_fatal() {
+    // THE RED SEED from the 2026-08-05 live probe: the first gate version enforced
+    // only the governed roots, so deleting the .justice entry passed silently while
+    // the registry row claimed the duty wired. The citator is citation-bearing and
+    // nameable, so its omission is Fatal wherever the tree carries one.
+    let dir = scratch("citator");
+    std::fs::create_dir_all(dir.join(".justice")).unwrap();
+    write_register(&dir, &["lawpack/v2", ".vjs/orders"]);
+    let f = findings(&dir);
+    assert!(
+        f.contains(&("Fatal".into(), "STORE-UNREGISTERED".into())),
+        "{f:?}"
+    );
+    write_register(&dir, &["lawpack/v2", ".vjs/orders", ".justice"]);
+    let f = findings(&dir);
+    assert!(f.is_empty(), "registered citator earns silence: {f:?}");
+}

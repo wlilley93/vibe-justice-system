@@ -85,6 +85,26 @@ pub fn store_register_findings(repo: &Path, findings: &mut Vec<Finding>) {
             ));
         }
     }
+    // The continuity citator is a CITATION-BEARING store by definition (s13 reaches
+    // every store capable of holding a governed record OR a citation), and it is
+    // nameable, so it is enforced by name: a `.justice` tree present on disk but
+    // absent from the register is exactly the omission the Act prosecutes. Found by
+    // live probe 2026-08-05: the first version only enforced the governed roots, so
+    // deleting the .justice entry passed silently while the registry row claimed
+    // otherwise - an overclaim, cured here by making the claim true.
+    if repo.join(".justice").is_dir()
+        && !stores.iter().any(|s| s.trim_end_matches('/') == ".justice")
+    {
+        findings.push(crate::f(
+            Severity::Fatal,
+            "STORE-UNREGISTERED",
+            "the continuity citator .justice exists in this tree and is not in the store \
+             register - a citation-bearing store the audit would sweep past \
+             (ACT-PROCEEDINGS-DISCIPLINE s13; the ACT 13 s4 respelled duty). Register it."
+                .into(),
+        ));
+    }
+
     // Every registered store exists; a ghost entry rots the register's authority.
     for s in &stores {
         if !repo.join(s).exists() {
