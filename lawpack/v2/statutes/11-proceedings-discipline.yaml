@@ -138,7 +138,7 @@ sections:
     ACT-003 by inserting the machinery-claims duty as agent-duties law (Schedule 3).
   commentary: >
     Three of the four corrective rulings this Act was drafted from were caused by assertions about machinery
-    nobody had run, relied on by a bench: [2026] VJS-CC-OPBOX 159 correcting 158, 161 reading down 160,
+    nobody had run, relied on by a bench: [2026] VJS-CC-SUB1 159 correcting 158, 161 reading down 160,
     164 correcting 163 (whose scope error sat four lines above the finding, in a comment naming the order
     that made it). The first draft of this very Act then committed the same error three more times, each
     caught by the Committee: a misread allocator invocation, a mis-attributed Privy Council directive,
@@ -347,7 +347,7 @@ sections:
     may not prejudge - reissuing the ordinal to a NEW and different instrument would silently repoint
     every one of those references. No string allocator can know that; a reservation, and where a matter
     later condemns a combination a tombstone, makes the reissue unrepresentable. Likewise the CC-SUB1
-    and VJS-CC-OPBOX series are not colliding allocations but v1 and v2 of one series distinguished by
+    and VJS-CC-SUB1 series are not colliding allocations but v1 and v2 of one series distinguished by
     estate, which the structured form carries as data. The DEC 15 to 22 ordinals are RESERVED, not tombstoned,
     pending the footing matter SUBMISSION-2026-08-04-221305, which this Act may not prejudge.
   kernel_effect:
@@ -376,7 +376,7 @@ sections:
     unenumerated NOT FOUND as a fact about the corpus and records the enumeration it relied on. Redaction
     under s2 applies to the recorded query output. This section amends ACT-004:s7 (Schedule 3).
   commentary: >
-    On 2026-07-31 a bench recorded [2026] VJS-CC-OPBOX 2 as not found in any store searched and declined
+    On 2026-07-31 a bench recorded [2026] VJS-CC-SUB1 2 as not found in any store searched and declined
     to rely on it, while a binding order of that name sat in .vjs/orders, created 2026-06-11: fifty days
     earlier, not six as the first draft recited without an address; the correction is Codification's,
     verified. The per-store record count exists because the first draft's version was satisfiable by one
@@ -410,13 +410,13 @@ sections:
   commentary: >
     The single most expensive defect measured in this corpus: on 2026-08-04 the First Subscriber's jurisdiction stood
     at 55 of 109 filed orders unreadable and absent from the citator while the route answered confidently
-    from the remainder ([2026] VJS-CC-OPBOX 160). Executing 160 took that count to 2 without touching
+    from the remainder ([2026] VJS-CC-SUB1 160). Executing 160 took that count to 2 without touching
     a record (161), and it stands at 0 of 116 as at 2026-08-05 (EXECUTED, scripts/verify-orders-are-readable.sh
-    in opbox-kernel). The figure is dated because a count with no date is the defect this Act's own s8
+    in sub1-kernel). The figure is dated because a count with no date is the defect this Act's own s8
     is about. The first draft's "NOT IN FORCE, binds nothing" would have made the parser constitutive
     of legal force over an entrenched Act and handed any agent a disapplication lever one reader-narrowing
     wide: both NAY counsel converged on that, and the cure enacted here keeps enforceability and force
-    apart. The fail-closed rule restates [2026] VJS-CC-OPBOX 160 O5 rather than weakening it to a report.
+    apart. The fail-closed rule restates [2026] VJS-CC-SUB1 160 O5 rather than weakening it to a report.
   kernel_effect:
     defines:
     - instrument.unreadable_in_force
@@ -584,17 +584,17 @@ sections:
     terms and is untouched: a fork involving any verb rated SENSITIVE or above, any EXTERNAL authentication
     tier, or any token, capability or permission-model change goes to court BEFORE implementation regardless
     of code reversibility. That rule's holder in the First Subscriber's continuity citator is [2026] CC-SUB1 16 (the
-    .justice continuity series, no VJS prefix, at `opbox-prod/opbox-kernel:.justice/judgments/county-court/2026-cc-opbox-16.md:44`,
+    .justice continuity series, no VJS prefix, at `sub1-prod/sub1-kernel:.justice/judgments/county-court/2026-cc-sub1-16.md:44`,
     mode READ - the repository is named because s2 requires it and this is the Act's own showpiece citation),
     whose remedy was quashed in part and whose duty was carried forward by [2026] CC-SUB1 17; the first
-    draft cited three unrelated VJS-CC-OPBOX orders for it and the mis-citation is recorded rather than
+    draft cited three unrelated VJS-CC-SUB1 orders for it and the mis-citation is recorded rather than
     quietly fixed. The Schedule 1 migration registers the continuity render form so that rule becomes
     visible to the grounding gate for the first time; the form is a registered legacy render form of estate
     v2 (Schedule 1 paragraph 2), and registering it is an act on identity and never on force.
 
 
     As at 2026-08-05 the known divergence is recorded on the face of this Act rather than left to a report:
-    `opbox-kernel/.worktrees/tablelist-ext/lawpack/v2/statutes/` holds a divergent `03-agent-duties.yaml`
+    `sub1-kernel/.worktrees/tablelist-ext/lawpack/v2/statutes/` holds a divergent `03-agent-duties.yaml`
     and does NOT hold `10-assented-record-protection.yaml` (EXECUTED `diff -rq`). It is an unregistered
     store holding a divergent unique copy of an entrenched Act, and it is routed for correction.
   kernel_effect:

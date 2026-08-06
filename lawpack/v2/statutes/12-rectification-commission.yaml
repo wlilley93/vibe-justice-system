@@ -289,7 +289,7 @@ sections:
     Where the repair is confined to leading whitespace, the stricter test applies and is available: stripping
     leading whitespace from every line before and after must yield byte-identical text. The rule's force
     in this Act comes from this Act stating it, not from the subscriber county order that first stated
-    it ([2026] VJS-CC-OPBOX 162, recorded as the origin and cited as persuasive; a canonical primary Act
+    it ([2026] VJS-CC-SUB1 162, recorded as the origin and cited as persuasive; a canonical primary Act
     does not incorporate a lower rank's order as its authority).
   kernel_effect:
     defines:
@@ -328,7 +328,7 @@ sections:
     any token, capability, credential or permission-model change - which goes to court before implementation
     regardless of reversibility. The Clerk-Drafter records that this rule is held at `[2026] CC-SUB1
     16` in the `.justice/` series (address in the schedule), that the companion Bill cited it to `[2026]
-    VJS-CC-OPBOX 16/17/18` in a different series on unrelated questions, and that all four counsel caught
+    VJS-CC-SUB1 16/17/18` in a different series on unrelated questions, and that all four counsel caught
     it;
 
     (d) any matter engaging a floor under section 1.
@@ -567,22 +567,22 @@ sections:
         the same surface, not a second entry)
       - SUB1 (the First Subscriber's kernel checkout, 116 orders, 32 court records, its own
         lawpack mirror and .justice series; a distinct repository root, EXECUTED git rev-parse
-        --show-toplevel. The parent opbox-prod/ carries .vjs/{logs,permits} only, holds ZERO
+        --show-toplevel. The parent sub1-prod/ carries .vjs/{logs,permits} only, holds ZERO
         governed records, and IS NOT the jurisdiction; a warrant may not name it)
       - vibe-design-system
       - Vibe Justice System (DISTINCT repository, EXECUTED git remote -v -> vibe-justice-system-dev,
         with its own orders, .justice and statutes; jurisdiction, fork or stale copy is for the
         first audit and the Principal)
       container_directories_not_jurisdictions:
-      - opbox-prod (.vjs holds logs and permits only; the real store is opbox-prod/opbox-kernel)
-      - opbox-security-scan-latest, opbox-security-scan-latest-r2, opbox-security-scan-repo (each
-        a container over an opbox-kernel copy holding ~109 orders one level down; whether a copy
+      - sub1-prod (.vjs holds logs and permits only; the real store is sub1-prod/sub1-kernel)
+      - sub1-security-scan-latest, sub1-security-scan-latest-r2, sub1-security-scan-repo (each
+        a container over an sub1-kernel copy holding ~109 orders one level down; whether a copy
         is a jurisdiction is for the first audit and the Principal)
       not_invoked_but_record_bearing:
       - SUB2 (24 orders, 22 court records, NO config.toml; on section 2's accession rule not
         presently warrantable)
       worktrees_the_audit_must_reach:
-      - opbox-prod/opbox-kernel/.worktrees/tablelist-ext (25 orders, 16 court records, 123 lawpack
+      - sub1-prod/sub1-kernel/.worktrees/tablelist-ext (25 orders, 16 court records, 123 lawpack
         files, divergent)
       - SUB2/.claude/worktrees/* (seventeen orders-bearing as at 2026-08-05, EXECUTED)
       note: 'Earlier drafts enumerated eight, then nine entries from a depth-one glob. The glob
@@ -602,7 +602,7 @@ sections:
       mode: READ
     - claim: the trust-boundary rule is held in the .justice series, not the .vjs/orders
         series
-      address: opbox-kernel/.justice/judgments/county-court/2026-cc-opbox-16.md:44
+      address: sub1-kernel:.justice/judgments/county-court/2026-cc-sub1-16.md:44
       mode: READ
     - claim: 281 duties, 43 wired, 238 unwired
       address: vjs audit --json (canon)
