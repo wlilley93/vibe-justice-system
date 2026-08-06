@@ -1,0 +1,12 @@
+id: LOG-2026-08-06-005851
+time: 2026-08-06T00:58:51.431407794+00:00
+actor: lexby
+kind: canon_write
+issue: kernel_enforcement_gaps_canon_write_chokepoint
+decision: 'Make gazette_lawpack''s real_lawpack fixture root layout-neutral: walk up to the first lawpack/v2/manifest.toml instead of counting ../.. levels'
+basis:
+- PERMIT-1785977916
+risk: low
+reversibility: easy
+court_required: false
+why: The re-pull carried the counted path into the vendored layout where the crates sit one level deeper than the law, breaking two gazette tests there; a fixture root that counts levels is layout-dependent and the divergence register's old row 7 already held the find-up form correct

@@ -39,19 +39,26 @@ fn scratch(name: &str) -> PathBuf {
     dir
 }
 
-/// The real lawpack, found from the crate rather than hard-coded, so a repo move does not
-/// silently turn every one of these into the very defect under test.
+/// The real lawpack, FOUND from the crate rather than reached by counting `../..`
+/// levels: the vendored layout carries these crates one level deeper (under
+/// `governance/`) while the law does not, so a counted path is layout-dependent and
+/// broke every one of these tests in the subscribing jurisdiction at the 2026-08-06
+/// re-pull. Walking up to the first `lawpack/v2/manifest.toml` is layout-correct in
+/// both trees, and a repo with no lawpack above still fails loudly.
 fn real_lawpack() -> PathBuf {
-    let p = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../lawpack/v2")
-        .canonicalize()
-        .expect("the lawpack must exist for these tests to mean anything");
-    assert!(
-        p.join("manifest.toml").is_file(),
-        "not a lawpack: {}",
-        p.display()
-    );
-    p
+    let mut d = Path::new(env!("CARGO_MANIFEST_DIR")).to_path_buf();
+    loop {
+        let cand = d.join("lawpack/v2");
+        if cand.join("manifest.toml").is_file() {
+            return cand
+                .canonicalize()
+                .expect("the lawpack must exist for these tests to mean anything");
+        }
+        assert!(
+            d.pop(),
+            "no lawpack/v2 above CARGO_MANIFEST_DIR: these tests need one"
+        );
+    }
 }
 
 fn run(repo: &Path, args: &[&str]) -> (bool, String) {
