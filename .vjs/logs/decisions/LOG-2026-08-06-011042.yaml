@@ -1,0 +1,12 @@
+id: LOG-2026-08-06-011042
+time: 2026-08-06T01:10:42.192349206+00:00
+actor: lexby
+kind: canon_write
+issue: kernel_enforcement_gaps_canon_write_chokepoint
+decision: Replace the two remaining counted ../../lawpack/v2 fixture roots (lawpack_displacement, lawpack_resolution) with the same find-up used in gazette_lawpack, closing the layout-dependent class
+basis:
+- PERMIT-1785978629
+risk: low
+reversibility: easy
+court_required: false
+why: The re-pull surfaced the class one file at a time; a sweep found exactly two more counted paths and fixing the class beats fixing the instance

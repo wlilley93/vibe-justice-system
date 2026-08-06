@@ -22,16 +22,23 @@ fn scratch(name: &str) -> std::path::PathBuf {
 /// The real lawpack, found from the crate rather than hard-coded, so a repo move does not
 /// silently turn every one of these into the very defect under test.
 fn real_lawpack() -> std::path::PathBuf {
-    let p = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../lawpack/v2")
-        .canonicalize()
-        .expect("the lawpack must exist for these tests to mean anything");
-    assert!(
-        p.join("manifest.toml").is_file(),
-        "not a lawpack: {}",
-        p.display()
-    );
-    p
+    // FIND the lawpack rather than counting `../..` levels to it: the vendored layout
+    // carries these crates one level deeper (under `governance/`) while the law does
+    // not, so a counted path is layout-dependent and broke these tests in the
+    // subscribing jurisdiction at the 2026-08-06 re-pull.
+    let mut d = Path::new(env!("CARGO_MANIFEST_DIR")).to_path_buf();
+    loop {
+        let cand = d.join("lawpack/v2");
+        if cand.join("manifest.toml").is_file() {
+            return cand
+                .canonicalize()
+                .expect("the lawpack must exist for these tests to mean anything");
+        }
+        assert!(
+            d.pop(),
+            "no lawpack/v2 above CARGO_MANIFEST_DIR: these tests need one"
+        );
+    }
 }
 
 fn run(repo: &Path, args: &[&str]) -> (bool, String) {
