@@ -384,7 +384,7 @@ fn repo_root() -> PathBuf {
 /// exactly the tag that could not find it: a filed, binding, exactly-on-point
 /// order was reported FirstImpression and the matter sent to a fresh court to
 /// re-decide settled law - a ruling then given in ignorance of binding law,
-/// which is per incuriam and void. Measured on boltrig 2026-07-29:
+/// which is per incuriam and void. Measured on SUB2 2026-07-29:
 /// `operator_seat_host_boundary` returned court_required while `OPERATOR-SEAT`
 /// returned allowed_with_conditions, for the same order.
 #[test]

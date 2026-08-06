@@ -25,7 +25,7 @@ Opinions: `.vjs/submissions/filed/`. Binding orders: `lawpack/v2/orders/`.
 
 **Primary law:** the Realm Consolidation and Reconciliation Framework Act (assented 2026-06-09; restates V1 law as a whole) and the Computer-First Realm Act, with the raft of subordinate regulations under `lawpack/v2/`.
 
-**Licence:** AGPL-3.0 (`LICENSE`; adoption in `NOTICE.md`).
+**Licence:** PolyForm Noncommercial 1.0.0 (`LICENSE`; adoption in `NOTICE.md`).
 
 ---
 

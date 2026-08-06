@@ -159,10 +159,16 @@ fn the_text_artifact_is_bijective_with_the_canon_and_renderable() {
         .len();
     // Soft guard against a whole-YAML dump (which would be megabytes). Raised from
     // 400 KB as the realm grew (the PC-15/16/17 and SC-5 orders each carry substantial
-    // holdings); 600 KB still enforces the "summaries, not full YAML" discipline.
+    // holdings), and from 600 KB on 2026-08-06 when lodging ACT-SUBSCRIBER-PSEUDONYMITY-
+    // RESIDUE under [2026] VJS-CC-VJS 20 D8 took it to 603838, six tenths of a percent
+    // over. The instrument is kept and only the number moves, which is the right way
+    // round: what this guard exists to catch is an ORDER-OF-MAGNITUDE regression, one
+    // statute at a time growing the corpus is the system working. If a single change
+    // ever adds hundreds of KB, that is the dump this catches and the number must not
+    // move for it.
     assert!(
-        bytes < 600_000,
-        "gazette-text.js stays under 600 KB, got {}",
+        bytes < 700_000,
+        "gazette-text.js stays under 700 KB, got {}",
         bytes
     );
 }

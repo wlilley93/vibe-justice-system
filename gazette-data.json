@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-06T12:52:33.143848889+00:00",
+  "generated_at": "2026-08-06T14:29:48.831303016+00:00",
   "items": [
     {
       "affirmed_by": [],
@@ -425,7 +425,7 @@
       "supersedes": [],
       "title": "The Proceedings Discipline Act 2026",
       "ts": "2026-08-05T09:25:20Z",
-      "updated": "2026-08-05",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/11-proceedings-discipline.yaml",
       "varied_by": [],
       "varies": []
@@ -480,7 +480,7 @@
       "supersedes": [],
       "title": "The Executive Rectification Commission Act 2026",
       "ts": "2026-08-05T09:25:20Z",
-      "updated": "2026-08-05",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/12-rectification-commission.yaml",
       "varied_by": [],
       "varies": []
@@ -523,6 +523,49 @@
       "ts": "2026-08-05T14:43:46Z",
       "updated": "2026-08-05",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/13-subscriber-pseudonymity.yaml",
+      "varied_by": [],
+      "varies": []
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "assent_source": "sovereign_assent",
+      "citation": "[2026] VJS-ACT 14",
+      "cites": [
+        "ACT-004",
+        "ACT-PROCEEDINGS-DISCIPLINE",
+        "ACT-RECTIFICATION-COMMISSION",
+        "ACT-SUBSCRIBER-PSEUDONYMITY"
+      ],
+      "court": "",
+      "date": "2026-08-06",
+      "doc": "law.html#ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE",
+      "estate": "v2",
+      "has_text": true,
+      "id": "ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE",
+      "kind": "statute",
+      "lineage": [
+        "ACT-COMPUTER-FIRST-REALM"
+      ],
+      "path": "lawpack/v2/statutes/14-subscriber-pseudonymity-residue.yaml",
+      "points": [
+        "s1 - The stem rendering rule and its accession",
+        "s2 - The substitutions, pinned and not recited",
+        "s3 - The V2 series rendering, an accession of a series",
+        "s4 - The address qualification",
+        "s5 - Warrant re-registration, prepared and not made",
+        "s6 - Commencement, and who makes what",
+        "s7 - Schedule 1 - the pinned second applied texts"
+      ],
+      "question": "",
+      "status": "in_force",
+      "summary": "The Subscriber Pseudonymity (Publication Corrections) Act 2026 swept registered tokens and said so exactly: its own residue recital records that subscriber-identifying names survive as substrings inside hyphenated compounds, approves no hyphenation technique, and routes the surviving compounds and the two warrant register records to the Commission's next certified schedule.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "The Subscriber Pseudonymity (Residue Corrections) Act 2026",
+      "ts": "2026-08-06T14:24:27Z",
+      "updated": "2026-08-06",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/statutes/14-subscriber-pseudonymity-residue.yaml",
       "varied_by": [],
       "varies": []
     },
@@ -2021,6 +2064,357 @@
       "varies": []
     },
     {
+      "affirmed_by": [
+        "2026-VJS-PC-012",
+        "2026-VJS-SC-003"
+      ],
+      "affirms": [],
+      "assent_source": "standing_bounded_assent",
+      "bench": [
+        "Marrowby CCJ"
+      ],
+      "case_file_digest": "sha256:9092d01eb858ddc80b9f872063812f51f6dd403b72378590061c45451ffbd3a5",
+      "citation": "[2026] VJS-CC 15",
+      "cites": [
+        "2026-VJS-PC-012",
+        "2026-VJS-SC-003",
+        "ACT-ASSENTED-RECORD-PROTECTION",
+        "ACT-COMPUTER-FIRST-REALM"
+      ],
+      "convened_at": "2026-06-12T12:40:00Z",
+      "court": "county",
+      "date": "2026-06-12",
+      "doc": "law.html#2026-VJS-CC-KERNEL-EFFECT-GATE-001",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-CC-KERNEL-EFFECT-GATE-001",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": "lawpack/v2/opinions/2026-VJS-CC-KERNEL-EFFECT-GATE-001-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-CC-KERNEL-EFFECT-GATE-001-opinion.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-CC-KERNEL-EFFECT-GATE-001.yaml",
+      "points": [
+        "build the limb a gate as kernel machinery giving deterministic effect to s5s exclusion of records with no kernel effect subject to d2 d5",
+        "dispose a runtime force record whose declared kernel effect binds to no evaluable registry arm by routing it for correction as an s5 validation defect never silent exclusion or void",
+        "additionally flag such a record carrying a resolving assent source as a registry coverage gap whose cure is registry extension not record removal",
+        "parse declared kernel effect structure only call no model use no semantic similarity and leave limb b prose effect divergence at the agent rung s11",
+        "surface the predicate registry as the editable cure surface never hardening the current 37 arms as a closed validity ceiling"
+      ],
+      "question": "Whether building a deterministic predicate that enforces ACT-COMPUTER-FIRST-REALM s.5 limb (a) - a runtime-force record whose declared kernel_effect binds to no evaluable predicate is excluded from the runtime authority graph - is kernel machinery within subordinate competence, or reserved to primary law or a higher court?",
+      "status": "binding",
+      "subject": "kernel machinery vs runtime authority graph constitution",
+      "summary": "The s.5(a) kernel-effect gate is machinery with conditions: it gives deterministic effect to s.5's own exclusion of inert records, but must ROUTE FOR CORRECTION (never silently void) a record whose kernel_effect uses an unevaluable verb, flagging an assented one as a registry-coverage gap cured by extending the registry.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "The s.5(a) Kernel-effect Teeth-gate (Machinery With Conditions)",
+      "ts": "2026-06-12T12:40:00Z",
+      "updated": "2026-06-12",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-KERNEL-EFFECT-GATE-001.yaml",
+      "varied_by": [],
+      "varies": [],
+      "vote": "1-0"
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "assent_source": "standing_bounded_assent",
+      "bench": [
+        "Marchbanks CCJ"
+      ],
+      "case_file_digest": "sha256:e8e282ba81ee0d821b5713c99afa82113d074c6c747ad041353b349d01bd9277",
+      "citation": "[2026] VJS-CC-VJS 9",
+      "cites": [
+        "2026-VJS-PC-013"
+      ],
+      "convened_at": "2026-07-27T20:03:58Z",
+      "court": "county",
+      "date": "2026-07-27",
+      "doc": "law.html#2026-VJS-CC-RECORD-PROJECTION-009",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-CC-RECORD-PROJECTION-009",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": "lawpack/v2/opinions/2026-VJS-CC-VJS-9-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-CC-VJS-9-opinion.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-CC-RECORD-PROJECTION-009.yaml",
+      "points": [
+        "bind check citation uniqueness to front door governed record roots the same function the allocator calls so one declaration of the register serves both halves and neither can drift from the other",
+        "collapse governed records by record id before testing citation uniqueness two files sharing an id are one claim on the citation and only distinct ids may collide",
+        "prove the widened guard red in both directions with seeded cases two distinct ids sharing one citation across different roots must be fatal and the two existing projection pairs must pass",
+        "record in code that vjs orders is the kernel store projection of vjs court orders and that the court copy is authoritative so the realm does not litigate this pair a second time",
+        "leave both existing pairs in place unrenumbered and undeleted the defect was in the guards register never in the records"
+      ],
+      "question": "Are the two files that share an order id and citation across .vjs/orders and .vjs/court/orders one record in two projections or two records, and may check_citation_uniqueness widen to all governed-record roots before that is settled?",
+      "status": "binding",
+      "subject": "projection vs record and the uniqueness register",
+      "summary": "One record, two projections.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "One Record in Two Projections; the Allocator and the Uniqueness Guard Must Read the Same Register",
+      "ts": "2026-07-27T20:03:58Z",
+      "updated": "2026-07-27",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-RECORD-PROJECTION-009.yaml",
+      "varied_by": [],
+      "varies": [],
+      "vote": "1-0 (Marchbanks CCJ)"
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "citation": "[2026] VJS-CC-VJS 13",
+      "cites": [
+        "ACT-007"
+      ],
+      "court": "county",
+      "date": "2026-08-01",
+      "doc": "law.html#2026-VJS-CC-VJS-CANON-REPO-CODE-013",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-CC-VJS-CANON-REPO-CODE-013",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": "lawpack/v2/judgments/2026-VJS-CC-VJS-13-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-CC-VJS-13-opinion.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-CC-VJS-CANON-REPO-CODE-013.yaml",
+      "points": [
+        "resolve canon repo code from the lawpack declaration when present",
+        "compute canon repo code in exactly one function shared by every call site",
+        "read the declaration from the same root the canon filter matches",
+        "block a declared canon repo code that equals a registered subscriber code",
+        "report every canon finding including the non blocking ones",
+        "emit a finding naming old and new when a declaration is added or altered",
+        "name the declaration as the cure in the foreign repo code remedy",
+        "re pin the lawpack lock and the enforcement surface lock in the same change"
+      ],
+      "question": "When the PC-13 D1 canon-write gate runs in a jurisdiction whose lawpack/v2 is a lawful read-only mirror of foreign canon, from where must canon_repo_code be resolved: the local jurisdiction config, the mirrored lawpack's own declaration, or should the gate not run in a mirror at all?",
+      "status": "binding",
+      "subject": "canon-write-gate-repo-code",
+      "summary": "The canon-write gate tests against the CANON's repo_code, not the hosting repo's.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "Canon Write Gate Repo Code (The Order)",
+      "ts": "2026-08-01T12:41:20Z",
+      "updated": "2026-08-01",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-CANON-REPO-CODE-013.yaml",
+      "varied_by": [],
+      "varies": []
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "citation": "[2026] VJS-CC-VJS 18",
+      "cites": [],
+      "court": "county",
+      "date": "2026-08-01",
+      "doc": "law.html#2026-VJS-CC-VJS-ENFORCEMENT-COVERAGE-018",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-CC-VJS-ENFORCEMENT-COVERAGE-018",
+      "kind": "order",
+      "lineage": [
+        "2026-VJS-COURTS-CONSTITUTION-001"
+      ],
+      "opinion": {
+        "path": "lawpack/v2/judgments/2026-VJS-CC-VJS-18-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-CC-VJS-18-opinion.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-CC-VJS-ENFORCEMENT-COVERAGE-018.yaml",
+      "points": [
+        "entrench the file whose confined edit can flip a bright line outcome",
+        "never admit a file on the theory that it is upstream of a gate",
+        "arrive with a committed counterexample flipping an outcome while the lock stays green",
+        "carry entrenchment with the disarm sites in the same change",
+        "prove the gate at the governed boundary and not at a proxy"
+      ],
+      "question": "Must the file that dispatches the gates be entrenched alongside them, and what principle bounds the entrenched surface?",
+      "status": "binding",
+      "subject": "enforcement-surface-coverage",
+      "summary": "A file is entrenched if and only if a confined edit to it can change whether a bright-line finding is emitted, its severity, or whether the check runs.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "Enforcement Surface Coverage (The Order)",
+      "ts": "2026-08-01T17:38:51Z",
+      "updated": "2026-08-01",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-ENFORCEMENT-COVERAGE-018.yaml",
+      "varied_by": [],
+      "varies": []
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "citation": "[2026] VJS-CC-VJS 14",
+      "cites": [
+        "ACT-007"
+      ],
+      "court": "county",
+      "date": "2026-08-01",
+      "doc": "law.html#2026-VJS-CC-VJS-LAWPACK-GATE-GUARD-014",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-CC-VJS-LAWPACK-GATE-GUARD-014",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": "lawpack/v2/judgments/2026-VJS-CC-VJS-14-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-CC-VJS-14-opinion.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-CC-VJS-LAWPACK-GATE-GUARD-014.yaml",
+      "points": [
+        "key a gates guard to the same referent as the gate",
+        "resolve the lawpack directory through the resolver and scan that same path",
+        "run a local record check unconditionally on the governed roots",
+        "condition the lock check on a lock existing and nothing else",
+        "name the failing half rather than deleting the finding",
+        "make an absence assertion reachable or pair it with one that can fail",
+        "enumerate the affected jurisdictions by measurement before landing",
+        "land the judgment then repin canon then repin the subscriber last",
+        "prove the cure in the repository that had the defect"
+      ],
+      "question": "Where a jurisdiction's lawpack resolves outside the repository tree, must the integrity gates run against the lawpack actually loaded, and what is the correct source of the directory they test?",
+      "status": "binding",
+      "subject": "lawpack-gate-skipped-out-of-tree",
+      "summary": "A gate's guard must answer to the same referent as the gate.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "Lawpack Gate Skipped Out of Tree (The Order)",
+      "ts": "2026-08-01T13:49:19Z",
+      "updated": "2026-08-01",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-LAWPACK-GATE-GUARD-014.yaml",
+      "varied_by": [],
+      "varies": []
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "citation": "[2026] VJS-CC-VJS 15",
+      "cites": [],
+      "court": "county",
+      "date": "2026-08-01",
+      "doc": "law.html#2026-VJS-CC-VJS-RESOLVER-MONOPOLY-015",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-CC-VJS-RESOLVER-MONOPOLY-015",
+      "kind": "order",
+      "lineage": [
+        "2026-VJS-COURTS-CONSTITUTION-001"
+      ],
+      "opinion": {
+        "path": "lawpack/v2/judgments/2026-VJS-CC-VJS-15-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-CC-VJS-15-opinion.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-CC-VJS-RESOLVER-MONOPOLY-015.yaml",
+      "points": [
+        "resolve and load the canon through the one resolver in every crate",
+        "collapse a local referent literal into one named declaration",
+        "derive the predicate and the scan from the same declaration",
+        "refuse rather than publish or answer on an unresolvable lawpack",
+        "record the resolution source and path in the published artefact",
+        "never pin a digest beside an empty register",
+        "mark every surviving literal with referent and authority under a gate that can fail",
+        "record the full enumeration including what the order does not decide",
+        "file a discovered defect on its own record"
+      ],
+      "question": "Must every crate name the lawpack through resolve_lawpack_dir, and is the answer different for governed_record_roots because its referent is the repository's own records?",
+      "status": "binding",
+      "subject": "lawpack-resolver-monopoly",
+      "summary": "One resolver, one loader, every crate, for any site that READS the canon; a local-referent literal is collapsed into one named declaration instead, and whatever survives carries a machine-checked marker naming its referent and authority.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "Lawpack Resolver Monopoly (The Order)",
+      "ts": "2026-08-01T14:38:55Z",
+      "updated": "2026-08-01",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-RESOLVER-MONOPOLY-015.yaml",
+      "varied_by": [],
+      "varies": []
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "citation": "[2026] VJS-CC-VJS 17",
+      "cites": [
+        "ACT-005",
+        "ACT-007"
+      ],
+      "court": "county",
+      "date": "2026-08-01",
+      "doc": "law.html#2026-VJS-CC-VJS-TWO-REGISTERS-017",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-CC-VJS-TWO-REGISTERS-017",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": "lawpack/v2/judgments/2026-VJS-CC-VJS-17-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-CC-VJS-17-opinion.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-CC-VJS-TWO-REGISTERS-017.yaml",
+      "points": [
+        "consult every register whose harm the gate exists to prevent",
+        "treat an unreadable register as an error and never as an empty one",
+        "never accession a hashed private register into a cleartext public one",
+        "cure every record already admitted before declaring the gate sound"
+      ],
+      "question": "Where two registers describe the same class of terms that must not enter canon, which governs, and may a gate read a register narrower than the harm it exists to prevent?",
+      "status": "binding",
+      "subject": "two-registers-one-class",
+      "summary": "Two registers serving two different harms do not merge, and a hashed private register is never accessioned into a cleartext public one.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "Two Registers One Class (The Order)",
+      "ts": "2026-08-01T17:38:50Z",
+      "updated": "2026-08-01",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-TWO-REGISTERS-017.yaml",
+      "varied_by": [],
+      "varies": []
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "citation": "[2026] VJS-CC-VJS 16",
+      "cites": [
+        "ACT-001"
+      ],
+      "court": "county",
+      "date": "2026-08-01",
+      "doc": "law.html#2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": "lawpack/v2/judgments/2026-VJS-CC-VJS-16-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-CC-VJS-16-opinion.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016.yaml",
+      "points": [
+        "write a jurisdictions own record to its local record store",
+        "never bring into being the directory the resolver reads the canon from",
+        "key the vendored branch on a directory that declares itself a lawpack",
+        "report displacement in its own words distinct from drift",
+        "never offer a repin as the remedy for a displaced resolution"
+      ],
+      "question": "May a write verb create the directory the resolver prefers, and if not, what prevents a jurisdiction's canon being replaced by its own record-keeping?",
+      "status": "binding",
+      "subject": "canon-displacement-by-write",
+      "summary": "A verb records to the local record store, never into the canon tree, and no write path may create the directory the resolver reads canon from.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "Canon Displacement by Write (The Order)",
+      "ts": "2026-08-01T14:53:43Z",
+      "updated": "2026-08-01",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016.yaml",
+      "varied_by": [],
+      "varies": []
+    },
+    {
       "affirmed_by": [],
       "affirms": [],
       "assent_source": "sovereign_assent",
@@ -2085,8 +2479,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-001-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-001-opinion.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-001-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-001-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-001.yaml",
       "points": [
@@ -2134,8 +2528,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-002-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-002-opinion.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-002-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-002-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-002.yaml",
       "points": [
@@ -2181,8 +2575,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-003-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-003-opinion.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-003-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-003-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-003.yaml",
       "points": [
@@ -2230,8 +2624,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-004-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-004-opinion.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-004-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-004-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-004.yaml",
       "points": [
@@ -2281,8 +2675,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-005-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-005-opinion.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-005-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-005-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-005.yaml",
       "points": [
@@ -2332,8 +2726,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-006-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-006-opinion.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-006-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-006-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-006.yaml",
       "points": [
@@ -2383,8 +2777,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-007-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-007-opinion.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-007-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-007-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-007.yaml",
       "points": [
@@ -2432,8 +2826,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-008-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-008-opinion.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-008-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-008-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-008.yaml",
       "points": [
@@ -2483,8 +2877,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-009-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-009-opinion.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-009-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-009-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-009.yaml",
       "points": [
@@ -2535,8 +2929,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-010-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-010-opinion.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-010-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-010-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-010.yaml",
       "points": [
@@ -2589,8 +2983,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-011-opinions.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-011-opinions.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-011-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-011-opinions.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-011.yaml",
       "points": [
@@ -2615,7 +3009,9 @@
     },
     {
       "affirmed_by": [],
-      "affirms": [],
+      "affirms": [
+        "2026-VJS-CC-KERNEL-EFFECT-GATE-001"
+      ],
       "assent_source": "standing_bounded_assent",
       "bench": [
         "Carrow PC",
@@ -2639,8 +3035,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-012-opinions.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-012-opinions.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-012-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-012-opinions.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-012.yaml",
       "points": [
@@ -2655,6 +3051,9 @@
       "summary": "On appeal from [2026] VJS-CC 15, 3-0: the s.5(a) kernel-effect gate is concordance-machinery because its test is structural (the KernelEffect operation schema), not the 37 PredicateExpr arms; affirmance is fact-bound and does not license a semantic/predicate-selection enrichment.",
       "superseded_by": [],
       "supersedes": [],
+      "thread": [
+        "2026-VJS-CC-KERNEL-EFFECT-GATE-001"
+      ],
       "title": "The s.5(a) Kernel-effect Gate on Appeal - The Entrenchment Condition",
       "ts": "2026-06-12T13:05:00Z",
       "updated": "2026-07-11",
@@ -2704,8 +3103,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-013-opinions.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-013-opinions.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-013-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-013-opinions.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-013.yaml",
       "points": [
@@ -2762,8 +3161,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-014-opinions.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-014-opinions.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-014-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-014-opinions.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-014.yaml",
       "points": [
@@ -2819,8 +3218,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-015-opinions.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-015-opinions.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-015-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-015-opinions.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-015.yaml",
       "points": [
@@ -2875,8 +3274,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-016-opinions.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-016-opinions.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-016-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-016-opinions.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-016.yaml",
       "points": [
@@ -2933,8 +3332,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-017-opinions.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-017-opinions.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-017-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-017-opinions.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-017.yaml",
       "points": [
@@ -2992,8 +3391,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-PC-018-opinions.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-PC-018-opinions.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-018-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-018-opinions.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-018.yaml",
       "points": [
@@ -3053,8 +3452,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": "lawpack/v2/judgments/2026-VJS-PC-19-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-PC-19-opinion.md"
+        "path": "lawpack/v2/opinions/2026-VJS-PC-19-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-19-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-PC-019.yaml",
       "points": [
@@ -3077,6 +3476,56 @@
       "varied_by": [],
       "varies": [],
       "vote": "3-0 (Reid J. for the bench, Wilberforce J. and Hoffmann J. concurring). The Court of Appeal sits at the CANONICAL jurisdiction (Construction B). A subscriber seats only its First Instance (County Court) line; everything above First Instance on a question of canon meaning or federation-wide effect refers up. Construction A (a subscriber-seated Court of Appeal) is rejected: subscriber authority is positive-grant, not residual-liberty, and an under-inclusive kernel gate is a gap to close, not a jurisdiction to occupy. Permission to appeal to the Supreme Court GRANTED on the routing ratio (R1, R2, R7)."
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "assent_source": "standing_bounded_assent",
+      "bench": [
+        "Atkin",
+        "Bingham",
+        "Denning"
+      ],
+      "case_file_digest": "sha256:6efd2af0db904a2d9a75a717ea4816cae6f31f12bee6d0c2e9ae6bab1fbaaad2",
+      "citation": "[2026] VJS-PC 21",
+      "cites": [
+        "2026-VJS-PC-016"
+      ],
+      "convened_at": "2026-07-27T20:54:44Z",
+      "court": "pc",
+      "date": "2026-07-27",
+      "doc": "law.html#2026-VJS-PC-BENCH-RECORD-DEFECT-021",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-PC-BENCH-RECORD-DEFECT-021",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": "lawpack/v2/opinions/2026-VJS-PC-21-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-21-opinion.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-PC-BENCH-RECORD-DEFECT-021.yaml",
+      "points": [
+        "treat bench opinion missing as a route for correction defect on an assented record and never as a void and keep tier not constituted and bench size mismatch constitutive and void on pc 16 unaltered terms",
+        "hold the thirteen records binding and flagged in force and relied upon carrying a visible correction obligation and do not delete renumber or stay any of them",
+        "record the correction obligation on a ratcheting register that may only shrink carrying for each flagged order the date the obligation arose so that the number uncorrected is always known and can never quietly grow",
+        "correct the bench silent seat check to count a seat as having spoken when it either writes reasons or expressly concurs and do not rely on that check for any purpose until it measures participation rather than brevity",
+        "repair the install surface that asserted two enforcement hooks by name with pinned digests while the files were absent so that a fresh clone cannot begin with its git level gates silently off",
+        "supply the missing opinions for the thirteen flagged records or where a seat can no longer speak record that fact expressly rather than leaving the register to carry it indefinitely"
+      ],
+      "question": "Are thirteen binding orders declaring a bench with no source_opinion void ab initio under [2026] VJS-PC 16, or routed for correction, given the only gate able to detect it could never run over them?",
+      "status": "binding",
+      "subject": "whether a constitutive bench defect undetectable by any running gate voids its order",
+      "summary": "On referral from [2026] VJS-CC-VJS 11.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "A Defect in the RECORD of a Bench Is Not a Defect in the Bench; the Thirteen Are Binding and Flagged",
+      "ts": "2026-07-27T20:54:44Z",
+      "updated": "2026-07-27",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-BENCH-RECORD-DEFECT-021.yaml",
+      "varied_by": [],
+      "varies": [],
+      "vote": "3-0 on the disposition; Denning concurring in part and dissenting in part"
     },
     {
       "affirmed_by": [],
@@ -3107,8 +3556,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-SC-001-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-SC-001-opinion.md"
+        "path": "lawpack/v2/opinions/2026-VJS-SC-001-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-SC-001-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-SC-001.yaml",
       "points": [
@@ -3136,7 +3585,9 @@
     },
     {
       "affirmed_by": [],
-      "affirms": [],
+      "affirms": [
+        "2026-VJS-CC-KERNEL-EFFECT-GATE-001"
+      ],
       "assent_source": "standing_bounded_assent",
       "bench": [
         "Vexmoor J.",
@@ -3165,8 +3616,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-SC-003-opinions.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-SC-003-opinions.md"
+        "path": "lawpack/v2/opinions/2026-VJS-SC-003-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-SC-003-opinions.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-SC-003.yaml",
       "points": [
@@ -3218,8 +3669,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": "lawpack/v2/judgments/2026-VJS-SC-4-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-SC-4-opinion.md"
+        "path": "lawpack/v2/opinions/2026-VJS-SC-4-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-SC-4-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-SC-004.yaml",
       "points": [
@@ -3277,8 +3728,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": ".vjs/submissions/filed/2026-VJS-SC-005-opinions.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/.vjs/submissions/filed/2026-VJS-SC-005-opinions.md"
+        "path": "lawpack/v2/opinions/2026-VJS-SC-005-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-SC-005-opinions.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-SC-005.yaml",
       "points": [
@@ -3335,8 +3786,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": "lawpack/v2/judgments/2026-VJS-SC-6-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-SC-6-opinion.md"
+        "path": "lawpack/v2/opinions/2026-VJS-SC-6-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-SC-6-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-SC-006.yaml",
       "points": [
@@ -3381,8 +3832,8 @@
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": "lawpack/v2/judgments/2026-VJS-SC-7-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-SC-7-opinion.md"
+        "path": "lawpack/v2/opinions/2026-VJS-SC-7-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-SC-7-opinion.md"
       },
       "path": "lawpack/v2/orders/2026-VJS-SC-007.yaml",
       "points": [
@@ -5104,16 +5555,16 @@
   "meta": {
     "counts": {
       "archive": 37,
-      "canon": 80,
-      "total": 117
+      "canon": 90,
+      "total": 127
     },
     "lawpack": {
-      "digest": "sha256:5377c49785be30460ce5dbe791abab25faf681cdc5ee1e14cd61e64240ed03e5",
+      "digest": "sha256:75bc3f701fa3261648e57bd39b326b1b2e3bd92570804ce47bab46cca270063c",
       "id": null,
       "locked_at": null,
       "path": "lawpack/v2",
       "source": "vendored"
     },
-    "source_commit": "c46f5160673d8e3eb9e8b3db0d5e25a283823439"
+    "source_commit": "a75193448ca616b0681e156bab81cef5e2c537cb"
   }
 }

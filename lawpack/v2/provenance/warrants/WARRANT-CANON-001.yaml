@@ -1,3 +1,17 @@
+# PROJECTION NOTE ([2026] VJS-CC-VJS 20 D16). This file is the REGISTRATION
+# PROJECTION of the warrant, not the signed instrument. The Sovereign's signature pins the
+# digest of the ENGROSSED DRAFT under .vjs/submissions/draft/warrants/, which is preserved
+# verbatim and unedited and is the text that digest pins; this copy recites the signature
+# and so cannot be the text that was signed. Correcting a projection is not editing a
+# signed record (CC-VJS 20 supplemental, ratio 8), and D19's stop condition was satisfied
+# before this edit: this file's own sha256 appears in no provenance pin anywhere.
+#
+# Re-rendered 2026-08-06: jurisdiction_id by the stem-rendering rule that
+# ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE s1 enacts by rule (the field is machine-read and
+# required, so it is
+# re-expressed and never omitted); working_root by [2026] VJS-CC-VJS 17 C4's own remedy,
+# "a repo-relative directory, or omit the field" (the field is read by no code). No
+# digest, supersession, status or assent field is touched.
 id: WARRANT-CANON-001
 kind: commission_warrant
 status: in_force
@@ -13,7 +27,7 @@ jurisdiction:
   # ACT 12 s2: exactly ONE jurisdiction, named by repository.
   jurisdiction_id: vjs
   repository: wlilley93/vibe-justice-system
-  working_root: /home/jellytot/Projects/vibe-justice-system
+  working_root: .
 eligibility:
   acceded: >
     Canon is the enacting jurisdiction: ACT 12 is in force in its own lawpack on

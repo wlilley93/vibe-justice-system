@@ -3,7 +3,7 @@
 //! This is the third instance of the same class in this repo's history. The
 //! `supersedes` field once made SIX filed orders unparseable (recorded in the doc
 //! comment on `Order::supersedes`), `privy` had to be accepted as an alias for
-//! `privy_council`, and on 2026-07-28 two more were found in the boltrig
+//! `privy_council`, and on 2026-07-28 two more were found in the SUB2
 //! jurisdiction: `2026-VJS-CA-BOLTRIG-CODEX-APPROVAL-ROUTING-001` writes
 //! `court: appeal`, and `2026-VJS-CC-BOLTRIG-CODEX-APPROVAL-ROUTING-001` writes
 //! its `exceptions` as a single `|` prose block rather than a sequence.

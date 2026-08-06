@@ -101,7 +101,7 @@ pub struct Order {
     ///
     /// The losses were the parts that make a holding CHECKABLE: the question it answers, the case
     /// file it was decided on, the corrections to the filing's facts, and the questions expressly
-    /// left open. CC-OPBOX 4 recorded ten fact corrections and called one of them the most important
+    /// left open. CC-SUB1 4 recorded ten fact corrections and called one of them the most important
     /// correction in the case; an apply over that order would have deleted it, leaving a ruling that
     /// cites facts the same ruling found false with no record that it had. Deleting `reserved` is the
     /// same harm in the other direction: it turns "expressly not decided" into "silent".
@@ -110,7 +110,7 @@ pub struct Order {
     /// this exact class was hit before and cured by adding two fields - which leaves the next author
     /// of the next field to remember. A catch-all is structural: an unknown key round-trips because
     /// it is unknown, not because somebody listed it. Same reasoning as the credential envelope in
-    /// opbox: where loss must be impossible, the mechanism cannot be a list of names.
+    /// SUB1: where loss must be impossible, the mechanism cannot be a list of names.
     #[serde(flatten, default, skip_serializing_if = "BTreeMap::is_empty")]
     pub extra: BTreeMap<String, serde_yaml::Value>,
 }

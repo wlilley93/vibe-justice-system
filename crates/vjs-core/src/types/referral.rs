@@ -26,7 +26,7 @@ use serde::{Deserialize, Serialize};
 /// So this is [2026] VJS-CC-OPBOX 160 O1's cure applied literally - widen the reader, never edit the
 /// record - and the characterisation is not mine to make or to withhold: binding apex law already
 /// made it. Nothing about the record changes and nothing new binds. A referral never enters the
-/// citator, never becomes an `AuthorityPointer`, and confers no force of its own. What opbox is
+/// citator, never becomes an `AuthorityPointer`, and confers no force of its own. What SUB1 is
 /// bound by is VJS-SC 4 itself, as any subscribing jurisdiction is.
 ///
 /// THE DOOR IS DELIBERATELY NARROW, because a lax one would let a genuinely broken order be

@@ -213,8 +213,11 @@ pub(crate) fn cmd_invoke(
             .strip_prefix(repo)
             .map(|rel| rel.to_string_lossy().to_string())
             .unwrap_or_else(|_| dir.to_string_lossy().to_string()),
-        // No `--lawpack` given: the kernel resolves it from the vendored `<repo>/lawpack/v2`,
-        // so that is the store, and it is in-repo by construction.
+        // LAWPACK-LITERAL: referent=local-records; status=local; authority=[2026] VJS-CC-VJS 20.
+        // No `--lawpack` was given, so `resolve_invocation_lawpack` returned None and the kernel
+        // will resolve the lawpack from the vendored `<repo>/lawpack/v2`. This literal names the
+        // STORE ENTRY to register for that case, which is in-repo and repo-relative by
+        // construction; it is not a resolver path and is never used to load law.
         None => "lawpack/v2".to_string(),
     };
 
