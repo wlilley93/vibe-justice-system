@@ -18,7 +18,7 @@ use std::path::{Path, PathBuf};
 
 use vjs_core::{
     Authority, AuthorityGraph, AuthorityId, AuthorityKind, AuthorityRank, ContextLimits, Court,
-    KernelContext, KernelError, Order,
+    KernelContext, KernelError, Order, ReferralRecord,
 };
 
 /// The kernel context both doors answer from: the subscribed canon, overlaid with this
@@ -94,13 +94,57 @@ fn overlay_filed_orders(
             }
         };
         match serde_yaml::from_str::<Order>(&content) {
-            Ok(o) => orders.push(o),
+            Ok(mut o) => {
+                // An order with no `id` key takes it from the FILE STEM ([2026] VJS-CC-OPBOX
+                // 160): this store names every file after the id it carries, so the id was
+                // stated on the record all along and this reads it rather than inventing one.
+                if o.id.trim().is_empty()
+                    && let Some(stem) = path.file_stem().and_then(|s| s.to_str())
+                {
+                    o.id = stem.to_string();
+                }
+                orders.push(o)
+            }
             Err(e) => {
-                eprintln!(
-                    "warning: order {} does not parse and is NOT in the citator: {e}",
-                    path.display()
-                );
-                unreadable.push(path.clone());
+                // Before calling it unreadable: is it a REFERRAL rather than an order?
+                //
+                // A subscribing jurisdiction may refer a matter UP but may not hold its own
+                // Supreme sitting, so a locally-recorded apex "ruling" is re-characterised as
+                // a referral - not by this reader, but by `[2026] VJS-SC 4`'s own holding.
+                // Reading such a record as what binding apex law says it is, rather than as an
+                // order missing the fields ACT-002:s10 makes constitutive, is [2026]
+                // VJS-CC-OPBOX 160 O1's cure (widen the reader, never edit the record).
+                //
+                // It is NOT admitted to `orders`, so it never reaches the citator and confers
+                // no binding force. It is announced, not swallowed: a record quietly
+                // reclassified out of the count is the fail-open this whole matter exists
+                // about.
+                match serde_yaml::from_str::<ReferralRecord>(&content) {
+                    Ok(r) if r.is_referral_not_order() => {
+                        eprintln!(
+                            "note: {} is a REFERRAL record, not an order: {} -> {} (apex ruling {}). \
+                             It confers no local force; the binding record is the apex ruling.",
+                            path.display(),
+                            if r.referral.from.trim().is_empty() {
+                                "(source not stated)"
+                            } else {
+                                r.referral.from.trim()
+                            },
+                            r.referral
+                                .apex_location
+                                .as_deref()
+                                .unwrap_or("(location not stated)"),
+                            r.referral.apex_ruling.trim(),
+                        );
+                    }
+                    _ => {
+                        eprintln!(
+                            "warning: order {} does not parse and is NOT in the citator: {e}",
+                            path.display()
+                        );
+                        unreadable.push(path.clone());
+                    }
+                }
             }
         }
     }

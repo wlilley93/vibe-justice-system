@@ -36,6 +36,8 @@ mod ids;
 pub use ids::*;
 mod predicate;
 pub use predicate::*;
+mod referral;
+pub use referral::*;
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]

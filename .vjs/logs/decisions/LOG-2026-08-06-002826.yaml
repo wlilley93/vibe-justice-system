@@ -1,0 +1,12 @@
+id: LOG-2026-08-06-002826
+time: 2026-08-06T00:28:26.439462018+00:00
+actor: lexby
+kind: canon_write
+issue: kernel_enforcement_gaps_canon_write_chokepoint
+decision: 'Adopt the referral-record widening upstream: vjs_core::types::referral (the four-limb door), the filed-orders overlay''s referral arm (announced, never swallowed, never in the citator) and the id-from-file-stem widening, with six limb controls and the overlay pair proving a referral does not trip the O5 gate while a broken order still refuses'
+basis:
+- PERMIT-1785976096
+risk: low
+reversibility: easy
+court_required: false
+why: The register at the First Subscriber records ReferralRecord as a compelled local behavior under [2026] VJS-SC 4 as applied at [2026] VJS-CC-OPBOX 160 O1, sharing the upstream offer; the reconciliation re-pull cannot lawfully run while canon lacks it, since a re-pull erasing a compelled divergence is the very failure the divergence gate exists to stop
