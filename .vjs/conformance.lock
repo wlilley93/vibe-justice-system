@@ -30,4 +30,14 @@
 # conformance audit, LAWPACK_LOCK_DRIFT x3, Gazette boundary + schedules + V1 estate,
 # MCP door, D2 citations) and one landed with this commit (the staged empty-issue limb,
 # ACT-PROCEEDINGS-DISCIPLINE s3). 399 duties, 121 wired, 278 unwired.
-unwired = 278
+#
+# LOWERED TO 240 on 2026-08-06 (s4(e) triage tranche 3, four-seat classification
+# sitting over the 182 awaiting-judgment rows; report at
+# .vjs/submissions/COMMISSION-REPORT-2026-08-06-s4e-triage-tranche-3.md): thirty-seven
+# tokens entered covering thirty-eight duty rows, every one re-verified against code
+# path AND negative control - the constitutional bright lines (kernel-legislates, the
+# apex gate, the assent floor, the crate-closure bans, the nine-verb MCP surface), the
+# permit lifecycle, the preserve-check family, the warrant cap, deterministic citation
+# allocation, draft-not-binding, and the boundary scans. 399 duties, 159 wired, 240
+# unwired.
+unwired = 240

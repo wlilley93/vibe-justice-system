@@ -1,0 +1,12 @@
+id: LOG-2026-08-06-001901
+time: 2026-08-06T00:19:01.134227338+00:00
+actor: lexby
+kind: canon_write
+issue: kernel_enforcement_gaps_canon_write_chokepoint
+decision: 'Land tranche 3 of the s4(e) triage: thirty-seven registry rows covering thirty-eight duty rows, every one re-verified against code path and negative control before entry; the conformance ratchet banked at 240 in the same commit; the tranche report records the full classification of the 182 awaiting-judgment rows and the systemic findings'
+basis:
+- PERMIT-1785975532
+risk: low
+reversibility: easy
+court_required: false
+why: The four-seat classification sitting found the constitutional bright lines, the permit lifecycle, the preserve-check family and the publication and loader facts already enforced with real controls but reported unwired; entering them is ACT 12 s4(e) work under the certified schedule

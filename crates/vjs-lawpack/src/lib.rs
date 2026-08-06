@@ -446,6 +446,10 @@ pub fn lawpack_facts(repo_root: &Path, lawpack: &Lawpack) -> LawpackFacts {
 }
 
 mod conformance;
+mod gate_registry;
+mod gate_registry_triage;
+pub(crate) use gate_registry::GATE_REGISTRY;
+pub(crate) use gate_registry_triage::GATE_REGISTRY_TRIAGE;
 mod report;
 mod validator;
 

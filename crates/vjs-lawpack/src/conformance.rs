@@ -22,6 +22,7 @@ pub struct ConformanceReport {
 fn classify_token(token: &str) -> Option<String> {
     GATE_REGISTRY
         .iter()
+        .chain(GATE_REGISTRY_TRIAGE.iter())
         .find(|(t, _)| *t == token)
         .map(|(_, g)| g.to_string())
 }
