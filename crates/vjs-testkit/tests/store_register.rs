@@ -90,6 +90,92 @@ fn a_garbled_or_empty_register_is_fatal_not_vacuous() {
     );
 }
 
+/// A scratch tree that is a REAL git repo with the register committed, which is the
+/// only state in which the lost-entry witness has anything to compare against.
+fn committed_scratch(tag: &str, stores: &[&str]) -> PathBuf {
+    let dir = scratch(tag);
+    let git = |args: &[&str]| {
+        let ok = std::process::Command::new("git")
+            .args(args)
+            .current_dir(&dir)
+            // a scratch repo must not inherit the caller's index or worktree, or the
+            // "commit" lands in the repo running the suite
+            .env_remove("GIT_DIR")
+            .env_remove("GIT_WORK_TREE")
+            .env_remove("GIT_INDEX_FILE")
+            .output()
+            .unwrap()
+            .status
+            .success();
+        assert!(ok, "git {args:?} failed in {}", dir.display());
+    };
+    git(&["init", "-q"]);
+    git(&["config", "user.email", "seed@vjs.test"]);
+    git(&["config", "user.name", "seed"]);
+    git(&["config", "commit.gpgsign", "false"]);
+    write_register(&dir, stores);
+    git(&["add", "-A"]);
+    git(&["-c", "core.hooksPath=/dev/null", "commit", "-qm", "seed"]);
+    dir
+}
+
+#[test]
+fn a_store_dropped_from_the_register_without_a_word_is_fatal() {
+    // THE RED SEED, and it is a RECORDED event, not a hypothetical: on 2026-08-06 a
+    // YAML-aware repair reserialised the register and dropped two entries. Note the
+    // shape deliberately - the store that disappears here is NOT a governed record
+    // root, so the completeness duty cannot see it. Before D4 this passed in total
+    // silence while the register went on reporting itself checked.
+    let dir = committed_scratch("lost", &["lawpack/v2", ".vjs/orders", "archive/v1"]);
+    write_register(&dir, &["lawpack/v2", ".vjs/orders"]);
+    let f = findings(&dir);
+    assert!(
+        f.contains(&("Fatal".into(), "STORE-REGISTER-ENTRY-LOST".into())),
+        "a store may leave the register, but never quietly: {f:?}"
+    );
+}
+
+#[test]
+fn a_declared_deregistration_is_lawful_and_earns_silence() {
+    // Deregistration is lawful; silent deregistration is not. One line of YAML with
+    // a reason and an authority is the whole difference, which is the point: the
+    // witness must not make the lawful act expensive, only the silent one impossible.
+    let dir = committed_scratch("dereg", &["lawpack/v2", ".vjs/orders", "archive/v1"]);
+    std::fs::write(
+        dir.join(".vjs/store-register.yaml"),
+        "stores:\n- path: lawpack/v2\n  kind: test\n- path: .vjs/orders\n  kind: test\n\
+         deregistered:\n- path: archive/v1\n  reason: folded into lawpack/v2\n  \
+         authority: \"[2026] VJS-CC-VJS 20 D4\"\n",
+    )
+    .unwrap();
+    let f = findings(&dir);
+    assert!(
+        !f.iter().any(|(_, c)| c == "STORE-REGISTER-ENTRY-LOST"),
+        "a declared deregistration is the lawful route and must pass: {f:?}"
+    );
+}
+
+#[test]
+fn an_unchanged_register_raises_no_ghost_of_a_loss() {
+    // The witness must not cry wolf on the ordinary case, which is every commit that
+    // does not touch the register at all.
+    let dir = committed_scratch("unchanged", &["lawpack/v2", ".vjs/orders"]);
+    let f = findings(&dir);
+    assert!(f.is_empty(), "an unchanged register earns silence: {f:?}");
+}
+
+#[test]
+fn a_register_with_no_committed_self_is_silent_not_witnessed() {
+    // A fresh subscriber has no HEAD copy of the register, so nothing CAN have been
+    // lost. That is a proof, not a bounded search, so it is silence and not a
+    // disclosure - and a new jurisdiction is not greeted by a finding about a
+    // history it does not have.
+    let dir = scratch("uncommitted");
+    write_register(&dir, &["lawpack/v2", ".vjs/orders"]);
+    let f = findings(&dir);
+    assert!(f.is_empty(), "{f:?}");
+}
+
 #[test]
 fn an_unregistered_continuity_citator_is_fatal() {
     // THE RED SEED from the 2026-08-05 live probe: the first gate version enforced

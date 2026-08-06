@@ -12,14 +12,44 @@
 //! exist is a Warning (ghost entries rot the register's authority), and an ABSENT
 //! register is an Info disclosure, never a silent pass - a fresh jurisdiction arms
 //! it by writing the file, exactly the ratchet's own arming pattern.
+//!
+//! A FOURTH duty, added under [2026] VJS-CC-VJS 20 D4: an entry that was on the
+//! register at HEAD and is not on it now must SAY SO. "Deregistration is lawful;
+//! silent deregistration is not." The occasion was a live one - on 2026-08-06 a
+//! YAML-aware repair reserialised this very file and silently dropped its header
+//! and two entries. The three duties above did not catch it as a lost entry; the
+//! completeness duty happened to fire because the dropped stores were also governed
+//! roots, which is luck, not a gate. A store that is registered but NOT a governed
+//! root (the `.justice` citator, an archive, a subscriber's own store) would have
+//! vanished in total silence, and the register would have kept reporting itself run.
+//! The witness compares the register against its own committed self and refuses the
+//! difference unless the register names it in `deregistered:` with a reason and an
+//! authority. That keeps the lawful act one line of YAML away and makes the silent
+//! one impossible.
 
+use std::collections::HashSet;
 use std::path::Path;
 
 use vjs_core::report::Finding;
 use vjs_core::types::Severity;
+use vjs_git::GitIntegration;
+
+const REGISTER_REL: &str = ".vjs/store-register.yaml";
+
+/// `stores[].path`, normalised the way every comparison in this module wants them.
+fn store_paths(parsed: &serde_yaml::Value) -> Vec<String> {
+    let empty = Vec::new();
+    parsed["stores"]
+        .as_sequence()
+        .unwrap_or(&empty)
+        .iter()
+        .filter_map(|s| s["path"].as_str())
+        .map(|p| p.trim_end_matches('/').to_string())
+        .collect()
+}
 
 pub fn store_register_findings(repo: &Path, findings: &mut Vec<Finding>) {
-    let reg_path = repo.join(".vjs/store-register.yaml");
+    let reg_path = repo.join(REGISTER_REL);
     let Ok(text) = std::fs::read_to_string(&reg_path) else {
         findings.push(crate::f(
             Severity::Info,
@@ -48,13 +78,7 @@ pub fn store_register_findings(repo: &Path, findings: &mut Vec<Finding>) {
             return;
         }
     };
-    let empty = Vec::new();
-    let stores: Vec<String> = parsed["stores"]
-        .as_sequence()
-        .unwrap_or(&empty)
-        .iter()
-        .filter_map(|s| s["path"].as_str().map(|p| p.to_string()))
-        .collect();
+    let stores = store_paths(&parsed);
     if stores.is_empty() {
         findings.push(crate::f(
             Severity::Fatal,
@@ -118,5 +142,80 @@ pub fn store_register_findings(repo: &Path, findings: &mut Vec<Finding>) {
                 ),
             ));
         }
+    }
+
+    lost_entry_witness(repo, &parsed, &stores, findings);
+}
+
+/// [2026] VJS-CC-VJS 20 D4. An entry on the register at HEAD and absent from the
+/// register on disk is a DEREGISTRATION, and deregistration must be said out loud:
+/// name the path under `deregistered:` with a `reason:` and an `authority:`, and the
+/// witness is satisfied. Say nothing and it is Fatal.
+///
+/// The witness declines to run rather than guess in exactly one case, and discloses
+/// when it does: the register is committed at HEAD but git will not hand over the
+/// blob. It stays SILENT where the register is simply not committed yet, because
+/// that is not a bounded search - a register with no committed self has provably
+/// lost nothing, and a fresh subscriber must not be greeted by a finding about a
+/// history they do not have.
+fn lost_entry_witness(
+    repo: &Path,
+    parsed: &serde_yaml::Value,
+    on_disk: &[String],
+    findings: &mut Vec<Finding>,
+) {
+    let tracked = match GitIntegration::tracked_at_head(repo) {
+        Ok(t) => t,
+        Err(_) => return,
+    };
+    if !tracked.contains(REGISTER_REL) {
+        return;
+    }
+    let head_text = match GitIntegration::read_blob_at_head(repo, REGISTER_REL) {
+        Ok(Some(t)) => t,
+        _ => {
+            findings.push(crate::f(
+                Severity::Info,
+                "STORE-REGISTER-WITNESS-UNRUN",
+                format!(
+                    "the lost-entry witness DID NOT RUN: {REGISTER_REL} is committed at HEAD \
+                     but its blob could not be read. This is a statement about this checkout, \
+                     never a finding that nothing was lost ([2026] VJS-CC-VJS 20 D4)."
+                ),
+            ));
+            return;
+        }
+    };
+    let Ok(head_parsed) = serde_yaml::from_str::<serde_yaml::Value>(&head_text) else {
+        // A garbled committed register is already the GARBLED fatal's business the
+        // next time it is read; here it simply means there is no prior set to
+        // compare against, and inventing one would invent the loss too.
+        return;
+    };
+    let now: HashSet<&str> = on_disk.iter().map(|s| s.as_str()).collect();
+    let empty = Vec::new();
+    let declared: HashSet<String> = parsed["deregistered"]
+        .as_sequence()
+        .unwrap_or(&empty)
+        .iter()
+        .filter_map(|d| d["path"].as_str())
+        .map(|p| p.trim_end_matches('/').to_string())
+        .collect();
+
+    for was in store_paths(&head_parsed) {
+        if now.contains(was.as_str()) || declared.contains(&was) {
+            continue;
+        }
+        findings.push(crate::f(
+            Severity::Fatal,
+            "STORE-REGISTER-ENTRY-LOST",
+            format!(
+                "'{was}' was on the store register at HEAD and is on it no longer, and \
+                 nothing in this tree says so. Deregistration is lawful; silent \
+                 deregistration is not ([2026] VJS-CC-VJS 20 D4). Either restore the \
+                 entry, or record it under `deregistered:` in {REGISTER_REL} with a \
+                 `reason:` and the `authority:` that permitted it."
+            ),
+        ));
     }
 }
