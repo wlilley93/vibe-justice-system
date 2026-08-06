@@ -185,6 +185,70 @@ pub(crate) fn cmd_invoke(
         let _ = vjs_core::install::generate_adapters(repo);
     }
 
+    // ARM THE STORE REGISTER AT INVOCATION (ACT-PROCEEDINGS-DISCIPLINE s13).
+    //
+    // WHY. Measured 2026-08-06 on a fresh subscriber tree: `invoke` wrote the config,
+    // the lawpack lock, the invocation record and the hooks, and then `validate`
+    // reported STORE-REGISTER-UNTRACKED - "the store register DID NOT RUN". The
+    // message is honest, and a disclosure is not a pass, but the effect was that a
+    // subscriber's day one had this gate OFF and no reason to know it should be on.
+    // A gate that ships disarmed is the same defect class as a gate that cannot fail.
+    //
+    // The register is derived from the config's own `[paths]`, so it names exactly
+    // the roots this jurisdiction was configured with rather than a guess. Written
+    // only if absent: a subscriber who has curated their register keeps it.
+    // The register must name stores that EXIST, or it warns three times on day one and
+    // teaches the subscriber that this gate is noise. Two things follow. First, the
+    // lawpack entry is the path this jurisdiction actually subscribed to, relativised
+    // when it lies inside the repo and left absolute when it does not, rather than a
+    // hardcoded `lawpack/v2` that is only true for canon. Second, the orders and court
+    // roots are CREATED here: config.toml already declares them, they are part of the
+    // jurisdiction's structure rather than an accident of the first filing, and a
+    // registered root that does not exist yet is exactly the ghost the gate complains
+    // about.
+    let _ = std::fs::create_dir_all(vjs_dir.join("orders"));
+    let _ = std::fs::create_dir_all(vjs_dir.join("court"));
+    let lawpack_entry = match &lawpack_dir {
+        Some(dir) => dir
+            .strip_prefix(repo)
+            .map(|rel| rel.to_string_lossy().to_string())
+            .unwrap_or_else(|_| dir.to_string_lossy().to_string()),
+        // No `--lawpack` given: the kernel resolves it from the vendored `<repo>/lawpack/v2`,
+        // so that is the store, and it is in-repo by construction.
+        None => "lawpack/v2".to_string(),
+    };
+
+    let register_path = vjs_dir.join("store-register.yaml");
+    let register_written = if register_path.exists() {
+        false
+    } else {
+        let body = format!(
+            "# THE STORE REGISTER (ACT-PROCEEDINGS-DISCIPLINE s13). Every store capable of holding\n\
+             # a governed record or a citation, registered so the audit sweeps a map and not a\n\
+             # guess. Checked by the store-register gate at validate and local-ci: a governed\n\
+             # record root missing from here is Fatal; a ghost entry warns.\n\
+             #\n\
+             # Written by `vjs invoke` from this jurisdiction's configured paths. Edit freely:\n\
+             # this file is yours, and invoke will not overwrite it once it exists.\n\
+             stores:\n\
+             - path: {lawpack_rel}\n  \
+             kind: canonical_lawpack\n  \
+             registered_at: \"{today}\"\n  \
+             note: the subscribed canon - statutes, regulations, rules, orders, specs, invariants, decisions, obligations, provenance\n\
+             - path: .vjs/orders\n  \
+             kind: filed_orders\n  \
+             registered_at: \"{today}\"\n  \
+             note: this jurisdiction's own filed orders, overlaid on the canon by the shared door\n\
+             - path: .vjs/court\n  \
+             kind: court_records\n  \
+             registered_at: \"{today}\"\n  \
+             note: convenings and court records under REG-COURT-RECORD-001\n",
+            lawpack_rel = lawpack_entry,
+            today = &now_rfc[..now_rfc.len().min(10)],
+        );
+        std::fs::write(&register_path, body).is_ok()
+    };
+
     // PC-13 D5: atomically lock the surface into .vjs/install.lock. Best-effort -
     // if hooks were not installed this run, the surface is incomplete and the lock
     // is deferred to a later `vjs install-lock`; the completeness invariant (D4)
@@ -212,6 +276,7 @@ pub(crate) fn cmd_invoke(
                 "invocation": inv_path.to_string_lossy(),
                 "config_written": config_written,
                 "hooks_installed": hooks_installed,
+                "store_register_written": register_written,
                 "manifest_locked": manifest_locked,
             })
         );
@@ -228,6 +293,7 @@ pub(crate) fn cmd_invoke(
         println!("  invocation: {}", inv_path.display());
         println!("  config written: {}", config_written);
         println!("  hooks installed (core.hooksPath): {}", hooks_installed);
+        println!("  store register armed: {}", register_written);
         if !install_hooks {
             println!("  (run with --install-hooks to activate commit-time enforcement)");
         }

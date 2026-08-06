@@ -39,6 +39,70 @@ Your AI makes decisions every session. Nobody writes them down. Six PRs later, a
 
 ---
 
+## Get started
+
+You need Rust (stable) and git. Build the kernel once:
+
+```bash
+git clone https://github.com/wlilley93/vibe-justice-system.git
+cd vibe-justice-system
+cargo build --release
+export PATH="$PWD/target/release:$PATH"    # so `vjs` is on your PATH
+```
+
+Then **invoke** your own repo as a jurisdiction. This is the constitutional act: it
+subscribes your repo to the lawpack, pins that lawpack's digest so the law you are
+governed by cannot change under you, records the invocation, arms the store register, and
+installs the enforcement hooks.
+
+```bash
+cd /path/to/your-project
+vjs invoke --jurisdiction acme \
+           --principal "Your Name" \
+           --lawpack /path/to/vibe-justice-system/lawpack/v2 \
+           --install-hooks
+```
+
+That writes `.vjs/` into your project: the config, the lawpack lock, the invocation
+record, the hooks, and your own empty record stores. Your repo is now a jurisdiction with
+its own County Court, and you are its Principal.
+
+Check it came up clean:
+
+```bash
+vjs validate                        # the law loads, the gates are armed
+vjs status                          # what this jurisdiction is subscribed to
+```
+
+The loop your agent runs, for every governed act:
+
+```bash
+vjs route --kind code_change --intent "add a caching layer" \
+          --risk medium --path src/api.rs --issue caching_strategy
+```
+
+`route` is the clerk. It returns the binding authorities, whether a court is required and
+which one, whether a decision log is owed, and an explicit **must do / must not do** list.
+It is deterministic and never calls a model. If it says a court is required, the agent
+convenes on its own motion and files a symmetric case file. If it does not, the agent
+records the call and proceeds:
+
+```bash
+vjs log decision --kind code_change --issue caching_strategy \
+                 --decision "cache at the client, not the gateway" \
+                 --risk medium --why "the gateway cannot see per-tenant scope"
+```
+
+With `--install-hooks`, the pre-commit hook fails closed: a governed write without a
+routed permit does not land. That is the whole point. Enforcement is a function of repo
+state, not a paragraph in a prompt that a tired model skips.
+
+**Point your agent at [`AGENTS.md`](AGENTS.md)** (or copy it into `CLAUDE.md`,
+`.cursorrules`, or your runtime's equivalent). That file is what turns the CLI into
+Lexby.
+
+---
+
 ## The idea
 
 Sometimes people break the rules. So do AI agents. That is not, on its own, a failure: an agent's job is to produce value the way it sees best, not to hold the entire rulebook in its head every single turn. The job of the court is to decide, after the fact, whether the way it worked was lawful, and to make the work good where it was not.

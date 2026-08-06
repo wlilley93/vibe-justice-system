@@ -27,12 +27,26 @@ use std::path::Path;
 /// [2026] VJS-PC 16 these are NEVER softened by an assent claim (ACT-COMPUTER-FIRST-REALM
 /// s.14/s.15): the assent floor shelters a record's correctable defects; it does not
 /// manufacture the record's standing.
+///
+/// NARROWED BY [2026] VJS-PC 21, applied here by [2026] VJS-CC-VJS 20 D10.
+/// `BENCH_OPINION_MISSING` was on this list on the authority of PC-16 alone. The Privy
+/// Council held on appeal from 2026-VJS-CC-BLIND-VALIDATORS-011 that a defect in the
+/// RECORD of a bench is not a defect in the bench, and directed (D1) that the code route
+/// for correction on an assented record and never void it. Leaving it here inverted that
+/// directive: `is_constitutive` exists solely to EXCLUDE a code from the assent floor's
+/// downgrade, so thirteen orders the Council holds to be in force and relied upon stayed
+/// Fatal. PC-21 explains its own competence to narrow PC-16: PC-16 carved an exception
+/// out of an entrenched protection, and reading a carve-out more narrowly ENLARGES the
+/// protection, which is not reserved to the Sovereign the way narrowing it is.
+///
+/// `TIER_NOT_CONSTITUTED` and `BENCH_SIZE_MISMATCH` STAY. PC-21's own `forbidden` list
+/// keeps them constitutive and void: a bench of the wrong size, or a tier that was never
+/// constituted, is a defect in the bench itself and not in the record of it.
 pub const CONSTITUTIVE_CODES: &[&str] = &[
     "BENCH_REQUIRED",
     "TIER_NOT_CONSTITUTED",
     "BENCH_SIZE_MISMATCH",
     "BENCH_SILENT_SEAT",
-    "BENCH_OPINION_MISSING",
     "CITATION_COLLISION",
     "APEX_RECORD_IN_SUBSCRIBING_JURISDICTION",
     // Foreign subscriber content (a subscriber's law, repo_code, or name) is not the

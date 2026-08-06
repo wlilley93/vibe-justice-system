@@ -22,9 +22,9 @@
 # ENFORCEMENT_LOCK_UNREADABLE, which is Fatal, not silence.
 [[entry]]
 path = "crates/vjs-engine/src/assent.rs"
-digest = "sha256:868b1075b0c5e31842912f404a529b1f2307fa7b4d03a7358e7bec0e0ac09612"
-authority = "LOG-2026-08-05-221655"
-pinned_at = "2026-08-05T22:16:55Z"
+digest = "sha256:78296cd5ea12e23b4c23c33ecc4aa034a98c59f8ae7aca85448d54c3238166a3"
+authority = "[2026] VJS-CC-VJS 20 D10/D14"
+pinned_at = "2026-08-06T14:11:55Z"
 
 [[entry]]
 path = "crates/vjs-core/src/front_door.rs"

@@ -187,7 +187,6 @@ fn constitutive_codes_are_the_void_ab_initio_grounds() {
         "BENCH_REQUIRED",
         "BENCH_SIZE_MISMATCH",
         "BENCH_SILENT_SEAT",
-        "BENCH_OPINION_MISSING",
         "TIER_NOT_CONSTITUTED",
         "CITATION_COLLISION",
         "APEX_RECORD_IN_SUBSCRIBING_JURISDICTION",
@@ -198,6 +197,23 @@ fn constitutive_codes_are_the_void_ab_initio_grounds() {
     assert!(!is_constitutive("S5_INERT_KERNEL_EFFECT"));
     assert!(!is_constitutive("ORDER_MALFORMED"));
     assert!(!is_constitutive("DANGLING_REFERENCE"));
+
+    // BENCH_OPINION_MISSING IS NOT CONSTITUTIVE, and this line is the point of the test.
+    //
+    // It sat in the list above until 2026-08-06, where it had been put on PC-16's
+    // authority. [2026] VJS-PC 21 D1 held that a defect in the RECORD of a bench is not a
+    // defect in the bench, and directed that the code route for correction on an assented
+    // record rather than void it. Because `is_constitutive` exists only to EXCLUDE a code
+    // from the assent floor's downgrade, keeping it here inverted that directive exactly:
+    // thirteen orders the Privy Council holds to be in force and relied upon stayed Fatal,
+    // and this assertion was what held them there. A test that pins a breach as the design
+    // is worse than no test, because it makes the breach look deliberate.
+    //
+    // Struck by [2026] VJS-CC-VJS 20 D10.
+    assert!(
+        !is_constitutive("BENCH_OPINION_MISSING"),
+        "PC-21 D1: a defect in the record of a bench is not a defect in the bench"
+    );
     // [2026] VJS-PC 17 D2: an unresolved operative citation is Fatal but CORRECTABLE - it
     // must NOT be constitutive, so a resolving order's citation defect routes for
     // correction rather than voiding the order (per-incuriam voidness is for a court).

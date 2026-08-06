@@ -20,7 +20,17 @@ pub(crate) fn cmd_status(repo: &Path, json: bool) -> Result<(), KernelError> {
     let vjs_installed = vjs_dir.exists();
 
     let lock = Store::read_lawpack_lock(repo)?;
-    let lawpack_info = lock.map(|l| format!("{}@{}", l.lawpack_id, l.lawpack_version));
+    // The id ALREADY carries its version in every lawpack shipped so far ("vjs-v2@0.1.0"),
+    // so appending `lawpack_version` printed "vjs-v2@0.1.0@0.1.0" - the first thing a new
+    // subscriber sees from `vjs status`. Append only when the id does not already say it,
+    // which keeps the line correct for a future lawpack whose id omits the version.
+    let lawpack_info = lock.map(|l| {
+        if l.lawpack_id.contains('@') {
+            l.lawpack_id.clone()
+        } else {
+            format!("{}@{}", l.lawpack_id, l.lawpack_version)
+        }
+    });
 
     let logs = if vjs_installed {
         Store::read_logs(repo)?.len()

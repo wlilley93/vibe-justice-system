@@ -1,10 +1,11 @@
-# VJS install manifest (REG-INSTALL-MANIFEST-001).
+# VJS install manifest (REG-INSTALL-MANIFEST-001). Atomic sha256 lock of the
+# REG-INVOCATION-001 surface. Re-lock with `vjs install-lock` after a surface change.
 schema_version = 1
-generated_at = "2026-08-06T12:52:27.169142431+00:00"
+generated_at = "2026-08-06T14:11:55.864788995+00:00"
 config_digest = "sha256:87d4487a674b0fea593cb3b32808d6b0d8c85c30e121bf0f6785409a8631ff4f"
 invocation = ".vjs/invocation/20260609-175806-local-sovereign-invocation.yaml"
 invocation_digest = "sha256:1f2ffc16135aa80ced739f856ba4b2a65455389dea6df2daff85355bb190dcbe"
 lawpack_lock = ".vjs/lawpack.lock"
 hooks = ["pre-commit", "pre-push"]
-hook_digests = ["sha256:c503922827c55aa53b63ee334c0e0a1c978b7f1f27946123b353fb9d82d4a4eb", "sha256:ffb78a8830a27d580a115e2256dc81b0bc285d7d7c2b3db5b25766700e2f95e7"]
+hook_digests = ["sha256:4ecd2979da5528cbd091b23acd3c3628dfdba4d51d1ecb5df23a94ec5b9b0b95", "sha256:ffb78a8830a27d580a115e2256dc81b0bc285d7d7c2b3db5b25766700e2f95e7"]
 adapters = ["claude-post_action.sh", "claude-pre_write.sh", "claude-session_start.sh", "codex-post_action.sh", "codex-pre_write.sh", "codex-session_start.sh", "gemini-post_action.sh", "gemini-pre_write.sh", "gemini-session_start.sh", "mcp-post_action.sh", "mcp-pre_write.sh", "mcp-session_start.sh", "opencode-post_action.sh", "opencode-pre_write.sh", "opencode-session_start.sh", "shell-post_action.sh", "shell-pre_write.sh", "shell-session_start.sh"]
