@@ -1,0 +1,60 @@
+id: 2026-VJS-PC-BENCH-RECORD-DEFECT-021
+court: privy_council
+jurisdiction: vibe-justice-system
+repo_code: null
+status: binding
+issue: whether_a_constitutive_bench_defect_undetectable_by_any_running_gate_voids_its_order
+holding: |
+  ROUTE FOR CORRECTION. The bench code covers four defects that are not of one kind. TIER_NOT_CONSTITUTED and BENCH_SIZE_MISMATCH go to THE BENCH: if the tier was not constituted or the wrong number sat, no court issued anything and there is nothing for an assent claim to protect. PC-16 is right about those and is not disturbed. BENCH_OPINION_MISSING goes to THE RECORD OF THE BENCH: the court was the right court, the bench was the constituted odd size, the named seats are the seats, and what is absent is the document evidencing what each said. That is an evidential gap, not a constitutional one. To collapse the two is to hold that a court which sat properly ceases retrospectively to have been a court because a file is missing. PC-16 closed a different mischief: LAUNDERING, a party with a defect it knew of typing an assent claim to soften a hard gate. None of the thirteen did that. None asserts a bench it did not have or an opinion that does not exist. A ratio is bounded by its mischief, and applying PC-16's words past the act they were directed at would be using the authority past its ratio. On the gate's blindness: it does not change what the record IS, and an instrument's coverage can never be a source of validity. But it is decisive as to REMEDY. validate --staged was the only instrument that ever ran this check, it evaluates staged files alone, and the pre-commit hook that invokes it is gitignored, regenerated per clone, and was absent from the clone that made these records, while the committed install manifest listed it by name with a pinned digest. The estate asserted an enforcement surface it did not have. Where the duty-holder's own instrument never asked for the thing and the record-maker made no false claim, the answer is to ask for it now. This Board is competent without troubling the Sovereign because of the DIRECTION of travel. PC-16 carved an exception OUT of the entrenched assented-record floor; this reads that carve-out more narrowly, so MORE records enjoy the floor's protection. Narrowing an entrenched protection is reserved to the Sovereign; ENLARGING it is not. The general rule of construction follows: where a court is uncertain how far an exception to an entrenched protection extends, it construes the exception narrowly, because leaving the protection too wide is correctable later by a court and voiding records is not correctable at all once relied upon. On BENCH_SILENT_SEAT the Board is unanimous that the check as written measures BREVITY, not participation: it sizes the largest block of text a name owns, and a judge who writes "I agree and have nothing to add" has not been silent. Concurrence without separate reasons is ordinary and often the most disciplined form of agreement, and a rule that a short concurrence voids an order would require every judge to pad. The check therefore reports a broader result than it computed (the CC-VJS 11 vice) and cannot ground a void. Bingham would hold a seat that neither writes nor expressly concurs constitutively defective; Denning dissents from deciding it on evidence the Board has just held insufficient; Atkin does not reach it. That question is NOT the ratio and is expressly left open. CORRECTION RECORDED POST-JUDGMENT, PRE-PUBLICATION: the Board described the check as measuring BREVITY. That understated it. On implementing D4 both flagged seats were found to have written FULL CONCURRING OPINIONS ("Opinion of Tindale (concurring)", "Opinion of Wilberforce J. (concurring)"). They were flagged because the heuristic ends a seat's owned block at the next occurrence of any OTHER seat's name, and each opened by crediting a colleague ("I join Marchmont", "I concur in full with Reid J."), thereby handing their whole opinion to that colleague. The check penalised COURTESY, not brevity, and hardest against the collegial style good judgments use. Both findings were false positives and both orders are clear. This strengthens the ratio rather than disturbing it, and vindicates Denning: had Bingham's proposed rule been taken as ratio it would have rested on two findings that were not findings at all.
+directives:
+- id: D1
+  actor: lexby
+  must: treat_bench_opinion_missing_as_a_route_for_correction_defect_on_an_assented_record_and_never_as_a_void_and_keep_tier_not_constituted_and_bench_size_mismatch_constitutive_and_void_on_pc_16_unaltered_terms
+  when: null
+- id: D2
+  actor: lexby
+  must: hold_the_thirteen_records_binding_and_flagged_in_force_and_relied_upon_carrying_a_visible_correction_obligation_and_do_not_delete_renumber_or_stay_any_of_them
+  when: null
+- id: D3
+  actor: lexby
+  must: record_the_correction_obligation_on_a_ratcheting_register_that_may_only_shrink_carrying_for_each_flagged_order_the_date_the_obligation_arose_so_that_the_number_uncorrected_is_always_known_and_can_never_quietly_grow
+  when: null
+- id: D4
+  actor: lexby
+  must: correct_the_bench_silent_seat_check_to_count_a_seat_as_having_spoken_when_it_either_writes_reasons_or_expressly_concurs_and_do_not_rely_on_that_check_for_any_purpose_until_it_measures_participation_rather_than_brevity
+  when: null
+- id: D5
+  actor: lexby
+  must: repair_the_install_surface_that_asserted_two_enforcement_hooks_by_name_with_pinned_digests_while_the_files_were_absent_so_that_a_fresh_clone_cannot_begin_with_its_git_level_gates_silently_off
+  when: null
+- id: D6
+  actor: lexby
+  must: supply_the_missing_opinions_for_the_thirteen_flagged_records_or_where_a_seat_can_no_longer_speak_record_that_fact_expressly_rather_than_leaving_the_register_to_carry_it_indefinitely
+  when: null
+forbidden:
+- voiding_or_deleting_any_of_the_thirteen_records_on_a_bench_opinion_missing_finding
+- relying_on_the_bench_silent_seat_check_for_any_purpose_while_it_measures_brevity_rather_than_participation
+- treating_this_order_as_deciding_what_follows_once_that_check_is_corrected
+- narrowing_tier_not_constituted_or_bench_size_mismatch_which_remain_constitutive_and_void
+- sheltering_a_record_that_declares_an_opinion_which_does_not_exist_or_names_a_bench_that_did_not_sit
+- leaving_the_correction_obligation_undated_or_off_the_ratcheting_register
+exceptions: null
+supersedes: []
+source_opinion: lawpack/v2/opinions/2026-VJS-PC-21-opinion.md
+runtime_summary: |
+  On referral from [2026] VJS-CC-VJS 11. A defect in the RECORD of a bench is not a defect in the bench. BENCH_OPINION_MISSING is evidential and routed for correction; TIER_NOT_CONSTITUTED and BENCH_SIZE_MISMATCH stay constitutive and void. PC-16 closed LAUNDERING (an assent claim softening a known defect) and none of the thirteen did that. The gate's blindness does not change what the record is but is decisive as to remedy: the estate asserted an enforcement surface it did not have (hooks listed with pinned digests, files absent, gitignored and per-clone). Competence without the Sovereign turns on DIRECTION: narrowing an entrenched protection is reserved, ENLARGING it is not. The thirteen are BINDING AND FLAGGED on a dated ratcheting register that may only shrink (D2, D3). BENCH_SILENT_SEAT measures BREVITY not participation (a short concurrence is not silence) and must be corrected to accept an express concurrence before it is relied on for anything (D4); what follows once corrected is expressly left open. Recusals: the PC-8 and PC-19 benches are all disqualified, no judge sitting on whether their own silence voided their own order.
+created_at: 2026-07-27T20:54:44Z
+citation: '[2026] VJS-PC 21'
+assent_source: standing_bounded_assent
+bench:
+- Atkin
+- Bingham
+- Denning
+case_file_digest: sha256:6efd2af0db904a2d9a75a717ea4816cae6f31f12bee6d0c2e9ae6bab1fbaaad2
+convened_at: 2026-07-27T20:54:44Z
+vote: 3-0 on the disposition; Denning concurring in part and dissenting in part
+appeal_of: 2026-VJS-CC-BLIND-VALIDATORS-011
+appealable: true
+question: |
+  Are thirteen binding orders declaring a bench with no source_opinion void ab initio under [2026] VJS-PC 16, or routed for correction, given the only gate able to detect it could never run over them?
+title: A defect in the RECORD of a bench is not a defect in the bench; the thirteen are binding and flagged

@@ -197,9 +197,35 @@ pub(crate) fn staged_gates(
         // parse, and is skipped, so its bench is never verified. Deriving the set from
         // is_governed_record means the gate coverage can never silently drift from the front
         // door (a future governed-record kind is auto-covered).
+        // A RECORD LEAVING THE COMMIT MAKES NO CLAIM ABOUT ITS FORM.
+        //
+        // This gate reads the file from DISK, which was harmless while every staged
+        // deletion also removed the file - the read failed and the path was skipped.
+        // [2026] VJS-CC-VJS 20 D2 created the case that breaks it: untracking a governed
+        // record LEAVES IT ON DISK in a registered store. The gate then read a record it
+        // was not being asked about and applied the well-formedness requirements of a
+        // record being WRITTEN to one being UNPUBLISHED.
+        //
+        // That is the wrong referent, and the cost was concrete: it refused the removal of
+        // a record carrying seven denylisted terms from a tree about to be published,
+        // because the record it was removing was malformed - a defect nobody could then
+        // read, in a copy nobody would then have. Requiring a record to be well-formed
+        // before it may stop being published is ceremony, and it was blocking the exact
+        // act the boundary needed.
+        //
+        // Nothing is weakened. What a deletion IS covered by is the destructive-delete gate
+        // (CC-VJS 20 D1), which asks the question that actually matters about a record
+        // going away, and the record's own outstanding obligations survive on the
+        // correction register: untracking never discharges them (CC-VJS 20 D11).
+        let staged_deletions: std::collections::HashSet<String> =
+            GitIntegration::read_staged_deletions(repo)
+                .unwrap_or_default()
+                .into_iter()
+                .collect();
         for rel in changed.iter().filter(|p| {
             (p.ends_with(".yaml") || p.ends_with(".yml"))
                 && vjs_core::front_door::is_governed_record(p)
+                && !staged_deletions.contains(*p)
         }) {
             let Ok(content) = std::fs::read_to_string(repo.join(rel)) else {
                 continue;

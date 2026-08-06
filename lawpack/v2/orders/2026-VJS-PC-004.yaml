@@ -52,7 +52,7 @@ forbidden:
 exceptions:
   - "the P/constitutional articles (s.1,2,3,9,10,13,14,23) are genuine statute and keep their sections; the entrenched amendment procedure and entrenchment list are untouched"
 supersedes: []
-source_opinion: ".vjs/submissions/filed/2026-VJS-PC-004-opinion.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-PC-004-opinion.md"
 runtime_summary: >
   Cite by source: statute by instrument+section, case law by its case (neutral
   citation), never a pseudo-section. V1 CASE-LAW is a hybrid (P=statute,

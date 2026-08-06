@@ -49,7 +49,7 @@ exceptions:
   - "halt and re-refer (preferring two repos) if path-continuity and invariant-scoping cannot be proven at execution"
   - "the actual move, push, branch protection, tag signing, and AGPL re-licence are the Principal's warranted acts; AGPL adoption is the copyright holder's prerogative recorded by the Act (the public repo is presently unlicensed)"
 supersedes: []
-source_opinion: ".vjs/submissions/filed/2026-VJS-PC-002-opinion.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-PC-002-opinion.md"
 runtime_summary: >
   Consolidate onto the established public repo as one canonical line (canon on
   main; drop the "v2" name with a redirect). The V1 archive is an immutable-tag-

@@ -136,7 +136,7 @@ forbidden:
 supersedes: []
 appealable: true
 appeal_of: "2026-VJS-PC-013"
-source_opinion: ".vjs/submissions/filed/2026-VJS-PC-014-opinions.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-PC-014-opinions.md"
 runtime_summary: >
   PC-13 reserved the master "single front door" rule until there was a complete map
   of which duties have a kernel gate and which do not. That map now exists (264

@@ -209,7 +209,7 @@ forbidden:
 supersedes: []
 appealable: true
 appeal_of: null
-source_opinion: ".vjs/submissions/filed/2026-VJS-PC-017-opinions.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-PC-017-opinions.md"
 runtime_summary: >
   The bench-integrity gate checks only that an order came from a real, odd, fully-seated bench; it
   never reads the LAW the order cites. So an order whose holding, a directive, or a forbidden

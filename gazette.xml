@@ -9,6 +9,17 @@
   <author><name>Vibe Justice System</name></author>
   <rights>Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001): force comes from the lawpack and the Sovereign's assent, never from publication or syndication.</rights>
   <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-VJS-CANON-LICENCE-021</id>
+    <title>The Canon&apos;s Licence Is the Holder&apos;s to State and No One Else&apos;s; a Breach Whose Only Lawful Curer Is the Sovereign Routes for Correction, but Never Across the Outward Act; Five Pinned Texts Re-seat, One Is Restored, Four Are Held Unpublished by Declaration</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-CC-VJS-CANON-LICENCE-021"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-CANON-LICENCE-021.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-08-06T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">Never edit LICENSE to a licence the holder has not stated in express words, in either direction, and never make the other files agree with it - their disagreement is the evidence.</summary>
+  </entry>
+  <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-PROCEEDINGS-DISCIPLINE</id>
     <title>The Proceedings Discipline Act 2026</title>
     <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#ACT-PROCEEDINGS-DISCIPLINE"/>
@@ -51,72 +62,6 @@
     <published>2026-08-05T00:00:00Z</published>
     <updated>2026-08-05T00:00:00Z</updated>
     <summary type="text">Enacted on Sovereign Assent given 2026-08-05, pinned to the conditioned-engrossment digest sha256:95e308fbeaff310f6e4f37e88c81216aec9692dbebaf5dbf63688574d4f6608f (assent record lawpack/v2/provenance/assent/2026-08-05-subscriber-pseudonymity-assent.yaml; the engrossed instrument preserved verbatim at .vjs/submissions/draft/ACT-SUBSCRIBER-PSEUDONYMITY.yaml).</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-VJS-CANON-REPO-CODE-013</id>
-    <title>Canon Write Gate Repo Code (The Order)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-CC-VJS-CANON-REPO-CODE-013"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-CANON-REPO-CODE-013.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-08-01T00:00:00Z</published>
-    <updated>2026-08-01T00:00:00Z</updated>
-    <summary type="text">The canon-write gate tests against the CANON&apos;s repo_code, not the hosting repo&apos;s.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-VJS-ENFORCEMENT-COVERAGE-018</id>
-    <title>Enforcement Surface Coverage (The Order)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-CC-VJS-ENFORCEMENT-COVERAGE-018"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-ENFORCEMENT-COVERAGE-018.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-08-01T00:00:00Z</published>
-    <updated>2026-08-01T00:00:00Z</updated>
-    <summary type="text">A file is entrenched if and only if a confined edit to it can change whether a bright-line finding is emitted, its severity, or whether the check runs.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-VJS-LAWPACK-GATE-GUARD-014</id>
-    <title>Lawpack Gate Skipped Out of Tree (The Order)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-CC-VJS-LAWPACK-GATE-GUARD-014"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-LAWPACK-GATE-GUARD-014.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-08-01T00:00:00Z</published>
-    <updated>2026-08-01T00:00:00Z</updated>
-    <summary type="text">A gate&apos;s guard must answer to the same referent as the gate.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-VJS-RESOLVER-MONOPOLY-015</id>
-    <title>Lawpack Resolver Monopoly (The Order)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-CC-VJS-RESOLVER-MONOPOLY-015"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-RESOLVER-MONOPOLY-015.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-08-01T00:00:00Z</published>
-    <updated>2026-08-01T00:00:00Z</updated>
-    <summary type="text">One resolver, one loader, every crate, for any site that READS the canon; a local-referent literal is collapsed into one named declaration instead, and whatever survives carries a machine-checked marker naming its referent and authority.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-VJS-TWO-REGISTERS-017</id>
-    <title>Two Registers One Class (The Order)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-CC-VJS-TWO-REGISTERS-017"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-TWO-REGISTERS-017.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-08-01T00:00:00Z</published>
-    <updated>2026-08-01T00:00:00Z</updated>
-    <summary type="text">Two registers serving two different harms do not merge, and a hashed private register is never accessioned into a cleartext public one.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016</id>
-    <title>Canon Displacement by Write (The Order)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-08-01T00:00:00Z</published>
-    <updated>2026-08-01T00:00:00Z</updated>
-    <summary type="text">A verb records to the local record store, never into the canon tree, and no write path may create the directory the resolver reads canon from.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-RECORD-PROJECTION-009</id>

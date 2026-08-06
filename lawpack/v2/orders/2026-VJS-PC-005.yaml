@@ -56,7 +56,7 @@ forbidden:
 exceptions:
   - "registration is owed (not optional) once a repo federates, publishes to the Gazette, or claims canonical status"
 supersedes: []
-source_opinion: ".vjs/submissions/filed/2026-VJS-PC-005-opinion.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-PC-005-opinion.md"
 runtime_summary: >
   Repos House is a declarative, non-sovereign, two-layer jurisdiction registry;
   certification restates deterministic kernel output, never an attestation;

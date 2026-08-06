@@ -96,7 +96,7 @@ v1_authorities: >
   they are not incorporated as binding V2 law. Their conditions are carried into
   the corporate charter (the VPS load-bearing articles), not into the canon.
 supersedes: []
-source_opinion: ".vjs/submissions/filed/2026-VJS-PC-010-opinion.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-PC-010-opinion.md"
 created_at: "2026-06-10T18:05:00Z"
 bench:
   - Tindale

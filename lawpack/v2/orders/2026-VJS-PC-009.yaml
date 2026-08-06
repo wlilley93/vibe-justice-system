@@ -53,7 +53,7 @@ forbidden:
   - citing_a_court_made_sc_article_by_a_pseudo_section_instead_of_its_case
   - treating_case_law_as_a_v2_extensible_binding_statute_or_purporting_to_enact_a_new_case_law_section
 supersedes: []
-source_opinion: ".vjs/submissions/filed/2026-VJS-PC-009-opinion.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-PC-009-opinion.md"
 created_at: "2026-06-10T17:30:00Z"
 bench:
   - Marbury

@@ -298,11 +298,27 @@ pub(crate) fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
         name: "correction_register".into(),
         passed: register_ok,
         message: if register_ok {
-            format!(
-                "{} record(s) binding-and-flagged, all on the register (PC 21 D2/D3); \
-                 flagged is not fatal, register drift is",
-                flagged.len()
-            )
+            // ZERO FINDINGS AND ZERO CHECKERS ARE NOT ONE NUMBER. Once the court store
+            // left version tracking under [2026] VJS-CC-VJS 20 D2, a fresh clone carries
+            // no `.vjs/court` at all - and this stage went on reporting "0 record(s)
+            // binding-and-flagged, all on the register", which is a claim about a corpus
+            // it never opened. Both sides being empty is genuine AGREEMENT here and not a
+            // false pass, because an estate with no court records really does owe no
+            // corrections; but the sentence has to say which of the two it is, or every
+            // subscriber's CI recites a clean audit of nothing.
+            if !repo.join(".vjs/court").exists() {
+                "the correction register DID NOT RUN - this tree carries no .vjs/court \
+                 store, so there are no orders to flag and no register to compare. A \
+                 statement about this estate, never a finding about the corpus \
+                 ([2026] VJS-CC-VJS 20 D2 untracked the store; PC 21 D2/D3)."
+                    .to_string()
+            } else {
+                format!(
+                    "{} record(s) binding-and-flagged, all on the register (PC 21 D2/D3); \
+                     flagged is not fatal, register drift is",
+                    flagged.len()
+                )
+            }
         } else {
             let mut m = String::new();
             if !unrecorded.is_empty() {

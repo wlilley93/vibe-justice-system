@@ -71,7 +71,7 @@ vote: "5-0 RATIFY-WITH-MODIFICATION; the six convergent amendments command a cle
 convened_at: "2026-06-24T08:05:00Z"
 created_at: "2026-06-24T08:10:00Z"
 case_file_digest: "sha256:65a6666c053b1422c0d8eed921bd17869df7bf05f0d6f24f37aba29e58f4ff7c"
-source_opinion: "lawpack/v2/judgments/2026-VJS-SC-4-opinion.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-SC-4-opinion.md"
 runtime_summary: >
   Apex ratification (5-0), re-homed to canon from a mis-filed repo-level record. ACT-003 s10/s11 - a repeatedly-
   or conduct-unsatisfiable enforcement gate is auto-justiciable: route to court on the agent's own motion, pause

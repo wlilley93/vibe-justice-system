@@ -56,7 +56,7 @@ exceptions:
   - "fresh V2 framing or closure of a pending matter where continuation is unworkable or the matter is moot (a found disposition on the record, not relitigation)"
   - "central order required only to vary the canonical lawpack (ACT-007 s.3) or to fork with divergent lineage (s.6)"
 supersedes: []
-source_opinion: ".vjs/submissions/filed/2026-VJS-PC-001-opinion.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-PC-001-opinion.md"
 runtime_summary: >
   V2 Privy Council, 3-0. Transfer carries pending V1 matters forward at their
   current state; it never restarts them. Perfected orders and accrued rights are

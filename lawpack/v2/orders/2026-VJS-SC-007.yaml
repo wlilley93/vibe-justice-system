@@ -7,7 +7,7 @@ jurisdiction: vibe-justice-system
 status: binding
 issue: decide_whether_an_invariant_whose_statement_contains_a_universal_negative_conjunct_can_be_recorded_met_or_is_terminally_partial_and_fix_the_status_vocabulary
 bench: [Aldermere, Brightwater, Calderon, Donhill, Everand]
-source_opinion: "lawpack/v2/judgments/2026-VJS-SC-7-opinion.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-SC-7-opinion.md"
 appealable: false
 supersedes: []
 question: >

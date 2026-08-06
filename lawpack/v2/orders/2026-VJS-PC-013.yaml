@@ -163,7 +163,11 @@ forbidden:
 supersedes: []
 appealable: true
 appeal_of: null
-source_opinion: ".vjs/submissions/filed/2026-VJS-PC-013-opinions.md"
+# The lawpack copy is a PROJECTION of the filed judgment held at
+# .vjs/court/judgments/unpublished/2026-VJS-PC-013-opinions.md, generified so that no canon record names a
+# subscriber (ACT-005:s1, ACT-007:s4). Correcting a projection is not editing the
+# record it projects ([2026] VJS-CC-VJS 20, supplemental).
+source_opinion: lawpack/v2/opinions/2026-VJS-PC-013-opinions.md
 runtime_summary: >
   Most of these duties were already law; they just had no gate switched on at the
   one chokepoint (the kernel, on the write into canon), which is how eleven private

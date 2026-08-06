@@ -50,7 +50,7 @@ incorporates:
     rule: "the super-repo is the realm-as-state and the Privy Council is its central first-instance court"
     kernel_effect: pc_is_realm_as_state_first_instance_appealable_upward
 supersedes: []
-source_opinion: ".vjs/submissions/filed/2026-VJS-PC-006-opinion.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-PC-006-opinion.md"
 runtime_summary: >
   The canon self-invokes like any jurisdiction (binding by invocation, not
   authorship); its lodged invocation must be perfected by installing the hooks.

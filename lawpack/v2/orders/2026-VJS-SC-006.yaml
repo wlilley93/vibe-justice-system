@@ -7,7 +7,7 @@ jurisdiction: vibe-justice-system
 status: binding
 issue: reconcile_boot003_vs_courts_constitution_on_the_court_of_appeal_and_decide_whether_an_empty_bench_field_voids_nine_legacy_apex_orders_including_the_constitution
 bench: [Bingham, Hale, Reed, Sumption, Carnwath]
-source_opinion: "lawpack/v2/judgments/2026-VJS-SC-6-opinion.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-SC-6-opinion.md"
 appealable: false
 supersedes: []
 question: >

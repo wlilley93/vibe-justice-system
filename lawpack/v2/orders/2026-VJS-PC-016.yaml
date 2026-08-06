@@ -191,7 +191,7 @@ forbidden:
 supersedes: []
 appealable: true
 appeal_of: null
-source_opinion: ".vjs/submissions/filed/2026-VJS-PC-016-opinions.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-PC-016-opinions.md"
 runtime_summary: >
   An adversarial audit proved a forgery: a staged record that merely TYPES
   "assent_source: sovereign_assent" while pointing at no real assent event got every Fatal

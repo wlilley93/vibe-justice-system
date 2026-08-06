@@ -43,7 +43,7 @@ forbidden:
   - invalidating_a_legacy_ruling_for_want_of_the_structured_fields
   - treating_the_form_of_a_courts_output_as_constitutive_of_what_the_court_is
 supersedes: []
-source_opinion: ".vjs/submissions/filed/2026-VJS-PC-008-opinion.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-PC-008-opinion.md"
 created_at: "2026-06-10T15:00:00Z"
 bench:
   - Marchmont

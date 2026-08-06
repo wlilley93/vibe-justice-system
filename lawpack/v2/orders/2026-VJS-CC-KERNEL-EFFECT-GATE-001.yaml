@@ -1,0 +1,81 @@
+id: "2026-VJS-CC-KERNEL-EFFECT-GATE-001"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-CC 15"
+title: The s.5(a) kernel-effect teeth-gate (machinery with conditions)
+court: county
+jurisdiction: vibe-justice-system
+status: binding
+issue: kernel_machinery_vs_runtime_authority_graph_constitution
+question: >
+  Whether building a deterministic predicate that enforces ACT-COMPUTER-FIRST-REALM
+  s.5 limb (a) - a runtime-force record whose declared kernel_effect binds to no
+  evaluable predicate is excluded from the runtime authority graph - is kernel
+  machinery within subordinate competence, or reserved to primary law or a higher court?
+holding: >
+  Operational limb disposed: the limb-(a) gate is kernel MACHINERY WITH CONDITIONS.
+  On its face it is a validity gate (it fails and excludes records), which is the
+  reserved side of the Ledgerward dividing line ([2026] VJS-CC-AGENT-UNIVERSE-V2 14:
+  machinery records/administers, reserved re-defines the constitutive thing). It is
+  saved because the exclusion is not the kernel's invention: s.5 is primary law,
+  already assented, and s.5 ITSELF excludes a record with no kernel effect. The kernel
+  gives deterministic effect to that enacted exclusion (concordance), it does not
+  legislate it. The assent-floor objection (a Sovereign-assented record using a verb
+  not yet in the registry could be wrongly voided, narrowing valid law against
+  s.14/s.23) is defused by s.5's own grammar: that case is a DISCREPANCY, not inertia,
+  so its disposition is "routed for correction", never silent voiding. So conditioned,
+  the gate voids no constitutive act, narrows no assent, and creates no force by
+  computation - it administers s.5.
+directives:
+  - id: D1
+    actor: lexby
+    must: build_the_limb_a_gate_as_kernel_machinery_giving_deterministic_effect_to_s5s_exclusion_of_records_with_no_kernel_effect_subject_to_d2_d5
+  - id: D2
+    actor: lexby
+    must: dispose_a_runtime_force_record_whose_declared_kernel_effect_binds_to_no_evaluable_registry_arm_by_routing_it_for_correction_as_an_s5_validation_defect_never_silent_exclusion_or_void
+  - id: D3
+    actor: lexby
+    must: additionally_flag_such_a_record_carrying_a_resolving_assent_source_as_a_registry_coverage_gap_whose_cure_is_registry_extension_not_record_removal
+  - id: D4
+    actor: lexby
+    must: parse_declared_kernel_effect_structure_only_call_no_model_use_no_semantic_similarity_and_leave_limb_b_prose_effect_divergence_at_the_agent_rung_s11
+  - id: D5
+    actor: lexby
+    must: surface_the_predicate_registry_as_the_editable_cure_surface_never_hardening_the_current_37_arms_as_a_closed_validity_ceiling
+forbidden:
+  - silently_excluding_or_voiding_a_runtime_force_record_for_an_unevaluable_kernel_effect_rather_than_routing_it_for_correction
+  - voiding_a_sovereign_assented_record_that_uses_a_verb_not_yet_implemented_in_the_registry_thereby_narrowing_valid_law_against_s14_s23
+  - reading_ceremonial_prose_calling_a_model_or_using_semantic_similarity_in_the_gate_s11
+  - treating_limb_b_prose_effect_divergence_as_kernel_evaluable_rather_than_an_agent_rung_duty
+  - creating_force_or_removing_a_record_by_the_kernels_own_computation_rather_than_emitting_a_defect_routing
+exceptions:
+  - "the entrenched assent floor (s.14/s.23) is non-derogable: assent is non-presumable and the registry's coverage may never narrow what counts as valid assented law"
+supersedes: []
+treatment: >
+  Affirmed on appeal: Point 1 by [2026] VJS-PC 12 and [2026] VJS-SC 3 (the gate is
+  machinery). The gate was built to these conditions and the general floor enacted as
+  the Assented-Record Protection Act ([2026] VJS-ACT 10). Note: D5's reference to "the
+  current 37 [PredicateExpr] arms" is the submission-era framing; the gate as built
+  keys to the KernelEffect operation schema, the structural choice PC 12 held was what
+  saved it. Current rule: ACT-ASSENTED-RECORD-PROTECTION.
+source_opinion: "lawpack/v2/opinions/2026-VJS-CC-KERNEL-EFFECT-GATE-001-opinion.md"
+created_at: "2026-06-12T12:40:00Z"
+bench:
+  - Marrowby CCJ
+vote: "1-0"
+convened_at: "2026-06-12T12:40:00Z"
+case_file_digest: "sha256:9092d01eb858ddc80b9f872063812f51f6dd403b72378590061c45451ffbd3a5"
+appeal_of: ""
+appealable: true
+permission_to_appeal: "GRANTED to the Privy Council (bench of 3) on the dividing-line and assent-floor points; operational limb disposed, build may proceed under D1-D4 pending any appeal"
+runtime_summary: >
+  The s.5(a) kernel-effect gate is machinery with conditions: it gives deterministic
+  effect to s.5's own exclusion of inert records, but must ROUTE FOR CORRECTION (never
+  silently void) a record whose kernel_effect uses an unevaluable verb, flagging an
+  assented one as a registry-coverage gap cured by extending the registry. Parses
+  structure only, no model, leaves limb (b) at the agent rung. 1-0; permission to
+  appeal to the Privy Council granted on the dividing-line and assent-floor points.
+note: >
+  Citation [2026] VJS-CC 15 continues the substantive County lineage (the prior order
+  [2026] VJS-CC-AGENT-UNIVERSE-V2 14) under the jurisdiction-neutral VJS-CC series
+  post-reidentification; the `vjs next-citation` tool returned a malformed value and
+  the ordinal was computed deterministically from the County record (max 14 -> 15).

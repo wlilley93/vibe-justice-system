@@ -51,7 +51,7 @@ forbidden:
 exceptions:
   - "halt and return if the s.23 text cannot be digest-verified word-for-word, or if anyone proposes to render SC-10 as a native judgment"
 supersedes: []
-source_opinion: ".vjs/submissions/filed/2026-VJS-PC-003-opinion.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-PC-003-opinion.md"
 runtime_summary: >
   s.23 is transcribed into V1 verified against the assented digest; REALM-SC 10
   is a marked derived minute, never a native judgment; both archival-source-only

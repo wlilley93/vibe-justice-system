@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-06T14:29:48.831303016+00:00",
+  "generated_at": "2026-08-06T23:03:08.350494781+00:00",
   "items": [
     {
       "affirmed_by": [],
@@ -2166,251 +2166,52 @@
     {
       "affirmed_by": [],
       "affirms": [],
-      "citation": "[2026] VJS-CC-VJS 13",
-      "cites": [
-        "ACT-007"
+      "assent_source": "standing_bounded_assent",
+      "bench": [
+        "single_judge"
       ],
+      "case_file_digest": "sha256:8edd26b613b66ff2ae48dd41a015ce526794f0e6629964697d352d1264bcc377",
+      "citation": "[2026] VJS-CC-VJS 21",
+      "cites": [
+        "2026-VJS-PC-011",
+        "ACT-001",
+        "ACT-ASSENTED-RECORD-PROTECTION"
+      ],
+      "convened_at": "CONVENING-county-2026-08-06-222539",
       "court": "county",
-      "date": "2026-08-01",
-      "doc": "law.html#2026-VJS-CC-VJS-CANON-REPO-CODE-013",
+      "date": "2026-08-06",
+      "doc": "law.html#2026-VJS-CC-VJS-CANON-LICENCE-021",
       "estate": "v2",
       "has_text": true,
-      "id": "2026-VJS-CC-VJS-CANON-REPO-CODE-013",
+      "id": "2026-VJS-CC-VJS-CANON-LICENCE-021",
       "kind": "order",
       "lineage": [],
       "opinion": {
-        "path": "lawpack/v2/judgments/2026-VJS-CC-VJS-13-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-CC-VJS-13-opinion.md"
+        "path": "lawpack/v2/opinions/2026-VJS-CC-VJS-21-opinion.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-CC-VJS-21-opinion.md"
       },
-      "path": "lawpack/v2/orders/2026-VJS-CC-VJS-CANON-REPO-CODE-013.yaml",
+      "path": "lawpack/v2/orders/2026-VJS-CC-VJS-CANON-LICENCE-021.yaml",
       "points": [
-        "resolve canon repo code from the lawpack declaration when present",
-        "compute canon repo code in exactly one function shared by every call site",
-        "read the declaration from the same root the canon filter matches",
-        "block a declared canon repo code that equals a registered subscriber code",
-        "report every canon finding including the non blocking ones",
-        "emit a finding naming old and new when a declaration is added or altered",
-        "name the declaration as the cure in the foreign repo code remedy",
-        "re pin the lawpack lock and the enforcement surface lock in the same change"
+        "never write licence into the license file absent the holders express words in either direction",
+        "never conform cargo toml or notice md to license while the conflict is open",
+        "build an unconditional publication refusal that no breach filing can downgrade",
+        "keep the warning downgrade only on a breach self file naming the operative licence verbatim",
+        "state the canons licence in express words or direct that d2 of pc 11 be moved",
+        "reseat the five boundary clean pinned texts into the lawpack byte exact with no header note",
+        "restore the 2026 06 12 void first draft from history and verify it against its pin",
+        "declare the four unpublishable texts unpublished with a reason and teach the resolver to read it",
+        "publish the canon once the holder states the licence and the boundary is clean"
       ],
-      "question": "When the PC-13 D1 canon-write gate runs in a jurisdiction whose lawpack/v2 is a lawful read-only mirror of foreign canon, from where must canon_repo_code be resolved: the local jurisdiction config, the mirrored lawpack's own declaration, or should the gate not run in a mirror at all?",
+      "question": "Where the canon's LICENSE conflicts with binding [2026] VJS-PC 11 D2 and only the copyright holder may change a grant, what is the lawful disposal; may a gate hold such a breach at Warning while recorded; what does CC-VJS 20 D3 require where four digest-pinned engrossed texts cannot be both published and pseudonymised; and may the canon be published while D2's licence and publicity limbs are unresolved?",
       "status": "binding",
-      "subject": "canon-write-gate-repo-code",
-      "summary": "The canon-write gate tests against the CANON's repo_code, not the hosting repo's.",
+      "subject": "canon licence conformity",
+      "summary": "Never edit LICENSE to a licence the holder has not stated in express words, in either direction, and never make the other files agree with it - their disagreement is the evidence.",
       "superseded_by": [],
       "supersedes": [],
-      "title": "Canon Write Gate Repo Code (The Order)",
-      "ts": "2026-08-01T12:41:20Z",
-      "updated": "2026-08-01",
-      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-CANON-REPO-CODE-013.yaml",
-      "varied_by": [],
-      "varies": []
-    },
-    {
-      "affirmed_by": [],
-      "affirms": [],
-      "citation": "[2026] VJS-CC-VJS 18",
-      "cites": [],
-      "court": "county",
-      "date": "2026-08-01",
-      "doc": "law.html#2026-VJS-CC-VJS-ENFORCEMENT-COVERAGE-018",
-      "estate": "v2",
-      "has_text": true,
-      "id": "2026-VJS-CC-VJS-ENFORCEMENT-COVERAGE-018",
-      "kind": "order",
-      "lineage": [
-        "2026-VJS-COURTS-CONSTITUTION-001"
-      ],
-      "opinion": {
-        "path": "lawpack/v2/judgments/2026-VJS-CC-VJS-18-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-CC-VJS-18-opinion.md"
-      },
-      "path": "lawpack/v2/orders/2026-VJS-CC-VJS-ENFORCEMENT-COVERAGE-018.yaml",
-      "points": [
-        "entrench the file whose confined edit can flip a bright line outcome",
-        "never admit a file on the theory that it is upstream of a gate",
-        "arrive with a committed counterexample flipping an outcome while the lock stays green",
-        "carry entrenchment with the disarm sites in the same change",
-        "prove the gate at the governed boundary and not at a proxy"
-      ],
-      "question": "Must the file that dispatches the gates be entrenched alongside them, and what principle bounds the entrenched surface?",
-      "status": "binding",
-      "subject": "enforcement-surface-coverage",
-      "summary": "A file is entrenched if and only if a confined edit to it can change whether a bright-line finding is emitted, its severity, or whether the check runs.",
-      "superseded_by": [],
-      "supersedes": [],
-      "title": "Enforcement Surface Coverage (The Order)",
-      "ts": "2026-08-01T17:38:51Z",
-      "updated": "2026-08-01",
-      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-ENFORCEMENT-COVERAGE-018.yaml",
-      "varied_by": [],
-      "varies": []
-    },
-    {
-      "affirmed_by": [],
-      "affirms": [],
-      "citation": "[2026] VJS-CC-VJS 14",
-      "cites": [
-        "ACT-007"
-      ],
-      "court": "county",
-      "date": "2026-08-01",
-      "doc": "law.html#2026-VJS-CC-VJS-LAWPACK-GATE-GUARD-014",
-      "estate": "v2",
-      "has_text": true,
-      "id": "2026-VJS-CC-VJS-LAWPACK-GATE-GUARD-014",
-      "kind": "order",
-      "lineage": [],
-      "opinion": {
-        "path": "lawpack/v2/judgments/2026-VJS-CC-VJS-14-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-CC-VJS-14-opinion.md"
-      },
-      "path": "lawpack/v2/orders/2026-VJS-CC-VJS-LAWPACK-GATE-GUARD-014.yaml",
-      "points": [
-        "key a gates guard to the same referent as the gate",
-        "resolve the lawpack directory through the resolver and scan that same path",
-        "run a local record check unconditionally on the governed roots",
-        "condition the lock check on a lock existing and nothing else",
-        "name the failing half rather than deleting the finding",
-        "make an absence assertion reachable or pair it with one that can fail",
-        "enumerate the affected jurisdictions by measurement before landing",
-        "land the judgment then repin canon then repin the subscriber last",
-        "prove the cure in the repository that had the defect"
-      ],
-      "question": "Where a jurisdiction's lawpack resolves outside the repository tree, must the integrity gates run against the lawpack actually loaded, and what is the correct source of the directory they test?",
-      "status": "binding",
-      "subject": "lawpack-gate-skipped-out-of-tree",
-      "summary": "A gate's guard must answer to the same referent as the gate.",
-      "superseded_by": [],
-      "supersedes": [],
-      "title": "Lawpack Gate Skipped Out of Tree (The Order)",
-      "ts": "2026-08-01T13:49:19Z",
-      "updated": "2026-08-01",
-      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-LAWPACK-GATE-GUARD-014.yaml",
-      "varied_by": [],
-      "varies": []
-    },
-    {
-      "affirmed_by": [],
-      "affirms": [],
-      "citation": "[2026] VJS-CC-VJS 15",
-      "cites": [],
-      "court": "county",
-      "date": "2026-08-01",
-      "doc": "law.html#2026-VJS-CC-VJS-RESOLVER-MONOPOLY-015",
-      "estate": "v2",
-      "has_text": true,
-      "id": "2026-VJS-CC-VJS-RESOLVER-MONOPOLY-015",
-      "kind": "order",
-      "lineage": [
-        "2026-VJS-COURTS-CONSTITUTION-001"
-      ],
-      "opinion": {
-        "path": "lawpack/v2/judgments/2026-VJS-CC-VJS-15-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-CC-VJS-15-opinion.md"
-      },
-      "path": "lawpack/v2/orders/2026-VJS-CC-VJS-RESOLVER-MONOPOLY-015.yaml",
-      "points": [
-        "resolve and load the canon through the one resolver in every crate",
-        "collapse a local referent literal into one named declaration",
-        "derive the predicate and the scan from the same declaration",
-        "refuse rather than publish or answer on an unresolvable lawpack",
-        "record the resolution source and path in the published artefact",
-        "never pin a digest beside an empty register",
-        "mark every surviving literal with referent and authority under a gate that can fail",
-        "record the full enumeration including what the order does not decide",
-        "file a discovered defect on its own record"
-      ],
-      "question": "Must every crate name the lawpack through resolve_lawpack_dir, and is the answer different for governed_record_roots because its referent is the repository's own records?",
-      "status": "binding",
-      "subject": "lawpack-resolver-monopoly",
-      "summary": "One resolver, one loader, every crate, for any site that READS the canon; a local-referent literal is collapsed into one named declaration instead, and whatever survives carries a machine-checked marker naming its referent and authority.",
-      "superseded_by": [],
-      "supersedes": [],
-      "title": "Lawpack Resolver Monopoly (The Order)",
-      "ts": "2026-08-01T14:38:55Z",
-      "updated": "2026-08-01",
-      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-RESOLVER-MONOPOLY-015.yaml",
-      "varied_by": [],
-      "varies": []
-    },
-    {
-      "affirmed_by": [],
-      "affirms": [],
-      "citation": "[2026] VJS-CC-VJS 17",
-      "cites": [
-        "ACT-005",
-        "ACT-007"
-      ],
-      "court": "county",
-      "date": "2026-08-01",
-      "doc": "law.html#2026-VJS-CC-VJS-TWO-REGISTERS-017",
-      "estate": "v2",
-      "has_text": true,
-      "id": "2026-VJS-CC-VJS-TWO-REGISTERS-017",
-      "kind": "order",
-      "lineage": [],
-      "opinion": {
-        "path": "lawpack/v2/judgments/2026-VJS-CC-VJS-17-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-CC-VJS-17-opinion.md"
-      },
-      "path": "lawpack/v2/orders/2026-VJS-CC-VJS-TWO-REGISTERS-017.yaml",
-      "points": [
-        "consult every register whose harm the gate exists to prevent",
-        "treat an unreadable register as an error and never as an empty one",
-        "never accession a hashed private register into a cleartext public one",
-        "cure every record already admitted before declaring the gate sound"
-      ],
-      "question": "Where two registers describe the same class of terms that must not enter canon, which governs, and may a gate read a register narrower than the harm it exists to prevent?",
-      "status": "binding",
-      "subject": "two-registers-one-class",
-      "summary": "Two registers serving two different harms do not merge, and a hashed private register is never accessioned into a cleartext public one.",
-      "superseded_by": [],
-      "supersedes": [],
-      "title": "Two Registers One Class (The Order)",
-      "ts": "2026-08-01T17:38:50Z",
-      "updated": "2026-08-01",
-      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-TWO-REGISTERS-017.yaml",
-      "varied_by": [],
-      "varies": []
-    },
-    {
-      "affirmed_by": [],
-      "affirms": [],
-      "citation": "[2026] VJS-CC-VJS 16",
-      "cites": [
-        "ACT-001"
-      ],
-      "court": "county",
-      "date": "2026-08-01",
-      "doc": "law.html#2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016",
-      "estate": "v2",
-      "has_text": true,
-      "id": "2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016",
-      "kind": "order",
-      "lineage": [],
-      "opinion": {
-        "path": "lawpack/v2/judgments/2026-VJS-CC-VJS-16-opinion.md",
-        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/judgments/2026-VJS-CC-VJS-16-opinion.md"
-      },
-      "path": "lawpack/v2/orders/2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016.yaml",
-      "points": [
-        "write a jurisdictions own record to its local record store",
-        "never bring into being the directory the resolver reads the canon from",
-        "key the vendored branch on a directory that declares itself a lawpack",
-        "report displacement in its own words distinct from drift",
-        "never offer a repin as the remedy for a displaced resolution"
-      ],
-      "question": "May a write verb create the directory the resolver prefers, and if not, what prevents a jurisdiction's canon being replaced by its own record-keeping?",
-      "status": "binding",
-      "subject": "canon-displacement-by-write",
-      "summary": "A verb records to the local record store, never into the canon tree, and no write path may create the directory the resolver reads canon from.",
-      "superseded_by": [],
-      "supersedes": [],
-      "title": "Canon Displacement by Write (The Order)",
-      "ts": "2026-08-01T14:53:43Z",
-      "updated": "2026-08-01",
-      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-WRITE-TARGET-DISPLACEMENT-016.yaml",
+      "title": "The Canon's Licence Is the Holder's to State and No One Else's; a Breach Whose Only Lawful Curer Is the Sovereign Routes for Correction, but Never Across the Outward Act; Five Pinned Texts Re-seat, One Is Restored, Four Are Held Unpublished by Declaration",
+      "ts": "2026-08-06T22:46:33Z",
+      "updated": "2026-08-06",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-VJS-CANON-LICENCE-021.yaml",
       "varied_by": [],
       "varies": []
     },
@@ -2971,6 +2772,7 @@
       "cites": [
         "2026-VJS-PC-008",
         "2026-VJS-PC-010",
+        "ACT-005",
         "ACT-007"
       ],
       "convened_at": "2026-06-11T14:54:00Z",
@@ -5555,16 +5357,16 @@
   "meta": {
     "counts": {
       "archive": 37,
-      "canon": 90,
-      "total": 127
+      "canon": 85,
+      "total": 122
     },
     "lawpack": {
-      "digest": "sha256:75bc3f701fa3261648e57bd39b326b1b2e3bd92570804ce47bab46cca270063c",
+      "digest": "sha256:215810e219acf3c5f18bcb7c482c73116a76fb0e08f20d31a665835bcbada114",
       "id": null,
       "locked_at": null,
       "path": "lawpack/v2",
       "source": "vendored"
     },
-    "source_commit": "a75193448ca616b0681e156bab81cef5e2c537cb"
+    "source_commit": "668f28172163a28c091cd1a23cdded24adcf5aee"
   }
 }

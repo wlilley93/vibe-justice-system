@@ -152,7 +152,7 @@ forbidden:
 supersedes: []
 appealable: true
 appeal_of: null
-source_opinion: ".vjs/submissions/filed/2026-VJS-PC-015-opinions.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-PC-015-opinions.md"
 runtime_summary: >
   A subscriber asked canon to build a keystone: an overlay lawpack loader that
   lets its own local law (Tier-2) extend the canon floors (Tier-1) over runtime business

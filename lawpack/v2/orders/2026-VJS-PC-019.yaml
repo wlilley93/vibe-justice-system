@@ -102,7 +102,7 @@ forbidden:
 supersedes: []
 appealable: true
 appeal_of: null
-source_opinion: "lawpack/v2/judgments/2026-VJS-PC-19-opinion.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-PC-19-opinion.md"
 runtime_summary: >
   The Court of Appeal sits at the CANONICAL jurisdiction, not the subscriber. A subscribing
   jurisdiction (e.g. the subscriber) seats only its repo-local First Instance (its County Court line);

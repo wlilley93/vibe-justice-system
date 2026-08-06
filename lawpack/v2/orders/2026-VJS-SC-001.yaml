@@ -62,7 +62,7 @@ exceptions:
   - "the V1 Court perfects an already-fully-heard V1 matter (publication-only, no new doctrine, imports nothing) and finds validity on a genuinely contested V1 source"
   - "tying OPTIONAL shared services to terms is lawful coordination; tying the baseline subscription to forfeiture of sovereignty is not"
 supersedes: []
-source_opinion: ".vjs/submissions/filed/2026-VJS-SC-001-opinion.md"
+source_opinion: "lawpack/v2/opinions/2026-VJS-SC-001-opinion.md"
 runtime_summary: >
   SC of nine, 9-0. A federation root coordinates lawfully only while infrastructural,
   adoption-based, canonical-respecting and exit-preserving (bright-line, kernel-checked);
