@@ -1,0 +1,12 @@
+id: LOG-2026-08-06-013353
+time: 2026-08-06T01:33:53.971069646+00:00
+actor: lexby
+kind: canon_write
+issue: kernel_enforcement_gaps_canon_write_chokepoint
+decision: 'Sweep the suite for layout and estate assumptions: lawpack and publishing roots found by walking up (assent_resolution, authority_route_obligations, e2e_gate_harness, golden_tests, predicate_teeth, gazette_data, gazette_publication, gazette_text, publication_boundary); the e2e fixture register copies the estate''s or seeds the synthetic one; canon-authoring referents (the global-invariants register, the required-CI workflow, published Gazette artefacts, the publication register) skip with disclosure where the estate does not carry them'
+basis:
+- PERMIT-1785980016
+risk: low
+reversibility: easy
+court_required: false
+why: 'The reconciliation re-pull proved these tests layout-dependent and estate-presumptuous one file at a time: counted ../.. roots loaded absent lawpacks as empty (the vacuous-pass shape their own comments warn about), and canon-only referents refused an estate that lawfully lacks them'

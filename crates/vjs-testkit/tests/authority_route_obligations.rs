@@ -359,7 +359,19 @@ fn repo_root() -> PathBuf {
     // Anchor on the crate manifest: cargo runs integration tests from the
     // package dir, where "./lawpack/v2" resolves to nothing and every
     // lawpack-backed assertion would pass vacuously over an empty lawpack.
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
+    // FOUND by walking up rather than counting levels: in a vendored tree the
+    // crates sit one level deeper than the law, and the counted form broke two
+    // of these tests there at the 2026-08-06 re-pull.
+    let mut d = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    loop {
+        if d.join("lawpack/v2/manifest.toml").is_file() {
+            return d;
+        }
+        assert!(
+            d.pop(),
+            "no lawpack/v2 above CARGO_MANIFEST_DIR: these tests need one"
+        );
+    }
 }
 
 // --- the on-point matcher reads an order's OWN issue, and folds case/underscores ---

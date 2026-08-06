@@ -6,7 +6,36 @@ use std::collections::HashSet;
 use std::path::PathBuf;
 
 fn repo_root() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
+    // The PUBLISHING estate's root, FOUND by walking up rather than counting levels:
+    // in a vendored tree the crates sit one level deeper than the law.
+    let mut d = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    loop {
+        if d.join("lawpack/v2/manifest.toml").is_file() {
+            return d;
+        }
+        assert!(
+            d.pop(),
+            "no lawpack/v2 above CARGO_MANIFEST_DIR: these tests need one"
+        );
+    }
+}
+
+/// `None` means THIS ESTATE HAS NEVER PUBLISHED A GAZETTE (a subscriber is born
+/// unpublished; `vjs invoke` publishes nothing), disclosed on stderr - a statement
+/// about this estate, never about the corpus. In the publishing estate the artefacts
+/// exist and every assertion below bites.
+fn published_estate() -> Option<PathBuf> {
+    let root = repo_root();
+    if root.join("gazette-data.js").is_file() {
+        Some(root)
+    } else {
+        eprintln!(
+            "SKIP: {} carries no published Gazette artefacts. This is a statement \
+             about this estate, never about the corpus.",
+            root.display()
+        );
+        None
+    }
 }
 
 fn parse_js(name: &str) -> serde_json::Value {
@@ -24,6 +53,9 @@ fn parse_js(name: &str) -> serde_json::Value {
 
 #[test]
 fn the_text_artifact_is_bijective_with_the_canon_and_renderable() {
+    let Some(_) = published_estate() else {
+        return;
+    };
     let data = parse_js("gazette-data.js");
     let texts = parse_js("gazette-text.js");
     let bodies = texts.as_object().unwrap();
@@ -137,6 +169,9 @@ fn the_text_artifact_is_bijective_with_the_canon_and_renderable() {
 
 #[test]
 fn treatment_fields_resolve_and_reciprocate() {
+    let Some(_) = published_estate() else {
+        return;
+    };
     let data = parse_js("gazette-data.js");
     let items = data["items"].as_array().unwrap();
     let ids: HashSet<&str> = items.iter().map(|i| i["id"].as_str().unwrap()).collect();

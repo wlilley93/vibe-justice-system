@@ -11,7 +11,35 @@ use vjs_core::BoundaryFindingKind;
 use vjs_redact::RedactScanner;
 
 fn repo_root() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
+    // The PUBLISHING estate's root, FOUND by walking up rather than counting levels:
+    // in a vendored tree the crates sit one level deeper than the law.
+    let mut d = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    loop {
+        if d.join("lawpack/v2/manifest.toml").is_file() {
+            return d;
+        }
+        assert!(
+            d.pop(),
+            "no lawpack/v2 above CARGO_MANIFEST_DIR: these tests need one"
+        );
+    }
+}
+
+/// `false` means this estate has never published a Gazette and carries no publication
+/// register (a subscriber is born unpublished and unregistered), disclosed on stderr -
+/// a statement about this estate, never about the corpus. In the publishing estate
+/// both exist and every assertion bites.
+fn publishing_estate() -> bool {
+    let root = repo_root();
+    let ok = root.join("gazette-text.js").is_file()
+        && root.join(".vjs/publication-denylist.txt").is_file();
+    if !ok {
+        eprintln!(
+            "SKIP: {} carries no published Gazette artefacts or no publication register.",
+            root.display()
+        );
+    }
+    ok
 }
 
 fn published_text() -> String {
@@ -26,6 +54,9 @@ fn published_text() -> String {
 
 #[test]
 fn the_published_gazette_carries_no_secrets_or_pii() {
+    if !publishing_estate() {
+        return;
+    }
     let text = published_text();
     let findings: Vec<_> = RedactScanner::scan_file(&PathBuf::from("gazette"), &text)
         .into_iter()
@@ -40,6 +71,9 @@ fn the_published_gazette_carries_no_secrets_or_pii() {
 
 #[test]
 fn the_published_gazette_carries_no_denylisted_private_term() {
+    if !publishing_estate() {
+        return;
+    }
     use sha2::Digest;
     let deny = std::fs::read_to_string(repo_root().join(".vjs/publication-denylist.txt"))
         .expect("the publication denylist exists");

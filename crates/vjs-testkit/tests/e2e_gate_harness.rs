@@ -8,7 +8,20 @@ use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 
 fn workspace_root() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
+    // The root this harness wants is the LAWPACK'S HOME (ephemeral_canon copies
+    // lawpack/v2 from it), FOUND by walking up rather than counting levels: in a
+    // vendored tree the crates sit one level deeper than the law, and the counted
+    // form broke all six of these tests there at the 2026-08-06 re-pull.
+    let mut d = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    loop {
+        if d.join("lawpack/v2/manifest.toml").is_file() {
+            return d;
+        }
+        assert!(
+            d.pop(),
+            "no lawpack/v2 above CARGO_MANIFEST_DIR: this harness needs one"
+        );
+    }
 }
 
 fn git(repo: &Path, args: &[&str]) {
@@ -54,14 +67,23 @@ fn ephemeral_canon(tag: &str) -> PathBuf {
     // that it exercises the gates "exactly as a real git commit exercises them", and a real
     // commit has this file; since [2026] VJS-CC-VJS 17 C3 an absent register is a REFUSAL,
     // so a harness without it would be measuring the refusal instead of the gate under test.
-    // Copied from the workspace rather than synthesised, so the fixture cannot drift into
-    // testing a register the estate does not actually use.
+    // Copied from the estate when it carries one, so the fixture cannot drift into testing
+    // a register the estate does not actually use. A jurisdiction that carries NONE gets
+    // the synthetic fixture register instead (`vjs invoke` seeds no registers, so a fresh
+    // jurisdiction is born without one - filed, not fixed here; measured 2026-08-06 when
+    // the counted copy broke all six of these tests in the First Subscriber's tree).
     std::fs::create_dir_all(base.join(".vjs")).unwrap();
-    std::fs::copy(
-        ws.join(".vjs/publication-denylist.txt"),
-        base.join(".vjs/publication-denylist.txt"),
-    )
-    .expect("the workspace carries the publication denylist");
+    let estate_register = ws.join(".vjs/publication-denylist.txt");
+    if estate_register.is_file() {
+        std::fs::copy(&estate_register, base.join(".vjs/publication-denylist.txt"))
+            .expect("the estate register copies into the fixture");
+    } else {
+        std::fs::write(
+            base.join(".vjs/publication-denylist.txt"),
+            "# fixture register (this estate carries none)\n             0000000000000000000000000000000000000000000000000000000000000000  # added=2026-08-06 class=synthetic\n",
+        )
+        .unwrap();
+    }
     git(&base, &["init", "-q"]);
     git(&base, &["config", "user.email", "t@example.invalid"]);
     git(&base, &["config", "user.name", "harness"]);

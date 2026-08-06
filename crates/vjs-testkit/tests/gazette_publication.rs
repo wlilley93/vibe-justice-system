@@ -6,7 +6,36 @@ use std::collections::HashSet;
 use std::path::PathBuf;
 
 fn repo_root() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
+    // The PUBLISHING estate's root, FOUND by walking up rather than counting levels:
+    // in a vendored tree the crates sit one level deeper than the law.
+    let mut d = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    loop {
+        if d.join("lawpack/v2/manifest.toml").is_file() {
+            return d;
+        }
+        assert!(
+            d.pop(),
+            "no lawpack/v2 above CARGO_MANIFEST_DIR: these tests need one"
+        );
+    }
+}
+
+/// `None` means THIS ESTATE HAS NEVER PUBLISHED A GAZETTE (a subscriber is born
+/// unpublished; `vjs invoke` publishes nothing), disclosed on stderr - a statement
+/// about this estate, never about the corpus. In the publishing estate the artefacts
+/// exist and every assertion below bites.
+fn published_estate() -> Option<PathBuf> {
+    let root = repo_root();
+    if root.join("gazette-data.js").is_file() {
+        Some(root)
+    } else {
+        eprintln!(
+            "SKIP: {} carries no published Gazette artefacts. This is a statement \
+             about this estate, never about the corpus.",
+            root.display()
+        );
+        None
+    }
 }
 
 fn data() -> serde_json::Value {
@@ -19,6 +48,9 @@ fn data() -> serde_json::Value {
 
 #[test]
 fn the_meta_block_binds_the_publication_to_the_record() {
+    let Some(_) = published_estate() else {
+        return;
+    };
     let d = data();
     let meta = &d["meta"];
 
@@ -47,6 +79,9 @@ fn the_meta_block_binds_the_publication_to_the_record() {
 
 #[test]
 fn assent_is_echoed_from_the_law_never_minted() {
+    let Some(_) = published_estate() else {
+        return;
+    };
     let d = data();
     const ALLOWED: [&str; 3] = [
         "sovereign_assent",
@@ -89,6 +124,9 @@ fn assent_is_echoed_from_the_law_never_minted() {
 
 #[test]
 fn the_json_twin_matches_the_js_payload() {
+    let Some(_) = published_estate() else {
+        return;
+    };
     let d = data();
     let raw = std::fs::read_to_string(repo_root().join("gazette-data.js")).unwrap();
     let start = raw.find('{').unwrap();
@@ -108,6 +146,9 @@ fn the_json_twin_matches_the_js_payload() {
 
 #[test]
 fn the_atom_feed_is_complete_inert_and_dateworthy() {
+    let Some(_) = published_estate() else {
+        return;
+    };
     let xml = std::fs::read_to_string(repo_root().join("gazette.xml"))
         .expect("gazette.xml exists (run: vjs gazette)");
     let d = data();
@@ -159,6 +200,9 @@ fn the_atom_feed_is_complete_inert_and_dateworthy() {
 
 #[test]
 fn the_pages_are_archival_offline_and_self_hosted() {
+    let Some(_) = published_estate() else {
+        return;
+    };
     for page in ["index.html", "gazette.html", "law.html"] {
         let html = std::fs::read_to_string(repo_root().join(page)).unwrap();
         assert!(
@@ -185,6 +229,9 @@ fn the_pages_are_archival_offline_and_self_hosted() {
 
 #[test]
 fn court_orders_render_as_text_and_the_machine_record() {
+    let Some(_) = published_estate() else {
+        return;
+    };
     // The Principal's direction (DEC-007 era): court orders render as native
     // cream HTML from their committed text - holding, directives, forbidden and
     // the plain-language 'In plain terms' summary - with the machine YAML
@@ -221,6 +268,9 @@ fn court_orders_render_as_text_and_the_machine_record() {
 
 #[test]
 fn the_workplan_order_terms_hold_on_the_register() {
+    let Some(_) = published_estate() else {
+        return;
+    };
     // One GitHub link per page: the header logo, nothing else
     // ([2026] VJS-CC-AGENT-UNIVERSE-V2 13, forbidden list).
     for page in ["index.html", "gazette.html", "law.html"] {
@@ -273,6 +323,9 @@ fn the_workplan_order_terms_hold_on_the_register() {
 
 #[test]
 fn the_jsonld_graph_mirrors_the_register() {
+    let Some(_) = published_estate() else {
+        return;
+    };
     let html = std::fs::read_to_string(repo_root().join("gazette.html")).unwrap();
     let start_tag = r#"<script type="application/ld+json" id="gazette-jsonld">"#;
     let s = html.find(start_tag).expect("jsonld marker present") + start_tag.len();

@@ -11,7 +11,19 @@ use vjs_core::spec::{Invariant, LawpackFacts, RepoState, evaluate_invariants};
 use vjs_lawpack::LawpackLoader;
 
 fn repo_root() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
+    // The lawpack's home, FOUND by walking up rather than counting levels: in a
+    // vendored tree the crates sit one level deeper than the law, and the counted
+    // form loaded an absent lawpack as empty there (2026-08-06 re-pull).
+    let mut d = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    loop {
+        if d.join("lawpack/v2/manifest.toml").is_file() {
+            return d;
+        }
+        assert!(
+            d.pop(),
+            "no lawpack/v2 above CARGO_MANIFEST_DIR: these tests need one"
+        );
+    }
 }
 
 fn invariant(id: &str) -> Invariant {

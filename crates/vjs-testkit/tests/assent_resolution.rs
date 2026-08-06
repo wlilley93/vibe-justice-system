@@ -9,7 +9,20 @@ use std::path::PathBuf;
 use vjs_engine::assent::{assent_resolves, is_constitutive};
 
 fn workspace_root() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
+    // The root these tests want is the LAWPACK'S HOME (the real records under
+    // lawpack/v2 and .vjs), FOUND by walking up rather than counting levels: in a
+    // vendored tree the crates sit one level deeper than the law, and the counted
+    // form broke three of these tests there at the 2026-08-06 re-pull.
+    let mut d = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    loop {
+        if d.join("lawpack/v2/manifest.toml").is_file() {
+            return d;
+        }
+        assert!(
+            d.pop(),
+            "no lawpack/v2 above CARGO_MANIFEST_DIR: these tests need one"
+        );
+    }
 }
 
 // `established_at_head` is now a PURE FACT the caller supplies (the engine computes it once
