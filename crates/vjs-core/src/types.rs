@@ -457,9 +457,29 @@ pub struct Order {
     pub extra: BTreeMap<String, serde_yaml::Value>,
 }
 
+/// See `Directive::actor`. A named constant rather than a literal so a search for the
+/// sentinel finds every place that reads it.
+pub const ACTOR_UNSTATED: &str = "UNSTATED";
+
+fn actor_unstated() -> String {
+    ACTOR_UNSTATED.to_string()
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Directive {
     pub id: String,
+    /// Defaults to `UNSTATED`, and that spelling is the point ([2026] VJS-CC-OPBOX 160 O3,
+    /// adopted upstream 2026-08-06 after the strict parse cost a subscriber fifty-four
+    /// binding precedents at the reconciliation re-pull - the O5 gate caught the loss).
+    ///
+    /// Dozens of a subscriber's filed orders omit `actor` on their directives. A directive
+    /// is a DUTY, so defaulting it to `engineer` - or to any other bearer - would be the
+    /// reader deciding who is bound, which that order expressly forbids. `UNSTATED` reads
+    /// back as what the record actually says: that nobody was named. Whether such a
+    /// directive binds anyone, and if so whom, is reserved; ACT-PROCEEDINGS-DISCIPLINE s10
+    /// expects exactly this state to be READ, reported and counted, never refused and
+    /// never papered over.
+    #[serde(default = "actor_unstated")]
     pub actor: String,
     pub must: String,
     pub when: Option<String>,
