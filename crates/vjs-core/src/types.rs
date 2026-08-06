@@ -94,6 +94,8 @@ mod referral;
 pub use referral::*;
 mod order;
 pub use order::*;
+mod court;
+pub use court::*;
 
 /// See `Directive::actor`. A named constant rather than a literal so a search for the
 /// sentinel finds every place that reads it.
@@ -139,36 +141,6 @@ impl AuthorityStatus {
             AuthorityStatus::Binding | AuthorityStatus::InForce
         )
     }
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "snake_case")]
-pub enum Court {
-    /// The long form `County Court at <jurisdiction>` is accepted as well as `county`,
-    /// on the same footing as `appeal` and `privy` below: three of a subscriber's filed
-    /// orders write the long form, and until this alias existed all three were absent
-    /// from the citator, so every route in that repository resolved without them
-    /// ([2026] VJS-CC-OPBOX 160 O2, adopted upstream 2026-08-06).
-    #[serde(alias = "County Court at opbox")]
-    County,
-    /// The intermediate appellate tier. Persists in law (s.10; [2026] VJS-SC 2 D4) and is now
-    /// representable at the canonical seat so vjs can convene and record a Court of Appeal order
-    /// ([2026] VJS-PC 19). Serialises as `court_of_appeal`.
-    ///
-    /// `appeal` is accepted as well, on the same footing as `privy` below: the filed order
-    /// `2026-VJS-CA-BOLTRIG-CODEX-APPROVAL-ROUTING-001` writes `court: appeal`, and until this
-    /// alias existed that order did not parse - so it was silently absent from the citator and
-    /// bound nothing. An order that does not parse is not a lenient reader's problem, it is an
-    /// order that has no effect, and the cure is to read the record as written rather than edit
-    /// a filed record to suit the reader.
-    #[serde(alias = "appeal")]
-    CourtOfAppeal,
-    /// `privy` is accepted as well as `privy_council`: a filed order already uses it, and a filed
-    /// record is read as written rather than edited to fit the reader (the never-rewrite-history
-    /// rule). Serialises as `privy_council`.
-    #[serde(alias = "privy")]
-    PrivyCouncil,
-    SupremeCourt,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]

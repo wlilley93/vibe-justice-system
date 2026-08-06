@@ -1,0 +1,12 @@
+id: LOG-2026-08-06-221103
+time: 2026-08-06T22:11:03.136809675+00:00
+actor: lexby
+kind: code
+issue: subscriber_pseudonymity_residue
+decision: read the County long form by rule, not by an enumeration naming one subscriber
+basis:
+- PERMIT-1786054256
+risk: medium
+reversibility: easy
+court_required: false
+why: 'The last two denylisted terms outside .vjs/ were a serde alias in types.rs and its mirror fixture. The alias was wrong twice: it named a real subscriber in the canon''s own published source, and it made the long form readable for exactly one estate while every other subscriber''s long-form County orders failed to deserialise - silently, because an order that does not parse is an order absent from the citator that binds nothing. Replaced the derived Deserialize with a hand-written reader: case-insensitive ''county court at <anything>'' is a County seat, for any subscriber, named or not. An unknown seat is still an error, tested, because widening a reader risks a rule loose enough to swallow a typo. Split into types/court.rs under the 600-line structural ceiling rather than raising the ceiling.'

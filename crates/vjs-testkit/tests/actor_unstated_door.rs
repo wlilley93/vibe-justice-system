@@ -120,8 +120,55 @@ fn an_unknown_status_reads_as_unrecognised_and_is_never_live() {
 }
 
 #[test]
-fn the_county_long_form_is_read() {
-    let y = LEGACY_ORDER.replace("court: county", "court: \"County Court at opbox\"");
-    let o: Order = serde_yaml::from_str(&y).unwrap();
-    assert_eq!(format!("{:?}", o.court), "County");
+fn the_county_long_form_is_read_for_any_jurisdiction() {
+    // Tests the QUANTIFIER, not a sample. The long form used to be read by a serde
+    // alias naming one real subscriber literally, so it was right for exactly one
+    // estate and silently wrong for every other - and a filed order that does not
+    // deserialise is not a visible parse error, it is an order absent from the
+    // citator that binds nothing. None of the names below has ever been a subscriber,
+    // which is the point: the reader must not need to have heard of you.
+    for seat in [
+        "County Court at acme",
+        "County Court at some-firm-2",
+        "county court at LOWER-AND-UPPER",
+        "  County Court at padded  ",
+    ] {
+        let y = LEGACY_ORDER.replace("court: county", &format!("court: \"{seat}\""));
+        let o: Order = serde_yaml::from_str(&y)
+            .unwrap_or_else(|e| panic!("`{seat}` must read as a County seat: {e}"));
+        assert_eq!(format!("{:?}", o.court), "County", "seat: {seat}");
+    }
+    // The short form and the other seats keep reading exactly as before.
+    for (written, expect) in [
+        ("county", "County"),
+        ("court_of_appeal", "CourtOfAppeal"),
+        ("appeal", "CourtOfAppeal"),
+        ("privy_council", "PrivyCouncil"),
+        ("privy", "PrivyCouncil"),
+        ("supreme_court", "SupremeCourt"),
+    ] {
+        let y = LEGACY_ORDER.replace("court: county", &format!("court: {written}"));
+        let o: Order =
+            serde_yaml::from_str(&y).unwrap_or_else(|e| panic!("`{written}` must still read: {e}"));
+        assert_eq!(format!("{:?}", o.court), expect, "written: {written}");
+    }
+}
+
+#[test]
+fn an_unknown_court_seat_is_an_error_and_never_a_silent_default() {
+    // Reading by rule widens what parses, and the hazard of widening is a rule loose
+    // enough to swallow a typo. `Court` carries no Unrecognised variant on purpose:
+    // an unreadable seat must refuse, not resolve as some seat and bind.
+    for bad in [
+        "district court at acme",
+        "countycourtat acme",
+        "county-court",
+        "",
+    ] {
+        let y = LEGACY_ORDER.replace("court: county", &format!("court: \"{bad}\""));
+        assert!(
+            serde_yaml::from_str::<Order>(&y).is_err(),
+            "`{bad}` is not a seat and must not deserialise as one"
+        );
+    }
 }

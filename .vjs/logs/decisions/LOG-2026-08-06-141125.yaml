@@ -1,0 +1,12 @@
+id: LOG-2026-08-06-141125
+time: 2026-08-06T14:11:25.731823380+00:00
+actor: lexby
+kind: code_change
+issue: governed_record_removal_for_publication
+decision: apply CC-VJS 20 D10 and D21; arm the store register at invoke
+basis:
+- '[2026] VJS-CC-VJS 20'
+risk: medium
+reversibility: easy
+court_required: false
+why: PC-21 D1 held BENCH_OPINION_MISSING is not constitutive and the kernel was in breach; D21 found the boundary scan was never on the active hook path

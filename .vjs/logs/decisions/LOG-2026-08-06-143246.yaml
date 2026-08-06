@@ -1,0 +1,12 @@
+id: LOG-2026-08-06-143246
+time: 2026-08-06T14:32:46.790028300+00:00
+actor: lexby
+kind: law_change
+issue: governed_record_removal_for_publication
+decision: apply D16 D17 D19 and regenerate the Gazette
+basis:
+- PERMIT-1786026766
+risk: medium
+reversibility: easy
+court_required: false
+why: 'D19 satisfied: neither register copy hash appears in any provenance pin'

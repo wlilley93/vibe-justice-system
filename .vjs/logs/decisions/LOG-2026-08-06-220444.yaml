@@ -1,0 +1,12 @@
+id: LOG-2026-08-06-220444
+time: 2026-08-06T22:04:44.348510727+00:00
+actor: lexby
+kind: code
+issue: governed_record_removal_for_publication
+decision: arm the store-register lost-entry witness, then complete the register
+basis:
+- PERMIT-1786053869
+risk: medium
+reversibility: easy
+court_required: false
+why: 'D4 of [2026] VJS-CC-VJS 20, in the order the court set. The witness first: STORE-REGISTER-ENTRY-LOST makes a store that was on the register at HEAD and is gone now Fatal unless it is named under deregistered: with a reason and an authority. Deregistration is lawful; silent deregistration is not. Proven red by sabotage before it was believed. Only then the completion, registering .vjs/submissions, .vjs/permits, .vjs/logs, .vjs/invocation, .vjs/proofs, .vjs/audit and .vjs/private - none of which is a governed record root, so none of which the completeness duty could ever have seen going missing. Registering them first would have created seven new things to lose quietly.'
