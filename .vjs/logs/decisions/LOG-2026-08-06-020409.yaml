@@ -1,0 +1,12 @@
+id: LOG-2026-08-06-020409
+time: 2026-08-06T02:04:09.670162510+00:00
+actor: lexby
+kind: canon_write
+issue: kernel_enforcement_gaps_canon_write_chokepoint
+decision: Scrub GIT_DIR, GIT_WORK_TREE, GIT_INDEX_FILE and GIT_OBJECT_DIRECTORY around the lawpack_door fixture git init, the one unscrubbed fixture git in the corpus
+basis:
+- PERMIT-1785981837
+risk: low
+reversibility: easy
+court_required: false
+why: Under a pre-push hook the unscrubbed init wrote core.bare and core.worktree through the exported hook environment into the REAL repository config and then failed - the Defect-5 class the corpus already cured everywhere else; measured twice corrupting the First Subscriber's live config on 2026-08-06

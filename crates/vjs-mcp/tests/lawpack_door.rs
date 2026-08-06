@@ -28,12 +28,22 @@ fn scratch(name: &str) -> PathBuf {
     // The server resolves its repo root from `git rev-parse --show-toplevel` and falls back
     // to the cwd. Make the fixture its own repo so the answer is the fixture either way,
     // never a repository that happens to sit above the temp dir.
-    let ok = Command::new("git")
-        .args(["init", "-q"])
-        .current_dir(&dir)
-        .status()
-        .map(|s| s.success())
-        .unwrap_or(false);
+    // SCRUBS THE HOOK ENVIRONMENT (the Defect-5 class): under a pre-push hook git
+    // exports GIT_DIR and friends, so an unscrubbed fixture `git init` writes
+    // core.bare/core.worktree THROUGH them into the REAL repository's config and then
+    // fails - measured twice in the First Subscriber's tree on 2026-08-06, where this
+    // exact helper corrupted the live config on every hooked preCI run.
+    let mut init = Command::new("git");
+    init.args(["init", "-q"]).current_dir(&dir);
+    for var in [
+        "GIT_DIR",
+        "GIT_WORK_TREE",
+        "GIT_INDEX_FILE",
+        "GIT_OBJECT_DIRECTORY",
+    ] {
+        init.env_remove(var);
+    }
+    let ok = init.status().map(|s| s.success()).unwrap_or(false);
     assert!(ok, "git init failed in {}", dir.display());
     dir
 }
