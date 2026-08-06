@@ -163,3 +163,57 @@ fn invoke_never_overwrites_a_register_that_already_exists() {
         "a second invoke overwrote the Principal's own register"
     );
 }
+
+/// THE ASSERTION WHOSE ABSENCE LET A BROKEN JURISDICTION SHIP.
+///
+/// Every other test in this file checks an artefact `invoke` WRITES. Not one ran the
+/// kernel against the estate it produced, so `invoke` reported success and a new
+/// subscriber's FIRST COMMIT died:
+///
+///   Error: serialization error: TOML parse error at line 8, column 1
+///     | [paths]   missing field `specs`
+///
+/// The config omitted `specs`, `decisions` and `cache`, all three required by
+/// `PathsConfig`. A jurisdiction the kernel that created it could not then read.
+///
+/// NOTE THE COMMAND, because the first version of this test used the wrong one and
+/// passed under sabotage. Plain `vjs validate` never loads the store config and is
+/// green on a config missing all three fields. The path that dies is `validate
+/// --staged` WITH SOMETHING STAGED - which is the pre-commit hook, so the failure
+/// lands on `git commit` rather than anywhere a subscriber would think to look. A
+/// test that exercises the neighbouring command proves nothing about this one.
+///
+/// The lesson generalises past the bug: a creator's tests must assert on what the
+/// thing is FOR, not on the files it laid down. Checking the artefacts is checking the
+/// receipt.
+#[test]
+fn a_freshly_invoked_jurisdiction_survives_its_first_commit_gate() {
+    let dir = subscriber_repo("first-commit");
+    invoke(&dir);
+
+    // Something staged, or the commit gate short-circuits before it reads the config.
+    std::fs::create_dir_all(dir.join(".vjs/orders")).unwrap();
+    std::fs::write(dir.join("README.md"), "# a subscriber's first commit\n").unwrap();
+    assert!(
+        Command::new("git")
+            .args(["add", "-A"])
+            .current_dir(&dir)
+            .env_remove("GIT_DIR")
+            .env_remove("GIT_WORK_TREE")
+            .env_remove("GIT_INDEX_FILE")
+            .status()
+            .unwrap()
+            .success()
+    );
+
+    let text = vjs(&dir, &["validate", "--staged"]);
+    assert!(
+        !text.contains("serialization error") && !text.contains("missing field"),
+        "a jurisdiction invoke just created must survive the gate that runs on its \
+         first commit:\n{text}"
+    );
+    assert!(
+        text.contains("Validation:"),
+        "the commit gate must reach a verdict at all in a fresh estate:\n{text}"
+    );
+}

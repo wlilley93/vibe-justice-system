@@ -73,11 +73,32 @@ pub(crate) fn cmd_invoke(
     // create_new makes the existence check and the write one atomic act, so a
     // config that appears between check and write survives untouched.
     let config_path = vjs_dir.join("config.toml");
+    // `specs` and `decisions` live inside the LAWPACK, not under `.vjs/`, and where the
+    // lawpack lives is a per-jurisdiction fact - a subscriber may vendor it or resolve it
+    // out of tree entirely. So they are DERIVED from the lawpack this invocation was
+    // handed, never defaulted to a literal.
+    //
+    // Until 2026-08-06 invoke omitted all three of `specs`, `decisions` and `cache`, and
+    // `PathsConfig` requires them. The result was a jurisdiction that could not be read
+    // by the kernel that had just created it: `vjs invoke` reported success and the very
+    // next `vjs validate` died with `missing field 'specs'`. That is a subscriber's first
+    // two commands. It survived because invoke's own tests check the artefacts invoke
+    // WRITES and never once ran the kernel against the jurisdiction it produced - so the
+    // one thing a new estate is for went untested.
+    let lawpack_root = lawpack_recorded
+        .as_ref()
+        .map(|d| d.display().to_string())
+        // LAWPACK-LITERAL: referent=write-target; status=local; authority=[2026] VJS-CC-VJS 21.
+        // Reached only where the invocation recorded no lawpack path of its own, and it is
+        // the value being WRITTEN into a config this command is creating - not a place to
+        // read law from. The recorded path wins whenever there is one.
+        .unwrap_or_else(|| "lawpack/v2".to_string());
     let config = format!(
-        "version = \"2\"\njurisdiction_id = \"{jur}\"\nrepo_code = \"{code}\"\nlawpack = \"{lp}\"\nlawpack_path = \"{lpp}\"\nprincipal = \"{prin}\"\n\n[paths]\norders = \".vjs/orders\"\nlogs = \".vjs/logs\"\nsubmissions = \".vjs/submissions\"\nproofs = \".vjs/proofs\"\npermits = \".vjs/permits\"\nprivate = \".vjs/private\"\n\n[paths.public]\nenabled = false\n\n[governance]\npermit_required = [\"src/**\", \"crates/**\", \"lawpack/**\", \"Cargo.toml\", \"package.json\", \"AGENTS.md\", \"VJS.md\", \"README.md\"]\npermit_exempt = [\".vjs/logs/**\", \".vjs/permits/**\", \".vjs/proofs/**\", \".vjs/cache/**\", \".vjs/private/**\", \"target/**\", \"node_modules/**\"]\n",
+        "version = \"2\"\njurisdiction_id = \"{jur}\"\nrepo_code = \"{code}\"\nlawpack = \"{lp}\"\nlawpack_path = \"{lpp}\"\nprincipal = \"{prin}\"\n\n[paths]\norders = \".vjs/orders\"\nlogs = \".vjs/logs\"\nsubmissions = \".vjs/submissions\"\nspecs = \"{lr}/specs\"\ndecisions = \"{lr}/decisions\"\nproofs = \".vjs/proofs\"\npermits = \".vjs/permits\"\nprivate = \".vjs/private\"\ncache = \".vjs/cache\"\n\n[paths.public]\nenabled = false\n\n[governance]\npermit_required = [\"src/**\", \"crates/**\", \"lawpack/**\", \"Cargo.toml\", \"package.json\", \"AGENTS.md\", \"VJS.md\", \"README.md\"]\npermit_exempt = [\".vjs/logs/**\", \".vjs/permits/**\", \".vjs/proofs/**\", \".vjs/cache/**\", \".vjs/private/**\", \"target/**\", \"node_modules/**\"]\n",
         jur = jurisdiction,
         code = repo_code,
         lp = lawpack,
+        lr = lawpack_root.trim_end_matches('/'),
         lpp = lawpack_recorded
             .as_ref()
             .map(|d| d.display().to_string())
