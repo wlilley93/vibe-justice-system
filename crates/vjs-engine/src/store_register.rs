@@ -130,7 +130,30 @@ pub fn store_register_findings(repo: &Path, findings: &mut Vec<Finding>) {
     }
 
     // Every registered store exists; a ghost entry rots the register's authority.
+    //
+    // EXCEPT where the register itself said the store would not be here. Once
+    // [2026] VJS-CC-VJS 20 D2 untracked six roots, a fresh clone legitimately carries
+    // none of them, and every subscriber's first `vjs validate` opened with six
+    // warnings about stores the canon had deliberately stopped publishing. A ghost is
+    // a store the register FORGOT was gone; an entry marked `published: false` is a
+    // store the register predicted would be absent, and predicting it is the opposite
+    // of forgetting it. The two must not read the same.
+    //
+    // This does not weaken the duty on the author's own disk: `published: false` is a
+    // claim about what travels, not about what exists here, so a store that is missing
+    // WHERE IT LIVES is still a ghost and still warns.
+    let unpublished: HashSet<String> = parsed["stores"]
+        .as_sequence()
+        .unwrap_or(&Vec::new())
+        .iter()
+        .filter(|s| s["published"].as_bool() == Some(false))
+        .filter_map(|s| s["path"].as_str())
+        .map(|p| p.trim_end_matches('/').to_string())
+        .collect();
     for s in &stores {
+        if unpublished.contains(s) {
+            continue;
+        }
         if !repo.join(s).exists() {
             findings.push(crate::f(
                 Severity::Warning,

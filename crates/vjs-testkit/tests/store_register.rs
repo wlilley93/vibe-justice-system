@@ -194,3 +194,50 @@ fn an_unregistered_continuity_citator_is_fatal() {
     let f = findings(&dir);
     assert!(f.is_empty(), "registered citator earns silence: {f:?}");
 }
+
+#[test]
+fn a_store_the_register_declared_unpublished_is_not_a_ghost() {
+    // [2026] VJS-CC-VJS 20 D2 untracked six roots, so a fresh clone legitimately
+    // carries none of them - and every subscriber's first `vjs validate` opened with
+    // six warnings about stores the canon had deliberately stopped publishing. A ghost
+    // is a store the register FORGOT was gone. `published: false` is a store the
+    // register PREDICTED would be absent, and predicting it is the opposite of
+    // forgetting it.
+    let dir = scratch("unpublished");
+    std::fs::write(
+        dir.join(".vjs/store-register.yaml"),
+        "stores:\n- path: lawpack/v2\n  kind: test\n- path: .vjs/orders\n  kind: test\n\
+         - path: .vjs/court\n  kind: test\n  published: false\n",
+    )
+    .unwrap();
+    let f = findings(&dir);
+    assert!(
+        f.is_empty(),
+        "a declared-unpublished store is an absence the register itself announced: {f:?}"
+    );
+}
+
+#[test]
+fn an_undeclared_missing_store_is_still_a_ghost() {
+    // The control. Without it the case above is indistinguishable from switching the
+    // ghost check off: the exemption must reach ONLY entries that opted into it.
+    let dir = scratch("still-ghost");
+    std::fs::write(
+        dir.join(".vjs/store-register.yaml"),
+        "stores:\n- path: lawpack/v2\n  kind: test\n- path: .vjs/orders\n  kind: test\n\
+         - path: .vjs/court\n  kind: test\n- path: gone/elsewhere\n  kind: test\n  published: false\n",
+    )
+    .unwrap();
+    let f = findings(&dir);
+    assert!(
+        f.contains(&("Warning".into(), "STORE-REGISTER-GHOST".into())),
+        "'.vjs/court' declared nothing and is missing, so it is still a ghost: {f:?}"
+    );
+    assert_eq!(
+        f.iter()
+            .filter(|(_, c)| c == "STORE-REGISTER-GHOST")
+            .count(),
+        1,
+        "and exactly one - the declared entry must not warn: {f:?}"
+    );
+}
