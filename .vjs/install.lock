@@ -1,7 +1,6 @@
-# VJS install manifest (REG-INSTALL-MANIFEST-001). Atomic sha256 lock of the
-# REG-INVOCATION-001 surface. Re-lock with `vjs install-lock` after a surface change.
+# VJS install manifest (REG-INSTALL-MANIFEST-001).
 schema_version = 1
-generated_at = "2026-08-06T14:11:55.864788995+00:00"
+generated_at = "2026-08-06T14:23:09.515946239+00:00"
 config_digest = "sha256:87d4487a674b0fea593cb3b32808d6b0d8c85c30e121bf0f6785409a8631ff4f"
 invocation = ".vjs/invocation/20260609-175806-local-sovereign-invocation.yaml"
 invocation_digest = "sha256:1f2ffc16135aa80ced739f856ba4b2a65455389dea6df2daff85355bb190dcbe"

@@ -1,0 +1,41 @@
+id: ASSENT-2026-08-06-SUBSCRIBER-PSEUDONYMITY-RESIDUE
+kind: sovereign_assent_event
+date: "2026-08-06"
+instrument: The Subscriber Pseudonymity (Residue Corrections) Act 2026
+instrument_id: ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE
+instrument_text: .vjs/submissions/draft/ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE.yaml
+instrument_digest: "sha256:cce7bce17fd6ef9bd98373e31ce13232f685f2c569a33d2e5a74bbc7c3585979"
+sovereign: the Principal, in the Sovereign capacity
+form: >
+  Express assent given in session on 2026-08-06, in the words "I assent to the Subscriber
+  Pseudonymity (Residue Corrections) Act 2026, digest
+  sha256:cce7bce17fd6ef9bd98373e31ce13232f685f2c569a33d2e5a74bbc7c3585979". The digest
+  was re-measured against the engrossed instrument at the moment of making and MATCHED,
+  and has been re-measured again on registration of this event and MATCHES still.
+  An earlier, looser "assent given" in the same session was expressly NOT acted on: the
+  rule is express words pinning a digest, non-presumable and non-delegable
+  (ACT-COMPUTER-FIRST-REALM s.14), and a loose yes is the precise thing that rule exists
+  to refuse.
+made_by: enactment
+made_at_commit: 42dec9a150395ef99f89b4dc562b0cb28825f83e
+effects:
+  - amends: ACT-PROCEEDINGS-DISCIPLINE (applied text, Schedule 1 pin 98f74ee8...)
+  - amends: ACT-RECTIFICATION-COMMISSION (applied text, Schedule 1 pin fe8a7bfe...)
+  - enacts: the s1 stem-rendering rule, accessioned by rule and not by enumeration
+  - prepares: WARRANT-SUB1-002 and WARRANT-CANON-002 as successor forms under s5, which
+      take effect ONLY on the Principal's fresh signature words pinning each digest
+notes: >
+  REGISTERED LATE, AND THE LATENESS IS THE POINT. The Act was assented and made at commit
+  42dec9a on 2026-08-06, which amended two in-force statutes in place, and no assent
+  record was written into the lawpack at the time. The instrument therefore had no id in
+  the corpus, which is why the two 002 warrants, citing
+  ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE s5 as the authority they were prepared under,
+  produced a DANGLING_REFERENCE that shipped to every subscriber who resolved this canon.
+  The gate reported the symptom, a citation resolving nowhere, and not the cause, an
+  enactment with no record of its own making.
+
+  Registered under [2026] VJS-CC-VJS 20 D8, which held that the cure is lodgement and not
+  striking the citation: the two statutes it amended now carry bytes whose provenance
+  would otherwise be nothing but a commit message. The standing duty created by D6, that
+  a signature be recorded in the same act as the thing it records, exists so that this
+  particular gap cannot recur.
