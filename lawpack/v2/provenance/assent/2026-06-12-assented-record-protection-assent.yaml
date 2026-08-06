@@ -2,7 +2,9 @@ id: ASSENT-2026-06-12-ASSENTED-RECORD-PROTECTION
 kind: sovereign_assent_event
 date: "2026-06-12"
 instrument: The Assented-Record Protection Act
-instrument_text: .vjs/submissions/draft/2026-06-12-assented-record-protection-act-void-first-draft.yaml
+instrument_text: lawpack/v2/instruments/2026-06-12-assented-record-protection-act-void-first-draft.yaml
+instrument_text_historic: .vjs/submissions/draft/2026-06-12-assented-record-protection-act-void-first-draft.yaml
+instrument_text_reseated_by: "[2026] VJS-CC-VJS 21 D6"
 instrument_digest: "sha256:0fffd4f80d1657bc904cd4ce678ad5b08443e5559bf5bad6499354555d599262"
 sovereign: Will (the Principal, in the Sovereign capacity)
 form: >

@@ -2,7 +2,9 @@ id: ASSENT-2026-06-09-OMNIBUS
 kind: sovereign_assent_event
 date: "2026-06-09"
 instrument: The Lawpack (Dangling Citations) Omnibus 2026
-instrument_text: .vjs/submissions/filed/2026-06-09-dangling-citations-omnibus.md
+instrument_text: lawpack/v2/instruments/2026-06-09-dangling-citations-omnibus.md
+instrument_text_historic: .vjs/submissions/filed/2026-06-09-dangling-citations-omnibus.md
+instrument_text_reseated_by: "[2026] VJS-CC-VJS 21 D6"
 instrument_digest: "sha256:bab4b4d88c66542b9cddefb622985856c3cfe4667e6c621e92b48bf5e6df27ae"
 sovereign: Will (the Principal, in the Sovereign capacity)
 form: >

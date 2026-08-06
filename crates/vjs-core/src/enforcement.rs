@@ -97,6 +97,17 @@ pub const ENFORCEMENT_SURFACE: &[&str] = &[
     // stayed pinned. Entrenchment follows the code across a split; it never waits for one,
     // and a split is never a de-entrenchment event.
     "crates/vjs-engine/src/lib.rs",
+    // THE CANON'S OWN LICENCE CONDITION ([2026] VJS-PC 11 D2). Entrenched on the day it
+    // was built, because the defect it exists to catch is EXACTLY a silent edit: the
+    // canon's licence was replaced in an anonymising history squash on 2026-07-11 with
+    // no adoption record and no mention in the commit message, and nothing noticed for
+    // close to a month. A gate whose whole subject matter is an unannounced change must
+    // not itself be changeable without announcement. Note especially the severity
+    // hinge - the Warning/Fatal split that turns on whether the conflict is recorded in
+    // `.vjs/logs/breaches` - which is precisely the line an author in a hurry would move
+    // to make a launch go green.
+    // admitted-by: crates/vjs-testkit/tests/canon_licence.rs::a_confined_edit_to_the_severity_hinge_flips_a_bright_line
+    "crates/vjs-engine/src/canon_licence.rs",
 ];
 
 const LOCK_PATH: &str = ".vjs/enforcement-surface.lock";

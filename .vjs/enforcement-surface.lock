@@ -82,12 +82,18 @@ pinned_at = "2026-08-05T22:16:55Z"
 
 [[entry]]
 path = "crates/vjs-core/src/enforcement.rs"
-digest = "sha256:4dbe0cda2986ad5e4a67ceb797ca974faca4da3945675683c2a748f03fccd35a"
-authority = "LOG-2026-08-05-221655"
-pinned_at = "2026-08-05T22:16:55Z"
+digest = "sha256:2c6916daf0ede2de1f210c9fc9e65fa5f21a5986c1c1d3b4acaaf959a3418370"
+authority = "[2026] VJS-CC-VJS 21 D3; [2026] VJS-PC 11 D2"
+pinned_at = "2026-08-06T22:36:04Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/lib.rs"
-digest = "sha256:f49037998c193f1faae04f0c68f71d4c140cc07cec87208a58d43d5f6b7e7e03"
-authority = "LOG-2026-08-05-232232"
-pinned_at = "2026-08-05T23:22:40Z"
+digest = "sha256:acfaa318e0604001678223a0042015a98beddc0d85a987b6d95d4a500cfbb06c"
+authority = "[2026] VJS-PC 11 D2 (canon licence gate entrenched); [2026] VJS-CC-VJS 20"
+pinned_at = "2026-08-06T22:22:55Z"
+
+[[entry]]
+path = "crates/vjs-engine/src/canon_licence.rs"
+digest = "sha256:1edafabe88df88cd77ca6442b5ffb6f334a90198505c9d57857211aea2b738ff"
+authority = "[2026] VJS-CC-VJS 21 D3"
+pinned_at = "2026-08-06T22:37:49Z"

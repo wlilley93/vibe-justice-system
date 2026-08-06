@@ -3,6 +3,16 @@ kind: sovereign_assent_event
 date: "2026-08-05"
 instrument: Commission Warrant WARRANT-OPBOX-001 under the Executive Rectification Commission Act 2026
 instrument_text: .vjs/submissions/draft/warrants/WARRANT-OPBOX-001.yaml
+instrument_text_published: false
+instrument_text_unpublished_reason: >
+  The engrossed text carries a registered subscriber term in its bytes. Those bytes cannot
+  change without breaking the Sovereign signature that pins them, and cannot be published
+  without publishing the term the pseudonymity Acts forbid. So it is held in
+  .vjs/submissions, a REGISTERED but unpublished store (.vjs/store-register.yaml), and this
+  absence is DECLARED rather than dangling: the digest above still travels, so a subscriber
+  who is given the text can verify it is the text that was signed. What is withheld is the
+  reading of it, not the proof of it ([2026] VJS-CC-VJS 21 D8).
+instrument_text_declared_by: "[2026] VJS-CC-VJS 21 D8"
 instrument_digest: "sha256:34007cdc3e5789331523761ffcfe891b688b307065a985840029242dff87096b"
 sovereign: Will (the Principal, in the Sovereign capacity)
 form: >

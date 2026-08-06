@@ -18,6 +18,7 @@ use vjs_redact::RedactScanner;
 use vjs_store::Store;
 
 pub mod assent;
+pub mod canon_licence;
 pub mod context;
 pub mod displacement;
 mod freshness;
@@ -192,6 +193,8 @@ pub fn validate(repo: &Path, opts: &ValidateOpts) -> Result<Report, KernelError>
     ratchet::conformance_ratchet_findings(repo, &lawpack, &mut findings);
 
     store_register::store_register_findings(repo, &mut findings);
+
+    canon_licence::canon_licence_findings(repo, &mut findings);
 
     // A GATE'S GUARD MUST BE KEYED TO THE SAME REFERENT AS THE GATE ([2026] VJS-CC-VJS 14).
     //

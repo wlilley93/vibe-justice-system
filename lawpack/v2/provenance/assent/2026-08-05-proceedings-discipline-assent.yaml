@@ -3,6 +3,16 @@ kind: sovereign_assent_event
 date: "2026-08-05"
 instrument: The Proceedings Discipline Act 2026
 instrument_text: .vjs/submissions/draft/ACT-PROCEEDINGS-DISCIPLINE.yaml
+instrument_text_published: false
+instrument_text_unpublished_reason: >
+  The engrossed text carries a registered subscriber term in its bytes. Those bytes cannot
+  change without breaking the Sovereign signature that pins them, and cannot be published
+  without publishing the term the pseudonymity Acts forbid. So it is held in
+  .vjs/submissions, a REGISTERED but unpublished store (.vjs/store-register.yaml), and this
+  absence is DECLARED rather than dangling: the digest above still travels, so a subscriber
+  who is given the text can verify it is the text that was signed. What is withheld is the
+  reading of it, not the proof of it ([2026] VJS-CC-VJS 21 D8).
+instrument_text_declared_by: "[2026] VJS-CC-VJS 21 D8"
 instrument_digest: "sha256:8690040675a2779b5a3c0168f8d1fa70a57182911b1c00735cb6e00a8c458375"
 sovereign: Will (the Principal, in the Sovereign capacity)
 form: >

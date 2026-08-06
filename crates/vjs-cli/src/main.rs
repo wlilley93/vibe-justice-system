@@ -1,5 +1,6 @@
 use chrono::Datelike;
 use clap::{Parser, Subcommand};
+use commands::*;
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
 
@@ -32,9 +33,11 @@ mod eval;
 use eval::*;
 mod draft_check;
 use draft_check::*;
+mod commands;
 mod front;
 mod permit;
 mod preserve_check;
+mod publish;
 use front::*;
 use permit::*;
 use preserve_check::*;
@@ -217,6 +220,17 @@ enum Commands {
         #[arg(long)]
         out: Option<PathBuf>,
     },
+    /// The publication gate ([2026] VJS-CC-VJS 21 D3): the ONLY sanctioned route by
+    /// which the canon becomes public. Refuses UNCONDITIONALLY on a non-conforming
+    /// licence, an unclean publication boundary, or a Fatal validate - no breach
+    /// filing, decision log or permit downgrades any of them, because publication is
+    /// the one act in this corpus that cannot be undone. On a pass it performs the
+    /// visibility change itself: a gate beside the road stops nobody.
+    Publish {
+        /// Run every check and report, but do not change the repository's visibility.
+        #[arg(long)]
+        dry_run: bool,
+    },
     /// The deterministic runtime permit clerk ([2026] VJS-PC 15 D5): resolve a runtime
     /// act (scope + verb) against the two-tier overlay and dispose GRANT / DENY /
     /// ROUTE_FOR_CORRECTION. A thin transport; the check is in the kernel.
@@ -238,91 +252,6 @@ enum Commands {
         /// Subscriber Tier-2 rules dir (default: .vjs/local-lawpack/rules).
         #[arg(long)]
         local: Option<PathBuf>,
-    },
-}
-
-#[derive(Subcommand)]
-enum OrderCommands {
-    Validate { path: PathBuf },
-    Apply { path: PathBuf },
-}
-
-#[derive(Subcommand)]
-enum PermitCommands {
-    List,
-    Close {
-        #[arg(long)]
-        id: String,
-        #[arg(long)]
-        proof: Option<String>,
-    },
-}
-
-#[derive(Subcommand)]
-enum CourtCommands {
-    /// List the docket: filed submissions and issued orders, grouped by issue.
-    Docket,
-    /// Record a convening: pin the sha256 of a filed submission (the symmetric
-    /// case file) and the bench that decided it.
-    Record {
-        #[arg(long)]
-        court: String,
-        /// The filed submission id whose bytes are the case file.
-        #[arg(long)]
-        submission: String,
-        /// A deciding seat (repeat for each bench member).
-        #[arg(long = "seat")]
-        bench: Vec<String>,
-        #[arg(long)]
-        issue: Option<String>,
-    },
-}
-
-#[derive(Subcommand)]
-enum BundleCommands {
-    /// Verify a bundle.lock: schema completeness, sha256 well-formedness, and the
-    /// AGPL/MIT licence firewall. Fails closed on the first violation.
-    Verify {
-        /// Path to the bundle.lock manifest.
-        path: PathBuf,
-    },
-}
-
-#[derive(Subcommand)]
-enum LogCommands {
-    Decision {
-        #[arg(long)]
-        kind: String,
-        #[arg(long)]
-        issue: String,
-        #[arg(long)]
-        decision: String,
-        #[arg(long)]
-        basis: Vec<String>,
-        #[arg(long)]
-        risk: String,
-        #[arg(long)]
-        why: String,
-    },
-    FromPermit {
-        #[arg(long)]
-        permit_id: String,
-        #[arg(long)]
-        decision: String,
-        #[arg(long)]
-        why: String,
-    },
-}
-
-#[derive(Subcommand)]
-enum ProofCommands {
-    Add {
-        #[arg(long)]
-        permit_id: String,
-        #[arg(long)]
-        kind: Option<String>,
-        #[arg(long)]
-        status: Option<String>,
     },
 }
 
@@ -415,6 +344,7 @@ fn main() {
         Commands::Permit { subcmd } => cmd_permit(&repo, subcmd, json),
         Commands::Eval { suite } => cmd_eval(&repo, suite, json),
         Commands::Gazette { out } => gazette::cmd_gazette(&repo, out, json),
+        Commands::Publish { dry_run } => publish::cmd_publish(&repo, dry_run, json),
         Commands::SubmitDecision {
             scope,
             verb,

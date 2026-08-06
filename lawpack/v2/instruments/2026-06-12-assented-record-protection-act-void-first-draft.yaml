@@ -1,0 +1,66 @@
+# ============================================================================
+# VOID FIRST DRAFT - NO LEGAL FORCE.
+#
+# Drafted by Lexby in answer to the unanimous invitation of [2026] VJS-SC 3 (9-0)
+# and per its D4. This instrument has NO force until the Sovereign's Assent - an
+# external, antecedent, digest-pinned act that only the Principal qua Sovereign may
+# perform (s.14: non-automatable, non-presumable, non-delegable). It bears NO
+# sovereign_assent and MUST NOT be lodged into lawpack/v2/ until a recorded assent
+# event exists (the rule learned in BREACH-2026-06-09; s.2 void-first-draft doctrine).
+#
+# ON ASSENT, commencement is mechanical: move this file to lawpack/v2/statutes/,
+# set assent_source: sovereign_assent tracing to the recorded assent event, mint the
+# VJS-ACT ordinal, regenerate the Gazette, and wire the general-floor invariant.
+# ============================================================================
+
+id: ACT-ASSENTED-RECORD-PROTECTION
+title: The Assented-Record Protection Act
+status: draft
+enacted_by: pending_sovereign_assent
+assent_source: pending_sovereign_assent   # -> sovereign_assent on the recorded assent event
+purpose: >
+  To give the s.5 "routed for correction" rule general constitutional force and to
+  enact the floor invited by [2026] VJS-SC 3: a Sovereign-assented record may never be
+  voided or blocked by subordinate validation; its defects are always routed for
+  correction. The s.5(a) kernel-effect gate ([2026] VJS-CC 15 / VJS-PC 12) is one
+  instance; this Act is the general principle of which it is a case.
+
+sections:
+  - id: ACT-ASSENTED-RECORD-PROTECTION:s1
+    title: The assented-record floor
+    text: >
+      A record that declares a valid assent_source within the meaning of s.23 (a
+      Sovereign-assented record) may never be voided, excluded, or blocked by any
+      subordinate validation, gate, invariant, regulation, or kernel operation. Any
+      defect in such a record - including an inert or unevaluable kernel_effect, an
+      operation not yet implemented in the kernel registry, or any discrepancy under
+      s.5 - is ALWAYS routed for correction, never silently excluded or voided. The
+      cure is to correct the record or to extend the kernel's recognized operations,
+      never to remove an assented record. This forbids only voiding and blocking; it
+      does not prevent a defect being surfaced, flagged, or routed for correction.
+    kernel_effect:
+      defines:
+        assented_record_floor: true
+        assented_defect_disposition: route_for_correction
+      prohibits:
+        - subordinate_validation_voiding_or_blocking_a_sovereign_assented_record
+        - silently_excluding_a_sovereign_assented_record_for_a_defect_rather_than_routing_it_for_correction
+
+  - id: ACT-ASSENTED-RECORD-PROTECTION:s2
+    title: Entrenchment and savings
+    commentary: constitutional
+    text: >
+      This Act is entrenched: amendable only by a Sovereign-assented constitutional Act
+      citing this Act by number. It does not lower the external-law floor or any other
+      entrenched provision (s.14, s.15, s.23), which continue to bind above it. It does
+      not reach limb (b) - whether a record's prose and its kernel effect diverge in
+      meaning - which remains a duty at the agent rung (s.11). It confers no force on
+      any record that lacks a valid assent_source; it protects what the Sovereign has
+      assented to, it does not enlarge it.
+    kernel_effect:
+      defines:
+        entrenched_against_machine: true
+        amendable_only_by: sovereign_assented_constitutional_act_citing_this_act
+      prohibits:
+        - amending_or_disapplying_this_act_other_than_by_a_sovereign_assented_constitutional_act_citing_it_by_number
+        - reading_this_act_to_lower_the_external_law_floor_or_any_entrenched_provision

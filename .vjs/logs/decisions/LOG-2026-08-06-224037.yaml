@@ -1,0 +1,12 @@
+id: LOG-2026-08-06-224037
+time: 2026-08-06T22:40:37.313386990+00:00
+actor: lexby
+kind: code
+issue: canon_licence_conformity
+decision: 'apply CC-VJS 21: the licence gate, the unconditional publication refusal, and the re-seating of the pinned texts'
+basis:
+- PERMIT-1786055979
+risk: high
+reversibility: easy
+court_required: false
+why: PC 11 D2 binds the canon to be a public AGPL repo and names lexby the actor. Nothing checked either limb, and an anonymising squash replaced LICENSE with PolyForm on 2026-07-11 with no adoption record while two other files went on reciting AGPL. Convened the County Court on own motion; CC-VJS 21 held a licence is granted by the holder's act and not by a file, so LICENSE is not to be written in either direction, the reciting files are not to be conformed to it because their disagreement is the only evidence, and publication is barred until the holder states the grant. Built the gate, the unconditional publication refusal that makes the Warning lawful, and re-seated five clean pinned texts into lawpack/v2/instruments, restoring a sixth that dangled since the commit commencing its own Act.

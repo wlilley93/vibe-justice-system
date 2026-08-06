@@ -2,7 +2,9 @@ id: ASSENT-2026-08-05-SUBSCRIBER-PSEUDONYMITY
 kind: sovereign_assent_event
 date: "2026-08-05"
 instrument: The Subscriber Pseudonymity (Publication Corrections) Act 2026
-instrument_text: .vjs/submissions/draft/ACT-SUBSCRIBER-PSEUDONYMITY.yaml
+instrument_text: lawpack/v2/instruments/ACT-SUBSCRIBER-PSEUDONYMITY.yaml
+instrument_text_historic: .vjs/submissions/draft/ACT-SUBSCRIBER-PSEUDONYMITY.yaml
+instrument_text_reseated_by: "[2026] VJS-CC-VJS 21 D6"
 instrument_digest: "sha256:95e308fbeaff310f6e4f37e88c81216aec9692dbebaf5dbf63688574d4f6608f"
 sovereign: Will (the Principal, in the Sovereign capacity)
 form: >

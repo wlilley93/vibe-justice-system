@@ -3,7 +3,9 @@ kind: sovereign_assent_event
 date: "2026-08-06"
 instrument: The Subscriber Pseudonymity (Residue Corrections) Act 2026
 instrument_id: ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE
-instrument_text: .vjs/submissions/draft/ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE.yaml
+instrument_text: lawpack/v2/instruments/ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE.yaml
+instrument_text_historic: .vjs/submissions/draft/ACT-SUBSCRIBER-PSEUDONYMITY-RESIDUE.yaml
+instrument_text_reseated_by: "[2026] VJS-CC-VJS 21 D6"
 instrument_digest: "sha256:cce7bce17fd6ef9bd98373e31ce13232f685f2c569a33d2e5a74bbc7c3585979"
 sovereign: the Principal, in the Sovereign capacity
 form: >
