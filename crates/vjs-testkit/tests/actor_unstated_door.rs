@@ -60,3 +60,68 @@ fn a_legacy_order_does_not_trip_the_unreadable_gate() {
         .expect("a legacy actor-less order is READ, not refused");
     let _ = std::fs::remove_dir_all(&repo);
 }
+
+// ---------------------------------------------------------------------------
+// THE REST OF THE 160-FAMILY WIDENINGS, adopted with the actor door: each seed
+// is a shape a subscriber's REAL filed orders write, refused before the adoption.
+// ---------------------------------------------------------------------------
+
+use vjs_core::types::AuthorityStatus;
+
+#[test]
+fn a_missing_id_and_created_at_default_and_the_overlay_fills_the_stem() {
+    let y = LEGACY_ORDER
+        .replace("id: 2026-VJS-CC-SUBX-037\n", "")
+        .replace("created_at: \"2026\"\n", "");
+    let o: Order = serde_yaml::from_str(&y).expect("id and created_at absent must still PARSE");
+    assert!(o.id.is_empty() && o.created_at.is_empty());
+}
+
+#[test]
+fn a_scalar_or_valueless_bench_reads_as_written() {
+    let scalar = format!("{LEGACY_ORDER}bench: first_instance_one_judge\n");
+    let o: Order = serde_yaml::from_str(&scalar).unwrap();
+    assert_eq!(o.bench, vec!["first_instance_one_judge"]);
+    let null = format!("{LEGACY_ORDER}bench:\n");
+    let o: Order = serde_yaml::from_str(&null).unwrap();
+    assert!(o.bench.is_empty(), "bench with no value is an empty bench");
+}
+
+#[test]
+fn a_structured_forbidden_entry_is_preserved_as_text_not_dropped() {
+    let y = format!("{LEGACY_ORDER}forbidden:\n- nested:\n    thing: value\n");
+    let o: Order = serde_yaml::from_str(&y).unwrap();
+    let f = o.forbidden.as_ref().unwrap();
+    assert!(
+        f[0].contains("nested") && f[0].contains("value"),
+        "the map is rendered as its YAML text, verbatim: {f:?}"
+    );
+}
+
+#[test]
+fn opinion_is_read_as_source_opinion() {
+    let y = format!("{LEGACY_ORDER}opinion: .vjs/submissions/filed/X-opinion.md\n");
+    let o: Order = serde_yaml::from_str(&y).unwrap();
+    assert!(
+        o.source_opinion.is_some(),
+        "the alias reads the record as written"
+    );
+}
+
+#[test]
+fn an_unknown_status_reads_as_unrecognised_and_is_never_live() {
+    let y = LEGACY_ORDER.replace("status: binding", "status: corrected_to_referral");
+    let o: Order = serde_yaml::from_str(&y).unwrap();
+    assert_eq!(o.status, AuthorityStatus::Unrecognised);
+    assert!(
+        !o.status.is_live(),
+        "a status the reader cannot understand must not confer binding force"
+    );
+}
+
+#[test]
+fn the_county_long_form_is_read() {
+    let y = LEGACY_ORDER.replace("court: county", "court: \"County Court at opbox\"");
+    let o: Order = serde_yaml::from_str(&y).unwrap();
+    assert_eq!(format!("{:?}", o.court), "County");
+}

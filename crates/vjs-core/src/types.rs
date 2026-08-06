@@ -1,5 +1,4 @@
 use serde::{Deserialize, Deserializer, Serialize};
-use std::collections::BTreeMap;
 use std::collections::HashMap;
 use std::path::PathBuf;
 
@@ -32,12 +31,73 @@ where
     )
 }
 
+/// The non-optional twin of `string_or_seq_opt`, for `Order::bench`.
+///
+/// [2026] VJS-CC-OPBOX 160 O2, adopted upstream 2026-08-06. Six of a subscriber's filed
+/// orders write `bench` as a SCALAR (`bench: first_instance_one_judge`) where this struct
+/// wants a sequence, and until this existed those orders did not parse - so a recorded
+/// bench bound nothing. Read as written; the record is not edited to suit the reader
+/// (the ratio already stated at `supersedes` below).
+fn string_or_seq<'de, D>(deserializer: D) -> Result<Vec<String>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    #[derive(Deserialize)]
+    #[serde(untagged)]
+    enum OneOrMany {
+        // `bench:` with NO VALUE parses as a unit, which one filed order writes. Listed
+        // FIRST because serde tries untagged variants in order and null must not fall
+        // through to a string.
+        Null,
+        One(String),
+        Many(Vec<String>),
+    }
+    Ok(match OneOrMany::deserialize(deserializer)? {
+        OneOrMany::Null => Vec::new(),
+        OneOrMany::One(s) => vec![s],
+        OneOrMany::Many(v) => v,
+    })
+}
+
+/// Read a list whose elements may be strings OR structured nodes, rendering a non-string
+/// as its YAML text.
+///
+/// [2026] VJS-CC-OPBOX 160 O1, adopted upstream 2026-08-06. One filed order's
+/// `forbidden[0]` is a MAP where this struct wants a string, and until this existed that
+/// order bound nothing. The content is preserved verbatim as text rather than dropped or
+/// guessed at: the reader reports what the record says, and does not decide what the
+/// author meant by nesting it.
+fn seq_of_strings_lossy<'de, D>(deserializer: D) -> Result<Option<Vec<String>>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let raw: Option<Vec<serde_yaml::Value>> = Option::deserialize(deserializer)?;
+    Ok(raw.map(|items| {
+        items
+            .into_iter()
+            .map(|v| match v {
+                serde_yaml::Value::String(s) => s,
+                other => serde_yaml::to_string(&other)
+                    .unwrap_or_default()
+                    .trim_end()
+                    .to_string(),
+            })
+            .collect()
+    }))
+}
+
 mod ids;
 pub use ids::*;
 mod predicate;
 pub use predicate::*;
 mod referral;
 pub use referral::*;
+mod order;
+pub use order::*;
+
+/// See `Directive::actor`. A named constant rather than a literal so a search for the
+/// sentinel finds every place that reads it.
+pub const ACTOR_UNSTATED: &str = "UNSTATED";
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -52,6 +112,18 @@ pub enum AuthorityStatus {
     Revoked,
     Spent,
     Void,
+    /// An authority whose recorded status this enum does not know.
+    ///
+    /// [2026] VJS-CC-OPBOX 160 O4, adopted upstream 2026-08-06. A subscriber's filed
+    /// record carries `status: corrected_to_referral`, and until this variant existed
+    /// that record did not parse at all. Aliasing it onto an existing status was
+    /// expressly FORBIDDEN by that order: it would be the reader deciding what the
+    /// record's status IS, which is substantive. So it is readable, it is reported as
+    /// unrecognised, and `is_live()` is FALSE for it - an authority whose status cannot
+    /// be understood must not confer binding force. Its real status is reserved to a
+    /// fresh matter.
+    #[serde(other)]
+    Unrecognised,
 }
 
 impl AuthorityStatus {
@@ -72,6 +144,12 @@ impl AuthorityStatus {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum Court {
+    /// The long form `County Court at <jurisdiction>` is accepted as well as `county`,
+    /// on the same footing as `appeal` and `privy` below: three of a subscriber's filed
+    /// orders write the long form, and until this alias existed all three were absent
+    /// from the citator, so every route in that repository resolved without them
+    /// ([2026] VJS-CC-OPBOX 160 O2, adopted upstream 2026-08-06).
+    #[serde(alias = "County Court at opbox")]
     County,
     /// The intermediate appellate tier. Persists in law (s.10; [2026] VJS-SC 2 D4) and is now
     /// representable at the canonical seat so vjs can convene and record a Court of Appeal order
@@ -374,115 +452,6 @@ pub struct RuleAtom {
 pub struct Effect {
     pub must: Option<Vec<String>>,
     pub must_not: Option<Vec<String>>,
-}
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct Order {
-    pub id: String,
-    pub court: Court,
-    pub jurisdiction: JurisdictionId,
-    pub repo_code: Option<RepoCode>,
-    pub status: AuthorityStatus,
-    pub issue: IssueTag,
-    pub holding: String,
-    pub directives: Vec<Directive>,
-    pub forbidden: Option<Vec<String>>,
-    #[serde(default, deserialize_with = "string_or_seq_opt")]
-    pub exceptions: Option<Vec<String>>,
-    /// Defaulted: an order that supersedes nothing should not have to say so, and requiring it made
-    /// SIX filed orders unparseable - validated, committed, and then invisible to the kernel, which
-    /// is the worst of both worlds. Never rewrite a filed record to satisfy a struct; widen the
-    /// struct to read the record.
-    #[serde(default)]
-    pub supersedes: Vec<AuthorityId>,
-    pub source_opinion: Option<PathBuf>,
-    /// Defaulted for the same reason as `supersedes`. An order without an agent-facing summary is
-    /// thinner, but it is still BINDING; refusing to parse it makes it invisible to the resolver,
-    /// which is strictly worse. The lawpack validator still enforces the word limit where one is
-    /// present, so nothing is weakened for orders that carry it.
-    #[serde(default)]
-    pub runtime_summary: String,
-    pub created_at: String,
-    // Promote the citation and assent source the orders already carry (they
-    // were silently dropped on load). Optional so the existing orders are valid.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub citation: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub assent_source: Option<String>,
-    // Auditable court record: the bench that decided, the sha256 of the
-    // symmetric case file, when it convened, the vote, and the appeal links.
-    #[serde(default, skip_serializing_if = "Vec::is_empty")]
-    pub bench: Vec<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub case_file_digest: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub convened_at: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub vote: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub appeal_of: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub appealable: Option<bool>,
-    /// [2026] VJS-PC 17 D7: an OPTIONAL machine-resolvable list of the authorities this
-    /// order's operative parts rely on (canonical ids / citations), mirroring `supersedes`.
-    /// Directive bodies are presently lossy snake_case tokens no clerk can resolve
-    /// (act_010_s2 does not mechanically resolve to ACT-ASSENTED-RECORD-PROTECTION:s2), so
-    /// an author lists the directives' load-bearing authorities here and the
-    /// citation-grounding teeth extend to them. Prose stays for humans.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub cites_authorities: Option<Vec<String>>,
-
-    /// EVERY OTHER FIELD THE FILE CARRIES, preserved verbatim.
-    ///
-    /// Without this, `vjs order apply` was DESTRUCTIVE: it parsed a filed order into this struct and
-    /// wrote it back, so any key not named above was silently deleted from the record. On 2026-07-27
-    /// applying one order removed 69 lines - `title`, `question`, `fact_corrections`,
-    /// `execution_findings`, `reserved`, `rows_already_written`, `full_case_file` and its digest,
-    /// `filed_submission`, `convening`, `permission_to_appeal` - and reported only "Order applied".
-    /// `vjs validate` passed either side of the deletion, so nothing noticed.
-    ///
-    /// The losses were the parts that make a holding CHECKABLE: the question it answers, the case
-    /// file it was decided on, the corrections to the filing's facts, and the questions expressly
-    /// left open. CC-OPBOX 4 recorded ten fact corrections and called one of them the most important
-    /// correction in the case; an apply over that order would have deleted it, leaving a ruling that
-    /// cites facts the same ruling found false with no record that it had. Deleting `reserved` is the
-    /// same harm in the other direction: it turns "expressly not decided" into "silent".
-    ///
-    /// FLATTEN RATHER THAN MORE NAMED FIELDS, deliberately. The comment above `citation` records that
-    /// this exact class was hit before and cured by adding two fields - which leaves the next author
-    /// of the next field to remember. A catch-all is structural: an unknown key round-trips because
-    /// it is unknown, not because somebody listed it. Same reasoning as the credential envelope in
-    /// opbox: where loss must be impossible, the mechanism cannot be a list of names.
-    #[serde(flatten, default, skip_serializing_if = "BTreeMap::is_empty")]
-    pub extra: BTreeMap<String, serde_yaml::Value>,
-}
-
-/// See `Directive::actor`. A named constant rather than a literal so a search for the
-/// sentinel finds every place that reads it.
-pub const ACTOR_UNSTATED: &str = "UNSTATED";
-
-fn actor_unstated() -> String {
-    ACTOR_UNSTATED.to_string()
-}
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct Directive {
-    pub id: String,
-    /// Defaults to `UNSTATED`, and that spelling is the point ([2026] VJS-CC-OPBOX 160 O3,
-    /// adopted upstream 2026-08-06 after the strict parse cost a subscriber fifty-four
-    /// binding precedents at the reconciliation re-pull - the O5 gate caught the loss).
-    ///
-    /// Dozens of a subscriber's filed orders omit `actor` on their directives. A directive
-    /// is a DUTY, so defaulting it to `engineer` - or to any other bearer - would be the
-    /// reader deciding who is bound, which that order expressly forbids. `UNSTATED` reads
-    /// back as what the record actually says: that nobody was named. Whether such a
-    /// directive binds anyone, and if so whom, is reserved; ACT-PROCEEDINGS-DISCIPLINE s10
-    /// expects exactly this state to be READ, reported and counted, never refused and
-    /// never papered over.
-    #[serde(default = "actor_unstated")]
-    pub actor: String,
-    pub must: String,
-    pub when: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
