@@ -58,9 +58,9 @@ pinned_at = "2026-08-05T22:16:55Z"
 
 [[entry]]
 path = "crates/vjs-redact/src/tests.rs"
-digest = "sha256:d0473d2f2e29072928fd78f3d6d9230a6fe63c5522d1914bcfc2be029d7ab2d0"
-authority = "LOG-2026-08-05-232232"
-pinned_at = "2026-08-05T23:23:57Z"
+digest = "sha256:586da8a5e053f3b23731b3660a5b4826394949497bf4b343608a7306a1713285"
+authority = "LOG-2026-08-06-122540"
+pinned_at = "2026-08-06T12:25:40Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/staged.rs"

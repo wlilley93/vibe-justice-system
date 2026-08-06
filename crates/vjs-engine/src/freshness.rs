@@ -102,11 +102,21 @@ fn newest_source(
         // including them WEDGES the suite red with no cure but a manual rebuild.
         // Measured 2026-08-05: a dead-code allow in tests/lawpack_common failed
         // preCI on BINARY-STALE twenty seconds after a fresh release build.
-        if name == ".vjs"
-            || name == "target"
-            || (name == "tests" && p.is_dir())
-            || skip.is_some_and(|sk| name == sk)
-        {
+        // `src/tests.rs` is the SAME CASE as the `tests/` directory above, and was missed.
+        // It is the conventional home of an in-crate `#[cfg(test)] mod tests;`, so it never
+        // ships in the release binary and cargo will not rebuild the binary for an edit to it.
+        // That combination makes the staleness UNCLEARABLE rather than merely noisy: on
+        // 2026-08-06 an edit to crates/vjs-redact/src/tests.rs wedged every vjs-invoking test
+        // red, and `cargo build --release` answered "Finished in 0.07s" with nothing to do,
+        // because there was genuinely nothing to rebuild. A gate that cannot be satisfied does
+        // not get satisfied, it gets bypassed - and this one is Fatal, so it takes the whole
+        // validate run with it.
+        //
+        // The trade is the same one already accepted for `tests/`: if shipping code is ever
+        // put in a file named tests.rs, a real staleness there goes unseen. The convention is
+        // strong enough, and an unpassable Fatal is the worse failure.
+        let is_test_only = (name == "tests" && p.is_dir()) || (name == "tests.rs" && p.is_file());
+        if name == ".vjs" || name == "target" || is_test_only || skip.is_some_and(|sk| name == sk) {
             continue;
         }
         if p.is_dir() {
