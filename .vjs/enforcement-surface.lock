@@ -76,9 +76,9 @@ pinned_at = "2026-08-05T22:16:55Z"
 
 [[entry]]
 path = "crates/vjs-lawpack/src/refs.rs"
-digest = "sha256:a3d65c863c525a137d844189f02e768659d3bba54f62abe6d2a640f88df20d54"
-authority = "LOG-2026-08-05-221655"
-pinned_at = "2026-08-05T22:16:55Z"
+digest = "sha256:cc3642a2722d74d14681d6e19de92c16d7e768c95a89289f37e740d904b49005"
+authority = "[2026] VJS-PC 5 negation carve-out; the Dangling Citations Omnibus recital"
+pinned_at = "2026-08-07T03:50:39Z"
 
 [[entry]]
 path = "crates/vjs-core/src/enforcement.rs"

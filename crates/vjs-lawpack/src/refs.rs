@@ -107,7 +107,20 @@ fn is_negated(text: &str, at: usize) -> bool {
     let last = before
         .rsplit(|c: char| c.is_whitespace())
         .next()
-        .unwrap_or("");
+        .unwrap_or("")
+        // A BRACKET IS NOT A WORD, and one defeated this rule for two months.
+        //
+        // [2026] VJS-PC 5 writes "(no DEC-INSTITUTIONS-001, 2-1)". The preceding token is
+        // `(no`, which is not in the list, so the carve-out missed and the citation gate
+        // reported a dangling reference on a mention that expressly says the thing does
+        // NOT exist. The Dangling Citations Omnibus - an assented instrument - records in
+        // terms that this very mention "is excluded by the checker's negation rule". It
+        // was not. The instrument described the rule as intended, the code implemented it
+        // as written, and nothing compared the two.
+        //
+        // Trimming leading punctuation is the whole fix. A negator opening a
+        // parenthetical is the ordinary way anyone writes one.
+        .trim_start_matches(|c: char| !c.is_alphanumeric());
     NEGATORS.contains(&last) || before.ends_with("no such")
 }
 
@@ -220,6 +233,26 @@ mod tests {
         assert!(extract_refs("without ACT-QUX").is_empty());
         // But a plain reference is extracted.
         assert!(!extract_refs("under DEC-BAR").is_empty());
+
+        // A NEGATOR OPENING A PARENTHETICAL, which is how anyone actually writes one -
+        // and which defeated this rule for two months. [2026] VJS-PC 5 writes
+        // "(no DEC-INSTITUTIONS-001, 2-1)"; the preceding token was `(no`, not `no`, so
+        // the carve-out missed and the citation gate reported a dangling reference on a
+        // mention that says the thing does NOT exist. The Dangling Citations Omnibus - an
+        // assented instrument - records in terms that this very mention "is excluded by
+        // the checker's negation rule". It was not, and nothing compared the instrument's
+        // description of the rule against the rule.
+        assert!(
+            extract_refs("settled by this ruling (no DEC-INSTITUTIONS-001, 2-1)").is_empty(),
+            "a bracket is not a word"
+        );
+        assert!(extract_refs("[no DEC-ZED]").is_empty());
+        // And punctuation does not manufacture a negation where there is none: the trim
+        // must reach the negator, not turn any bracketed word into one.
+        assert!(
+            !extract_refs("(under DEC-BAR)").is_empty(),
+            "trimming punctuation must not invent a carve-out"
+        );
     }
 
     #[test]
