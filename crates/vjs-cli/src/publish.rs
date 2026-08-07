@@ -174,13 +174,7 @@ pub fn cmd_publish(repo: &Path, dry_run: bool, json: bool) -> Result<(), KernelE
     // D9: once the holder has stated the licence and the boundary is clean, PC 11 D2's
     // publicity limb makes this required rather than merely permitted.
     let out = Command::new("gh")
-        .args([
-            "repo",
-            "edit",
-            "--visibility",
-            "public",
-            "--accept-visibility-change-consequences",
-        ])
+        .args(["repo", "edit", "--visibility", "public"])
         .current_dir(repo)
         .output();
     match out {
