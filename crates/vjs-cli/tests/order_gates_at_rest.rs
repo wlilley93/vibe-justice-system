@@ -274,3 +274,75 @@ fn two_files_sharing_a_record_id_are_reported_once() {
         "one record, one finding - two files sharing an id are one record:\n{out}"
     );
 }
+
+/// [2026] VJS-CC-VJS 22 D2. The carve-out for the courts constitution, and the two limbs
+/// that make it unborrowable.
+///
+/// The court was explicit that the danger here is not the outcome but the reasoning:
+/// "exempt because foundational" is exactly what the author of any bench-less order would
+/// reach for, and an exemption a gate cannot check is an invitation. So the boundary is
+/// tested from both sides.
+#[test]
+fn the_courts_constitution_is_carved_out_and_nothing_else_can_borrow_it() {
+    let dir = estate("constitution");
+
+    // (a) The real thing: the id the kernel resolves as the courts constitution, with a
+    //     Sovereign assent that resolves. Silent.
+    let out = validate(&dir, false);
+    assert!(
+        !out.contains("AT_REST_BENCH_REQUIRED"),
+        "the instrument that constitutes the benches needs no constituted bench:\n{out}"
+    );
+
+    // (b) AN ORDINARY APEX ORDER THAT SIMPLY OMITTED ITS BENCH. Same shape, same court,
+    //     even the same claim to Sovereign assent - and it is still refused, because it
+    //     is not the constitution and its force comes from the bench it failed to name.
+    std::fs::write(
+        dir.join(".vjs/orders/pretender.yaml"),
+        "id: 2026-VJS-SC-PRETENDER-001\ncourt: supreme_court\njurisdiction: test\n\
+         status: binding\nissue: at_rest_fixture\nassent_source: sovereign_assent\n\
+         holding: an ordinary apex order that declares no bench\ndirectives:\n\
+         - id: D1\n  actor: lexby\n  must: exist\nruntime_summary: a pretender\n\
+         created_at: \"2026\"\n",
+    )
+    .unwrap();
+    let out = validate(&dir, false);
+    assert!(
+        out.contains("AT_REST_BENCH_REQUIRED") && out.contains("pretender.yaml"),
+        "the carve-out must not be borrowable by an order that merely looks foundational:\n{out}"
+    );
+}
+
+/// The SECOND limb, on its own. An impostor carrying the constitution's own id but no
+/// resolving assent must not inherit the exemption: a body cannot bootstrap its own
+/// authority, and the court required the force to come from OUTSIDE the court system.
+#[test]
+fn the_constitutions_id_alone_does_not_buy_the_carve_out() {
+    let dir = estate("id-alone");
+    let real = dir.join("lawpack/v2/orders");
+    // Find and neuter the real constitution's assent, keeping its id.
+    for entry in std::fs::read_dir(&real).unwrap().flatten() {
+        let text = std::fs::read_to_string(entry.path()).unwrap_or_default();
+        if !text.contains("COURTS-CONSTITUTION") || !text.starts_with("id:") {
+            continue;
+        }
+        let neutered: String = text
+            .lines()
+            .map(|l| {
+                if l.starts_with("assent_source:") {
+                    "assent_source: self_authorised".to_string()
+                } else {
+                    l.to_string()
+                }
+            })
+            .collect::<Vec<_>>()
+            .join("\n");
+        std::fs::write(entry.path(), neutered).unwrap();
+    }
+    let out = validate(&dir, false);
+    assert!(
+        out.contains("AT_REST_BENCH_REQUIRED"),
+        "the id is limb one; without a resolving Sovereign assent the carve-out is not \
+         earned, or a body could bootstrap its own authority:\n{out}"
+    );
+}

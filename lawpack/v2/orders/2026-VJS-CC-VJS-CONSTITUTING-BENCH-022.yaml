@@ -1,0 +1,73 @@
+id: "2026-VJS-CC-VJS-CONSTITUTING-BENCH-022"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-CC-VJS 22"
+title: >
+  The apex-bench rule is about a court issuing an order, and the instrument that
+  constitutes the courts is not one; the carve-out cannot be borrowed because borrowing it
+  would require being the constitution
+court: county
+jurisdiction: vibe-justice-system
+status: binding
+issue: constituting_instrument_bench_bootstrap
+created_at: "2026-08-07"
+bench:
+  - single_judge
+bench_size: 1
+constituted_by: "2026-VJS-COURTS-CONSTITUTION-001 D1"
+source_opinion: lawpack/v2/opinions/2026-VJS-CC-VJS-22-opinion.md
+case_file: .vjs/submissions/draft/CASE-constituting-instrument-bench.md
+case_file_digest: "sha256:a52ba6d70072578a7dc6c1f2cfd41deb3937b3188ccd34e364498d7c9656a942"
+convened_at: CONVENING-county-2026-08-07-035354
+submission: SUBMISSION-2026-08-07-035349
+question: >
+  Must a constituting instrument itself satisfy the bench-constitution requirement it
+  enacts, when constituting the benches is what it does; and if not, what is the principled
+  boundary, so the carve-out cannot be borrowed by an order that simply omitted its bench?
+holding: >
+  THE RULE NEVER REACHED IT, and the reason is not that foundational instruments are
+  special. [2026] VJS-SC 2 holds that "no V2 COURT may ISSUE AN ORDER until so
+  constituted": the subject is a court and the object is the issuing, so it is a rule about
+  the capacity of a body to act. 2026-VJS-COURTS-CONSTITUTION-001 is not a V2 court issuing
+  an order; it is the instrument by which V2 courts come to exist, deriving its force from
+  Sovereign assent and from the V1 handover that instrument itself expressly CARRIES
+  FORWARD into V2 - this order imports no V1 authority of its own and decides a V2
+  question on V2 law. At the moment it took effect
+  there was no V2 bench to name, and that is not a drafting accident - IT IS THE CONTENT OF
+  THE INSTRUMENT. A record may be an order in every formal sense and still not be a court
+  issuing one, where what it does is create the courts. The strong form of the contrary
+  position is unavailable to this seat in any event: an instrument whose invalidity would
+  unmake every bench in the realm, including the one hearing the challenge, is not
+  something a subordinate court can find void, which is arithmetic and not deference. THE
+  BOUNDARY IS THE OPERATIVE PART and is stated so a gate can hold it rather than a reader
+  be trusted with it: a record escapes the apex-bench requirement ONLY where the record
+  itself is what constitutes the bench that would otherwise be required, which means (i) it
+  is the instrument the kernel already resolves as COURTS_CONSTITUTION_ID - the identity
+  every other bench check already depends on, not a class, not a self-declared kind - AND
+  (ii) its force comes from outside the court system it constitutes, by an assent_source
+  resolving to Sovereign assent. An ordinary order that omitted its bench satisfies
+  neither: it is not the constitution, and its force comes from the bench it failed to
+  name. The carve-out cannot be borrowed because borrowing it would require being the
+  constitution.
+runtime_summary: >
+  The instrument that constitutes the courts does not itself need a constituted bench,
+  because the rule is about a court issuing an order and that instrument is not one. The
+  exemption is checkable and unborrowable: it reaches only the record the kernel resolves
+  as the courts constitution, and only where that record's force traces to Sovereign assent
+  from outside the court system. Never widen it to a class, a kind, or anything
+  self-declared. And note how this was found: a gate that quotes an instrument as its
+  authority had never once been asked of that instrument.
+directives:
+  - id: D1
+    actor: lexby
+    must: carve_the_courts_constitution_out_of_the_apex_bench_rule_on_both_limbs_and_never_on_a_class
+  - id: D2
+    actor: lexby
+    must: seed_the_boundary_so_an_ordinary_bench_less_order_is_still_refused
+  - id: D3
+    actor: lexby
+    must: remove_the_now_stale_correction_register_row_for_the_courts_constitution
+forbidden:
+  - widening_the_carve_out_to_a_kind_a_class_or_any_self_declared_marker
+  - exempting_a_record_whose_force_comes_from_the_bench_it_failed_to_name
+  - reading_this_order_as_deciding_the_case_of_a_future_or_foreign_constituting_instrument
+supersedes: []

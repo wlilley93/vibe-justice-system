@@ -106,6 +106,6 @@ pinned_at = "2026-08-07T03:06:39Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/order_checks.rs"
-digest = "sha256:4fcab8f58103a10db91c35cfde8c9a75c14a5c1873620d05c688f15438db943d"
-authority = "[2026] VJS-CC-VJS 20 D9/D13"
-pinned_at = "2026-08-07T03:43:03Z"
+digest = "sha256:6ee165e22739e824057aececa3d2e952df9720f4f400479a4932d3097d3e249b"
+authority = "[2026] VJS-CC-VJS 22 D1/D2 (the constituting-instrument carve-out, both limbs)"
+pinned_at = "2026-08-07T03:57:41Z"

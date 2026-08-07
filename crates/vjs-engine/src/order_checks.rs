@@ -166,12 +166,34 @@ pub(crate) fn order_findings(
         );
     }
     // #10 apex order must declare its bench.
-    if matches!(
-        order.court,
-        vjs_core::types::Court::CourtOfAppeal
-            | vjs_core::types::Court::PrivyCouncil
-            | vjs_core::types::Court::SupremeCourt
-    ) && order.bench.is_empty()
+    //
+    // EXCEPT THE INSTRUMENT THAT CONSTITUTES THE BENCHES ([2026] VJS-CC-VJS 22). SC 2
+    // holds that "no V2 COURT may ISSUE AN ORDER until so constituted" - a rule about the
+    // capacity of a body to act. The courts constitution is not a V2 court issuing an
+    // order; it is the instrument by which V2 courts come to exist, and at the moment it
+    // took effect there was no bench to name. That is not a drafting accident, it is the
+    // content of the instrument.
+    //
+    // THE CARVE-OUT IS UNBORROWABLE, ON BOTH LIMBS, and the court stated it in this form
+    // precisely so a gate holds it rather than a reader being trusted with it:
+    //   (i)  it is the record the kernel already resolves as COURTS_CONSTITUTION_ID - the
+    //        identity every other bench check already depends on. Not a class, not a kind,
+    //        not anything self-declared, because a self-declared marker is what any author
+    //        of a bench-less order would reach for.
+    //   (ii) its force comes from OUTSIDE the court system it constitutes: an
+    //        `assent_source` resolving to Sovereign assent. A body cannot bootstrap its own
+    //        authority, and an ordinary order's force comes from the bench it failed to
+    //        name - so it fails this limb even if it somehow passed the first.
+    let is_the_constituting_instrument = order.id == vjs_core::bench::COURTS_CONSTITUTION_ID
+        && crate::assent::assent_resolves(repo, rel, &content, true);
+    if !is_the_constituting_instrument
+        && matches!(
+            order.court,
+            vjs_core::types::Court::CourtOfAppeal
+                | vjs_core::types::Court::PrivyCouncil
+                | vjs_core::types::Court::SupremeCourt
+        )
+        && order.bench.is_empty()
     {
         out.push(
             f(
