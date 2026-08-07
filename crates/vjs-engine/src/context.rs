@@ -34,7 +34,14 @@ pub fn build_kernel_context(repo: &Path) -> Result<KernelContext, KernelError> {
 
     Ok(KernelContext {
         authority_graph: graph,
-        limits: ContextLimits::default(),
+        // The limits are the LAWPACK'S, read from the manifest that declares them.
+        // They were `ContextLimits::default()` until 2026-08-07, which made the
+        // manifest's `[limits]` table decorative and ignored every subscriber who
+        // edited it ([2026] VJS-PC 22 en passant; task filed the same day).
+        limits: match crate::resolver::resolve_lawpack_dir(repo) {
+            Some(dir) => ContextLimits::from_manifest(&dir),
+            None => ContextLimits::default(),
+        },
         lawpack_digest: digest,
     })
 }

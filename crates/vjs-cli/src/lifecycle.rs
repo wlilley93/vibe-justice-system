@@ -28,11 +28,17 @@ pub(crate) fn cmd_log(repo: &Path, subcmd: LogCommands, json: bool) -> Result<()
                 why,
             };
 
+            // The lawpack's number, not this file's. It was 150 hardcoded in two
+            // places here while `decision_log_max_words` sat in the manifest and in
+            // ContextLimits being read by nobody.
+            let limit = vjs_engine::build_kernel_context(repo)
+                .map(|c| c.limits.decision_log_max_words)
+                .unwrap_or(150);
             let word_count = log.why.split_whitespace().count();
-            if word_count > 150 {
+            if word_count > limit {
                 return Err(KernelError::WordLimitExceeded {
                     actual: word_count,
-                    limit: 150,
+                    limit,
                 });
             }
 
@@ -93,11 +99,17 @@ pub(crate) fn cmd_log(repo: &Path, subcmd: LogCommands, json: bool) -> Result<()
                 why,
             };
 
+            // The lawpack's number, not this file's. It was 150 hardcoded in two
+            // places here while `decision_log_max_words` sat in the manifest and in
+            // ContextLimits being read by nobody.
+            let limit = vjs_engine::build_kernel_context(repo)
+                .map(|c| c.limits.decision_log_max_words)
+                .unwrap_or(150);
             let word_count = log.why.split_whitespace().count();
-            if word_count > 150 {
+            if word_count > limit {
                 return Err(KernelError::WordLimitExceeded {
                     actual: word_count,
-                    limit: 150,
+                    limit,
                 });
             }
 
@@ -494,13 +506,13 @@ pub(crate) fn cmd_file(
     // Found 2026-08-07 filing the PC 11 D2 licence matter, which is exactly the kind of
     // case the higher ceiling exists for.
     //
-    // HONEST ABOUT WHAT IS STILL NOT WIRED: `limits` here is `ContextLimits::default()`,
-    // because `build_kernel_context` never reads `[limits]` out of the manifest either.
-    // The default values happen to equal the manifest's today, so this is right by
-    // agreement rather than by derivation, and an estate that edits its manifest will
-    // still be ignored. That second layer is filed, not fixed here, and saying so is the
-    // point: this comment is the difference between a known gap and a false claim.
-    let limits = vjs_core::ContextLimits::default();
+    // The second layer - `build_kernel_context` reading `[limits]` out of the manifest
+    // rather than handing back `Default::default()` - was fixed the same day, so this
+    // now derives from the lawpack the jurisdiction actually subscribes to. An estate
+    // that raises its own ceiling is obeyed.
+    let limits = vjs_engine::build_kernel_context(repo)
+        .map(|c| c.limits)
+        .unwrap_or_default();
     let limit = match court.trim().to_ascii_lowercase().as_str() {
         "privy" | "privy_council" => limits.privy_submission_max_words,
         "supreme" | "supreme_court" | "supreme_council" => limits.privy_submission_max_words,

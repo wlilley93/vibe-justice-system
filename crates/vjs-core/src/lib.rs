@@ -87,6 +87,73 @@ impl Default for ContextLimits {
     }
 }
 
+impl ContextLimits {
+    /// Read `[limits]` out of a lawpack's `manifest.toml`.
+    ///
+    /// Until 2026-08-07 nothing did. The manifest declared eleven limits, every one of
+    /// them was in this struct, and every consumer got them from `Default::default()` -
+    /// so the table was decorative and an estate that edited its manifest was ignored
+    /// in silence. The two known consumers had additionally hardcoded their own numbers
+    /// rather than reading even the defaults, which is how `vjs file` came to apply the
+    /// COUNTY word ceiling to a Privy Council case file.
+    ///
+    /// PER-FIELD FALLBACK, and the reason is worth stating because "default on missing"
+    /// is usually the silent-default hazard. Here the defaults above ARE the canonical
+    /// values, written to match the manifest this repository ships; a manifest that
+    /// omits a limit is not expressing a preference, it is declining to override one.
+    /// What was dangerous was never the fallback. It was that the fallback was the ONLY
+    /// path.
+    ///
+    /// A malformed manifest yields the defaults rather than an error: this is read on
+    /// the way to building a context for commands that must keep working, and a
+    /// jurisdiction should not lose the ability to run `vjs status` because a limit was
+    /// typed wrong. The lawpack's own validator is where a malformed manifest is
+    /// reported.
+    pub fn from_manifest(lawpack_dir: &std::path::Path) -> Self {
+        let mut out = Self::default();
+        let Ok(text) = std::fs::read_to_string(lawpack_dir.join("manifest.toml")) else {
+            return out;
+        };
+        let Ok(parsed) = text.parse::<toml::Value>() else {
+            return out;
+        };
+        let Some(limits) = parsed.get("limits").and_then(|l| l.as_table()) else {
+            return out;
+        };
+        let get = |k: &str| -> Option<usize> {
+            limits
+                .get(k)
+                .and_then(|v| v.as_integer())
+                .and_then(|i| usize::try_from(i).ok())
+        };
+        // Assigned one by one rather than through serde, so that a field the manifest
+        // carries and this struct does not is simply ignored, and a field this struct
+        // carries and the manifest does not keeps its canonical value. Neither is an
+        // error. Verbose on purpose: a table-driven version needs either raw pointers or
+        // a macro, and neither is worth it in a kernel whose whole claim is that you can
+        // read what it does.
+        macro_rules! take {
+            ($($field:ident),* $(,)?) => {
+                $( if let Some(v) = get(stringify!($field)) { out.$field = v; } )*
+            };
+        }
+        take!(
+            route_max_authorities,
+            route_max_words,
+            rule_summary_max_words,
+            decision_log_max_words,
+            county_submission_max_words,
+            county_order_max_words,
+            county_opinion_max_words,
+            privy_submission_max_words,
+            privy_order_max_words,
+            privy_opinion_max_words,
+            supreme_order_max_words,
+        );
+        out
+    }
+}
+
 pub struct AuthorityGraph {
     pub authorities: HashMap<AuthorityId, Authority>,
     pub supersessions: Vec<Supersession>,
