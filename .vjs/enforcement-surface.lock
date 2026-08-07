@@ -88,9 +88,9 @@ pinned_at = "2026-08-07T03:24:57Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/lib.rs"
-digest = "sha256:e5884930c4a239c8617f39d739d82e85e81bf905b0173924761b47d6841312b6"
-authority = "[2026] VJS-CC-VJS 20 D9/D13"
-pinned_at = "2026-08-07T03:43:03Z"
+digest = "sha256:3a6cafac7794a3bc6cb7e02e052e3cedb4aa754c5b578e871a4f0ea3dd73b55e"
+authority = "[2026] VJS-CC-VJS 20 D7/D22 (a signed warrant that still reads draft)"
+pinned_at = "2026-08-07T04:07:27Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/canon_licence.rs"

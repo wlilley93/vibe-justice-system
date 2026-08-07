@@ -225,6 +225,119 @@ pub(crate) fn warrant_register_findings(lawpack_dir: &Path, findings: &mut Vec<F
     }
 }
 
+/// A WARRANT THAT HAS BEEN SIGNED AND STILL READS `draft`
+/// ([2026] VJS-CC-VJS 20 D7, as amended by D22).
+///
+/// A commission warrant is issued by the Principal's signature. The signature is
+/// recorded in `provenance/assent/` and pins the ENGROSSED DRAFT by digest; the entry in
+/// `provenance/warrants/` is a REGISTER PROJECTION that recites it. Two records, written
+/// at two moments, and nothing compared them.
+///
+/// The failure that follows is quiet and total. The reading rule above counts only
+/// GOVERNING warrants, and a warrant reading `draft` is not counted - so a warrant the
+/// Principal has actually signed governs nothing, the concurrency cap does not see it,
+/// and the supersession chain skips it. The register would be internally consistent and
+/// simply wrong about who holds a commission.
+///
+/// D6 already makes it a duty to record a signature in the same act as the instrument it
+/// issues. This is that duty made checkable: a duty nobody can fail to notice failing.
+///
+/// D22 GOVERNS HOW THE FINDING SPEAKS. The signature records were written before the
+/// pseudonymity Acts and name their warrant by an older rendering; the register file is
+/// named by the ACCESSIONED one. The join tolerates both - a signature is a signature
+/// whatever it called its subject - but every message names the accessioned rendering,
+/// taken from the register FILENAME and never from the id inside the signed record. A
+/// gate that repeats an old rendering in order to report a defect has published it.
+pub fn signed_but_draft_findings(lawpack_dir: &Path, findings: &mut Vec<Finding>) {
+    let warrants_dir = lawpack_dir.join("provenance/warrants");
+    let assent_dir = lawpack_dir.join("provenance/assent");
+    if !warrants_dir.is_dir() || !assent_dir.is_dir() {
+        return;
+    }
+
+    // Every warrant a signature record claims to have issued, by the id that record uses.
+    let mut signed: std::collections::HashMap<String, String> = std::collections::HashMap::new();
+    if let Ok(rd) = std::fs::read_dir(&assent_dir) {
+        for entry in rd.flatten() {
+            let Ok(text) = std::fs::read_to_string(entry.path()) else {
+                continue;
+            };
+            // A signature record names its subject in `instrument:`. Only a COMMISSION
+            // WARRANT is in scope here; an Act's assent record is a different instrument
+            // and a different gate's business.
+            let Some(line) = text.lines().find(|l| l.starts_with("instrument:")) else {
+                continue;
+            };
+            for tok in line.split(|c: char| !c.is_ascii_alphanumeric() && c != '-') {
+                if tok.starts_with("WARRANT-") && tok.len() > "WARRANT-".len() {
+                    let sig_id = text
+                        .lines()
+                        .find_map(|l| l.strip_prefix("id:"))
+                        .map(|v| v.trim().to_string())
+                        .unwrap_or_else(|| entry.file_name().to_string_lossy().to_string());
+                    signed.insert(tok.to_ascii_uppercase(), sig_id);
+                }
+            }
+        }
+    }
+    if signed.is_empty() {
+        return;
+    }
+
+    let Ok(rd) = std::fs::read_dir(&warrants_dir) else {
+        return;
+    };
+    let mut paths: Vec<_> = rd.flatten().map(|e| e.path()).collect();
+    paths.sort();
+    for path in paths {
+        match path.extension().and_then(|e| e.to_str()) {
+            Some("yaml") | Some("yml") => {}
+            _ => continue,
+        }
+        let Ok(text) = std::fs::read_to_string(&path) else {
+            continue;
+        };
+        let status = text
+            .lines()
+            .find_map(|l| l.strip_prefix("status:"))
+            .map(|v| v.trim().to_string())
+            .unwrap_or_default();
+        if status != "draft" {
+            continue;
+        }
+        // THE ACCESSIONED RENDERING, from the filename (D22). Never the `id:` inside the
+        // record, which the older signed text may spell differently and which this gate
+        // must not repeat.
+        let accessioned = path
+            .file_stem()
+            .map(|s| s.to_string_lossy().to_ascii_uppercase())
+            .unwrap_or_default();
+        let inner_id = text
+            .lines()
+            .find_map(|l| l.strip_prefix("id:"))
+            .map(|v| v.trim().to_ascii_uppercase())
+            .unwrap_or_default();
+        // Matched on EITHER rendering, because a signature is a signature whatever it
+        // called its subject; reported on the accessioned one only.
+        let Some(sig) = signed.get(&accessioned).or_else(|| signed.get(&inner_id)) else {
+            continue;
+        };
+        findings.push(fatal(
+            "WARRANT-SIGNED-BUT-DRAFT",
+            &path,
+            format!(
+                "{accessioned} reads `status: draft`, but {sig} records the Principal's \
+                 signature issuing it. A warrant reading draft is not counted as governing, \
+                 so a warrant that has actually been signed would govern nothing, escape \
+                 the concurrency cap, and be skipped by the supersession chain - a register \
+                 internally consistent and simply wrong about who holds a commission."
+            ),
+            "[2026] VJS-CC-VJS 20 D7/D22; ACT-RECTIFICATION-COMMISSION s2",
+            "Set the register entry in force in the SAME act that records the signature (D6), or withdraw the signature record if the warrant was not in fact issued.",
+        ));
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

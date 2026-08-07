@@ -30,7 +30,7 @@ mod resolver;
 pub mod runtime;
 mod staged;
 pub mod store_register;
-mod warrants;
+pub mod warrants;
 
 pub use context::build_kernel_context;
 pub use resolver::*;
@@ -241,6 +241,8 @@ pub fn validate(repo: &Path, opts: &ValidateOpts) -> Result<Report, KernelError>
         // for one jurisdiction must be computable, not prose (ACT-004:s9; the residue
         // adoption round, 2026-08-05).
         warrants::warrant_register_findings(&lawpack_dir, &mut findings);
+        // [2026] VJS-CC-VJS 20 D7/D22: a warrant that has been signed and still reads draft.
+        warrants::signed_but_draft_findings(&lawpack_dir, &mut findings);
     }
 
     // ACT-004:s8 (D2): citation uniqueness, collisions fatal. Referent: the LOCAL governed
