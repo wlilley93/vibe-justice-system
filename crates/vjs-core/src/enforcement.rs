@@ -108,6 +108,16 @@ pub const ENFORCEMENT_SURFACE: &[&str] = &[
     // to make a launch go green.
     // admitted-by: crates/vjs-testkit/tests/canon_licence.rs::a_confined_edit_to_the_severity_hinge_flips_a_bright_line
     "crates/vjs-engine/src/canon_licence.rs",
+    // THE THREE DISPOSITIONS OF A REMOVED RECORD ([2026] VJS-CC-VJS 20 D1/D18). Split
+    // out of `staged.rs` under the 600-line ceiling in the same commit that wrote it,
+    // and pinned in that same commit - this list says in terms that entrenchment
+    // follows the code across a split and never waits for one. The disarm site is the
+    // registration test: relax which stores count as surviving and a deleted record
+    // reads as merely unpublished, which is the exact laundering CC-VJS 20 was convened
+    // over ("a record untracked out of every register is deleted in law though no byte
+    // is erased").
+    // admitted-by: crates/vjs-cli/tests/three_dispositions_of_a_removed_record.rs::a_record_moved_into_a_store_on_no_register_is_deleted_in_law
+    "crates/vjs-engine/src/record_removal.rs",
 ];
 
 const LOCK_PATH: &str = ".vjs/enforcement-surface.lock";

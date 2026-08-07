@@ -24,6 +24,7 @@ pub mod displacement;
 mod freshness;
 pub mod grounding;
 mod ratchet;
+pub(crate) mod record_removal;
 mod resolver;
 pub mod runtime;
 mod staged;

@@ -134,26 +134,9 @@ pub(crate) fn staged_gates(
     // Fatal gate has a direct behavioral test (it is a pinned enforcement-surface gate).
     findings.extend(media_in_canon_findings(changed));
 
-    // #6 destructive governed-record deletion (ACT-006:s4 / ACT-004:s9).
-    if let Ok(deletions) = GitIntegration::read_staged_deletions(repo) {
-        for del in deletions
-            .iter()
-            .filter(|d| vjs_core::front_door::is_governed_record(d))
-        {
-            findings.push(
-                f(
-                    Severity::Warning,
-                    "DESTRUCTIVE_RECORD_DELETE",
-                    format!(
-                        "'{del}' is a governed record being DELETED - a destructive act \
-                         (ACT-006:s4; ACT-004:s9). Confirm it is human-approved and authorised."
-                    ),
-                )
-                .at(PathBuf::from(del))
-                .fix("Route with --irreversible and record the authority before deleting a governed record."),
-            );
-        }
-    }
+    // #6 governed-record removal (ACT-006:s4 / ACT-004:s9), KEYED ON THE RECORD ID
+    // rather than on the path ([2026] VJS-CC-VJS 20 D1, amended by D18).
+    findings.extend(crate::record_removal::record_removal_findings(repo));
 
     // D3 cross-repo permit reach.
     for (permit_id, glob) in PermitGate::cross_repo_reaches(&permits) {

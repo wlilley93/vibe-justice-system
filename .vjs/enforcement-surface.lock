@@ -64,9 +64,9 @@ pinned_at = "2026-08-06T12:25:40Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/staged.rs"
-digest = "sha256:4a1eb8aace2edc73cc672bd987f6858fb9a68e95cbaa193e276927fe7a9249da"
-authority = "[2026] VJS-CC-VJS 20 D2 (a record leaving the commit makes no claim about its form)"
-pinned_at = "2026-08-06T22:59:51Z"
+digest = "sha256:db0af1cf87aa5eec693da8e9cd471f4463ac2abfc0ba26f20b53036e1e09e887"
+authority = "[2026] VJS-CC-VJS 20 D1/D18"
+pinned_at = "2026-08-07T03:02:15Z"
 
 [[entry]]
 path = "crates/vjs-lawpack/src/validator.rs"
@@ -82,18 +82,24 @@ pinned_at = "2026-08-05T22:16:55Z"
 
 [[entry]]
 path = "crates/vjs-core/src/enforcement.rs"
-digest = "sha256:2c6916daf0ede2de1f210c9fc9e65fa5f21a5986c1c1d3b4acaaf959a3418370"
-authority = "[2026] VJS-CC-VJS 21 D3; [2026] VJS-PC 11 D2"
-pinned_at = "2026-08-06T22:36:04Z"
+digest = "sha256:9dafbd8f1185926e6349680f1d3c87846a5316b11e375e6cc0c6044f29604a7b"
+authority = "[2026] VJS-CC-VJS 20 D1/D18"
+pinned_at = "2026-08-07T03:02:15Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/lib.rs"
-digest = "sha256:acfaa318e0604001678223a0042015a98beddc0d85a987b6d95d4a500cfbb06c"
-authority = "[2026] VJS-PC 11 D2 (canon licence gate entrenched); [2026] VJS-CC-VJS 20"
-pinned_at = "2026-08-06T22:22:55Z"
+digest = "sha256:e08853544881c82861ec7c6c395e7c25d94032e4c36f42242970e77a678b785c"
+authority = "[2026] VJS-CC-VJS 20 D1/D18"
+pinned_at = "2026-08-07T03:03:35Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/canon_licence.rs"
 digest = "sha256:9f6cddc3db5b51efa1da39947bff35aefc4795533dccf7c7f1ac13782fd8ef71"
 authority = "[2026] VJS-PC 22 D4/D5 (the licence term varied; the firewall fails closed)"
 pinned_at = "2026-08-07T02:36:46Z"
+
+[[entry]]
+path = "crates/vjs-engine/src/record_removal.rs"
+digest = "sha256:6ce3807dc4f26dc391c7b9f04f19e2339133ba54d7090c63803dbe343fc29769"
+authority = "[2026] VJS-CC-VJS 20 D1/D18"
+pinned_at = "2026-08-07T03:06:39Z"

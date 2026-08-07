@@ -242,3 +242,24 @@ fn lost_entry_witness(
         ));
     }
 }
+
+/// The stores this jurisdiction has registered, as repo-relative paths.
+///
+/// Exposed for the destructive-delete gate ([2026] VJS-CC-VJS 20 D1), which cannot
+/// decide whether a record has been DELETED without knowing where records are
+/// allowed to live. The court made the registration the condition of the whole
+/// exemption: "a record untracked out of every register, or held in a store on no
+/// register, is deleted in law though no byte is erased."
+///
+/// An empty result means the register could not be read, and every caller must treat
+/// that as "I cannot tell", never as "there are no stores" - the difference between a
+/// disclosure and a finding.
+pub fn registered_stores(repo: &Path) -> Vec<String> {
+    let Ok(text) = std::fs::read_to_string(repo.join(REGISTER_REL)) else {
+        return Vec::new();
+    };
+    match serde_yaml::from_str::<serde_yaml::Value>(&text) {
+        Ok(parsed) => store_paths(&parsed),
+        Err(_) => Vec::new(),
+    }
+}
