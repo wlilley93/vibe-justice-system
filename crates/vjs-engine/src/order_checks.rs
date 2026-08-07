@@ -235,6 +235,30 @@ pub(crate) fn order_findings(
 /// difference between "you may not write this" and "you have this", and conflating
 /// them is how a gate gets switched off by the first person who cannot land a commit.
 pub fn at_rest_order_findings(repo: &Path, lawpack: &vjs_lawpack::Lawpack) -> Vec<Finding> {
+    at_rest_order_findings_raw(repo, lawpack)
+        .into_iter()
+        .map(|mut f| {
+            f.severity = Severity::Warning;
+            f
+        })
+        .collect()
+}
+
+/// The same sweep with the STAGED severities intact.
+///
+/// Two views of one walk, because two callers need different halves of the same fact
+/// and neither may re-derive it. `validate` needs the downgrade: a record at rest is in
+/// force and its defects must not refuse every future commit. The correction register
+/// needs the original, because an OBLIGATION is precisely a finding that would refuse
+/// the record if you wrote it today - Fatal at the staged door - and an advisory is not
+/// one. TIER_ADVISORY says "possibly under-tiered" and ORDER_CITATION_NOT_IN_FORCE is
+/// held by PC-17 D3 to be "advisory only, never blocks"; a register carrying those
+/// becomes a list of opinions rather than a ledger of what is owed.
+///
+/// Deriving the split from severity rather than from a list of codes is deliberate: a
+/// future check joins the right side of the line by being written correctly, and no
+/// enumeration goes stale behind it.
+pub fn at_rest_order_findings_raw(repo: &Path, lawpack: &vjs_lawpack::Lawpack) -> Vec<Finding> {
     let Some(constitution) = lawpack
         .orders
         .iter()
@@ -294,7 +318,6 @@ pub fn at_rest_order_findings(repo: &Path, lawpack: &vjs_lawpack::Lawpack) -> Ve
                 // keys on its own path and is reported once, which is correct.
                 .unwrap_or_else(|| rel.clone());
             for mut fnd in order_findings(repo, &rel, constitution, &corpus) {
-                fnd.severity = Severity::Warning;
                 fnd.code = format!("AT_REST_{}", fnd.code);
                 if !seen.insert((record_id.clone(), fnd.message.clone())) {
                     continue;

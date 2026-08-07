@@ -276,6 +276,88 @@ fn declares_bench(content: &str) -> bool {
         .unwrap_or(false)
 }
 
+/// THE ASSENT QUESTION, ASKED OF THE STATUTE BOOK AT REST
+/// ([2026] VJS-CC-VJS 20 D9).
+///
+/// `assent_resolves` is asked at the FLOOR-ATTACHMENT SITE: the moment a staged record
+/// claims the assent floor's shelter. That is the right place for it and it stays
+/// there. But it means the question is only ever asked of a record somebody is
+/// touching, and a statute is the least-touched record in the corpus - lodged once and
+/// then relied on for months. The one class of record whose assent matters most was
+/// the one class nobody re-examined.
+///
+/// SCOPED TO STATUTES, which is D9's own wording and not a convenience. Orders,
+/// regulations and rules derive their force differently and are covered by their own
+/// gates; widening this sweep to them would be the reader deciding what the directive
+/// meant. If that widening is wanted it is a fresh question on its own record.
+///
+/// WARNING, NEVER FATAL, on the same reasoning D13 settled hours earlier: a statute at
+/// rest is in force and relied upon, and its defects route for correction rather than
+/// refusing every future commit in the jurisdiction. ACT-ASSENTED-RECORD-PROTECTION
+/// s.1/s.2 says as much in terms for exactly this class.
+pub fn at_rest_statute_assent_findings(repo: &Path) -> Vec<vjs_core::report::Finding> {
+    // LAWPACK-LITERAL: referent=local-records; status=local; authority=[2026] VJS-CC-VJS 20 D9.
+    // The statute book of THIS estate, whose assent provenance is a fact about its own
+    // lodgement here - not law read out of a subscribed canon.
+    let dir = repo.join("lawpack/v2/statutes");
+    let Ok(entries) = std::fs::read_dir(&dir) else {
+        // No statute book is not a clean statute book. Say which.
+        return vec![crate::f(
+            vjs_core::types::Severity::Info,
+            "AT_REST_STATUTES_UNCHECKED",
+            format!(
+                "the at-rest assent sweep DID NOT RUN - no statute book at {}. A statement \
+                 about this estate, never a finding that its statutes are assented \
+                 ([2026] VJS-CC-VJS 20 D9).",
+                dir.display()
+            ),
+        )];
+    };
+
+    let tracked = vjs_git::GitIntegration::tracked_at_head(repo).unwrap_or_default();
+    let mut out = Vec::new();
+    let mut paths: Vec<_> = entries.flatten().map(|e| e.path()).collect();
+    paths.sort();
+    for path in paths {
+        match path.extension().and_then(|e| e.to_str()) {
+            Some("yaml") | Some("yml") => {}
+            _ => continue,
+        }
+        let Ok(content) = std::fs::read_to_string(&path) else {
+            continue;
+        };
+        let rel = path
+            .strip_prefix(repo)
+            .unwrap_or(&path)
+            .to_string_lossy()
+            .to_string();
+        // A statute still in draft has not claimed force and is not asked the question.
+        if top_level(&content, "status").as_deref() == Some("draft") {
+            continue;
+        }
+        if assent_resolves(repo, &rel, &content, tracked.contains(&rel)) {
+            continue;
+        }
+        let declared =
+            top_level(&content, "assent_source").unwrap_or_else(|| "(none declared)".to_string());
+        out.push(
+            crate::f(
+                vjs_core::types::Severity::Warning,
+                "AT_REST_STATUTE_ASSENT_UNRESOLVED",
+                format!(
+                    "statute declares assent_source '{declared}', which does not RESOLVE to a \
+                     recorded Sovereign-assent event (ACT-COMPUTER-FIRST-REALM s.23: absence, \
+                     an empty value, an unrecognised form, or an unresolved trace each cause \
+                     rejection). Routed for correction, never voided - a statute in force is \
+                     sheltered by ACT-ASSENTED-RECORD-PROTECTION s.1/s.2."
+                ),
+            )
+            .at(path.strip_prefix(repo).unwrap_or(&path).to_path_buf()),
+        );
+    }
+    out
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

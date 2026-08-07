@@ -223,74 +223,57 @@ pub(crate) fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
         .map(|s| s.to_string())
         .collect();
 
+    // FLAGGED IS DERIVED FROM THE AT-REST SWEEP, not from a second walk of its own.
+    //
+    // This stage used to re-implement the whole thing: walk the governed roots, parse
+    // each order, read its opinion, verify the bench, and call a record flagged if the
+    // opinion was missing. That was a duplicate of `order_checks`, and it had the vice
+    // duplicates always have - it could only ever see ONE defect class. A record with a
+    // perfectly good opinion and an empty `runtime_summary` carried a real, visible,
+    // unrecorded obligation that this register was structurally unable to hold
+    // (2026-VJS-CC-CODEX-ORCHESTRATION-LOCUS-008 was exactly that, and it took the D13
+    // sweep to see it at all).
+    //
+    // One sweep, one ledger. Every at-rest finding is an obligation, and the register is
+    // the exact set of records carrying one - so a NEW defect fails until it is recorded,
+    // and a row whose defect is gone fails until it is removed. The second limb is the
+    // one that matters: it is what stops a register becoming a place obligations go to
+    // be forgotten.
+    let lawpack_for_sweep = vjs_engine::load_lawpack(repo)?;
     let mut flagged: std::collections::BTreeSet<String> = std::collections::BTreeSet::new();
-    let mut by_id: std::collections::BTreeMap<String, (Vec<String>, Option<String>)> =
-        std::collections::BTreeMap::new();
-    // RECURSE. `governed_record_roots` yields `.vjs/court`, NOT `.vjs/court/orders`, so a
-    // flat read_dir here sees only subdirectories and no order at all. That bug hid
-    // 2026-VJS-CC-ROUTE-EVAL-001, which exists ONLY under .vjs/court/orders, and the
-    // register caught the disagreement. Walk the tree.
-    for root in vjs_core::front_door::governed_record_roots(repo) {
-        for entry in walkdir::WalkDir::new(&root)
-            .into_iter()
-            .filter_map(|e| e.ok())
-        {
-            let path = entry.path().to_path_buf();
-            if path.extension().and_then(|s| s.to_str()) != Some("yaml") {
-                continue;
-            }
-            // ORDERS ONLY. A convening record also carries a `bench:` and has no
-            // source_opinion by design, so a bench-shaped scan sweeps all 30-odd of them in
-            // as flagged records. They are not orders and owe no opinion. Keying on the
-            // containing directory is the precise test: orders live under an `orders/` dir
-            // in every root, convenings under `convenings/`.
-            if !path.parent().is_some_and(|d| d.ends_with("orders")) {
-                continue;
-            }
-            let Ok(text) = std::fs::read_to_string(&path) else {
-                continue;
-            };
-            let top = |k: &str| -> Option<String> {
-                text.lines().find_map(|l| {
-                    l.strip_prefix(k).map(|r| {
-                        r.trim()
-                            .trim_matches('"')
-                            .trim_matches('\'')
-                            .trim()
-                            .to_string()
-                    })
-                })
-            };
-            let Some(id) = top("id:").filter(|s| !s.is_empty()) else {
-                continue;
-            };
-            let bench: Vec<String> = text
-                .lines()
-                .skip_while(|l| !l.starts_with("bench:"))
-                .skip(1)
-                .take_while(|l| l.starts_with("  - ") || l.starts_with("- "))
-                .map(|l| l.trim_start_matches(['-', ' ']).trim().to_string())
-                .collect();
-            let opinion = top("source_opinion:").filter(|s| !s.is_empty() && s != "null");
-            // The court copy is authoritative ([2026] VJS-CC-VJS 9), so it wins the slot.
-            let is_court = path.to_string_lossy().contains(".vjs/court/");
-            if is_court || !by_id.contains_key(&id) {
-                by_id.insert(id, (bench, opinion));
-            }
-        }
-    }
-    for (id, (bench, opinion)) in &by_id {
-        if bench.is_empty() {
+    for fnd in vjs_engine::order_checks::at_rest_order_findings_raw(repo, &lawpack_for_sweep) {
+        // AN OBLIGATION IS A FINDING THAT WOULD REFUSE THE RECORD IF YOU WROTE IT TODAY.
+        // Advisories are not obligations: TIER_ADVISORY says "possibly under-tiered" and
+        // PC-17 D3 holds ORDER_CITATION_NOT_IN_FORCE "advisory only, never blocks". A
+        // register carrying those is a list of opinions, not a ledger of what is owed.
+        // Keyed on severity rather than on a list of codes, so a future check joins the
+        // right side of the line by being written correctly.
+        if fnd.severity != vjs_core::types::Severity::Fatal {
             continue;
         }
-        let has_opinion = opinion
-            .as_ref()
-            .map(|p| repo.join(p).is_file())
-            .unwrap_or(false);
-        if !has_opinion {
-            flagged.insert(id.clone());
+        let Some(path) = fnd.path.as_ref() else {
+            continue;
+        };
+        // ORDERS ONLY, on the same test the walk used: orders live under an `orders/`
+        // dir in every root. A convening carries a `bench:` too and owes no opinion.
+        if !path.parent().is_some_and(|d| d.ends_with("orders")) {
+            continue;
+        }
+        let Ok(text) = std::fs::read_to_string(repo.join(path)) else {
+            continue;
+        };
+        if let Some(id) = text.lines().find_map(|l| {
+            let v = l
+                .strip_prefix("id:")?
+                .trim()
+                .trim_matches('"')
+                .trim_matches('\'');
+            (!v.is_empty()).then(|| v.to_string())
+        }) {
+            flagged.insert(id);
         }
     }
+
     let unrecorded: Vec<&String> = flagged.difference(&register).collect();
     let discharged: Vec<&String> = register.difference(&flagged).collect();
     let register_ok = unrecorded.is_empty() && discharged.is_empty();

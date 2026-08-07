@@ -22,9 +22,9 @@
 # ENFORCEMENT_LOCK_UNREADABLE, which is Fatal, not silence.
 [[entry]]
 path = "crates/vjs-engine/src/assent.rs"
-digest = "sha256:78296cd5ea12e23b4c23c33ecc4aa034a98c59f8ae7aca85448d54c3238166a3"
-authority = "[2026] VJS-CC-VJS 20 D10/D14"
-pinned_at = "2026-08-06T14:11:55Z"
+digest = "sha256:55bf8d38efcfdc5b99b06b9b04d058524325dc910ef52fc1079027bb2cc38da1"
+authority = "[2026] VJS-CC-VJS 20 D9/D13"
+pinned_at = "2026-08-07T03:45:31Z"
 
 [[entry]]
 path = "crates/vjs-core/src/front_door.rs"
@@ -88,9 +88,9 @@ pinned_at = "2026-08-07T03:24:57Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/lib.rs"
-digest = "sha256:9a88b9bbcca1b91a2f501fb828b7d07059c75bfe07ef30a0b4bf9b26e1a92ade"
-authority = "[2026] VJS-CC-VJS 20 D13 (order gates at rest)"
-pinned_at = "2026-08-07T03:24:57Z"
+digest = "sha256:e5884930c4a239c8617f39d739d82e85e81bf905b0173924761b47d6841312b6"
+authority = "[2026] VJS-CC-VJS 20 D9/D13"
+pinned_at = "2026-08-07T03:43:03Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/canon_licence.rs"
@@ -106,6 +106,6 @@ pinned_at = "2026-08-07T03:06:39Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/order_checks.rs"
-digest = "sha256:c43a1bd6bc35f4b33ed9657687d6ce85c88dad4eb71bcd36bc76766ea2437759"
-authority = "[2026] VJS-CC-VJS 20 D13 + RECORD-PROJECTION-009 D2/D4"
-pinned_at = "2026-08-07T03:30:13Z"
+digest = "sha256:4fcab8f58103a10db91c35cfde8c9a75c14a5c1873620d05c688f15438db943d"
+authority = "[2026] VJS-CC-VJS 20 D9/D13"
+pinned_at = "2026-08-07T03:43:03Z"

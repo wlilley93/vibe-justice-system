@@ -203,6 +203,11 @@ pub fn validate(repo: &Path, opts: &ValidateOpts) -> Result<Report, KernelError>
     // correction register's business, never a reason to refuse every future commit.
     findings.extend(order_checks::at_rest_order_findings(repo, &lawpack));
 
+    // [2026] VJS-CC-VJS 20 D9: the assent question, asked of the STATUTE BOOK at rest.
+    // Scoped to statutes, which is the directive's own wording: a statute is the
+    // least-touched record in the corpus and so the one nobody re-examined.
+    findings.extend(assent::at_rest_statute_assent_findings(repo));
+
     // A GATE'S GUARD MUST BE KEYED TO THE SAME REFERENT AS THE GATE ([2026] VJS-CC-VJS 14).
     //
     // The three checks below were wrapped in ONE condition - the existence of a VENDORED
