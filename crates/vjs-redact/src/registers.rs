@@ -120,11 +120,33 @@ impl Denylist {
             hashes.insert(h);
         }
         if hashes.is_empty() {
-            return Err(unreadable_register_error(
-                &path,
-                "it carries no entries, so every limb keyed on it would fire on nothing \
-                 while still reporting itself as run",
-            ));
+            // DECLARED-EMPTY IS A STATEMENT; ACCIDENTALLY-EMPTY IS AN ABSENCE.
+            //
+            // C3's rule is right and stays: a register that fires on nothing while
+            // reporting itself as run is the worst kind of gate. But it assumed every
+            // estate has at least one private term, and a brand-new subscriber genuinely
+            // has none. The rule as written made this a check that CANNOT PASS for a
+            // lawful state - a fresh jurisdiction could not complete its first commit
+            // touching a canon path until it invented a private term to register.
+            //
+            // The cure is the one this corpus keeps arriving at: let the record say which
+            // of the two it is. A register whose header declares it armed-empty is an
+            // estate stating it has registered no terms yet. A file that is merely blank,
+            // or truncated, or half-written, still errors - because that is exactly the
+            // "could not look" this rule exists to refuse.
+            if !text
+                .lines()
+                .any(|l| l.trim_start().starts_with('#') && l.contains("ARMED EMPTY"))
+            {
+                return Err(unreadable_register_error(
+                    &path,
+                    "it carries no entries and does not declare itself armed-empty, so \
+                     every limb keyed on it would fire on nothing while still reporting \
+                     itself as run. A new estate with no private terms says so with an \
+                     `# ARMED EMPTY` line in the header; a blank or truncated file is an \
+                     absence, not a statement",
+                ));
+            }
         }
         Ok(Self { hashes })
     }
@@ -388,5 +410,65 @@ mod tests {
         // are separate registered-nothing segments in `acme co`.
         assert!(!deny.hits_any_segment("acme co, separately"));
         let _ = std::fs::remove_dir_all(&base);
+    }
+}
+
+#[cfg(test)]
+mod armed_empty_tests {
+    use super::*;
+
+    fn estate(tag: &str, body: &str) -> std::path::PathBuf {
+        let dir = std::env::temp_dir().join(format!("vjs-denylist-{}-{tag}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(dir.join(".vjs")).unwrap();
+        std::fs::write(dir.join(".vjs/publication-denylist.txt"), body).unwrap();
+        dir
+    }
+
+    #[test]
+    fn a_register_declaring_itself_armed_empty_loads() {
+        // A brand-new estate has no private terms. Refusing to operate until it invents
+        // one is a check that cannot pass for a lawful state, and it blocked a fresh
+        // subscriber's first canon-touching commit.
+        let dir = estate(
+            "armed",
+            "# ARMED EMPTY by `vjs invoke`: no terms registered yet.\n",
+        );
+        let d = Denylist::load(&dir).expect("a declared-empty register is a statement");
+        assert_eq!(d.len(), 0);
+    }
+
+    #[test]
+    fn a_blank_register_is_still_an_error() {
+        // THE CONTROL. Blank, truncated, half-written - all still "could not look",
+        // which is the whole of C3 and must not move.
+        let dir = estate("blank", "");
+        assert!(
+            Denylist::load(&dir).is_err(),
+            "a blank register is an absence, not a statement"
+        );
+    }
+
+    #[test]
+    fn a_register_of_only_ordinary_comments_is_still_an_error() {
+        // The near-miss: a header that looks deliberate but never says which of the two
+        // states it is in. Silence about emptiness is what the rule refuses.
+        let dir = estate(
+            "comments",
+            "# the publication denylist\n# one hash per line\n",
+        );
+        assert!(
+            Denylist::load(&dir).is_err(),
+            "a header that does not declare armed-empty declares nothing"
+        );
+    }
+
+    #[test]
+    fn a_populated_register_is_unaffected() {
+        let dir = estate(
+            "populated",
+            &format!("# real\n{}  # a term\n", "a".repeat(64)),
+        );
+        assert_eq!(Denylist::load(&dir).expect("loads").len(), 1);
     }
 }

@@ -23,6 +23,7 @@ pub mod context;
 pub mod displacement;
 mod freshness;
 pub mod grounding;
+pub mod order_checks;
 mod ratchet;
 pub(crate) mod record_removal;
 mod resolver;
@@ -196,6 +197,11 @@ pub fn validate(repo: &Path, opts: &ValidateOpts) -> Result<Report, KernelError>
     store_register::store_register_findings(repo, &mut findings);
 
     canon_licence::canon_licence_findings(repo, &mut findings);
+
+    // [2026] VJS-CC-VJS 20 D13: the order gates run AT REST, not only over a staged set.
+    // Reported at Warning under an AT_REST_ prefix - a record already in force is the
+    // correction register's business, never a reason to refuse every future commit.
+    findings.extend(order_checks::at_rest_order_findings(repo, &lawpack));
 
     // A GATE'S GUARD MUST BE KEYED TO THE SAME REFERENT AS THE GATE ([2026] VJS-CC-VJS 14).
     //

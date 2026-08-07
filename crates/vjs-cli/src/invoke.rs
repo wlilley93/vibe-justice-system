@@ -242,6 +242,36 @@ pub(crate) fn cmd_invoke(
         None => "lawpack/v2".to_string(),
     };
 
+    // THE PUBLICATION DENYLIST REGISTER, armed empty.
+    //
+    // The canon-write gate treats an UNREADABLE register as an error and never as an
+    // empty one ([2026] VJS-CC-VJS 17 C3): read as empty, it would report canon clean
+    // when it means it could not look. That is right, and it meant a freshly invoked
+    // jurisdiction could not complete its first commit touching a canon path - the gate
+    // failed closed on a register `invoke` had never created. Correct gate, missing
+    // arming step, and the failure landed on `git commit` where no subscriber would
+    // think to look for it.
+    //
+    // An EMPTY register is a true statement for a new estate: no private terms have been
+    // registered yet. That is not the same as an absent one, and the header says which
+    // this is so nobody later reads the emptiness as a finding.
+    let denylist_path = vjs_dir.join("publication-denylist.txt");
+    let denylist_written = if denylist_path.exists() {
+        false
+    } else {
+        let body = "# Publication boundary denylist. One sha256 per line, of a lowercased\n\
+             # private term that must never reach a published record.\n\
+             #\n\
+             # ARMED EMPTY by `vjs invoke`: this estate has registered no private terms yet.\n\
+             # Empty is a statement, not an absence - the canon-write gate treats a MISSING\n\
+             # register as an error, because a gate that reads an unreadable register as\n\
+             # empty reports clean when it means it could not look ([2026] VJS-CC-VJS 17 C3).\n\
+             #\n\
+             # Add a term with: printf '%s' \"the-term\" | tr 'A-Z' 'a-z' | sha256sum\n\
+             # Never write the term itself into this file, or into any gate message.\n";
+        std::fs::write(&denylist_path, body).is_ok()
+    };
+
     let register_path = vjs_dir.join("store-register.yaml");
     let register_written = if register_path.exists() {
         false
@@ -301,6 +331,7 @@ pub(crate) fn cmd_invoke(
                 "config_written": config_written,
                 "hooks_installed": hooks_installed,
                 "store_register_written": register_written,
+            "denylist_armed": denylist_written,
                 "manifest_locked": manifest_locked,
             })
         );
@@ -318,6 +349,7 @@ pub(crate) fn cmd_invoke(
         println!("  config written: {}", config_written);
         println!("  hooks installed (core.hooksPath): {}", hooks_installed);
         println!("  store register armed: {}", register_written);
+        println!("  publication denylist armed: {}", denylist_written);
         if !install_hooks {
             println!("  (run with --install-hooks to activate commit-time enforcement)");
         }

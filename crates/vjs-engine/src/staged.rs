@@ -205,188 +205,22 @@ pub(crate) fn staged_gates(
                 .unwrap_or_default()
                 .into_iter()
                 .collect();
+        let corpus = crate::grounding::GroundingCorpus {
+            defined: defined_ids,
+            citations: defined_citations,
+            in_force,
+        };
         for rel in changed.iter().filter(|p| {
             (p.ends_with(".yaml") || p.ends_with(".yml"))
                 && vjs_core::front_door::is_governed_record(p)
                 && !staged_deletions.contains(*p)
         }) {
-            let Ok(content) = std::fs::read_to_string(repo.join(rel)) else {
-                continue;
-            };
-            let Ok(order) = serde_yaml::from_str::<vjs_core::types::Order>(&content) else {
-                continue;
-            };
-            // #5 ACT-002:s10 well-formedness.
-            for (field, is_empty) in [
-                ("holding", order.holding.is_empty()),
-                ("directives", order.directives.is_empty()),
-                ("runtime_summary", order.runtime_summary.is_empty()),
-            ] {
-                if is_empty {
-                    findings.push(
-                        f(
-                            Severity::Fatal,
-                            "ORDER_MALFORMED",
-                            format!(
-                                "Order is missing required '{field}' (ACT-002:s10: orders bind, \
-                                 and must state their holding, directives, and runtime summary)."
-                            ),
-                        )
-                        .at(PathBuf::from(rel))
-                        .fix("Add the missing field before recording the order."),
-                    );
-                }
-            }
-            // ACT-PROCEEDINGS-DISCIPLINE:s3: an order with an empty issue is unroutable -
-            // the one-live-order-per-issue discipline cannot even ask its question of it.
-            // (An order OMITTING the field entirely fails the parse above and rides the
-            // existing skip; this refuses the present-but-empty form that parsed fine.)
-            if order.issue.0.trim().is_empty() {
-                findings.push(
-                    f(
-                        Severity::Fatal,
-                        "ORDER_MALFORMED",
-                        "Order carries an empty 'issue' (ACT-PROCEEDINGS-DISCIPLINE:s3: an \
-                         order binds on an issue, and the one-live-order-per-issue \
-                         discipline cannot rank an order that names none)."
-                            .into(),
-                    )
-                    .at(PathBuf::from(rel))
-                    .fix("Set the order's lower_snake issue tag before recording."),
-                );
-            }
-            // PC-17 D1-D5: citation-grounding over the order's OPERATIVE parts (holding +
-            // each directive's must + each forbidden clause). Existence-only; never reads
-            // what the cited authority says (D7/D8). Self-reference (D4(c)): seed the
-            // order's own id + citation so a forward self-reference resolves to itself.
-            {
-                let mut operative = order.holding.clone();
-                for d in &order.directives {
-                    operative.push('\n');
-                    operative.push_str(&d.must);
-                }
-                if let Some(forbidden) = &order.forbidden {
-                    for clause in forbidden {
-                        operative.push('\n');
-                        operative.push_str(clause);
-                    }
-                }
-                // D7: explicitly-listed operative authorities (the machine-resolvable
-                // mechanism that extends the teeth past lossy snake_case directive bodies).
-                if let Some(cites) = &order.cites_authorities {
-                    for a in cites {
-                        operative.push('\n');
-                        operative.push_str(a);
-                    }
-                }
-                let mut defined_self = defined_ids.clone();
-                defined_self.insert(order.id.clone());
-                let mut cites_self = defined_citations.clone();
-                let mut in_force_self = in_force.clone();
-                in_force_self.insert(order.id.clone());
-                if let Some(c) = &order.citation {
-                    let norm = c.split_whitespace().collect::<Vec<_>>().join(" ");
-                    cites_self.insert(norm.clone());
-                    in_force_self.insert(norm);
-                }
-                for (tok, grounding) in vjs_lawpack::refs::ground_operative(
-                    &operative,
-                    &defined_self,
-                    &cites_self,
-                    &in_force_self,
-                ) {
-                    match grounding {
-                        // D2: Fatal but CORRECTABLE (not constitutive) - the existing
-                        // assent floor routes it for correction on a resolving order and
-                        // leaves it Fatal otherwise. The finding states the existence
-                        // fact; it never brands the order void (per-incuriam voidness is
-                        // for a court on appeal, REG-KERNEL-001 clerk-not-court).
-                        vjs_lawpack::refs::Grounding::Unresolved => findings.push(
-                            f(
-                                Severity::Fatal,
-                                "ORDER_CITATION_UNRESOLVED",
-                                format!(
-                                    "Operative citation '{tok}' resolves to no defined authority \
-                                     (per-incuriam existence limb; ACT-002:s7, REG-KERNEL-001). \
-                                     Routed for correction, not voided."
-                                ),
-                            )
-                            .at(PathBuf::from(rel))
-                            .citing("ACT-002:s7")
-                            .fix("Correct the citation to a defined authority, or remove it."),
-                        ),
-                        // D3: defined-but-not-in-force is advisory only, never blocks.
-                        vjs_lawpack::refs::Grounding::NotInForce => findings.push(
-                            f(
-                                Severity::Warning,
-                                "ORDER_CITATION_NOT_IN_FORCE",
-                                format!(
-                                    "Operative citation '{tok}' resolves to a defined but \
-                                     superseded/spent authority (existence satisfied; aptness of \
-                                     relying on historical law is out of scope, PC-17 D3)."
-                                ),
-                            )
-                            .at(PathBuf::from(rel)),
-                        ),
-                        vjs_lawpack::refs::Grounding::Resolved => {}
-                    }
-                }
-            }
-            // #9 subject-tier advisory.
-            if let Some(msg) = vjs_core::bench::subject_tier_advisory(&order.issue.0, &order.court)
-            {
-                findings.push(
-                    f(Severity::Warning, "TIER_ADVISORY", msg)
-                        .at(PathBuf::from(rel))
-                        .fix(
-                            "Confirm the court tier, or re-file the matter at the indicated tier.",
-                        ),
-                );
-            }
-            // #10 apex order must declare its bench.
-            if matches!(
-                order.court,
-                vjs_core::types::Court::CourtOfAppeal
-                    | vjs_core::types::Court::PrivyCouncil
-                    | vjs_core::types::Court::SupremeCourt
-            ) && order.bench.is_empty()
-            {
-                findings.push(
-                    f(
-                        Severity::Fatal,
-                        "BENCH_REQUIRED",
-                        format!(
-                            "A {:?} order must declare its constituted bench ([2026] VJS-SC 2: no \
-                             court may issue an order until constituted).",
-                            order.court
-                        ),
-                    )
-                    .at(PathBuf::from(rel))
-                    .fix("Add the bench (the seats that decided) before recording."),
-                );
-            }
-            // D10/D7 bench-integrity. PC-16: bench-integrity is CONSTITUTIVE - whether an
-            // order issues from a constituted bench goes to whether it IS an order at all
-            // ("void ab initio on both grounds"), and is NEVER softened by an assent
-            // claim. The former code downgraded these on mere allow-list membership, the
-            // very laundering [2026] VJS-PC 16 closed. A genuinely-constituted order has
-            // no such defect, so always-Fatal narrows no real order.
-            let opinion_text = order
-                .source_opinion
-                .as_ref()
-                .and_then(|p| std::fs::read_to_string(repo.join(p)).ok());
-            let defects =
-                vjs_core::bench::verify_bench(&order, constitution, opinion_text.as_deref());
-            for d in defects {
-                findings.push(
-                    f(Severity::Fatal, d.code(), d.message())
-                        .at(PathBuf::from(rel))
-                        .fix(
-                            "Constitute the bench correctly (constituted odd size + a non-empty \
-                             opinion per seat) before recording.",
-                        ),
-                );
-            }
+            findings.extend(crate::order_checks::order_findings(
+                repo,
+                rel,
+                constitution,
+                &corpus,
+            ));
         }
     }
 

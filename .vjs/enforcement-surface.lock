@@ -64,9 +64,9 @@ pinned_at = "2026-08-06T12:25:40Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/staged.rs"
-digest = "sha256:db0af1cf87aa5eec693da8e9cd471f4463ac2abfc0ba26f20b53036e1e09e887"
-authority = "[2026] VJS-CC-VJS 20 D1/D18"
-pinned_at = "2026-08-07T03:02:15Z"
+digest = "sha256:78367a06ebaef7eb67d30d366f70ce0bc28f8522363da46458cf75cba1449115"
+authority = "[2026] VJS-CC-VJS 20 D13 (order gates at rest)"
+pinned_at = "2026-08-07T03:24:57Z"
 
 [[entry]]
 path = "crates/vjs-lawpack/src/validator.rs"
@@ -82,15 +82,15 @@ pinned_at = "2026-08-05T22:16:55Z"
 
 [[entry]]
 path = "crates/vjs-core/src/enforcement.rs"
-digest = "sha256:9dafbd8f1185926e6349680f1d3c87846a5316b11e375e6cc0c6044f29604a7b"
-authority = "[2026] VJS-CC-VJS 20 D1/D18"
-pinned_at = "2026-08-07T03:02:15Z"
+digest = "sha256:7c911c3c3caa998376139b2e70cd634628159f11128a2e1188a61c155d658b57"
+authority = "[2026] VJS-CC-VJS 20 D13 (order gates at rest)"
+pinned_at = "2026-08-07T03:24:57Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/lib.rs"
-digest = "sha256:e08853544881c82861ec7c6c395e7c25d94032e4c36f42242970e77a678b785c"
-authority = "[2026] VJS-CC-VJS 20 D1/D18"
-pinned_at = "2026-08-07T03:03:35Z"
+digest = "sha256:9a88b9bbcca1b91a2f501fb828b7d07059c75bfe07ef30a0b4bf9b26e1a92ade"
+authority = "[2026] VJS-CC-VJS 20 D13 (order gates at rest)"
+pinned_at = "2026-08-07T03:24:57Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/canon_licence.rs"
@@ -103,3 +103,9 @@ path = "crates/vjs-engine/src/record_removal.rs"
 digest = "sha256:6ce3807dc4f26dc391c7b9f04f19e2339133ba54d7090c63803dbe343fc29769"
 authority = "[2026] VJS-CC-VJS 20 D1/D18"
 pinned_at = "2026-08-07T03:06:39Z"
+
+[[entry]]
+path = "crates/vjs-engine/src/order_checks.rs"
+digest = "sha256:5b556310469152c8c6908768e82822b8e0895497aedbe7d97ac41e70804ab843"
+authority = "[2026] VJS-CC-VJS 20 D13 (order gates at rest)"
+pinned_at = "2026-08-07T03:24:57Z"

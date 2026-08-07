@@ -118,6 +118,16 @@ pub const ENFORCEMENT_SURFACE: &[&str] = &[
     // is erased").
     // admitted-by: crates/vjs-cli/tests/three_dispositions_of_a_removed_record.rs::a_record_moved_into_a_store_on_no_register_is_deleted_in_law
     "crates/vjs-engine/src/record_removal.rs",
+    // THE PER-ORDER CHECKS ([2026] VJS-CC-VJS 20 D13). Split out of `staged.rs` in the
+    // same commit that made them run at rest, and pinned in that same commit on the rule
+    // this list states in terms. It holds bench-integrity, which PC-16 calls constitutive
+    // and which no assent claim may soften, plus the ACT-002:s10 well-formedness set and
+    // the PC-17 citation grounding. The disarm site is the severity assignment in the
+    // at-rest sweep: it deliberately reports Warning where the staged path reports Fatal,
+    // and one careless edit generalising that downgrade back into `order_findings` would
+    // silently turn the commit gate advisory.
+    // admitted-by: crates/vjs-cli/tests/order_gates_at_rest.rs::the_staged_gate_stays_fatal_while_the_at_rest_sweep_warns
+    "crates/vjs-engine/src/order_checks.rs",
 ];
 
 const LOCK_PATH: &str = ".vjs/enforcement-surface.lock";

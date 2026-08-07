@@ -189,7 +189,25 @@ pub(crate) fn cmd_validate(
     } else {
         println!("Validation: {}", if report.ok { "OK" } else { "FAILED" });
         for fd in &report.findings {
-            println!("  [{:?}] {}: {}", fd.severity, fd.code, fd.message);
+            // THE PATH IS PRINTED WHEN THERE IS ONE.
+            //
+            // `Finding` has carried a `path` since the beginning and this printer
+            // dropped it, so every finding that named a file arrived as prose about a
+            // record the reader then had to go and find. It is the same defect the
+            // publication-boundary scan had until 2026-08-06, where 610 findings all
+            // printed the identical string "in the HEAD tree" and the number could only
+            // ever go up or down, never be worked. A finding you cannot locate is a
+            // finding you cannot clear.
+            match &fd.path {
+                Some(p) => println!(
+                    "  [{:?}] {}: {} ({})",
+                    fd.severity,
+                    fd.code,
+                    fd.message,
+                    p.display()
+                ),
+                None => println!("  [{:?}] {}: {}", fd.severity, fd.code, fd.message),
+            }
         }
     }
     if !report.ok {
