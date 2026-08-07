@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-06T23:03:08.350494781+00:00",
+  "generated_at": "2026-08-07T02:37:38.547212280+00:00",
   "items": [
     {
       "affirmed_by": [],
@@ -2110,7 +2110,7 @@
       "supersedes": [],
       "title": "The s.5(a) Kernel-effect Teeth-gate (Machinery With Conditions)",
       "ts": "2026-06-12T12:40:00Z",
-      "updated": "2026-06-12",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-KERNEL-EFFECT-GATE-001.yaml",
       "varied_by": [],
       "varies": [],
@@ -2157,7 +2157,7 @@
       "supersedes": [],
       "title": "One Record in Two Projections; the Allocator and the Uniqueness Guard Must Read the Same Register",
       "ts": "2026-07-27T20:03:58Z",
-      "updated": "2026-07-27",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-RECORD-PROJECTION-009.yaml",
       "varied_by": [],
       "varies": [],
@@ -2302,7 +2302,7 @@
       ],
       "title": "Transition and Onboarding (The Order)",
       "ts": "2026-06-09T00:00:00Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-001.yaml",
       "varied_by": [],
       "varies": []
@@ -2348,7 +2348,7 @@
       "supersedes": [],
       "title": "Repository Topology (The Order)",
       "ts": "2026-06-09T00:00:00Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-002.yaml",
       "varied_by": [],
       "varies": []
@@ -2398,7 +2398,7 @@
       ],
       "title": "S23 sc10 Location (The Order)",
       "ts": "2026-06-09T00:00:00Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-003.yaml",
       "varied_by": [],
       "varies": []
@@ -2447,7 +2447,7 @@
       ],
       "title": "Foundational Law Citation (The Order)",
       "ts": "2026-06-09T00:00:00Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-004.yaml",
       "varied_by": [],
       "varies": []
@@ -2498,7 +2498,7 @@
       ],
       "title": "Institutions and Repos House (The Order)",
       "ts": "2026-06-09T00:00:00Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-005.yaml",
       "varied_by": [],
       "varies": []
@@ -2549,7 +2549,7 @@
       ],
       "title": "Superrepo Self Invocation (The Order)",
       "ts": "2026-06-09T00:00:00Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-006.yaml",
       "varied_by": [],
       "varies": []
@@ -2598,7 +2598,7 @@
       "supersedes": [],
       "title": "Assent Construction for the Realm Invariants and Machinery Instrument 2026",
       "ts": "2026-06-10T10:15:00Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-007.yaml",
       "varied_by": [],
       "varies": []
@@ -2646,7 +2646,7 @@
       "supersedes": [],
       "title": "The Court Machinery Versus Court Constitution Dividing Line",
       "ts": "2026-06-10T15:00:00Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-008.yaml",
       "varied_by": [],
       "varies": [],
@@ -2699,7 +2699,7 @@
       "supersedes": [],
       "title": "CASE-LAW Is V1; It May Not Be Cited as Binding V2 Authority",
       "ts": "2026-06-10T17:30:00Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-009.yaml",
       "varied_by": [],
       "varies": [],
@@ -2752,7 +2752,7 @@
       "supersedes": [],
       "title": "The Embedded Corporate Jurisdiction (Vibe Policy System)",
       "ts": "2026-06-10T18:05:00Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-010.yaml",
       "varied_by": [],
       "varies": [],
@@ -2803,7 +2803,7 @@
       "supersedes": [],
       "title": "The Governance House",
       "ts": "2026-06-11T14:54:00Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-011.yaml",
       "varied_by": [],
       "varies": [],
@@ -2858,7 +2858,7 @@
       ],
       "title": "The s.5(a) Kernel-effect Gate on Appeal - The Entrenchment Condition",
       "ts": "2026-06-12T13:05:00Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-012.yaml",
       "varied_by": [
         "2026-VJS-SC-003"
@@ -2931,7 +2931,7 @@
       "supersedes": [],
       "title": "Teeth for the Front Door",
       "ts": "2026-06-24T22:41:30.298124629+00:00",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-013.yaml",
       "varied_by": [],
       "varies": [],
@@ -2985,7 +2985,7 @@
       "supersedes": [],
       "title": "The Single Governed-Record Front Door",
       "ts": "2026-06-25T10:05:00+00:00",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-014.yaml",
       "varied_by": [],
       "varies": [],
@@ -3042,7 +3042,7 @@
       "supersedes": [],
       "title": "The Runtime-Overlay Keystone",
       "ts": "2026-06-25T14:00:00+00:00",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-015.yaml",
       "varied_by": [],
       "varies": [],
@@ -3098,7 +3098,7 @@
       "supersedes": [],
       "title": "The Assent-Resolution Floor",
       "ts": "2026-06-25T14:35:00+00:00",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-016.yaml",
       "varied_by": [],
       "varies": [],
@@ -3158,7 +3158,7 @@
       "supersedes": [],
       "title": "Citation-Grounding of an Order's Operative Authorities",
       "ts": "2026-06-25T15:50:00+00:00",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-017.yaml",
       "varied_by": [],
       "varies": [],
@@ -3217,7 +3217,7 @@
       "supersedes": [],
       "title": "Standing-Route Resolution of Standing_bounded_assent",
       "ts": "2026-06-25T16:40:00+00:00",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-018.yaml",
       "varied_by": [],
       "varies": [],
@@ -3273,7 +3273,7 @@
       "supersedes": [],
       "title": "Federation Appellate-tier Placement and Up-referral Procedure",
       "ts": "2026-06-26T12:00:00+00:00",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-019.yaml",
       "varied_by": [],
       "varies": [],
@@ -3323,11 +3323,63 @@
       "supersedes": [],
       "title": "A Defect in the RECORD of a Bench Is Not a Defect in the Bench; the Thirteen Are Binding and Flagged",
       "ts": "2026-07-27T20:54:44Z",
-      "updated": "2026-07-27",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-BENCH-RECORD-DEFECT-021.yaml",
       "varied_by": [],
       "varies": [],
       "vote": "3-0 on the disposition; Denning concurring in part and dissenting in part"
+    },
+    {
+      "affirmed_by": [],
+      "affirms": [],
+      "assent_source": "standing_bounded_assent",
+      "bench": [
+        "Tindale",
+        "Rowanne",
+        "Marchmont"
+      ],
+      "case_file_digest": "sha256:fbce167e6210e01cd62fb684b881c658f34de61537c24db447c7524f3e572224",
+      "citation": "[2026] VJS-PC 22",
+      "cites": [
+        "2026-VJS-PC-011",
+        "ACT-001",
+        "REG-BUNDLE-001"
+      ],
+      "convened_at": "CONVENING-privy_council-2026-08-07-023002",
+      "court": "pc",
+      "date": "2026-08-07",
+      "doc": "law.html#2026-VJS-PC-CANON-LICENCE-TERM-022",
+      "estate": "v2",
+      "has_text": true,
+      "id": "2026-VJS-PC-CANON-LICENCE-TERM-022",
+      "kind": "order",
+      "lineage": [],
+      "opinion": {
+        "path": "lawpack/v2/opinions/2026-VJS-PC-22-opinions.md",
+        "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/opinions/2026-VJS-PC-22-opinions.md"
+      },
+      "path": "lawpack/v2/orders/2026-VJS-PC-CANON-LICENCE-TERM-022.yaml",
+      "points": [
+        "vary pc 11 d2 to the licence the holder states and leave its other limbs untouched",
+        "correct the breach ledger the licence non conformity was never lexbys to breach",
+        "conform cargo toml and notice md to license now that the conflict is closed",
+        "repoint the canon licence gate at the licence this order requires",
+        "make bundle verify fail closed on any licence it cannot classify",
+        "publish the licence change notice before publication and never after",
+        "publish the canon once d6 is up and the boundary is clean"
+      ],
+      "question": "The copyright holder has stated in express words that the canon is licensed PolyForm Noncommercial 1.0.0, deliberately, which [2026] VJS-PC 11 D2 forbids: should D2's AGPL term be varied or held to; how much of PC 11's ratio rested on AGPL specifically; what becomes of REG-BUNDLE-001(4)'s two-way licence firewall when the canon is in neither category; and may publication proceed on the varied term?",
+      "status": "binding",
+      "subject": "canon licence term",
+      "summary": "The canon is licensed PolyForm Noncommercial 1.0.0 and may be published.",
+      "superseded_by": [],
+      "supersedes": [],
+      "title": "A Term Only a Third Party Can Perform Is Not a Term Its Addressee Can Breach; PC 11 D2's Licence Term Is Varied to the Licence the Holder Grants, Its Ratio Survives Untouched, and Publication Proceeds on a Notice That Tells Subscribers What Changed Under Them",
+      "ts": "2026-08-07T00:00:00Z",
+      "updated": "2026-08-07",
+      "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-CANON-LICENCE-TERM-022.yaml",
+      "varied_by": [],
+      "varies": []
     },
     {
       "affirmed_by": [],
@@ -3380,7 +3432,7 @@
       ],
       "title": "Federation Extraction Canonicalisation (The Order)",
       "ts": "2026-06-09T00:00:00Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-001.yaml",
       "varied_by": [],
       "varies": []
@@ -3436,7 +3488,7 @@
       "supersedes": [],
       "title": "The Source and Rank of Entrenchment - The s.5(a) Gate, Final Appeal",
       "ts": "2026-06-12T13:25:00Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-003.yaml",
       "varied_by": [],
       "varies": [
@@ -3489,7 +3541,7 @@
       "supersedes": [],
       "title": "Unsatisfiable-enforcement-gate Auto-justiciability + Recorded-disposition Consultation (ACT-003 s10/s11 Ratification)",
       "ts": "2026-06-24T08:10:00Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-004.yaml",
       "varied_by": [],
       "varies": [],
@@ -3555,7 +3607,7 @@
       ],
       "title": "Reference Re Standing-Route Resolution: the Route-class Refinement Is Built Now as Faithful Non-narrowing Interpretation; the Per-instrument Force-gate Is Reserved to the Sovereign",
       "ts": "2026-06-25T17:20:00+00:00",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-005.yaml",
       "varied_by": [],
       "varies": [],
@@ -3605,7 +3657,7 @@
       "supersedes": [],
       "title": "Reference Re Two Recorded Contradictions - The Court of Appeal (BOOT-003 Vs the Constitution) and the Constitutive-bench Question for Legacy Empty-bench Orders",
       "ts": "2026-07-11T09:49:04Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-006.yaml",
       "varied_by": [],
       "varies": []
@@ -3652,7 +3704,7 @@
       "supersedes": [],
       "title": "Reference Re the Terminal Status of an Invariant Containing a Universal-negative Conjunct (K-1, \"no Path Around It\") Under the Binding Discipline",
       "ts": "2026-07-11T09:49:04Z",
-      "updated": "2026-07-11",
+      "updated": "2026-08-06",
       "url": "https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-007.yaml",
       "varied_by": [],
       "varies": []
@@ -5357,16 +5409,16 @@
   "meta": {
     "counts": {
       "archive": 37,
-      "canon": 85,
-      "total": 122
+      "canon": 86,
+      "total": 123
     },
     "lawpack": {
-      "digest": "sha256:215810e219acf3c5f18bcb7c482c73116a76fb0e08f20d31a665835bcbada114",
+      "digest": "sha256:035b70e73feb38524a5c4c052e3f2402469249d5f55b4dc8a5e47d9c7e4219dc",
       "id": null,
       "locked_at": null,
       "path": "lawpack/v2",
       "source": "vendored"
     },
-    "source_commit": "668f28172163a28c091cd1a23cdded24adcf5aee"
+    "source_commit": "79140a7d0660bf6bad7148898b8a30c9b87a906a"
   }
 }

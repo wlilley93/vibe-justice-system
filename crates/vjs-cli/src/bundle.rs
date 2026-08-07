@@ -102,6 +102,33 @@ fn verify_bundle_manifest(m: &BundleManifest) -> Result<String, String> {
                  only as vendored-restamped-readonly"
             ));
         }
+        // FAIL CLOSED ON A LICENCE THIS SORT DOES NOT KNOW ([2026] VJS-PC 22 D5).
+        //
+        // The firewall sorted licences two ways, copyleft and permissive, and let
+        // anything in NEITHER list through untouched. That was survivable while every
+        // component was in one of them. It stopped being survivable the moment the canon
+        // itself became PolyForm Noncommercial: the component the whole regulation was
+        // written around fell off both lists and would have passed this check by absence.
+        //
+        // PC 22 held the two-way sort is now on the WRONG AXIS. Copyleft leaks a
+        // disclosure duty, which is embarrassing. A noncommercial term leaks a
+        // PROHIBITION ON THE COMMERCIAL USE the consuming licence expressly grants, which
+        // is a contradiction no downstream consumer can cure by disclosing anything. The
+        // substantive third category is RESERVED (Marchmont J. dissenting, and worth
+        // reading: he says reserving a question nobody will bring is closing a door and
+        // calling it restraint). Until it is decided, an unclassifiable licence is
+        // refused rather than waved past, because "not on either list" is exactly what a
+        // use-restricted licence looks like from here.
+        if !BUNDLE_COPYLEFT.contains(&licence) && !BUNDLE_PERMISSIVE.contains(&licence) {
+            return Err(format!(
+                "licence firewall: component '{cid}' declares '{licence}', which this sort \
+                 classifies as neither copyleft nor permissive. An unclassifiable licence \
+                 is REFUSED, never passed through by absence from a list ([2026] VJS-PC 22 \
+                 D5). A use-restricted licence (noncommercial, source-available, \
+                 field-of-use) leaks a prohibition the consuming boundary cannot cure by \
+                 disclosure; the category that would govern it is reserved."
+            ));
+        }
     }
     Ok(format!(
         "bundle '{}' verified - {} components, distribution {}, licence firewall holds.",

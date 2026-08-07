@@ -3,11 +3,44 @@
   <title>The VJS Gazette</title>
   <subtitle>The record of the realm: the living canon and the honoured archive</subtitle>
   <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette</id>
-  <updated>2026-08-06T00:00:00Z</updated>
+  <updated>2026-08-07T00:00:00Z</updated>
   <link rel="self" href="https://wlilley93.github.io/vibe-justice-system/gazette.xml"/>
   <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/"/>
   <author><name>Vibe Justice System</name></author>
   <rights>Publication is constitutively inert (REG-GAZETTE-CONTINUITY-001): force comes from the lawpack and the Sovereign's assent, never from publication or syndication.</rights>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-CANON-LICENCE-TERM-022</id>
+    <title>A Term Only a Third Party Can Perform Is Not a Term Its Addressee Can Breach; PC 11 D2&apos;s Licence Term Is Varied to the Licence the Holder Grants, Its Ratio Survives Untouched, and Publication Proceeds on a Notice That Tells Subscribers What Changed Under Them</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-CANON-LICENCE-TERM-022"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-CANON-LICENCE-TERM-022.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-08-07T00:00:00Z</published>
+    <updated>2026-08-07T00:00:00Z</updated>
+    <summary type="text">The canon is licensed PolyForm Noncommercial 1.0.0 and may be published.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-KERNEL-EFFECT-GATE-001</id>
+    <title>The s.5(a) Kernel-effect Teeth-gate (Machinery With Conditions)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-CC-KERNEL-EFFECT-GATE-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-KERNEL-EFFECT-GATE-001.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-12T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">The s.5(a) kernel-effect gate is machinery with conditions: it gives deterministic effect to s.5&apos;s own exclusion of inert records, but must ROUTE FOR CORRECTION (never silently void) a record whose kernel_effect uses an unevaluable verb, flagging an assented one as a registry-coverage gap cured by extending the registry.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-RECORD-PROJECTION-009</id>
+    <title>One Record in Two Projections; the Allocator and the Uniqueness Guard Must Read the Same Register</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-CC-RECORD-PROJECTION-009"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-RECORD-PROJECTION-009.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-07-27T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">One record, two projections.</summary>
+  </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-VJS-CANON-LICENCE-021</id>
     <title>The Canon&apos;s Licence Is the Holder&apos;s to State and No One Else&apos;s; a Breach Whose Only Lawful Curer Is the Sovereign Routes for Correction, but Never Across the Outward Act; Five Pinned Texts Re-seat, One Is Restored, Four Are Held Unpublished by Declaration</title>
@@ -18,6 +51,292 @@
     <published>2026-08-06T00:00:00Z</published>
     <updated>2026-08-06T00:00:00Z</updated>
     <summary type="text">Never edit LICENSE to a licence the holder has not stated in express words, in either direction, and never make the other files agree with it - their disagreement is the evidence.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-001</id>
+    <title>Transition and Onboarding (The Order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-001.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">3-0 Privy Council ruling on V1-&gt;V2 transitional-continuity doctrine, pending matter classification, and local onboarding.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-002</id>
+    <title>Repository Topology (The Order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-002"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-002.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">3-0 Privy Council ruling consolidating onto established public repo as one canonical line with two-estate Gazette.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-003</id>
+    <title>S23 sc10 Location (The Order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-003"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-003.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">3-0 Privy Council ruling on back-filling s.23 and SC-10 into V1 archival estate with proper estate marking.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-004</id>
+    <title>Foundational Law Citation (The Order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-004"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-004.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">3-0 Privy Council ruling on citation convention: cite statute by instrument+section, case law by its case (neutral citation).</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-005</id>
+    <title>Institutions and Repos House (The Order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-005"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-005.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">3-0 Privy Council ruling on Repos House as declarative registry and institutional model.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-006</id>
+    <title>Superrepo Self Invocation (The Order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-006"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-006.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">3-0 Privy Council ruling that canon super-repo self-invokes under REG-INVOCATION-001; Privy Council is realm first-instance court.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-007</id>
+    <title>Assent Construction for the Realm Invariants and Machinery Instrument 2026</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-007"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-007.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-10T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">Assent found 2-1: the Sovereign&apos;s &quot;go&quot;, in immediate answer to the sole digest-pinned presentment, commences the Realm Invariants Instrument.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-008</id>
+    <title>The Court Machinery Versus Court Constitution Dividing Line</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-008"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-008.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-10T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">Appeal dismissed 3-0; County Court affirmed.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-009</id>
+    <title>CASE-LAW Is V1; It May Not Be Cited as Binding V2 Authority</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-009"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-009.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-10T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">CASE-LAW (V1) cannot be cited as live binding V2 authority.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-010</id>
+    <title>The Embedded Corporate Jurisdiction (Vibe Policy System)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-010"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-010.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-10T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">Embedded corporate jurisdiction lawful under ACT-007 without fresh assent or divergent-lineage fork, on six carried charter conditions; the kernel spec is machinery upstream.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-011</id>
+    <title>The Governance House</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-011"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-011.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-11T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">Don&apos;t merge it all into one repo.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-012</id>
+    <title>The s.5(a) Kernel-effect Gate on Appeal - The Entrenchment Condition</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-012"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-012.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-12T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">On appeal from [2026] VJS-CC 15, 3-0: the s.5(a) kernel-effect gate is concordance-machinery because its test is structural (the KernelEffect operation schema), not the 37 PredicateExpr arms; affirmance is fact-bound and does not license a semantic/predicate-selection enrichment.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-013</id>
+    <title>Teeth for the Front Door</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-013"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-013.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-24T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">Most of these duties were already law; they just had no gate switched on at the one chokepoint (the kernel, on the write into canon), which is how eleven private files self-asserting fake citations slipped in.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-014</id>
+    <title>The Single Governed-Record Front Door</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-014"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-014.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-25T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">PC-13 reserved the master &quot;single front door&quot; rule until there was a complete map of which duties have a kernel gate and which do not.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-015</id>
+    <title>The Runtime-Overlay Keystone</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-015"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-015.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-25T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">A subscriber asked canon to build a keystone: an overlay lawpack loader that lets its own local law (Tier-2) extend the canon floors (Tier-1) over runtime business decisions - advancing a matter, charging an invoice, approving a gate - not just code commits.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-016</id>
+    <title>The Assent-Resolution Floor</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-016"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-016.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-25T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">An adversarial audit proved a forgery: a staged record that merely TYPES &quot;assent_source: sovereign_assent&quot; while pointing at no real assent event got every Fatal finding downgraded to a Warning and committed, and a bench-less, never-convened &quot;Supreme Court order&quot; slipped through this way.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-017</id>
+    <title>Citation-Grounding of an Order&apos;s Operative Authorities</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-017"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-017.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-25T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">The bench-integrity gate checks only that an order came from a real, odd, fully-seated bench; it never reads the LAW the order cites.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-018</id>
+    <title>Standing-Route Resolution of Standing_bounded_assent</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-018"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-018.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-25T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">The kernel today resolves a standing_bounded_assent claim permissively: assent.rs&apos;s `founded` check confirms only that the Realm is Sovereign-founded (some sovereign_assent_event exists somewhere), not that THIS record traces to it.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-019</id>
+    <title>Federation Appellate-tier Placement and Up-referral Procedure</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-019"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-019.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-26T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">The Court of Appeal sits at the CANONICAL jurisdiction, not the subscriber.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-BENCH-RECORD-DEFECT-021</id>
+    <title>A Defect in the RECORD of a Bench Is Not a Defect in the Bench; the Thirteen Are Binding and Flagged</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-BENCH-RECORD-DEFECT-021"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-BENCH-RECORD-DEFECT-021.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-07-27T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">On referral from [2026] VJS-CC-VJS 11.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-001</id>
+    <title>Federation Extraction Canonicalisation (The Order)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-001"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-001.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-09T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">9-0 Supreme Court ruling on federation test, V1 incorporation, canonicalisation governance, and constitutional directives.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-003</id>
+    <title>The Source and Rank of Entrenchment - The s.5(a) Gate, Final Appeal</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-003"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-003.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-12T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">Final appeal, 9-0: entrenchment in V2 is constitutive and its sole source is Sovereign Assent (s.14); no court or kernel may mint it.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-004</id>
+    <title>Unsatisfiable-enforcement-gate Auto-justiciability + Recorded-disposition Consultation (ACT-003 s10/s11 Ratification)</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-004"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-004.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-24T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">Apex ratification (5-0), re-homed to canon from a mis-filed repo-level record.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-005</id>
+    <title>Reference Re Standing-Route Resolution: the Route-class Refinement Is Built Now as Faithful Non-narrowing Interpretation; the Per-instrument Force-gate Is Reserved to the Sovereign</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-005"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-005.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-25T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">Apex order (7-2 build; 9-0 on the constitutional crux), settling the three-way Privy fracture in [2026] VJS-PC 18 de novo.</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-006</id>
+    <title>Reference Re Two Recorded Contradictions - The Court of Appeal (BOOT-003 Vs the Constitution) and the Constitutive-bench Question for Legacy Empty-bench Orders</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-006"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-006.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-26T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">Unanimous (5-0).</summary>
+  </entry>
+  <entry>
+    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-007</id>
+    <title>Reference Re the Terminal Status of an Invariant Containing a Universal-negative Conjunct (K-1, &quot;no Path Around It&quot;) Under the Binding Discipline</title>
+    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-007"/>
+    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-007.yaml"/>
+    <category term="order"/>
+    <category term="canon"/>
+    <published>2026-06-26T00:00:00Z</published>
+    <updated>2026-08-06T00:00:00Z</updated>
+    <summary type="text">Unanimous (5-0) core ratio, 4-1 on the remedy (Everand J.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-PROCEEDINGS-DISCIPLINE</id>
@@ -62,28 +381,6 @@
     <published>2026-08-05T00:00:00Z</published>
     <updated>2026-08-05T00:00:00Z</updated>
     <summary type="text">Enacted on Sovereign Assent given 2026-08-05, pinned to the conditioned-engrossment digest sha256:95e308fbeaff310f6e4f37e88c81216aec9692dbebaf5dbf63688574d4f6608f (assent record lawpack/v2/provenance/assent/2026-08-05-subscriber-pseudonymity-assent.yaml; the engrossed instrument preserved verbatim at .vjs/submissions/draft/ACT-SUBSCRIBER-PSEUDONYMITY.yaml).</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-RECORD-PROJECTION-009</id>
-    <title>One Record in Two Projections; the Allocator and the Uniqueness Guard Must Read the Same Register</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-CC-RECORD-PROJECTION-009"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-RECORD-PROJECTION-009.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-07-27T00:00:00Z</published>
-    <updated>2026-07-27T00:00:00Z</updated>
-    <summary type="text">One record, two projections.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-BENCH-RECORD-DEFECT-021</id>
-    <title>A Defect in the RECORD of a Bench Is Not a Defect in the Bench; the Thirteen Are Binding and Flagged</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-BENCH-RECORD-DEFECT-021"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-BENCH-RECORD-DEFECT-021.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-07-27T00:00:00Z</published>
-    <updated>2026-07-27T00:00:00Z</updated>
-    <summary type="text">On referral from [2026] VJS-CC-VJS 11.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-BOOT-001</id>
@@ -216,281 +513,6 @@
     <published>2026-06-09T00:00:00Z</published>
     <updated>2026-07-11T00:00:00Z</updated>
     <summary type="text">V2 courts expressly constituted with odd benches; County 1, Privy Council 3, Supreme Court 5/9; Court of Appeal persists but non-convened.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-001</id>
-    <title>Transition and Onboarding (The Order)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-001"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-001.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">3-0 Privy Council ruling on V1-&gt;V2 transitional-continuity doctrine, pending matter classification, and local onboarding.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-002</id>
-    <title>Repository Topology (The Order)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-002"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-002.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">3-0 Privy Council ruling consolidating onto established public repo as one canonical line with two-estate Gazette.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-003</id>
-    <title>S23 sc10 Location (The Order)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-003"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-003.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">3-0 Privy Council ruling on back-filling s.23 and SC-10 into V1 archival estate with proper estate marking.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-004</id>
-    <title>Foundational Law Citation (The Order)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-004"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-004.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">3-0 Privy Council ruling on citation convention: cite statute by instrument+section, case law by its case (neutral citation).</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-005</id>
-    <title>Institutions and Repos House (The Order)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-005"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-005.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">3-0 Privy Council ruling on Repos House as declarative registry and institutional model.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-006</id>
-    <title>Superrepo Self Invocation (The Order)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-006"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-006.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">3-0 Privy Council ruling that canon super-repo self-invokes under REG-INVOCATION-001; Privy Council is realm first-instance court.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-007</id>
-    <title>Assent Construction for the Realm Invariants and Machinery Instrument 2026</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-007"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-007.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-10T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">Assent found 2-1: the Sovereign&apos;s &quot;go&quot;, in immediate answer to the sole digest-pinned presentment, commences the Realm Invariants Instrument.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-008</id>
-    <title>The Court Machinery Versus Court Constitution Dividing Line</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-008"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-008.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-10T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">Appeal dismissed 3-0; County Court affirmed.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-009</id>
-    <title>CASE-LAW Is V1; It May Not Be Cited as Binding V2 Authority</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-009"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-009.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-10T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">CASE-LAW (V1) cannot be cited as live binding V2 authority.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-010</id>
-    <title>The Embedded Corporate Jurisdiction (Vibe Policy System)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-010"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-010.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-10T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">Embedded corporate jurisdiction lawful under ACT-007 without fresh assent or divergent-lineage fork, on six carried charter conditions; the kernel spec is machinery upstream.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-011</id>
-    <title>The Governance House</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-011"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-011.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-11T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">Don&apos;t merge it all into one repo.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-012</id>
-    <title>The s.5(a) Kernel-effect Gate on Appeal - The Entrenchment Condition</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-012"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-012.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-12T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">On appeal from [2026] VJS-CC 15, 3-0: the s.5(a) kernel-effect gate is concordance-machinery because its test is structural (the KernelEffect operation schema), not the 37 PredicateExpr arms; affirmance is fact-bound and does not license a semantic/predicate-selection enrichment.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-013</id>
-    <title>Teeth for the Front Door</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-013"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-013.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-24T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">Most of these duties were already law; they just had no gate switched on at the one chokepoint (the kernel, on the write into canon), which is how eleven private files self-asserting fake citations slipped in.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-014</id>
-    <title>The Single Governed-Record Front Door</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-014"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-014.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-25T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">PC-13 reserved the master &quot;single front door&quot; rule until there was a complete map of which duties have a kernel gate and which do not.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-015</id>
-    <title>The Runtime-Overlay Keystone</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-015"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-015.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-25T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">A subscriber asked canon to build a keystone: an overlay lawpack loader that lets its own local law (Tier-2) extend the canon floors (Tier-1) over runtime business decisions - advancing a matter, charging an invoice, approving a gate - not just code commits.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-016</id>
-    <title>The Assent-Resolution Floor</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-016"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-016.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-25T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">An adversarial audit proved a forgery: a staged record that merely TYPES &quot;assent_source: sovereign_assent&quot; while pointing at no real assent event got every Fatal finding downgraded to a Warning and committed, and a bench-less, never-convened &quot;Supreme Court order&quot; slipped through this way.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-017</id>
-    <title>Citation-Grounding of an Order&apos;s Operative Authorities</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-017"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-017.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-25T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">The bench-integrity gate checks only that an order came from a real, odd, fully-seated bench; it never reads the LAW the order cites.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-018</id>
-    <title>Standing-Route Resolution of Standing_bounded_assent</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-018"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-018.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-25T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">The kernel today resolves a standing_bounded_assent claim permissively: assent.rs&apos;s `founded` check confirms only that the Realm is Sovereign-founded (some sovereign_assent_event exists somewhere), not that THIS record traces to it.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-PC-019</id>
-    <title>Federation Appellate-tier Placement and Up-referral Procedure</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-PC-019"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-PC-019.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-26T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">The Court of Appeal sits at the CANONICAL jurisdiction, not the subscriber.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-001</id>
-    <title>Federation Extraction Canonicalisation (The Order)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-001"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-001.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-09T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">9-0 Supreme Court ruling on federation test, V1 incorporation, canonicalisation governance, and constitutional directives.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-003</id>
-    <title>The Source and Rank of Entrenchment - The s.5(a) Gate, Final Appeal</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-003"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-003.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-12T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">Final appeal, 9-0: entrenchment in V2 is constitutive and its sole source is Sovereign Assent (s.14); no court or kernel may mint it.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-004</id>
-    <title>Unsatisfiable-enforcement-gate Auto-justiciability + Recorded-disposition Consultation (ACT-003 s10/s11 Ratification)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-004"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-004.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-24T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">Apex ratification (5-0), re-homed to canon from a mis-filed repo-level record.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-005</id>
-    <title>Reference Re Standing-Route Resolution: the Route-class Refinement Is Built Now as Faithful Non-narrowing Interpretation; the Per-instrument Force-gate Is Reserved to the Sovereign</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-005"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-005.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-25T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">Apex order (7-2 build; 9-0 on the constitutional crux), settling the three-way Privy fracture in [2026] VJS-PC 18 de novo.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-006</id>
-    <title>Reference Re Two Recorded Contradictions - The Court of Appeal (BOOT-003 Vs the Constitution) and the Constitutive-bench Question for Legacy Empty-bench Orders</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-006"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-006.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-26T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">Unanimous (5-0).</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-SC-007</id>
-    <title>Reference Re the Terminal Status of an Invariant Containing a Universal-negative Conjunct (K-1, &quot;no Path Around It&quot;) Under the Binding Discipline</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-SC-007"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-SC-007.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-26T00:00:00Z</published>
-    <updated>2026-07-11T00:00:00Z</updated>
-    <summary type="text">Unanimous (5-0) core ratio, 4-1 on the remedy (Everand J.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:ACT-001</id>
@@ -931,17 +953,6 @@
     <published>2026-07-11T00:00:00Z</published>
     <updated>2026-07-11T00:00:00Z</updated>
     <summary type="text">Privy Council is transition court classifying pending V1 matters as continued, reframed, or moot; V1 Court perfects only.</summary>
-  </entry>
-  <entry>
-    <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:2026-VJS-CC-KERNEL-EFFECT-GATE-001</id>
-    <title>The s.5(a) Kernel-effect Teeth-gate (Machinery With Conditions)</title>
-    <link rel="alternate" href="https://wlilley93.github.io/vibe-justice-system/#2026-VJS-CC-KERNEL-EFFECT-GATE-001"/>
-    <link rel="via" href="https://github.com/wlilley93/vibe-justice-system/blob/master/lawpack/v2/orders/2026-VJS-CC-KERNEL-EFFECT-GATE-001.yaml"/>
-    <category term="order"/>
-    <category term="canon"/>
-    <published>2026-06-12T00:00:00Z</published>
-    <updated>2026-06-12T00:00:00Z</updated>
-    <summary type="text">The s.5(a) kernel-effect gate is machinery with conditions: it gives deterministic effect to s.5&apos;s own exclusion of inert records, but must ROUTE FOR CORRECTION (never silently void) a record whose kernel_effect uses an unevaluable verb, flagging an assented one as a registry-coverage gap cured by extending the registry.</summary>
   </entry>
   <entry>
     <id>tag:wlilley93.github.io,2026-06-09:vibe-justice-system:gazette:REALM-SC-11</id>

@@ -1,32 +1,36 @@
 //! THE CANON'S OWN LICENCE, checked against the order that binds it.
 //!
-//! [2026] VJS-PC 11 D2 is a binding directive and `lexby` is the named actor:
-//! "keep the canon a separate PUBLIC AGPL repo at the root with zero inbound
-//! dependency". The holding puts it in terms - the canon "must REMAIN a separate,
-//! PUBLIC, AGPL-3.0 repository" - and the opinions call the AGPL stamp
-//! "non-negotiable", because it is what keeps the AGPL/MIT firewall of
-//! REG-BUNDLE-001 standing by construction rather than by anyone's care.
+//! [2026] VJS-PC 11 D2 binds the canon's licence and names `lexby` as the actor. It
+//! required AGPL-3.0 until [2026] VJS-PC 22 varied that term on 2026-08-07; the
+//! separateness, publicity and zero-inbound-dependency limbs are undisturbed.
 //!
 //! Nothing checked it. On 2026-07-11 an anonymising history squash replaced
 //! `LICENSE` with PolyForm Noncommercial 1.0.0, and for close to a month the canon
-//! shipped a licence its own binding law forbids while `Cargo.toml` and `NOTICE.md`
+//! shipped a licence its own binding law forbade while `Cargo.toml` and `NOTICE.md`
 //! went on reciting AGPL-3.0. Three files, two answers, no gate, and the
 //! contradiction was found by reading rather than by running. It very nearly went
 //! the other way: the fix in flight when this was written was to update the two
 //! reciting files to match `LICENSE`, which would have silenced the last signal
-//! that anything was wrong and left the breach machine-invisible for good.
+//! that anything was wrong and left the discrepancy machine-invisible for good.
+//!
+//! PC 22 later held the non-conformity was never LEXBY'S to breach - a term only the
+//! copyright holder could perform is not one its addressee can fail - and varied the
+//! term to the licence the holder in fact grants. That does not retire this gate. It
+//! sharpens what the gate is for: not policing an actor, but making sure a silent
+//! change to the canon's licence reaches a person instead of rotting in a diff for a
+//! month, whatever the licence happens to be.
 //!
 //! So there are two duties here and they are deliberately separable:
 //!
 //! 1. CONSISTENCY. Whatever the canon's licence is, every place that states it must
 //!    state the same one. This duty needs no view about which licence is right, and
 //!    on its own it would have caught 2026-07-11 on the day.
-//! 2. CONFORMITY. The canon's licence must be the one PC 11 D2 requires. This duty
-//!    is the order's, not this file's.
+//! 2. CONFORMITY. The canon's licence must be the one the order in force requires.
+//!    This duty is the order's, not this file's.
 //!
 //! The gate reports them as different codes on purpose: a drift is a mistake, a
-//! non-conforming licence is a breach of a binding order, and a cure for one is not
-//! a cure for the other.
+//! non-conforming licence is a departure from the order in force, and a cure for one
+//! is not a cure for the other.
 //!
 //! WHAT THIS GATE DOES NOT DO: it does not change a licence, and no gate may. A
 //! licence is a grant by the copyright holder with effect in real-world law, which
@@ -38,13 +42,21 @@ use std::path::Path;
 use vjs_core::report::Finding;
 use vjs_core::types::Severity;
 
-/// The licence PC 11 D2 requires of the canon. ONE copy, here, with its authority
-/// named beside it. It is not derived from the order file's `must:` slug because
-/// slug-scraping a licence identifier out of prose is a reader that fails open the
-/// day someone rewords a directive.
-const CANON_REQUIRED_LICENCE: &str = "AGPL-3.0-only";
-const CANON_REQUIRED_LICENCE_ALT: &str = "AGPL-3.0";
-const CANON_LICENCE_AUTHORITY: &str = "[2026] VJS-PC 11 D2";
+/// The licence the canon must carry. ONE copy, here, with its authority named beside
+/// it. It is not derived from the order file's `must:` slug, because slug-scraping a
+/// licence identifier out of prose is a reader that fails open the day someone rewords
+/// a directive.
+///
+/// AGPL-3.0 until [2026] VJS-PC 22 varied PC 11 D2 on 2026-08-07. The variation is
+/// worth reading before anyone moves this constant again: the Court did NOT hold that
+/// a licence term may be changed when it becomes inconvenient. It held that a licence
+/// is a grant no court may order a person to make, so a term addressed to `lexby` that
+/// only the copyright holder could perform was never a term lexby could breach. Move
+/// this constant only on the same footing - the holder stating a different grant in
+/// express words, and an order varying the term to match.
+const CANON_REQUIRED_LICENCE: &str = "LicenseRef-PolyForm-Noncommercial-1.0.0";
+const CANON_REQUIRED_LICENCE_ALT: &str = "PolyForm Noncommercial License 1.0.0";
+const CANON_LICENCE_AUTHORITY: &str = "[2026] VJS-PC 22 D4, varying [2026] VJS-PC 11 D2";
 
 /// True where THIS repository is the canon itself, rather than a subscriber holding
 /// a vendored copy of its lawpack.
@@ -52,7 +64,7 @@ const CANON_LICENCE_AUTHORITY: &str = "[2026] VJS-PC 11 D2";
 /// A subscriber pins the canon's lawpack, so `canonical = true` in the manifest is
 /// NOT on its own a statement that the reader is standing in the canon. The kernel
 /// SOURCE is: the canon is the repository the crates are written in, and a
-/// subscriber consumes them as a dependency. Where a tree carries both, the AGPL
+/// subscriber consumes them as a dependency. Where a tree carries both, the licence
 /// condition genuinely does reach it, so the conjunction is not merely a convenient
 /// discriminator - it is the right one.
 fn is_the_canon(repo: &Path) -> bool {
@@ -74,8 +86,8 @@ fn is_the_canon(repo: &Path) -> bool {
 }
 
 /// The `license = "..."` of `[workspace.package]`, read as a VALUE and not as a
-/// substring: a file that merely mentions AGPL somewhere in a comment has not
-/// declared it.
+/// substring: a file that merely mentions a licence name somewhere in a comment has
+/// not declared it.
 fn cargo_licence(repo: &Path) -> Option<String> {
     let text = std::fs::read_to_string(repo.join("Cargo.toml")).ok()?;
     text.lines()
@@ -96,7 +108,7 @@ fn cargo_licence(repo: &Path) -> Option<String> {
 fn license_file_identity(repo: &Path) -> Option<(String, bool)> {
     let text = std::fs::read_to_string(repo.join("LICENSE")).ok()?;
     let head: String = text.chars().take(4000).collect::<String>().to_uppercase();
-    if head.contains("GNU AFFERO GENERAL PUBLIC LICENSE") {
+    if head.contains("POLYFORM NONCOMMERCIAL LICENSE 1.0.0") {
         return Some((CANON_REQUIRED_LICENCE.to_string(), true));
     }
     let first = text
@@ -190,16 +202,18 @@ pub fn canon_licence_findings(repo: &Path, findings: &mut Vec<Finding>) {
             // Duty 1: CONSISTENCY. Needs no view about which licence is right, and on
             // its own would have caught 2026-07-11 on the day.
             //
-            // Asked on the ONE axis the gate can actually prove: is-it-AGPL. A raw
+            // Asked on the ONE axis the gate can actually prove: is-it-the-required-one.
+            // A raw
             // string comparison would set the file's first line - a TITLE - against an
             // SPDX identifier and report a difference in SPELLING as a difference in
             // grant, which is a check that cries wolf.
             //
-            // Both directions here are proofs. LICENSE identified as AGPL while
-            // Cargo.toml declares something else: they disagree. Cargo.toml declaring
-            // AGPL while LICENSE is provably not AGPL: they disagree, and this is the
-            // 2026-07-11 state exactly. Only the remaining case is unknowable - two
-            // different non-AGPL spellings, which may or may not be one licence - and
+            // Both directions here are proofs. LICENSE identified as the required
+            // licence while Cargo.toml declares something else: they disagree.
+            // Cargo.toml declaring it while LICENSE provably is not it: they disagree,
+            // and that is the 2026-07-11 state exactly. Only the remaining case is
+            // unknowable - two different unrecognised spellings, which may or may not
+            // be one licence - and
             // there the gate says nothing about drift, because the conformity duty
             // below already reports that state in terms.
             let drifted = is_required(declared) != *recognised;
@@ -227,13 +241,12 @@ pub fn canon_licence_findings(repo: &Path, findings: &mut Vec<Finding>) {
                     format!(
                         "the canon's LICENSE carries `{operative}`, and \
                          {CANON_LICENCE_AUTHORITY} binds the canon to remain a separate, \
-                         PUBLIC, {CANON_REQUIRED_LICENCE} repository - the AGPL stamp is what \
-                         holds the REG-BUNDLE-001 firewall up by construction. This gate \
-                         cannot cure it: a licence is a grant by the copyright holder with \
-                         effect in real-world law (ACT-001:s3), so the routes are the holder \
-                         restoring the required licence, or the Court moving D2 on a fresh \
-                         record. Publishing under a licence a binding order forbids is not \
-                         one of them. {posture}"
+                         PUBLIC repository under {CANON_REQUIRED_LICENCE}. This gate cannot \
+                         cure it: a licence is a grant by the copyright holder with effect \
+                         in real-world law (ACT-001:s3), so the routes are the holder \
+                         restoring the required licence, or a competent court varying the \
+                         term on a fresh record - which is what PC 22 did. Publishing under \
+                         a licence the order in force forbids is not one of them. {posture}"
                     ),
                 ));
             }

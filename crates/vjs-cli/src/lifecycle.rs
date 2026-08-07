@@ -480,11 +480,39 @@ pub(crate) fn cmd_file(
         String::new()
     };
 
+    // THE LIMIT IS THE COURT'S, and until now it was not.
+    //
+    // The lawpack manifest sets a ceiling per tier - county 500, privy 1000, and the
+    // Supreme Council higher again - because the tiers hear different work: a County
+    // matter is meant to be disposable on a page, and a constitutional matter is not.
+    // `ContextLimits` declares every one of those fields. This function ignored all of
+    // them and hardcoded 500, so the COUNTY ceiling silently governed every tier, and a
+    // Privy Council case file had to be cut in half to fit a limit that was never meant
+    // for it. A declared limit that nothing reads is not a limit; it is a comment with a
+    // type.
+    //
+    // Found 2026-08-07 filing the PC 11 D2 licence matter, which is exactly the kind of
+    // case the higher ceiling exists for.
+    //
+    // HONEST ABOUT WHAT IS STILL NOT WIRED: `limits` here is `ContextLimits::default()`,
+    // because `build_kernel_context` never reads `[limits]` out of the manifest either.
+    // The default values happen to equal the manifest's today, so this is right by
+    // agreement rather than by derivation, and an estate that edits its manifest will
+    // still be ignored. That second layer is filed, not fixed here, and saying so is the
+    // point: this comment is the difference between a known gap and a false claim.
+    let limits = vjs_core::ContextLimits::default();
+    let limit = match court.trim().to_ascii_lowercase().as_str() {
+        "privy" | "privy_council" => limits.privy_submission_max_words,
+        "supreme" | "supreme_court" | "supreme_council" => limits.privy_submission_max_words,
+        // County is the floor and the default: an unrecognised seat gets the STRICTEST
+        // ceiling, never the loosest, so a typo cannot buy room.
+        _ => limits.county_submission_max_words,
+    };
     let word_count = question.split_whitespace().count() + facts.split_whitespace().count();
-    if word_count > 500 {
+    if word_count > limit {
         return Err(KernelError::WordLimitExceeded {
             actual: word_count,
-            limit: 500,
+            limit,
         });
     }
 

@@ -1,0 +1,100 @@
+id: "2026-VJS-PC-CANON-LICENCE-TERM-022"
+assent_source: standing_bounded_assent
+citation: "[2026] VJS-PC 22"
+title: >
+  A term only a third party can perform is not a term its addressee can breach; PC 11 D2's
+  licence term is varied to the licence the holder grants, its ratio survives untouched,
+  and publication proceeds on a notice that tells subscribers what changed under them
+court: privy_council
+jurisdiction: vibe-justice-system
+status: binding
+issue: canon_licence_term
+created_at: "2026-08-07"
+bench:
+  - Tindale
+  - Rowanne
+  - Marchmont
+bench_size: 3
+constituted_by: "2026-VJS-COURTS-CONSTITUTION-001"
+source_opinion: lawpack/v2/opinions/2026-VJS-PC-22-opinions.md
+case_file: .vjs/submissions/draft/CASE-pc11-d2-licence-term.md
+case_file_digest: "sha256:fbce167e6210e01cd62fb684b881c658f34de61537c24db447c7524f3e572224"
+convened_at: CONVENING-privy_council-2026-08-07-023002
+submission: SUBMISSION-2026-08-07-022943
+question: >
+  The copyright holder has stated in express words that the canon is licensed PolyForm
+  Noncommercial 1.0.0, deliberately, which [2026] VJS-PC 11 D2 forbids: should D2's AGPL
+  term be varied or held to; how much of PC 11's ratio rested on AGPL specifically; what
+  becomes of REG-BUNDLE-001(4)'s two-way licence firewall when the canon is in neither
+  category; and may publication proceed on the varied term?
+holding: >
+  VARIED, 3-0. A LICENCE IS A GRANT AND NO COURT MAY ORDER A PERSON TO MAKE ONE
+  (ACT-001:s3), so D2's AGPL term was never a command to the holder; at its highest it was
+  a condition on lexby's act of publishing. THE RATIO IS NARROWER AND IS ROWANNE J.'S: a
+  term of an order addressed to lexby which only a THIRD PARTY can perform is not a term
+  lexby can breach, so the standing non-conformity recorded against lexby since 2026-07-11
+  was a fiction the corpus carried in a published ledger. Read the other way, D2 required
+  the canon to be public while forbidding the only lawful means of publishing it, which is
+  incoherent rather than stern. The holder's statement is NEW EVIDENCE that the order's
+  factual premise changed, not a change of mind about the order, and a court that cannot
+  receive such evidence is deaf rather than principled. PC 11's RATIO SURVIVES ENTIRELY
+  (3-0): dependency direction and pinnability turn on nothing about a licence and were
+  verified by measurement that never mentions one; the AGPL stamp was a MECHANISM, and a
+  mechanism that fails is not a ratio that falls. Separateness, publicness and
+  zero-inbound-dependency stand untouched. REG-BUNDLE-001(4) is now sorting on the WRONG
+  AXIS (2-1): copyleft leaks a disclosure duty, a noncommercial term leaks a PROHIBITION
+  ON THE COMMERCIAL USE the consuming licence expressly grants, which no downstream
+  consumer can cure by disclosing anything - so `bundle verify` must FAIL CLOSED on any
+  licence it cannot classify instead of passing it through an allow-list it is absent
+  from; the substantive third category is reserved (Marchmont J. would decide it now,
+  holding that reserving a question nobody will bring is closing a door and calling it
+  restraint). PUBLICATION MAY PROCEED (3-0) on the varied term and a clean boundary:
+  publicity here serves VERIFIABILITY, not commerce, and a commercial party who may not
+  use this canon is not helped by its being secret but by being able to read it and know
+  that they may not. MARCHMONT J.'S CONDITION IS ADOPTED (3-0): every subscriber pinning
+  this canon did so when it was AGPL and none was heard, so a notice must go up BEFORE
+  publication recording the licence in force, the date it changed, that it changed without
+  an adoption record for four weeks, and that anyone who vendored a digest before
+  2026-07-11 took it under AGPL-3.0. Nothing here reaches back to narrow a grant already
+  made; publishing under the new term while silent about the old would let the record imply
+  otherwise, and the implication would be false.
+runtime_summary: >
+  The canon is licensed PolyForm Noncommercial 1.0.0 and may be published. Never record a
+  breach against an actor for a term only somebody else could perform. When an order's
+  factual premise is disproved by the person who owns the fact, that is evidence and the
+  court hears it; it is not the executive finding the order inconvenient. A licence
+  classifier must fail closed on anything it cannot classify. Before publishing under a
+  changed licence, publish what changed and when: a grant already made for a digest stays
+  made, and silence about the old term implies otherwise.
+directives:
+  - id: D1
+    actor: lexby
+    must: vary_pc_11_d2_to_the_licence_the_holder_states_and_leave_its_other_limbs_untouched
+  - id: D2
+    actor: lexby
+    must: correct_the_breach_ledger_the_licence_non_conformity_was_never_lexbys_to_breach
+  - id: D3
+    actor: lexby
+    must: conform_cargo_toml_and_notice_md_to_license_now_that_the_conflict_is_closed
+  - id: D4
+    actor: lexby
+    must: repoint_the_canon_licence_gate_at_the_licence_this_order_requires
+  - id: D5
+    actor: lexby
+    must: make_bundle_verify_fail_closed_on_any_licence_it_cannot_classify
+  - id: D6
+    actor: lexby
+    must: publish_the_licence_change_notice_before_publication_and_never_after
+  - id: D7
+    actor: lexby
+    must: publish_the_canon_once_d6_is_up_and_the_boundary_is_clean
+forbidden:
+  - recording_a_breach_against_an_actor_for_a_term_only_a_third_party_can_perform
+  - reading_this_order_as_authority_to_vary_a_term_because_the_executive_finds_it_inconvenient
+  - narrowing_a_licence_grant_already_made_for_a_digest_taken_before_2026_07_11
+  - publishing_under_the_new_term_while_silent_about_the_old_one
+  - passing_an_unclassifiable_licence_through_the_bundle_allow_list
+  - treating_the_reserved_third_category_as_decided
+supersedes: []
+varies:
+  - "2026-VJS-PC-011 D2 (licence term only; the separateness, publicity and zero-inbound-dependency limbs are undisturbed)"

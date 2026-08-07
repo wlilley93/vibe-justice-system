@@ -1,9 +1,17 @@
-//! Red seeds for the canon-licence gate ([2026] VJS-PC 11 D2).
+//! Red seeds for the canon-licence gate ([2026] VJS-PC 22 D4, varying PC 11 D2).
 //!
 //! Every one of these is a state the canon was ACTUALLY in, or one step from. The
 //! gate exists because for close to a month the canon shipped a licence its own
-//! binding law forbids and three files disagreed about which licence that was, and
+//! binding law forbade and three files disagreed about which licence that was, and
 //! nothing anywhere said a word.
+//!
+//! THE ROLES ARE NOW REVERSED and the cases below are deliberately unchanged in
+//! shape. PC 22 varied the required licence from AGPL-3.0 to the PolyForm
+//! Noncommercial the holder actually grants, so the AGPL text is what the gate must
+//! now refuse. Rewriting these as "PolyForm good, AGPL bad" would have been the easy
+//! edit; keeping the 2026-07-11 case with its two files swapped is the honest one,
+//! because the defect was never about WHICH licence - it was about a repository
+//! stating two of them and nothing noticing.
 
 use std::path::{Path, PathBuf};
 
@@ -15,9 +23,13 @@ fn findings(repo: &Path) -> Vec<(String, String)> {
         .collect()
 }
 
-const AGPL_HEAD: &str = "                    GNU AFFERO GENERAL PUBLIC LICENSE\n\
-                         Version 3, 19 November 2007\n";
-const POLYFORM_HEAD: &str = "PolyForm Noncommercial License 1.0.0\n\nAcceptance\n";
+/// The licence PC 22 requires, and its SPDX identifier as Cargo.toml declares it.
+const REQUIRED_HEAD: &str = "PolyForm Noncommercial License 1.0.0\n\nAcceptance\n";
+const REQUIRED_SPDX: &str = "LicenseRef-PolyForm-Noncommercial-1.0.0";
+/// A licence the canon does NOT carry. It is AGPL because AGPL is what the canon used
+/// to be required to carry, which makes it the most realistic wrong answer available.
+const OTHER_HEAD: &str = "                    GNU AFFERO GENERAL PUBLIC LICENSE\n\
+                          Version 3, 19 November 2007\n";
 
 /// A tree shaped like the canon: the kernel source in it, and a manifest that says
 /// `canonical = true`. Both halves are load-bearing - see `is_the_canon`.
@@ -52,7 +64,7 @@ fn record_the_conflict(dir: &Path, operative: &str) {
 
 #[test]
 fn the_conforming_canon_earns_silence() {
-    let dir = canon_scratch("ok", "AGPL-3.0-only", AGPL_HEAD);
+    let dir = canon_scratch("ok", REQUIRED_SPDX, REQUIRED_HEAD);
     assert!(findings(&dir).is_empty(), "{:?}", findings(&dir));
 }
 
@@ -62,7 +74,7 @@ fn the_actual_2026_07_11_state_is_fatal_on_both_duties() {
     // LICENSE with PolyForm while Cargo.toml went on reciting AGPL. Two codes, not
     // one, because a drift is a mistake and a non-conforming licence is a breach of
     // a binding directive - and curing either alone leaves the other standing.
-    let dir = canon_scratch("real", "AGPL-3.0-only", POLYFORM_HEAD);
+    let dir = canon_scratch("real", REQUIRED_SPDX, OTHER_HEAD);
     let f = findings(&dir);
     assert!(
         f.contains(&("Fatal".into(), "CANON-LICENCE-DRIFT".into())),
@@ -77,15 +89,11 @@ fn the_actual_2026_07_11_state_is_fatal_on_both_duties() {
 #[test]
 fn making_the_files_agree_on_the_wrong_licence_does_not_clear_the_order() {
     // The cure that was IN FLIGHT when this gate was written, and the reason the two
-    // duties are separate codes. Updating Cargo.toml to match LICENSE makes the
-    // repository self-consistent and leaves it in breach of PC 11 D2 - with the last
-    // signal that anything was wrong now silenced. The drift clears. The breach does
-    // not, and must not.
-    let dir = canon_scratch(
-        "agree-wrong",
-        "LicenseRef-PolyForm-Noncommercial-1.0.0",
-        POLYFORM_HEAD,
-    );
+    // duties are separate codes. Making Cargo.toml agree with a LICENSE the order does
+    // not require leaves the repository self-consistent and non-conforming, with the
+    // last signal that anything was wrong now silenced. The drift clears. The
+    // departure from the order does not, and must not.
+    let dir = canon_scratch("agree-wrong", "AGPL-3.0-only", OTHER_HEAD);
     let f = findings(&dir);
     assert!(
         !f.iter().any(|(_, c)| c == "CANON-LICENCE-DRIFT"),
@@ -103,12 +111,12 @@ fn a_recorded_conflict_is_held_open_at_warning_and_an_unrecorded_one_is_not() {
     // lawful while it is recorded and awaiting the only person who can decide it,
     // and unlawful the moment it is silent. Straight Fatal would refuse the very
     // filings that put the question to the copyright holder.
-    let dir = canon_scratch("recorded", "AGPL-3.0-only", POLYFORM_HEAD);
+    let dir = canon_scratch("recorded", REQUIRED_SPDX, OTHER_HEAD);
     assert!(
         findings(&dir).iter().all(|(s, _)| s == "Fatal"),
         "unrecorded is Fatal"
     );
-    record_the_conflict(&dir, "PolyForm Noncommercial License 1.0.0");
+    record_the_conflict(&dir, "GNU AFFERO GENERAL PUBLIC LICENSE");
     let f = findings(&dir);
     assert!(!f.is_empty(), "recording it must not silence it: {f:?}");
     assert!(
@@ -123,7 +131,7 @@ fn a_filing_naming_a_different_licence_does_not_hold_anything_open() {
     // operative licence, so it cannot be written in advance and cannot be generic -
     // and it goes stale by itself the moment the licence changes again, at which
     // point the Fatal returns, because a new licence is a new question.
-    let dir = canon_scratch("stale-filing", "AGPL-3.0-only", POLYFORM_HEAD);
+    let dir = canon_scratch("stale-filing", REQUIRED_SPDX, OTHER_HEAD);
     record_the_conflict(&dir, "BSL-1.1");
     let f = findings(&dir);
     assert!(
@@ -139,7 +147,7 @@ fn a_subscriber_is_not_bound_by_the_canons_licence_condition() {
     // be the canon reaching into an estate it does not govern. The discriminator is
     // the kernel SOURCE, not `canonical = true`, because a vendored lawpack carries
     // that flag too.
-    let dir = canon_scratch("subscriber", "MIT", POLYFORM_HEAD);
+    let dir = canon_scratch("subscriber", "MIT", OTHER_HEAD);
     std::fs::remove_dir_all(dir.join("crates")).unwrap();
     assert!(
         findings(&dir).is_empty(),
@@ -150,7 +158,7 @@ fn a_subscriber_is_not_bound_by_the_canons_licence_condition() {
 
 #[test]
 fn an_absent_licence_file_or_declaration_is_never_a_pass() {
-    let dir = canon_scratch("no-license-file", "AGPL-3.0-only", AGPL_HEAD);
+    let dir = canon_scratch("no-license-file", REQUIRED_SPDX, REQUIRED_HEAD);
     std::fs::remove_file(dir.join("LICENSE")).unwrap();
     assert!(
         findings(&dir).contains(&("Fatal".into(), "CANON-LICENCE-UNDECLARED".into())),
@@ -158,7 +166,7 @@ fn an_absent_licence_file_or_declaration_is_never_a_pass() {
         findings(&dir)
     );
 
-    let dir = canon_scratch("no-cargo-licence", "AGPL-3.0-only", AGPL_HEAD);
+    let dir = canon_scratch("no-cargo-licence", REQUIRED_SPDX, REQUIRED_HEAD);
     std::fs::write(
         dir.join("Cargo.toml"),
         "[workspace.package]\nversion = \"0.1.0\"\n",
@@ -174,17 +182,18 @@ fn an_absent_licence_file_or_declaration_is_never_a_pass() {
 #[test]
 fn a_commented_out_licence_is_not_a_declaration() {
     // `a check on presence is not a check on the value`: the reader must take the
-    // VALUE of `license =`, never the fact that the string AGPL appears in the file.
-    let dir = canon_scratch("commented", "AGPL-3.0-only", AGPL_HEAD);
+    // VALUE of `license =`, never the fact that the required identifier appears
+    // somewhere in the file - here it appears only in a comment.
+    let dir = canon_scratch("commented", REQUIRED_SPDX, REQUIRED_HEAD);
     std::fs::write(
         dir.join("Cargo.toml"),
-        "[workspace.package]\n# license = \"AGPL-3.0-only\"\nlicense = \"MIT\"\n",
+        format!("[workspace.package]\n# license = \"{REQUIRED_SPDX}\"\nlicense = \"MIT\"\n"),
     )
     .unwrap();
     let f = findings(&dir);
     assert!(
         f.contains(&("Fatal".into(), "CANON-LICENCE-DRIFT".into())),
-        "the live declaration is MIT and LICENSE is AGPL: {f:?}"
+        "the live declaration is MIT and LICENSE is the required licence: {f:?}"
     );
 }
 
@@ -206,7 +215,7 @@ fn a_commented_out_licence_is_not_a_declaration() {
 /// file moves it, and only the entrenchment digest would notice.
 #[test]
 fn a_confined_edit_to_the_severity_hinge_flips_a_bright_line() {
-    let dir = canon_scratch("admission", "AGPL-3.0-only", POLYFORM_HEAD);
+    let dir = canon_scratch("admission", REQUIRED_SPDX, OTHER_HEAD);
 
     // As shipped, with nothing filed: the bright line BLOCKS.
     let blocking = findings(&dir);
@@ -218,7 +227,7 @@ fn a_confined_edit_to_the_severity_hinge_flips_a_bright_line() {
     // The confined edit's exact effect, reached through the predicate's only input:
     // make `conflict_is_on_the_record` answer yes. Same file, same findings, same
     // codes, severity inverted across the board.
-    record_the_conflict(&dir, "PolyForm Noncommercial License 1.0.0");
+    record_the_conflict(&dir, "GNU AFFERO GENERAL PUBLIC LICENSE");
     let permissive = findings(&dir);
     assert_eq!(
         blocking.iter().map(|(_, c)| c).collect::<Vec<_>>(),

@@ -1,0 +1,41 @@
+id: LICENCE-ADOPTION-2026-08-07-POLYFORM-NONCOMMERCIAL
+kind: sovereign_licence_statement
+date: "2026-08-07"
+licence: PolyForm Noncommercial License 1.0.0
+spdx: LicenseRef-PolyForm-Noncommercial-1.0.0
+licence_text: LICENSE
+licence_text_digest: "sha256:1a65347edc05c81756c94bdd19f1d9033cd5466f1d7362e061f1db014aef3dd0"
+holder: W. Lilley (the Sovereign Founder), as copyright holder
+statement: >
+  Asked in session on 2026-08-07 which licence the canon carries, the Principal stated in
+  express words: "the canon is licensed PolyForm Noncommercial 1.0.0, deliberately."
+  The question was put with the alternative fully stated - that AGPL-3.0-only was what
+  three of the four records asserted and what binding [2026] VJS-PC 11 D2 required - and
+  the answer chose against it knowingly.
+form: >
+  A licence is granted by the COPYRIGHT HOLDER'S ACT, not by a file ([2026] VJS-CC-VJS 21).
+  `LICENSE` is evidence of the grant; this record is the grant's own provenance, which is
+  the thing the corpus has lacked since 2026-07-11.
+what_this_record_settles:
+  - the operative licence of the canon, which is a real-world legal question ACT-001:s3 places above this corpus and which no gate and no court may decide
+  - that the PolyForm text written by the anonymising squash was not an accident to be reverted
+what_this_record_does_not_settle: >
+  IT DOES NOT MOVE [2026] VJS-PC 11 D2. The Principal holds the Sovereign and Prime
+  Minister offices and may make or unmake any law by due process, but a bare instruction
+  that conflicts with a binding order is ultra vires: the lawful route is an enacted
+  instrument or a ruling of a court competent to move the precedent (ACT-001:s2, ACT-002:s6).
+  D2 binds the canon to AGPL-3.0 and it binds until a competent court varies it. The
+  matter goes to the Privy Council, which is the seat that made it.
+  Until then publication remains barred by [2026] VJS-CC-VJS 21 and by the unconditional
+  refusal at `vjs publish` - not because the licence is unknown, which it now is not, but
+  because the ORDER has not yet caught up with it.
+history:
+  - "2026-06-09: AGPL-3.0 adopted under the Framework Act s.22; recorded by [2026] VJS-PC 5, superseding a prior MIT notice."
+  - "2026-07-11: the anonymising history squash (ebf34d7) wrote LICENSE as PolyForm Noncommercial 1.0.0. No adoption record, no order, no assent, unmentioned in its commit message."
+  - "2026-07-11 to 2026-08-06: Cargo.toml and NOTICE.md continued to recite AGPL-3.0. Nothing checked either file. The canon stated two licences and was in silent breach of PC 11 D2 throughout."
+  - "2026-08-06: found by reading, not by running. Gate built (CANON-LICENCE-DRIFT / CANON-LICENCE-NOT-CONFORMING), breach self-filed, question put to the holder by order of [2026] VJS-CC-VJS 21 D5."
+  - "2026-08-07: stated. This record."
+consequential_work:
+  - move [2026] VJS-PC 11 D2 on a fresh record before the reciting files may be conformed ([2026] VJS-CC-VJS 21 D2 forbids conforming them while the conflict is open)
+  - re-read REG-BUNDLE-001(4), whose AGPL/MIT firewall assumes the canon component is the copyleft side of the boundary; it is not one now
+  - re-point the canon-licence gate's required licence at whatever the new order requires
