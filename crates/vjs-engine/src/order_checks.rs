@@ -253,6 +253,18 @@ pub fn at_rest_order_findings(repo: &Path, lawpack: &vjs_lawpack::Lawpack) -> Ve
     };
     let corpus = crate::grounding::grounding_corpus(repo, lawpack);
 
+    // TWO FILES SHARING A RECORD ID ARE ONE RECORD
+    // ([2026] VJS-CC-RECORD-PROJECTION-009 D2/D4, applied by CC-VJS 20: "collapse two
+    // files sharing a record id into one record before counting any per-record duty").
+    //
+    // This sweep walks FILES, and the corpus deliberately keeps projections - the same
+    // order filed under `.vjs/court/orders` and overlaid from `.vjs/orders`. The first
+    // version of this function reported per file and so counted two records twice: 15
+    // findings over 13 records, against a correction register that correctly holds 13
+    // rows. A register and a gate that disagree by two is a register nobody can reconcile,
+    // and the disagreement would have been read as two unrecorded obligations rather than
+    // as double vision.
+    let mut seen: std::collections::HashSet<(String, String)> = std::collections::HashSet::new();
     let mut out = Vec::new();
     for root in vjs_core::front_door::governed_record_roots(repo) {
         for entry in walkdir::WalkDir::new(&root).into_iter().flatten() {
@@ -269,9 +281,24 @@ pub fn at_rest_order_findings(repo: &Path, lawpack: &vjs_lawpack::Lawpack) -> Ve
             if !vjs_core::front_door::is_governed_record(&rel) {
                 continue;
             }
+            let record_id = std::fs::read_to_string(path)
+                .ok()
+                .and_then(|t| {
+                    t.lines().find_map(|l| {
+                        let v = l.strip_prefix("id:")?.trim();
+                        let v = v.trim_matches('"').trim_matches('\'').trim();
+                        (!v.is_empty()).then(|| v.to_string())
+                    })
+                })
+                // A record with no readable id cannot be collapsed with anything, so it
+                // keys on its own path and is reported once, which is correct.
+                .unwrap_or_else(|| rel.clone());
             for mut fnd in order_findings(repo, &rel, constitution, &corpus) {
                 fnd.severity = Severity::Warning;
                 fnd.code = format!("AT_REST_{}", fnd.code);
+                if !seen.insert((record_id.clone(), fnd.message.clone())) {
+                    continue;
+                }
                 out.push(fnd);
             }
         }

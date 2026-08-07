@@ -106,6 +106,6 @@ pinned_at = "2026-08-07T03:06:39Z"
 
 [[entry]]
 path = "crates/vjs-engine/src/order_checks.rs"
-digest = "sha256:5b556310469152c8c6908768e82822b8e0895497aedbe7d97ac41e70804ab843"
-authority = "[2026] VJS-CC-VJS 20 D13 (order gates at rest)"
-pinned_at = "2026-08-07T03:24:57Z"
+digest = "sha256:c43a1bd6bc35f4b33ed9657687d6ce85c88dad4eb71bcd36bc76766ea2437759"
+authority = "[2026] VJS-CC-VJS 20 D13 + RECORD-PROJECTION-009 D2/D4"
+pinned_at = "2026-08-07T03:30:13Z"

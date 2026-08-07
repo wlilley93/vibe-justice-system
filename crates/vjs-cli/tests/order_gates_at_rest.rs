@@ -240,3 +240,37 @@ fn the_sweep_discloses_rather_than_passing_when_it_cannot_run() {
         "an unrunnable sweep discloses; it never passes:\n{out}"
     );
 }
+
+#[test]
+fn two_files_sharing_a_record_id_are_reported_once() {
+    // [2026] VJS-CC-RECORD-PROJECTION-009 D2/D4, applied by CC-VJS 20: "collapse two
+    // files sharing a record id into one record before counting any per-record duty."
+    //
+    // This is not hypothetical tidiness. The corpus deliberately keeps projections - the
+    // same order filed under `.vjs/court/orders` and overlaid from `.vjs/orders` - and
+    // the first version of this sweep walked FILES. It reported 15 findings over 13
+    // records against a correction register that correctly holds 13 rows, and a register
+    // and a gate disagreeing by two reads as two unrecorded obligations rather than as
+    // double vision.
+    let dir = estate("projection");
+    std::fs::create_dir_all(dir.join(".vjs/court/orders")).unwrap();
+    let body = malformed("2026-VJS-CC-ATREST-PROJECTED");
+    std::fs::write(dir.join(".vjs/orders/p.yaml"), &body).unwrap();
+    // The projection: same record id, different path, and deliberately NOT byte-identical
+    // so nothing can pass this by comparing contents instead of ids.
+    std::fs::write(
+        dir.join(".vjs/court/orders/p.yaml"),
+        format!("# the filed original\n{body}"),
+    )
+    .unwrap();
+
+    let out = validate(&dir, false);
+    let hits = out
+        .lines()
+        .filter(|l| l.contains("AT_REST_ORDER_MALFORMED") && l.contains("p.yaml"))
+        .count();
+    assert_eq!(
+        hits, 1,
+        "one record, one finding - two files sharing an id are one record:\n{out}"
+    );
+}
