@@ -1,9 +1,33 @@
+# THE LODGED (REGISTRATION) TEXT of the Subscriber Pseudonymity (Second Repository
+# Accession) Act 2026, [2026] VJS-ACT 15.
+#
+# THIS IS THE PROJECTION, NOT THE SIGNED INSTRUMENT. The Sovereign's assent pins
+# sha256:c65fc62a84b49257ec5dd770f388b5866bc0986ed7032e3c622dc98c686533e3, which is the
+# digest of the ENGROSSED DRAFT at .vjs/submissions/draft/ACT-SUBSCRIBER-PSEUDONYMITY-
+# SECOND-REPOSITORY.yaml. That draft is preserved verbatim, is the text the digest pins,
+# and is reproduced byte-identically at lawpack/v2/instruments/. This copy differs from it
+# in the `status` field, which the draft necessarily carries as `draft` because no text can
+# recite its own enactment, and in the registration fields added below. Correcting a
+# projection is not editing a signed record ([2026] VJS-CC-VJS 20, supplemental, ratio 8).
+#
+# The `notes_for_the_sovereign` block of the engrossed text is retained here verbatim. It
+# was written to be read BEFORE assent and is now spent as advice, but it records the three
+# things the Sovereign was asked to check - the pseudonym, the scope, and the premise - and
+# the premise in particular is the assumption on which the Act stands or falls.
 id: ACT-SUBSCRIBER-PSEUDONYMITY-SECOND-REPOSITORY
 title: The Subscriber Pseudonymity (Second Repository Accession) Act 2026
-status: draft
+status: in_force
+assent_source: sovereign_assent
+assent_instrument_digest: "sha256:c65fc62a84b49257ec5dd770f388b5866bc0986ed7032e3c622dc98c686533e3"
+citation: "[2026] VJS-ACT 15"
+citation_minted_by: kernel_allocator
+created_at: "2026-08-10"
+enacted_by: principal
+engrossed_text: .vjs/submissions/draft/ACT-SUBSCRIBER-PSEUDONYMITY-SECOND-REPOSITORY.yaml
+assent_record: lawpack/v2/provenance/assent/2026-08-10-second-repository-accession-assent.yaml
 prepared_at: "2026-08-10"
 prepared_by: agent
-made_by: sovereign_assent_required
+made_by: sovereign_assent
 purpose: >
   ENGROSSED FOR ASSENT; NOT MADE. Prepared by an agent and made only by the Sovereign,
   an accession under the publication-boundary scheme being reserved to assent.

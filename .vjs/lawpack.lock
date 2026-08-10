@@ -1,6 +1,6 @@
 lawpack_id = "vjs-v2@0.1.0"
 lawpack_version = "0.1.0"
-digest = "sha256:d1597343780399a5abf75428972e883646cff4390d9d3f07b8daed668b377f28"
+digest = "sha256:949c8d6b50330827a3b0ffe8fd373d73ba9ec4d3e8cedc9f8a003b5f406d2c10"
 schema_version = 1
-generated_at = "2026-08-10T14:21:13.694713+00:00"
+generated_at = "2026-08-10T14:23:23.607882+00:00"
 locked_by = "William Lilley"
