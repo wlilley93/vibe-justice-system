@@ -1,0 +1,54 @@
+id: ASSENT-2026-08-10-SUBSCRIBER-PSEUDONYMITY-SECOND-REPOSITORY
+kind: sovereign_assent_event
+date: "2026-08-10"
+instrument: The Subscriber Pseudonymity (Second Repository Accession) Act 2026
+instrument_id: ACT-SUBSCRIBER-PSEUDONYMITY-SECOND-REPOSITORY
+instrument_citation: "[2026] VJS-ACT 15"
+instrument_text: lawpack/v2/instruments/ACT-SUBSCRIBER-PSEUDONYMITY-SECOND-REPOSITORY.yaml
+instrument_text_historic: .vjs/submissions/draft/ACT-SUBSCRIBER-PSEUDONYMITY-SECOND-REPOSITORY.yaml
+instrument_digest: "sha256:c65fc62a84b49257ec5dd770f388b5866bc0986ed7032e3c622dc98c686533e3"
+sovereign: the Principal, in the Sovereign capacity
+form: >
+  Express assent given in session on 2026-08-10, in the words "I assent to the Subscriber
+  Pseudonymity (Second Repository Accession) Act 2026, digest
+  sha256:c65fc62a84b49257ec5dd770f388b5866bc0986ed7032e3c622dc98c686533e3". The digest was
+  re-measured against the engrossed instrument BEFORE anything else proceeded and MATCHED,
+  and has been re-measured again on registration of this event and MATCHES still.
+
+  AN EARLIER SELECTION WAS EXPRESSLY NOT ACTED ON, and this is the material fact about this
+  assent. The agent had put the question as a multiple-choice option whose label read
+  "assent (Recommended)". The Principal selected it. That selection was REFUSED as a
+  constitutive act and no record was written on it: the agent authored the option, its
+  label and its recommendation, so acting on the click would have been the agent creating
+  force from its own output - non-presumable and non-delegable under
+  ACT-COMPUTER-FIRST-REALM s.14, which is entrenched and makes any record purporting
+  otherwise void ab initio. The 2026-08-06 residue assent refused a loose yes on the same
+  ground. The rule was then stated back to the Principal with the exact words required, and
+  the words above were given unprompted in that form.
+made_by: enactment
+effects:
+  - accessions: REPO2-SUB1, the First Subscriber's second repository, by s1
+  - adds: one resolution row to the First Subscriber's private register (never published)
+  - unblocks: referral of the jurisdiction limb of the contested county citation to the
+      Privy Council, rendered in accessioned pseudonyms throughout
+  - decides: nothing about the contested citation, the two orders, or the standing of
+      either repository - each expressly reserved by s2
+premise_relied_on: >
+  s1 names the second repository as the FIRST SUBSCRIBER'S. That premise was put to the
+  Principal as a distinct question before assent, because the records themselves are
+  equivocal - they state the First Subscriber's jurisdiction on their face while carrying a
+  differing repo code, and do not agree with each other on that code - and the agent could
+  not settle it. The Principal directed that the second repository IS the First
+  Subscriber's, and this Act is made on that footing. If that premise is later found wrong,
+  the Act names its subject wrongly and s2 leaves every consequence open.
+citation_provenance: >
+  "[2026] VJS-ACT 15" was minted by the kernel allocator (`vjs next-citation ACT 2026`).
+  The agent had first written "[2026] VJS-ACT 14" by hand; that ordinal is already held by
+  an Act in force, so the self-asserted form would itself have created a double-allocated
+  citation. Caught before making by ACT-PROCEEDINGS-DISCIPLINE s7's rule against
+  self-asserted ordinals.
+notes: >
+  This is the first instrument in the book whose assent event records a REFUSED
+  constitutive act alongside the accepted one. It is recorded because the refusal is the
+  more instructive half: the failure mode was not a forged signature but a well-intentioned
+  agent offering the Sovereign a button and then treating the press as law.

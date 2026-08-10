@@ -1,0 +1,96 @@
+id: ACT-SUBSCRIBER-PSEUDONYMITY-SECOND-REPOSITORY
+title: The Subscriber Pseudonymity (Second Repository Accession) Act 2026
+status: in_force
+citation: "[2026] VJS-ACT 15"
+citation_minted_by: kernel_allocator
+citation_note: >
+  Minted by `vjs next-citation ACT 2026`, never self-asserted
+  (ACT-PROCEEDINGS-DISCIPLINE s7: mint ordinals over the store register only; refuse a
+  self-asserted ordinal). The agent preparing this instrument first wrote "[2026] VJS-ACT
+  14" by hand. That ordinal was ALREADY HELD by an Act in force, so the self-asserted form
+  would have created a second double-allocated citation - the precise defect whose referral
+  this Act exists to unblock. Recorded because the near-miss is the argument for the rule.
+prepared_at: "2026-08-10"
+prepared_by: agent
+made_by: sovereign_assent
+assent_source: sovereign_assent
+assented_at: "2026-08-10"
+assent_record: lawpack/v2/provenance/assent/2026-08-10-second-repository-accession-assent.yaml
+engrossed_digest: "sha256:c65fc62a84b49257ec5dd770f388b5866bc0986ed7032e3c622dc98c686533e3"
+engrossed_text_historic: .vjs/submissions/draft/ACT-SUBSCRIBER-PSEUDONYMITY-SECOND-REPOSITORY.yaml
+purpose: >
+  MADE on Sovereign Assent given 2026-08-10 in express words pinning the engrossed digest
+  above, which was re-measured against the engrossed text at the moment of making and
+  MATCHED. Prepared by an agent and made only by the Sovereign, an accession under the
+  publication-boundary scheme being reserved to assent (ACT-COMPUTER-FIRST-REALM s.14:
+  non-automatable, non-presumable, non-delegable).
+
+  A prior selection of a menu option labelled "assent" was expressly NOT acted on. It was
+  presumed assent by construction - the agent wrote the option, its label and its
+  recommendation - and s14 refuses exactly that, as the 2026-08-06 residue assent refused
+  a loose yes in favour of express words pinning a digest.
+
+  ACT-SUBSCRIBER-PSEUDONYMITY:s1 accessions SUB1 to the First Subscriber and SUB2 to the
+  second repository so rendered by the estate schedule. The First Subscriber's estate
+  contains a SECOND REPOSITORY of its own - distinct from the checkout SUB1 denotes and
+  distinct from the repository SUB2 denotes - which holds filed orders, court records,
+  breaches, decision logs, permits and submissions, all stating the First Subscriber's
+  jurisdiction. That repository has NO accessioned pseudonym.
+
+  The gap is not academic. A citation in the First Subscriber's county series is presently
+  allocated to two live binding orders with unrelated holdings, one in each repository, and
+  the question whether the second repository is a registered store of that jurisdiction at
+  all is a jurisdiction question which ACT-002:s3 requires be routed to the Privy Council.
+  That court sits canonically. A canon text may not name a subscriber by code
+  (ACT-005:s1, ACT-007:s4), so the matter cannot be referred up while the repository it
+  concerns cannot lawfully be named. This Act supplies the name and nothing else.
+
+  It decides NOTHING about the citation, the two orders, or the standing of either
+  repository. It declares no kernel_effect and contributes zero rows to the duty audit.
+sections:
+  - id: ACT-SUBSCRIBER-PSEUDONYMITY-SECOND-REPOSITORY:s1
+    title: The accession
+    text: >
+      In this Act and in every canon text, REPO2-SUB1 means the First Subscriber's second
+      repository: the repository, other than the checkout SUB1 denotes, which holds records
+      stating the First Subscriber's jurisdiction. The rendering is qualifier-first, as
+      CC-SUB1 is and as ACT 13's Restraint condition 2 requires, so that no inverted form
+      enters the book. REPO2-SUB1 is hereby ACCESSIONED within the meaning of the
+      publication-boundary scheme. Resolution is by the First Subscriber's private register
+      at .vjs/private/pseudonym-register.md, to which the making under s3 adds one row; the
+      register is never committed and never published.
+  - id: ACT-SUBSCRIBER-PSEUDONYMITY-SECOND-REPOSITORY:s2
+    title: What this Act does not do
+    text: >
+      This Act does not determine whether REPO2-SUB1 is a registered store of the First
+      Subscriber's jurisdiction, whether records minted there bind, which of the two orders
+      holds the contested citation, or the status of the other. Each is reserved to the
+      Privy Council on referral. Nothing here is to be read as recognising REPO2-SUB1 as a
+      store, or as denying it: an accession names a thing so that it may be litigated about,
+      and naming is not standing.
+  - id: ACT-SUBSCRIBER-PSEUDONYMITY-SECOND-REPOSITORY:s3
+    title: Making
+    text: >
+      This Act is made on Sovereign Assent pinned to the engrossed digest recorded in the
+      assent event. On making: one resolution row is added to the private register; and the
+      referral of the jurisdiction question to the Privy Council may proceed, rendered in
+      accessioned pseudonyms throughout.
+notes_for_the_sovereign: >
+  Three things to check before assenting, because an agent prepared this and an agent
+  should not be trusted about them.
+
+  ONE - the pseudonym. REPO2-SUB1 is proposed because it is structural and carries no
+  product name, and because qualifier-first matches CC-SUB1. If you prefer a rendering that
+  carries the repository's function, that is your call; the register row and this text must
+  then match.
+
+  TWO - the scope. s2 is drawn deliberately narrow. If you would rather the same instrument
+  settle whether that repository is a store at all, it should not: that is the Privy
+  Council's, and an Act that pre-empted it would decide the live matter by legislation.
+
+  THREE - the premise. This Act assumes the second repository is the First Subscriber's and
+  not a separate jurisdiction that never recorded its constitution. That reading is taken
+  from the records themselves, which state the First Subscriber's jurisdiction on their
+  face while carrying a differing repo code, and which do not agree with each other on that
+  code. If the true position is that it is a distinct jurisdiction, this Act names it
+  wrongly and should not be made in this form.
