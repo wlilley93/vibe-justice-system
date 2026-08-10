@@ -145,9 +145,23 @@ impl RepoScanner {
             let path = entry.path();
             if path.extension().and_then(|s| s.to_str()) == Some("yaml")
                 && let Ok(content) = std::fs::read_to_string(&path)
-                && let Ok(order) = serde_yaml::from_str::<Order>(&content)
             {
-                orders.push(order);
+                match serde_yaml::from_str::<Order>(&content) {
+                    Ok(order) => orders.push(order),
+                    // This set feeds `evaluate_invariants`. Dropping a record here silently meant
+                    // invariants returned PASS over an order set that was quietly short - a gate
+                    // going green about a layer it could not read. Skipping is still the behaviour
+                    // for anything that will not parse (this reader has no channel to fail through),
+                    // but it is now ANNOUNCED, never swallowed.
+                    Err(e) => match crate::classify_unparsed_order(&content) {
+                        crate::UnparsedOrder::Referral(r) => eprintln!("{}", r.announcement(&path)),
+                        crate::UnparsedOrder::Unreadable => eprintln!(
+                            "warning: order {} does not parse and is NOT in the invariant \
+                             evaluation set: {e}",
+                            path.display()
+                        ),
+                    },
+                }
             }
         }
         Ok(orders)
