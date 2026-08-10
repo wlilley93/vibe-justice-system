@@ -273,9 +273,21 @@ impl Store {
             if path.extension().and_then(|s| s.to_str()) == Some("yaml") {
                 let content =
                     std::fs::read_to_string(&path).map_err(|e| KernelError::Io(e.to_string()))?;
-                let order: Order = serde_yaml::from_str(&content)
-                    .map_err(|e| KernelError::Serialization(e.to_string()))?;
-                orders.push(order);
+                match serde_yaml::from_str::<Order>(&content) {
+                    Ok(order) => orders.push(order),
+                    // A referral is not an order and never was; reading it as one and then
+                    // failing on the `holding` ACT-002:s10 makes constitutive OF AN ORDER took
+                    // the whole command down - `vjs status` could not run at all against a store
+                    // holding one. The classification is not this reader's to make or withhold:
+                    // binding apex law ([2026] VJS-SC 4, applied at CC-OPBOX 160 O1) already made
+                    // it. A genuinely unreadable order still fails closed, exactly as before.
+                    Err(e) => match classify_unparsed_order(&content) {
+                        UnparsedOrder::Referral(r) => eprintln!("{}", r.announcement(&path)),
+                        UnparsedOrder::Unreadable => {
+                            return Err(KernelError::Serialization(e.to_string()));
+                        }
+                    },
+                }
             }
         }
 

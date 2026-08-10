@@ -59,6 +59,59 @@ impl ReferralRecord {
     }
 }
 
+/// What a file in the orders store IS, once it has failed to parse as an `Order`.
+///
+/// ONE statement of the rule. Three readers stated it three ways and drifted apart, which is the
+/// same shape [2026] VJS-CC-OPBOX 16 C1 records for the two record-writing doors: a caller that
+/// restates where records go is a second statement of the rule, and that is how the doors came
+/// apart in the first place. Here `vjs-engine` announced referrals correctly, `vjs-store` hard-failed
+/// the whole command on one (so `vjs status` could not run at all against the First Subscriber's
+/// store), and `vjs-core::repo` silently dropped every unparseable record on the floor - the last
+/// being the worst, because that reader feeds `evaluate_invariants`, so invariants were passing over
+/// an order set that was quietly short.
+#[derive(Clone, Debug)]
+pub enum UnparsedOrder {
+    /// A referral record. Announce it and leave it out of the citator; it confers no local force.
+    Referral(Box<ReferralRecord>),
+    /// Genuinely unreadable. It stays COUNTED and the alarm stays ARMED - never silently skipped,
+    /// because a record quietly reclassified out of the count is the fail-open this whole matter
+    /// exists about.
+    Unreadable,
+}
+
+/// Classify a file in the orders store that did not parse as an `Order`.
+///
+/// The door is deliberately narrow (see [`ReferralRecord::is_referral_not_order`]): anything that
+/// does not satisfy every limb comes back [`UnparsedOrder::Unreadable`], which is the safe
+/// direction. Callers MUST NOT re-implement this test.
+pub fn classify_unparsed_order(content: &str) -> UnparsedOrder {
+    match serde_yaml::from_str::<ReferralRecord>(content) {
+        Ok(r) if r.is_referral_not_order() => UnparsedOrder::Referral(Box::new(r)),
+        _ => UnparsedOrder::Unreadable,
+    }
+}
+
+impl ReferralRecord {
+    /// The single announcement wording, so every door says the same thing about the same record.
+    pub fn announcement(&self, path: &std::path::Path) -> String {
+        format!(
+            "note: {} is a REFERRAL record, not an order: {} -> {} (apex ruling {}). \
+             It confers no local force; the binding record is the apex ruling.",
+            path.display(),
+            if self.referral.from.trim().is_empty() {
+                "(source not stated)"
+            } else {
+                self.referral.from.trim()
+            },
+            self.referral
+                .apex_location
+                .as_deref()
+                .unwrap_or("(location not stated)"),
+            self.referral.apex_ruling.trim(),
+        )
+    }
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct ReferralTarget {
     /// The local matter the referral came from, e.g. `[2026] VJS-CC-OPBOX 79`.

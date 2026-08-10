@@ -175,3 +175,69 @@ fn a_broken_order_beside_a_referral_still_refuses_and_names_only_itself() {
     );
     let _ = std::fs::remove_dir_all(&repo);
 }
+
+// ---------------------------------------------------------------------------
+// THE OTHER TWO DOORS. The door above was widened in `vjs-engine` alone, so the
+// two remaining order readers still stated the rule their own way and drifted -
+// the CC-OPBOX 16 C1 shape, a second statement of where records go. `vjs-store`
+// hard-failed on the referral (so `vjs status` could not run at all against a
+// store holding one) and `vjs-core::repo` silently dropped it into a set that
+// feeds `evaluate_invariants`. Each now gets the same pair: the referral passes
+// and is not counted, and a genuinely broken order still does what it did.
+// ---------------------------------------------------------------------------
+
+/// `Store::read_orders` backs `vjs status`. A referral must not take the command down,
+/// and must not be counted as an order either.
+#[test]
+fn the_store_reader_reads_past_a_referral_without_counting_it() {
+    let repo = scratch("store-clean");
+    std::fs::write(repo.join(".vjs/orders/2026-VJS-SC-SUBX-001.yaml"), REFERRAL).unwrap();
+    std::fs::write(
+        repo.join(".vjs/orders/2026-VJS-CC-VJS-997.yaml"),
+        "id: 2026-VJS-CC-VJS-997\ncourt: county\njurisdiction: vjs\nstatus: binding\nissue: x\n\
+         holding: a real holding\ndirectives: []\n",
+    )
+    .unwrap();
+    let orders = vjs_store::Store::read_orders(&repo)
+        .expect("a referral must not fail the whole read: this is what broke `vjs status`");
+    assert_eq!(orders.len(), 1, "the referral is not admitted as an order");
+    assert!(
+        orders.iter().all(|o| !o.id.contains("SUBX")),
+        "the referral must never reach the citator"
+    );
+    let _ = std::fs::remove_dir_all(&repo);
+}
+
+/// NEGATIVE CONTROL for the store reader: a genuinely broken order must STILL fail
+/// closed. The fix must not have converted a hard failure into a silent skip.
+#[test]
+fn the_store_reader_still_fails_closed_on_a_broken_order() {
+    let repo = scratch("store-broken");
+    std::fs::write(repo.join(".vjs/orders/2026-VJS-SC-SUBX-001.yaml"), REFERRAL).unwrap();
+    std::fs::write(
+        repo.join(".vjs/orders/2026-VJS-CC-VJS-996.yaml"),
+        "id: 2026-VJS-CC-VJS-996\ncourt: county\n", // no holding: unreadable, not a referral
+    )
+    .unwrap();
+    assert!(
+        vjs_store::Store::read_orders(&repo).is_err(),
+        "a broken order must still refuse - widening the door must not open it for everything"
+    );
+    let _ = std::fs::remove_dir_all(&repo);
+}
+
+/// `build_repo_state` feeds `evaluate_invariants`. A referral must not be counted as an
+/// order there either, or an invariant would be evaluating against a record apex law says
+/// confers no force.
+#[test]
+fn the_invariant_state_reader_does_not_count_a_referral_as_an_order() {
+    let repo = scratch("state");
+    std::fs::write(repo.join(".vjs/orders/2026-VJS-SC-SUBX-001.yaml"), REFERRAL).unwrap();
+    let state = vjs_core::RepoScanner::build_repo_state(&repo)
+        .expect("building state must not fail on a referral");
+    assert!(
+        state.orders.is_empty(),
+        "a referral confers no force and must not enter the invariant evaluation set"
+    );
+    let _ = std::fs::remove_dir_all(&repo);
+}

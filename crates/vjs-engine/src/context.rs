@@ -18,7 +18,7 @@ use std::path::{Path, PathBuf};
 
 use vjs_core::{
     Authority, AuthorityGraph, AuthorityId, AuthorityKind, AuthorityRank, ContextLimits, Court,
-    KernelContext, KernelError, Order, ReferralRecord,
+    KernelContext, KernelError, Order, UnparsedOrder, classify_unparsed_order,
 };
 
 /// The kernel context both doors answer from: the subscribed canon, overlaid with this
@@ -119,25 +119,9 @@ fn overlay_filed_orders(
                 // no binding force. It is announced, not swallowed: a record quietly
                 // reclassified out of the count is the fail-open this whole matter exists
                 // about.
-                match serde_yaml::from_str::<ReferralRecord>(&content) {
-                    Ok(r) if r.is_referral_not_order() => {
-                        eprintln!(
-                            "note: {} is a REFERRAL record, not an order: {} -> {} (apex ruling {}). \
-                             It confers no local force; the binding record is the apex ruling.",
-                            path.display(),
-                            if r.referral.from.trim().is_empty() {
-                                "(source not stated)"
-                            } else {
-                                r.referral.from.trim()
-                            },
-                            r.referral
-                                .apex_location
-                                .as_deref()
-                                .unwrap_or("(location not stated)"),
-                            r.referral.apex_ruling.trim(),
-                        );
-                    }
-                    _ => {
+                match classify_unparsed_order(&content) {
+                    UnparsedOrder::Referral(r) => eprintln!("{}", r.announcement(&path)),
+                    UnparsedOrder::Unreadable => {
                         eprintln!(
                             "warning: order {} does not parse and is NOT in the citator: {e}",
                             path.display()
