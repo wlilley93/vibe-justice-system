@@ -1,4 +1,5 @@
 id: AGENT-LOOKUP-002
+authority: ACT-001:s3
 assent_source: standing_bounded_assent
 title: Kernel-first lifecycle
 status: binding
@@ -27,3 +28,6 @@ source:
     - Agent Lawfulness Hooks instruments
 summary: The agent must follow the full route-permit-proof-log-validate lifecycle.
 supersedes: []
+kernel_effect:
+  annotates:
+    - route.authority_basis

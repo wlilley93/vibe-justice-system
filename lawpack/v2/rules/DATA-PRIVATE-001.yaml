@@ -1,4 +1,5 @@
 id: DATA-PRIVATE-001
+authority: ACT-001:s3
 assent_source: standing_bounded_assent
 title: Private facts stay local
 status: binding
@@ -24,3 +25,6 @@ source:
     - Data boundary sweep
 summary: Public records must not contain private operational facts or secrets.
 supersedes: []
+kernel_effect:
+  annotates:
+    - route.authority_basis
