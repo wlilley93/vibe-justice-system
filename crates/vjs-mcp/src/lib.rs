@@ -359,7 +359,7 @@ impl McpServer {
             let opinion_text = order
                 .source_opinion
                 .as_ref()
-                .and_then(|sp| std::fs::read_to_string(self.repo_root.join(sp)).ok());
+                .and_then(|sp| vjs_engine::read_source_opinion(&self.repo_root, sp));
             let defects =
                 vjs_core::bench::verify_bench(&order, constitution, opinion_text.as_deref());
             // Bench-integrity (a constituted odd size; no silent seat) is a CONSTITUTIVE

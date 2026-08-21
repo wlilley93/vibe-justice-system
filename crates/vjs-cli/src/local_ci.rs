@@ -128,7 +128,7 @@ pub(crate) fn cmd_local_ci(repo: &Path, json: bool) -> Result<(), KernelError> {
                 let opinion_text = order
                     .source_opinion
                     .as_ref()
-                    .and_then(|p| std::fs::read_to_string(repo.join(p)).ok());
+                    .and_then(|p| vjs_engine::read_source_opinion(repo, p));
                 for d in vjs_core::bench::verify_bench(order, c, opinion_text.as_deref()) {
                     order_findings.push(format!("{}: {}", order.id, d.code()));
                 }
