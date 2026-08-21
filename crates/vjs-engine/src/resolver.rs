@@ -305,3 +305,26 @@ pub fn lawpack_path_from_config(repo: &Path) -> Option<PathBuf> {
     }
     None
 }
+
+/// Read an order's `source_opinion` body from wherever the canon lives.
+///
+/// The path is written by the CANON'S author and is relative to the repository
+/// that OWNS the canon, not to whoever is reading it - the Gazette met this
+/// defect first, and [2026] VJS-CC-VJS 17 C5 words the rule. A subscriber
+/// resolving the canon out of tree has no such file under its own root, so
+/// `repo.join` alone refused every subscriber: measured 2026-08-21,
+/// `vjs local-ci` in a subscriber reported BENCH_OPINION_MISSING for every
+/// bench-declaring canon order (31), orders whose opinions read fine from the
+/// canon's own tree included. The canon's home is the grandparent of the
+/// resolved `lawpack/v2`; the reader's own root stays as the fallback so a
+/// vendored canon reads exactly as before.
+pub fn read_source_opinion(repo: &Path, rel: &Path) -> Option<String> {
+    let rel = rel.strip_prefix(".").unwrap_or(rel);
+    let canon_home = resolve_lawpack(repo)
+        .and_then(|r| r.dir.parent().and_then(|p| p.parent()).map(Path::to_path_buf));
+    canon_home
+        .iter()
+        .map(|h| h.join(rel))
+        .chain(std::iter::once(repo.join(rel)))
+        .find_map(|p| std::fs::read_to_string(p).ok())
+}

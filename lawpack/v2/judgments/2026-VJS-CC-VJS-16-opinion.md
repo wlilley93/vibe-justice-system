@@ -41,8 +41,8 @@ I did not take the facts on the pleadings. I built the fixture the court asked f
 | --- | --- |
 | `vjs lookup --issue enforcement` | the five ACT-001 constitutional sections, exit 0 |
 | `vjs status` | `Lawpack: vjs-v2@0.1.0@0.1.0 (/var/tmp/claude/cc16/sub/../canon-host/lawpack/v2)` |
-| MCP `vjs.record`, one valid County order | `{"recorded":"2026-ACMECO-CC-999","path":".../sub/lawpack/v2/orders/2026-ACMECO-CC-999.yaml"}`, exit 0 |
-| `vjs lookup --issue enforcement` | `2026-ACMECO-CC-999 (CountyCourt): fixture` and nothing else, exit 0 |
+| MCP `vjs.record`, one valid County order | `{"recorded":"2026-EXAMPLE-CC-999","path":".../sub/lawpack/v2/orders/2026-EXAMPLE-CC-999.yaml"}`, exit 0 |
+| `vjs lookup --issue enforcement` | `2026-EXAMPLE-CC-999 (CountyCourt): fixture` and nothing else, exit 0 |
 | `vjs status` | `Lawpack: vjs-v2@0.1.0@0.1.0 (/var/tmp/claude/cc16/sub/lawpack/v2)` |
 | `vjs validate` | `[Fatal] LAWPACK_LOCK_DRIFT lock=sha256:60aead5c… computed=sha256:bd940d97…`, exit 1 |
 
@@ -90,7 +90,7 @@ Fact 6 pleads that the defect "is detected AFTER the fact" by LAWPACK_LOCK_DRIFT
     $ grep lawpack_path .vjs/config.toml
       lawpack_path = "../canon-host/lawpack/v2"
     $ vjs lookup --issue enforcement
-      2026-ACMECO-CC-999 (CountyCourt): fixture
+      2026-EXAMPLE-CC-999 (CountyCourt): fixture
 
 The jurisdiction is now green and lawless. Its config still declares a subscription to the real canon. Its lock now certifies the digest of a one-order directory under the id `vjs-v2@0.1.0`, which is precisely CC-VJS 12 D3's vice: a label recorded as though a subscription had happened when it had not. `config written: false` is the sharp edge - the re-pin does not even disturb the false declaration it contradicts.
 
@@ -101,14 +101,14 @@ A finding whose prescribed cure cements the defect is not a detection. It is a t
 The pleading treats the harm as "lookup returns one order". It is much wider. Staging the displaced record and running the commit gate:
 
     [Info]  INVARIANTS_PASS: 0 invariants evaluated, all passed
-    [Fatal] PERMIT-MISSING: 'lawpack/v2/orders/2026-ACMECO-CC-999.yaml' not covered by an active permit
+    [Fatal] PERMIT-MISSING: 'lawpack/v2/orders/2026-EXAMPLE-CC-999.yaml' not covered by an active permit
     [Fatal] INSTALL_HOOKS_MISSING
 
 **Negative control**, because an assertion of absence proves nothing unless the finding is reachable (CC-VJS 14 obiter (i)): the identical record, at the identical path, in a repository that vendors this real canon (`manifest.toml` declaring `repo_code = "VJS"`):
 
-    [Error] CANON_BOUNDARY_VIOLATION: Canon record carries a subscriber repo_code 'ACMECO' (canon is 'VJS')
-    [Error] CANON_BOUNDARY_VIOLATION: Canon record id '2026-ACMECO-CC-999' embeds subscriber repo_code 'ACMECO'
-    [Error] CANON_BOUNDARY_VIOLATION: Canon record names subscriber 'ACMECO' in its body/prose
+    [Error] CANON_BOUNDARY_VIOLATION: Canon record carries a subscriber repo_code 'EXAMPLE' (canon is 'VJS')
+    [Error] CANON_BOUNDARY_VIOLATION: Canon record id '2026-EXAMPLE-CC-999' embeds subscriber repo_code 'EXAMPLE'
+    [Error] CANON_BOUNDARY_VIOLATION: Canon record names subscriber 'EXAMPLE' in its body/prose
     [Fatal] BENCH_OPINION_MISSING
     ... and eight invariant failures
 
@@ -151,7 +151,7 @@ So the distinction B is said to need is one the repository already draws in prac
 
 Measured, on a clean fixture with the order in `.vjs/orders` and nothing vendored:
 
-- `vjs lookup --issue scratch-fixture` returns `2026-ACMECO-CC-999 (CountyCourt): fixture` first, then the constitutional stack.
+- `vjs lookup --issue scratch-fixture` returns `2026-EXAMPLE-CC-999 (CountyCourt): fixture` first, then the constitutional stack.
 - MCP `vjs.lookup` on the same issue in the same repository returns 151 authorities, every one of them canon, and **not the order**.
 
 The CLI builds its graph through `build_kernel_context` (`crates/vjs-cli/src/context.rs:5`), which calls `overlay_filed_orders`. The MCP builds its own in `vjs_mcp::build_context`, which does not. Which means: **the only reason the MCP could ever read back what it recorded was that the write displaced the canon.** The hardcoded target was not arbitrary. It was load-bearing for a coherence the server otherwise lacks.
@@ -220,7 +220,7 @@ Both fail BEFORE any gate runs. So in every jurisdiction `vjs invoke` has ever c
 
 **(iii) The apex's two order registers have no rule.** 37 records in `lawpack/v2/orders`, 22 in `.vjs/orders`, zero overlap; PC 1 to 19 are canon, PC 20 and PC 21 are not, and nothing in the tree states when a filed order is promoted. This order settles where a VERB writes. Promotion remains an unwritten convention, and an unwritten convention about which tree holds binding law is the kind of thing that becomes a defect quietly.
 
-**(iv) The subscriber registry still does not name the live subscriber.** CC-VJS 14 obiter (iv) said so, and it is still true at HEAD: `lawpack/v2/federation/subscriber-registry.yaml` lists only `ACMECO`, a fixture code, while `vibe-design-system` (repo_code `VIBE-DESIGN-SYSTEM`, public remote at github.com/wlilley93, seven County orders, subscribing out of tree) is absent. Every protection keyed on that list still does not reach the one real subscriber. That is why C5 is keyed on the config and the resolution and not on the registry: a new gate keyed to that list would be born not reaching the only repository that needs it.
+**(iv) The subscriber registry still does not name the live subscriber.** CC-VJS 14 obiter (iv) said so, and it is still true at HEAD: `lawpack/v2/federation/subscriber-registry.yaml` lists only a fixture code, while `vibe-design-system` (repo_code `VIBE-DESIGN-SYSTEM`, public remote at github.com/wlilley93, seven County orders, subscribing out of tree) is absent. Every protection keyed on that list still does not reach the one real subscriber. That is why C5 is keyed on the config and the resolution and not on the registry: a new gate keyed to that list would be born not reaching the only repository that needs it.
 
 **(v) CC-VJS 14 C8's checkable condition is currently unmet.** It required the apex and subscriber locks to carry an identical digest. Measured: apex canon `60aead5c…`, subscriber lock `5481b9e2…`. No blame attaches - C8 sequenced one landing and two landed, and CC-VJS 15 moved the canon after the re-pin. The general point is the standing one: a fact recorded as checkable goes stale, and the obligation is to re-check it when the thing it pins moves, not when someone happens to look.
 

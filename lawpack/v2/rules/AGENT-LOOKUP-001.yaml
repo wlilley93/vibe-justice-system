@@ -1,4 +1,5 @@
 id: AGENT-LOOKUP-001
+authority: ACT-001:s3
 assent_source: standing_bounded_assent
 title: Memory is not authority
 status: binding
@@ -22,3 +23,6 @@ source:
     - Agent Lawfulness Hooks instruments
 summary: Retrieve current authority before governed load-bearing work.
 supersedes: []
+kernel_effect:
+  annotates:
+    - route.authority_basis

@@ -204,22 +204,22 @@ pub fn generate_adapters(repo: &Path) -> std::io::Result<Vec<String>> {
     for (runtime, stdin_json) in RUNTIMES {
         for event in AGENT_EVENTS {
             let name = format!("{runtime}-{event}.sh");
-            let call = if *stdin_json {
-                format!("exec \"$bin\" hook --event {event} --stdin-json\n")
+            // INV-HOOKS-SHORT-001 caps .vjs/hooks/** at 40 words: these
+            // templates must stay thin pointers, nothing more.
+            let body = if *stdin_json {
+                format!(
+                    "#!/usr/bin/env bash\n\
+                     # Thin adapter (REG-HOOKS-001). Runtime: {runtime} Event: {event}\n\
+                     exec \"${{VJS_BIN:-$HOME/.local/bin/vjs}}\" hook --event {event} --stdin-json"
+                )
             } else {
                 format!(
-                    "args=(); for p in \"$@\"; do args+=(--path \"$p\"); done\n\
-                     exec \"$bin\" hook --event {event} \"${{args[@]}}\"\n"
+                    "#!/usr/bin/env bash\n\
+                     # Thin adapter (REG-HOOKS-001). Runtime: {runtime} Event: {event}\n\
+                     A=(); for p in \"$@\"; do A+=(--path \"$p\"); done\n\
+                     exec \"${{VJS_BIN:-$HOME/.local/bin/vjs}}\" hook --event {event} \"${{A[@]}}\""
                 )
             };
-            let body = format!(
-                "#!/usr/bin/env bash\n\
-                 # Thin adapter (REG-HOOKS-001): the kernel decides; this only points at it.\n\
-                 # Runtime: {runtime}  Event: {event}  (do not add logic here)\n\
-                 bin=\"$(git rev-parse --show-toplevel 2>/dev/null)/target/debug/vjs\"\n\
-                 [ -x \"$bin\" ] || bin=\"vjs\"\n\
-                 {call}"
-            );
             let path = dir.join(&name);
             if !path.exists() {
                 std::fs::write(&path, body)?;
