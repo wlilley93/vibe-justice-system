@@ -1,1 +1,0 @@
-Governed write: confirm an active permit from vjs.route. No permit, no governed write. Repair any findings, then proceed.

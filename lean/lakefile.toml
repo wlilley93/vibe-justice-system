@@ -1,0 +1,13 @@
+name = "vjs"
+defaultTargets = ["Vjs"]
+
+# The kernel is a PINNED DEPENDENCY, not a vendored copy. This is what parameterising the
+# sovereign digest bought: one engine upstream, and this jurisdiction supplies its own
+# genesis in Vjs/Book.lean. Before that change every jurisdiction had to fork the kernel to
+# get its own genesis, and nothing could check the forks still agreed.
+[[require]]
+name = "vps"
+path = "../../vibe-proof-system/kernel"
+
+[[lean_lib]]
+name = "Vjs"

@@ -1,0 +1,3 @@
+#!/bin/sh
+# VJS constitutional gate. Exit 6 = denied, each denial naming its instrument.
+npx tsx src/cli.ts gate --staged || exit $?

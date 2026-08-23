@@ -1,0 +1,7 @@
+{
+  "provider": "mock",
+  "model": "claude-fable-5",
+  "leanTimeoutMs": 120000,
+  "citationCourtCode": "VJS",
+  "maxJsonRepairs": 3
+}

@@ -1,1 +1,0 @@
-Pre-commit: run vjs validate --staged and vjs local-ci. Fix every finding. Do not bypass the deterministic gate.

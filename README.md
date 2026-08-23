@@ -15,6 +15,62 @@ Search the record, filter by estate and class, open the main points of any Act o
 
 </div>
 
+
+---
+
+## v3 — the court, standing on its own
+
+**v1** was a prose realm: real doctrine, nothing enforced. **v2** was a Rust kernel that
+needed ever more law to trust itself — of roughly 46 opinions, essentially all were about
+VJS's own machinery. Both are preserved under `archive/v1/` and `archive/v2/` and remain
+citable as historical authority.
+
+**v3 is neither.** The court is a small TypeScript program over a Lean statute book it does
+not own. The kernel — append-only legitimacy, authority chains, citation freshness,
+rank-guarded supersession, entrenchment, denial-naming, `res_judicata` — lives upstream in
+the [Vibe Proof System](https://github.com/wlilley93/vibe-proof-system) and is consumed here
+as a **pinned lake dependency**, not a vendored copy. What is proved stays proved upstream;
+what is judged stays judged here.
+
+That split is only possible because the kernel's sovereign digest is now a *parameter*.
+Before that, a jurisdiction could obtain its own genesis only by editing constitutional text,
+so every jurisdiction was a private fork of the engine and nothing could check the forks
+still agreed. Now: one engine, many jurisdictions, and a jurisdiction provably cannot borrow
+another's authority.
+
+### What it is for
+
+A court answers one question — *has this been decided, and what was decided* — and remembers
+the answer. Nothing about that requires a repository, a specification, or a build. Rulings
+carry no operative rule; they have a citation, a standing, an authority chain and a payload.
+That is exactly what makes the court reusable: an operational question ("may this deploy
+divert egress?") is a question with a key, just like a modelling one.
+
+```sh
+vjs ask    "op:boltrig:dev-egress-loopback"   # decided already? (exact key — this is res judicata)
+vjs rule   "op:boltrig:dev-egress-loopback" --question "…" --facts "…"
+vjs appeal "[2026] VJS 6" --grounds "…"       # three benches and a synthesis
+vjs search "egress"                            # full text, for people — never the route to prior law
+vjs book                                       # the statute book in force
+vjs gate --staged                              # exit 6 on denial, each denial naming its law
+```
+
+**One boundary matters more than the rest.** `ask` is an exact match on a hashed key, and
+that exactness *is* res judicata. `search` is a human affordance and is never wired into it —
+a ranking function anywhere near the memo table would let the same question be answered two
+ways while the theorem still compiled.
+
+### What is proved, and what is not
+
+Proved upstream, over every lawful book: append-only legitimacy, authority chains, citation
+freshness, rank-guarded supersession, entrenchment immunity and force, denial-naming, and
+that a sound precedent table can never disagree with deliberation.
+
+Trusted, not proved: the content of every ruling. A bench is a language model. The kernel
+makes the record incorruptible; it does not make the decisions correct, and nothing this
+court produces may claim otherwise.
+
+
 > **Disclaimers**
 > - **Not a real court. Not legal advice.** VJS is an AI governance framework. Rulings are AI outputs, not legal instruments.
 > - **Real-world law still controls.** Local sovereignty means sovereignty over the local VJS copy, not immunity from real-world law. The local Principal/Sovereign remains responsible for following the real-world law that applies to them and their repo. Agents have delegated authority to refuse, stop, narrow, or escalate instructions that appear unlawful, unauthorised, or cyber-abusive.
