@@ -19,20 +19,16 @@ export async function stagedFacts(): Promise<Facts> {
   return { pathsChanged: paths, recordsAdded: records };
 }
 
-// TS mirror of the kernel gate semantics (Legitimacy/Gate.lean). Used when Lean is
-// unavailable; the Lean evaluation is queued so the mirror never silently rules alone.
-export function evalGateTs(entries: BookEntry[], f: Facts): { allow: boolean; cites: BookEntry[] } {
-  const effective = (e: BookEntry) =>
-    !entries.some(j => j.supersedes && j.supersedes.year === e.year && j.supersedes.ordinal === e.ordinal);
-  const violated = (e: BookEntry): boolean => {
-    if (e.rule.type === "free") return false;
-    const hit = f.pathsChanged.some(p => p.startsWith((e.rule as any).scope));
-    if (e.rule.type === "pathForbidden") return hit;
-    return hit && f.recordsAdded === 0;
-  };
-  const cites = entries.filter(e => effective(e) && violated(e));
-  return { allow: cites.length === 0, cites };
-}
+// There is deliberately NO TypeScript mirror of the gate here any more.
+//
+// `evalGateTs` reimplemented `Vps.decideVerdict` by hand and ruled whenever Lean was absent,
+// with nothing proving the two agreed. ASSESSMENT.md names that exact object as the disease
+// it refused: "a separate formal model must be kept in correspondence with the implementation
+// — which is precisely a new watcher watching a watcher." It was also fail-OPEN dressed as a
+// fallback: an unproved copy quietly deciding constitutional questions.
+//
+// Without Lean the gate now fails CLOSED (LEARNINGS #17). A jurisdiction whose kernel cannot
+// be consulted has not allowed the change; it has failed to judge it, and those differ.
 
 export async function evaluateGate(f: Facts): Promise<GateVerdict> {
   const entries = readBook();
@@ -58,6 +54,10 @@ export async function evaluateGate(f: Facts): Promise<GateVerdict> {
     return { allow: false, cites: cited.map(e => ({ citation: citeOf(e), title: e.title, summary: e.summary })), via: "lean" };
   }
   fs.appendFileSync(unverifiedLedger(), `- [ ] gate eval via Lean for facts ${JSON.stringify(f)}\n`);
-  const { allow, cites } = evalGateTs(entries, f);
-  return { allow, cites: cites.map(e => ({ citation: citeOf(e), title: e.title, summary: e.summary })), via: "ts-mirror" };
+  throw Object.assign(new Error(
+    "the kernel is unavailable, so this change cannot be judged.\n" +
+    "  The gate fails closed: an unjudged change is not an allowed change.\n" +
+    "  Install the pinned toolchain (elan, leanprover/lean4:v4.15.0) and retry.\n" +
+    "  The requested evaluation is queued in UNVERIFIED-LEAN.md."
+  ), { code: 4 });
 }
