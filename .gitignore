@@ -3,3 +3,20 @@ dist/
 lean/.lake/
 .court-lock/
 lean/Vjs/GateEval*.lean
+
+# OS / editor droppings
+.DS_Store
+._*
+
+# Python
+__pycache__/
+*.py[cod]
+
+# The v2 estate's working runtime (`.vjs/` as it stood at supersession). Kept on
+# disk for posterity, NEVER tracked. v2's own .gitignore excluded .vjs/private/,
+# submissions/, court/, orders/, logs/, permits/ and invocation/ from this PUBLIC
+# repo; renaming the tree to dot-vjs-runtime/ silently defeated those patterns and
+# would have published the accessioned pseudonym register. The load-bearing law
+# was transferred to lawpack/v2/ on 2026-08-06 and IS archived in full, byte for
+# byte, at archive/v2/lawpack/.
+archive/v2/dot-vjs-runtime/
