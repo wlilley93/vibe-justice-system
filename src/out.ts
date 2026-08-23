@@ -11,6 +11,8 @@
 //     stdout is indistinguishable from "the process was killed".
 //  4. Emission happens in one place, so no command can forget.
 
+import fs from "node:fs";
+
 export type OutMode = "text" | "json";
 let mode: OutMode = "text";
 
@@ -63,18 +65,19 @@ export interface Result {
 
 function emit(env: Envelope): never {
   if (mode === "json") {
-    // `process.exit()` does NOT flush stdout when stdout is a pipe or a file — writes are
-    // asynchronous there and synchronous only to a TTY. Calling exit straight after write
-    // therefore truncates the envelope in exactly the case that matters: a headless caller
-    // redirecting to a file or reading a pipe. (Observed 2026-08-23: a failing live run
-    // wrote a 0-byte envelope to disk while the same command printed fine to a terminal.)
-    // Set exitCode and let the event loop drain instead.
-    process.exitCode = env.exitCode;
-    process.stdout.write(JSON.stringify(env, null, 2) + "\n", () => { process.exit(env.exitCode); });
-    // If the callback never fires (stream already destroyed), still terminate.
-    setTimeout(() => process.exit(env.exitCode), 2000).unref();
-    // Unreachable as a value, but the signature promises `never`.
-    return undefined as never;
+    // `fs.writeSync(1, …)` — synchronous even to a pipe or a file, which the async
+    // `process.stdout.write` is not. Two bugs die here, and the second was caused by the
+    // fix for the first:
+    //
+    //  1. `process.exit()` truncates an async write, so a headless caller redirecting to a
+    //     file got a 0-byte envelope while the same command printed fine to a terminal.
+    //  2. Deferring the exit to a write callback made `emit` RETURN in json mode, silently
+    //     breaking its `never` contract. Every command with an early `finish()` then ran on
+    //     past it and emitted a SECOND envelope — `vjs ask` on a miss emitted one envelope
+    //     saying "open" and another saying "cannot read property of null".
+    //
+    // A synchronous write followed by a synchronous exit is both flushed and terminal.
+    fs.writeSync(1, JSON.stringify(env, null, 2) + "\n");
   }
   process.exit(env.exitCode);
 }

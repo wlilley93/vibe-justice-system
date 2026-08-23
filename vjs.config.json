@@ -1,5 +1,5 @@
 {
-  "provider": "mock",
+  "provider": "auto",
   "model": "claude-fable-5",
   "leanTimeoutMs": 120000,
   "citationCourtCode": "VJS",

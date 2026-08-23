@@ -23,7 +23,10 @@ export async function kernelAllocator(): Promise<Allocator> {
         title: `Ruling on ${questionKey}`, summary: `Filed from case ${caseId} (${court}). Payload in .justice/judgments/.`
       });
       if (!res.ok) throw Object.assign(new Error(`enactment failed for ${slug}: ${res.diagnostics}`), { code: 4 });
-      return `[${year}] VJS ${ordinal}`;
+      // The court code comes from config, never a literal. `interimAllocator` already
+      // read it; this path did not, so any second jurisdiction would have minted VJS
+      // citations regardless of its own configuration.
+      return `[${year}] ${cfg.citationCourtCode} ${ordinal}`;
     }
   };
 }
@@ -44,5 +47,5 @@ export async function enactOverturn(originalCitation: string, questionKey: strin
     title: `Appeal ruling on ${questionKey}`, summary: `Supersedes ${originalCitation}.`
   });
   if (!res.ok) throw Object.assign(new Error(`appeal enactment failed: ${res.diagnostics}`), { code: 4 });
-  return `[${year}] VJS ${ordinal}`;
+  return `[${year}] ${loadConfig().citationCourtCode} ${ordinal}`;
 }

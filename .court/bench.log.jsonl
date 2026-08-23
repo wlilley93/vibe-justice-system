@@ -1,0 +1,4 @@
+{"matter":"2026-08-23-court-client-proof","promptName":"judge-first-instance.model-2026-08-23-court-client-proof-reviewer-shape","provider":"cli","ms":18216,"chars":1478,"at":"2026-08-23T13:42:46.738Z"}
+{"matter":"2026-08-23-court-client-proof","promptName":"judge-first-instance.model-2026-08-23-court-client-proof-auditrequirement-shape","provider":"cli","ms":18143,"chars":2230,"at":"2026-08-23T13:43:06.699Z"}
+{"matter":"2026-08-23-court-client-proof","promptName":"judge-first-instance.model-2026-08-23-court-client-proof-predicate-meetsAuditRequirement","provider":"cli","ms":20786,"chars":1936,"at":"2026-08-23T13:43:28.968Z"}
+{"matter":"2026-08-23-court-client-proof","promptName":"judge-first-instance.interpret-09dcf6bd","provider":"cli","ms":19479,"chars":1436,"at":"2026-08-23T13:43:49.894Z"}

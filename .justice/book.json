@@ -1,6 +1,86 @@
 [
   {
     "year": 2026,
+    "ordinal": 10,
+    "slug": "ruling2026N10",
+    "kind": "ruling",
+    "rule": {
+      "type": "free"
+    },
+    "entrenched": false,
+    "supersedes": null,
+    "authority": {
+      "type": "derived",
+      "parent": {
+        "year": 2026,
+        "ordinal": 1
+      }
+    },
+    "title": "Ruling on interpret:09dcf6bd",
+    "summary": "Filed from case 2026-08-23-court-client-proof (first-instance). Payload in .justice/judgments/."
+  },
+  {
+    "year": 2026,
+    "ordinal": 9,
+    "slug": "ruling2026N9",
+    "kind": "ruling",
+    "rule": {
+      "type": "free"
+    },
+    "entrenched": false,
+    "supersedes": null,
+    "authority": {
+      "type": "derived",
+      "parent": {
+        "year": 2026,
+        "ordinal": 1
+      }
+    },
+    "title": "Ruling on model:2026-08-23-court-client-proof:predicate:meetsAuditRequirement",
+    "summary": "Filed from case 2026-08-23-court-client-proof (first-instance). Payload in .justice/judgments/."
+  },
+  {
+    "year": 2026,
+    "ordinal": 8,
+    "slug": "ruling2026N8",
+    "kind": "ruling",
+    "rule": {
+      "type": "free"
+    },
+    "entrenched": false,
+    "supersedes": null,
+    "authority": {
+      "type": "derived",
+      "parent": {
+        "year": 2026,
+        "ordinal": 1
+      }
+    },
+    "title": "Ruling on model:2026-08-23-court-client-proof:auditrequirement:shape",
+    "summary": "Filed from case 2026-08-23-court-client-proof (first-instance). Payload in .justice/judgments/."
+  },
+  {
+    "year": 2026,
+    "ordinal": 7,
+    "slug": "ruling2026N7",
+    "kind": "ruling",
+    "rule": {
+      "type": "free"
+    },
+    "entrenched": false,
+    "supersedes": null,
+    "authority": {
+      "type": "derived",
+      "parent": {
+        "year": 2026,
+        "ordinal": 1
+      }
+    },
+    "title": "Ruling on model:2026-08-23-court-client-proof:reviewer:shape",
+    "summary": "Filed from case 2026-08-23-court-client-proof (first-instance). Payload in .justice/judgments/."
+  },
+  {
+    "year": 2026,
     "ordinal": 6,
     "slug": "ruling2026N6",
     "kind": "ruling",

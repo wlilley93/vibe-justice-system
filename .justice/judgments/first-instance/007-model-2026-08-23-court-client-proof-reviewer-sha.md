@@ -1,0 +1,25 @@
+---
+citation: "[2026] VJS 7"
+court: first-instance
+questionKey: "model:2026-08-23-court-client-proof:reviewer:shape"
+caseId: 2026-08-23-court-client-proof
+date: 2026-08-23
+status: standing
+---
+## Question
+How is Reviewer modelled?
+
+## Facts
+auditsCompleted:Nat
+
+## Ruling
+Reviewer is modelled as a record type carrying exactly one field on this record: `auditsCompleted : Nat`. Nat is taken at its ordinary meaning — a non-negative integer with no upper bound — so a Reviewer with zero completed audits is well-formed and the field is never negative. Nothing further about Reviewer is settled: not identity, not authority to audit, not any relation between the count and what a Reviewer may do. Anyone needing those must put them to the court on facts that state them.
+
+## Reasoning
+The record names one field and one type, so the weakest reading the facts support is that Reviewer is precisely that field and nothing more. I took the closed reading over an open one (a record that merely includes auditsCompleted) because the wider reading would let a later bench attribute to Reviewer structure no one has recorded; the record is extensible by amendment, not by inference. I declined the wider question of what a Reviewer may do: no actor or permission is stated on these facts, so it is not ready.
+
+## Law applied
+- Law of this court r.5 — decide the question asked; prefer the weakest reading the facts support; name the choice taken
+- Law of this court r.7 — the actor must be stated, and the reader never supplies a missing one
+- Law of this court r.2 — what binds is the ruling as enacted, not its prose
+- Law of this court, preamble — law is the last resort; a type settles what a rule need not

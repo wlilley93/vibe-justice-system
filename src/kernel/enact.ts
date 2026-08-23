@@ -4,6 +4,7 @@ import path from "node:path";
 import { execa } from "execa";
 import { readBook, writeBook, renderBook, renderExamples, citeOf, type BookEntry, LEDGER } from "./book.js";
 import { leanAvailable } from "../lean/runner.js";
+import { loadConfig } from "../llm/provider.js";
 import { leanDir, leanFile, recordDir, lawDir, unverifiedLedger } from "../paths.js";
 
 // Functions, not module-level consts (evaluated at import time, before --root resolves).
@@ -57,7 +58,10 @@ export async function enact(entry: BookEntry): Promise<EnactResult> {
 
 function writeSideEffects(entry: BookEntry): void {
   fs.mkdirSync(lawDir(), { recursive: true });
-  fs.writeFileSync(path.join(lawDir(), `${entry.year}-vps-${entry.ordinal}.md`),
+  // The court code comes from config, not a literal. Hardcoding "vps" produced
+  // `law/2026-vps-6.md` holding `[2026] VJS 6` — the law's own filename disagreeing
+  // with the law inside it.
+  fs.writeFileSync(path.join(lawDir(), `${entry.year}-${loadConfig().citationCourtCode.toLowerCase()}-${entry.ordinal}.md`),
     `# ${citeOf(entry)} — ${entry.title}\n\n${entry.summary}\n\n` +
     "```json\n" + JSON.stringify(entry, null, 2) + "\n```\n");
   fs.mkdirSync(recordDir(), { recursive: true });
