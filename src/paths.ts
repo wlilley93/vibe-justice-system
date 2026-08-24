@@ -23,7 +23,7 @@ export const invocationCwd = process.cwd();
 
 let rootAbs: string | null = null;
 
-/** Walk up looking for the marker file that identifies a Foundry repository. */
+/** Walk up looking for the marker file that identifies a VJS repository. */
 function discover(from: string): string | null {
   let dir = path.resolve(from);
   for (;;) {

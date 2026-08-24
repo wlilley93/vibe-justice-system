@@ -1,4 +1,4 @@
-// §21.4: the seed book — Foundry's own constitution. Genesis is vendored in
+// §21.4: the seed book — the jurisdiction's own constitution. Genesis is vendored in
 // Genesis.lean; it appears in the ledger for completeness.
 import fs from "node:fs";
 import { writeBook, renderBook, renderExamples, LEDGER, type BookEntry } from "./book.js";

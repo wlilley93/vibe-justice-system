@@ -1,6 +1,6 @@
 // book_lawful is a nested `Lawful.enact` term, one layer per instrument, with two `by decide`
 // calls per layer and each traversing the whole book. Its cost therefore grows ~quadratically
-// in rulings filed, and every case Foundry runs files about four.
+// in rulings filed, and every case the factory runs files about four.
 //
 // That is a real property and NOT yet a real problem: measured 2026-08-23, a cold
 // `lake build Vps` at 29 instruments takes 1.7s against enact()'s 120s timeout — and enact
