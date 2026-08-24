@@ -9,14 +9,50 @@ import { leanDir, leanFile, unverifiedLedger, root } from "../paths.js";
 export interface Facts { pathsChanged: string[]; recordsAdded: number }
 export interface GateVerdict { allow: boolean; cites: { citation: string; title: string; summary: string }[]; via: "lean" | "ts-mirror" }
 
+/**
+ * Parse `git diff --cached --name-status -z`.
+ *
+ * -z is not a detail. Without it git C-quotes any path outside the portable character
+ * set -- `"lean/Vjs/caf\303\251.lean"`, quotes included -- and the kernel's prefix
+ * scopes stop matching a string that now begins with a quote. Protection disappears
+ * silently and permissively. -z emits raw bytes, NUL-separated, never quoted.
+ *
+ * Renames and copies carry THREE fields (status, source, destination) where everything
+ * else carries two. Both paths are reported: a file moved OUT of a protected scope is a
+ * change to that scope, and reporting only the destination is how a protected file walks
+ * out of its protection unnoticed (record/0034, one level lower).
+ *
+ * Pure and exported so it can be tested on captured git output as well as through git.
+ */
+export function parseNameStatusZ(out: string): Facts {
+  const f = out.split("\0");
+  const pathsChanged: string[] = [];
+  let recordsAdded = 0;
+  let i = 0;
+  while (i < f.length) {
+    const status = f[i++];
+    if (!status) continue;               // trailing NUL, or a blank from an empty diff
+    if (status[0] === "R" || status[0] === "C") {
+      const src = f[i++], dst = f[i++];
+      if (src) pathsChanged.push(src);
+      if (dst) pathsChanged.push(dst);
+    } else {
+      const p = f[i++];
+      if (!p) continue;
+      pathsChanged.push(p);
+      // Only a genuine addition counts. A rename into record/ is deliberately not counted:
+      // that errs toward denying a legitimate change, which is the safe direction.
+      if (status[0] === "A" && p.startsWith("record/")) recordsAdded++;
+    }
+  }
+  return { pathsChanged, recordsAdded };
+}
+
 export async function stagedFacts(): Promise<Facts> {
   // cwd must be the repo, not the caller's: the pre-commit hook runs from the git
   // root but `vjs gate` may be invoked from anywhere once --root exists.
-  const r = await execa("git", ["diff", "--cached", "--name-status"], { reject: false, cwd: root() });
-  const lines = r.stdout.split("\n").filter(Boolean);
-  const paths = lines.map(l => l.split("\t").pop()!).filter(Boolean);
-  const records = lines.filter(l => l.startsWith("A") && (l.split("\t").pop() ?? "").startsWith("record/")).length;
-  return { pathsChanged: paths, recordsAdded: records };
+  const r = await execa("git", ["diff", "--cached", "--name-status", "-z"], { reject: false, cwd: root() });
+  return parseNameStatusZ(r.stdout);
 }
 
 // There is deliberately NO TypeScript mirror of the gate here any more.
