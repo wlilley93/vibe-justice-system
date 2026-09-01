@@ -1,266 +1,184 @@
+
 <div align="center">
 
 <img src="assets/vjs-header.png" alt="The Vibe Justice System" width="100%">
 
 *AI governance for your repo. The court is AI. Not legal advice.*
 
-![license](https://img.shields.io/badge/license-PolyForm_Noncommercial-blue?style=flat-square)
-![status](https://img.shields.io/badge/status-alpha-orange?style=flat-square)
-![vibes](https://img.shields.io/badge/vibes-litigated-purple?style=flat-square)
-![community](https://img.shields.io/badge/community-open-green?style=flat-square)
+[![license](https://img.shields.io/badge/license-PolyForm_Noncommercial-blue?style=flat-square)](LICENSE)
+[![status](https://img.shields.io/badge/status-alpha-orange?style=flat-square)](https://github.com/wlilley93/vibe-justice-system)
+[![Lean 4.33.1](https://img.shields.io/badge/Lean-4.33.1-6f6f6f?style=flat-square)](https://github.com/leanprover/lean4/releases/tag/v4.33.1)
+[![community](https://img.shields.io/badge/community-open-green?style=flat-square)](https://github.com/wlilley93/vibe-justice-system)
 
-**Read the law:** [`The VJS Gazette`](https://wlilley93.github.io/vibe-justice-system/) &middot; [`classic reading view`](https://wlilley93.github.io/vibe-justice-system/gazette.html)
-
-Search the record, filter by estate and class, open the main points of any Act or case. The two estates - the living canon and the honoured archive - resolve in one place.
+**Read the law:** [The VJS Gazette](https://wlilley93.github.io/vibe-justice-system/) ·
+[classic reading view](https://wlilley93.github.io/vibe-justice-system/gazette.html)
 
 </div>
 
-
 ---
+
+# Vibe Justice System
+
+Vibe Justice System (VJS) is a reusable court for AI-assisted work. It records decisions,
+checks whether a question has already been decided, convenes a probabilistic bench when
+meaning is genuinely contested, and files the result as durable precedent.
+
+The current v3 is a small TypeScript court over the
+[Vibe Proof System](https://github.com/wlilley93/vibe-proof-system). VJS owns the court
+surface — questions, filings, benches, appeals, judgments and the citator. VPS owns the
+constitutional spine — the typed statute book, lawful enactment and fail-closed gate.
+
+**Not a real court. Not legal advice.** Model rulings are not legal instruments, and this
+repository does not replace engineering review, security review, human sign-off or the law
+that applies in the real world.
 
 ## v3 — the court, standing on its own
 
-**v1** was a prose realm: real doctrine, nothing enforced. **v2** was a Rust kernel that
-needed ever more law to trust itself — of roughly 46 opinions, essentially all were about
-VJS's own machinery. Both are preserved under `archive/v1/` and `archive/v2/` and remain
-citable as historical authority.
-
-**v3 is neither.** The court is a small TypeScript program over a Lean statute book it does
-not own. The kernel — append-only legitimacy, authority chains, citation freshness,
-rank-guarded supersession, entrenchment, denial-naming, `res_judicata` — lives upstream in
-the [Vibe Proof System](https://github.com/wlilley93/vibe-proof-system) and is consumed here
-as a **pinned lake dependency**, not a vendored copy. What is proved stays proved upstream;
-what is judged stays judged here.
-
-That split is only possible because the kernel's sovereign digest is now a *parameter*.
-Before that, a jurisdiction could obtain its own genesis only by editing constitutional text,
-so every jurisdiction was a private fork of the engine and nothing could check the forks
-still agreed. Now: one engine, many jurisdictions, and a jurisdiction provably cannot borrow
-another's authority.
-
-### What it is for
-
-A court answers one question — *has this been decided, and what was decided* — and remembers
-the answer. Nothing about that requires a repository, a specification, or a build. Rulings
-carry no operative rule; they have a citation, a standing, an authority chain and a payload.
-That is exactly what makes the court reusable: an operational question ("may this deploy
-divert egress?") is a question with a key, just like a modelling one.
-
-```sh
-vjs ask    "op:boltrig:dev-egress-loopback"   # decided already? (exact key — this is res judicata)
-vjs rule   "op:boltrig:dev-egress-loopback" --question "…" --facts "…"
-vjs appeal "[2026] VJS 6" --grounds "…"       # three benches and a synthesis
-vjs search "egress"                            # full text, for people — never the route to prior law
-vjs book                                       # the statute book in force
-vjs gate --staged                              # exit 6 on denial, each denial naming its law
-```
-
-**One boundary matters more than the rest.** `ask` is an exact match on a hashed key, and
-that exactness *is* res judicata. `search` is a human affordance and is never wired into it —
-a ranking function anywhere near the memo table would let the same question be answered two
-ways while the theorem still compiled.
-
-### What is proved, and what is not
-
-Proved upstream, over every lawful book: append-only legitimacy, authority chains, citation
-freshness, rank-guarded supersession, entrenchment immunity and force, denial-naming, and
-that a sound precedent table can never disagree with deliberation.
+VJS v1 was a prose realm: useful doctrine, nothing enforced. VJS v2 was a Rust kernel that
+needed increasingly elaborate machinery to verify its own integrity. Those generations are
+preserved under the archive and remain useful historical authority.
 
-Trusted, not proved: the content of every ruling. A bench is a language model. The kernel
-makes the record incorruptible; it does not make the decisions correct, and nothing this
-court produces may claim otherwise.
+VJS v3 takes the cleaner boundary. The court is implemented in TypeScript; the statute book
+and gate are Lean; the Lean kernel is consumed from VPS as a pinned Lake dependency. The
+earlier Rust-kernel line is therefore not the thing that now decides whether a filing is
+lawful. The current proof artifact does.
 
+That split gives one engine many jurisdictions. A jurisdiction supplies its own book and
+genesis digest; the upstream kernel proves the rules that keep one jurisdiction from
+borrowing another's authority.
 
-> **Disclaimers**
-> - **Not a real court. Not legal advice.** VJS is an AI governance framework. Rulings are AI outputs, not legal instruments.
-> - **Real-world law still controls.** Local sovereignty means sovereignty over the local VJS copy, not immunity from real-world law. The local Principal/Sovereign remains responsible for following the real-world law that applies to them and their repo. Agents have delegated authority to refuse, stop, narrow, or escalate instructions that appear unlawful, unauthorised, or cyber-abusive.
-> - **Production systems need real engineers.** VJS helps record and structure AI decisions - it does not replace qualified engineering review, security audit, or human sign-off on anything that matters in the real world.
-> - **It only refines what you give it.** Rulings are only as good as the spec and context you provide. Garbage in, garbage out. A weak spec produces weak law.
+## What it does
 
-> **Alpha status**
-> - **Computer-first.** Live law is a compact, machine-checkable **lawpack**, loaded by a deterministic **kernel** that acts as clerk, not court - it loads, validates, routes, and records, and never calls a model. Human meaning stays the source of legitimacy.
-> - **Citation numbering is deterministic.** The next neutral citation is computed from the citator, not guessed. Realm citations use the `REALM-*` (archive) and `VJS-*` (current) provenance schemes.
-> - **Enforcement is a function, not a prompt.** Governed writes need a routed, scoped permit; material decisions need a logged reason; the gate fails closed at commit time. The kernel governs; the prompt only explains.
-> - **The public record is system data only.** Personal, operational, and project-private facts do not belong here. Private working papers stay local and gitignored.
+VJS answers a narrow, valuable question:
 
----
+> Has this question been decided, and what was decided?
 
-**The biggest barrier to success is being able to define correctness. This repo solves it.**
+The exact-match lookup is the res judicata door. A standing ruling on the same hashed
+question key is reused; it is not re-litigated. Full-text search is a separate human
+affordance and is never used as the route to a prior decision.
 
----
+When a question is open, VJS can convene a first-instance model judge. An appeal runs three
+deliberative personas — textualist, purposivist and pragmatist — followed by a synthesis.
+Those judges are probabilistic. They supply the interpretation and reasoning that a human
+may review; they do not alter the Lean statute book or bypass its enactment checks.
 
-Your AI makes decisions every session. Nobody writes them down. Six PRs later, a different session contradicts the first one. Now you have two conventions, zero explanation, and a codebase that has lost the plot.
+A filed ruling carries a question key, matter, facts, reasoning, law applied, citation,
+court and standing status. If an appeal overturns it, the replacement is enacted through
+the kernel and the old ruling is marked superseded.
 
-**VJS gives your AI a justice system.** Decisions become binding precedent. Past rulings are checked before anything new is done. If the AI breaks its own rules, it must self-report and fix it.
+## What is proved, and what is not
 
----
+Proved upstream by VPS, over every lawful book:
 
-## Get started
+- append-only legitimacy and authority chains;
+- fresh, unique citations;
+- rank-guarded supersession;
+- entrenchment immunity and force;
+- the soundness of the precedent table; and
+- denial-naming: a denial carries the instrument that caused it.
 
-You need Rust (stable) and git. Build the kernel once:
+Trusted, not proved: the content of a model's ruling, the facts supplied to the bench, the
+small TypeScript shell that extracts facts and writes payloads, the compiler, the checker,
+git and the human sign-off. The court keeps those boundaries visible. It does not turn
+model confidence into proof.
 
-```bash
-git clone https://github.com/wlilley93/vibe-justice-system.git
-cd vibe-justice-system
-cargo build --release
-export PATH="$PWD/target/release:$PATH"    # so `vjs` is on your PATH
-```
+## Quickstart
 
-Then **invoke** your own repo as a jurisdiction. This is the constitutional act: it
-subscribes your repo to the lawpack, pins that lawpack's digest so the law you are
-governed by cannot change under you, records the invocation, arms the store register, and
-installs the enforcement hooks.
+The published primary branch is pinned to Lean 4.33.1 and the VPS dependency is pinned to a
+reviewed commit. Requirements are Node.js 20 or newer, git and elan.
 
-```bash
-cd /path/to/your-project
-vjs invoke --jurisdiction acme \
-           --principal "Your Name" \
-           --lawpack /path/to/vibe-justice-system/lawpack/v2 \
-           --install-hooks
-```
+    git clone https://github.com/wlilley93/vibe-justice-system.git
+    cd vibe-justice-system
+    npm ci
+    npm run build
 
-That writes `.vjs/` into your project: the config, the lawpack lock, the invocation
-record, the hooks, and your own empty record stores. Your repo is now a jurisdiction with
-its own County Court, and you are its Principal.
+    cd lean
+    lake build
+    lake env leanchecker Vjs
+    cd ..
 
-Check it came up clean:
+    node dist/cli.js doctor
+    node dist/cli.js book
 
-```bash
-vjs validate                        # the law loads, the gates are armed
-vjs status                          # what this jurisdiction is subscribed to
-```
+The Lean build fetches the pinned VPS kernel from GitHub. It does not require a sibling
+checkout of VPS. The first build may take a little longer while Lake materialises the
+dependency.
 
-The loop your agent runs, for every governed act:
+For a prepared jurisdiction, the useful surfaces are:
 
-```bash
-vjs route --kind code_change --intent "add a caching layer" \
-          --risk medium --path src/api.rs --issue caching_strategy
-```
+    node dist/cli.js ask "op:boltrig:dev-egress-loopback"
+    node dist/cli.js search "egress"
+    node dist/cli.js docket
+    node dist/cli.js gate --staged
 
-`route` is the clerk. It returns the binding authorities, whether a court is required and
-which one, whether a decision log is owed, and an explicit **must do / must not do** list.
-It is deterministic and never calls a model. If it says a court is required, the agent
-convenes on its own motion and files a symmetric case file. If it does not, the agent
-records the call and proceeds:
+The gate fails closed when Lean is unavailable; it never silently substitutes a second
+implementation for the proof kernel. To put a new question before a bench, configure an
+LLM provider in vjs.config.json and use the rule command:
 
-```bash
-vjs log decision --kind code_change --issue caching_strategy \
-                 --decision "cache at the client, not the gateway" \
-                 --risk medium --why "the gateway cannot see per-tenant scope"
-```
+    node dist/cli.js rule "op:example:cache-location" \
+      --question "Where should the cache live?" \
+      --facts "The gateway cannot see per-tenant scope."
 
-With `--install-hooks`, the pre-commit hook fails closed: a governed write without a
-routed permit does not land. That is the whole point. Enforcement is a function of repo
-state, not a paragraph in a prompt that a tired model skips.
+## The workflow
 
-**Point your agent at [`AGENTS.md`](AGENTS.md)** (or copy it into `CLAUDE.md`,
-`.cursorrules`, or your runtime's equivalent). That file is what turns the CLI into
-Lexby.
+Every governed fork follows the same shape:
 
----
+1. The agent states the question and the facts.
+2. VJS checks the exact question key for standing precedent.
+3. If no standing ruling applies, a probabilistic bench proposes a ruling and reasoning.
+4. The result is filed with a citation and, where applicable, enacted through VPS.
+5. Future sessions cite the result instead of silently choosing again.
+6. A genuine disagreement can be appealed; an overturned ruling is superseded, not erased.
 
-## The idea
+This is Caselaw Driven Development. TDD records that code satisfies a test. CDD records
+why the project chose a direction, so the next session inherits a reason rather than a vibe.
 
-Sometimes people break the rules. So do AI agents. That is not, on its own, a failure: an agent's job is to produce value the way it sees best, not to hold the entire rulebook in its head every single turn. The job of the court is to decide, after the fact, whether the way it worked was lawful, and to make the work good where it was not.
+## The constitutional boundary
 
-The agent builds. The record judges. Neither has to be perfect for the system to work, because nothing load-bearing is decided silently and nothing wrong is allowed to stand once it is seen.
-
----
-
-## When the court convenes (and when it does not)
-
-This is the part that keeps VJS cheap. An agent told "convene whenever you are unsure" will convene on every trivial fork and cost a fortune. VJS instead gives the agent **five precise conditions**, and for everything else it cites existing precedent and moves on, no sitting required.
-
-The court convenes only when:
-
-1. **First-impression** - no existing ruling covers the question.
-2. **Distinction** - precedent exists but genuinely does not fit these facts.
-3. **Overruling** - a ruling is wrong or outdated and should be set aside.
-4. **Conflict** - an instruction clashes with enacted law or binding precedent.
-5. **Breach** - work fell below the duty of care: self-reported, then fixed.
-
-Everything else is a **citation, not a sitting**: before any bench sits, the citator is searched, and a binding ruling on all fours disposes of the matter instantly. The agent convenes on its own motion - it never routes the fork to you and never asks permission to convene.
-
-That loop is **Caselaw Driven Development (CDD)**: a fork produces a ruling; the ruling is committed with a citation; every future session cites it instead of re-deciding. Where TDD records that the code does what you said, CDD records *why* you said it.
-
----
-
-## Lexby
-
-Your AI counsel. Three things at once:
-
-- **ADVOCATE** - builds the strongest case for your idea and argues hard for it, because he does not decide the outcome
-- **ADVISOR** - gives it to you straight; if your idea has a fatal flaw he names it before the judges do
-- **ENGINEER** - ships the code, then records why
-
-The separation matters. Lexby argues the case but does not sit on the bench - he cannot tip the outcome and then quietly do the opposite. The court decides independently. Lexby executes. The record is permanent.
-
----
-
-## How it works
-
-Every time you use AI to build something, it makes silent calls: which approach, which trade-off, which direction. Most never get written down. Then a new session picks a different direction, and now nothing is consistent.
-
-VJS catches those calls and turns them into binding decisions:
-
-1. The AI hits a choice: "build this ourselves or use the library?", "ship now or wait for the audit?"
-2. Lexby checks if that type of choice was already decided. If yes: follows the ruling instantly - no deliberation, same answer every time, for the life of the project.
-3. If not: an AI court deliberates and issues a ruling. It gets committed to the repo.
-
-The court has three tiers - County (one judge), Privy Council (three), Supreme Court (five, expanding to nine for foundational questions) - and a single apex. Benches are always odd-numbered and decide on a symmetric, two-sided case file with no access to Lexby's preference.
-
----
-
-## Local sovereignty and community
-
-A repo joins VJS by **local sovereign invocation**, not by where it sits: subscribe to a lawpack, lock its digest, install the enforcement hooks. The person responsible becomes the local Principal, acting as sovereign for that copy. Their agents get a working constitution, courts, procedure, citation rules, and safety hooks on day one.
-
-That subscription is a starting point, not a lock-in. The local Principal can amend the local law, pin or decline a version, fork with declared lineage, become independent, or join another community record. Those changes bind that repo only, unless accepted back into the canon by its rules. Local sovereignty is repo sovereignty, not legal immunity.
-
-Nothing automatically pushes your case law upstream. If you want to contribute a generally useful ruling, you can submit an anonymised PR to the community record. **The more good rulings go in, the faster every project resolves** - before any court sits, Lexby checks the precedent index first, and the fast path disposes of the matter on citation with no sitting.
-
----
-
-## Say this to Lexby
-
-```
-"I think we should go this way. Submit it to the court."
-
-"I don't agree with the outcome. Can we appeal?"
-
-"What did we decide about X, and why?"
-
-"Is this allowed under our spec?"
-```
-
-Lexby also catches himself:
-
-```
-"I'm not sure this is right..."         -> self-files for a ruling before proceeding
-
-"I think I broke the rules earlier..."  -> self-reports the breach and orders a fix
-
-"I didn't follow what we decided..."    -> files it, finds the original ruling, corrects course
-```
-
-Natural language. No syntax. Lexby handles the filing.
-
----
+VJS is the court, not the law. VPS is the constitutional substrate:
+
+- VJS owns natural-language questions, court procedure, model deliberation, judgments and
+  appeals.
+- VPS owns typed instruments, authority, citation, supersession, entrenchment and the
+  compiled gate.
+- The gate extracts simple facts from a change and asks the Lean artifact for the verdict.
+- A shell or model can explain a verdict; it cannot make an unlawful instrument lawful.
+
+This is why the move from the former Rust kernel matters. A separate Rust implementation
+and Lean model would create a correspondence problem — a watcher watching a watcher. VJS now
+uses Lean as the proof substrate for the filings and governance decisions that need to be
+mechanically enforceable.
 
 ## Read the law
 
-Everything resolves in one Gazette, two estates: **the living canon** and the read-only **honoured archive**.
+The public record is available in the [VJS Gazette](https://wlilley93.github.io/vibe-justice-system/).
+The repository contains the current statutes, judgment index and source used to render it.
+The archive contains the earlier VJS v1 and v2 lines; those are historical, not the current
+runtime.
 
-- **The Gazette:** [`the constellation`](https://wlilley93.github.io/vibe-justice-system/) - the law as an explorable graph: search, browseable list, full text in the reading panel, dockets and lineage.
-- **The classic view:** [`gazette.html`](https://wlilley93.github.io/vibe-justice-system/gazette.html) - the Realm Law Reports as cards: estate and class filters, the main points of every item.
-- **The index:** [`GAZETTE.md`](GAZETTE.md)
-- **The live law:** the compact lawpack under [`lawpack/`](lawpack/) and the court record under [`.vjs/submissions/filed/`](.vjs/submissions/filed/).
-- **The archive:** the first generation, preserved on the `v1` branch and the `v1-archive-2026-06-09` tag.
+## Repository map
 
----
+- [src/court/](src/court/) — first-instance bench, appeals and citator-facing logic.
+- [src/kernel/](src/kernel/) — book, enactment, gate bridge and Lean runner.
+- [lean/](lean/) — the VJS statute book and pinned VPS dependency.
+- [law/](law/) — prose mirrors of enacted instruments.
+- [record/](record/) — build and case history.
+- [.justice/](.justice/) — the jurisdiction's machine-readable book and judgments.
+- [AGENTS.md](AGENTS.md) — the agent-facing operating contract.
+- [PUBLISHING.md](PUBLISHING.md) — publication boundaries and the Gazette.
 
-## License
+Related projects:
 
-PolyForm Noncommercial License 1.0.0 for noncommercial use. See [`LICENSE`](LICENSE) and [`NOTICE.md`](NOTICE.md).
+- [Vibe Proof System](https://github.com/wlilley93/vibe-proof-system) — the Lean governance
+  kernel.
+- [Foundry](https://github.com/wlilley93/foundry) — the prose-to-proof requirements
+  pipeline built on that kernel.
 
-For commercial use, a separate license is required. See [`COMMERCIAL_LICENSE.md`](COMMERCIAL_LICENSE.md).
+## Status and licence
+
+VJS v3 is alpha research software. The current public primary branch builds its TypeScript
+court and Lean statute book on Lean 4.33.1, with model judgment and human sign-off kept
+explicitly outside the proof claim.
+
+VJS is released under the PolyForm Noncommercial License 1.0.0 for noncommercial use.
+See [LICENSE](LICENSE), [NOTICE.md](NOTICE.md) and [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md).

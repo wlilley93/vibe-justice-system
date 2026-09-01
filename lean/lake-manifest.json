@@ -1,12 +1,16 @@
-{"version": "1.1.0",
+{"version": "1.2.0",
  "packagesDir": ".lake/packages",
  "packages":
- [{"type": "path",
+ [{"url": "https://github.com/wlilley93/vibe-proof-system.git",
+   "type": "git",
+   "subDir": "kernel",
    "scope": "",
+   "rev": "64ba7f448c9a30adc9b0bd82daddb963b270a80f",
    "name": "vps",
    "manifestFile": "lake-manifest.json",
+   "inputRev": "64ba7f448c9a30adc9b0bd82daddb963b270a80f",
    "inherited": false,
-   "dir": "./../../vibe-proof-system/kernel",
    "configFile": "lakefile.toml"}],
  "name": "vjs",
- "lakeDir": ".lake"}
+ "lakeDir": ".lake",
+ "fixedToolchain": false}

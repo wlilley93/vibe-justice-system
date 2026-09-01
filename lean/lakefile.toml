@@ -7,7 +7,9 @@ defaultTargets = ["Vjs"]
 # get its own genesis, and nothing could check the forks still agreed.
 [[require]]
 name = "vps"
-path = "../../vibe-proof-system/kernel"
+git = "https://github.com/wlilley93/vibe-proof-system.git"
+rev = "64ba7f448c9a30adc9b0bd82daddb963b270a80f"
+subDir = "kernel"
 
 [[lean_lib]]
 name = "Vjs"

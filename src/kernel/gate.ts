@@ -93,7 +93,7 @@ export async function evaluateGate(f: Facts): Promise<GateVerdict> {
   throw Object.assign(new Error(
     "the kernel is unavailable, so this change cannot be judged.\n" +
     "  The gate fails closed: an unjudged change is not an allowed change.\n" +
-    "  Install the pinned toolchain (elan, leanprover/lean4:v4.15.0) and retry.\n" +
+    "  Install the pinned toolchain (elan, leanprover/lean4:v4.33.1) and retry.\n" +
     "  The requested evaluation is queued in UNVERIFIED-LEAN.md."
   ), { code: 4 });
 }
