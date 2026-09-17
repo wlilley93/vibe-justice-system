@@ -9,7 +9,7 @@ export interface CompleteReq {
 export interface LLMProvider { complete(req: CompleteReq): Promise<string> }
 
 export interface Config {
-  provider: "auto" | "cli" | "api" | "mock";
+  provider: "auto" | "cli" | "api" | "mock" | "http";
   model: string; ensembleK: number; maxJsonRepairs: number; maxProofRepairs: number;
   roundtripThreshold: string; ensembleThreshold: number; leanTimeoutMs: number;
   citationCourtCode: string;
@@ -78,6 +78,9 @@ export async function getProvider(cfg: Config): Promise<LLMProvider> {
   if (kind === "mock") return withLogging((await import("./mock.js")).mockProvider(), "mock");
   if (kind === "cli") return withLogging((await import("./claudeCli.js")).cliProvider(), "cli");
   if (kind === "api") return withLogging((await import("./anthropicApi.js")).apiProvider(cfg), "api");
+  // A host-run completion endpoint (§8.4): vendor-blind, so an organisation can seat
+  // its bench on whatever its own cell runs without editing the pinned court.
+  if (kind === "http") return withLogging((await import("./httpProvider.js")).httpProvider(), "http");
   // auto
   const { hasCli, cliProvider } = await import("./claudeCli.js");
   if (await hasCli()) return withLogging(cliProvider(), "cli");
