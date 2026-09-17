@@ -117,6 +117,15 @@ def ruling2026N13 : Instrument :=
   , supersedes := none
   , authority := .derived ⟨2026, 1⟩ }
 
+/-- [2026] VJS 14 — Appeal ruling on constitution:policy-store. Supersedes [2026] VJS 13. -/
+def ruling2026N14 : Instrument :=
+  { cite := ⟨2026, 14⟩
+  , kind := .ruling
+  , rule := .free
+  , entrenched := false
+  , supersedes := some ⟨2026, 13⟩
+  , authority := .derived ⟨2026, 1⟩ }
+
 /-- **This jurisdiction's sovereign digest** -- the sha256 of law/genesis.md.
     The engine is a pinned dependency and contributes no digest of its own; this is
     the only thing this repository adds to legitimacy. Changing it is an Article 10
@@ -125,11 +134,11 @@ def digest : String := "sha256:c07a29e3b65699dd19a71f9a9c5b98fb67008d9f5b7eef38c
 
 /-- The book, newest first. -/
 def theBook : List Instrument :=
-  [ruling2026N13, ruling2026N12, ruling2026N11, ruling2026N10, ruling2026N9, ruling2026N8, ruling2026N7, ruling2026N6, actJudgmentIntegrity, actCitatorIntegrity, actRecordDiscipline, actGateIntegrity, genesisInstrument digest]
+  [ruling2026N14, ruling2026N13, ruling2026N12, ruling2026N11, ruling2026N10, ruling2026N9, ruling2026N8, ruling2026N7, ruling2026N6, actJudgmentIntegrity, actCitatorIntegrity, actRecordDiscipline, actGateIntegrity, genesisInstrument digest]
 
 /-- The book's legitimacy is a compile-time theorem (§21.5). -/
 theorem book_lawful : Lawful digest theBook :=
-  Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact Lawful.genesis (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)
+  Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact (Lawful.enact Lawful.genesis (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)) (by decide) (by decide)
 
 /-- The gate as deployed: the compiled book applied to facts. -/
 def gate (f : Facts) : Verdict :=

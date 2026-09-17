@@ -4,7 +4,7 @@ court: first-instance
 questionKey: "constitution:policy-store"
 caseId: constitution
 date: 2026-09-17
-status: standing
+status: overturned:[2026] VJS 14
 ---
 ## Question
 What must be true of where an organisation keeps its policies?

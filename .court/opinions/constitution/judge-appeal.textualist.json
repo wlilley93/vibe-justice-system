@@ -1,0 +1,5 @@
+{
+  "text": "**[2026] VJS 13 — appeal panel, textualist opinion.** Disposition: uphold.\n\nThe record put two candidates, both repositories, and one validation fact: the gate \"evaluates STAGED GIT CHANGES … it cannot see rows in a database.\" The challenge's third route — court records digest and date, policy lives elsewhere — is nowhere in that record. r.7: the reader never supplies a missing term.\n\n\"An organisation should not have to rely on git\" is not a fact; it is a preference. r.5 confines the bench to the facts recorded. Bring the fact, take a new key (r.1).\n\nThe words are also narrower than the challenge reads them. The operative phrase is \"the version control the validation gate reads\" — relative to the gate, not to a tool forever. It names no interface a person must operate, and leaves the actor as the humans who already version. And a digest proves a document existed; it does not stage the enforcing code beside it, which is what condition (b) requires.\n\n*(148 words, r.14.)*",
+  "provider": "cli",
+  "at": "2026-09-17T16:46:41.205Z"
+}

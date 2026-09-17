@@ -1,6 +1,29 @@
 [
   {
     "year": 2026,
+    "ordinal": 14,
+    "slug": "ruling2026N14",
+    "kind": "ruling",
+    "rule": {
+      "type": "free"
+    },
+    "entrenched": false,
+    "supersedes": {
+      "year": 2026,
+      "ordinal": 13
+    },
+    "authority": {
+      "type": "derived",
+      "parent": {
+        "year": 2026,
+        "ordinal": 1
+      }
+    },
+    "title": "Appeal ruling on constitution:policy-store",
+    "summary": "Supersedes [2026] VJS 13."
+  },
+  {
+    "year": 2026,
     "ordinal": 13,
     "slug": "ruling2026N13",
     "kind": "ruling",

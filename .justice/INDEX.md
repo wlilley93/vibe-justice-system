@@ -10,3 +10,4 @@
 | [2026] VJS 11 | first-instance | constitution:policies-govern | judgments/first-instance/011-constitution-policies-govern.md |
 | [2026] VJS 12 | first-instance | constitution:question-routing | judgments/first-instance/012-constitution-question-routing.md |
 | [2026] VJS 13 | first-instance | constitution:policy-store | judgments/first-instance/013-constitution-policy-store.md |
+| [2026] VJS 14 | appeals-court | constitution:policy-store | judgments/appeals-court/014-constitution-policy-store.md |
