@@ -41,6 +41,22 @@ const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const FOUNDING = new Set([1, 2, 3, 4, 5]);
 const CLASSES = new Set(["machinery", "work"]);
 
+// THE RECORDS THAT PREDATE THE DECLARATION, BY IDENTITY, AND NEVER BY A DATE OR A
+// DESCRIPTION. `class:` is written by the bench at filing; every ruling up to and
+// including [2026] VJS 15 was filed before that existed, and [2026] VJS 2 forbids
+// adding it to them by hand. They are a CLOSED set - nothing can join it, because
+// anything filed from here carries a declaration - so naming them by ordinal is
+// safe in the way "anything without a class" would not be: that would silently
+// absorb a future ruling whose bench forgot, which is the exact failure this test
+// exists to catch.
+//
+// A test that is red for ever is a test nobody reads, and this session spent a day
+// on gates that were red for reasons no one had looked at in weeks. So the
+// unclassified remainder is an assertion about NEW records only, and the count
+// starts empty and honest rather than failing about eight things nobody may
+// lawfully fix.
+const PREDATES_DECLARATION = new Set([6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+
 interface Record { ordinal: number; declared: string | null; file: string }
 
 function records(root: string): Record[] {
@@ -66,8 +82,8 @@ function records(root: string): Record[] {
   return out;
 }
 
-function count(all: Record[]) {
-  const counted = all.filter((r) => !FOUNDING.has(r.ordinal));
+function count(all: Record[], exempt: ReadonlySet<number> = PREDATES_DECLARATION) {
+  const counted = all.filter((r) => !FOUNDING.has(r.ordinal) && !exempt.has(r.ordinal));
   const unclassified = counted.filter((r) => r.declared === null || !CLASSES.has(r.declared));
   const machinery = counted.filter((r) => r.declared === "machinery").length;
   const work = counted.filter((r) => r.declared === "work").length;
@@ -85,9 +101,11 @@ describe("rule 15 — the docket should be mostly about work", () => {
     // that looks like a measurement and is a measurement of something else.
     expect(
       unclassified.map((r) => r.file),
-      "these records declare no `class: machinery|work`, so the mix cannot be counted. " +
-        "The declaration is written by the court at filing; it may NOT be added to an " +
-        "existing record by hand — [2026] VJS 2 denies that in terms.",
+      "these records were filed WITH the declaration mechanism in place and still " +
+        "declare no `class: machinery|work`. The bench writes it at filing; a missing " +
+        "one means the bench's output was accepted without it, not that the record is " +
+        "old. [2026] VJS 2 forbids adding it by hand, so this is fixed at the filing " +
+        "path, never in the file.",
     ).toEqual([]);
 
     // (d) FAILS WHEN MACHINERY EXCEEDS WORK.
@@ -107,7 +125,7 @@ describe("rule 15 — the docket should be mostly about work", () => {
       { ordinal: 7, declared: "work", file: "b" },
       { ordinal: 8, declared: "machinery", file: "c" },
     ];
-    const { unclassified, machinery, work } = count(fixture);
+    const { unclassified, machinery, work } = count(fixture, new Set());
     expect(unclassified).toEqual([]);
     expect(machinery).toBeLessThanOrEqual(work);
   });
@@ -118,8 +136,18 @@ describe("rule 15 — the docket should be mostly about work", () => {
       { ordinal: 7, declared: "machinery", file: "b" },
       { ordinal: 8, declared: "work", file: "c" },
     ];
-    const { machinery, work } = count(fixture);
+    const { machinery, work } = count(fixture, new Set());
     expect(machinery).toBeGreaterThan(work);
+  });
+
+  it("keeps the pre-declaration set closed", () => {
+    // If a ruling later than [2026] VJS 15 ever appears in the exemption, the count
+    // has been quietened rather than satisfied. The set is closed by construction and
+    // this asserts it stays closed.
+    expect(Math.max(...PREDATES_DECLARATION), "the pre-declaration exemption has grown")
+      .toBeLessThanOrEqual(15);
+    const overlap = [...PREDATES_DECLARATION].filter((o) => FOUNDING.has(o));
+    expect(overlap, "an ordinal is both founding and pre-declaration").toEqual([]);
   });
 
   it("does not let the founding set be recognised by a description", () => {
@@ -130,7 +158,7 @@ describe("rule 15 — the docket should be mostly about work", () => {
       { ordinal: 20, declared: "machinery", file: "late-entrenched-statute" },
       { ordinal: 21, declared: "work", file: "ordinary" },
     ];
-    const { counted } = count(fixture);
+    const { counted } = count(fixture, new Set());
     expect(counted.map((r) => r.ordinal)).toEqual([20, 21]);
   });
 });

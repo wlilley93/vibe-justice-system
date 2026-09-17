@@ -22,6 +22,10 @@ export async function runAppeal(citation: string, grounds: string): Promise<void
   else {
     const alloc = await kernelAllocator();
     newCitation = (await fileRuling(alloc, "appeals-court", j.questionKey, j.caseId, {
+      // AN APPEAL OF MACHINERY IS MACHINERY. Inheriting rather than re-asking
+      // keeps an appeal from quietly reclassifying what it reviews, which would
+      // let a machinery docket be cleaned by appealing it into work.
+      classification: j.classification,
       question: j.question ?? "", facts: j.facts ?? "", ruling: out.ruling, reasoning: out.reasoning,
       lawApplied: ["appeal of " + citation]
     })).citation;
@@ -30,6 +34,10 @@ export async function runAppeal(citation: string, grounds: string): Promise<void
     // payload judgment for the superseding ruling
     const alloc = { async allocate() { return newCitation; } };
     await fileRuling(alloc as any, "appeals-court", j.questionKey, j.caseId, {
+      // AN APPEAL OF MACHINERY IS MACHINERY. Inheriting rather than re-asking
+      // keeps an appeal from quietly reclassifying what it reviews, which would
+      // let a machinery docket be cleaned by appealing it into work.
+      classification: j.classification,
       question: j.question ?? "", facts: j.facts ?? "", ruling: out.ruling, reasoning: out.reasoning,
       lawApplied: ["appeal of " + citation]
     });

@@ -6,7 +6,16 @@ import { completeJson } from "../llm/json.js";
 import { renderPrompt } from "../prompts.js";
 import { justice } from "../paths.js";
 
-const FIRuling = z.object({ ruling: z.string(), reasoning: z.string(), lawApplied: z.array(z.string()) });
+// `classification` is the bench's own statement of what KIND of question it just
+// decided, required by [2026] VJS 15. The bench is asked because it is the party
+// that knows: it has read the question, the facts and the law in force, and it is
+// already writing the record. Asking the filer instead would let machinery be
+// filed as work by whoever wanted a quieter count, and rule 15 exists because
+// that drift is invisible.
+const FIRuling = z.object({
+  ruling: z.string(), reasoning: z.string(), lawApplied: z.array(z.string()),
+  classification: z.enum(["machinery", "work"]),
+});
 export type FIRulingT = z.infer<typeof FIRuling>;
 
 export async function firstInstance(

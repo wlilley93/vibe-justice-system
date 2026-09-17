@@ -7,6 +7,15 @@ import { justice } from "../paths.js";
 export interface Ruling {
   citation: string; court: string; questionKey: string; caseId: string;
   date: string; status: string; file: string;
+  /** DECLARED BY THE BENCH AT FILING, never inferred from the prose at run time.
+   *  [2026] VJS 15 made rule 15 - the docket should be mostly about work - a
+   *  specification rather than a bar, and required the classification to be
+   *  declared in the record with no unclassified remainder. A count that infers
+   *  it from a key or a matter name is a category answering to a description:
+   *  rename the matter and the count moves without anyone deciding it should.
+   *  Absent on records filed before this existed, which is why the counting test
+   *  names them rather than guessing. */
+  classification?: "machinery" | "work";
   question?: string; facts?: string; ruling?: string; reasoning?: string;
   /** Written by fileRuling; recovered by precedent/search.ts, which is the only reader. */
   lawApplied?: string[];
@@ -54,6 +63,7 @@ export function readJudgment(file: string): Ruling | null {
   return {
     citation: get("citation"), court: get("court"), questionKey: get("questionKey"),
     caseId: get("caseId"), date: get("date"), status: get("status"), file,
+    classification: (["machinery", "work"] as const).find(c => c === get("class")),
     question: section("Question"), facts: section("Facts"), ruling: section("Ruling"),
     reasoning: section("Reasoning")
   };
@@ -61,6 +71,8 @@ export function readJudgment(file: string): Ruling | null {
 
 export interface FileRulingInput {
   question: string; facts: string; ruling: string; reasoning: string; lawApplied: string[];
+  /** See Ruling.classification. Optional so an appeal can inherit the original's. */
+  classification?: "machinery" | "work";
 }
 
 export interface Allocator {
@@ -97,7 +109,7 @@ court: ${court}
 questionKey: "${questionKey}"
 caseId: ${caseId}
 date: ${date}
-status: standing
+status: standing${input.classification ? `\nclass: ${input.classification}` : ""}
 ---
 ## Question
 ${input.question}
