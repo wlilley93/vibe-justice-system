@@ -1,6 +1,26 @@
 [
   {
     "year": 2026,
+    "ordinal": 12,
+    "slug": "ruling2026N12",
+    "kind": "ruling",
+    "rule": {
+      "type": "free"
+    },
+    "entrenched": false,
+    "supersedes": null,
+    "authority": {
+      "type": "derived",
+      "parent": {
+        "year": 2026,
+        "ordinal": 1
+      }
+    },
+    "title": "Ruling on constitution:question-routing",
+    "summary": "Filed from case constitution (first-instance). Payload in .justice/judgments/."
+  },
+  {
+    "year": 2026,
     "ordinal": 11,
     "slug": "ruling2026N11",
     "kind": "ruling",
