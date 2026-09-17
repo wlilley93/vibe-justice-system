@@ -1,6 +1,26 @@
 [
   {
     "year": 2026,
+    "ordinal": 13,
+    "slug": "ruling2026N13",
+    "kind": "ruling",
+    "rule": {
+      "type": "free"
+    },
+    "entrenched": false,
+    "supersedes": null,
+    "authority": {
+      "type": "derived",
+      "parent": {
+        "year": 2026,
+        "ordinal": 1
+      }
+    },
+    "title": "Ruling on constitution:policy-store",
+    "summary": "Filed from case constitution (first-instance). Payload in .justice/judgments/."
+  },
+  {
+    "year": 2026,
     "ordinal": 12,
     "slug": "ruling2026N12",
     "kind": "ruling",

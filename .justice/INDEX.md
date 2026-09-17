@@ -9,3 +9,4 @@
 | [2026] VJS 10 | first-instance | interpret:09dcf6bd | judgments/first-instance/010-interpret-09dcf6bd.md |
 | [2026] VJS 11 | first-instance | constitution:policies-govern | judgments/first-instance/011-constitution-policies-govern.md |
 | [2026] VJS 12 | first-instance | constitution:question-routing | judgments/first-instance/012-constitution-question-routing.md |
+| [2026] VJS 13 | first-instance | constitution:policy-store | judgments/first-instance/013-constitution-policy-store.md |
