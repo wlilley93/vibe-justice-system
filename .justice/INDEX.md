@@ -7,3 +7,4 @@
 | [2026] VJS 8 | first-instance | model:2026-08-23-court-client-proof:auditrequirement:shape | judgments/first-instance/008-model-2026-08-23-court-client-proof-auditrequire.md |
 | [2026] VJS 9 | first-instance | model:2026-08-23-court-client-proof:predicate:meetsAuditRequirement | judgments/first-instance/009-model-2026-08-23-court-client-proof-predicate-me.md |
 | [2026] VJS 10 | first-instance | interpret:09dcf6bd | judgments/first-instance/010-interpret-09dcf6bd.md |
+| [2026] VJS 11 | first-instance | constitution:policies-govern | judgments/first-instance/011-constitution-policies-govern.md |
