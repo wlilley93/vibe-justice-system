@@ -11,3 +11,4 @@
 | [2026] VJS 12 | first-instance | constitution:question-routing | judgments/first-instance/012-constitution-question-routing.md |
 | [2026] VJS 13 | first-instance | constitution:policy-store | judgments/first-instance/013-constitution-policy-store.md |
 | [2026] VJS 14 | appeals-court | constitution:policy-store | judgments/appeals-court/014-constitution-policy-store.md |
+| [2026] VJS 15 | first-instance | constitution:docket-mix-measurement | judgments/first-instance/015-constitution-docket-mix-measurement.md |
